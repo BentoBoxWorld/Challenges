@@ -1,0 +1,22 @@
+name: BSkyBlock-Challenges
+main: bskyblock.addin.challenges.Challenges
+version: 0.1
+
+authors: [tastybento]
+
+depend: [BSkyBlock]
+
+commands:
+    challenges:
+        description: Game challenges
+        aliases: [c, challenge]
+        usage:  |  
+            /challenges
+
+permissions:    
+  bskyblock.island.challenges:
+    description: Let the player use the /challenges command
+    default: true
+  bskyblock.admin.challenges:
+    description: Access challenge admin commands 
+    default: op
