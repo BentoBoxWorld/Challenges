@@ -5,55 +5,54 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import bskyblock.addin.challenges.database.object.ChallengesDO;
 import bskyblock.addin.challenges.database.object.LevelsDO;
-import bskyblock.addin.challenges.panel.Panel;
-import bskyblock.addin.challenges.panel.Panel.PanelBuilder;
-import bskyblock.addin.challenges.panel.Panel.PanelItem;
+import bskyblock.addin.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.database.flatfile.FlatFileDatabase;
 import us.tastybento.bskyblock.database.managers.AbstractDatabaseHandler;
 import us.tastybento.bskyblock.util.Util;
 
-public class ChallengesManager implements Listener {
+public class ChallengesManager {
 
-    private static final boolean DEBUG = false;
+    //private static final boolean DEBUG = false;
     private Challenges plugin;
-    private HashMap<UUID, Panel> challengePanels;
+    private LinkedHashMap<LevelsDO, List<ChallengesDO>> challengeList;
 
     private AbstractDatabaseHandler<ChallengesDO> chHandler;
-    private HashMap<String,ChallengesDO> challenges;
     private AbstractDatabaseHandler<LevelsDO> lvHandler;
-    private HashMap<String,LevelsDO> levels;
+    
+    private ChallengesPanels challengesPanels;
 
     @SuppressWarnings("unchecked")
-    public ChallengesManager(Challenges plugin){
+    public ChallengesManager(Challenges plugin) {
         this.plugin = plugin;
         // Set up the database handler to store and retrieve Challenges
         chHandler = (AbstractDatabaseHandler<ChallengesDO>) new FlatFileDatabase().getHandler(plugin, ChallengesDO.class);
         lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(plugin, LevelsDO.class);
-        challenges = new HashMap<>();
-        levels = new HashMap<>();
-        challengePanels = new HashMap<>();
+        challengeList = new LinkedHashMap<>();
+        // Start panels
+        challengesPanels = new ChallengesPanels(plugin, this);
         load();
+    }
+
+    /**
+     * @return the challengesPanels
+     */
+    public ChallengesPanels getChallengesPanels() {
+        return challengesPanels;
     }
 
     public AbstractDatabaseHandler<ChallengesDO> getHandler() {
@@ -64,28 +63,40 @@ public class ChallengesManager implements Listener {
      * Clear and reload all challenges
      */
     public void load() {
-        levels.clear();
-        try {
-            for (LevelsDO level : lvHandler.loadObjects()) {
-                levels.put(level.getUniqueId(), level);
-            }
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | SecurityException | ClassNotFoundException | IntrospectionException
-                | SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        challenges.clear();
+        // Load the challenges
+        challengeList.clear();
         try {
             for (ChallengesDO challenge : chHandler.loadObjects()) {
-                challenges.put(challenge.getUniqueId(), challenge);
+                // See if we have this level already
+                LevelsDO level = new LevelsDO();
+                if (lvHandler.objectExits(challenge.getLevel())) {
+                    // Get it from the database
+                    level = lvHandler.loadObject(challenge.getLevel());
+                } else {
+                    // Make it
+                    level.setUniqueId(challenge.getLevel());
+                    lvHandler.saveObject(level);
+                }
+                if (challengeList.containsKey(level)) {
+                    challengeList.get(level).add(challenge);                    
+                } else {
+                    // First challenge of this level type
+                    List<ChallengesDO> challenges = new ArrayList<>();
+                    challenges.add(challenge);
+                    challengeList.put(level, challenges);
+                }
             }
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | SecurityException | ClassNotFoundException | IntrospectionException
-                | SQLException e) {
+                | SQLException | NoSuchMethodException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        // Sort the challenge list into level order
+        challengeList = challengeList.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 
     /**
@@ -95,35 +106,55 @@ public class ChallengesManager implements Listener {
     public void save(boolean async){
         if(async){
             Runnable save = () -> {
-                int index = 1;
-                for(ChallengesDO challenge : challenges.values()){
-                    plugin.getLogger().info("DEBUG: saving challenges async " + index++);
+                for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
                     try {
-                        chHandler.saveObject(challenge);
-                    } catch (Exception e) {
+                        lvHandler.saveObject(en.getKey());
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                            | SecurityException | InstantiationException | NoSuchMethodException
+                            | IntrospectionException | SQLException e) {
+                        // TODO Auto-generated catch block
                         e.printStackTrace();
+                    }
+                    for (ChallengesDO challenge : en.getValue()) {
+                        try {
+                            chHandler.saveObject(challenge);
+                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                                | SecurityException | InstantiationException | NoSuchMethodException
+                                | IntrospectionException | SQLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
                 }
             };
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, save);
         } else {
-            int index = 1;
-            for(ChallengesDO challenge : challenges.values()){
-                plugin.getLogger().info("DEBUG: saving challenges sync " + index++);
+            for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
                 try {
-                    chHandler.saveObject(challenge);
-                } catch (Exception e) {
+                    lvHandler.saveObject(en.getKey());
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                        | SecurityException | InstantiationException | NoSuchMethodException | IntrospectionException
+                        | SQLException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
+                }
+                for (ChallengesDO challenge : en.getValue()) {
+                    try {
+                        chHandler.saveObject(challenge);
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                            | SecurityException | InstantiationException | NoSuchMethodException
+                            | IntrospectionException | SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             }
         }
     }
 
-    // Metrics-related methods //
-
     public void shutdown(){
         save(false);
-        challenges.clear();
+        challengeList.clear();
     }
 
     /**
@@ -175,83 +206,102 @@ public class ChallengesManager implements Listener {
             return;
         }
         Util.sendMessage(player, "Challenge accepted!");
-        challenges.put(newChallenge.getUniqueId(), newChallenge);
+        // TODO ADD CHALLENGE
+        //challenges.put(newChallenge.getUniqueId(), newChallenge);
     }
 
-    public Inventory getChallenges(Player player) {
-        // TODO build the panel that is customized to the player
-        // Build panel
-        PanelBuilder panelBuilder = Panel.builder(plugin)
-                .name(plugin.getLocale(player).get("challenges.guiTitle"));
-        for (ChallengesDO challenge: challenges.values()) {
-            plugin.getLogger().info("Adding challenge " + challenge.getUniqueId());
-            PanelItem item = Panel.panelItemBuilder()
-            .setIcon(challenge.getIcon())
-            .setName(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
-            .setDescription(challenge.getDescription())
-            .setSlot(challenge.getSlot())
-            .build();
-            plugin.getLogger().info("requested slot" + item.getSlot());
-            panelBuilder.addItem(item);
-        }
-        Panel panel = panelBuilder.build();
-        challengePanels.put(player.getUniqueId(), panel);
-        plugin.getLogger().info("DEBUG: added inv " + challengePanels.size());
-        return panel.getPanel();
-    }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked(); // The player that
-        // clicked the item
-        UUID playerUUID = player.getUniqueId();
-        Inventory inventory = event.getInventory(); // The inventory that was
-        // clicked in
-        // Check this is the right panel
-        if (inventory.getName() == null || !inventory.getName().equals(plugin.getLocale(player).get("challenges.guiTitle"))) {
-            return;
-        }
-        event.setCancelled(true);
-        if (!event.getClick().equals(ClickType.LEFT)) {            
-            inventory.clear();
-            player.closeInventory();
-            player.updateInventory();
-            return;
-        }
-        int slot = event.getRawSlot();
-        if (slot == -999) {
-            inventory.clear();
-            player.closeInventory();
-            event.setCancelled(true);
-            return;
-        }
-        // TODO: Deal with the clicking
+    /**
+     * Get the list of challenges for this level
+     * @param level - the level required
+     * @return the list of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
+     */
+    public List<ChallengesDO> getChallenges(String level) {
+        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<ChallengesDO>() : challengeList.values().iterator().next());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryClose(InventoryCloseEvent event) {
-        challengePanels.remove(event.getPlayer().getUniqueId()); 
-        plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
+    /**
+     * Checks if a challenge is complete or not
+     * @param uniqueId - player's UUID
+     * @param uniqueId2 - Challenge id
+     * @return - true if completed
+     */
+    public boolean isChallengeComplete(UUID uniqueId, String uniqueId2) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public boolean isLevelComplete(UUID uniqueId, LevelsDO otherLevel) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public LevelsDO getPreviousLevel(LevelsDO otherLevel) {
+        LevelsDO result = null;
+
+        for (LevelsDO level : challengeList.keySet()) {
+            if (level.equals(otherLevel)) {
+                return result;
+            }
+            result = level;
+        }
+        return result;
     }
     
     /**
-     * Clean up the hashmap should the player open up another inventory
-     * @param event
+     * Get the status on every level
+     * @param player
+     * @return Level name, how many challenges still to do on which level
      */
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryOpen(InventoryOpenEvent event) {
-        Player player = (Player) event.getPlayer(); 
-        UUID playerUUID = player.getUniqueId();
-        Inventory inventory = event.getInventory(); // The inventory that was
-        if (inventory.getName() == null || !inventory.getName().equals(plugin.getLocale(player).get("challenges.guiTitle"))) {
-            challengePanels.remove(playerUUID);
-            plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
+    public List<LevelStatus> getChallengeLevelStatus(Player player) {
+        List<LevelStatus> result = new ArrayList<>();
+        LevelsDO previousLevel = null;
+        for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
+            int challsToDo = 0; // TODO - calculate how many challenges still to do for this player
+            boolean complete = false; // TODO
+            result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
         }
+        return result;
     }
     
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onLogOut(PlayerQuitEvent event) {
-        challengePanels.remove(event.getPlayer().getUniqueId());
-        plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
+    public class LevelStatus {
+        private final LevelsDO level;
+        private final LevelsDO previousLevel;
+        private final int numberOfChallengesStillToDo;
+        private final boolean complete;
+        
+        public LevelStatus(LevelsDO level, LevelsDO previousLevel, int numberOfChallengesStillToDo, boolean complete) {
+            super();
+            this.level = level;
+            this.previousLevel = previousLevel;
+            this.numberOfChallengesStillToDo = numberOfChallengesStillToDo;
+            this.complete = complete;
+        }
+        /**
+         * @return the level
+         */
+        public LevelsDO getLevel() {
+            return level;
+        }
+        /**
+         * @return the previousLevel
+         */
+        public LevelsDO getPreviousLevel() {
+            return previousLevel;
+        }
+        /**
+         * @return the numberOfChallengesStillToDo
+         */
+        public int getNumberOfChallengesStillToDo() {
+            return numberOfChallengesStillToDo;
+        }
+        /**
+         * @return the complete
+         */
+        public boolean isComplete() {
+            return complete;
+        }
+
+        
     }
+    
 }

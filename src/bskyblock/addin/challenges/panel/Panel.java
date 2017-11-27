@@ -87,19 +87,22 @@ public class Panel {
     }
 
     public static class PanelItem {
-        private final Integer slot;
+        private final int slot;
         // The current index of the icon
         private int index = 0;
         // There is a list of icons for every toggle option
         private final List<ItemStack> icon;
+        // Command to run when clicked
+        private final List<String> commands;
 
-        public PanelItem(ItemStack icon, String description, String name, Integer slot, List<String> toggleItems, boolean glow) {
+        public PanelItem(ItemStack icon, String description, String name, int slot, List<String> toggleItems, boolean glow, List<String> commands) {
             this.slot = slot;
+            this.commands = commands;
             List<ItemStack> result = new ArrayList<>();
             if (toggleItems.isEmpty()) {
                 // Create the icon
                 ItemMeta meta = icon.getItemMeta();
-                meta.setDisplayName(name);
+                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
                 meta.setLore(chop(description));
                 // Set flags to neaten up the view
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -115,7 +118,7 @@ public class Panel {
                 for (int i = 0; i < toggleItems.size(); i++) {
                     // Create the icon(s)
                     ItemMeta meta = icon.getItemMeta();
-                    meta.setDisplayName(name);
+                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
                     List<String> desc = chop(description);
                     desc.addAll(chop(toggleItems.get(i)));
                     meta.setLore(desc);
@@ -151,15 +154,19 @@ public class Panel {
             return slot;
         }
 
+        public List<String> getCommands() {
+            return commands;
+        }
     }
 
     public static class PanelItemBuilder {
         private ItemStack icon;
         private String description;
         private String name;
-        private Integer slot;
+        private int slot;
         private List<String> toggleItems = new ArrayList<>();
         private boolean glow;
+        private List<String> command = new ArrayList<>();
 
         public PanelItemBuilder setIcon(ItemStack icon) {
             this.icon = icon;
@@ -173,7 +180,7 @@ public class Panel {
             this.name = name;
             return this;
         }
-        public PanelItemBuilder setSlot(Integer slot) {
+        public PanelItemBuilder setSlot(int slot) {
             this.slot = slot;
             return this;
         }
@@ -185,8 +192,12 @@ public class Panel {
             this.glow = glow;
             return this;
         }
+        public PanelItemBuilder setCommand(String command) {
+            this.command.add(command);
+            return this;
+        }
         public PanelItem build() {
-            return new PanelItem(icon, description, name, slot, toggleItems, glow);
+            return new PanelItem(icon, description, name, slot, toggleItems, glow, command);
         }
 
 

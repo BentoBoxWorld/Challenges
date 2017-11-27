@@ -10,8 +10,6 @@ import bskyblock.addin.challenges.config.LocaleManager;
 import bskyblock.addin.challenges.config.PluginConfig;
 import us.tastybento.bskyblock.BSkyBlock;
 import us.tastybento.bskyblock.config.BSBLocale;
-import us.tastybento.bskyblock.database.BSBDatabase;
-import us.tastybento.bskyblock.database.flatfile.FlatFileDatabase;
 
 /**
  * Addin to BSkyBlock that enables challenges
@@ -20,24 +18,14 @@ import us.tastybento.bskyblock.database.flatfile.FlatFileDatabase;
  */
 public class Challenges extends JavaPlugin {
 
-
-    private static final boolean DEBUG = true;
-
     // The BSkyBlock plugin instance.
     private BSkyBlock bSkyBlock;
 
     // Locale manager for this plugin
     private LocaleManager localeManager;
 
-    // The BSkyBlock database object
-    private BSBDatabase database;
-
     private ChallengesManager manager;
 
-    private FlatFileDatabase flatFile;
-
-
-    @SuppressWarnings("unchecked")
     @Override
     public void onEnable() {
         // Load the plugin's config
@@ -58,7 +46,7 @@ public class Challenges extends JavaPlugin {
         // Register commands
         new ChallengesCommand(this);
         // Register Listener
-        getServer().getPluginManager().registerEvents(manager, this);
+        getServer().getPluginManager().registerEvents(manager.getChallengesPanels(), this);
         // Done
     }
 

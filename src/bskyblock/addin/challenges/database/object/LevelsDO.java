@@ -5,7 +5,7 @@ import java.util.List;
 
 import us.tastybento.bskyblock.database.objects.DataObject;
 
-public class LevelsDO extends DataObject {
+public class LevelsDO extends DataObject implements Comparable<LevelsDO> {
 
     /**
      * A friendly name for the level. If blank, level name is used.
@@ -23,6 +23,11 @@ public class LevelsDO extends DataObject {
      * The number of undone challenges that can be left on this level before unlocking next level
      */
     private int waiveramount = 1;
+    
+    /**
+     * The ordering of the levels, lowest to highest
+     */
+    private int order = 0;
     
     public String getFriendlyName() {
         return friendlyName;
@@ -58,4 +63,17 @@ public class LevelsDO extends DataObject {
         this.waiveramount = waiveramount;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    @Override
+    public int compareTo(LevelsDO o) {
+        return Integer.compare(this.order, o.order);
+    }
+    
 }

@@ -43,7 +43,7 @@ public class ChallengesCommand extends AbstractCommand implements Listener {
     public void execute(CommandSender sender, String[] args) {
         // Open up the challenges GUI
         if (isPlayer) {
-            player.openInventory(plugin.getManager().getChallenges(player));
+            player.openInventory(plugin.getManager().getChallengesPanels().getChallenges(player));
         } else {
             // TODO
         }

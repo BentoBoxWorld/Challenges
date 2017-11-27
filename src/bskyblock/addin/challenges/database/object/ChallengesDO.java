@@ -138,7 +138,6 @@ public class ChallengesDO extends DataObject {
     private int searchRadius = 10;
     /**
      * Inventory slot where this challenge should be placed. 0 to 49.
-     * 
      */
     private int slot;   
     /**

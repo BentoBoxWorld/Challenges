@@ -6,3 +6,51 @@
 ### Credits ###
 # Tastybento: maintainer
 
+challenges: 
+  complete: "Complete"
+  expReward: "Exp reward"
+  firstTimeRewards: "First time reward(s)"
+  guititle: "BSkyBlock Challenges"
+  help1: "Use /c <name> to view information about a challenge."
+  help2: "Use /c complete <name> to attempt to complete that challenge."
+  incomplete: "Incomplete"
+  invalidChallengeName: "Invalid challenge name! Use /c help for more information"
+  itemTakeWarning: "All required items are taken when you complete this challenge!"
+  level: "Level"
+  maxreached: "Max reached [donetimes] out of [maxtimes]"
+  moneyReward: "Money reward"
+  name: "Challenge Name"
+  nameHasCompleted: "[name] has completed the [challenge] challenge!"
+  navigation: "Click to see [level] challenges!"
+  notRepeatable: "This Challenge is not repeatable!"
+  repeatRewards: "Repeat reward(s)"
+  rewards: "Reward(s)"
+  toComplete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
+  toCompleteUse: "To complete this challenge, use"
+  unknownChallenge: "Unknown challenge name (check spelling)!"
+  youHaveCompleted: "You have completed the [challenge] challenge!"
+  youHaveNotUnlocked: "You have not unlocked this challenge yet!"
+  youRepeated: "You repeated the [challenge] challenge!"
+completechallenge: 
+  challangeCompleted: "Challenge: [challengename] has been completed for [name]"
+  errorChallengeDoesNotExist: "Challenge doesn't exist or is already completed"
+error:
+  IslandLevel: "Your island must be level [level] to complete this challenge!"
+  ItemsNotThere: "All required items must be close to you on your island!"
+  NotCloseEnough: "You must be standing within [number] blocks of all required items."
+  NotEnoughItems: "You do not have enough required item(s)"
+  NotOnIsland: "You must be on your island to do that!"
+  RewardProblem: "There was a problem giving your reward. Ask Admin to check log!"
+  YouAreMissing: "You are missing"
+help:
+  command: "/challenges: &fshow challenges"
+  configReloaded: "Configuration reloaded from file."
+  resetAllChallenges: "resets all of the player's challenges"
+  resetChallenge: "marks a challenge as incomplete"
+  resetChallengeForAll: "globally resets a challenge for every player with an optional repetition"
+resetallchallenges: 
+  success: "[name] has had all challenges reset."
+resetchallenge: 
+  challengeReset: "Challenge: [challengename] has been reset for [name]"
+  errorChallengeDoesNotExist: "Challenge doesn't exist or isn't yet completed"
+
