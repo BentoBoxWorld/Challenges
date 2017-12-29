@@ -1,4 +1,4 @@
-package bskyblock.addin.challenges.database.object;
+package bskyblock.addon.challenges.database.object;
 
 import java.util.ArrayList;
 import java.util.HashSet;

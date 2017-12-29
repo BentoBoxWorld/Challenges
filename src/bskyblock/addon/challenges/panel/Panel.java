@@ -1,4 +1,4 @@
-package bskyblock.addin.challenges.panel;
+package bskyblock.addon.challenges.panel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

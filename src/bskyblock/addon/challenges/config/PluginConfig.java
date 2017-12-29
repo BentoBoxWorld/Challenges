@@ -1,4 +1,4 @@
-package bskyblock.addin.challenges.config;
+package bskyblock.addon.challenges.config;
 
 import java.util.HashMap;
 
@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import bskyblock.addin.challenges.Challenges;
+import bskyblock.addon.challenges.Challenges;
 
 public class PluginConfig {
     private static final boolean DEBUG = false;

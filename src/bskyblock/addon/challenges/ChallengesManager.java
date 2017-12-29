@@ -1,4 +1,4 @@
-package bskyblock.addin.challenges;
+package bskyblock.addon.challenges;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import bskyblock.addin.challenges.database.object.ChallengesDO;
-import bskyblock.addin.challenges.database.object.LevelsDO;
-import bskyblock.addin.challenges.panel.ChallengesPanels;
+import bskyblock.addon.challenges.database.object.ChallengesDO;
+import bskyblock.addon.challenges.database.object.LevelsDO;
+import bskyblock.addon.challenges.panel.ChallengesPanels;
+import us.tastybento.bskyblock.BSkyBlock;
+import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.database.flatfile.FlatFileDatabase;
 import us.tastybento.bskyblock.database.managers.AbstractDatabaseHandler;
-import us.tastybento.bskyblock.util.Util;
 
 public class ChallengesManager {
 
@@ -40,8 +40,8 @@ public class ChallengesManager {
     public ChallengesManager(Challenges plugin) {
         this.plugin = plugin;
         // Set up the database handler to store and retrieve Challenges
-        chHandler = (AbstractDatabaseHandler<ChallengesDO>) new FlatFileDatabase().getHandler(plugin, ChallengesDO.class);
-        lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(plugin, LevelsDO.class);
+        chHandler = (AbstractDatabaseHandler<ChallengesDO>) new FlatFileDatabase().getHandler(BSkyBlock.getInstance(), ChallengesDO.class);
+        lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(BSkyBlock.getInstance(), LevelsDO.class);
         challengeList = new LinkedHashMap<>();
         // Start panels
         challengesPanels = new ChallengesPanels(plugin, this);
@@ -68,12 +68,13 @@ public class ChallengesManager {
         try {
             for (ChallengesDO challenge : chHandler.loadObjects()) {
                 // See if we have this level already
-                LevelsDO level = new LevelsDO();
+                LevelsDO level;
                 if (lvHandler.objectExits(challenge.getLevel())) {
                     // Get it from the database
                     level = lvHandler.loadObject(challenge.getLevel());
                 } else {
                     // Make it
+                    level = new LevelsDO();
                     level.setUniqueId(challenge.getLevel());
                     lvHandler.saveObject(level);
                 }
@@ -127,7 +128,7 @@ public class ChallengesManager {
                     }
                 }
             };
-            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, save);
+            BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), save);
         } else {
             for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
                 try {
@@ -161,11 +162,11 @@ public class ChallengesManager {
      * Create a challenge from the inventory contents
      * @param contents
      */
-    public void createChallenge(Player player, String name) {
+    public void createChallenge(User user, String name) {
         // Get the main icon
-        ItemStack icon = player.getInventory().getItemInOffHand();
+        ItemStack icon = user.getInventory().getItemInOffHand();
         if (icon == null || icon.getType().equals(Material.AIR)) {
-            Util.sendMessage(player, "Icon will be paper");
+            user.sendLegacyMessage("Icon will be paper");
             icon = new ItemStack(Material.PAPER);
         }
         icon.setAmount(1);
@@ -174,7 +175,7 @@ public class ChallengesManager {
         List<String> lore = new ArrayList<>();
         lore.add("Required items:");
 
-        List<ItemStack> inv = Arrays.asList(player.getInventory().getStorageContents());
+        List<ItemStack> inv = Arrays.asList(user.getInventory().getStorageContents());
         List<ItemStack> contents = new ArrayList<>();
         for (ItemStack item : inv) {
             if (item != null && !item.getType().equals(Material.AIR)) {
@@ -193,7 +194,7 @@ public class ChallengesManager {
         newChallenge.setUniqueId(name);
         newChallenge.setIcon(icon);
         if (chHandler.objectExits(name)) {
-            Util.sendMessage(player, ChatColor.RED + "Challenge already exists! Use /c replace <name>");
+            user.sendLegacyMessage(ChatColor.RED + "Challenge already exists! Use /c replace <name>");
             return;
         }
         try {
@@ -202,10 +203,10 @@ public class ChallengesManager {
                 | InstantiationException | NoSuchMethodException | IntrospectionException | SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Util.sendMessage(player, ChatColor.RED + "Challenge creation failed! " + e.getMessage());
+            user.sendLegacyMessage(ChatColor.RED + "Challenge creation failed! " + e.getMessage());
             return;
         }
-        Util.sendMessage(player, "Challenge accepted!");
+        user.sendLegacyMessage("Challenge accepted!");
         // TODO ADD CHALLENGE
         //challenges.put(newChallenge.getUniqueId(), newChallenge);
     }
@@ -249,10 +250,10 @@ public class ChallengesManager {
     
     /**
      * Get the status on every level
-     * @param player
+     * @param user
      * @return Level name, how many challenges still to do on which level
      */
-    public List<LevelStatus> getChallengeLevelStatus(Player player) {
+    public List<LevelStatus> getChallengeLevelStatus(User user) {
         List<LevelStatus> result = new ArrayList<>();
         LevelsDO previousLevel = null;
         for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {

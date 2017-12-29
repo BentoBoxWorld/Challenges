@@ -1,4 +1,4 @@
-package bskyblock.addin.challenges.config;
+package bskyblock.addon.challenges.config;
 
 import java.util.HashMap;
 

@@ -1,63 +1,54 @@
-package bskyblock.addin.challenges.panel;
+package bskyblock.addon.challenges.panel;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import bskyblock.addin.challenges.Challenges;
-import bskyblock.addin.challenges.ChallengesManager;
-import bskyblock.addin.challenges.ChallengesManager.LevelStatus;
-import bskyblock.addin.challenges.database.object.ChallengesDO;
-import bskyblock.addin.challenges.panel.Panel.PanelBuilder;
-import bskyblock.addin.challenges.panel.Panel.PanelItem;
+import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesManager;
+import bskyblock.addon.challenges.ChallengesManager.LevelStatus;
+import bskyblock.addon.challenges.database.object.ChallengesDO;
+import us.tastybento.bskyblock.api.commands.User;
+import us.tastybento.bskyblock.api.panels.ClickType;
+import us.tastybento.bskyblock.api.panels.Panel;
+import us.tastybento.bskyblock.api.panels.PanelItem;
+import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
+import us.tastybento.bskyblock.api.panels.builders.PanelItemBuilder;
 
-public class ChallengesPanels implements Listener {
+
+public class ChallengesPanels {
     private static final boolean DEBUG = false;
-    private static final String CHALLENGE_COMMAND = "challenges";
+    //private static final String CHALLENGE_COMMAND = "challenges";
     private Challenges plugin;
-    private HashMap<UUID, Panel> challengePanels;
     private ChallengesManager manager;
 
     public ChallengesPanels(Challenges plugin, ChallengesManager manager){
         this.plugin = plugin;
         this.manager = manager;
-        challengePanels = new HashMap<>();
     }
 
     /**
-     * @param player
+     * @param user
      * @return
      */
-    public Inventory getChallenges(Player player) {
-        return getChallenges(player, "");
+    public void getChallenges(User user) {
+        getChallenges(user, "");
     }
 
     /**
      * Dynamically creates an inventory of challenges for the player showing the
      * level
      * 
-     * @param player
-     * @param level
+     * @param user
      * @return inventory
      */
-    public Inventory getChallenges(Player player, String level) {
+    public void getChallenges(User user, String level) {
         plugin.getLogger().info("DEBUG: level requested = " + level);
-        PanelBuilder panelBuilder = Panel.builder(plugin)
-                .name(plugin.getLocale(player).get("challenges.guiTitle"));
+        PanelBuilder panelBuilder = new PanelBuilder()
+                .setName(user.getTranslation("challenges.guiTitle"));
         List<ChallengesDO> levelChallenges = manager.getChallenges(level);
         // Do some checking
         if (DEBUG)
@@ -65,39 +56,52 @@ public class ChallengesPanels implements Listener {
         // Only show a control panel for the level requested.
         for (ChallengesDO challenge : levelChallenges) {
             plugin.getLogger().info("Adding challenge " + challenge.getUniqueId());
-            boolean completed = manager.isChallengeComplete(player.getUniqueId(), challenge.getUniqueId());
+            boolean completed = manager.isChallengeComplete(user.getUniqueId(), challenge.getUniqueId());
             if (completed && challenge.isRemoveWhenCompleted())
                 continue;
-            PanelItem item = Panel.panelItemBuilder()
+            PanelItem item = new PanelItemBuilder()
                     .setIcon(challenge.getIcon())
                     .setName(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
                     .setDescription(challenge.getDescription())
-                    .setSlot(challenge.getSlot())
                     .setGlow(completed)
-                    .setCommand(CHALLENGE_COMMAND + " c " + challenge.getUniqueId())
+                    .setClickHandler(new PanelItem.ClickHandler() {
+                        @Override
+                        public boolean onClick(Player player, ClickType click) {
+                            player.sendMessage("Hi!");
+                            return false;
+                        }
+                    })
+                    //.setCommand(CHALLENGE_COMMAND + " c " + challenge.getUniqueId())
                     .build();
-            plugin.getLogger().info("requested slot" + item.getSlot());
-            panelBuilder.addItem(item);
+            plugin.getLogger().info("requested slot" + challenge.getSlot());
+            panelBuilder.addItem(challenge.getSlot(),item);
         }
         // Add navigation to other levels
-        for (LevelStatus status: manager.getChallengeLevelStatus(player)) {
+        for (LevelStatus status: manager.getChallengeLevelStatus(user)) {
             String name = ChatColor.GOLD + (status.getLevel().getFriendlyName().isEmpty() ? status.getLevel().getUniqueId() : status.getLevel().getFriendlyName());
             if (status.isComplete() || status.getPreviousLevel() == null) {
                 // Clicking on this icon will open up this level's challenges
-                PanelItem item = Panel.panelItemBuilder()
+                PanelItem item = new PanelItemBuilder()
                         .setIcon(new ItemStack(Material.BOOK_AND_QUILL))
                         .setName(name)
-                        .setDescription(plugin.getLocale(player).get("challenges.navigation").replace("[level]",name))
-                        .setCommand(CHALLENGE_COMMAND + " c " + status.getLevel().getUniqueId())
+                        .setDescription(user.getTranslation("challenges.navigation","[level]",name))
+                        .setClickHandler(new PanelItem.ClickHandler() {
+                            @Override
+                            public boolean onClick(Player player, ClickType click) {
+                                player.sendMessage("Hi!");
+                                return false;
+                            }
+                        })
+                        //.setCommand(CHALLENGE_COMMAND + " c " + status.getLevel().getUniqueId())
                         .build();
-                panelBuilder.addItem(item);  
+                panelBuilder.addItem(item);
             } else {
                 // Clicking on this icon will do nothing because the challenge is not unlocked yet
                 String previousLevelName = ChatColor.GOLD + (status.getPreviousLevel().getFriendlyName().isEmpty() ? status.getPreviousLevel().getUniqueId() : status.getPreviousLevel().getFriendlyName());
-                PanelItem item = Panel.panelItemBuilder()
+                PanelItem item = new PanelItemBuilder()
                         .setIcon(new ItemStack(Material.BOOK))
                         .setName(name)
-                        .setDescription((plugin.getLocale(player).get("challenges.toComplete").replace("[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()))).replace("[thisLevel]", previousLevelName))
+                        .setDescription((user.getTranslation("challenges.toComplete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.addItem(item);
             }
@@ -114,10 +118,10 @@ public class ChallengesPanels implements Listener {
         }*/
         // Create the panel
         Panel panel = panelBuilder.build();
-        challengePanels.put(player.getUniqueId(), panel);
-        return panel.getPanel();
+        panel.open(user);
     }
 
+    /*
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked(); // The player that
@@ -156,6 +160,7 @@ public class ChallengesPanels implements Listener {
      * Clean up the hashmap should the player open up another inventory
      * @param event
      */
+    /*
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryOpen(InventoryOpenEvent event) {
         Player player = (Player) event.getPlayer(); 
@@ -172,5 +177,5 @@ public class ChallengesPanels implements Listener {
         challengePanels.remove(event.getPlayer().getUniqueId());
         plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
     }
-
+*/
 }
