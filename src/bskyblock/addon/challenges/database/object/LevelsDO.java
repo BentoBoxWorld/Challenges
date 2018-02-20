@@ -5,7 +5,7 @@ import java.util.List;
 
 import us.tastybento.bskyblock.database.objects.DataObject;
 
-public class LevelsDO extends DataObject implements Comparable<LevelsDO> {
+public class LevelsDO implements DataObject, Comparable<LevelsDO> {
 
     /**
      * A friendly name for the level. If blank, level name is used.

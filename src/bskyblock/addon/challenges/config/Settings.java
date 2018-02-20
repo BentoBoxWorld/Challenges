@@ -1,22 +1,28 @@
 package bskyblock.addon.challenges.config;
 
-import java.util.HashMap;
-
-import org.bukkit.material.MaterialData;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class Settings {
 
-    public static boolean sumTeamDeaths;
-    public static int seaHeight;
-    public static HashMap<MaterialData, Integer> blockLimits;
-    public static HashMap<MaterialData, Integer> blockValues;
-    public static double underWaterMultiplier;
-    public static int deathpenalty;
-    public static long levelCost;
-    public static Object defaultLanguage;
-    public static int levelWait;
-    public static int maxDeaths;
-    public static boolean islandResetDeathReset;
-    public static boolean teamJoinDeathReset;
+    // Storage
+    // Challenge List
+    public static Set<String> challengeList;
+    // Waiver amount
+    public static int waiverAmount;
+    // List of challenge levels
+    public static List<String> challengeLevels;
+    // Free levels
+    public static List<String> freeLevels = new ArrayList<String>();
+
+    // Settings
+    public static boolean resetChallenges;
+    // Challenge completion broadcast
+    public static boolean broadcastMessages;
+    // Challenges - show or remove completed on-time challenges
+    public static boolean removeCompleteOnetimeChallenges;
+    // Add glow to completed challenge icons or not
+    public static boolean addCompletedGlow;
 
 }

@@ -1,36 +1,33 @@
 package bskyblock.addon.challenges;
 
+import org.bukkit.Bukkit;
+
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.config.PluginConfig;
-import us.tastybento.bskyblock.BSkyBlock;
 import us.tastybento.bskyblock.api.addons.Addon;
 
 /**
- * Addin to BSkyBlock that enables challenges
+ * Add-on to BSkyBlock that enables challenges
  * @author tastybento
  *
  */
 public class Challenges extends Addon {
 
-    // The BSkyBlock plugin instance.
-    private BSkyBlock bSkyBlock;
-
-    private ChallengesManager manager;
+    private ChallengesManager challengesManager;
 
     @Override
     public void onEnable() {
         // Load the plugin's config
         new PluginConfig(this);
-        // Get the BSkyBlock plugin. This will be available because this plugin depends on it in plugin.yml.
-        bSkyBlock = BSkyBlock.getInstance();
         // Check if it is enabled - it might be loaded, but not enabled.
-        if (bSkyBlock == null || !bSkyBlock.isEnabled()) {
+        if (getBSkyBlock() == null || !getBSkyBlock().isEnabled()) {
+            Bukkit.getLogger().severe("BSkyBlock is not available or disabled!");
             this.setEnabled(false);
             return;
         }
         
         // Challenges Manager
-        manager = new ChallengesManager(this);
+        challengesManager = new ChallengesManager(this);
         // Register commands
         new ChallengesCommand(this);
         // Done
@@ -38,12 +35,12 @@ public class Challenges extends Addon {
 
     @Override
     public void onDisable(){
-        if (manager != null)
-            manager.save(false);
+        if (challengesManager != null)
+            challengesManager.save(false);
     }
 
-    public ChallengesManager getManager() {
-        return manager;
+    public ChallengesManager getChallengesManager() {
+        return challengesManager;
     }
 
 }

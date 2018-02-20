@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 import us.tastybento.bskyblock.database.objects.DataObject;
 
-public class ChallengesDO extends DataObject {
+public class ChallengesData implements DataObject {
 
-    enum ChallengeType {
+    public enum ChallengeType {
      /**
      * This challenge only shows and icon in the GUI and doesn't do anything.
      */

@@ -14,10 +14,12 @@ import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import bskyblock.addon.challenges.database.object.ChallengesDO;
+import bskyblock.addon.challenges.database.object.ChallengesData;
+import bskyblock.addon.challenges.database.object.ChallengesData.ChallengeType;
 import bskyblock.addon.challenges.database.object.LevelsDO;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.BSkyBlock;
@@ -28,20 +30,20 @@ import us.tastybento.bskyblock.database.managers.AbstractDatabaseHandler;
 public class ChallengesManager {
 
     //private static final boolean DEBUG = false;
-    private Challenges plugin;
-    private LinkedHashMap<LevelsDO, List<ChallengesDO>> challengeList;
+    private Challenges addon;
+    private LinkedHashMap<LevelsDO, List<ChallengesData>> challengeList;
 
-    private AbstractDatabaseHandler<ChallengesDO> chHandler;
+    private AbstractDatabaseHandler<ChallengesData> chHandler;
     private AbstractDatabaseHandler<LevelsDO> lvHandler;
     
     private ChallengesPanels challengesPanels;
 
     @SuppressWarnings("unchecked")
     public ChallengesManager(Challenges plugin) {
-        this.plugin = plugin;
+        this.addon = plugin;
         // Set up the database handler to store and retrieve Challenges
-        chHandler = (AbstractDatabaseHandler<ChallengesDO>) new FlatFileDatabase().getHandler(BSkyBlock.getInstance(), ChallengesDO.class);
-        lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(BSkyBlock.getInstance(), LevelsDO.class);
+        chHandler = (AbstractDatabaseHandler<ChallengesData>) new FlatFileDatabase().getHandler(ChallengesData.class);
+        lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(LevelsDO.class);
         challengeList = new LinkedHashMap<>();
         // Start panels
         challengesPanels = new ChallengesPanels(plugin, this);
@@ -55,7 +57,7 @@ public class ChallengesManager {
         return challengesPanels;
     }
 
-    public AbstractDatabaseHandler<ChallengesDO> getHandler() {
+    public AbstractDatabaseHandler<ChallengesData> getHandler() {
         return chHandler;
     }
 
@@ -66,10 +68,10 @@ public class ChallengesManager {
         // Load the challenges
         challengeList.clear();
         try {
-            for (ChallengesDO challenge : chHandler.loadObjects()) {
+            for (ChallengesData challenge : chHandler.loadObjects()) {
                 // See if we have this level already
                 LevelsDO level;
-                if (lvHandler.objectExits(challenge.getLevel())) {
+                if (lvHandler.objectExists(challenge.getLevel())) {
                     // Get it from the database
                     level = lvHandler.loadObject(challenge.getLevel());
                 } else {
@@ -82,7 +84,7 @@ public class ChallengesManager {
                     challengeList.get(level).add(challenge);                    
                 } else {
                     // First challenge of this level type
-                    List<ChallengesDO> challenges = new ArrayList<>();
+                    List<ChallengesData> challenges = new ArrayList<>();
                     challenges.add(challenge);
                     challengeList.put(level, challenges);
                 }
@@ -107,7 +109,7 @@ public class ChallengesManager {
     public void save(boolean async){
         if(async){
             Runnable save = () -> {
-                for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
+                for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
                     try {
                         lvHandler.saveObject(en.getKey());
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -116,7 +118,7 @@ public class ChallengesManager {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    for (ChallengesDO challenge : en.getValue()) {
+                    for (ChallengesData challenge : en.getValue()) {
                         try {
                             chHandler.saveObject(challenge);
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -130,7 +132,7 @@ public class ChallengesManager {
             };
             BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), save);
         } else {
-            for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
+            for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
                 try {
                     lvHandler.saveObject(en.getKey());
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -139,7 +141,7 @@ public class ChallengesManager {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                for (ChallengesDO challenge : en.getValue()) {
+                for (ChallengesData challenge : en.getValue()) {
                     try {
                         chHandler.saveObject(challenge);
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -166,7 +168,7 @@ public class ChallengesManager {
         // Get the main icon
         ItemStack icon = user.getInventory().getItemInOffHand();
         if (icon == null || icon.getType().equals(Material.AIR)) {
-            user.sendLegacyMessage("Icon will be paper");
+            user.sendRawMessage("Hold something in your off-hand to make it the icon. Icon will be paper be default.");
             icon = new ItemStack(Material.PAPER);
         }
         icon.setAmount(1);
@@ -189,12 +191,12 @@ public class ChallengesManager {
         meta.setDisplayName(name);
         meta.setLore(lore);
         icon.setItemMeta(meta);
-        ChallengesDO newChallenge = new ChallengesDO();
+        ChallengesData newChallenge = new ChallengesData();
         newChallenge.setRequiredItems(contents);
         newChallenge.setUniqueId(name);
         newChallenge.setIcon(icon);
-        if (chHandler.objectExits(name)) {
-            user.sendLegacyMessage(ChatColor.RED + "Challenge already exists! Use /c replace <name>");
+        if (chHandler.objectExists(name)) {
+            user.sendRawMessage(ChatColor.RED + "Challenge already exists! Use /c replace <name>");
             return;
         }
         try {
@@ -203,10 +205,10 @@ public class ChallengesManager {
                 | InstantiationException | NoSuchMethodException | IntrospectionException | SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            user.sendLegacyMessage(ChatColor.RED + "Challenge creation failed! " + e.getMessage());
+            user.sendRawMessage(ChatColor.RED + "Challenge creation failed! " + e.getMessage());
             return;
         }
-        user.sendLegacyMessage("Challenge accepted!");
+        user.sendRawMessage("Challenge accepted!");
         // TODO ADD CHALLENGE
         //challenges.put(newChallenge.getUniqueId(), newChallenge);
     }
@@ -216,13 +218,13 @@ public class ChallengesManager {
      * @param level - the level required
      * @return the list of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
-    public List<ChallengesDO> getChallenges(String level) {
-        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<ChallengesDO>() : challengeList.values().iterator().next());
+    public List<ChallengesData> getChallenges(String level) {
+        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<ChallengesData>() : challengeList.values().iterator().next());
     }
 
     /**
      * Checks if a challenge is complete or not
-     * @param uniqueId - player's UUID
+     * @param uniqueId - unique ID - player's UUID
      * @param uniqueId2 - Challenge id
      * @return - true if completed
      */
@@ -256,7 +258,7 @@ public class ChallengesManager {
     public List<LevelStatus> getChallengeLevelStatus(User user) {
         List<LevelStatus> result = new ArrayList<>();
         LevelsDO previousLevel = null;
-        for (Entry<LevelsDO, List<ChallengesDO>> en : challengeList.entrySet()) {
+        for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
             int challsToDo = 0; // TODO - calculate how many challenges still to do for this player
             boolean complete = false; // TODO
             result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
@@ -303,6 +305,55 @@ public class ChallengesManager {
         }
 
         
+    }
+
+    /**
+     * Creates an inventory challenge
+     * @param user
+     * @param inventory
+     */
+    public void createInvChallenge(User user, Inventory inventory) {
+        if (inventory.getContents().length == 0) {
+            return;
+        }
+        ChallengesData newChallenge = new ChallengesData();
+        newChallenge.setChallengeType(ChallengeType.INVENTORY);
+        newChallenge.setFriendlyName(inventory.getTitle());
+        newChallenge.setDeployed(false);
+        List<ItemStack> requiredItems = new ArrayList<>();
+        inventory.forEach(item -> {
+            if (item != null && !item.getType().equals(Material.AIR)) {
+                requiredItems.add(item);
+            }
+        });
+        newChallenge.setRequiredItems(requiredItems);
+        newChallenge.setTakeItems(true);
+        newChallenge.setUniqueId(inventory.getTitle());
+        newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
+
+        // Move all the items back to the player's inventory
+        inventory.forEach(item -> {
+            if (item != null) {
+                Map<Integer, ItemStack> residual = user.getInventory().addItem(item);
+                // Drop any residual items at the foot of the player
+                residual.forEach((k, v) -> {
+                    user.getWorld().dropItem(user.getLocation(), v);
+                });
+            }
+        });
+        
+        // Save the challenge
+        try {
+            chHandler.saveObject(newChallenge);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException
+                | InstantiationException | NoSuchMethodException | IntrospectionException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            user.sendRawMessage(ChatColor.RED + "Challenge creation failed! " + e.getMessage());
+            return;
+        }
+        
+        user.sendRawMessage("Success");
     }
     
 }
