@@ -9,9 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -69,20 +69,26 @@ public class ChallengesManager {
         challengeList.clear();
         try {
             for (ChallengesData challenge : chHandler.loadObjects()) {
+                Bukkit.getLogger().info("DEBUG: Loading challenge " + challenge.getFriendlyName() + " level " + challenge.getLevel());
                 // See if we have this level already
                 LevelsDO level;
                 if (lvHandler.objectExists(challenge.getLevel())) {
+                    Bukkit.getLogger().info("DEBUG: Level contains level " + challenge.getLevel());
                     // Get it from the database
                     level = lvHandler.loadObject(challenge.getLevel());
                 } else {
+                    Bukkit.getLogger().info("DEBUG: Level does not contains level " + challenge.getLevel());
                     // Make it
                     level = new LevelsDO();
                     level.setUniqueId(challenge.getLevel());
+                    Bukkit.getLogger().info("DEBUG: Level unique Id set to " + level.getUniqueId());
                     lvHandler.saveObject(level);
                 }
                 if (challengeList.containsKey(level)) {
+                    Bukkit.getLogger().info("DEBUG: Challenge contains level " + level.getUniqueId());
                     challengeList.get(level).add(challenge);                    
                 } else {
+                    Bukkit.getLogger().info("DEBUG: No key found");
                     // First challenge of this level type
                     List<ChallengesData> challenges = new ArrayList<>();
                     challenges.add(challenge);
@@ -95,11 +101,13 @@ public class ChallengesManager {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        Bukkit.getLogger().info("DEBUG: " + challengeList.size());
         // Sort the challenge list into level order
         challengeList = challengeList.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        Bukkit.getLogger().info("DEBUG: " + challengeList.size());
     }
 
     /**
@@ -228,12 +236,12 @@ public class ChallengesManager {
      * @param uniqueId2 - Challenge id
      * @return - true if completed
      */
-    public boolean isChallengeComplete(UUID uniqueId, String uniqueId2) {
+    public boolean isChallengeComplete(User user, String uniqueId2) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public boolean isLevelComplete(UUID uniqueId, LevelsDO otherLevel) {
+    public boolean isLevelComplete(User user, LevelsDO otherLevel) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -330,6 +338,8 @@ public class ChallengesManager {
         newChallenge.setTakeItems(true);
         newChallenge.setUniqueId(inventory.getTitle());
         newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
+        newChallenge.setFreeChallenge(true);
+        newChallenge.setLevel("");
 
         // Move all the items back to the player's inventory
         inventory.forEach(item -> {
@@ -354,6 +364,20 @@ public class ChallengesManager {
         }
         
         user.sendRawMessage("Success");
+    }
+
+    public boolean isLevelAvailable(User user, String level) {
+        // TODO
+        return false;
+    }
+
+    public long checkChallengeTimes(User user, ChallengesData challenge) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public Challenges getAddon() {
+        return addon;      
     }
     
 }

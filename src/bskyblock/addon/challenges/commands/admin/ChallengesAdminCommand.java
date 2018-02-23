@@ -1,4 +1,4 @@
-package bskyblock.addon.challenges.commands;
+package bskyblock.addon.challenges.commands.admin;
 
 import java.util.List;
 
@@ -7,14 +7,15 @@ import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.commands.User;
 
-public class ChallengesCommand extends CompositeCommand {
-    private static final String CHALLENGE_COMMAND = "challenges";
+public class ChallengesAdminCommand extends CompositeCommand {
+    private static final String CHALLENGE_ADMIN_COMMAND = "cadmin";
     private Challenges addon;
 
-    public ChallengesCommand(Challenges addon) {
-        super(CHALLENGE_COMMAND, "c", "challenge");
+    public ChallengesAdminCommand(Challenges addon) {
+        super(CHALLENGE_ADMIN_COMMAND);
         this.addon = addon;
-        // Set up commands
+        // Set up create command
+        new CreateChallenge(addon, this);
     }
 
     @Override
@@ -30,9 +31,9 @@ public class ChallengesCommand extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(Constants.PERMPREFIX + "challenges");
-        this.setParameters("challaneges.parameters");
-        this.setDescription("challenges.description");
+        this.setPermission(Constants.PERMPREFIX + "challenges.admin");
+        this.setParameters("challaneges.admin.parameters");
+        this.setDescription("challenges.admin.description");
         this.setOnlyPlayer(true);  
     }
 

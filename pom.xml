@@ -50,6 +50,13 @@
 			<groupId>us.tastybento</groupId>
 			<artifactId>bskyblock</artifactId>
 			<version>LATEST</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>bskyblock.addon</groupId>
+			<artifactId>Level</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -60,4 +67,13 @@
 	</repositories>
 	<artifactId>Challenges</artifactId>
 	<groupId>bskyblock.addons</groupId>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>bskyblock.addon</groupId>
+				<artifactId>Level</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

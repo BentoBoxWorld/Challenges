@@ -1,4 +1,4 @@
-package bskyblock.addon.challenges.commands;
+package bskyblock.addon.challenges.commands.admin;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class CreateChallenge extends CompositeCommand {
      * Admin command to make challenges
      * @param parent
      */
-    public CreateChallenge(Challenges addon, ChallengesCommand parent) {
+    public CreateChallenge(Challenges addon, CompositeCommand parent) {
         super(parent, "create");
         this.addon = addon;
     }
