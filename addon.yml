@@ -1,5 +1,5 @@
 name: BSkyBlock-Challenges
-main: bskyblock.addon.challenges.Challenges
+main: bskyblock.addon.challenges.ChallengesAddon
 version: 0.1
 
 authors: [tastybento]

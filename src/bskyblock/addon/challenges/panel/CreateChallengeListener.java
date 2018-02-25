@@ -4,16 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.api.panels.PanelListener;
 
 public class CreateChallengeListener implements PanelListener {
 
-    private Challenges addon;
+    private ChallengesAddon addon;
     private User user;
 
-    public CreateChallengeListener(Challenges addon, User user) {
+    public CreateChallengeListener(ChallengesAddon addon, User user) {
         this.addon = addon;
         this.user = user;
     }

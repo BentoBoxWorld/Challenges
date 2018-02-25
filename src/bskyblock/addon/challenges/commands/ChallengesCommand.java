@@ -2,16 +2,16 @@ package bskyblock.addon.challenges.commands;
 
 import java.util.List;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.commands.User;
 
 public class ChallengesCommand extends CompositeCommand {
     private static final String CHALLENGE_COMMAND = "challenges";
-    private Challenges addon;
+    private ChallengesAddon addon;
 
-    public ChallengesCommand(Challenges addon) {
+    public ChallengesCommand(ChallengesAddon addon) {
         super(CHALLENGE_COMMAND, "c", "challenge");
         this.addon = addon;
         // Set up commands

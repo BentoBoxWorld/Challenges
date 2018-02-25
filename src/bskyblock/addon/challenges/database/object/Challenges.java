@@ -1,16 +1,20 @@
 package bskyblock.addon.challenges.database.object;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import bskyblock.addon.challenges.ChallengesManager;
 import us.tastybento.bskyblock.database.objects.DataObject;
 
-public class ChallengesData implements DataObject {
+public class Challenges implements DataObject {
 
     public enum ChallengeType {
      /**
@@ -30,6 +34,11 @@ public class ChallengesData implements DataObject {
      */
     SURROUNDING
     }
+    
+    /**
+     * Required blocks for SURROUNDING challenges
+     */
+    private Map<Material, Integer> requiredBlocks;
     
     /**
      * Type of challenge
@@ -62,7 +71,7 @@ public class ChallengesData implements DataObject {
     /**
      * The challenge level. Default is Free
      */
-    private String level = "Free";
+    private String level = ChallengesManager.FREE;
     /**
      * Maximum number of times the challenge can be repeated
      */
@@ -118,7 +127,11 @@ public class ChallengesData implements DataObject {
     /**
      * The items that must be in the inventory to complete the challenge.
      */
-    private List<ItemStack> requiredItems = new ArrayList<>();
+    private List<ItemStack> requiredItems = new ArrayList<>();  
+    /**
+     * Any entities that must be in the area for SURROUNDING type challenges
+     */
+    private Map<EntityType, Integer> requiredEntities = new HashMap<>();
     /**
      * Commands to run when the player completes the challenge for the first time
      */
@@ -263,6 +276,9 @@ public class ChallengesData implements DataObject {
      * @param level the level to set
      */
     public void setLevel(String level) {
+        if (level.isEmpty()) {
+            level = ChallengesManager.FREE;
+        }
         this.level = level;
     }
 
@@ -460,6 +476,34 @@ public class ChallengesData implements DataObject {
      */
     public void setRequiredItems(List<ItemStack> requiredItems) {
         this.requiredItems = requiredItems;
+    }
+
+    /**
+     * @return requiredEntities
+     */
+    public Map<EntityType, Integer> getRequiredEntities() {
+        return requiredEntities;
+    }
+
+    /**
+     * @param requiredEntities the requiredEntities to set
+     */
+    public void setRequiredEntities(Map<EntityType, Integer> requiredEntities) {
+        this.requiredEntities = requiredEntities;
+    }
+
+    /**
+     * @return the requiredBlocks
+     */
+    public Map<Material, Integer> getRequiredBlocks() {
+        return requiredBlocks;
+    }
+
+    /**
+     * @param map the requiredBlocks to set
+     */
+    public void setRequiredBlocks(Map<Material, Integer> map) {
+        this.requiredBlocks = map;
     }
 
     /**

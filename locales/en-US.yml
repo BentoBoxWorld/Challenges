@@ -28,12 +28,13 @@ challenges:
   completechallenge: 
     challange-completed: "Challenge: [challengename] has been completed for [name]"
   error:
-    island-level: "Your island must be level [level] to complete this challenge!"
-    items-not-there: "All required items must be close to you on your island!"
-    not-close-enough: "You must be standing within [number] blocks of all required items."
+    island-level: "&cYour island must be level [level] to complete this challenge!"
+    items-not-there: "&cAll required items must be close to you on your island!"
+    not-close-enough: "&cYou must be standing within [number] blocks of all required items."
     not-enough-items: "&cYou do not have enough [items] to complete this challenge!"
-    not-on-island: "You must be on your island to do that!"
-    reward-problem: "There was a problem giving your reward. Ask Admin to check log!"
+    not-on-island: "&cYou must be on your island to do that!"
+    reward-problem: "&cThere was a problem giving your reward. Ask Admin to check log!"
+    you-still-need: "&cYou still need [amount] x [item]"
   help:
     command: "/challenges: &fshow challenges"
     config-reloaded: "Configuration reloaded from file."

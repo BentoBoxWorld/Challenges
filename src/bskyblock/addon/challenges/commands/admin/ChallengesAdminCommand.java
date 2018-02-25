@@ -2,16 +2,16 @@ package bskyblock.addon.challenges.commands.admin;
 
 import java.util.List;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.commands.User;
 
 public class ChallengesAdminCommand extends CompositeCommand {
     private static final String CHALLENGE_ADMIN_COMMAND = "cadmin";
-    private Challenges addon;
+    private ChallengesAddon addon;
 
-    public ChallengesAdminCommand(Challenges addon) {
+    public ChallengesAdminCommand(ChallengesAddon addon) {
         super(CHALLENGE_ADMIN_COMMAND);
         this.addon = addon;
         // Set up create command
@@ -36,6 +36,5 @@ public class ChallengesAdminCommand extends CompositeCommand {
         this.setDescription("challenges.admin.description");
         this.setOnlyPlayer(true);  
     }
-
 
 }

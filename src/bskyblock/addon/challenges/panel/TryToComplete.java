@@ -4,15 +4,21 @@
 package bskyblock.addon.challenges.panel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.ChallengesManager;
-import bskyblock.addon.challenges.database.object.ChallengesData;
-import bskyblock.addon.challenges.database.object.ChallengesData.ChallengeType;
+import bskyblock.addon.challenges.database.object.Challenges;
+import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.level.Level;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.User;
@@ -25,9 +31,9 @@ import us.tastybento.bskyblock.util.Util;
  */
 public class TryToComplete {
 
-    private Challenges addon;
+    private ChallengesAddon addon;
 
-    public TryToComplete(Challenges addon, User user, ChallengesManager manager, ChallengesData challenge) {
+    public TryToComplete(ChallengesAddon addon, User user, ChallengesManager manager, Challenges challenge) {
         this.addon = addon;
         Bukkit.getLogger().info("DEBUG: try to complete");
         // Check if user is in the worlds
@@ -68,13 +74,14 @@ public class TryToComplete {
             runCommands(user, challenge.getRepeatRewardCommands());
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
         }
-
+        // Market as complete
+        manager.setChallengeComplete(user, challenge.getUniqueId());
     }
 
     /**
      * Checks if a challenge can be completed or not
      */
-    private ChallengeResult checkIfCanCompleteChallenge(User user, ChallengesManager manager, ChallengesData challenge) {
+    private ChallengeResult checkIfCanCompleteChallenge(User user, ChallengesManager manager, Challenges challenge) {
         // Check if user has the 
         if (!challenge.isFreeChallenge() && !manager.isLevelAvailable(user, challenge.getLevel())) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
@@ -109,7 +116,7 @@ public class TryToComplete {
         }
     }
 
-    private ChallengeResult checkInventory(User user, ChallengesManager manager, ChallengesData challenge) {
+    private ChallengeResult checkInventory(User user, ChallengesManager manager, Challenges challenge) {
         Bukkit.getLogger().info("DEBUG: Checking inventory");
         // Run through inventory
         List<ItemStack> required = new ArrayList<>(challenge.getRequiredItems());
@@ -131,18 +138,70 @@ public class TryToComplete {
         return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId()));
     }
 
-    private ChallengeResult checkLevel(User user, ChallengesManager manager, ChallengesData challenge) {
+    private ChallengeResult checkLevel(User user, ChallengesManager manager, Challenges challenge) {
         // Check if the level addon is installed or not
         return addon.getAddonByName("BSkyBlock-Level").map(l -> {
             return ((Level)l).getIslandLevel(user.getUniqueId()) >= challenge.getReqIslandlevel() ?
-                new ChallengeResult().setMeetsRequirements() : new ChallengeResult();
+                    new ChallengeResult().setMeetsRequirements() : new ChallengeResult();
         }).orElse(new ChallengeResult());
     }
 
-    private ChallengeResult checkSurrounding(User user, ChallengesManager manager, ChallengesData challenge) {
-        // TODO Auto-generated method stub
+    private ChallengeResult checkSurrounding(User user, ChallengesManager manager, Challenges challenge) {
+        if (!addon.getIslands().playerIsOnIsland(user)) {
+            // Player is not on island
+            user.sendMessage("challenges.error.not-on-island");
+            return new ChallengeResult();
+        }
+        // Check for items or entities in the area
+        ChallengeResult result = searchForEntities(user, challenge.getRequiredEntities(), challenge.getSearchRadius());
+        if (result.meetsRequirements) {
+            // Search for items only if entities found
+            result = searchForBlocks(user, challenge.getRequiredBlocks(), challenge.getSearchRadius());
+        }
+        return result;
+    }
+
+    private ChallengeResult searchForBlocks(User user, Map<Material, Integer> map, int searchRadius) {
+        Map<Material, Integer> blocks = new HashMap<>(map);
+        addon.getLogger().info("Size of blocks = " + blocks.size());
+        for (int x = -searchRadius; x <= searchRadius; x++) {
+            for (int y = -searchRadius; y <= searchRadius; y++) {
+                for (int z = -searchRadius; z <= searchRadius; z++) {
+                    Material mat = user.getWorld().getBlockAt(user.getLocation().add(new Vector(x,y,z))).getType();
+                    // Remove one
+                    blocks.computeIfPresent(mat, (b, amount) -> amount-1);          
+                    // Remove any that have an amount of 0
+                    blocks.entrySet().removeIf(en -> en.getValue() <= 0);
+                }
+            }
+        }
+        if (blocks.isEmpty()) {
+            return new ChallengeResult().setMeetsRequirements();
+        }
+        user.sendMessage("challenges.error.not-close-enough", "[number]", String.valueOf(searchRadius));
+        blocks.forEach((k,v) -> user.sendMessage("challenges.error.you-still-need",
+                "[amount]", String.valueOf(v),
+                "[item]", Util.prettifyText(k.toString())));
+
         return new ChallengeResult();
     }
+
+    private ChallengeResult searchForEntities(User user, Map<EntityType, Integer> map, int searchRadius) {
+        Map<EntityType, Integer> entities = new HashMap<>(map);
+        user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
+            // Look through all the nearby Entities, filtering by type
+            entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount--);
+            entities.entrySet().removeIf(e -> e.getValue() == 0);
+        });
+        if (entities.isEmpty()) {
+            return new ChallengeResult().setMeetsRequirements();
+        }
+        entities.forEach((reqEnt, amount) -> user.sendMessage("challenges.error.you-still-need",
+                "[amount]", String.valueOf(amount),
+                "[item]", Util.prettifyText(reqEnt.toString())));
+        return new ChallengeResult();
+    }
+
 
     /**
      * Contains flags on completion of challenge

@@ -7,11 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.ChallengesManager;
 import bskyblock.addon.challenges.ChallengesManager.LevelStatus;
-import bskyblock.addon.challenges.database.object.ChallengesData;
-import bskyblock.addon.challenges.database.object.ChallengesData.ChallengeType;
+import bskyblock.addon.challenges.database.object.Challenges;
+import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.api.panels.ClickType;
 import us.tastybento.bskyblock.api.panels.Panel;
@@ -22,10 +22,10 @@ import us.tastybento.bskyblock.api.panels.builders.PanelItemBuilder;
 
 public class ChallengesPanels {
     private static final boolean DEBUG = true;
-    private Challenges addon;
+    private ChallengesAddon addon;
     private ChallengesManager manager;
 
-    public ChallengesPanels(Challenges plugin, ChallengesManager manager){
+    public ChallengesPanels(ChallengesAddon plugin, ChallengesManager manager){
         this.addon = plugin;
         this.manager = manager;
     }
@@ -73,13 +73,13 @@ public class ChallengesPanels {
 
     private void addChallengeItems(PanelBuilder panelBuilder, User user, String level) {
 
-        List<ChallengesData> levelChallenges = manager.getChallenges(level);
+        List<Challenges> levelChallenges = manager.getChallenges(level);
         // Do some checking
         if (DEBUG)
             addon.getLogger().info("DEBUG: Opening level " + level + " with " + levelChallenges.size() + " challenges");
 
         // Only show a control panel for the level requested.
-        for (ChallengesData challenge : levelChallenges) {
+        for (Challenges challenge : levelChallenges) {
             addon.getLogger().info("DEBUG: Adding challenge " + challenge.getUniqueId());
             // Check completion
             boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId());

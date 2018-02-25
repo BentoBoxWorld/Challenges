@@ -1,13 +1,13 @@
 package bskyblock.addon.challenges.config;
 
-import bskyblock.addon.challenges.Challenges;
+import bskyblock.addon.challenges.ChallengesAddon;
 
 public class PluginConfig {
 
     /**
      * Loads the various settings from the config.yml file into the plugin
      */
-    public PluginConfig(Challenges plugin) {
+    public PluginConfig(ChallengesAddon plugin) {
         plugin.saveDefaultConfig();
 
         // Settings

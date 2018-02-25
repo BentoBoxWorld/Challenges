@@ -18,9 +18,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import bskyblock.addon.challenges.database.object.ChallengesData;
-import bskyblock.addon.challenges.database.object.ChallengesData.ChallengeType;
-import bskyblock.addon.challenges.database.object.LevelsDO;
+import bskyblock.addon.challenges.database.object.ChallengeLevels;
+import bskyblock.addon.challenges.database.object.Challenges;
+import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.BSkyBlock;
 import us.tastybento.bskyblock.api.commands.User;
@@ -30,20 +30,23 @@ import us.tastybento.bskyblock.database.managers.AbstractDatabaseHandler;
 public class ChallengesManager {
 
     //private static final boolean DEBUG = false;
-    private Challenges addon;
-    private LinkedHashMap<LevelsDO, List<ChallengesData>> challengeList;
+    public static final String FREE = "Free";
 
-    private AbstractDatabaseHandler<ChallengesData> chHandler;
-    private AbstractDatabaseHandler<LevelsDO> lvHandler;
+    private ChallengesAddon addon;
+    private LinkedHashMap<ChallengeLevels, List<Challenges>> challengeList;
+
+    private AbstractDatabaseHandler<Challenges> chHandler;
+    private AbstractDatabaseHandler<ChallengeLevels> lvHandler;
+    
     
     private ChallengesPanels challengesPanels;
 
     @SuppressWarnings("unchecked")
-    public ChallengesManager(Challenges plugin) {
+    public ChallengesManager(ChallengesAddon plugin) {
         this.addon = plugin;
         // Set up the database handler to store and retrieve Challenges
-        chHandler = (AbstractDatabaseHandler<ChallengesData>) new FlatFileDatabase().getHandler(ChallengesData.class);
-        lvHandler = (AbstractDatabaseHandler<LevelsDO>) new FlatFileDatabase().getHandler(LevelsDO.class);
+        chHandler = (AbstractDatabaseHandler<Challenges>) new FlatFileDatabase().getHandler(Challenges.class);
+        lvHandler = (AbstractDatabaseHandler<ChallengeLevels>) new FlatFileDatabase().getHandler(ChallengeLevels.class);
         challengeList = new LinkedHashMap<>();
         // Start panels
         challengesPanels = new ChallengesPanels(plugin, this);
@@ -57,7 +60,7 @@ public class ChallengesManager {
         return challengesPanels;
     }
 
-    public AbstractDatabaseHandler<ChallengesData> getHandler() {
+    public AbstractDatabaseHandler<Challenges> getHandler() {
         return chHandler;
     }
 
@@ -68,10 +71,10 @@ public class ChallengesManager {
         // Load the challenges
         challengeList.clear();
         try {
-            for (ChallengesData challenge : chHandler.loadObjects()) {
+            for (Challenges challenge : chHandler.loadObjects()) {
                 Bukkit.getLogger().info("DEBUG: Loading challenge " + challenge.getFriendlyName() + " level " + challenge.getLevel());
                 // See if we have this level already
-                LevelsDO level;
+                ChallengeLevels level;
                 if (lvHandler.objectExists(challenge.getLevel())) {
                     Bukkit.getLogger().info("DEBUG: Level contains level " + challenge.getLevel());
                     // Get it from the database
@@ -79,7 +82,7 @@ public class ChallengesManager {
                 } else {
                     Bukkit.getLogger().info("DEBUG: Level does not contains level " + challenge.getLevel());
                     // Make it
-                    level = new LevelsDO();
+                    level = new ChallengeLevels();
                     level.setUniqueId(challenge.getLevel());
                     Bukkit.getLogger().info("DEBUG: Level unique Id set to " + level.getUniqueId());
                     lvHandler.saveObject(level);
@@ -90,7 +93,7 @@ public class ChallengesManager {
                 } else {
                     Bukkit.getLogger().info("DEBUG: No key found");
                     // First challenge of this level type
-                    List<ChallengesData> challenges = new ArrayList<>();
+                    List<Challenges> challenges = new ArrayList<>();
                     challenges.add(challenge);
                     challengeList.put(level, challenges);
                 }
@@ -117,7 +120,7 @@ public class ChallengesManager {
     public void save(boolean async){
         if(async){
             Runnable save = () -> {
-                for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
+                for (Entry<ChallengeLevels, List<Challenges>> en : challengeList.entrySet()) {
                     try {
                         lvHandler.saveObject(en.getKey());
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -126,7 +129,7 @@ public class ChallengesManager {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    for (ChallengesData challenge : en.getValue()) {
+                    for (Challenges challenge : en.getValue()) {
                         try {
                             chHandler.saveObject(challenge);
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -140,7 +143,7 @@ public class ChallengesManager {
             };
             BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), save);
         } else {
-            for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
+            for (Entry<ChallengeLevels, List<Challenges>> en : challengeList.entrySet()) {
                 try {
                     lvHandler.saveObject(en.getKey());
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -149,7 +152,7 @@ public class ChallengesManager {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                for (ChallengesData challenge : en.getValue()) {
+                for (Challenges challenge : en.getValue()) {
                     try {
                         chHandler.saveObject(challenge);
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -199,7 +202,7 @@ public class ChallengesManager {
         meta.setDisplayName(name);
         meta.setLore(lore);
         icon.setItemMeta(meta);
-        ChallengesData newChallenge = new ChallengesData();
+        Challenges newChallenge = new Challenges();
         newChallenge.setRequiredItems(contents);
         newChallenge.setUniqueId(name);
         newChallenge.setIcon(icon);
@@ -226,8 +229,8 @@ public class ChallengesManager {
      * @param level - the level required
      * @return the list of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
-    public List<ChallengesData> getChallenges(String level) {
-        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<ChallengesData>() : challengeList.values().iterator().next());
+    public List<Challenges> getChallenges(String level) {
+        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<Challenges>() : challengeList.values().iterator().next());
     }
 
     /**
@@ -241,15 +244,15 @@ public class ChallengesManager {
         return false;
     }
 
-    public boolean isLevelComplete(User user, LevelsDO otherLevel) {
+    public boolean isLevelComplete(User user, ChallengeLevels otherLevel) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public LevelsDO getPreviousLevel(LevelsDO otherLevel) {
-        LevelsDO result = null;
+    public ChallengeLevels getPreviousLevel(ChallengeLevels otherLevel) {
+        ChallengeLevels result = null;
 
-        for (LevelsDO level : challengeList.keySet()) {
+        for (ChallengeLevels level : challengeList.keySet()) {
             if (level.equals(otherLevel)) {
                 return result;
             }
@@ -265,8 +268,8 @@ public class ChallengesManager {
      */
     public List<LevelStatus> getChallengeLevelStatus(User user) {
         List<LevelStatus> result = new ArrayList<>();
-        LevelsDO previousLevel = null;
-        for (Entry<LevelsDO, List<ChallengesData>> en : challengeList.entrySet()) {
+        ChallengeLevels previousLevel = null;
+        for (Entry<ChallengeLevels, List<Challenges>> en : challengeList.entrySet()) {
             int challsToDo = 0; // TODO - calculate how many challenges still to do for this player
             boolean complete = false; // TODO
             result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
@@ -275,12 +278,12 @@ public class ChallengesManager {
     }
     
     public class LevelStatus {
-        private final LevelsDO level;
-        private final LevelsDO previousLevel;
+        private final ChallengeLevels level;
+        private final ChallengeLevels previousLevel;
         private final int numberOfChallengesStillToDo;
         private final boolean complete;
         
-        public LevelStatus(LevelsDO level, LevelsDO previousLevel, int numberOfChallengesStillToDo, boolean complete) {
+        public LevelStatus(ChallengeLevels level, ChallengeLevels previousLevel, int numberOfChallengesStillToDo, boolean complete) {
             super();
             this.level = level;
             this.previousLevel = previousLevel;
@@ -290,13 +293,13 @@ public class ChallengesManager {
         /**
          * @return the level
          */
-        public LevelsDO getLevel() {
+        public ChallengeLevels getLevel() {
             return level;
         }
         /**
          * @return the previousLevel
          */
-        public LevelsDO getPreviousLevel() {
+        public ChallengeLevels getPreviousLevel() {
             return previousLevel;
         }
         /**
@@ -324,7 +327,7 @@ public class ChallengesManager {
         if (inventory.getContents().length == 0) {
             return;
         }
-        ChallengesData newChallenge = new ChallengesData();
+        Challenges newChallenge = new Challenges();
         newChallenge.setChallengeType(ChallengeType.INVENTORY);
         newChallenge.setFriendlyName(inventory.getTitle());
         newChallenge.setDeployed(false);
@@ -339,7 +342,7 @@ public class ChallengesManager {
         newChallenge.setUniqueId(inventory.getTitle());
         newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
         newChallenge.setFreeChallenge(true);
-        newChallenge.setLevel("");
+        newChallenge.setLevel(FREE);
 
         // Move all the items back to the player's inventory
         inventory.forEach(item -> {
@@ -371,13 +374,48 @@ public class ChallengesManager {
         return false;
     }
 
-    public long checkChallengeTimes(User user, ChallengesData challenge) {
+    public long checkChallengeTimes(User user, Challenges challenge) {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    public Challenges getAddon() {
+    public ChallengesAddon getAddon() {
         return addon;      
+    }
+
+    /**
+     * Sets the challenge as complete and increments the number of times it has been completed
+     * @param user
+     * @param uniqueId
+     */
+    public void setChallengeComplete(User user, String uniqueId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void createSurroundingChallenge(String string, Map<Material, Integer> map) {
+        if (map.isEmpty()) {
+            return;
+        }
+        Challenges newChallenge = new Challenges();
+        newChallenge.setChallengeType(ChallengeType.SURROUNDING);
+        newChallenge.setFriendlyName(string);
+        newChallenge.setDeployed(true);
+        newChallenge.setRequiredBlocks(map);
+        newChallenge.setUniqueId(string);
+        newChallenge.setIcon(new ItemStack(Material.ARMOR_STAND));
+        newChallenge.setFreeChallenge(true);
+        newChallenge.setLevel(FREE);
+
+        // Save the challenge
+        try {
+            chHandler.saveObject(newChallenge);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException
+                | InstantiationException | NoSuchMethodException | IntrospectionException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
     }
     
 }

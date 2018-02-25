@@ -12,7 +12,7 @@ import us.tastybento.bskyblock.api.addons.Addon;
  * @author tastybento
  *
  */
-public class Challenges extends Addon {
+public class ChallengesAddon extends Addon {
 
     private ChallengesManager challengesManager;
 

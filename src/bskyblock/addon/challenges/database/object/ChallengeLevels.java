@@ -3,9 +3,10 @@ package bskyblock.addon.challenges.database.object;
 import java.util.ArrayList;
 import java.util.List;
 
+import bskyblock.addon.challenges.ChallengesManager;
 import us.tastybento.bskyblock.database.objects.DataObject;
 
-public class LevelsDO implements DataObject, Comparable<LevelsDO> {
+public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> {
 
     /**
      * A friendly name for the level. If blank, level name is used.
@@ -18,7 +19,7 @@ public class LevelsDO implements DataObject, Comparable<LevelsDO> {
     /**
      * Level name
      */
-    private String uniqueId = "Free";
+    private String uniqueId = ChallengesManager.FREE;
     /**
      * The number of undone challenges that can be left on this level before unlocking next level
      */
@@ -72,7 +73,7 @@ public class LevelsDO implements DataObject, Comparable<LevelsDO> {
     }
 
     @Override
-    public int compareTo(LevelsDO o) {
+    public int compareTo(ChallengeLevels o) {
         return Integer.compare(this.order, o.order);
     }
 
@@ -98,10 +99,10 @@ public class LevelsDO implements DataObject, Comparable<LevelsDO> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof LevelsDO)) {
+        if (!(obj instanceof ChallengeLevels)) {
             return false;
         }
-        LevelsDO other = (LevelsDO) obj;
+        ChallengeLevels other = (ChallengeLevels) obj;
         if (uniqueId == null) {
             if (other.uniqueId != null) {
                 return false;
