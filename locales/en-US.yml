@@ -30,6 +30,7 @@ challenges:
   error:
     island-level: "&cYour island must be level [level] to complete this challenge!"
     items-not-there: "&cAll required items must be close to you on your island!"
+    no-items-clicked: "&cYou did not click on anything. Cancelling."
     not-close-enough: "&cYou must be standing within [number] blocks of all required items."
     not-enough-items: "&cYou do not have enough [items] to complete this challenge!"
     not-on-island: "&cYou must be on your island to do that!"

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -169,7 +168,7 @@ public class TryToComplete {
                 for (int z = -searchRadius; z <= searchRadius; z++) {
                     Material mat = user.getWorld().getBlockAt(user.getLocation().add(new Vector(x,y,z))).getType();
                     // Remove one
-                    blocks.computeIfPresent(mat, (b, amount) -> amount-1);          
+                    blocks.computeIfPresent(mat, (b, amount) -> amount - 1);          
                     // Remove any that have an amount of 0
                     blocks.entrySet().removeIf(en -> en.getValue() <= 0);
                 }
@@ -190,7 +189,7 @@ public class TryToComplete {
         Map<EntityType, Integer> entities = new HashMap<>(map);
         user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
             // Look through all the nearby Entities, filtering by type
-            entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount--);
+            entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
             entities.entrySet().removeIf(e -> e.getValue() == 0);
         });
         if (entities.isEmpty()) {

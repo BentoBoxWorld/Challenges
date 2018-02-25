@@ -105,7 +105,11 @@ public class ChallengesPanels {
                     })
                     .build();
             addon.getLogger().info("requested slot" + challenge.getSlot());
-            panelBuilder.addItem(challenge.getSlot(),item);
+            if (challenge.getSlot() >= 0) {
+                panelBuilder.addItem(challenge.getSlot(),item);
+            } else {
+                panelBuilder.addItem(item);
+            }
         }
 
 

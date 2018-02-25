@@ -150,8 +150,9 @@ public class Challenges implements DataObject {
     private int searchRadius = 10;
     /**
      * Inventory slot where this challenge should be placed. 0 to 49.
+     * A negative value means "do not care"
      */
-    private int slot;   
+    private int slot = -1;   
     /**
      * Take the required items from the player
      */

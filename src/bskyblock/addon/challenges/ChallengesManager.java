@@ -18,6 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import bskyblock.addon.challenges.commands.admin.SurroundChallengeBuilder;
 import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
@@ -37,8 +38,8 @@ public class ChallengesManager {
 
     private AbstractDatabaseHandler<Challenges> chHandler;
     private AbstractDatabaseHandler<ChallengeLevels> lvHandler;
-    
-    
+
+
     private ChallengesPanels challengesPanels;
 
     @SuppressWarnings("unchecked")
@@ -260,7 +261,7 @@ public class ChallengesManager {
         }
         return result;
     }
-    
+
     /**
      * Get the status on every level
      * @param user
@@ -276,13 +277,13 @@ public class ChallengesManager {
         }
         return result;
     }
-    
+
     public class LevelStatus {
         private final ChallengeLevels level;
         private final ChallengeLevels previousLevel;
         private final int numberOfChallengesStillToDo;
         private final boolean complete;
-        
+
         public LevelStatus(ChallengeLevels level, ChallengeLevels previousLevel, int numberOfChallengesStillToDo, boolean complete) {
             super();
             this.level = level;
@@ -315,7 +316,7 @@ public class ChallengesManager {
             return complete;
         }
 
-        
+
     }
 
     /**
@@ -354,7 +355,7 @@ public class ChallengesManager {
                 });
             }
         });
-        
+
         // Save the challenge
         try {
             chHandler.saveObject(newChallenge);
@@ -365,7 +366,7 @@ public class ChallengesManager {
             user.sendRawMessage(ChatColor.RED + "Challenge creation failed! " + e.getMessage());
             return;
         }
-        
+
         user.sendRawMessage("Success");
     }
 
@@ -390,19 +391,21 @@ public class ChallengesManager {
      */
     public void setChallengeComplete(User user, String uniqueId) {
         // TODO Auto-generated method stub
-        
+
     }
 
-    public void createSurroundingChallenge(String string, Map<Material, Integer> map) {
-        if (map.isEmpty()) {
-            return;
+    public boolean createSurroundingChallenge(SurroundChallengeBuilder inProgress) {
+        if (inProgress.getReqBlocks().isEmpty() && inProgress.getReqEntities().isEmpty()) {
+            inProgress.getOwner().sendMessage("challenges.error.no-items-clicked");
+            return false;
         }
         Challenges newChallenge = new Challenges();
         newChallenge.setChallengeType(ChallengeType.SURROUNDING);
-        newChallenge.setFriendlyName(string);
+        newChallenge.setFriendlyName(inProgress.getName());
         newChallenge.setDeployed(true);
-        newChallenge.setRequiredBlocks(map);
-        newChallenge.setUniqueId(string);
+        newChallenge.setRequiredBlocks(inProgress.getReqBlocks());
+        newChallenge.setRequiredEntities(inProgress.getReqEntities());
+        newChallenge.setUniqueId(inProgress.getName());
         newChallenge.setIcon(new ItemStack(Material.ARMOR_STAND));
         newChallenge.setFreeChallenge(true);
         newChallenge.setLevel(FREE);
@@ -412,10 +415,9 @@ public class ChallengesManager {
             chHandler.saveObject(newChallenge);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException
                 | InstantiationException | NoSuchMethodException | IntrospectionException | SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return;
+            addon.getLogger().severe("Could not save challenge!");
+            return false;
         }
+        return true;
     }
-    
 }

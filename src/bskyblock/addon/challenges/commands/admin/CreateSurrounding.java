@@ -2,15 +2,17 @@ package bskyblock.addon.challenges.commands.admin;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -23,8 +25,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
 
 
     private ChallengesAddon addon;
-    private Map<UUID, Map<Material, Integer>> blocks = new HashMap<>();
-    private Map<UUID, String> name = new HashMap<>();
+    HashMap<UUID,SurroundChallengeBuilder> inProgress = new HashMap<>();
 
     /**
      * Admin command to make surrounding challenges
@@ -52,48 +53,71 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
         }
         // Tell user to hit objects to add to the surrounding object requirements
         user.sendRawMessage("Hit things to add them to the list of things required. Right click when done");
-        blocks.computeIfAbsent(user.getUniqueId(), k -> new HashMap<>());
-        name.put(user.getUniqueId(), args.get(0));
+        inProgress.put(user.getUniqueId(), new SurroundChallengeBuilder(addon).owner(user).name(args.get(0)));
         return true;
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
-        if (blocks.containsKey(e.getPlayer().getUniqueId())) {
-            e.setCancelled(true);
-        }
-    }
-    
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        blocks.remove(e.getPlayer().getUniqueId());
-        name.remove(e.getPlayer().getUniqueId());
+        e.setCancelled(inProgress.containsKey(e.getPlayer().getUniqueId()) ? true : false);
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPlayerInteract(PlayerInteractEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        inProgress.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public boolean onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             addon.getLogger().info("DEBUG: left click");
-            if (blocks.containsKey(e.getPlayer().getUniqueId())) {
+            if (inProgress.containsKey(e.getPlayer().getUniqueId())) {
                 // Prevent damage
                 e.setCancelled(true);
-                Map<Material, Integer> blockMap = blocks.get(e.getPlayer().getUniqueId());
-                blockMap.computeIfPresent(e.getClickedBlock().getType(), (state, amount) -> amount++);
-                blockMap.putIfAbsent(e.getClickedBlock().getType(), 1);
-                blocks.put(e.getPlayer().getUniqueId(), blockMap);
+                inProgress.get(e.getPlayer().getUniqueId()).addBlock(e.getClickedBlock().getType());
                 User.getInstance(e.getPlayer()).sendRawMessage("You added one " + e.getClickedBlock().getType());
-                return;
-            };
+                return true;
+            }
         }
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             addon.getLogger().info("DEBUG: right click");
-            if (blocks.containsKey(e.getPlayer().getUniqueId())) {
-                e.setCancelled(true);
-                User.getInstance(e.getPlayer()).sendRawMessage("Finished!");
-                addon.getChallengesManager().createSurroundingChallenge(name.get(e.getPlayer().getUniqueId()), blocks.get(e.getPlayer().getUniqueId()));
-                blocks.remove(e.getPlayer().getUniqueId());
-                name.remove(e.getPlayer().getUniqueId());
-            }
+            return finished(e, e.getPlayer().getUniqueId());
         }
+        return false;
     }
+
+    private boolean finished(Cancellable e, UUID uuid) {
+        if (inProgress.containsKey(uuid)) {
+            e.setCancelled(true);
+            boolean status = inProgress.get(uuid).build();
+            inProgress.remove(uuid);
+            return status;
+        }
+        return false;
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public boolean onPlayerInteract(PlayerInteractAtEntityEvent e) {
+        addon.getLogger().info("DEBUG: right click entity");
+        return finished(e, e.getPlayer().getUniqueId());
+    }
+    
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public boolean onLeft(EntityDamageByEntityEvent e) {
+        addon.getLogger().info("DEBUG: left click entity");
+        if (!(e.getDamager() instanceof Player)) {
+            return false;
+        }
+        Player player = (Player)e.getDamager();
+        if (inProgress.containsKey(player.getUniqueId())) {
+            // Prevent damage
+            e.setCancelled(true);
+            inProgress.get(player.getUniqueId()).addEntity(e.getEntityType());
+            User.getInstance(player).sendRawMessage("You added one " + e.getEntityType());
+            return true;
+        }
+        return false;
+    }
+    
+
 }
