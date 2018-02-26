@@ -37,8 +37,6 @@ public class ChallengesAddon extends Addon {
 
     @Override
     public void onDisable(){
-        if (challengesManager != null)
-            challengesManager.save(false);
     }
 
     public ChallengesManager getChallengesManager() {

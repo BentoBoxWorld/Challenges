@@ -20,7 +20,13 @@ import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.commands.User;
+import us.tastybento.bskyblock.util.Util;
 
+/**
+ * Command to create a surrounding type challenge
+ * @author tastybento
+ *
+ */
 public class CreateSurrounding extends CompositeCommand implements Listener {
 
 
@@ -48,11 +54,11 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     @Override
     public boolean execute(User user, List<String> args) {
         if (args.isEmpty()) {
-            user.sendRawMessage("not enough args");
+            user.sendMessage("challenges.admin.error.no-name");
             return false;
         }
         // Tell user to hit objects to add to the surrounding object requirements
-        user.sendRawMessage("Hit things to add them to the list of things required. Right click when done");
+        user.sendMessage("challenges.admin.create.surrounding.hit-things");
         inProgress.put(user.getUniqueId(), new SurroundChallengeBuilder(addon).owner(user).name(args.get(0)));
         return true;
     }
@@ -70,17 +76,15 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public boolean onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            addon.getLogger().info("DEBUG: left click");
             if (inProgress.containsKey(e.getPlayer().getUniqueId())) {
                 // Prevent damage
                 e.setCancelled(true);
                 inProgress.get(e.getPlayer().getUniqueId()).addBlock(e.getClickedBlock().getType());
-                User.getInstance(e.getPlayer()).sendRawMessage("You added one " + e.getClickedBlock().getType());
+                User.getInstance(e.getPlayer()).sendMessage("challenges.admin.you-added", "[thing]", Util.prettifyText(e.getClickedBlock().getType().toString()));
                 return true;
             }
         }
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            addon.getLogger().info("DEBUG: right click");
             return finished(e, e.getPlayer().getUniqueId());
         }
         return false;
@@ -90,6 +94,9 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
         if (inProgress.containsKey(uuid)) {
             e.setCancelled(true);
             boolean status = inProgress.get(uuid).build();
+            if (status) {
+                inProgress.get(uuid).getOwner().sendMessage("challenges.admin.challenge-created", "[challenge]", inProgress.get(uuid).getName());
+            }
             inProgress.remove(uuid);
             return status;
         }
@@ -98,13 +105,11 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public boolean onPlayerInteract(PlayerInteractAtEntityEvent e) {
-        addon.getLogger().info("DEBUG: right click entity");
         return finished(e, e.getPlayer().getUniqueId());
     }
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public boolean onLeft(EntityDamageByEntityEvent e) {
-        addon.getLogger().info("DEBUG: left click entity");
         if (!(e.getDamager() instanceof Player)) {
             return false;
         }
@@ -113,7 +118,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
             // Prevent damage
             e.setCancelled(true);
             inProgress.get(player.getUniqueId()).addEntity(e.getEntityType());
-            User.getInstance(player).sendRawMessage("You added one " + e.getEntityType());
+            User.getInstance(player).sendMessage("challenges.admin.you-added", "[thing]", Util.prettifyText(e.getEntityType().toString()));
             return true;
         }
         return false;

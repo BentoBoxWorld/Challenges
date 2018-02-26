@@ -28,6 +28,7 @@ challenges:
   completechallenge: 
     challange-completed: "Challenge: [challengename] has been completed for [name]"
   error:
+    could-not-save: "&cCould not save the challenge!"
     island-level: "&cYour island must be level [level] to complete this challenge!"
     items-not-there: "&cAll required items must be close to you on your island!"
     no-items-clicked: "&cYou did not click on anything. Cancelling."
@@ -47,4 +48,19 @@ challenges:
   resetchallenge: 
     challenge-reset: "Challenge: [challengename] has been reset for [name]"
     error-challenge-does-not-exist: "Challenge doesn't exist or isn't yet completed"
-
+  admin:
+    parameters: ""
+    description: "admin command to create challenges"
+    create:
+      inventory:
+        parameters: "[challenge name]"
+        description: "create an inventory challenge"
+      surrounding:
+        parameters: "[challenge name]"
+        description: "create a surrounding challenge"
+        hit-things: "Hit things to add them to the list of things required. Right click when done."      
+    error:
+      no-name: "You must include a challenge name"
+    challenge-created: "[challenge] created!"
+    you-added: "You added one [thing] to the challenge"
+    

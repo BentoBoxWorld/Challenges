@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.ChallengesManager;
-import bskyblock.addon.challenges.ChallengesManager.LevelStatus;
+import bskyblock.addon.challenges.LevelStatus;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import us.tastybento.bskyblock.api.commands.User;
@@ -150,61 +150,4 @@ public class ChallengesPanels {
         }
     }
 
-    /*
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked(); // The player that
-        // clicked the item
-        //UUID playerUUID = player.getUniqueId();
-        Inventory inventory = event.getInventory(); // The inventory that was
-        // clicked in
-        // Check this is the right panel
-        if (inventory.getName() == null || !inventory.getName().equals(plugin.getLocale(player).get("challenges.guiTitle"))) {
-            return;
-        }
-        event.setCancelled(true);
-        if (!event.getClick().equals(ClickType.LEFT)) {            
-            inventory.clear();
-            player.closeInventory();
-            player.updateInventory();
-            return;
-        }
-        int slot = event.getRawSlot();
-        if (slot == -999) {
-            inventory.clear();
-            player.closeInventory();
-            event.setCancelled(true);
-            return;
-        }
-        // TODO: Deal with the clicking
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryClose(InventoryCloseEvent event) {
-        challengePanels.remove(event.getPlayer().getUniqueId()); 
-        plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
-    }
-
-    /**
-     * Clean up the hashmap should the player open up another inventory
-     * @param event
-     */
-    /*
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryOpen(InventoryOpenEvent event) {
-        Player player = (Player) event.getPlayer(); 
-        UUID playerUUID = player.getUniqueId();
-        Inventory inventory = event.getInventory(); // The inventory that was
-        if (inventory.getName() == null || !inventory.getName().equals(plugin.getLocale(player).get("challenges.guiTitle"))) {
-            challengePanels.remove(playerUUID);
-            plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onLogOut(PlayerQuitEvent event) {
-        challengePanels.remove(event.getPlayer().getUniqueId());
-        plugin.getLogger().info("DEBUG: removing inv " + challengePanels.size());
-    }
-     */
 }

@@ -1,6 +1,5 @@
 package bskyblock.addon.challenges.panel;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
@@ -23,16 +22,12 @@ public class CreateChallengeListener implements PanelListener {
 
     @Override
     public void onInventoryClose(InventoryCloseEvent event) {
-        Bukkit.getLogger().info("DEBUG: event = " + event);
-        Bukkit.getLogger().info("DEBUG: addon = " + addon);
-        Bukkit.getLogger().info("DEBUG: challenge manager = " + addon.getChallengesManager());
         addon.getChallengesManager().createInvChallenge(user, event.getInventory());    
     }
 
     @Override
     public void onInventoryClick(User user, InventoryClickEvent event) {
         // Allow drag and drop
-        Bukkit.getLogger().info("DEBUG: setting cancelled to false");
         event.setCancelled(false);   
     }
 }
