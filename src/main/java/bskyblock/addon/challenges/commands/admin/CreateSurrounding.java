@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.commands.User;
+import us.tastybento.bskyblock.api.user.User;
 import us.tastybento.bskyblock.util.Util;
 
 /**

@@ -12,12 +12,12 @@ import bskyblock.addon.challenges.ChallengesManager;
 import bskyblock.addon.challenges.LevelStatus;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
-import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.api.panels.ClickType;
 import us.tastybento.bskyblock.api.panels.Panel;
 import us.tastybento.bskyblock.api.panels.PanelItem;
 import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
 import us.tastybento.bskyblock.api.panels.builders.PanelItemBuilder;
+import us.tastybento.bskyblock.api.user.User;
 
 
 public class ChallengesPanels {
@@ -45,7 +45,7 @@ public class ChallengesPanels {
     public void getChallenges(User user, String level) {
         addon.getLogger().info("DEBUG: level requested = " + level);
         PanelBuilder panelBuilder = new PanelBuilder()
-                .setName(user.getTranslation("challenges.guiTitle"));
+                .name(user.getTranslation("challenges.guiTitle"));
 
         addChallengeItems(panelBuilder, user, level);
         addFreeChallanges(panelBuilder);
@@ -106,9 +106,9 @@ public class ChallengesPanels {
                     .build();
             addon.getLogger().info("requested slot" + challenge.getSlot());
             if (challenge.getSlot() >= 0) {
-                panelBuilder.addItem(challenge.getSlot(),item);
+                panelBuilder.item(challenge.getSlot(),item);
             } else {
-                panelBuilder.addItem(item);
+                panelBuilder.item(item);
             }
         }
 
@@ -136,7 +136,7 @@ public class ChallengesPanels {
                         })
                         //.setCommand(CHALLENGE_COMMAND + " c " + status.getLevel().getUniqueId())
                         .build();
-                panelBuilder.addItem(item);
+                panelBuilder.item(item);
             } else {
                 // Clicking on this icon will do nothing because the challenge is not unlocked yet
                 String previousLevelName = ChatColor.GOLD + (status.getPreviousLevel().getFriendlyName().isEmpty() ? status.getPreviousLevel().getUniqueId() : status.getPreviousLevel().getFriendlyName());
@@ -145,7 +145,7 @@ public class ChallengesPanels {
                         .name(name)
                         .description(Arrays.asList(user.getTranslation("challenges.toComplete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
                         .build();
-                panelBuilder.addItem(item);
+                panelBuilder.item(item);
             }
         }
     }

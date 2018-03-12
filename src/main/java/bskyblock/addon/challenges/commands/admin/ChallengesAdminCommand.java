@@ -5,7 +5,7 @@ import java.util.List;
 import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.commands.User;
+import us.tastybento.bskyblock.api.user.User;
 
 public class ChallengesAdminCommand extends CompositeCommand {
     private static final String CHALLENGE_ADMIN_COMMAND = "cadmin";

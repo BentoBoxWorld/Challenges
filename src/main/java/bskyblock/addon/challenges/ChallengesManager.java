@@ -19,8 +19,8 @@ import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.BSkyBlock;
-import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.api.configuration.BSBConfig;
+import us.tastybento.bskyblock.api.user.User;
 
 public class ChallengesManager {
 

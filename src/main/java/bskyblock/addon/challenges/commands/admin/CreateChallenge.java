@@ -6,8 +6,8 @@ import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.panel.CreateChallengeListener;
 import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.commands.User;
 import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
+import us.tastybento.bskyblock.api.user.User;
 
 public class CreateChallenge extends CompositeCommand {
 
@@ -41,10 +41,10 @@ public class CreateChallenge extends CompositeCommand {
             return false;
         }
         new PanelBuilder()
-        .setName(args.get(0))
-        .setSize(49)
-        .setListener(new CreateChallengeListener(addon, user))
-        .setUser(user)
+        .name(args.get(0))
+        .size(49)
+        .listener(new CreateChallengeListener(addon, user))
+        .user(user)
         .build();
         return true;
     }
