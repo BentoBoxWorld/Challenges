@@ -52,6 +52,8 @@ challenges:
     parameters: ""
     description: "admin command to create challenges"
     create:
+      description: "&6Collect:"
+      description-item-color: "&B"
       inventory:
         parameters: "[challenge name]"
         description: "create an inventory challenge"

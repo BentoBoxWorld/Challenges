@@ -56,6 +56,7 @@ public class ChallengesAddon extends Addon {
         new ChallengesCommand(this);
         new ChallengesAdminCommand(this);
         // Done
+        /*
         Gson gson = new Gson();
         Challenges challenges = new Challenges();
         challenges.setChallengeType(ChallengeType.SURROUNDING);
@@ -120,6 +121,7 @@ public class ChallengesAddon extends Addon {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        */
     }
 
     @Override

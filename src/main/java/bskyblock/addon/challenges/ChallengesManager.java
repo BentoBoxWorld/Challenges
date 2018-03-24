@@ -21,6 +21,7 @@ import bskyblock.addon.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.BSkyBlock;
 import us.tastybento.bskyblock.api.configuration.BSBConfig;
 import us.tastybento.bskyblock.api.user.User;
+import us.tastybento.bskyblock.util.Util;
 
 public class ChallengesManager {
 
@@ -70,6 +71,7 @@ public class ChallengesManager {
         newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
         newChallenge.setFreeChallenge(true);
         newChallenge.setLevel(FREE);
+        newChallenge.setDescription(createDescription(user, requiredItems));
 
         // Move all the items back to the player's inventory
         inventory.forEach(item -> {
@@ -91,6 +93,21 @@ public class ChallengesManager {
         return true;
     }
     
+    /**
+     * Creates a simple example description of the requirements
+     * @param user - user of this command
+     * @param requiredItems - list of items
+     * @return Description list
+     */
+    private List<String> createDescription(User user, List<ItemStack> requiredItems) {
+        List<String> result = new ArrayList<>();
+        result.add(user.getTranslation("challenges.admin.create.description"));
+        for (ItemStack item : requiredItems) {
+            result.add(user.getTranslation("challenges.admin.create.description-item-color") + item.getAmount() + " x " + Util.prettifyText(item.getType().toString()));
+        }
+        return result;
+    }
+
     /**
      * Create a surrounding challenge
      * @param challengeInfo - info on the challenge from the builder
@@ -195,6 +212,7 @@ public class ChallengesManager {
     public void load() {
         // Load the challenges
         challengeList.clear();
+        Bukkit.getLogger().info("Loading challenges...");
         for (Challenges challenge : chConfig.loadConfigObjects()) {
             Bukkit.getLogger().info("Loading challenge " + challenge.getFriendlyName() + " level " + challenge.getLevel());
             // See if we have this level already
