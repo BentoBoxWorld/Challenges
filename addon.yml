@@ -2,7 +2,7 @@ name: BSkyBlock-Challenges
 main: bskyblock.addon.challenges.ChallengesAddon
 version: 0.1
 
-authors: [tastybento]
+authors: tastybento
 
 permissions:    
   bskyblock.island.challenges:

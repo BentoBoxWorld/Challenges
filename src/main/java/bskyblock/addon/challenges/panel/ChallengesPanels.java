@@ -1,7 +1,7 @@
 package bskyblock.addon.challenges.panel;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -73,7 +73,7 @@ public class ChallengesPanels {
 
     private void addChallengeItems(PanelBuilder panelBuilder, User user, String level) {
 
-        List<Challenges> levelChallenges = manager.getChallenges(level);
+        Set<Challenges> levelChallenges = manager.getChallenges(level);
         // Do some checking
         if (DEBUG)
             addon.getLogger().info("DEBUG: Opening level " + level + " with " + levelChallenges.size() + " challenges");

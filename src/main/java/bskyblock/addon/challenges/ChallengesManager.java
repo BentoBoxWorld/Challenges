@@ -1,10 +1,13 @@
 package bskyblock.addon.challenges;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -26,7 +29,7 @@ import us.tastybento.bskyblock.util.Util;
 public class ChallengesManager {
 
     public static final String FREE = "Free";
-    private LinkedHashMap<ChallengeLevels, List<Challenges>> challengeList;
+    private LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList;
     private BSBConfig<Challenges> chConfig;
     private BSBConfig<ChallengeLevels> lvConfig;
     private ChallengesPanels challengesPanels;
@@ -41,6 +44,46 @@ public class ChallengesManager {
         load();
     }
 
+    /**
+     * Check if a challenge exists - case insensitive
+     * @param name - name of challenge
+     * @return true if it exists, otherwise false
+     */
+    public boolean isChallenge(String name) {
+        for (Set<Challenges> ch : challengeList.values())  {
+            if (ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst().isPresent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Get challenge by name
+     * @param name - unique name of challenge
+     * @return - challenge or null if it does not exist
+     */
+    public Challenges getChallenge(String name) {
+        for (Set<Challenges> ch : challengeList.values())  {
+            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst();
+            if (challenge.isPresent()) {
+                return challenge.get();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Get the list of all challenge unique names.
+     * Used for checking admin commands and tab complete
+     * @return List of challenge names
+     */
+    public List<String> getAllChallengesList() {
+        List<String> result = new ArrayList<>();
+        challengeList.values().forEach(ch -> ch.forEach(c -> result.add(c.getUniqueId())));
+        return result;
+    }
+    
     public long checkChallengeTimes(User user, Challenges challenge) {
         // TODO Auto-generated method stub
         return 0;
@@ -69,7 +112,6 @@ public class ChallengesManager {
         newChallenge.setTakeItems(true);
         newChallenge.setUniqueId(inventory.getTitle());
         newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
-        newChallenge.setFreeChallenge(true);
         newChallenge.setLevel(FREE);
         newChallenge.setDescription(createDescription(user, requiredItems));
 
@@ -119,14 +161,13 @@ public class ChallengesManager {
             return false;
         }
         Challenges newChallenge = new Challenges();
-        newChallenge.setChallengeType(ChallengeType.SURROUNDING);
+        newChallenge.setChallengeType(ChallengeType.ISLAND);
         newChallenge.setFriendlyName(challengeInfo.getName());
         newChallenge.setDeployed(true);
         newChallenge.setRequiredBlocks(challengeInfo.getReqBlocks());
         newChallenge.setRequiredEntities(challengeInfo.getReqEntities());
         newChallenge.setUniqueId(challengeInfo.getName());
         newChallenge.setIcon(new ItemStack(Material.ARMOR_STAND));
-        newChallenge.setFreeChallenge(true);
         newChallenge.setLevel(FREE);
 
         // Save the challenge
@@ -145,7 +186,7 @@ public class ChallengesManager {
     public List<LevelStatus> getChallengeLevelStatus(User user) {
         List<LevelStatus> result = new ArrayList<>();
         ChallengeLevels previousLevel = null;
-        for (Entry<ChallengeLevels, List<Challenges>> en : challengeList.entrySet()) {
+        for (Entry<ChallengeLevels, Set<Challenges>> en : challengeList.entrySet()) {
             int challsToDo = 0; // TODO - calculate how many challenges still to do for this player
             boolean complete = false; // TODO
             result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
@@ -154,12 +195,12 @@ public class ChallengesManager {
     }
 
     /**
-     * Get the list of challenges for this level
+     * Get the set of challenges for this level
      * @param level - the level required
-     * @return the list of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
+     * @return the set of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
-    public List<Challenges> getChallenges(String level) {
-        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new ArrayList<Challenges>() : challengeList.values().iterator().next());
+    public Set<Challenges> getChallenges(String level) {
+        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new HashSet<Challenges>() : challengeList.values().iterator().next());
     }
 
     /**
@@ -215,38 +256,52 @@ public class ChallengesManager {
         Bukkit.getLogger().info("Loading challenges...");
         for (Challenges challenge : chConfig.loadConfigObjects()) {
             Bukkit.getLogger().info("Loading challenge " + challenge.getFriendlyName() + " level " + challenge.getLevel());
-            // See if we have this level already
-            ChallengeLevels level;
-            if (lvConfig.configObjectExists(challenge.getLevel())) {
-                //Bukkit.getLogger().info("DEBUG: Level contains level " + challenge.getLevel());
-                // Get it from the database
-                level = lvConfig.loadConfigObject(challenge.getLevel());
-            } else {
-                //Bukkit.getLogger().info("DEBUG: Level does not contains level " + challenge.getLevel());
-                // Make it
-                level = new ChallengeLevels();
-                level.setUniqueId(challenge.getLevel());
-                //Bukkit.getLogger().info("DEBUG: Level unique Id set to " + level.getUniqueId());
-                lvConfig.saveConfigObject(level);
-            }
-            if (challengeList.containsKey(level)) {
-                //Bukkit.getLogger().info("DEBUG: Challenge contains level " + level.getUniqueId());
-                challengeList.get(level).add(challenge);                    
-            } else {
-                //Bukkit.getLogger().info("DEBUG: No key found");
-                // First challenge of this level type
-                List<Challenges> challenges = new ArrayList<>();
-                challenges.add(challenge);
-                challengeList.put(level, challenges);
-            }
+            storeChallenge(challenge);
         }
-        //Bukkit.getLogger().info("DEBUG: " + challengeList.size());
+        sortChallenges();
+    }
+
+    public void sortChallenges() {
         // Sort the challenge list into level order
         challengeList = challengeList.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        //Bukkit.getLogger().info("DEBUG: " + challengeList.size());
+    }
+
+    /**
+     * Stores the challenge. If a challenge already exists with the same name, it is overwritten.
+     * @param challenge
+     */
+    public void storeChallenge(Challenges challenge) {
+        // See if we have this level already
+        ChallengeLevels level;
+        if (lvConfig.configObjectExists(challenge.getLevel())) {
+            //Bukkit.getLogger().info("DEBUG: Level contains level " + challenge.getLevel());
+            // Get it from the database
+            level = lvConfig.loadConfigObject(challenge.getLevel());
+        } else {
+            //Bukkit.getLogger().info("DEBUG: Level does not contains level " + challenge.getLevel());
+            // Make it
+            level = new ChallengeLevels();
+            level.setUniqueId(challenge.getLevel());
+            //Bukkit.getLogger().info("DEBUG: Level unique Id set to " + level.getUniqueId());
+            lvConfig.saveConfigObject(level);
+        }
+        if (challengeList.containsKey(level)) {
+            //Bukkit.getLogger().info("DEBUG: Challenge contains level " + level.getUniqueId());
+            // Replace if this challenge uniqueId already exists
+            if (challengeList.get(level).contains(challenge)) {
+                challengeList.get(level).remove(challenge);
+            }
+            challengeList.get(level).add(challenge);                    
+        } else {
+            //Bukkit.getLogger().info("DEBUG: No key found");
+            // First challenge of this level type
+            Set<Challenges> challenges = new HashSet<>();
+            challenges.add(challenge);
+            challengeList.put(level, challenges);
+        }
     }
 
     private void save() {
@@ -276,6 +331,28 @@ public class ChallengesManager {
     public void setChallengeComplete(User user, String uniqueId) {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Checks number of challenges
+     * @return true if no challenges
+     */
+    public boolean isFirstTime() {
+        return challengeList.isEmpty();
+    }
+
+    /**
+     * @return the challengeList
+     */
+    public LinkedHashMap<ChallengeLevels, Set<Challenges>> getChallengeList() {
+        return challengeList;
+    }
+
+    /**
+     * @param challengeList the challengeList to set
+     */
+    public void setChallengeList(LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList) {
+        this.challengeList = challengeList;
     }
 
 }

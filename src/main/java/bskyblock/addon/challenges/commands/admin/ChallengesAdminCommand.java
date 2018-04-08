@@ -16,6 +16,7 @@ public class ChallengesAdminCommand extends CompositeCommand {
         this.addon = addon;
         // Set up create command
         new CreateChallenge(addon, this);
+        new SetIcon(addon, this);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class TryToComplete {
      */
     private ChallengeResult checkIfCanCompleteChallenge(User user, ChallengesManager manager, Challenges challenge) {
         // Check if user has the 
-        if (!challenge.isFreeChallenge() && !manager.isLevelAvailable(user, challenge.getLevel())) {
+        if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelAvailable(user, challenge.getLevel())) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
             return new ChallengeResult();
         }
@@ -98,7 +98,7 @@ public class TryToComplete {
         // Check repeatability
         if (manager.isChallengeComplete(user, challenge.getUniqueId()) 
                 && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.LEVEL)
-                        || challenge.getChallengeType().equals(ChallengeType.SURROUNDING))) {
+                        || challenge.getChallengeType().equals(ChallengeType.ISLAND))) {
             user.sendMessage("challenges.errors.cannot-repeat");
             return new ChallengeResult();
         }
@@ -108,7 +108,7 @@ public class TryToComplete {
             return checkInventory(user, manager, challenge);
         case LEVEL:
             return checkLevel(user, manager, challenge);
-        case SURROUNDING:
+        case ISLAND:
             return checkSurrounding(user, manager, challenge);
         default:
             return new ChallengeResult();

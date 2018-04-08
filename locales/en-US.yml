@@ -65,4 +65,8 @@ challenges:
       no-name: "You must include a challenge name"
     challenge-created: "[challenge] created!"
     you-added: "You added one [thing] to the challenge"
-    
+    seticon:
+      error:
+        no-such-challenge: "&cNo such challenge name"
+      description: "sets the challenge icon to inhand item"
+      parameters: "[challenge name]"

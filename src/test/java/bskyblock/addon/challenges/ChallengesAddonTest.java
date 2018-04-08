@@ -79,7 +79,7 @@ public class ChallengesAddonTest {
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Challenges challenges = new Challenges();
-        challenges.setChallengeType(ChallengeType.SURROUNDING);
+        challenges.setChallengeType(ChallengeType.ISLAND);
         Map<Material, Integer> map = new HashMap<>();
         map.put(Material.DIRT, 5);
         map.put(Material.ACACIA_FENCE_GATE, 3);
