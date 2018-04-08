@@ -19,33 +19,63 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
+import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
 
 public class FreshSqueezedChallenges {
 
     private static final boolean DEBUG = false;
     ChallengesAddon addon;
+    YamlConfiguration chal;
 
     public FreshSqueezedChallenges(ChallengesAddon challengesAddon) {
         this.addon = challengesAddon;
-        makeChallenges();
-        addon.getChallengesManager().save(true);
-    }
-
-    /**
-     * Makes the level 1 challenges
-     */
-    private void makeChallenges() {
         File challengeFile = new File(addon.getDataFolder(), "challenges.yml");
         if (!challengeFile.exists()) {
             addon.saveResource("challenges.yml",false);
         }
-        YamlConfiguration chal = new YamlConfiguration();
+        chal = new YamlConfiguration();
         try {
             chal.load(challengeFile);
         } catch (IOException | InvalidConfigurationException e) {
             addon.getLogger().severe("Could not set up initial challenges");
         }
+        makeLevels();
+        makeChallenges();
+        addon.getChallengesManager().save(true);
+    }
+
+    private void makeLevels() {
+        // Parse the levels
+        String levels = chal.getString("challenges.levels", "");
+        if (!levels.isEmpty()) {
+            String[] lvs = levels.split(" ");
+            int order = 0;
+            for (String level : lvs) {
+                ChallengeLevels challengeLevel = new ChallengeLevels();
+                challengeLevel.setFriendlyName(level);
+                challengeLevel.setUniqueId(level);
+                challengeLevel.setOrder(order++);
+                challengeLevel.setWaiveramount(chal.getInt("challenges.waiveramount"));
+                // Check if there is a level reward
+                ConfigurationSection unlock = chal.getConfigurationSection("challenges.levelUnlock." + level);
+                if (unlock != null) {
+                    challengeLevel.setUnlockMessage(unlock.getString("message"));
+                    challengeLevel.setRewardDescription(unlock.getString("rewardDesc",""));
+                    challengeLevel.setRewardItems(parseItems(unlock.getString("itemReward","")));
+                    challengeLevel.setMoneyReward(unlock.getInt("moneyReward"));
+                    challengeLevel.setExpReward(unlock.getInt("expReward"));
+                    challengeLevel.setRewardCommands(unlock.getStringList("commands"));
+                }
+                addon.getChallengesManager().storeLevel(challengeLevel);
+            }
+        }        
+    }
+
+    /**
+     * Imports challenges
+     */
+    private void makeChallenges() {
         // Parse the challenge file
         ConfigurationSection chals = chal.getConfigurationSection("challenges.challengeList");
         for (String challenge : chals.getKeys(false)) {

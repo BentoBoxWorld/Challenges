@@ -44,51 +44,26 @@ public class ChallengesManager {
         load();
     }
 
-    /**
-     * Check if a challenge exists - case insensitive
-     * @param name - name of challenge
-     * @return true if it exists, otherwise false
-     */
-    public boolean isChallenge(String name) {
-        for (Set<Challenges> ch : challengeList.values())  {
-            if (ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst().isPresent()) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Get challenge by name
-     * @param name - unique name of challenge
-     * @return - challenge or null if it does not exist
-     */
-    public Challenges getChallenge(String name) {
-        for (Set<Challenges> ch : challengeList.values())  {
-            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst();
-            if (challenge.isPresent()) {
-                return challenge.get();
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Get the list of all challenge unique names.
-     * Used for checking admin commands and tab complete
-     * @return List of challenge names
-     */
-    public List<String> getAllChallengesList() {
-        List<String> result = new ArrayList<>();
-        challengeList.values().forEach(ch -> ch.forEach(c -> result.add(c.getUniqueId())));
-        return result;
-    }
-    
     public long checkChallengeTimes(User user, Challenges challenge) {
         // TODO Auto-generated method stub
         return 0;
     }
-
+    
+    /**
+     * Creates a simple example description of the requirements
+     * @param user - user of this command
+     * @param requiredItems - list of items
+     * @return Description list
+     */
+    private List<String> createDescription(User user, List<ItemStack> requiredItems) {
+        List<String> result = new ArrayList<>();
+        result.add(user.getTranslation("challenges.admin.create.description"));
+        for (ItemStack item : requiredItems) {
+            result.add(user.getTranslation("challenges.admin.create.description-item-color") + item.getAmount() + " x " + Util.prettifyText(item.getType().toString()));
+        }
+        return result;
+    }
+    
     /**
      * Creates an inventory challenge
      * @param user - the user who is making the challenge
@@ -136,21 +111,6 @@ public class ChallengesManager {
     }
     
     /**
-     * Creates a simple example description of the requirements
-     * @param user - user of this command
-     * @param requiredItems - list of items
-     * @return Description list
-     */
-    private List<String> createDescription(User user, List<ItemStack> requiredItems) {
-        List<String> result = new ArrayList<>();
-        result.add(user.getTranslation("challenges.admin.create.description"));
-        for (ItemStack item : requiredItems) {
-            result.add(user.getTranslation("challenges.admin.create.description-item-color") + item.getAmount() + " x " + Util.prettifyText(item.getType().toString()));
-        }
-        return result;
-    }
-
-    /**
      * Create a surrounding challenge
      * @param challengeInfo - info on the challenge from the builder
      * @return true if successful, false if not
@@ -179,6 +139,32 @@ public class ChallengesManager {
     }
 
     /**
+     * Get the list of all challenge unique names.
+     * Used for checking admin commands and tab complete
+     * @return List of challenge names
+     */
+    public List<String> getAllChallengesList() {
+        List<String> result = new ArrayList<>();
+        challengeList.values().forEach(ch -> ch.forEach(c -> result.add(c.getUniqueId())));
+        return result;
+    }
+    
+    /**
+     * Get challenge by name
+     * @param name - unique name of challenge
+     * @return - challenge or null if it does not exist
+     */
+    public Challenges getChallenge(String name) {
+        for (Set<Challenges> ch : challengeList.values())  {
+            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst();
+            if (challenge.isPresent()) {
+                return challenge.get();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get the status on every level
      * @param user
      * @return Level name, how many challenges still to do on which level
@@ -192,6 +178,13 @@ public class ChallengesManager {
             result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
         }
         return result;
+    }
+
+    /**
+     * @return the challengeList
+     */
+    public LinkedHashMap<ChallengeLevels, Set<Challenges>> getChallengeList() {
+        return challengeList;
     }
 
     /**
@@ -227,6 +220,20 @@ public class ChallengesManager {
     }
 
     /**
+     * Check if a challenge exists - case insensitive
+     * @param name - name of challenge
+     * @return true if it exists, otherwise false
+     */
+    public boolean isChallenge(String name) {
+        for (Set<Challenges> ch : challengeList.values())  {
+            if (ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst().isPresent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks if a challenge is complete or not
      * @param uniqueId - unique ID - player's UUID
      * @param uniqueId2 - Challenge id
@@ -235,6 +242,14 @@ public class ChallengesManager {
     public boolean isChallengeComplete(User user, String uniqueId2) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /**
+     * Checks number of challenges
+     * @return true if no challenges
+     */
+    public boolean isFirstTime() {
+        return challengeList.isEmpty();
     }
 
     public boolean isLevelAvailable(User user, String level) {
@@ -259,6 +274,42 @@ public class ChallengesManager {
             storeChallenge(challenge);
         }
         sortChallenges();
+    }
+    
+    private void save() {
+        challengeList.entrySet().forEach(en -> {
+            lvConfig.saveConfigObject(en.getKey());
+            en.getValue().forEach(chConfig::saveConfigObject);
+        });
+    }
+
+    /**
+     * Save to the database
+     * @param async - if true, saving will be done async
+     */
+    public void save(boolean async) {
+        if (async) {
+            BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), () -> save());
+        } else {
+            save();
+        }
+    }
+
+    /**
+     * Sets the challenge as complete and increments the number of times it has been completed
+     * @param user
+     * @param uniqueId
+     */
+    public void setChallengeComplete(User user, String uniqueId) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * @param challengeList the challengeList to set
+     */
+    public void setChallengeList(LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList) {
+        this.challengeList = challengeList;
     }
 
     public void sortChallenges() {
@@ -304,55 +355,12 @@ public class ChallengesManager {
         }
     }
 
-    private void save() {
-        challengeList.entrySet().forEach(en -> {
-            lvConfig.saveConfigObject(en.getKey());
-            en.getValue().forEach(chConfig::saveConfigObject);
-        });
-    }
-
     /**
-     * Save to the database
-     * @param async - if true, saving will be done async
+     * Store a challenge level
+     * @param level the challenge level
      */
-    public void save(boolean async) {
-        if (async) {
-            BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), () -> save());
-        } else {
-            save();
-        }
-    }
-
-    /**
-     * Sets the challenge as complete and increments the number of times it has been completed
-     * @param user
-     * @param uniqueId
-     */
-    public void setChallengeComplete(User user, String uniqueId) {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
-     * Checks number of challenges
-     * @return true if no challenges
-     */
-    public boolean isFirstTime() {
-        return challengeList.isEmpty();
-    }
-
-    /**
-     * @return the challengeList
-     */
-    public LinkedHashMap<ChallengeLevels, Set<Challenges>> getChallengeList() {
-        return challengeList;
-    }
-
-    /**
-     * @param challengeList the challengeList to set
-     */
-    public void setChallengeList(LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList) {
-        this.challengeList = challengeList;
+    public void storeLevel(ChallengeLevels level) {
+        lvConfig.saveConfigObject(level);
     }
 
 }

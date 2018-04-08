@@ -3,32 +3,49 @@ package bskyblock.addon.challenges.database.object;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.inventory.ItemStack;
+
 import bskyblock.addon.challenges.ChallengesManager;
+import us.tastybento.bskyblock.api.configuration.ConfigComment;
 import us.tastybento.bskyblock.database.objects.DataObject;
 
+/**
+ * Represent a challenge level
+ * @author tastybento
+ *
+ */
 public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> {
 
-    /**
-     * A friendly name for the level. If blank, level name is used.
-     */
+
+    @ConfigComment("A friendly name for the level. If blank, level name is used.")
     private String friendlyName = "";
-    /**
-     * Commands to run when this level is completed
-     */
+
+    @ConfigComment("Commands to run when this level is completed")
     private List<String> rewardCommands = new ArrayList<>();
-    /**
-     * Level name
-     */
+    
+    @ConfigComment("Level name")
     private String uniqueId = ChallengesManager.FREE;
-    /**
-     * The number of undone challenges that can be left on this level before unlocking next level
-     */
+    
+    @ConfigComment("The number of undone challenges that can be left on this level before unlocking next level")
     private int waiveramount = 1;
     
-    /**
-     * The ordering of the levels, lowest to highest
-     */
+    @ConfigComment("The ordering of the levels, lowest to highest")
     private int order = 0;
+    
+    @ConfigComment("The message shown when unlocking this level")
+    private String unlockMessage = "";
+    
+    @ConfigComment("Unlock reward description")
+    private String rewardDescription = "";
+    
+    @ConfigComment("List of reward itemstacks")
+    private List<ItemStack> rewardItems;
+    
+    @ConfigComment("Unlock experience reward")
+    private int expReward;
+    
+    @ConfigComment("Unlock money reward")
+    private int moneyReward;
     
     public String getFriendlyName() {
         return friendlyName;
@@ -111,6 +128,76 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the rewardDescription
+     */
+    public String getRewardDescription() {
+        return rewardDescription;
+    }
+
+    /**
+     * @param rewardDescription the rewardDescription to set
+     */
+    public void setRewardDescription(String rewardDescription) {
+        this.rewardDescription = rewardDescription;
+    }
+
+    /**
+     * @return the rewardItems
+     */
+    public List<ItemStack> getRewardItems() {
+        return rewardItems;
+    }
+
+    /**
+     * @param rewardItems the rewardItems to set
+     */
+    public void setRewardItems(List<ItemStack> rewardItems) {
+        this.rewardItems = rewardItems;
+    }
+
+    /**
+     * @return the expReward
+     */
+    public int getExpReward() {
+        return expReward;
+    }
+
+    /**
+     * @param expReward the expReward to set
+     */
+    public void setExpReward(int expReward) {
+        this.expReward = expReward;
+    }
+
+    /**
+     * @return the moneyReward
+     */
+    public int getMoneyReward() {
+        return moneyReward;
+    }
+
+    /**
+     * @param moneyReward the moneyReward to set
+     */
+    public void setMoneyReward(int moneyReward) {
+        this.moneyReward = moneyReward;
+    }
+
+    /**
+     * @return the unlockMessage
+     */
+    public String getUnlockMessage() {
+        return unlockMessage;
+    }
+
+    /**
+     * @param unlockMessage the unlockMessage to set
+     */
+    public void setUnlockMessage(String unlockMessage) {
+        this.unlockMessage = unlockMessage;
     }
     
 }

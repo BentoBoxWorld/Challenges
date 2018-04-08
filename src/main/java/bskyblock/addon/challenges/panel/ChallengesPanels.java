@@ -35,6 +35,7 @@ public class ChallengesPanels {
      * @return
      */
     public void getChallenges(User user) {
+        // Get the challenge level this player is on
         getChallenges(user, "");
     }
 
