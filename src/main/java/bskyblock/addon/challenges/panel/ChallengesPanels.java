@@ -1,18 +1,16 @@
 package bskyblock.addon.challenges.panel;
 
-import java.util.Arrays;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.ChallengesManager;
 import bskyblock.addon.challenges.LevelStatus;
+import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
-import us.tastybento.bskyblock.api.panels.ClickType;
 import us.tastybento.bskyblock.api.panels.Panel;
 import us.tastybento.bskyblock.api.panels.PanelItem;
 import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
@@ -21,7 +19,6 @@ import us.tastybento.bskyblock.api.user.User;
 
 
 public class ChallengesPanels {
-    private static final boolean DEBUG = true;
     private ChallengesAddon addon;
     private ChallengesManager manager;
 
@@ -44,107 +41,105 @@ public class ChallengesPanels {
      * level
      */
     public void getChallenges(User user, String level) {
-        addon.getLogger().info("DEBUG: level requested = " + level);
+        if (manager.getChallengeList().isEmpty()) {
+            addon.getLogger().severe("There are no challenges set up!");
+            user.sendMessage("general.errors.general");
+            return;
+        }
+        if (level.isEmpty()) {
+            level = manager.getChallengeList().keySet().iterator().next().getUniqueId(); 
+        }
+        // Check if level is valid
+        if (!manager.isLevelUnlocked(user, level)) {
+            return;
+        }
         PanelBuilder panelBuilder = new PanelBuilder()
-                .name(user.getTranslation("challenges.guiTitle"));
+                .name(user.getTranslation("challenges.gui-title"));
 
         addChallengeItems(panelBuilder, user, level);
-        addFreeChallanges(panelBuilder);
-        addNavigation(panelBuilder, user);
+        addNavigation(panelBuilder, user, level);
+        addFreeChallanges(panelBuilder, user);
 
         // Create the panel
-        addon.getLogger().info("DEBUG: panel created");
         Panel panel = panelBuilder.build();
         panel.open(user);
     }
 
-    private void addFreeChallanges(PanelBuilder panelBuilder) {
-        /*
-        // Add the free challenges if not already shown (which can happen if all of the challenges are done!)
-        if (!level.equals("") && challengeList.containsKey("")) {
-            for (String freeChallenges: challengeList.get("")) {
-                CPItem item = createItem(freeChallenges, player);
-                if (item != null) {
-                    cp.add(item);
-                } 
-            }
-        }*/
+    private void addFreeChallanges(PanelBuilder panelBuilder, User user) {
+        manager.getChallenges(ChallengesManager.FREE).forEach(challenge -> createItem(panelBuilder, challenge, user));
+    }
 
+
+    /**
+     * Creates a panel item for challenge if appropriate and adds it to panelBuilder
+     * @param panelBuilder
+     * @param challenge
+     * @param user
+     */
+    private void createItem(PanelBuilder panelBuilder, Challenges challenge, User user) {
+        // Check completion
+        boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId());
+        // If challenge is removed after completion, remove it
+        if (completed && challenge.isRemoveWhenCompleted()) {
+            return;
+        }
+        PanelItem item = new PanelItemBuilder()
+                .icon(challenge.getIcon())
+                .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
+                .description(challenge.getDescription())
+                .glow(completed)
+                .clickHandler((player,c) -> {
+                    if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
+                        new TryToComplete(addon, player, manager, challenge);
+                    }
+                    return true;
+                })
+                .build();
+        if (challenge.getSlot() >= 0) {
+            panelBuilder.item(challenge.getSlot(),item);
+        } else {
+            panelBuilder.item(item);
+        }
     }
 
     private void addChallengeItems(PanelBuilder panelBuilder, User user, String level) {
-
         Set<Challenges> levelChallenges = manager.getChallenges(level);
-        // Do some checking
-        if (DEBUG)
-            addon.getLogger().info("DEBUG: Opening level " + level + " with " + levelChallenges.size() + " challenges");
-
         // Only show a control panel for the level requested.
         for (Challenges challenge : levelChallenges) {
-            addon.getLogger().info("DEBUG: Adding challenge " + challenge.getUniqueId());
-            // Check completion
-            boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId());
-            addon.getLogger().info("DEBUG: challenge completed = " + completed);
-            // If challenge is removed after completion, remove it
-            if (completed && challenge.isRemoveWhenCompleted()) {
-                addon.getLogger().info("DEBUG: ignored completed");
-                continue;
-            }
-            PanelItem item = new PanelItemBuilder()
-                    .icon(challenge.getIcon())
-                    .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
-                    .description(challenge.getDescription())
-                    .glow(completed)
-                    .clickHandler(new PanelItem.ClickHandler() {
-                        @Override
-                        public boolean onClick(User user, ClickType click) {
-                            if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                                new TryToComplete(addon, user, manager, challenge);
-                            }
-                            return true;
-                        }
-                    })
-                    .build();
-            addon.getLogger().info("requested slot" + challenge.getSlot());
-            if (challenge.getSlot() >= 0) {
-                panelBuilder.item(challenge.getSlot(),item);
-            } else {
-                panelBuilder.item(item);
-            }
+            createItem(panelBuilder, challenge, user);
         }
-
-
     }
 
-    private void addNavigation(PanelBuilder panelBuilder, User user) {
-        // TODO Auto-generated method stub
+    private void addNavigation(PanelBuilder panelBuilder, User user, String level) {
         // Add navigation to other levels
         for (LevelStatus status: manager.getChallengeLevelStatus(user)) {
-            String name = ChatColor.GOLD + (status.getLevel().getFriendlyName().isEmpty() ? status.getLevel().getUniqueId() : status.getLevel().getFriendlyName());
-            if (status.isComplete() || status.getPreviousLevel() == null) {
+            if (status.getLevel().getUniqueId().equals(level)) {
+                // Skip if this is the current level
+                continue;
+            }
+            // Create a nice name for the level
+            String name = status.getLevel().getFriendlyName().isEmpty() ? status.getLevel().getUniqueId() : status.getLevel().getFriendlyName();
+
+            if (status.isUnlocked()) {
                 // Clicking on this icon will open up this level's challenges
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK_AND_QUILL))
                         .name(name)
-                        .description(Arrays.asList(user.getTranslation("challenges.navigation","[level]",name)))
-                        .clickHandler(new PanelItem.ClickHandler() {
-
-                            @Override
-                            public boolean onClick(User user, ClickType click) {
-                                // TODO Auto-generated method stub
-                                return false;
-                            }
+                        .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
+                        .clickHandler((u, c) -> {
+                            u.closeInventory();
+                            u.performCommand(ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
+                            return true;
                         })
-                        //.setCommand(CHALLENGE_COMMAND + " c " + status.getLevel().getUniqueId())
                         .build();
                 panelBuilder.item(item);
             } else {
                 // Clicking on this icon will do nothing because the challenge is not unlocked yet
-                String previousLevelName = ChatColor.GOLD + (status.getPreviousLevel().getFriendlyName().isEmpty() ? status.getPreviousLevel().getUniqueId() : status.getPreviousLevel().getFriendlyName());
+                String previousLevelName = status.getPreviousLevel().getFriendlyName().isEmpty() ? status.getPreviousLevel().getUniqueId() : status.getPreviousLevel().getFriendlyName();
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(Arrays.asList(user.getTranslation("challenges.toComplete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
+                        .description(manager.stringSplit(user.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.item(item);
             }

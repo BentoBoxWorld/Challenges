@@ -75,15 +75,14 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public boolean onPlayerInteract(PlayerInteractEvent e) {
-        if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            if (inProgress.containsKey(e.getPlayer().getUniqueId())) {
-                // Prevent damage
-                e.setCancelled(true);
-                inProgress.get(e.getPlayer().getUniqueId()).addBlock(e.getClickedBlock().getType());
-                User.getInstance(e.getPlayer()).sendMessage("challenges.admin.you-added", "[thing]", Util.prettifyText(e.getClickedBlock().getType().toString()));
-                return true;
-            }
+        if (e.getAction().equals(Action.LEFT_CLICK_BLOCK) && inProgress.containsKey(e.getPlayer().getUniqueId())) {
+            // Prevent damage
+            e.setCancelled(true);
+            inProgress.get(e.getPlayer().getUniqueId()).addBlock(e.getClickedBlock().getType());
+            User.getInstance(e.getPlayer()).sendMessage("challenges.admin.you-added", "[thing]", Util.prettifyText(e.getClickedBlock().getType().toString()));
+            return true;
         }
+
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             return finished(e, e.getPlayer().getUniqueId());
         }
@@ -107,7 +106,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     public boolean onPlayerInteract(PlayerInteractAtEntityEvent e) {
         return finished(e, e.getPlayer().getUniqueId());
     }
-    
+
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public boolean onLeft(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player)) {
@@ -123,6 +122,6 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
         }
         return false;
     }
-    
+
 
 }

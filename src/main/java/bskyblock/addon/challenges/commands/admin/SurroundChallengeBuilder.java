@@ -1,6 +1,6 @@
 package bskyblock.addon.challenges.commands.admin;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.bukkit.Material;
@@ -18,8 +18,8 @@ public class SurroundChallengeBuilder {
     private ChallengesAddon addon;
     private String name;
     private User owner;
-    private Map<Material, Integer> reqBlocks = new HashMap<>();
-    private Map<EntityType, Integer> reqEntities = new HashMap<>();
+    private Map<Material, Integer> reqBlocks = new EnumMap<>(Material.class);
+    private Map<EntityType, Integer> reqEntities = new EnumMap<>(EntityType.class);
 
     public SurroundChallengeBuilder(ChallengesAddon addon) {
         this.addon = addon;

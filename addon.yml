@@ -5,7 +5,7 @@ version: 0.1
 authors: tastybento
 
 permissions:    
-  bskyblock.island.challenges:
+  bskyblock.challenges:
     description: Let the player use the /challenges command
     default: true
   bskyblock.admin.challenges:

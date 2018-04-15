@@ -8,7 +8,7 @@ import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.user.User;
 
 public class ChallengesCommand extends CompositeCommand {
-    private static final String CHALLENGE_COMMAND = "challenges";
+    public static final String CHALLENGE_COMMAND = "challenges";
     private ChallengesAddon addon;
 
     public ChallengesCommand(ChallengesAddon addon) {
@@ -21,7 +21,7 @@ public class ChallengesCommand extends CompositeCommand {
     public boolean execute(User user, List<String> args) {
         // Open up the challenges GUI
         if (user.isPlayer()) {
-            addon.getChallengesManager().getChallengesPanels().getChallenges(user);
+            addon.getChallengesManager().getChallengesPanels().getChallenges(user, args.isEmpty() ? "" : args.get(0));
             return true;
         } 
         return false;
@@ -30,9 +30,9 @@ public class ChallengesCommand extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(Constants.PERMPREFIX + "challenges");
-        this.setParameters("challaneges.parameters");
-        this.setDescription("challenges.description");
+        this.setPermission(Constants.PERMPREFIX + CHALLENGE_COMMAND);
+        this.setParameters(CHALLENGE_COMMAND + ".parameters");
+        this.setDescription(CHALLENGE_COMMAND + ".description");
         this.setOnlyPlayer(true);  
     }
 

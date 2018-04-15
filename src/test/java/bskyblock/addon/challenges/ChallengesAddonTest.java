@@ -28,7 +28,9 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,6 +42,7 @@ import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
  * @author tastybento
  *
  */
+@RunWith(PowerMockRunner.class)
 public class ChallengesAddonTest {
 
     /**

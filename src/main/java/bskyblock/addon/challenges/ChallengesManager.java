@@ -1,6 +1,8 @@
 package bskyblock.addon.challenges;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,9 +10,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -20,35 +23,75 @@ import bskyblock.addon.challenges.commands.admin.SurroundChallengeBuilder;
 import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
+import bskyblock.addon.challenges.database.object.PlayerData;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
-import us.tastybento.bskyblock.BSkyBlock;
 import us.tastybento.bskyblock.api.configuration.BSBConfig;
 import us.tastybento.bskyblock.api.user.User;
+import us.tastybento.bskyblock.database.BSBdatab;
 import us.tastybento.bskyblock.util.Util;
 
 public class ChallengesManager {
 
     public static final String FREE = "Free";
-    private LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList;
+    private Map<ChallengeLevels, Set<Challenges>> challengeMap;
     private BSBConfig<Challenges> chConfig;
     private BSBConfig<ChallengeLevels> lvConfig;
+    private BSBdatab<PlayerData> players;
     private ChallengesPanels challengesPanels;
+    private Map<UUID,PlayerData> playerData;
+    private ChallengesAddon addon;
 
     public ChallengesManager(ChallengesAddon addon) {
+        this.addon = addon;
         // Set up the configs
-        chConfig = new BSBConfig<Challenges>(addon, Challenges.class);
-        lvConfig = new BSBConfig<ChallengeLevels>(addon, ChallengeLevels.class);
-        challengeList = new LinkedHashMap<>();
+        chConfig = new BSBConfig<>(addon, Challenges.class);
+        lvConfig = new BSBConfig<>(addon, ChallengeLevels.class);
+        // Players is where all the player history will be stored
+        players = new BSBdatab<>(addon, PlayerData.class);
+        // Cache of challenges
+        challengeMap = new LinkedHashMap<>();
         // Start panels
         challengesPanels = new ChallengesPanels(addon, this);
+        // Cache of player data
+        playerData = new HashMap<>();
         load();
     }
 
-    public long checkChallengeTimes(User user, Challenges challenge) {
-        // TODO Auto-generated method stub
-        return 0;
+    /**
+     * Load player from database into the cache or create new player data
+     * @param user - user to add
+     */
+    private void addPlayer(User user) {
+        if (playerData.containsKey(user.getUniqueId())) {
+            return;
+        }
+        // The player is not in the cache
+        // Check if the player exists in the database
+        if (players.objectExists(user.getUniqueId().toString())) {
+            // Load player from database
+            PlayerData data = players.loadObject(user.getUniqueId().toString());
+            // Store in cache
+            playerData.put(user.getUniqueId(), data);
+        } else {
+            // Create the player data
+            PlayerData pd = new PlayerData(user.getUniqueId().toString());
+            players.saveObject(pd);
+            // Add to cache
+            playerData.put(user.getUniqueId(), pd);
+        }
     }
-    
+
+    /**
+     * Check how many times a player has done a challenge before
+     * @param user - user
+     * @param challenge - challenge
+     * @return - number of times
+     */
+    public long checkChallengeTimes(User user, Challenges challenge) {
+        addPlayer(user);
+        return playerData.get(user.getUniqueId()).getTimes(challenge.getUniqueId());
+    }
+
     /**
      * Creates a simple example description of the requirements
      * @param user - user of this command
@@ -56,6 +99,7 @@ public class ChallengesManager {
      * @return Description list
      */
     private List<String> createDescription(User user, List<ItemStack> requiredItems) {
+        addPlayer(user);
         List<String> result = new ArrayList<>();
         result.add(user.getTranslation("challenges.admin.create.description"));
         for (ItemStack item : requiredItems) {
@@ -63,13 +107,14 @@ public class ChallengesManager {
         }
         return result;
     }
-    
+
     /**
      * Creates an inventory challenge
      * @param user - the user who is making the challenge
      * @param inventory - the inventory that will be used to make the challenge
      */
     public boolean createInvChallenge(User user, Inventory inventory) {
+        addPlayer(user);
         if (inventory.getContents().length == 0) {
             return false;
         }
@@ -95,9 +140,7 @@ public class ChallengesManager {
             if (item != null) {
                 Map<Integer, ItemStack> residual = user.getInventory().addItem(item);
                 // Drop any residual items at the foot of the player
-                residual.forEach((k, v) -> {
-                    user.getWorld().dropItem(user.getLocation(), v);
-                });
+                residual.forEach((k, v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
         });
 
@@ -109,7 +152,7 @@ public class ChallengesManager {
         user.sendRawMessage("Success");
         return true;
     }
-    
+
     /**
      * Create a surrounding challenge
      * @param challengeInfo - info on the challenge from the builder
@@ -145,17 +188,17 @@ public class ChallengesManager {
      */
     public List<String> getAllChallengesList() {
         List<String> result = new ArrayList<>();
-        challengeList.values().forEach(ch -> ch.forEach(c -> result.add(c.getUniqueId())));
+        challengeMap.values().forEach(ch -> ch.forEach(c -> result.add(c.getUniqueId())));
         return result;
     }
-    
+
     /**
      * Get challenge by name
      * @param name - unique name of challenge
      * @return - challenge or null if it does not exist
      */
     public Challenges getChallenge(String name) {
-        for (Set<Challenges> ch : challengeList.values())  {
+        for (Set<Challenges> ch : challengeMap.values())  {
             Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst();
             if (challenge.isPresent()) {
                 return challenge.get();
@@ -166,16 +209,28 @@ public class ChallengesManager {
 
     /**
      * Get the status on every level
-     * @param user
-     * @return Level name, how many challenges still to do on which level
+     * @param user - user
+     * @return Level status - how many challenges still to do on which level
      */
     public List<LevelStatus> getChallengeLevelStatus(User user) {
+        addPlayer(user);
+        PlayerData pd = playerData.get(user.getUniqueId());
         List<LevelStatus> result = new ArrayList<>();
         ChallengeLevels previousLevel = null;
-        for (Entry<ChallengeLevels, Set<Challenges>> en : challengeList.entrySet()) {
-            int challsToDo = 0; // TODO - calculate how many challenges still to do for this player
-            boolean complete = false; // TODO
-            result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete));
+        // The first level is always unlocked
+        boolean isUnlocked = true;
+        // For each challenge level, check how many the user has done
+        for (Entry<ChallengeLevels, Set<Challenges>> en : challengeMap.entrySet()) {
+            int total = challengeMap.values().size();
+            int waiverAmount = en.getKey().getWaiveramount();
+            int challengesDone = (int) en.getValue().stream().filter(ch -> pd.isChallengeDone(ch.getUniqueId())).count();
+            int challsToDo =  Math.max(0,total-challengesDone-waiverAmount);
+            boolean complete = challsToDo > 0 ? false : true;
+            // Create result class with the data
+            result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete, isUnlocked));
+            // Set up the next level for the next loop
+            previousLevel = en.getKey();
+            isUnlocked = complete;
         }
         return result;
     }
@@ -183,8 +238,8 @@ public class ChallengesManager {
     /**
      * @return the challengeList
      */
-    public LinkedHashMap<ChallengeLevels, Set<Challenges>> getChallengeList() {
-        return challengeList;
+    public Map<ChallengeLevels, Set<Challenges>> getChallengeList() {
+        return challengeMap;
     }
 
     /**
@@ -193,7 +248,8 @@ public class ChallengesManager {
      * @return the set of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
     public Set<Challenges> getChallenges(String level) {
-        return challengeList.getOrDefault(level, challengeList.isEmpty() ? new HashSet<Challenges>() : challengeList.values().iterator().next());
+        Optional<ChallengeLevels> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
+        return lv.isPresent() ? challengeMap.get(lv.get()) : new HashSet<>();
     }
 
     /**
@@ -210,7 +266,7 @@ public class ChallengesManager {
      */
     public ChallengeLevels getPreviousLevel(ChallengeLevels currentLevel) {
         ChallengeLevels result = null;
-        for (ChallengeLevels level : challengeList.keySet()) {
+        for (ChallengeLevels level : challengeMap.keySet()) {
             if (level.equals(currentLevel)) {
                 return result;
             }
@@ -225,8 +281,8 @@ public class ChallengesManager {
      * @return true if it exists, otherwise false
      */
     public boolean isChallenge(String name) {
-        for (Set<Challenges> ch : challengeList.values())  {
-            if (ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst().isPresent()) {
+        for (Set<Challenges> ch : challengeMap.values())  {
+            if (ch.stream().anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
                 return true;
             }
         }
@@ -236,30 +292,23 @@ public class ChallengesManager {
     /**
      * Checks if a challenge is complete or not
      * @param uniqueId - unique ID - player's UUID
-     * @param uniqueId2 - Challenge id
+     * @param challengeName - Challenge uniqueId
      * @return - true if completed
      */
-    public boolean isChallengeComplete(User user, String uniqueId2) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isChallengeComplete(User user, String challengeName) {
+        addPlayer(user);
+        return playerData.get(user.getUniqueId()).isChallengeDone(challengeName);
     }
 
     /**
-     * Checks number of challenges
-     * @return true if no challenges
+     * Check is user can see level
+     * @param user - user
+     * @param level - level unique id
+     * @return true if level is unlocked
      */
-    public boolean isFirstTime() {
-        return challengeList.isEmpty();
-    }
-
-    public boolean isLevelAvailable(User user, String level) {
-        // TODO
-        return false;
-    }
-
-    public boolean isLevelComplete(User user, ChallengeLevels otherLevel) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isLevelUnlocked(User user, String level) {
+        addPlayer(user);
+        return getChallengeLevelStatus(user).stream().filter(LevelStatus::isUnlocked).anyMatch(lv -> lv.getLevel().getUniqueId().equalsIgnoreCase(level));
     }
 
     /**
@@ -267,20 +316,21 @@ public class ChallengesManager {
      */
     public void load() {
         // Load the challenges
-        challengeList.clear();
-        Bukkit.getLogger().info("Loading challenges...");
-        for (Challenges challenge : chConfig.loadConfigObjects()) {
-            Bukkit.getLogger().info("Loading challenge " + challenge.getFriendlyName() + " level " + challenge.getLevel());
-            storeChallenge(challenge);
-        }
+        challengeMap.clear();
+        addon.getLogger().info("Loading challenges...");
+        chConfig.loadConfigObjects().forEach(this::storeChallenge);
         sortChallenges();
     }
-    
+
+    /**
+     * Save configs and player data
+     */
     private void save() {
-        challengeList.entrySet().forEach(en -> {
+        challengeMap.entrySet().forEach(en -> {
             lvConfig.saveConfigObject(en.getKey());
             en.getValue().forEach(chConfig::saveConfigObject);
         });
+        playerData.values().forEach(players :: saveObject);
     }
 
     /**
@@ -289,7 +339,7 @@ public class ChallengesManager {
      */
     public void save(boolean async) {
         if (async) {
-            BSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(BSkyBlock.getInstance(), () -> save());
+            addon.getServer().getScheduler().runTaskAsynchronously(addon.getBSkyBlock(), this::save);
         } else {
             save();
         }
@@ -300,21 +350,21 @@ public class ChallengesManager {
      * @param user
      * @param uniqueId
      */
-    public void setChallengeComplete(User user, String uniqueId) {
-        // TODO Auto-generated method stub
-
+    public void setChallengeComplete(User user, String challengeUniqueId) {
+        addPlayer(user);
+        playerData.get(user.getUniqueId()).setChallengeDone(challengeUniqueId);
     }
 
     /**
      * @param challengeList the challengeList to set
      */
-    public void setChallengeList(LinkedHashMap<ChallengeLevels, Set<Challenges>> challengeList) {
-        this.challengeList = challengeList;
+    public void setChallengeList(Map<ChallengeLevels, Set<Challenges>> challengeList) {
+        this.challengeMap = challengeList;
     }
 
     public void sortChallenges() {
         // Sort the challenge list into level order
-        challengeList = challengeList.entrySet().stream()
+        challengeMap = challengeMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
@@ -328,30 +378,25 @@ public class ChallengesManager {
         // See if we have this level already
         ChallengeLevels level;
         if (lvConfig.configObjectExists(challenge.getLevel())) {
-            //Bukkit.getLogger().info("DEBUG: Level contains level " + challenge.getLevel());
             // Get it from the database
             level = lvConfig.loadConfigObject(challenge.getLevel());
         } else {
-            //Bukkit.getLogger().info("DEBUG: Level does not contains level " + challenge.getLevel());
             // Make it
             level = new ChallengeLevels();
             level.setUniqueId(challenge.getLevel());
-            //Bukkit.getLogger().info("DEBUG: Level unique Id set to " + level.getUniqueId());
             lvConfig.saveConfigObject(level);
         }
-        if (challengeList.containsKey(level)) {
-            //Bukkit.getLogger().info("DEBUG: Challenge contains level " + level.getUniqueId());
+        if (challengeMap.containsKey(level)) {
             // Replace if this challenge uniqueId already exists
-            if (challengeList.get(level).contains(challenge)) {
-                challengeList.get(level).remove(challenge);
+            if (challengeMap.get(level).contains(challenge)) {
+                challengeMap.get(level).remove(challenge);
             }
-            challengeList.get(level).add(challenge);                    
+            challengeMap.get(level).add(challenge);                    
         } else {
-            //Bukkit.getLogger().info("DEBUG: No key found");
             // First challenge of this level type
             Set<Challenges> challenges = new HashSet<>();
             challenges.add(challenge);
-            challengeList.put(level, challenges);
+            challengeMap.put(level, challenges);
         }
     }
 
@@ -363,4 +408,16 @@ public class ChallengesManager {
         lvConfig.saveConfigObject(level);
     }
 
+    /**
+     * Simple splitter
+     * @param string - string to be split
+     * @return list of split strings
+     */
+    public List<String> stringSplit(String string) {
+        string = ChatColor.translateAlternateColorCodes('&', string);
+        // Check length of lines
+        List<String> result = new ArrayList<>();
+        Arrays.asList(string.split("\\|")).forEach(line -> result.addAll(Arrays.asList(WordUtils.wrap(line,25).split("\\n"))));
+        return result;
+    }
 }

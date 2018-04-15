@@ -7,6 +7,8 @@
 # Tastybento: maintainer
 
 challenges: 
+  parameters: "[Level]"
+  description: "Open the challenges menu"
   complete: "Complete"
   exp-reward: "Exp reward"
   first-time-rewards: "First time reward(s)"

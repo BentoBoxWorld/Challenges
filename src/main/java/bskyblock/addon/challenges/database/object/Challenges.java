@@ -1,14 +1,12 @@
 package bskyblock.addon.challenges.database.object;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -19,42 +17,6 @@ import us.tastybento.bskyblock.api.configuration.ConfigComment;
 import us.tastybento.bskyblock.database.objects.DataObject;
 
 public class Challenges implements DataObject {
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Challenges)) {
-            return false;
-        }
-        Challenges other = (Challenges) obj;
-        if (uniqueId == null) {
-            if (other.uniqueId != null) {
-                return false;
-            }
-        } else if (!uniqueId.equals(other.uniqueId)) {
-            return false;
-        }
-        return true;
-    }
 
     public enum ChallengeType {
         /**
@@ -109,11 +71,11 @@ public class Challenges implements DataObject {
 
     // Requirements
     @ConfigComment("This is a map of the blocks required in a SURROUNDING challenge. Material, Integer")
-    private Map<Material, Integer> requiredBlocks = new HashMap<>();
+    private Map<Material, Integer> requiredBlocks = new EnumMap<>(Material.class);
     @ConfigComment("The items that must be in the inventory to complete the challenge. ItemStack List.")
     private List<ItemStack> requiredItems = new ArrayList<>();  
     @ConfigComment("Any entities that must be in the area for SURROUNDING type challenges. Map EntityType, Number")
-    private Map<EntityType, Integer> requiredEntities = new HashMap<>();
+    private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
     @ConfigComment("Required experience")
     private int reqExp;
     @ConfigComment("Required island level for this challenge. Only works if Level Addon is being used.")
@@ -613,14 +575,39 @@ public class Challenges implements DataObject {
         this.uniqueId = uniqueId;
     }
 
-    /**
-     * Create a description from a single string
-     * Use | as new line, & as a color char
-     * @param string
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
      */
-    public void setDescription(String string) {
-        string = ChatColor.translateAlternateColorCodes('&', string);
-        this.description = Arrays.asList(string.split("\\|"));    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+        return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Challenges)) {
+            return false;
+        }
+        Challenges other = (Challenges) obj;
+        if (uniqueId == null) {
+            if (other.uniqueId != null) {
+                return false;
+            }
+        } else if (!uniqueId.equals(other.uniqueId)) {
+            return false;
+        }
+        return true;
+    }
 }

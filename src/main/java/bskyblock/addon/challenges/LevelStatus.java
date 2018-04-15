@@ -12,13 +12,22 @@ public class LevelStatus {
     private final ChallengeLevels previousLevel;
     private final int numberOfChallengesStillToDo;
     private final boolean complete;
+    private final boolean isUnlocked;
 
-    public LevelStatus(ChallengeLevels level, ChallengeLevels previousLevel, int numberOfChallengesStillToDo, boolean complete) {
+    /**
+     * @param level - level
+     * @param previousLevel - previous level
+     * @param numberOfChallengesStillToDo - number of challenges still to do on this level
+     * @param complete - whether complete or not
+     * @param isUnlocked 
+     */
+    public LevelStatus(ChallengeLevels level, ChallengeLevels previousLevel, int numberOfChallengesStillToDo, boolean complete, boolean isUnlocked) {
         super();
         this.level = level;
         this.previousLevel = previousLevel;
         this.numberOfChallengesStillToDo = numberOfChallengesStillToDo;
         this.complete = complete;
+        this.isUnlocked = isUnlocked;
     }
     /**
      * @return the level
@@ -43,6 +52,12 @@ public class LevelStatus {
      */
     public boolean isComplete() {
         return complete;
+    }
+    /**
+     * @return the isUnlocked
+     */
+    public boolean isUnlocked() {
+        return isUnlocked;
     }
 
 

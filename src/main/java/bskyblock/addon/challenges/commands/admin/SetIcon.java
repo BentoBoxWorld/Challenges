@@ -47,13 +47,13 @@ public class SetIcon extends CompositeCommand {
         ItemStack icon = user.getInventory().getItemInMainHand();
         if (args.isEmpty() || icon == null) {
             user.sendMessage("challenges.admin.seticon.description");
-            return true;
+            return false;
         }
         Challenges challenge = addon.getChallengesManager().getChallenge(args.get(0));
         // Check if this challenge name exists
         if (challenge == null) {
             user.sendMessage("challenges.admin.seticon.error.no-such-challenge");
-            return true;
+            return false;
         }
         challenge.setIcon(icon);
         user.sendMessage("general.success");

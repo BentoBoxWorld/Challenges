@@ -60,6 +60,10 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
         return uniqueId;
     }
 
+    /**
+     * Get the number of undone tasks that can be left on a level before unlocking next level
+     * @return
+     */
     public int getWaiveramount() {
         return waiveramount;
     }
@@ -93,43 +97,7 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
     public int compareTo(ChallengeLevels o) {
         return Integer.compare(this.order, o.order);
     }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof ChallengeLevels)) {
-            return false;
-        }
-        ChallengeLevels other = (ChallengeLevels) obj;
-        if (uniqueId == null) {
-            if (other.uniqueId != null) {
-                return false;
-            }
-        } else if (!uniqueId.equals(other.uniqueId)) {
-            return false;
-        }
-        return true;
-    }
-
+    
     /**
      * @return the rewardDescription
      */
@@ -198,6 +166,42 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
      */
     public void setUnlockMessage(String unlockMessage) {
         this.unlockMessage = unlockMessage;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ChallengeLevels)) {
+            return false;
+        }
+        ChallengeLevels other = (ChallengeLevels) obj;
+        if (uniqueId == null) {
+            if (other.uniqueId != null) {
+                return false;
+            }
+        } else if (!uniqueId.equals(other.uniqueId)) {
+            return false;
+        }
+        return true;
     }
     
 }

@@ -18,7 +18,9 @@ public class CreateChallengeListener implements PanelListener {
     }
 
     @Override
-    public void setup() {}
+    public void setup() {
+        // Nothing to setup
+    }
 
     @Override
     public void onInventoryClose(InventoryCloseEvent event) {
