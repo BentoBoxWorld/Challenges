@@ -87,6 +87,7 @@ public class ChallengesPanels {
                 .icon(challenge.getIcon())
                 .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
                 .description(challenge.getDescription())
+                // TODO Complete the description
                 .glow(completed)
                 .clickHandler((player,c) -> {
                     if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {

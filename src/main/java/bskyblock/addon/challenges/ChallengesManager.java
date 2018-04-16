@@ -27,7 +27,7 @@ import bskyblock.addon.challenges.database.object.PlayerData;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
 import us.tastybento.bskyblock.api.configuration.BSBConfig;
 import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.database.BSBdatab;
+import us.tastybento.bskyblock.database.BSBDatabase;
 import us.tastybento.bskyblock.util.Util;
 
 public class ChallengesManager {
@@ -36,7 +36,7 @@ public class ChallengesManager {
     private Map<ChallengeLevels, Set<Challenges>> challengeMap;
     private BSBConfig<Challenges> chConfig;
     private BSBConfig<ChallengeLevels> lvConfig;
-    private BSBdatab<PlayerData> players;
+    private BSBDatabase<PlayerData> players;
     private ChallengesPanels challengesPanels;
     private Map<UUID,PlayerData> playerData;
     private ChallengesAddon addon;
@@ -47,7 +47,7 @@ public class ChallengesManager {
         chConfig = new BSBConfig<>(addon, Challenges.class);
         lvConfig = new BSBConfig<>(addon, ChallengeLevels.class);
         // Players is where all the player history will be stored
-        players = new BSBdatab<>(addon, PlayerData.class);
+        players = new BSBDatabase<>(addon, PlayerData.class);
         // Cache of challenges
         challengeMap = new LinkedHashMap<>();
         // Start panels
