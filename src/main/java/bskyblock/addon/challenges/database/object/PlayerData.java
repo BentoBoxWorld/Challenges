@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.annotations.Expose;
+
 import us.tastybento.bskyblock.database.objects.DataObject;
 
 /**
@@ -17,12 +19,16 @@ import us.tastybento.bskyblock.database.objects.DataObject;
  */
 public class PlayerData implements DataObject {
 
+    @Expose
     private String uniqueId = "";
     /**
      * Challenge map, where key = unique challenge name and Value = number of times completed
      */
+    @Expose
     private Map<String, Integer> challengeStatus = new HashMap<>();
+    @Expose
     private Map<String, Long> challengesTimestamp = new HashMap<>();
+    @Expose
     private Set<String> levelsDone = new HashSet<>();
 
     // Required for bean instantiation
