@@ -54,7 +54,7 @@ public class ChallengesManager {
         challengesPanels = new ChallengesPanels(addon, this);
         // Cache of player data
         playerData = new HashMap<>();
-        load();
+        load();        
     }
 
     /**
