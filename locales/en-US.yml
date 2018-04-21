@@ -6,24 +6,29 @@
 ### Credits ###
 # Tastybento: maintainer
 
-challenges: 
+challenges:
+  completed-times: "Completed [donetimes] out of [maxtimes]"
+  max-reached: "Max reached [donetimes] out of [maxtimes]"
+  challenge:
+    format: "[description]"
   parameters: "[Level]"
   description: "Open the challenges menu"
-  complete: "Complete"
-  exp-reward: "Exp reward"
-  first-time-rewards: "First time reward(s)"
+  complete: "&BComplete"
+  exp-reward: "&6Exp reward: [reward]"
+  first-time-rewards: "&6First time reward(s)"
   gui-title: "BSkyBlock Challenges"
   incomplete: "Incomplete"
-  itemTakeWarning: "All required items are taken when you complete this challenge!"
-  level: "Level"
+  item-take-warning: "&cAll required items are|&ctaken when you complete|&cthis challenge!"
+  items-closeby: "&cAll required items|&cmust be close to you|&con your island!"
+  level: "&FLevel: [level]"
   max-reached: "Max reached [donetimes] out of [maxtimes]"
-  money-reward: "Money reward"
+  money-reward: "&6Money reward: $[reward]"
   name: "Challenge Name"
   name-has-completed: "[name] has completed the [challenge] challenge!"
   navigation: "Click to see [level] challenges!"
   not-repeatable: "This Challenge is not repeatable!"
-  repeat-rewards: "Repeat reward(s)"
-  rewards: "Reward(s)"
+  repeat-rewards: "&6Repeat reward(s)"
+  rewards: "&FReward(s)"
   to-complete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
   you-completed: "You completed the [challenge] challenge!"
   you-repeated: "You repeated the [challenge] challenge!"
