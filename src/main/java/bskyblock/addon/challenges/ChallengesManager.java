@@ -320,6 +320,14 @@ public class ChallengesManager {
         addon.getLogger().info("Loading challenges...");
         chConfig.loadConfigObjects().forEach(this::storeChallenge);
         sortChallenges();
+        players.loadObjects().forEach(pd -> {
+            try {
+                UUID uuid = UUID.fromString(pd.getUniqueId());
+                playerData.put(uuid,pd);
+            } catch (Exception e) {
+                addon.getLogger().severe("UUID for player in challenge data file is invalid!");
+            }
+        });
     }
 
     /**
