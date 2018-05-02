@@ -92,7 +92,7 @@ public class ChallengesPanels {
                 .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
                 .description(challengeDescription(challenge, user))
                 .glow(completed)
-                .clickHandler((player,c) -> {
+                .clickHandler((panel, player, c, s) -> {
                     if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
                         new TryToComplete(addon, player, manager, challenge);
                     }
@@ -130,7 +130,7 @@ public class ChallengesPanels {
                         .icon(new ItemStack(Material.BOOK_AND_QUILL))
                         .name(name)
                         .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
-                        .clickHandler((u, c) -> {
+                        .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
                             u.performCommand(ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
                             return true;
