@@ -141,7 +141,7 @@ public class TryToComplete {
     }
 
     private ChallengeResult checkSurrounding(User user, Challenges challenge) {
-        if (!addon.getIslands().playerIsOnIsland(user)) {
+        if (!addon.getIslands().userIsOnIsland(user)) {
             // Player is not on island
             user.sendMessage("challenges.error.not-on-island");
             return new ChallengeResult();
