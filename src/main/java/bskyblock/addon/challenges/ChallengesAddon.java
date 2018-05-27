@@ -13,37 +13,37 @@ import us.tastybento.bskyblock.api.addons.Addon;
  */
 public class ChallengesAddon extends Addon {
 
-    private ChallengesManager challengesManager;
+	private ChallengesManager challengesManager;
 
-    @Override
-    public void onEnable() {
-        // Check if it is enabled - it might be loaded, but not enabled.
-        if (getBSkyBlock() == null || !getBSkyBlock().isEnabled()) {
-            Bukkit.getLogger().severe("BSkyBlock is not available or disabled!");
-            this.setEnabled(false);
-            return;
-        }
+	@Override
+	public void onEnable() {
+		// Check if it is enabled - it might be loaded, but not enabled.
+		if (getBSkyBlock() == null || !getBSkyBlock().isEnabled()) {
+			Bukkit.getLogger().severe("BSkyBlock is not available or disabled!");
+			this.setEnabled(false);
+			return;
+		}
 
-        // Challenges Manager
-        challengesManager = new ChallengesManager(this);
-        // First time challenges creation
-        new FreshSqueezedChallenges(this);
+		// Challenges Manager
+		challengesManager = new ChallengesManager(this);
+		// First time challenges creation
+		new FreshSqueezedChallenges(this);
 
-        // Register commands
-        new ChallengesCommand(this);
-        new ChallengesAdminCommand(this);
-        // Done
-    }
+		// Register commands
+		new ChallengesCommand(this);
+		new ChallengesAdminCommand(this);
+		// Done
+	}
 
-    @Override
-    public void onDisable(){
-        if (challengesManager != null) {
-            challengesManager.save(false);
-        }
-    }
+	@Override
+	public void onDisable(){
+		if (challengesManager != null) {
+			challengesManager.save(false);
+		}
+	}
 
-    public ChallengesManager getChallengesManager() {
-        return challengesManager;
-    }
+	public ChallengesManager getChallengesManager() {
+		return challengesManager;
+	}
 
 }

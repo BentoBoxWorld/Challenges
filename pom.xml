@@ -2,12 +2,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>bskyblock.addon</groupId>
+	<artifactId>Challenges</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<powermock.version>1.7.1</powermock.version>
 	</properties>
+
 	<build>
 		<defaultGoal>clean package install</defaultGoal>
 		<resources>
@@ -28,7 +32,6 @@
 				</includes>
 			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -40,6 +43,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -50,12 +54,13 @@
 		<dependency>
 			<groupId>us.tastybento</groupId>
 			<artifactId>bskyblock</artifactId>
-			<version>LATEST</version>
+			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>bskyblock.addon</groupId>
 			<artifactId>Level</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -76,23 +81,13 @@
 			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
-	<artifactId>Challenges</artifactId>
-	<groupId>bskyblock.addons</groupId>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>bskyblock.addon</groupId>
-				<artifactId>Level</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 </project>
