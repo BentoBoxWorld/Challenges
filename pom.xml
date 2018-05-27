@@ -1,15 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>bskyblock.addon</groupId>
-	<artifactId>WelcomeWarpSigns</artifactId>
+	<artifactId>Challenges</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<powermock.version>1.7.1</powermock.version>
 	</properties>
+
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<defaultGoal>clean package install</defaultGoal>
 		<resources>
 			<resource>
@@ -29,7 +32,6 @@
 				</includes>
 			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -41,6 +43,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -51,15 +54,42 @@
 		<dependency>
 			<groupId>us.tastybento</groupId>
 			<artifactId>bskyblock</artifactId>
-			<version>LATEST</version>
+			<version>0.0.1-SNAPSHOT</version>
 			<scope>system</scope>
 			<systemPath>C:/Users/lauti/Desktop/bskyblock/target/bskyblock-alpha-0.0.1.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>bskyblock.addon</groupId>
+			<artifactId>Level</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>C:/Users/lauti/Desktop/level/target/Level-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
+
 </project>
