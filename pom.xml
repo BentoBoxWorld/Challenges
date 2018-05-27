@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>bskyblock.addon</groupId>
+	<artifactId>WelcomeWarpSigns</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<powermock.version>1.7.1</powermock.version>
 	</properties>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<defaultGoal>clean package install</defaultGoal>
 		<resources>
 			<resource>
@@ -51,32 +52,9 @@
 			<groupId>us.tastybento</groupId>
 			<artifactId>bskyblock</artifactId>
 			<version>LATEST</version>
-			<scope>provided</scope>
+			<scope>system</scope>
+			<systemPath>C:/Users/lauti/Desktop/bskyblock/target/bskyblock-alpha-0.0.1.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>bskyblock.addon</groupId>
-			<artifactId>Level</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 	<repositories>
 		<repository>
@@ -84,15 +62,4 @@
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
-	<artifactId>Challenges</artifactId>
-	<groupId>bskyblock.addons</groupId>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>bskyblock.addon</groupId>
-				<artifactId>Level</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 </project>
