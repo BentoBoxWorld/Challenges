@@ -55,15 +55,13 @@
 			<groupId>us.tastybento</groupId>
 			<artifactId>bskyblock</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>C:/Users/lauti/Desktop/bskyblock/target/bskyblock-alpha-0.0.1.jar</systemPath>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>bskyblock.addon</groupId>
 			<artifactId>Level</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>C:/Users/lauti/Desktop/level/target/Level-0.0.1-SNAPSHOT.jar</systemPath>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
