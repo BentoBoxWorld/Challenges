@@ -1,6 +1,3 @@
-/**
- * 
- */
 package bskyblock.addon.challenges.commands.admin;
 
 import java.util.List;
