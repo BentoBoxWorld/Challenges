@@ -41,6 +41,9 @@ public class Challenges implements DataObject {
     @ConfigComment("Whether this challenge is deployed or not")
     private boolean deployed;
     
+    @ConfigComment("Worlds that this challenge will run in. String list. List only overworld. Nether and end are automatically covered.")
+    private List<String> worlds = new ArrayList<>();
+    
     // Description
     @ConfigComment("Name of the icon and challenge. May include color codes. Single line.")
     private String friendlyName = "";
@@ -196,7 +199,7 @@ public class Challenges implements DataObject {
      * @return the icon
      */
     public ItemStack getIcon() {
-        return icon;
+        return icon.clone();
     }
 
     /**
@@ -557,6 +560,20 @@ public class Challenges implements DataObject {
      */
     public void setEnvironment(List<World.Environment> environment) {
         this.environment = environment;
+    }
+
+    /**
+     * @return the worlds
+     */
+    public List<String> getWorlds() {
+        return worlds;
+    }
+
+    /**
+     * @param worlds the worlds to set
+     */
+    public void setWorlds(List<String> worlds) {
+        this.worlds = worlds;
     }
 
     /**

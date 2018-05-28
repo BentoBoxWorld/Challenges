@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.user.User;
 import us.tastybento.bskyblock.util.Util;
@@ -46,7 +45,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(Constants.PERMPREFIX + "admin.challenges");
+        this.setPermission(getPermissionPrefix() + "admin.challenges");
         this.setParameters("challaneges.admin.create.surrounding.parameters");
         this.setDescription("challenges.admin.create.surrounding.description");
     }

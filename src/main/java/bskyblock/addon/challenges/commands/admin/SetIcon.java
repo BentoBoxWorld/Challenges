@@ -49,7 +49,7 @@ public class SetIcon extends CompositeCommand {
             user.sendMessage("challenges.admin.seticon.description");
             return false;
         }
-        Challenges challenge = addon.getChallengesManager().getChallenge(args.get(0));
+        Challenges challenge = addon.getChallengesManager().getChallenge(args.get(0), getWorld());
         // Check if this challenge name exists
         if (challenge == null) {
             user.sendMessage("challenges.admin.seticon.error.no-such-challenge");

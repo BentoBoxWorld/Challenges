@@ -4,7 +4,6 @@ import java.util.List;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.panel.CreateChallengeListener;
-import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
 import us.tastybento.bskyblock.api.user.User;
@@ -28,7 +27,7 @@ public class CreateChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(Constants.PERMPREFIX + "admin.challenges");
+        this.setPermission(getPermissionPrefix() + "admin.challenges");
         this.setParameters("challaneges.admin.create.parameters");
         this.setDescription("challenges.admin.create.description");
 

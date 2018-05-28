@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,8 +51,6 @@ public class ChallengesManager {
         players = new BSBDatabase<>(addon, PlayerData.class);
         // Cache of challenges
         challengeMap = new LinkedHashMap<>();
-        // Start panels
-        challengesPanels = new ChallengesPanels(addon, this);
         // Cache of player data
         playerData = new HashMap<>();
         load();        
@@ -87,9 +86,9 @@ public class ChallengesManager {
      * @param challenge - challenge
      * @return - number of times
      */
-    public long checkChallengeTimes(User user, Challenges challenge) {
+    public long checkChallengeTimes(User user, Challenges challenge, World world) {
         addPlayer(user);
-        return playerData.get(user.getUniqueId()).getTimes(challenge.getUniqueId());
+        return playerData.get(user.getUniqueId()).getTimes(world, challenge.getUniqueId());
     }
 
     /**
@@ -195,11 +194,13 @@ public class ChallengesManager {
     /**
      * Get challenge by name
      * @param name - unique name of challenge
+     * @param world - world to check
      * @return - challenge or null if it does not exist
      */
-    public Challenges getChallenge(String name) {
+    public Challenges getChallenge(String name, World world) {       
+        String worldName = Util.getWorld(world).getName();
         for (Set<Challenges> ch : challengeMap.values())  {
-            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(name)).findFirst();
+            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(worldName + name)).findFirst();
             if (challenge.isPresent()) {
                 return challenge.get();
             }
@@ -210,9 +211,10 @@ public class ChallengesManager {
     /**
      * Get the status on every level
      * @param user - user
+     * @param world - world to check
      * @return Level status - how many challenges still to do on which level
      */
-    public List<LevelStatus> getChallengeLevelStatus(User user) {
+    public List<LevelStatus> getChallengeLevelStatus(User user, World world) {
         addPlayer(user);
         PlayerData pd = playerData.get(user.getUniqueId());
         List<LevelStatus> result = new ArrayList<>();
@@ -223,7 +225,7 @@ public class ChallengesManager {
         for (Entry<ChallengeLevels, Set<Challenges>> en : challengeMap.entrySet()) {
             int total = challengeMap.values().size();
             int waiverAmount = en.getKey().getWaiveramount();
-            int challengesDone = (int) en.getValue().stream().filter(ch -> pd.isChallengeDone(ch.getUniqueId())).count();
+            int challengesDone = (int) en.getValue().stream().filter(ch -> pd.isChallengeDone(world, ch.getUniqueId())).count();
             int challsToDo =  Math.max(0,total-challengesDone-waiverAmount);
             boolean complete = challsToDo > 0 ? false : true;
             // Create result class with the data
@@ -236,20 +238,27 @@ public class ChallengesManager {
     }
 
     /**
+     * Get the challenge list
      * @return the challengeList
      */
     public Map<ChallengeLevels, Set<Challenges>> getChallengeList() {
+        // TODO return the challenges for world
         return challengeMap;
     }
 
     /**
-     * Get the set of challenges for this level
+     * Get the set of challenges for this level for this world
      * @param level - the level required
+     * @param world 
      * @return the set of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
-    public Set<Challenges> getChallenges(String level) {
+    public Set<Challenges> getChallenges(String level, World world) {
+        String worldName = Util.getWorld(world).getName();
         Optional<ChallengeLevels> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
-        return lv.isPresent() ? challengeMap.get(lv.get()) : new HashSet<>();
+        // Get the challenges applicable to this world
+        return lv.isPresent() ? challengeMap.get(lv.get()).stream()
+                .filter(c -> c.getWorlds().contains(worldName) || c.getWorlds().isEmpty()).collect(Collectors.toSet()) 
+                : new HashSet<>();
     }
 
     /**
@@ -295,9 +304,9 @@ public class ChallengesManager {
      * @param challengeName - Challenge uniqueId
      * @return - true if completed
      */
-    public boolean isChallengeComplete(User user, String challengeName) {
+    public boolean isChallengeComplete(User user, String challengeName, World world) {
         addPlayer(user);
-        return playerData.get(user.getUniqueId()).isChallengeDone(challengeName);
+        return playerData.get(user.getUniqueId()).isChallengeDone(world, challengeName);
     }
 
     /**
@@ -306,9 +315,9 @@ public class ChallengesManager {
      * @param level - level unique id
      * @return true if level is unlocked
      */
-    public boolean isLevelUnlocked(User user, String level) {
+    public boolean isLevelUnlocked(User user, String level, World world) {
         addPlayer(user);
-        return getChallengeLevelStatus(user).stream().filter(LevelStatus::isUnlocked).anyMatch(lv -> lv.getLevel().getUniqueId().equalsIgnoreCase(level));
+        return getChallengeLevelStatus(user, world).stream().filter(LevelStatus::isUnlocked).anyMatch(lv -> lv.getLevel().getUniqueId().equalsIgnoreCase(level));
     }
 
     /**
@@ -355,12 +364,13 @@ public class ChallengesManager {
 
     /**
      * Sets the challenge as complete and increments the number of times it has been completed
-     * @param user
-     * @param uniqueId
+     * @param user - user
+     * @param challengeUniqueId - unique challenge id
+     * @param world - world to set
      */
-    public void setChallengeComplete(User user, String challengeUniqueId) {
+    public void setChallengeComplete(User user, String challengeUniqueId, World world) {
         addPlayer(user);
-        playerData.get(user.getUniqueId()).setChallengeDone(challengeUniqueId);
+        playerData.get(user.getUniqueId()).setChallengeDone(world, challengeUniqueId);
     }
 
     /**

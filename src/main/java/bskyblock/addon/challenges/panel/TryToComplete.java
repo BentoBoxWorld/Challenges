@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -19,7 +20,6 @@ import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.level.Level;
-import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.user.User;
 import us.tastybento.bskyblock.util.Util;
 
@@ -31,22 +31,30 @@ import us.tastybento.bskyblock.util.Util;
 public class TryToComplete {
 
     private ChallengesAddon addon;
+    private World world;
+    private String permPrefix;
+    private User user;
+    private ChallengesManager manager;
+    private Challenges challenge;
 
     /**
      * @param addon
      * @param user
      * @param manager
      * @param challenge
+     * @param world
+     * @param permPrefix
      */
-    public TryToComplete(ChallengesAddon addon, User user, ChallengesManager manager, Challenges challenge) {
+    public TryToComplete(ChallengesAddon addon, User user, ChallengesManager manager, Challenges challenge, World world, String permPrefix, String label) {
         this.addon = addon;
-        // Check if user is in the worlds
-        if (!Util.inWorld(user.getLocation())) {
-            user.sendMessage("general.errors.wrong-world");
-            return;
-        }
+        this.world = world;
+        this.permPrefix = permPrefix;
+        this.user = user;
+        this.manager = manager;
+        this.challenge = challenge;
+        
         // Check if can complete challenge
-        ChallengeResult result = checkIfCanCompleteChallenge(user, manager, challenge);
+        ChallengeResult result = checkIfCanCompleteChallenge();
         if (!result.meetsRequirements) {
             return;
         }
@@ -60,7 +68,7 @@ public class TryToComplete {
             // Give exp
             user.getPlayer().giveExp(challenge.getExpReward());
             // Run commands
-            runCommands(user, challenge.getRewardCommands());
+            runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
         } else {
             // Give rewards
@@ -72,31 +80,31 @@ public class TryToComplete {
             // Give exp
             user.getPlayer().giveExp(challenge.getRepeatExpReward());
             // Run commands
-            runCommands(user, challenge.getRepeatRewardCommands());
+            runCommands(challenge.getRepeatRewardCommands());
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
         }
         // Mark as complete
-        manager.setChallengeComplete(user, challenge.getUniqueId());
+        manager.setChallengeComplete(user, challenge.getUniqueId(), world);
         user.closeInventory();
-        user.getPlayer().performCommand(ChallengesCommand.CHALLENGE_COMMAND + " " + challenge.getLevel());
+        user.getPlayer().performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + challenge.getLevel());
     }
 
     /**
      * Checks if a challenge can be completed or not
      */
-    private ChallengeResult checkIfCanCompleteChallenge(User user, ChallengesManager manager, Challenges challenge) {
+    private ChallengeResult checkIfCanCompleteChallenge() {
         // Check if user has the 
-        if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, challenge.getLevel())) {
+        if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, challenge.getLevel(), world)) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
             return new ChallengeResult();
         }
         // Check max times
-        if (challenge.isRepeatable() && challenge.getMaxTimes() > 0 && manager.checkChallengeTimes(user, challenge) >= challenge.getMaxTimes()) {
+        if (challenge.isRepeatable() && challenge.getMaxTimes() > 0 && manager.checkChallengeTimes(user, challenge, world) >= challenge.getMaxTimes()) {
             user.sendMessage("challenges.not-repeatable");
             return new ChallengeResult();
         }
         // Check repeatability
-        if (manager.isChallengeComplete(user, challenge.getUniqueId()) 
+        if (manager.isChallengeComplete(user, challenge.getUniqueId(), world) 
                 && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.LEVEL)
                         || challenge.getChallengeType().equals(ChallengeType.ISLAND))) {
             user.sendMessage("challenges.not-repeatable");
@@ -104,17 +112,17 @@ public class TryToComplete {
         }
         switch (challenge.getChallengeType()) {
         case INVENTORY:
-            return checkInventory(user, manager, challenge);
+            return checkInventory();
         case LEVEL:
-            return checkLevel(user, challenge);
+            return checkLevel();
         case ISLAND:
-            return checkSurrounding(user, challenge);
+            return checkSurrounding();
         default:
             return new ChallengeResult();
         }
     }
 
-    private ChallengeResult checkInventory(User user, ChallengesManager manager, Challenges challenge) {
+    private ChallengeResult checkInventory() {
         // Run through inventory
         List<ItemStack> required = new ArrayList<>(challenge.getRequiredItems());
         for (ItemStack req : required) {
@@ -130,32 +138,32 @@ public class TryToComplete {
                 user.getInventory().removeItem(items);
             }
         }
-        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId()));
+        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
     }
 
-    private ChallengeResult checkLevel(User user, Challenges challenge) {
+    private ChallengeResult checkLevel() {
         // Check if the level addon is installed or not
         return addon.getAddonByName("BSkyBlock-Level")
-                .map(l -> ((Level)l).getIslandLevel(user.getUniqueId()) >= challenge.getReqIslandlevel() ? new ChallengeResult().setMeetsRequirements() : new ChallengeResult()
+                .map(l -> ((Level)l).getIslandLevel(world, user.getUniqueId()) >= challenge.getReqIslandlevel() ? new ChallengeResult().setMeetsRequirements() : new ChallengeResult()
                         ).orElse(new ChallengeResult());
     }
 
-    private ChallengeResult checkSurrounding(User user, Challenges challenge) {
-        if (!addon.getIslands().userIsOnIsland(user)) {
+    private ChallengeResult checkSurrounding() {
+        if (!addon.getIslands().userIsOnIsland(world, user)) {
             // Player is not on island
             user.sendMessage("challenges.error.not-on-island");
             return new ChallengeResult();
         }
         // Check for items or entities in the area
-        ChallengeResult result = searchForEntities(user, challenge.getRequiredEntities(), challenge.getSearchRadius());
+        ChallengeResult result = searchForEntities(challenge.getRequiredEntities(), challenge.getSearchRadius());
         if (result.meetsRequirements) {
             // Search for items only if entities found
-            result = searchForBlocks(user, challenge.getRequiredBlocks(), challenge.getSearchRadius());
+            result = searchForBlocks(challenge.getRequiredBlocks(), challenge.getSearchRadius());
         }
         return result;
     }
 
-    private ChallengeResult searchForBlocks(User user, Map<Material, Integer> map, int searchRadius) {
+    private ChallengeResult searchForBlocks(Map<Material, Integer> map, int searchRadius) {
         Map<Material, Integer> blocks = new EnumMap<>(map);
         for (int x = -searchRadius; x <= searchRadius; x++) {
             for (int y = -searchRadius; y <= searchRadius; y++) {
@@ -179,7 +187,7 @@ public class TryToComplete {
         return new ChallengeResult();
     }
 
-    private ChallengeResult searchForEntities(User user, Map<EntityType, Integer> map, int searchRadius) {
+    private ChallengeResult searchForEntities(Map<EntityType, Integer> map, int searchRadius) {
         Map<EntityType, Integer> entities = new EnumMap<>(map);
         user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
             // Look through all the nearby Entities, filtering by type
@@ -221,18 +229,18 @@ public class TryToComplete {
 
     }
 
-    private void runCommands(User player, List<String> commands) {
+    private void runCommands(List<String> commands) {
         // Ignore commands with this perm
-        if (player.hasPermission(Constants.PERMPREFIX + "command.challengeexempt") && !player.isOp()) {
+        if (user.hasPermission(permPrefix + "command.challengeexempt") && !user.isOp()) {
             return;
         }
         for (String cmd : commands) {
             if (cmd.startsWith("[SELF]")) {
-                String alert = "Running command '" + cmd + "' as " + player.getName();
+                String alert = "Running command '" + cmd + "' as " + user.getName();
                 addon.getLogger().info(alert);
-                cmd = cmd.substring(6,cmd.length()).replace("[player]", player.getName()).trim();
+                cmd = cmd.substring(6,cmd.length()).replace("[player]", user.getName()).trim();
                 try {
-                    if (!player.performCommand(cmd)) {
+                    if (!user.performCommand(cmd)) {
                         showError(cmd);   
                     }
                 } catch (Exception e) {
@@ -243,7 +251,7 @@ public class TryToComplete {
             }
             // Substitute in any references to player
             try {
-                if (!addon.getServer().dispatchCommand(addon.getServer().getConsoleSender(), cmd.replace("[player]", player.getName()))) {
+                if (!addon.getServer().dispatchCommand(addon.getServer().getConsoleSender(), cmd.replace("[player]", user.getName()))) {
                     showError(cmd);
                 }
             } catch (Exception e) {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesAddon;
@@ -14,7 +15,6 @@ import bskyblock.addon.challenges.LevelStatus;
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
-import us.tastybento.bskyblock.Constants;
 import us.tastybento.bskyblock.api.panels.Panel;
 import us.tastybento.bskyblock.api.panels.PanelItem;
 import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
@@ -25,26 +25,20 @@ import us.tastybento.bskyblock.api.user.User;
 public class ChallengesPanels {
     private ChallengesAddon addon;
     private ChallengesManager manager;
+    private User user;
+    private String level;
+    private World world;
+    private String permPrefix;
+    private String label;
 
-    public ChallengesPanels(ChallengesAddon plugin, ChallengesManager manager){
-        this.addon = plugin;
-        this.manager = manager;
-    }
-
-    /**
-     * @param user
-     * @return
-     */
-    public void getChallenges(User user) {
-        // Get the challenge level this player is on
-        getChallenges(user, "");
-    }
-
-    /**
-     * Dynamically creates an inventory of challenges for the player showing the
-     * level
-     */
-    public void getChallenges(User user, String level) {
+    public ChallengesPanels(ChallengesAddon addon, User user, String level, World world, String permPrefix, String label) {
+        this.addon = addon;
+        this.manager = addon.getChallengesManager();
+        this.user = user;
+        this.world = world;
+        this.permPrefix = permPrefix;
+        this.label = label;
+        
         if (manager.getChallengeList().isEmpty()) {
             addon.getLogger().severe("There are no challenges set up!");
             user.sendMessage("general.errors.general");
@@ -53,24 +47,33 @@ public class ChallengesPanels {
         if (level.isEmpty()) {
             level = manager.getChallengeList().keySet().iterator().next().getUniqueId(); 
         }
+        this.level = level;
         // Check if level is valid
-        if (!manager.isLevelUnlocked(user, level)) {
+        if (!manager.isLevelUnlocked(user, level, world)) {
             return;
         }
         PanelBuilder panelBuilder = new PanelBuilder()
                 .name(user.getTranslation("challenges.gui-title"));
 
-        addChallengeItems(panelBuilder, user, level);
-        addNavigation(panelBuilder, user, level);
-        addFreeChallanges(panelBuilder, user);
+        addChallengeItems(panelBuilder);
+        addNavigation(panelBuilder);
+        addFreeChallanges(panelBuilder);
 
         // Create the panel
         Panel panel = panelBuilder.build();
         panel.open(user);
     }
 
-    private void addFreeChallanges(PanelBuilder panelBuilder, User user) {
-        manager.getChallenges(ChallengesManager.FREE).forEach(challenge -> createItem(panelBuilder, challenge, user));
+    private void addChallengeItems(PanelBuilder panelBuilder) {
+        Set<Challenges> levelChallenges = manager.getChallenges(level, world);
+        // Only show a control panel for the level requested.
+        for (Challenges challenge : levelChallenges) {
+            createItem(panelBuilder, challenge);
+        }
+    }
+    
+    private void addFreeChallanges(PanelBuilder panelBuilder) {
+        manager.getChallenges(ChallengesManager.FREE, world).forEach(challenge -> createItem(panelBuilder, challenge));
     }
 
 
@@ -80,9 +83,9 @@ public class ChallengesPanels {
      * @param challenge
      * @param user
      */
-    private void createItem(PanelBuilder panelBuilder, Challenges challenge, User user) {
+    private void createItem(PanelBuilder panelBuilder, Challenges challenge) {
         // Check completion
-        boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId());
+        boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId(), world);
         // If challenge is removed after completion, remove it
         if (completed && challenge.isRemoveWhenCompleted()) {
             return;
@@ -90,11 +93,11 @@ public class ChallengesPanels {
         PanelItem item = new PanelItemBuilder()
                 .icon(challenge.getIcon())
                 .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
-                .description(challengeDescription(challenge, user))
+                .description(challengeDescription(challenge))
                 .glow(completed)
                 .clickHandler((panel, player, c, s) -> {
                     if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                        new TryToComplete(addon, player, manager, challenge);
+                        new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
                     }
                     return true;
                 })
@@ -106,17 +109,9 @@ public class ChallengesPanels {
         }
     }
 
-    private void addChallengeItems(PanelBuilder panelBuilder, User user, String level) {
-        Set<Challenges> levelChallenges = manager.getChallenges(level);
-        // Only show a control panel for the level requested.
-        for (Challenges challenge : levelChallenges) {
-            createItem(panelBuilder, challenge, user);
-        }
-    }
-
-    private void addNavigation(PanelBuilder panelBuilder, User user, String level) {
+    private void addNavigation(PanelBuilder panelBuilder) {
         // Add navigation to other levels
-        for (LevelStatus status: manager.getChallengeLevelStatus(user)) {
+        for (LevelStatus status: manager.getChallengeLevelStatus(user, world)) {
             if (status.getLevel().getUniqueId().equals(level)) {
                 // Skip if this is the current level
                 continue;
@@ -132,7 +127,7 @@ public class ChallengesPanels {
                         .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
                         .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
-                            u.performCommand(ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
+                            u.performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
                             return true;
                         })
                         .build();
@@ -157,7 +152,7 @@ public class ChallengesPanels {
      * @param player
      * @return List of strings splitting challenge string into 25 chars long 
      */
-    private List<String> challengeDescription(Challenges challenge, User user) {
+    private List<String> challengeDescription(Challenges challenge) {
         List<String> result = new ArrayList<String>();
         String level = challenge.getLevel();
         if (!level.isEmpty()) {
@@ -165,9 +160,9 @@ public class ChallengesPanels {
         }
         // Check if completed or not
 
-        boolean complete = addon.getChallengesManager().isChallengeComplete(user, challenge.getUniqueId());
+        boolean complete = addon.getChallengesManager().isChallengeComplete(user, challenge.getUniqueId(), world);
         int maxTimes = challenge.getMaxTimes();
-        long doneTimes = addon.getChallengesManager().checkChallengeTimes(user, challenge);
+        long doneTimes = addon.getChallengesManager().checkChallengeTimes(user, challenge, world);
         if (complete) {
             result.add(user.getTranslation("challenges.complete"));
         }
@@ -227,7 +222,7 @@ public class ChallengesPanels {
             result.addAll(splitTrans(user,"challenges.money-reward", "[reward]", String.valueOf(moneyReward)));
         }
         // Final placeholder change for [label]
-        result.replaceAll(x -> x.replace("[label]", Constants.ISLANDCOMMAND));
+        result.replaceAll(x -> x.replace("[label]", label));
         return result;
     }
 

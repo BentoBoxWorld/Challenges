@@ -8,9 +8,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.World;
+
 import com.google.gson.annotations.Expose;
 
 import us.tastybento.bskyblock.database.objects.DataObject;
+import us.tastybento.bskyblock.util.Util;
 
 /**
  * Stores the player's challenge situation
@@ -38,10 +41,11 @@ public class PlayerData implements DataObject {
      * Mark a challenge as having been completed. Will increment the number of times and timestamp
      * @param challengeName - unique challenge name
      */
-    public void setChallengeDone(String challengeName) {
-        int times = challengeStatus.getOrDefault(challengeName, 0) + 1;
-        challengeStatus.put(challengeName, times);
-        challengesTimestamp.put(challengeName, System.currentTimeMillis());
+    public void setChallengeDone(World world, String challengeName) {
+        String name = Util.getWorld(world).getName() + challengeName;
+        int times = challengeStatus.getOrDefault(name, 0) + 1;
+        challengeStatus.put(name, times);
+        challengesTimestamp.put(name, System.currentTimeMillis());
     }
     
     /**
@@ -49,8 +53,8 @@ public class PlayerData implements DataObject {
      * @param challengeName - unique challenge name
      * @return true if done at least once
      */
-    public boolean isChallengeDone(String challengeName) {
-        return getTimes(challengeName) > 0 ? true : false;
+    public boolean isChallengeDone(World world, String challengeName) {
+        return getTimes(world, challengeName) > 0;
     }
     
     /**
@@ -58,8 +62,8 @@ public class PlayerData implements DataObject {
      * @param challengeName - unique challenge name
      * @return - number of times
      */
-    public int getTimes(String challengeName) {
-        return challengeStatus.getOrDefault(challengeName, 0);
+    public int getTimes(World world, String challengeName) {
+        return challengeStatus.getOrDefault(Util.getWorld(world).getName() + challengeName, 0);
     }
     
     /**
@@ -75,7 +79,6 @@ public class PlayerData implements DataObject {
      */
     @Override
     public String getUniqueId() {
-        // TODO Auto-generated method stub
         return uniqueId;
     }
 
@@ -85,7 +88,6 @@ public class PlayerData implements DataObject {
     @Override
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
-
     }
 
     /**

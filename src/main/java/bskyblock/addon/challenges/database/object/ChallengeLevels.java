@@ -19,6 +19,9 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
 
     @ConfigComment("A friendly name for the level. If blank, level name is used.")
     private String friendlyName = "";
+    
+    @ConfigComment("Worlds that this level applies in. String list.")
+    private List<String> worlds = new ArrayList<>();
 
     @ConfigComment("Commands to run when this level is completed")
     private List<String> rewardCommands = new ArrayList<>();
@@ -52,7 +55,7 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
     }
 
     public List<String> getRewardCommands() {
-        return rewardCommands;
+        return rewardCommands = new ArrayList<>();
     }
 
     @Override
@@ -166,6 +169,20 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
      */
     public void setUnlockMessage(String unlockMessage) {
         this.unlockMessage = unlockMessage;
+    }
+
+    /**
+     * @return the worlds
+     */
+    public List<String> getWorlds() {
+        return worlds;
+    }
+
+    /**
+     * @param worlds the worlds to set
+     */
+    public void setWorlds(List<String> worlds) {
+        this.worlds = worlds;
     }
 
     /* (non-Javadoc)

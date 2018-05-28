@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.commands.admin.ChallengesAdminCommand;
 import us.tastybento.bskyblock.api.addons.Addon;
+import us.tastybento.bskyblock.api.commands.CompositeCommand;
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -14,6 +15,7 @@ import us.tastybento.bskyblock.api.addons.Addon;
 public class ChallengesAddon extends Addon {
 
     private ChallengesManager challengesManager;
+    private String permissionPrefix = "addon";
 
     @Override
     public void onEnable() {
@@ -29,9 +31,22 @@ public class ChallengesAddon extends Addon {
         // First time challenges creation
         new FreshSqueezedChallenges(this);
 
-        // Register commands
-        new ChallengesCommand(this);
-        new ChallengesAdminCommand(this);
+        // Register commands - run one tick later to allow all addons to load
+        // AcidIsland hook in
+        getServer().getScheduler().runTask(getBSkyBlock(), () -> {
+            this.getBSkyBlock().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
+                getLogger().info("DEBUG: " + getBSkyBlock().getCommandsManager().listCommands());
+                CompositeCommand acidIslandCmd = getBSkyBlock().getCommandsManager().getCommand("ai");
+                new ChallengesCommand(this, acidIslandCmd);
+                CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
+                new ChallengesAdminCommand(this, acidCmd);
+            });
+        });
+        // BSkyBlock hook in
+        CompositeCommand bsbIslandCmd = getBSkyBlock().getCommandsManager().getCommand("island");
+        new ChallengesCommand(this, bsbIslandCmd);
+        CompositeCommand bsbAdminCmd = getBSkyBlock().getCommandsManager().getCommand("bsbadmin");
+        new ChallengesAdminCommand(this, bsbAdminCmd);
         // Done
     }
 
@@ -44,6 +59,10 @@ public class ChallengesAddon extends Addon {
 
     public ChallengesManager getChallengesManager() {
         return challengesManager;
+    }
+
+    public String getPermissionPrefix() {
+        return permissionPrefix ;
     }
 
 }
