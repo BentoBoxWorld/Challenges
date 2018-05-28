@@ -16,6 +16,11 @@ import bskyblock.addon.challenges.ChallengesManager;
 import us.tastybento.bskyblock.api.configuration.ConfigComment;
 import us.tastybento.bskyblock.database.objects.DataObject;
 
+/**
+ * Data object for challenges
+ * @author tastybento
+ *
+ */
 public class Challenges implements DataObject {
 
     public enum ChallengeType {
@@ -40,10 +45,7 @@ public class Challenges implements DataObject {
     // The order of the fields is the order shown in the YML files
     @ConfigComment("Whether this challenge is deployed or not")
     private boolean deployed;
-    
-    @ConfigComment("Worlds that this challenge will run in. String list. List only overworld. Nether and end are automatically covered.")
-    private List<String> worlds = new ArrayList<>();
-    
+        
     // Description
     @ConfigComment("Name of the icon and challenge. May include color codes. Single line.")
     private String friendlyName = "";
@@ -59,9 +61,11 @@ public class Challenges implements DataObject {
     private String level = ChallengesManager.FREE;
     @ConfigComment("Challenge type can be ICON, INVENTORY, LEVEL or SURROUNDING.")
     private ChallengeType challengeType = ChallengeType.INVENTORY;
+    @ConfigComment("World where this challenge operates. List only overworld. Nether and end are automatically covered.")
+    private String world = "";
     @ConfigComment("List of environments where this challenge will occur: NETHER, NORMAL, THE_END. Leave blank for all.")
     private List<World.Environment> environment = new ArrayList<>();    
-    @ConfigComment("The required permissions to see this challenge. String Set.")
+    @ConfigComment("The required permissions to see this challenge. String list.")
     private Set<String> reqPerms = new HashSet<>();
     @ConfigComment("The number of blocks around the player to search for items on an island")
     private int searchRadius = 10;
@@ -115,15 +119,12 @@ public class Challenges implements DataObject {
     private String repeatRewardText = "";
 
 
-
-
-
-
-
-
     @ConfigComment("Unique name of the challenge")
     private String uniqueId = "";
 
+    /*
+     * END OF SETTINGS
+     */
 
     /**
      * @return the challengeType
@@ -565,15 +566,15 @@ public class Challenges implements DataObject {
     /**
      * @return the worlds
      */
-    public List<String> getWorlds() {
-        return worlds;
+    public String getWorld() {
+        return world;
     }
 
     /**
      * @param worlds the worlds to set
      */
-    public void setWorlds(List<String> worlds) {
-        this.worlds = worlds;
+    public void setWorld(String world) {
+        this.world = world;
     }
 
     /**

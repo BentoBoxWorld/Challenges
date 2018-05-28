@@ -257,7 +257,7 @@ public class ChallengesManager {
         Optional<ChallengeLevels> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
         // Get the challenges applicable to this world
         return lv.isPresent() ? challengeMap.get(lv.get()).stream()
-                .filter(c -> c.getWorlds().contains(worldName) || c.getWorlds().isEmpty()).collect(Collectors.toSet()) 
+                .filter(c -> c.getWorld().equalsIgnoreCase(worldName) || c.getWorld().isEmpty()).collect(Collectors.toSet()) 
                 : new HashSet<>();
     }
 
@@ -388,11 +388,25 @@ public class ChallengesManager {
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 
+
     /**
-     * Stores the challenge. If a challenge already exists with the same name, it is overwritten.
+     * Store challenge silently. Used when loading.
      * @param challenge
+     * @return true if successful
      */
-    public void storeChallenge(Challenges challenge) {
+    private boolean storeChallenge(Challenges challenge) {
+        return storeChallenge(challenge, true, null, true);
+    }
+
+    /**
+     * Stores the challenge.
+     * @param challenge - challenge
+     * @param overwrite - true if previous challenge should be overwritten
+     * @param user - user making the request
+     * @param silent - if true, no messages are sent to user
+     * @return - true if imported
+     */
+    public boolean storeChallenge(Challenges challenge, boolean overwrite, User user, boolean silent) {
         // See if we have this level already
         ChallengeLevels level;
         if (lvConfig.configObjectExists(challenge.getLevel())) {
@@ -404,18 +418,26 @@ public class ChallengesManager {
             level.setUniqueId(challenge.getLevel());
             lvConfig.saveConfigObject(level);
         }
-        if (challengeMap.containsKey(level)) {
-            // Replace if this challenge uniqueId already exists
-            if (challengeMap.get(level).contains(challenge)) {
-                challengeMap.get(level).remove(challenge);
+        challengeMap.putIfAbsent(level, new HashSet<>());
+        if (challengeMap.get(level).contains(challenge)) {
+            if (!overwrite) {
+                if (!silent) {
+                    user.sendMessage("challenges.admin.import.skipping", "[challenge]", challenge.getFriendlyName());
+                }
+                return false;
+            } else {
+                if (!silent) {
+                    user.sendMessage("challenges.admin.import.overwriting", "[challenge]", challenge.getFriendlyName());
+                }
+                challengeMap.get(level).add(challenge);
+                return true;
             }
-            challengeMap.get(level).add(challenge);                    
-        } else {
-            // First challenge of this level type
-            Set<Challenges> challenges = new HashSet<>();
-            challenges.add(challenge);
-            challengeMap.put(level, challenges);
         }
+        if (!silent) {
+            user.sendMessage("challenges.admin.import.imported", "[challenge]", challenge.getFriendlyName());
+        }
+        challengeMap.get(level).add(challenge);
+        return true;
     }
 
     /**

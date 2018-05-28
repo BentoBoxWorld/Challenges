@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,33 +18,62 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
+import us.tastybento.bskyblock.api.user.User;
+import us.tastybento.bskyblock.util.Util;
 
+/**
+ * Imports challenges
+ * @author tastybento
+ *
+ */
 public class FreshSqueezedChallenges {
 
-    ChallengesAddon addon;
-    YamlConfiguration chal;
+    private ChallengesAddon addon;
+    private YamlConfiguration chal;
 
+    /**
+     * Import challenges from challenges.yml
+     * @param challengesAddon
+     */
     public FreshSqueezedChallenges(ChallengesAddon challengesAddon) {
         this.addon = challengesAddon;
         File challengeFile = new File(addon.getDataFolder(), "challenges.yml");
         if (!challengeFile.exists()) {
             addon.saveResource("challenges.yml",false);
         }
+    }
+    
+    /**
+     * Import challenges
+     * @param user - user
+     * @param world - world to import into
+     * @param overwrite - true if previous ones should be overwritten
+     * @return true if successful
+     */
+    public boolean importChallenges(User user, World world, boolean overwrite) {
+        File challengeFile = new File(addon.getDataFolder(), "challenges.yml");
+        if (!challengeFile.exists()) {
+            user.sendMessage("challenges.admin.import.no-file");
+            return false;
+        }
         chal = new YamlConfiguration();
         try {
             chal.load(challengeFile);
         } catch (IOException | InvalidConfigurationException e) {
-            addon.getLogger().severe("Could not set up initial challenges");
+            user.sendMessage("challenges.admin.import.no-load","[message]", e.getMessage());
+            return false;
         }
-        makeLevels();
-        makeChallenges();
+        makeLevels(user);
+        makeChallenges(user, world, overwrite);
         addon.getChallengesManager().save(true);
+        return true;
     }
 
-    private void makeLevels() {
+    private void makeLevels(User user) {
         // Parse the levels
         String levels = chal.getString("challenges.levels", "");
         if (!levels.isEmpty()) {
+            user.sendMessage("challenges.admin.import.levels", "[levels]", levels);
             String[] lvs = levels.split(" ");
             int order = 0;
             for (String level : lvs) {
@@ -64,20 +94,27 @@ public class FreshSqueezedChallenges {
                 }
                 addon.getChallengesManager().storeLevel(challengeLevel);
             }
-        }        
+        } else {
+            user.sendMessage("challenges.admin.import.no-levels");
+        }
     }
 
     /**
      * Imports challenges
+     * @param overwrite 
+     * @param args 
      */
-    private void makeChallenges() {
+    private void makeChallenges(User user, World world, boolean overwrite) {
+        int size = 0;
         // Parse the challenge file
         ConfigurationSection chals = chal.getConfigurationSection("challenges.challengeList");
         for (String challenge : chals.getKeys(false)) {
             Challenges newChallenge = new Challenges();
-            newChallenge.setUniqueId(challenge);
+            newChallenge.setUniqueId(Util.getWorld(world).getName() + "_" + challenge);
+            newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
+            newChallenge.setWorld(Util.getWorld(world).getName());            
             newChallenge.setDescription(addon.getChallengesManager().stringSplit(details.getString("description", "")));
             newChallenge.setIcon(new ParseItem(addon, details.getString("icon") + ":1").getItem());
             newChallenge.setLevel(details.getString("level", ChallengesManager.FREE));
@@ -107,9 +144,12 @@ public class FreshSqueezedChallenges {
             newChallenge.setItemReward(parseItems(details.getString("itemReward")));
             newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward")));
             // Save
-            addon.getChallengesManager().storeChallenge(newChallenge);
+            if (addon.getChallengesManager().storeChallenge(newChallenge, overwrite, user, false)) {
+                size++;
+            }
         }
         addon.getChallengesManager().sortChallenges();
+        user.sendMessage("challenges.admin.import.number", "[number]", String.valueOf(size));
     }
 
     /**

@@ -1,8 +1,15 @@
 ##########################################################################################
-# Challenges
+# Example challenges.yml file. This is the same format as ASkyBlock.
+# Use the cimport command to import the challenges to your world.
+# For example: /bsbadmin cimport
+# to overwrite previous challenges, use /bsbadmin cimport overwrite
+# Once challenges are imported, you can edit them directly in the database folder.
+# BSkyBlock offers more features in the native challenge definition files.
+#
+##########################################################################################
 # Rewards and required items have to be described using Bukkit Materials
 # and be exactly correct
-# Do not use Type Id's - they will not work
+# Do not use Type Id numbers - they will not work!
 # Challenges can be one of three types - inventory, island or level.
 # inventory - means the player must have the items on them
 # island - means the items have to be on the island and within 10 blocks of the player
@@ -68,7 +75,7 @@ challenges:
   # freelevels: 'Novice Competent' will make all Novice, Competent and Expert challenges available immediately.
   # freelevels: 'Competent' will open Competent and Expert levels once Novice is complete
   freelevels: ''
-  
+
   # This section determines what happens when a player unlocks a new level
   # The subname should correspond to the levels listed above
   # Note that there is no section for the first level as it is automatically unlocked

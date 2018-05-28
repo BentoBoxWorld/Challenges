@@ -58,6 +58,17 @@ challenges:
   admin:
     parameters: ""
     description: "admin command to create challenges"
+    import:
+      parameters: "[overwrite]"
+      description: "import challenges from challenges.yml"
+      no-file: "&cCould not find challenges.yml file to import!"
+      no-load: "&cError: Could not load challenges.yml. [message]"
+      no-levels: "Warning: No levels defined in challenges.yml"
+      levels: "Importing levels: [levels]"
+      number: "Imported [number] challenges"
+      skipping: "'[challenge]' already exists - skipping"
+      overwriting: "Overwriting '[challenge]'"
+      imported: "Imported '[challenge]'"
     create:
       description: "&6Collect:"
       description-item-color: "&B"

@@ -3,7 +3,7 @@ package bskyblock.addon.challenges;
 import org.bukkit.Bukkit;
 
 import bskyblock.addon.challenges.commands.ChallengesCommand;
-import bskyblock.addon.challenges.commands.admin.ChallengesAdminCommand;
+import bskyblock.addon.challenges.commands.admin.ChallengesAdminImportCommand;
 import us.tastybento.bskyblock.api.addons.Addon;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 
@@ -16,6 +16,7 @@ public class ChallengesAddon extends Addon {
 
     private ChallengesManager challengesManager;
     private String permissionPrefix = "addon";
+    private FreshSqueezedChallenges importManager;
 
     @Override
     public void onEnable() {
@@ -28,8 +29,8 @@ public class ChallengesAddon extends Addon {
 
         // Challenges Manager
         challengesManager = new ChallengesManager(this);
-        // First time challenges creation
-        new FreshSqueezedChallenges(this);
+        // Challenge import setup
+        importManager = new FreshSqueezedChallenges(this);
 
         // Register commands - run one tick later to allow all addons to load
         // AcidIsland hook in
@@ -39,14 +40,14 @@ public class ChallengesAddon extends Addon {
                 CompositeCommand acidIslandCmd = getBSkyBlock().getCommandsManager().getCommand("ai");
                 new ChallengesCommand(this, acidIslandCmd);
                 CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
-                new ChallengesAdminCommand(this, acidCmd);
+                new ChallengesAdminImportCommand(this, acidCmd);
             });
         });
         // BSkyBlock hook in
         CompositeCommand bsbIslandCmd = getBSkyBlock().getCommandsManager().getCommand("island");
         new ChallengesCommand(this, bsbIslandCmd);
         CompositeCommand bsbAdminCmd = getBSkyBlock().getCommandsManager().getCommand("bsbadmin");
-        new ChallengesAdminCommand(this, bsbAdminCmd);
+        new ChallengesAdminImportCommand(this, bsbAdminCmd);
         // Done
     }
 
@@ -63,6 +64,13 @@ public class ChallengesAddon extends Addon {
 
     public String getPermissionPrefix() {
         return permissionPrefix ;
+    }
+
+    /**
+     * @return the importManager
+     */
+    public FreshSqueezedChallenges getImportManager() {
+        return importManager;
     }
 
 }
