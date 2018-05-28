@@ -36,7 +36,6 @@ public class ChallengesAddon extends Addon {
         // AcidIsland hook in
         getServer().getScheduler().runTask(getBSkyBlock(), () -> {
             this.getBSkyBlock().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
-                getLogger().info("DEBUG: " + getBSkyBlock().getCommandsManager().listCommands());
                 CompositeCommand acidIslandCmd = getBSkyBlock().getCommandsManager().getCommand("ai");
                 new ChallengesCommand(this, acidIslandCmd);
                 CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
