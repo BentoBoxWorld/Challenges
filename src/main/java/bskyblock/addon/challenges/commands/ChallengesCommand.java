@@ -12,7 +12,7 @@ public class ChallengesCommand extends CompositeCommand {
     private ChallengesAddon addon;
 
     public ChallengesCommand(ChallengesAddon addon, CompositeCommand cmd) {
-        super(cmd, CHALLENGE_COMMAND, "c", "challenge");
+        super(cmd, CHALLENGE_COMMAND);
         this.addon = addon;
     }
 
