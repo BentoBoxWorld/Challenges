@@ -22,6 +22,8 @@ import us.tastybento.bskyblock.database.objects.DataObject;
  *
  */
 public class Challenges implements DataObject {
+    
+    public Challenges() {}
 
     public enum ChallengeType {
         /**

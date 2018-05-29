@@ -21,7 +21,7 @@ import us.tastybento.bskyblock.util.Util;
  *
  */
 public class PlayerData implements DataObject {
-
+    
     @Expose
     private String uniqueId = "";
     /**

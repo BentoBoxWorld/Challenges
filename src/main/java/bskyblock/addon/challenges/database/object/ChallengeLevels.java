@@ -16,6 +16,7 @@ import us.tastybento.bskyblock.database.objects.DataObject;
  */
 public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> {
 
+    public ChallengeLevels() {}
 
     @ConfigComment("A friendly name for the level. If blank, level name is used.")
     private String friendlyName = "";
