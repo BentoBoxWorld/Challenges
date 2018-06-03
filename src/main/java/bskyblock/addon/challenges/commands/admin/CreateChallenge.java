@@ -27,7 +27,7 @@ public class CreateChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(getPermissionPrefix() + "admin.challenges");
+        this.setPermission("admin.challenges");
         this.setParameters("challaneges.admin.create.parameters");
         this.setDescription("challenges.admin.create.description");
 

@@ -29,7 +29,7 @@ public class ChallengesCommand extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(getPermissionPrefix() + CHALLENGE_COMMAND);
+        this.setPermission(CHALLENGE_COMMAND);
         this.setParameters(CHALLENGE_COMMAND + ".parameters");
         this.setDescription(CHALLENGE_COMMAND + ".description");
         this.setOnlyPlayer(true);  

@@ -11,3 +11,9 @@ permissions:
   bskyblock.admin.challenges:
     description: Access challenge admin commands 
     default: op
+  acidisland.challenges:
+    description: Let the player use the /challenges command
+    default: true
+  acidisland.admin.challenges:
+    description: Access challenge admin commands 
+    default: op

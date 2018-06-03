@@ -30,7 +30,7 @@ public class ChallengesAdminImportCommand extends CompositeCommand {
 
     @Override
     public void setup() {
-        this.setPermission(getPermissionPrefix() + "challenges.admin");
+        this.setPermission("challenges.admin");
         this.setParameters("challenges.admin.import.parameters");
         this.setDescription("challenges.admin.import.description");
     }
