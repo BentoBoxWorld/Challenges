@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package bskyblock.addon.challenges.commands.admin;
 
 import java.util.List;
 
-import us.tastybento.bskyblock.BSkyBlock;
+import bskyblock.addon.challenges.ChallengesAddon;
 import us.tastybento.bskyblock.api.commands.CompositeCommand;
 import us.tastybento.bskyblock.api.user.User;
 
@@ -20,7 +20,7 @@ public class SetLevel extends CompositeCommand {
      * @param label
      * @param string
      */
-    public SetLevel(BSkyBlock plugin, String label, String... string) {
+    public SetLevel(ChallengesAddon plugin, String label, String... string) {
         super(plugin, label, string);
         // TODO Auto-generated constructor stub
     }
