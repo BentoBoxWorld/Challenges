@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package bskyblock.addon.challenges.commands.admin;
 
@@ -43,7 +43,7 @@ public class SetIcon extends CompositeCommand {
      * @see us.tastybento.bskyblock.api.commands.BSBCommand#execute(us.tastybento.bskyblock.api.commands.User, java.util.List)
      */
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         ItemStack icon = user.getInventory().getItemInMainHand();
         if (args.isEmpty() || icon == null) {
             user.sendMessage("challenges.admin.seticon.description");

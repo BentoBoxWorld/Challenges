@@ -17,12 +17,12 @@ public class ChallengesCommand extends CompositeCommand {
     }
 
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         // Open up the challenges GUI
         if (user.isPlayer()) {
             new ChallengesPanels(addon, user, args.isEmpty() ? "" : args.get(0), getWorld(), getPermissionPrefix(), getTopLabel());
             return true;
-        } 
+        }
         return false;
     }
 
@@ -32,7 +32,7 @@ public class ChallengesCommand extends CompositeCommand {
         this.setPermission(CHALLENGE_COMMAND);
         this.setParameters(CHALLENGE_COMMAND + ".parameters");
         this.setDescription(CHALLENGE_COMMAND + ".description");
-        this.setOnlyPlayer(true);  
+        this.setOnlyPlayer(true);
     }
 
 
