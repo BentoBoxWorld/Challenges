@@ -26,10 +26,10 @@ import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.challenges.database.object.PlayerData;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
-import us.tastybento.bskyblock.api.configuration.BSBConfig;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.database.BSBDatabase;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bbox.api.configuration.BSBConfig;
+import world.bentobox.bbox.api.user.User;
+import world.bentobox.bbox.database.BSBDatabase;
+import world.bentobox.bbox.util.Util;
 
 public class ChallengesManager {
 

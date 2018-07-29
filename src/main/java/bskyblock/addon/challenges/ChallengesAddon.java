@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.commands.admin.ChallengesAdminImportCommand;
-import us.tastybento.bskyblock.api.addons.Addon;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
+import world.bentobox.bbox.api.addons.Addon;
+import world.bentobox.bbox.api.commands.CompositeCommand;
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -37,16 +37,23 @@ public class ChallengesAddon extends Addon {
         getServer().getScheduler().runTask(getBSkyBlock(), () -> {
             this.getBSkyBlock().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
                 CompositeCommand acidIslandCmd = getBSkyBlock().getCommandsManager().getCommand("ai");
-                new ChallengesCommand(this, acidIslandCmd);
-                CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
-                new ChallengesAdminImportCommand(this, acidCmd);
+                if (acidIslandCmd != null) {
+                    new ChallengesCommand(this, acidIslandCmd);
+                    CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
+                    new ChallengesAdminImportCommand(this, acidCmd);
+                }
+            });
+            this.getBSkyBlock().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
+                // BSkyBlock hook in
+                CompositeCommand bsbIslandCmd = getBSkyBlock().getCommandsManager().getCommand("island");
+                if (bsbIslandCmd != null) {
+                    new ChallengesCommand(this, bsbIslandCmd);
+                    CompositeCommand bsbAdminCmd = getBSkyBlock().getCommandsManager().getCommand("bsbadmin");
+                    new ChallengesAdminImportCommand(this, bsbAdminCmd);
+                }
             });
         });
-        // BSkyBlock hook in
-        CompositeCommand bsbIslandCmd = getBSkyBlock().getCommandsManager().getCommand("island");
-        new ChallengesCommand(this, bsbIslandCmd);
-        CompositeCommand bsbAdminCmd = getBSkyBlock().getCommandsManager().getCommand("bsbadmin");
-        new ChallengesAdminImportCommand(this, bsbAdminCmd);
+
         // Done
     }
 

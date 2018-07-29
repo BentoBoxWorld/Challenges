@@ -20,8 +20,8 @@ import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.level.Level;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bbox.api.user.User;
+import world.bentobox.bbox.util.Util;
 
 /**
  * Run when a user tries to complete a challenge

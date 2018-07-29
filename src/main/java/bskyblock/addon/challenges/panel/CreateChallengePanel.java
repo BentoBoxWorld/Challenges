@@ -1,8 +1,8 @@
 package bskyblock.addon.challenges.panel;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bbox.api.panels.builders.PanelBuilder;
+import world.bentobox.bbox.api.user.User;
 
 public class CreateChallengePanel {
 

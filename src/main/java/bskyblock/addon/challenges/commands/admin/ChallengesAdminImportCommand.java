@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bbox.api.commands.CompositeCommand;
+import world.bentobox.bbox.api.user.User;
+import world.bentobox.bbox.util.Util;
 
 public class ChallengesAdminImportCommand extends CompositeCommand {
 

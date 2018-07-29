@@ -4,9 +4,9 @@ import java.util.List;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.panel.CreateChallengeListener;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bbox.api.commands.CompositeCommand;
+import world.bentobox.bbox.api.panels.builders.PanelBuilder;
+import world.bentobox.bbox.api.user.User;
 
 public class CreateChallenge extends CompositeCommand {
 

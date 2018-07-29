@@ -12,8 +12,8 @@ import org.bukkit.World;
 
 import com.google.gson.annotations.Expose;
 
-import us.tastybento.bskyblock.database.objects.DataObject;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bbox.database.objects.DataObject;
+import world.bentobox.bbox.util.Util;
 
 /**
  * Stores the player's challenge situation
@@ -75,7 +75,7 @@ public class PlayerData implements DataObject {
     }
 
     /* (non-Javadoc)
-     * @see us.tastybento.bskyblock.database.objects.DataObject#getUniqueId()
+     * @see world.bentobox.bbox.database.objects.DataObject#getUniqueId()
      */
     @Override
     public String getUniqueId() {
@@ -83,7 +83,7 @@ public class PlayerData implements DataObject {
     }
 
     /* (non-Javadoc)
-     * @see us.tastybento.bskyblock.database.objects.DataObject#setUniqueId(java.lang.String)
+     * @see world.bentobox.bbox.database.objects.DataObject#setUniqueId(java.lang.String)
      */
     @Override
     public void setUniqueId(String uniqueId) {

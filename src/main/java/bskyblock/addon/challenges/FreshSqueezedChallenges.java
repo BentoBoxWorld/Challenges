@@ -18,8 +18,8 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bbox.api.user.User;
+import world.bentobox.bbox.util.Util;
 
 /**
  * Imports challenges

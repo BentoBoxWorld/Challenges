@@ -4,8 +4,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.panels.PanelListener;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bbox.api.panels.PanelListener;
+import world.bentobox.bbox.api.user.User;
 
 public class CreateChallengeListener implements PanelListener {
 

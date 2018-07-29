@@ -4,8 +4,8 @@ import java.util.List;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.panel.ChallengesPanels;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bbox.api.commands.CompositeCommand;
+import world.bentobox.bbox.api.user.User;
 
 public class ChallengesCommand extends CompositeCommand {
     public static final String CHALLENGE_COMMAND = "challenges";

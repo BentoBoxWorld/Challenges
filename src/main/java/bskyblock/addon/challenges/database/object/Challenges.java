@@ -13,8 +13,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesManager;
-import us.tastybento.bskyblock.api.configuration.ConfigComment;
-import us.tastybento.bskyblock.database.objects.DataObject;
+import world.bentobox.bbox.api.configuration.ConfigComment;
+import world.bentobox.bbox.database.objects.DataObject;
 
 /**
  * Data object for challenges
