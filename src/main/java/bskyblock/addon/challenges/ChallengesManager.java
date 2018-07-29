@@ -53,7 +53,7 @@ public class ChallengesManager {
         challengeMap = new LinkedHashMap<>();
         // Cache of player data
         playerData = new HashMap<>();
-        load();        
+        load();
     }
 
     /**
@@ -130,7 +130,7 @@ public class ChallengesManager {
         newChallenge.setRequiredItems(requiredItems);
         newChallenge.setTakeItems(true);
         newChallenge.setUniqueId(inventory.getTitle());
-        newChallenge.setIcon(new ItemStack(Material.EMPTY_MAP));
+        newChallenge.setIcon(new ItemStack(Material.MAP));
         newChallenge.setLevel(FREE);
         newChallenge.setDescription(createDescription(user, requiredItems));
 
@@ -197,7 +197,7 @@ public class ChallengesManager {
      * @param world - world to check
      * @return - challenge or null if it does not exist
      */
-    public Challenges getChallenge(String name, World world) {       
+    public Challenges getChallenge(String name, World world) {
         String worldName = Util.getWorld(world).getName();
         for (Set<Challenges> ch : challengeMap.values())  {
             Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(worldName + name)).findFirst();
@@ -249,7 +249,7 @@ public class ChallengesManager {
     /**
      * Get the set of challenges for this level for this world
      * @param level - the level required
-     * @param world 
+     * @param world
      * @return the set of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
     public Set<Challenges> getChallenges(String level, World world) {
@@ -257,7 +257,7 @@ public class ChallengesManager {
         Optional<ChallengeLevels> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
         // Get the challenges applicable to this world
         return lv.isPresent() ? challengeMap.get(lv.get()).stream()
-                .filter(c -> c.getWorld().equalsIgnoreCase(worldName) || c.getWorld().isEmpty()).collect(Collectors.toSet()) 
+                .filter(c -> c.getWorld().equalsIgnoreCase(worldName) || c.getWorld().isEmpty()).collect(Collectors.toSet())
                 : new HashSet<>();
     }
 

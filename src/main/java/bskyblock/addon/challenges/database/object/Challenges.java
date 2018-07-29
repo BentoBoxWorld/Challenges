@@ -41,20 +41,20 @@ public class Challenges implements DataObject {
          */
         ISLAND
     }
-    
+
     // The order of the fields is the order shown in the YML files
     @ConfigComment("Whether this challenge is deployed or not")
     private boolean deployed;
-        
+
     // Description
     @ConfigComment("Name of the icon and challenge. May include color codes. Single line.")
     private String friendlyName = "";
     @ConfigComment("Description of the challenge. Will become the lore on the icon. Can include & color codes. String List.")
-    private List<String> description = new ArrayList<>();    
+    private List<String> description = new ArrayList<>();
     @ConfigComment("The icon in the GUI for this challenge. ItemStack.")
     private ItemStack icon = new ItemStack(Material.PAPER);
     @ConfigComment("Icon slot where this challenge should be placed. 0 to 49. A negative value means any slot")
-    private int slot = -1;   
+    private int slot = -1;
 
     // Definition
     @ConfigComment("Challenge level. Default is Free")
@@ -64,7 +64,7 @@ public class Challenges implements DataObject {
     @ConfigComment("World where this challenge operates. List only overworld. Nether and end are automatically covered.")
     private String world = "";
     @ConfigComment("List of environments where this challenge will occur: NETHER, NORMAL, THE_END. Leave blank for all.")
-    private List<World.Environment> environment = new ArrayList<>();    
+    private List<World.Environment> environment = new ArrayList<>();
     @ConfigComment("The required permissions to see this challenge. String list.")
     private Set<String> reqPerms = new HashSet<>();
     @ConfigComment("The number of blocks around the player to search for items on an island")
@@ -80,7 +80,7 @@ public class Challenges implements DataObject {
     @ConfigComment("This is a map of the blocks required in a SURROUNDING challenge. Material, Integer")
     private Map<Material, Integer> requiredBlocks = new EnumMap<>(Material.class);
     @ConfigComment("The items that must be in the inventory to complete the challenge. ItemStack List.")
-    private List<ItemStack> requiredItems = new ArrayList<>();  
+    private List<ItemStack> requiredItems = new ArrayList<>();
     @ConfigComment("Any entities that must be in the area for SURROUNDING type challenges. Map EntityType, Number")
     private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
     @ConfigComment("Required experience")
@@ -200,7 +200,7 @@ public class Challenges implements DataObject {
      * @return the icon
      */
     public ItemStack getIcon() {
-        return icon.clone();
+        return icon != null ? icon.clone() : new ItemStack(Material.MAP);
     }
 
     /**
