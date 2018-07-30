@@ -39,7 +39,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     public CreateSurrounding(ChallengesAddon addon, CompositeCommand parent) {
         super(parent, "surrounding");
         this.addon = addon;
-        addon.getServer().getPluginManager().registerEvents(this, addon.getBSkyBlock());
+        addon.getServer().getPluginManager().registerEvents(this, addon.getPlugin());
     }
 
     @Override

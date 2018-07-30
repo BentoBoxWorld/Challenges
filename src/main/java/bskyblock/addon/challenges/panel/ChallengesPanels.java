@@ -218,7 +218,7 @@ public class ChallengesPanels {
         if (expReward > 0) {
             result.addAll(splitTrans(user,"challenges.exp-reward", "[reward]", String.valueOf(expReward)));
         }
-        if (addon.getBSkyBlock().getSettings().isUseEconomy() && moneyReward > 0) {
+        if (addon.getPlugin().getSettings().isUseEconomy() && moneyReward > 0) {
             result.addAll(splitTrans(user,"challenges.money-reward", "[reward]", String.valueOf(moneyReward)));
         }
         // Final placeholder change for [label]

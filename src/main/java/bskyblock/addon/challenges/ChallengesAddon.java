@@ -21,7 +21,7 @@ public class ChallengesAddon extends Addon {
     @Override
     public void onEnable() {
         // Check if it is enabled - it might be loaded, but not enabled.
-        if (getBSkyBlock() == null || !getBSkyBlock().isEnabled()) {
+        if (getPlugin() == null || !getPlugin().isEnabled()) {
             Bukkit.getLogger().severe("BSkyBlock is not available or disabled!");
             this.setEnabled(false);
             return;
@@ -34,21 +34,21 @@ public class ChallengesAddon extends Addon {
 
         // Register commands - run one tick later to allow all addons to load
         // AcidIsland hook in
-        getServer().getScheduler().runTask(getBSkyBlock(), () -> {
-            this.getBSkyBlock().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
-                CompositeCommand acidIslandCmd = getBSkyBlock().getCommandsManager().getCommand("ai");
+        getServer().getScheduler().runTask(getPlugin(), () -> {
+            this.getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
+                CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
                 if (acidIslandCmd != null) {
                     new ChallengesCommand(this, acidIslandCmd);
-                    CompositeCommand acidCmd = getBSkyBlock().getCommandsManager().getCommand("acid");
+                    CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
                     new ChallengesAdminImportCommand(this, acidCmd);
                 }
             });
-            this.getBSkyBlock().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
+            this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
                 // BSkyBlock hook in
-                CompositeCommand bsbIslandCmd = getBSkyBlock().getCommandsManager().getCommand("island");
+                CompositeCommand bsbIslandCmd = getPlugin().getCommandsManager().getCommand("island");
                 if (bsbIslandCmd != null) {
                     new ChallengesCommand(this, bsbIslandCmd);
-                    CompositeCommand bsbAdminCmd = getBSkyBlock().getCommandsManager().getCommand("bsbadmin");
+                    CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
                     new ChallengesAdminImportCommand(this, bsbAdminCmd);
                 }
             });

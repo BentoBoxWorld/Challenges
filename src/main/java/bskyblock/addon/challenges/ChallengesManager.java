@@ -356,7 +356,7 @@ public class ChallengesManager {
      */
     public void save(boolean async) {
         if (async) {
-            addon.getServer().getScheduler().runTaskAsynchronously(addon.getBSkyBlock(), this::save);
+            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), this::save);
         } else {
             save();
         }
