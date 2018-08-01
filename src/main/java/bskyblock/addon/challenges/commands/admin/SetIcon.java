@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.database.object.Challenges;
-import world.bentobox.bbox.api.commands.CompositeCommand;
-import world.bentobox.bbox.api.user.User;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
 
 /**
  * @author tastybento

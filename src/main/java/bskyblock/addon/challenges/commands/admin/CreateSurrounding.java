@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import world.bentobox.bbox.api.commands.CompositeCommand;
-import world.bentobox.bbox.api.user.User;
-import world.bentobox.bbox.util.Util;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 /**
  * Command to create a surrounding type challenge

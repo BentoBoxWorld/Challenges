@@ -15,11 +15,11 @@ import bskyblock.addon.challenges.LevelStatus;
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
-import world.bentobox.bbox.api.panels.Panel;
-import world.bentobox.bbox.api.panels.PanelItem;
-import world.bentobox.bbox.api.panels.builders.PanelBuilder;
-import world.bentobox.bbox.api.panels.builders.PanelItemBuilder;
-import world.bentobox.bbox.api.user.User;
+import world.bentobox.bentobox.api.panels.Panel;
+import world.bentobox.bentobox.api.panels.PanelItem;
+import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
+import world.bentobox.bentobox.api.user.User;
 
 
 public class ChallengesPanels {

@@ -6,8 +6,8 @@ package bskyblock.addon.challenges.commands.admin;
 import java.util.List;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import world.bentobox.bbox.api.commands.CompositeCommand;
-import world.bentobox.bbox.api.user.User;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
 
 /**
  * @author tastybento

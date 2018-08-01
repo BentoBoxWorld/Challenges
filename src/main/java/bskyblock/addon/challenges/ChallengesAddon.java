@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.commands.admin.ChallengesAdminImportCommand;
-import world.bentobox.bbox.api.addons.Addon;
-import world.bentobox.bbox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
 
 /**
  * Add-on to BSkyBlock that enables challenges

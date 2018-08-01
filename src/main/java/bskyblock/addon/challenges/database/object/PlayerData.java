@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package bskyblock.addon.challenges.database.object;
 
@@ -12,8 +12,8 @@ import org.bukkit.World;
 
 import com.google.gson.annotations.Expose;
 
-import world.bentobox.bbox.database.objects.DataObject;
-import world.bentobox.bbox.util.Util;
+import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.bentobox.util.Util;
 
 /**
  * Stores the player's challenge situation
@@ -36,7 +36,7 @@ public class PlayerData implements DataObject {
 
     // Required for bean instantiation
     public PlayerData() {}
-    
+
     /**
      * Mark a challenge as having been completed. Will increment the number of times and timestamp
      * @param challengeName - unique challenge name
@@ -47,7 +47,7 @@ public class PlayerData implements DataObject {
         challengeStatus.put(name, times);
         challengesTimestamp.put(name, System.currentTimeMillis());
     }
-    
+
     /**
      * Check if a challenge has been done
      * @param challengeName - unique challenge name
@@ -56,7 +56,7 @@ public class PlayerData implements DataObject {
     public boolean isChallengeDone(World world, String challengeName) {
         return getTimes(world, challengeName) > 0;
     }
-    
+
     /**
      * Check how many times a challenge has been done
      * @param challengeName - unique challenge name
@@ -65,7 +65,7 @@ public class PlayerData implements DataObject {
     public int getTimes(World world, String challengeName) {
         return challengeStatus.getOrDefault(Util.getWorld(world).getName() + challengeName, 0);
     }
-    
+
     /**
      * Creates a player data entry
      * @param uniqueId - the player's UUID in string format

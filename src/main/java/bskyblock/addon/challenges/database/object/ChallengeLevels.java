@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesManager;
-import world.bentobox.bbox.api.configuration.ConfigComment;
-import world.bentobox.bbox.database.objects.DataObject;
+import world.bentobox.bentobox.api.configuration.ConfigComment;
+import world.bentobox.bentobox.database.objects.DataObject;
 
 /**
  * Represent a challenge level
