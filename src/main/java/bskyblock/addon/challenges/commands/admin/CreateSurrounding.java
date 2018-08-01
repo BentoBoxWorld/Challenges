@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 /**
  * Command to create a surrounding type challenge
@@ -39,19 +39,19 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     public CreateSurrounding(ChallengesAddon addon, CompositeCommand parent) {
         super(parent, "surrounding");
         this.addon = addon;
-        addon.getServer().getPluginManager().registerEvents(this, addon.getBSkyBlock());
+        addon.getServer().getPluginManager().registerEvents(this, addon.getPlugin());
     }
 
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(getPermissionPrefix() + "admin.challenges");
+        this.setPermission("admin.challenges");
         this.setParameters("challaneges.admin.create.surrounding.parameters");
         this.setDescription("challenges.admin.create.surrounding.description");
     }
 
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         if (args.isEmpty()) {
             user.sendMessage("challenges.admin.error.no-name");
             return false;

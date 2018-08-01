@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 public class ChallengesAdminImportCommand extends CompositeCommand {
 
@@ -24,13 +24,13 @@ public class ChallengesAdminImportCommand extends CompositeCommand {
     }
 
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         return addon.getImportManager().importChallenges(user, getWorld(), !args.isEmpty() && args.get(0).equalsIgnoreCase("overwrite"));
     }
 
     @Override
     public void setup() {
-        this.setPermission(getPermissionPrefix() + "challenges.admin");
+        this.setPermission("challenges.admin");
         this.setParameters("challenges.admin.import.parameters");
         this.setDescription("challenges.admin.import.description");
     }

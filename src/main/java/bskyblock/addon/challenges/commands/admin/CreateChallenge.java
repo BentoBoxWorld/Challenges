@@ -4,9 +4,9 @@ import java.util.List;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.panel.CreateChallengeListener;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.user.User;
 
 public class CreateChallenge extends CompositeCommand {
 
@@ -27,14 +27,14 @@ public class CreateChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setOnlyPlayer(true);
-        this.setPermission(getPermissionPrefix() + "admin.challenges");
+        this.setPermission("admin.challenges");
         this.setParameters("challaneges.admin.create.parameters");
         this.setDescription("challenges.admin.create.description");
 
     }
 
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         if (args.isEmpty()) {
             user.sendRawMessage("not enough args");
             return false;

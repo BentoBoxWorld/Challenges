@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
 import bskyblock.addon.challenges.ChallengesAddon;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bentobox.api.user.User;
 
 /**
  * Enables the state of a Surrounding Challenge to be stored as it is built

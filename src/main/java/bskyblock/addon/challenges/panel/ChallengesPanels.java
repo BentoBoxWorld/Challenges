@@ -15,11 +15,11 @@ import bskyblock.addon.challenges.LevelStatus;
 import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
-import us.tastybento.bskyblock.api.panels.Panel;
-import us.tastybento.bskyblock.api.panels.PanelItem;
-import us.tastybento.bskyblock.api.panels.builders.PanelBuilder;
-import us.tastybento.bskyblock.api.panels.builders.PanelItemBuilder;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bentobox.api.panels.Panel;
+import world.bentobox.bentobox.api.panels.PanelItem;
+import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
+import world.bentobox.bentobox.api.user.User;
 
 
 public class ChallengesPanels {
@@ -38,14 +38,14 @@ public class ChallengesPanels {
         this.world = world;
         this.permPrefix = permPrefix;
         this.label = label;
-        
+
         if (manager.getChallengeList().isEmpty()) {
             addon.getLogger().severe("There are no challenges set up!");
             user.sendMessage("general.errors.general");
             return;
         }
         if (level.isEmpty()) {
-            level = manager.getChallengeList().keySet().iterator().next().getUniqueId(); 
+            level = manager.getChallengeList().keySet().iterator().next().getUniqueId();
         }
         this.level = level;
         // Check if level is valid
@@ -71,7 +71,7 @@ public class ChallengesPanels {
             createItem(panelBuilder, challenge);
         }
     }
-    
+
     private void addFreeChallanges(PanelBuilder panelBuilder) {
         manager.getChallenges(ChallengesManager.FREE, world).forEach(challenge -> createItem(panelBuilder, challenge));
     }
@@ -122,7 +122,7 @@ public class ChallengesPanels {
             if (status.isUnlocked()) {
                 // Clicking on this icon will open up this level's challenges
                 PanelItem item = new PanelItemBuilder()
-                        .icon(new ItemStack(Material.BOOK_AND_QUILL))
+                        .icon(new ItemStack(Material.ENCHANTED_BOOK))
                         .name(name)
                         .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
                         .clickHandler((p, u, c, s) -> {
@@ -147,10 +147,10 @@ public class ChallengesPanels {
 
     /**
      * Creates the challenge description for the "item" in the inventory
-     * 
+     *
      * @param challenge
      * @param player
-     * @return List of strings splitting challenge string into 25 chars long 
+     * @return List of strings splitting challenge string into 25 chars long
      */
     private List<String> challengeDescription(Challenges challenge) {
         List<String> result = new ArrayList<String>();
@@ -174,8 +174,8 @@ public class ChallengesPanels {
                     result.addAll(splitTrans(user, "challenges.completed-times","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
                 } else {
                     result.addAll(splitTrans(user, "challenges.maxed-reached","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
-                }        
-            } 
+                }
+            }
         }
         if (!complete || (complete && challenge.isRepeatable())) {
             result.addAll(challenge.getDescription());
@@ -218,7 +218,7 @@ public class ChallengesPanels {
         if (expReward > 0) {
             result.addAll(splitTrans(user,"challenges.exp-reward", "[reward]", String.valueOf(expReward)));
         }
-        if (addon.getBSkyBlock().getSettings().isUseEconomy() && moneyReward > 0) {
+        if (addon.getPlugin().getSettings().isUseEconomy() && moneyReward > 0) {
             result.addAll(splitTrans(user,"challenges.money-reward", "[reward]", String.valueOf(moneyReward)));
         }
         // Final placeholder change for [label]

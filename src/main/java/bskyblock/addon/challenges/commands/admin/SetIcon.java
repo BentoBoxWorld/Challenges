@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package bskyblock.addon.challenges.commands.admin;
 
@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.ChallengesAddon;
 import bskyblock.addon.challenges.database.object.Challenges;
-import us.tastybento.bskyblock.api.commands.CompositeCommand;
-import us.tastybento.bskyblock.api.user.User;
+import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.user.User;
 
 /**
  * @author tastybento
@@ -31,7 +31,7 @@ public class SetIcon extends CompositeCommand {
     }
 
     /* (non-Javadoc)
-     * @see us.tastybento.bskyblock.api.commands.BSBCommand#setup()
+     * @see world.bentobox.bbox.api.commands.BSBCommand#setup()
      */
     @Override
     public void setup() {
@@ -40,10 +40,10 @@ public class SetIcon extends CompositeCommand {
     }
 
     /* (non-Javadoc)
-     * @see us.tastybento.bskyblock.api.commands.BSBCommand#execute(us.tastybento.bskyblock.api.commands.User, java.util.List)
+     * @see world.bentobox.bbox.api.commands.BSBCommand#execute(world.bentobox.bbox.api.commands.User, java.util.List)
      */
     @Override
-    public boolean execute(User user, List<String> args) {
+    public boolean execute(User user, String label, List<String> args) {
         ItemStack icon = user.getInventory().getItemInMainHand();
         if (args.isEmpty() || icon == null) {
             user.sendMessage("challenges.admin.seticon.description");

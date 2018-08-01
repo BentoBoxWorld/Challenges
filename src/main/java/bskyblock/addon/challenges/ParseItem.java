@@ -1,11 +1,8 @@
 package bskyblock.addon.challenges;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -40,6 +37,7 @@ public class ParseItem {
         } else if (part.length == 6 && (part[0].contains("POTION") || part[0].equalsIgnoreCase("TIPPED_ARROW"))) {
             return potion(s, part);
         }
+        showError(s);
         return null;
 
     }
@@ -89,23 +87,16 @@ public class ParseItem {
         String[] twoer = {part[0], part[2]};
         ItemStack result = two(s, twoer);
         if (result == null) {
+            showError(s);
             return null;
         }
-        if (StringUtils.isNumeric(part[1])) {
-            result.setDurability((short) Integer.parseInt(part[1]));
-        } else if (result.getType().equals(Material.MONSTER_EGG)) {
-            // Check if this is a string
-            EntityType entityType = EntityType.valueOf(part[1]);
-            SpawnEggMeta meta = ((SpawnEggMeta)result.getItemMeta());
-            meta.setSpawnedType(entityType);
-            result.setItemMeta(meta);
-        }
+
         return result;
 
     }
 
     private void showError(String s) {
-        addon.getLogger().severe(() -> "Problem with " + s + " in challenges.yml!");   
+        addon.getLogger().severe(() -> "Problem with " + s + " in config.yml!");
     }
 
     private ItemStack two(String s, String[] part) {
@@ -113,10 +104,9 @@ public class ParseItem {
         try {
             reqAmount = Integer.parseInt(part[1]);
         } catch (Exception e) {
-            addon.getLogger().severe(() -> "Could not parse the quantity of the item " + s);
+            showError(s);
             return null;
         }
-
         Material reqItem = Material.getMaterial(part[0].toUpperCase() + "_ITEM");
         if (reqItem == null) {
             // Try the item

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package bskyblock.addon.challenges.panel;
 
@@ -20,8 +20,8 @@ import bskyblock.addon.challenges.commands.ChallengesCommand;
 import bskyblock.addon.challenges.database.object.Challenges;
 import bskyblock.addon.challenges.database.object.Challenges.ChallengeType;
 import bskyblock.addon.level.Level;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 /**
  * Run when a user tries to complete a challenge
@@ -52,7 +52,7 @@ public class TryToComplete {
         this.user = user;
         this.manager = manager;
         this.challenge = challenge;
-        
+
         // Check if can complete challenge
         ChallengeResult result = checkIfCanCompleteChallenge();
         if (!result.meetsRequirements) {
@@ -93,7 +93,7 @@ public class TryToComplete {
      * Checks if a challenge can be completed or not
      */
     private ChallengeResult checkIfCanCompleteChallenge() {
-        // Check if user has the 
+        // Check if user has the
         if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, challenge.getLevel(), world)) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
             return new ChallengeResult();
@@ -104,7 +104,7 @@ public class TryToComplete {
             return new ChallengeResult();
         }
         // Check repeatability
-        if (manager.isChallengeComplete(user, challenge.getUniqueId(), world) 
+        if (manager.isChallengeComplete(user, challenge.getUniqueId(), world)
                 && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.LEVEL)
                         || challenge.getChallengeType().equals(ChallengeType.ISLAND))) {
             user.sendMessage("challenges.not-repeatable");
@@ -170,7 +170,7 @@ public class TryToComplete {
                 for (int z = -searchRadius; z <= searchRadius; z++) {
                     Material mat = user.getWorld().getBlockAt(user.getLocation().add(new Vector(x,y,z))).getType();
                     // Remove one
-                    blocks.computeIfPresent(mat, (b, amount) -> amount - 1);          
+                    blocks.computeIfPresent(mat, (b, amount) -> amount - 1);
                     // Remove any that have an amount of 0
                     blocks.entrySet().removeIf(en -> en.getValue() <= 0);
                 }
@@ -241,7 +241,7 @@ public class TryToComplete {
                 cmd = cmd.substring(6,cmd.length()).replace("[player]", user.getName()).trim();
                 try {
                     if (!user.performCommand(cmd)) {
-                        showError(cmd);   
+                        showError(cmd);
                     }
                 } catch (Exception e) {
                     showError(cmd);

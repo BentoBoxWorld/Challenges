@@ -18,8 +18,8 @@ import org.bukkit.inventory.ItemStack;
 
 import bskyblock.addon.challenges.database.object.ChallengeLevels;
 import bskyblock.addon.challenges.database.object.Challenges;
-import us.tastybento.bskyblock.api.user.User;
-import us.tastybento.bskyblock.util.Util;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 /**
  * Imports challenges
@@ -42,7 +42,7 @@ public class FreshSqueezedChallenges {
             addon.saveResource("challenges.yml",false);
         }
     }
-    
+
     /**
      * Import challenges
      * @param user - user
@@ -101,8 +101,8 @@ public class FreshSqueezedChallenges {
 
     /**
      * Imports challenges
-     * @param overwrite 
-     * @param args 
+     * @param overwrite
+     * @param args
      */
     private void makeChallenges(User user, World world, boolean overwrite) {
         int size = 0;
@@ -114,7 +114,7 @@ public class FreshSqueezedChallenges {
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
-            newChallenge.setWorld(Util.getWorld(world).getName());            
+            newChallenge.setWorld(Util.getWorld(world).getName());
             newChallenge.setDescription(addon.getChallengesManager().stringSplit(details.getString("description", "")));
             newChallenge.setIcon(new ParseItem(addon, details.getString("icon") + ":1").getItem());
             newChallenge.setLevel(details.getString("level", ChallengesManager.FREE));
