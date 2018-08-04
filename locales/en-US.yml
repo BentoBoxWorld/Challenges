@@ -36,7 +36,7 @@ challenges:
     challange-completed: "Challenge: [challengename] has been completed for [name]"
   error:
     could-not-save: "&cCould not save the challenge!"
-    island-level: "&cYour island must be level [level] to complete this challenge!"
+    island-level: "&cYour island must be level [number] to complete this challenge!"
     items-not-there: "&cAll required items must be close to you on your island!"
     no-items-clicked: "&cYou did not click on anything. Cancelling."
     not-close-enough: "&cYou must be standing within [number] blocks of all required items."
