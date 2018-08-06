@@ -23,21 +23,21 @@ import org.bukkit.inventory.ItemStack;
 import bentobox.addon.challenges.commands.admin.SurroundChallengeBuilder;
 import bentobox.addon.challenges.database.object.ChallengeLevels;
 import bentobox.addon.challenges.database.object.Challenges;
-import bentobox.addon.challenges.database.object.PlayerData;
 import bentobox.addon.challenges.database.object.Challenges.ChallengeType;
+import bentobox.addon.challenges.database.object.PlayerData;
 import bentobox.addon.challenges.panel.ChallengesPanels;
-import world.bentobox.bentobox.api.configuration.BSBConfig;
+import world.bentobox.bentobox.api.configuration.BBConfig;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.database.BSBDatabase;
+import world.bentobox.bentobox.database.BBDatabase;
 import world.bentobox.bentobox.util.Util;
 
 public class ChallengesManager {
 
     public static final String FREE = "Free";
     private Map<ChallengeLevels, Set<Challenges>> challengeMap;
-    private BSBConfig<Challenges> chConfig;
-    private BSBConfig<ChallengeLevels> lvConfig;
-    private BSBDatabase<PlayerData> players;
+    private BBConfig<Challenges> chConfig;
+    private BBConfig<ChallengeLevels> lvConfig;
+    private BBDatabase<PlayerData> players;
     private ChallengesPanels challengesPanels;
     private Map<UUID,PlayerData> playerData;
     private ChallengesAddon addon;
@@ -45,10 +45,10 @@ public class ChallengesManager {
     public ChallengesManager(ChallengesAddon addon) {
         this.addon = addon;
         // Set up the configs
-        chConfig = new BSBConfig<>(addon, Challenges.class);
-        lvConfig = new BSBConfig<>(addon, ChallengeLevels.class);
+        chConfig = new BBConfig<>(addon, Challenges.class);
+        lvConfig = new BBConfig<>(addon, ChallengeLevels.class);
         // Players is where all the player history will be stored
-        players = new BSBDatabase<>(addon, PlayerData.class);
+        players = new BBDatabase<>(addon, PlayerData.class);
         // Cache of challenges
         challengeMap = new LinkedHashMap<>();
         // Cache of player data
