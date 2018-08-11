@@ -3,7 +3,7 @@ package bentobox.addon.challenges;
 import org.bukkit.Bukkit;
 
 import bentobox.addon.challenges.commands.ChallengesCommand;
-import bentobox.addon.challenges.commands.admin.ChallengesAdminImportCommand;
+import bentobox.addon.challenges.commands.admin.Challenges;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 
@@ -40,7 +40,8 @@ public class ChallengesAddon extends Addon {
                 if (acidIslandCmd != null) {
                     new ChallengesCommand(this, acidIslandCmd);
                     CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
-                    new ChallengesAdminImportCommand(this, acidCmd);
+                    new Challenges(this, acidCmd);
+                    
                 }
             });
             this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
@@ -49,7 +50,7 @@ public class ChallengesAddon extends Addon {
                 if (bsbIslandCmd != null) {
                     new ChallengesCommand(this, bsbIslandCmd);
                     CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
-                    new ChallengesAdminImportCommand(this, bsbAdminCmd);
+                    new Challenges(this, bsbAdminCmd);
                 }
             });
         });

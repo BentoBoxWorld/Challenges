@@ -182,7 +182,6 @@ public class ChallengesManager {
 
     /**
      * Get the list of all challenge unique names.
-     * Used for checking admin commands and tab complete
      * @return List of challenge names
      */
     public List<String> getAllChallengesList() {
