@@ -5,7 +5,6 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import bentobox.addon.challenges.ChallengesAddon;
-import bentobox.addon.challenges.ChallengesManager;
 import bentobox.addon.challenges.database.object.Challenges;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;

@@ -46,7 +46,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
     public void setup() {
         this.setOnlyPlayer(true);
         this.setPermission("admin.challenges");
-        this.setParameters("challaneges.admin.create.surrounding.parameters");
+        this.setParametersHelp("challaneges.admin.create.surrounding.parameters");
         this.setDescription("challenges.admin.create.surrounding.description");
     }
 

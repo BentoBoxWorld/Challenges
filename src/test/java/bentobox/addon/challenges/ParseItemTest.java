@@ -23,9 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import bentobox.addon.challenges.ChallengesAddon;
-import bentobox.addon.challenges.ParseItem;
-
 @RunWith(PowerMockRunner.class)
 public class ParseItemTest {
 

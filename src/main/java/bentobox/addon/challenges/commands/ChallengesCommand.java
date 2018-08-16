@@ -28,7 +28,7 @@ public class ChallengesCommand extends CompositeCommand {
     public void setup() {
         this.setOnlyPlayer(true);
         this.setPermission(CHALLENGE_COMMAND);
-        this.setParameters(CHALLENGE_COMMAND + ".parameters");
+        this.setParametersHelp(CHALLENGE_COMMAND + ".parameters");
         this.setDescription(CHALLENGE_COMMAND + ".description");
         this.setOnlyPlayer(true);
     }

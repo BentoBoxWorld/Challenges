@@ -35,7 +35,7 @@ public class SetIcon extends CompositeCommand {
      */
     @Override
     public void setup() {
-        setParameters("challenges.admin.seticon.parameters");
+        setParametersHelp("challenges.admin.seticon.parameters");
         setDescription("challenges.admin.seticon.description");
     }
 

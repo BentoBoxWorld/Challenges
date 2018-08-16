@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.bukkit.Bukkit;
-
 import bentobox.addon.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
