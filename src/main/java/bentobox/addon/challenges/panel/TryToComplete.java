@@ -149,7 +149,7 @@ public class TryToComplete {
         if (level >= challenge.getReqIslandlevel()) {
             return new ChallengeResult().setMeetsRequirements();
         } else {
-            user.sendMessage("challenges.error.island-level", TextVariables.NUMBER, String.valueOf(level));
+            user.sendMessage("challenges.error.island-level", TextVariables.NUMBER, String.valueOf(challenge.getReqIslandlevel()));
             return new ChallengeResult();
         }
     }
