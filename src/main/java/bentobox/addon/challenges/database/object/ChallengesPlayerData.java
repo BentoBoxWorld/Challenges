@@ -20,7 +20,7 @@ import world.bentobox.bentobox.util.Util;
  * @author tastybento
  *
  */
-public class PlayerData implements DataObject {
+public class ChallengesPlayerData implements DataObject {
     
     @Expose
     private String uniqueId = "";
@@ -35,7 +35,7 @@ public class PlayerData implements DataObject {
     private Set<String> levelsDone = new HashSet<>();
 
     // Required for bean instantiation
-    public PlayerData() {}
+    public ChallengesPlayerData() {}
 
     /**
      * Mark a challenge as having been completed. Will increment the number of times and timestamp
@@ -70,7 +70,7 @@ public class PlayerData implements DataObject {
      * Creates a player data entry
      * @param uniqueId - the player's UUID in string format
      */
-    public PlayerData(String uniqueId) {
+    public ChallengesPlayerData(String uniqueId) {
         this.uniqueId = uniqueId;
     }
 
@@ -150,10 +150,10 @@ public class PlayerData implements DataObject {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof PlayerData)) {
+        if (!(obj instanceof ChallengesPlayerData)) {
             return false;
         }
-        PlayerData other = (PlayerData) obj;
+        ChallengesPlayerData other = (ChallengesPlayerData) obj;
         if (uniqueId == null) {
             if (other.uniqueId != null) {
                 return false;

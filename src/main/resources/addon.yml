@@ -4,6 +4,8 @@ version: 0.1
 
 authors: tastybento
 
+softdepend: AcidIsland, BSkyBlock
+
 permissions:    
   bskyblock.challenges:
     description: Let the player use the /challenges command

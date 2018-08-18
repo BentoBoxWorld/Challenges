@@ -24,7 +24,7 @@ import bentobox.addon.challenges.commands.admin.SurroundChallengeBuilder;
 import bentobox.addon.challenges.database.object.ChallengeLevels;
 import bentobox.addon.challenges.database.object.Challenges;
 import bentobox.addon.challenges.database.object.Challenges.ChallengeType;
-import bentobox.addon.challenges.database.object.PlayerData;
+import bentobox.addon.challenges.database.object.ChallengesPlayerData;
 import bentobox.addon.challenges.panel.ChallengesPanels;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.user.User;
@@ -37,9 +37,9 @@ public class ChallengesManager {
     private Map<ChallengeLevels, Set<Challenges>> challengeMap;
     private Config<Challenges> chConfig;
     private Config<ChallengeLevels> lvConfig;
-    private Database<PlayerData> players;
+    private Database<ChallengesPlayerData> players;
     private ChallengesPanels challengesPanels;
-    private Map<UUID,PlayerData> playerData;
+    private Map<UUID,ChallengesPlayerData> playerData;
     private ChallengesAddon addon;
 
     public ChallengesManager(ChallengesAddon addon) {
@@ -48,7 +48,7 @@ public class ChallengesManager {
         chConfig = new Config<>(addon, Challenges.class);
         lvConfig = new Config<>(addon, ChallengeLevels.class);
         // Players is where all the player history will be stored
-        players = new Database<>(addon, PlayerData.class);
+        players = new Database<>(addon, ChallengesPlayerData.class);
         // Cache of challenges
         challengeMap = new LinkedHashMap<>();
         // Cache of player data
@@ -68,12 +68,12 @@ public class ChallengesManager {
         // Check if the player exists in the database
         if (players.objectExists(user.getUniqueId().toString())) {
             // Load player from database
-            PlayerData data = players.loadObject(user.getUniqueId().toString());
+            ChallengesPlayerData data = players.loadObject(user.getUniqueId().toString());
             // Store in cache
             playerData.put(user.getUniqueId(), data);
         } else {
             // Create the player data
-            PlayerData pd = new PlayerData(user.getUniqueId().toString());
+            ChallengesPlayerData pd = new ChallengesPlayerData(user.getUniqueId().toString());
             players.saveObject(pd);
             // Add to cache
             playerData.put(user.getUniqueId(), pd);
@@ -215,7 +215,7 @@ public class ChallengesManager {
      */
     public List<LevelStatus> getChallengeLevelStatus(User user, World world) {
         addPlayer(user);
-        PlayerData pd = playerData.get(user.getUniqueId());
+        ChallengesPlayerData pd = playerData.get(user.getUniqueId());
         List<LevelStatus> result = new ArrayList<>();
         ChallengeLevels previousLevel = null;
         // The first level is always unlocked
