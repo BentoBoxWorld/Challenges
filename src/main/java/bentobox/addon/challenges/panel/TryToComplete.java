@@ -194,7 +194,7 @@ public class TryToComplete {
     }
 
     private ChallengeResult searchForEntities(Map<EntityType, Integer> map, int searchRadius) {
-        Map<EntityType, Integer> entities = new EnumMap<>(map);
+        Map<EntityType, Integer> entities = map.isEmpty() ? new EnumMap<>(EntityType.class) : new EnumMap<>(map);
         user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
             // Look through all the nearby Entities, filtering by type
             entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
