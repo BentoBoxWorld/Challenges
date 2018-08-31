@@ -327,7 +327,7 @@ challenges:
       icon: WHEAT
       level: 'Competent'
       type: inventory
-      requiredItems: 'WHEAT:64 SUGAR:64 MELON:64 CARROTS:64 POTATOES:64 PUMPKIN:64'
+      requiredItems: 'WHEAT:64 SUGAR:64 MELON:64 CARROT:64 POTATO:64 PUMPKIN:64'
       takeItems: true
       itemReward: 'REDSTONE:16 COCOA_BEANS:1 PIG_SPAWN_EGG:1 COW_SPAWN_EGG:1 CHICKEN_SPAWN_EGG:1'
       rewardText: '16 redstone dust, 1 cocoa bean, 1 spawn egg (chicken,cow,pig)'
