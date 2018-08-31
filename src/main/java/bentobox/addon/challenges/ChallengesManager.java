@@ -225,7 +225,7 @@ public class ChallengesManager {
             int total = challengeMap.values().size();
             int waiverAmount = en.getKey().getWaiveramount();
             int challengesDone = (int) en.getValue().stream().filter(ch -> pd.isChallengeDone(world, ch.getUniqueId())).count();
-            int challsToDo =  Math.max(0,total-challengesDone-waiverAmount);
+            int challsToDo =  Math.max(0,total - challengesDone - waiverAmount);
             boolean complete = challsToDo > 0 ? false : true;
             // Create result class with the data
             result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete, isUnlocked));

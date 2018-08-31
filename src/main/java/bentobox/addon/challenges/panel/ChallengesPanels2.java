@@ -3,7 +3,6 @@ package bentobox.addon.challenges.panel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -47,6 +46,7 @@ public class ChallengesPanels2 {
             return;
         }
         if (level.isEmpty()) {
+            // TODO: open the furthest challenge panel
             level = manager.getChallengeList().keySet().iterator().next().getUniqueId();
         }
         this.level = level;
@@ -67,9 +67,8 @@ public class ChallengesPanels2 {
     }
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
-        Set<Challenges> levelChallenges = manager.getChallenges(level, world);
         // Only show a control panel for the level requested.
-        for (Challenges challenge : levelChallenges) {
+        for (Challenges challenge : manager.getChallenges(level, world)) {
             createItem(panelBuilder, challenge);
         }
     }
@@ -127,7 +126,7 @@ public class ChallengesPanels2 {
     private void addNavigation(PanelBuilder panelBuilder) {
         // Add navigation to other levels
         for (LevelStatus status: manager.getChallengeLevelStatus(user, world)) {
-            if (status.getLevel().getUniqueId().equals(level)) {
+            if (status.getLevel().getUniqueId().equalsIgnoreCase(level)) {
                 // Skip if this is the current level
                 continue;
             }
