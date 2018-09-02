@@ -6,6 +6,7 @@ import bentobox.addon.challenges.commands.ChallengesCommand;
 import bentobox.addon.challenges.commands.admin.Challenges;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.configuration.Config;
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -17,6 +18,12 @@ public class ChallengesAddon extends Addon {
     private ChallengesManager challengesManager;
     private String permissionPrefix = "addon";
     private FreshSqueezedChallenges importManager;
+
+    @Override
+    public void onLoad() {
+        // Save default config.yml
+        saveDefaultConfig();
+    }
 
     @Override
     public void onEnable() {
