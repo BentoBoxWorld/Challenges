@@ -11,6 +11,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -71,6 +72,12 @@ public class TryToComplete {
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
+            if (addon.getConfig().getBoolean("broadcastmessages", false)) {
+                for (Player p : addon.getServer().getOnlinePlayers()) {
+                    User.getInstance(p).sendMessage("challenges.name-has-completed",
+                            "[name]", user.getName(), "[challenge]", challenge.getFriendlyName());
+                }
+            }
         } else {
             // Give rewards
             for (ItemStack reward : challenge.getRepeatItemReward()) {
