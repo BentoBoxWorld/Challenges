@@ -25,6 +25,7 @@ public class Challenges extends CompositeCommand {
         // Register sub commands
         new ImportCommand(getAddon(), this);
         //new ShowChallenges(getAddon(), this);
+        //new CreateChallenge(getAddon(), this);
 
     }
 

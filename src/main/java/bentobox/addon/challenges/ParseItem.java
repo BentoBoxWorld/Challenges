@@ -29,13 +29,14 @@ public class ParseItem {
      */
     private ItemStack parseItem(String s) {
         String[] part = s.split(":");
+        if (part.length > 0 && (part[0].equalsIgnoreCase("POTION") || part[0].equalsIgnoreCase("TIPPED_ARROW"))) {
+            return potion(s, part);
+        }
         // Material:Qty
         if (part.length == 2) {
             return two(s, part);
         } else if (part.length == 3) {
             return three(s, part);
-        } else if (part.length == 6 && (part[0].contains("POTION") || part[0].equalsIgnoreCase("TIPPED_ARROW"))) {
-            return potion(s, part);
         }
         showError(s);
         return null;
@@ -43,13 +44,6 @@ public class ParseItem {
     }
 
     private ItemStack potion(String s, String[] part) {
-        int reqAmount = 0;
-        try {
-            reqAmount = Integer.parseInt(part[5]);
-        } catch (Exception e) {
-            addon.getLogger().severe(() -> "Could not parse the quantity of the potion or tipped arrow " + s);
-            return null;
-        }
         /*
          * # Format POTION:NAME:<LEVEL>:<EXTENDED>:<SPLASH/LINGER>:QTY
             # LEVEL, EXTENDED, SPLASH, LINGER are optional.
@@ -61,24 +55,67 @@ public class ParseItem {
             # POTION:JUMP:2:NOTEXTENDED:NOSPLASH:1
             # POTION:WEAKNESS::::1   -  any weakness potion
          */
+
         ItemStack result = new ItemStack(Material.POTION);
-        if (part[4].equalsIgnoreCase("SPLASH")) {
-            result = new ItemStack(Material.SPLASH_POTION);
-        } else if (part[4].equalsIgnoreCase("LINGER")) {
-            result = new ItemStack(Material.LINGERING_POTION);
-        }
         if (part[0].equalsIgnoreCase("TIPPED_ARROW")) {
             result = new ItemStack(Material.TIPPED_ARROW);
+        } else if (part[0].equalsIgnoreCase("SPLASH_POTION")) {
+            result = new ItemStack(Material.SPLASH_POTION);
+        } else if (part[0].equalsIgnoreCase("LINGERING_POTION")) {
+            result = new ItemStack(Material.LINGERING_POTION);
+        }
+        int reqAmount = 0;
+        String amount = "1";
+        String level = "1";
+        String ext = "";
+        String splashLinger = "";
+        switch (part.length) {
+        case 3:
+            amount = part[2];
+            break;
+        case 4:
+            level = part[2];
+            amount = part[3];
+            break;
+        case 5:
+            level = part[2];
+            ext = part[3];
+            amount = part[4];
+            break;
+        case 6:
+            level = part[2];
+            ext = part[3];
+            splashLinger = part[4];
+            amount = part[5];
+            break;
+
+        default:
+            // Because I don't know!
+            return null;
+        }
+        // Parse the quantity
+        try {
+            reqAmount = Integer.parseInt(amount);
+        } catch (Exception e) {
+            addon.getLogger().severe(() -> "Could not parse the quantity of the potion or tipped arrow " + s);
+            return null;
         }
         result.setAmount(reqAmount);
+
+        // Parse the legacy splash / linger
+        if (splashLinger.equalsIgnoreCase("SPLASH")) {
+            result = new ItemStack(Material.SPLASH_POTION);
+        } else if (splashLinger.equalsIgnoreCase("LINGER")) {
+            result = new ItemStack(Material.LINGERING_POTION);
+        }
+        // Parse the type of potion
         PotionMeta potionMeta = (PotionMeta)(result.getItemMeta());
         PotionType type = PotionType.valueOf(part[1].toUpperCase());
-        boolean isUpgraded = (part[2].isEmpty() || part[2].equalsIgnoreCase("1")) ? false: true;
-        boolean isExtended = part[3].equalsIgnoreCase("EXTENDED") ? true : false;
+        boolean isUpgraded = (level.isEmpty() || level.equalsIgnoreCase("1")) ? false: true;
+        boolean isExtended = ext.equalsIgnoreCase("EXTENDED") ? true : false;
         PotionData data = new PotionData(type, isExtended, isUpgraded);
         potionMeta.setBasePotionData(data);
-
-        result.setAmount(reqAmount);
+        result.setItemMeta(potionMeta);
         return result;
     }
 

@@ -69,10 +69,12 @@ public class ParseItemTest {
         // Material
         for (Material mat : Material.values()) {
             ItemStack test = new ParseItem(addon, mat.name() + ":5").getItem();
-            if (test.getType().toString().endsWith("_ITEM") && !mat.toString().endsWith("_ITEM")) {
-                assertEquals(mat.toString() + "_ITEM", test.getType().toString());
-            } else {
-                assertEquals(mat, test.getType());
+            if (test != null) {
+                if (test.getType().toString().endsWith("_ITEM") && !mat.toString().endsWith("_ITEM")) {
+                    assertEquals(mat.toString() + "_ITEM", test.getType().toString());
+                } else {
+                    assertEquals(mat, test.getType());
+                }
             }
         }
 
@@ -105,6 +107,8 @@ public class ParseItemTest {
         assertNull(test);
 
         test = new ParseItem(addon, "POTION:JUMP:2:NOTEXTENDED:NOSPLASH:1").getItem();
+        assertEquals(Material.POTION, test.getType());
+        test = new ParseItem(addon, "POTION:JUMP:2").getItem();
         assertEquals(Material.POTION, test.getType());
         test = new ParseItem(addon, "POTION:STRENGTH:1:EXTENDED:SPLASH:1").getItem();
         assertEquals(Material.SPLASH_POTION, test.getType());

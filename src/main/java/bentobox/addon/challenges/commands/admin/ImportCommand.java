@@ -18,7 +18,7 @@ public class ImportCommand extends CompositeCommand {
      * @param cmd
      */
     public ImportCommand(Addon addon, CompositeCommand cmd) {
-        super(addon, cmd, "cimport");
+        super(addon, cmd, "import");
     }
 
     @Override

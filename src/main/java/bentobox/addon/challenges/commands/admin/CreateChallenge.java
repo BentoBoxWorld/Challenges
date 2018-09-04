@@ -4,24 +4,20 @@ import java.util.List;
 
 import bentobox.addon.challenges.ChallengesAddon;
 import bentobox.addon.challenges.panel.CreateChallengeListener;
+import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
 
 public class CreateChallenge extends CompositeCommand {
 
-
-    private ChallengesAddon addon;
-
     /**
      * Admin command to make challenges
      * @param parent
      */
-    public CreateChallenge(ChallengesAddon addon, CompositeCommand parent) {
-        super(parent, "create");
-        this.addon = addon;
+    public CreateChallenge(Addon addon, CompositeCommand parent) {
+        super(addon, parent, "create");
         new CreateSurrounding(addon, this);
-
     }
 
     @Override
@@ -42,7 +38,7 @@ public class CreateChallenge extends CompositeCommand {
         new PanelBuilder()
         .name(args.get(0))
         .size(49)
-        .listener(new CreateChallengeListener(addon, user))
+        .listener(new CreateChallengeListener((ChallengesAddon) getAddon(), user))
         .user(user)
         .build();
         return true;

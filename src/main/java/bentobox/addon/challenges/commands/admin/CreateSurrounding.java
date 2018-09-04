@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import bentobox.addon.challenges.ChallengesAddon;
+import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
@@ -28,17 +29,14 @@ import world.bentobox.bentobox.util.Util;
  */
 public class CreateSurrounding extends CompositeCommand implements Listener {
 
-
-    private ChallengesAddon addon;
     HashMap<UUID,SurroundChallengeBuilder> inProgress = new HashMap<>();
 
     /**
      * Admin command to make surrounding challenges
      * @param parent
      */
-    public CreateSurrounding(ChallengesAddon addon, CompositeCommand parent) {
-        super(parent, "surrounding");
-        this.addon = addon;
+    public CreateSurrounding(Addon addon, CompositeCommand parent) {
+        super(addon, parent, "surrounding");
         addon.getServer().getPluginManager().registerEvents(this, addon.getPlugin());
     }
 
@@ -58,7 +56,7 @@ public class CreateSurrounding extends CompositeCommand implements Listener {
         }
         // Tell user to hit objects to add to the surrounding object requirements
         user.sendMessage("challenges.admin.create.surrounding.hit-things");
-        inProgress.put(user.getUniqueId(), new SurroundChallengeBuilder(addon).owner(user).name(args.get(0)));
+        inProgress.put(user.getUniqueId(), new SurroundChallengeBuilder((ChallengesAddon) getAddon()).owner(user).name(args.get(0)));
         return true;
     }
 
