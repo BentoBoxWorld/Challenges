@@ -62,13 +62,13 @@ public class TryToComplete {
         }
         if (!result.repeat) {
             // Give rewards
-            for (ItemStack reward : challenge.getItemReward()) {
+            for (ItemStack reward : challenge.getRewardItems()) {
                 user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
             // Give money
-            challenge.getMoneyReward();
+            challenge.getRewardMoney();
             // Give exp
-            user.getPlayer().giveExp(challenge.getExpReward());
+            user.getPlayer().giveExp(challenge.getRewardExp());
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());

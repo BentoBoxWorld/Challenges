@@ -94,13 +94,13 @@ public class Challenges implements DataObject {
 
     // Rewards
     @ConfigComment("List of items the player will receive first time. ItemStack List.")
-    private List<ItemStack> itemReward = new ArrayList<>();
+    private List<ItemStack> rewardItems = new ArrayList<>();
     @ConfigComment("If this is blank, the reward text will be auto-generated, otherwise this will be used.")
     private String rewardText = "";
     @ConfigComment("Experience point reward")
-    private int expReward;
+    private int rewardExp;
     @ConfigComment("Money reward")
-    private int moneyReward;
+    private int rewardMoney;
     @ConfigComment("Commands to run when the player completes the challenge for the first time. String List")
     private List<String> rewardCommands = new ArrayList<>();
 
@@ -173,15 +173,15 @@ public class Challenges implements DataObject {
     /**
      * @return the expReward
      */
-    public int getExpReward() {
-        return expReward;
+    public int getRewardExp() {
+        return rewardExp;
     }
 
     /**
      * @param expReward the expReward to set
      */
-    public void setExpReward(int expReward) {
-        this.expReward = expReward;
+    public void setRewardExp(int expReward) {
+        this.rewardExp = expReward;
     }
 
     /**
@@ -246,15 +246,15 @@ public class Challenges implements DataObject {
     /**
      * @return the moneyReward
      */
-    public int getMoneyReward() {
-        return moneyReward;
+    public int getRewardMoney() {
+        return rewardMoney;
     }
 
     /**
      * @param moneyReward the moneyReward to set
      */
-    public void setMoneyReward(int moneyReward) {
-        this.moneyReward = moneyReward;
+    public void setRewardMoney(int moneyReward) {
+        this.rewardMoney = moneyReward;
     }
 
     /**
@@ -470,15 +470,15 @@ public class Challenges implements DataObject {
     /**
      * @return the itemReward
      */
-    public List<ItemStack> getItemReward() {
-        return itemReward;
+    public List<ItemStack> getRewardItems() {
+        return rewardItems;
     }
 
     /**
      * @param itemReward the itemReward to set
      */
-    public void setItemReward(List<ItemStack> itemReward) {
-        this.itemReward = itemReward;
+    public void setRewardItems(List<ItemStack> itemReward) {
+        this.rewardItems = itemReward;
     }
 
     /**

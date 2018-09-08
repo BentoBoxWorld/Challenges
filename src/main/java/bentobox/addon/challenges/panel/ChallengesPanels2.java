@@ -232,9 +232,9 @@ public class ChallengesPanels2 {
         String rewardText = "";
         if (admin || !complete) {
             // First time
-            moneyReward = challenge.getMoneyReward();
+            moneyReward = challenge.getRewardMoney();
             rewardText = challenge.getRewardText();
-            expReward = challenge.getExpReward();
+            expReward = challenge.getRewardExp();
             if (!rewardText.isEmpty()) {
                 result.addAll(splitTrans(user, "challenges.first-time-rewards"));
             }

@@ -122,8 +122,8 @@ public class FreshSqueezedChallenges {
             newChallenge.setTakeItems(details.getBoolean("takeItems",true));
             newChallenge.setRewardText(details.getString("rewardText", ""));
             newChallenge.setRewardCommands(details.getStringList("rewardcommands"));
-            newChallenge.setMoneyReward(details.getInt("moneyReward",0));
-            newChallenge.setExpReward(details.getInt("expReward"));
+            newChallenge.setRewardMoney(details.getInt("moneyReward",0));
+            newChallenge.setRewardExp(details.getInt("expReward"));
             newChallenge.setRepeatable(details.getBoolean("repeatable"));
             newChallenge.setRepeatRewardText(details.getString("repeatRewardText",""));
             newChallenge.setRepeatMoneyReward(details.getInt("repearMoneyReward"));
@@ -141,7 +141,7 @@ public class FreshSqueezedChallenges {
             } else if (newChallenge.getChallengeType().equals(Challenges.ChallengeType.ISLAND)) {
                 parseEntities(newChallenge, reqItems);
             }
-            newChallenge.setItemReward(parseItems(details.getString("itemReward")));
+            newChallenge.setRewardItems(parseItems(details.getString("itemReward")));
             newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward")));
             // Save
             if (addon.getChallengesManager().storeChallenge(newChallenge, overwrite, user, false)) {
