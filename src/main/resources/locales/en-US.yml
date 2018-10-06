@@ -58,7 +58,7 @@ challenges:
     error-challenge-does-not-exist: "Challenge doesn't exist or isn't yet completed"
   admin:
     parameters: ""
-    description: "admin command to create challenges"
+    description: "challenges admin"
     import:
       parameters: "[overwrite]"
       description: "import challenges from challenges.yml"
@@ -70,6 +70,10 @@ challenges:
       skipping: "'[challenge]' already exists - skipping"
       overwriting: "Overwriting '[challenge]'"
       imported: "Imported '[challenge]'"
+    complete:
+      description: "Marks challenge complete"
+      parameters: "<player> <unique challenge name>"
+      unknown-challenge: "&cUnknown challenge"
     create:
       description: "&6Collect:"
       description-item-color: "&B"

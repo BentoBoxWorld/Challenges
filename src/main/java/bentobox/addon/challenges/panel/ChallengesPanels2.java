@@ -22,40 +22,61 @@ import world.bentobox.bentobox.api.user.User;
 
 
 public class ChallengesPanels2 {
+
+    public enum Mode {
+        ADMIN,
+        EDIT,
+        PLAYER
+    }
     private ChallengesAddon addon;
     private ChallengesManager manager;
-    private User user;
+    private User requester;
     private String level;
     private World world;
     private String permPrefix;
     private String label;
-    private boolean admin;
+    private Mode mode;
+    private User target;
 
-    public ChallengesPanels2(ChallengesAddon addon, User user, String level, World world, String permPrefix, String label, boolean admin) {
+    public ChallengesPanels2(ChallengesAddon addon, User requester, User target, String level, World world, String permPrefix, String label, Mode mode) {
         this.addon = addon;
         this.manager = addon.getChallengesManager();
-        this.user = user;
+        this.requester = requester;
+        this.target = target;
         this.world = world;
         this.permPrefix = permPrefix;
         this.label = label;
-        this.admin = admin;
+        this.mode = mode;
 
         if (manager.getChallengeList().isEmpty()) {
             addon.getLogger().severe("There are no challenges set up!");
-            user.sendMessage("general.errors.general");
+            requester.sendMessage("general.errors.general");
             return;
         }
         if (level.isEmpty()) {
-            // TODO: open the furthest challenge panel
+            // TODO: open the farthest challenge panel
             level = manager.getChallengeList().keySet().iterator().next().getUniqueId();
         }
         this.level = level;
         // Check if level is valid
-        if (!admin && !manager.isLevelUnlocked(user, level, world)) {
+        if (mode.equals(Mode.PLAYER) && !manager.isLevelUnlocked(requester, level, world)) {
             return;
         }
-        PanelBuilder panelBuilder = new PanelBuilder()
-                .name(admin ? user.getTranslation("challenges.admin.gui-title") : user.getTranslation("challenges.gui-title"));
+        PanelBuilder panelBuilder = new PanelBuilder();
+        switch (mode) {
+        case ADMIN:
+            panelBuilder.name(requester.getTranslation("challenges.admin.gui-title"));
+            break;
+        case EDIT:
+            panelBuilder.name(requester.getTranslation("challenges.admin.edit-gui-title"));
+            break;
+        case PLAYER:
+            panelBuilder.name(requester.getTranslation("challenges.gui-title"));
+            break;
+        default:
+            break;
+
+        }
 
         addChallengeItems(panelBuilder);
         addNavigation(panelBuilder);
@@ -63,7 +84,7 @@ public class ChallengesPanels2 {
 
         // Create the panel
         Panel panel = panelBuilder.build();
-        panel.open(user);
+        panel.open(requester);
     }
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
@@ -82,13 +103,27 @@ public class ChallengesPanels2 {
      * Creates a panel item for challenge if appropriate and adds it to panelBuilder
      * @param panelBuilder
      * @param challenge
-     * @param user
+     * @param requester
      */
     private void createItem(PanelBuilder panelBuilder, Challenges challenge) {
         // For admin, glow means activated. For user, glow means done
-        boolean glow = admin ? challenge.isDeployed() : manager.isChallengeComplete(user, challenge.getUniqueId(), world);
+        boolean glow = false;
+        switch (mode) {
+        case ADMIN:
+            glow = challenge.isDeployed();
+            break;
+        case EDIT:
+            glow = manager.isChallengeComplete(requester, challenge.getUniqueId(), world);
+            break;
+        case PLAYER:
+            glow = manager.isChallengeComplete(requester, challenge.getUniqueId(), world);
+            break;
+        default:
+            break;
+
+        }
         // If not admin and challenge is removed after completion, remove it
-        if (!admin && glow && challenge.isRemoveWhenCompleted()) {
+        if (mode.equals(Mode.PLAYER) && glow && challenge.isRemoveWhenCompleted()) {
             return;
         }
         PanelItemBuilder itemBuilder = new PanelItemBuilder()
@@ -96,7 +131,7 @@ public class ChallengesPanels2 {
                 .name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName())
                 .description(challengeDescription(challenge))
                 .glow(glow);
-        if (admin) {
+        if (mode.equals(Mode.ADMIN)) {
             // Admin click
             itemBuilder.clickHandler((panel, player, c, s) -> {
                 if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
@@ -105,6 +140,14 @@ public class ChallengesPanels2 {
                 return true;
             });
 
+        } else if (mode.equals(Mode.EDIT)) {
+            // Admin edit click
+            itemBuilder.clickHandler((panel, player, c, s) -> {
+                if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
+                    new AdminEditGUI(addon, player, target, challenge, world, permPrefix, label);
+                }
+                return true;
+            });
         } else {
             // Player click
             itemBuilder.clickHandler((panel, player, c, s) -> {
@@ -125,7 +168,7 @@ public class ChallengesPanels2 {
 
     private void addNavigation(PanelBuilder panelBuilder) {
         // Add navigation to other levels
-        for (LevelStatus status: manager.getChallengeLevelStatus(user, world)) {
+        for (LevelStatus status: manager.getChallengeLevelStatus(requester, world)) {
             if (status.getLevel().getUniqueId().equalsIgnoreCase(level)) {
                 // Skip if this is the current level
                 continue;
@@ -133,12 +176,12 @@ public class ChallengesPanels2 {
             // Create a nice name for the level
             String name = status.getLevel().getFriendlyName().isEmpty() ? status.getLevel().getUniqueId() : status.getLevel().getFriendlyName();
 
-            if (admin || status.isUnlocked()) {
+            if (mode.equals(Mode.ADMIN) || mode.equals(Mode.EDIT) || status.isUnlocked()) {
                 // Clicking on this icon will open up this level's challenges
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.ENCHANTED_BOOK))
                         .name(name)
-                        .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
+                        .description(manager.stringSplit(requester.getTranslation("challenges.navigation","[level]",name)))
                         .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
                             u.performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
@@ -152,7 +195,7 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(manager.stringSplit(user.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
+                        .description(manager.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.item(item);
             }
@@ -170,26 +213,26 @@ public class ChallengesPanels2 {
         List<String> result = new ArrayList<String>();
         String level = challenge.getLevel();
         if (!level.isEmpty()) {
-            result.addAll(splitTrans(user, "challenges.level", "[level]", level));
+            result.addAll(splitTrans(requester, "challenges.level", "[level]", level));
         }
 
-        if (admin) {
+        if (mode.equals(Mode.ADMIN)) {
             if ((!challenge.getChallengeType().equals(ChallengeType.INVENTORY) || !challenge.isRepeatable())) {
-                result.addAll(splitTrans(user, "challenges.not-repeatable"));
+                result.addAll(splitTrans(requester, "challenges.not-repeatable"));
             } else {
-                result.addAll(splitTrans(user, "challenges.repeatable", "[maxtimes]", String.valueOf(challenge.getMaxTimes())));
+                result.addAll(splitTrans(requester, "challenges.repeatable", "[maxtimes]", String.valueOf(challenge.getMaxTimes())));
             }
             if (challenge.getChallengeType().equals(ChallengeType.INVENTORY) && challenge.isTakeItems()) {
-                result.addAll(splitTrans(user, "challenges.item-take-warning"));
+                result.addAll(splitTrans(requester, "challenges.item-take-warning"));
             }
             result.addAll(addRewards(challenge, true, true));
         } else {
             // Check if completed or not
-            boolean complete = addon.getChallengesManager().isChallengeComplete(user, challenge.getUniqueId(), world);
+            boolean complete = addon.getChallengesManager().isChallengeComplete(requester, challenge.getUniqueId(), world);
             int maxTimes = challenge.getMaxTimes();
-            long doneTimes = addon.getChallengesManager().checkChallengeTimes(user, challenge, world);
+            long doneTimes = addon.getChallengesManager().checkChallengeTimes(requester, challenge, world);
             if (complete) {
-                result.add(user.getTranslation("challenges.complete"));
+                result.add(requester.getTranslation("challenges.complete"));
             }
 
             if (challenge.isRepeatable()) {
@@ -197,9 +240,9 @@ public class ChallengesPanels2 {
 
                     // Check if the player has maxed out the challenge
                     if (doneTimes < maxTimes) {
-                        result.addAll(splitTrans(user, "challenges.completed-times","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
+                        result.addAll(splitTrans(requester, "challenges.completed-times","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
                     } else {
-                        result.addAll(splitTrans(user, "challenges.maxed-reached","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
+                        result.addAll(splitTrans(requester, "challenges.maxed-reached","[donetimes]", String.valueOf(doneTimes),"[maxtimes]", String.valueOf(maxTimes)));
                     }
                 }
             }
@@ -207,14 +250,14 @@ public class ChallengesPanels2 {
                 result.addAll(challenge.getDescription());
                 if (challenge.getChallengeType().equals(ChallengeType.INVENTORY)) {
                     if (challenge.isTakeItems()) {
-                        result.addAll(splitTrans(user, "challenges.item-take-warning"));
+                        result.addAll(splitTrans(requester, "challenges.item-take-warning"));
                     }
                 } else if (challenge.getChallengeType().equals(ChallengeType.ISLAND)) {
-                    result.addAll(splitTrans(user, "challenges.items-closeby"));
+                    result.addAll(splitTrans(requester, "challenges.items-closeby"));
                 }
             }
             if (complete && (!challenge.getChallengeType().equals(ChallengeType.INVENTORY) || !challenge.isRepeatable())) {
-                result.addAll(splitTrans(user, "challenges.not-repeatable"));
+                result.addAll(splitTrans(requester, "challenges.not-repeatable"));
                 result.replaceAll(x -> x.replace("[label]", label));
                 return result;
             }
@@ -236,7 +279,7 @@ public class ChallengesPanels2 {
             rewardText = challenge.getRewardText();
             expReward = challenge.getRewardExp();
             if (!rewardText.isEmpty()) {
-                result.addAll(splitTrans(user, "challenges.first-time-rewards"));
+                result.addAll(splitTrans(requester, "challenges.first-time-rewards"));
             }
         }
         if (admin || complete){
@@ -245,18 +288,18 @@ public class ChallengesPanels2 {
             rewardText = challenge.getRepeatRewardText();
             expReward = challenge.getRepeatExpReward();
             if (!rewardText.isEmpty()) {
-                result.addAll(splitTrans(user, "challenges.repeat-rewards"));
+                result.addAll(splitTrans(requester, "challenges.repeat-rewards"));
             }
         }
 
         if (!rewardText.isEmpty()) {
-            result.addAll(splitTrans(user,rewardText));
+            result.addAll(splitTrans(requester,rewardText));
         }
         if (expReward > 0) {
-            result.addAll(splitTrans(user,"challenges.exp-reward", "[reward]", String.valueOf(expReward)));
+            result.addAll(splitTrans(requester,"challenges.exp-reward", "[reward]", String.valueOf(expReward)));
         }
         if (addon.getPlugin().getSettings().isUseEconomy() && moneyReward > 0) {
-            result.addAll(splitTrans(user,"challenges.money-reward", "[reward]", String.valueOf(moneyReward)));
+            result.addAll(splitTrans(requester,"challenges.money-reward", "[reward]", String.valueOf(moneyReward)));
         }
         return result;
     }

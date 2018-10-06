@@ -191,6 +191,17 @@ public class ChallengesManager {
     }
 
     /**
+     * Get the list of all challenge unique names for world.
+     * @param world - the world to check
+     * @return List of challenge names
+     */
+    public List<String> getAllChallengesList(World world) {
+        List<String> result = new ArrayList<>();
+        challengeMap.values().forEach(ch -> ch.stream().filter(c -> c.getWorld().equals(Util.getWorld(world).getName())).forEach(c -> result.add(c.getUniqueId())));
+        return result;
+    }
+
+    /**
      * Get challenge by name
      * @param name - unique name of challenge
      * @param world - world to check
@@ -291,6 +302,21 @@ public class ChallengesManager {
     public boolean isChallenge(String name) {
         for (Set<Challenges> ch : challengeMap.values())  {
             if (ch.stream().anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if a challenge exists in world - case insensitive
+     * @param world - world to check
+     * @param name - name of challenge
+     * @return true if it exists, otherwise false
+     */
+    public boolean isChallenge(World world, String name) {
+        for (Set<Challenges> ch : challengeMap.values())  {
+            if (ch.stream().filter(c -> c.getWorld().equals(Util.getWorld(world).getName())).anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
                 return true;
             }
         }
