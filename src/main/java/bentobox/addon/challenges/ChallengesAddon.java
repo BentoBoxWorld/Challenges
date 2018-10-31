@@ -6,7 +6,6 @@ import bentobox.addon.challenges.commands.ChallengesCommand;
 import bentobox.addon.challenges.commands.admin.Challenges;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
-import world.bentobox.bentobox.api.configuration.Config;
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -30,7 +29,7 @@ public class ChallengesAddon extends Addon {
         // Check if it is enabled - it might be loaded, but not enabled.
         if (getPlugin() == null || !getPlugin().isEnabled()) {
             Bukkit.getLogger().severe("BentoBox is not available or disabled!");
-            this.setEnabled(false);
+            this.setState(State.DISABLED);
             return;
         }
 
@@ -48,7 +47,7 @@ public class ChallengesAddon extends Addon {
                     new ChallengesCommand(this, acidIslandCmd);
                     CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
                     new Challenges(this, acidCmd);
-                    
+
                 }
             });
             this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
@@ -76,6 +75,7 @@ public class ChallengesAddon extends Addon {
         return challengesManager;
     }
 
+    @Override
     public String getPermissionPrefix() {
         return permissionPrefix ;
     }

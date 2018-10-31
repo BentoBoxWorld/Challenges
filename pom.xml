@@ -6,7 +6,7 @@
 
 	<groupId>us.tastybento</groupId>
 	<artifactId>Challenges</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like ASkyBlock or AcidIsland.</description>
@@ -71,13 +71,13 @@
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>
-			<version>0.9.0-SNAPSHOT</version>
+			<version>0.12.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>bskyblock.addon</groupId>
 			<artifactId>Level</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
