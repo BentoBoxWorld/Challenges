@@ -151,7 +151,7 @@ public class TryToComplete {
 
     private ChallengeResult checkLevel() {
         // Check if the level addon is installed or not
-        long level = addon.getAddonByName("BentoBox-Level")
+        long level = addon.getAddonByName("Level")
                 .map(l -> ((Level)l).getIslandLevel(world, user.getUniqueId())).orElse(0L);
         if (level >= challenge.getReqIslandlevel()) {
             return new ChallengeResult().setMeetsRequirements();

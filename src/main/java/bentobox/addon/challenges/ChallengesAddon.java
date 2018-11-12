@@ -17,6 +17,7 @@ public class ChallengesAddon extends Addon {
     private ChallengesManager challengesManager;
     private String permissionPrefix = "addon";
     private FreshSqueezedChallenges importManager;
+    private boolean hooked;
 
     @Override
     public void onLoad() {
@@ -41,13 +42,14 @@ public class ChallengesAddon extends Addon {
         // Register commands - run one tick later to allow all addons to load
         // AcidIsland hook in
         getServer().getScheduler().runTask(getPlugin(), () -> {
+
             this.getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
                 CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
                 if (acidIslandCmd != null) {
                     new ChallengesCommand(this, acidIslandCmd);
                     CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
                     new Challenges(this, acidCmd);
-
+                    hooked = true;
                 }
             });
             this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
@@ -57,10 +59,18 @@ public class ChallengesAddon extends Addon {
                     new ChallengesCommand(this, bsbIslandCmd);
                     CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
                     new Challenges(this, bsbAdminCmd);
+                    hooked = true;
                 }
             });
         });
-
+        // If the add-on never hooks in, then it is useless
+        if (!hooked) {
+            logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
+        }
+        // Try to find Level addon and if it does not exist, display a warning
+        if (!getAddonByName("Level").isPresent()) {
+            logWarning("Level add-on not found so level challenges will not work!");
+        }
         // Done
     }
 
