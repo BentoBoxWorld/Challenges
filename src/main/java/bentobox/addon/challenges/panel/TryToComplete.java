@@ -20,10 +20,10 @@ import bentobox.addon.challenges.ChallengesManager;
 import bentobox.addon.challenges.commands.ChallengesCommand;
 import bentobox.addon.challenges.database.object.Challenges;
 import bentobox.addon.challenges.database.object.Challenges.ChallengeType;
-import bentobox.addon.level.Level;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
+import world.bentobox.level.Level;
 
 /**
  * Run when a user tries to complete a challenge
@@ -169,7 +169,7 @@ public class TryToComplete {
         }
         // Check for items or entities in the area
         ChallengeResult result = searchForEntities(challenge.getRequiredEntities(), challenge.getSearchRadius());
-        if (result.meetsRequirements) {
+        if (result.meetsRequirements && !challenge.getRequiredBlocks().isEmpty()) {
             // Search for items only if entities found
             result = searchForBlocks(challenge.getRequiredBlocks(), challenge.getSearchRadius());
         }
