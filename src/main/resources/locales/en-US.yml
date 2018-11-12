@@ -59,6 +59,9 @@ challenges:
   admin:
     parameters: ""
     description: "challenges admin"
+    reload:
+      parameters: ""
+      description: "reload challenges from the database"
     import:
       parameters: "[overwrite]"
       description: "import challenges from challenges.yml"
