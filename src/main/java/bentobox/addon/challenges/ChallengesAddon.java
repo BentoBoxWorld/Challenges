@@ -41,31 +41,30 @@ public class ChallengesAddon extends Addon {
 
         // Register commands - run one tick later to allow all addons to load
         // AcidIsland hook in
-        getServer().getScheduler().runTask(getPlugin(), () -> {
-
-            this.getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
-                CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
-                if (acidIslandCmd != null) {
-                    new ChallengesCommand(this, acidIslandCmd);
-                    CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
-                    new Challenges(this, acidCmd);
-                    hooked = true;
-                }
-            });
-            this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
-                // BSkyBlock hook in
-                CompositeCommand bsbIslandCmd = getPlugin().getCommandsManager().getCommand("island");
-                if (bsbIslandCmd != null) {
-                    new ChallengesCommand(this, bsbIslandCmd);
-                    CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
-                    new Challenges(this, bsbAdminCmd);
-                    hooked = true;
-                }
-            });
+        getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
+            CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
+            if (acidIslandCmd != null) {
+                new ChallengesCommand(this, acidIslandCmd);
+                CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
+                new Challenges(this, acidCmd);
+                hooked = true;
+            }
+        });
+        getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
+            // BSkyBlock hook in
+            CompositeCommand bsbIslandCmd = getPlugin().getCommandsManager().getCommand("island");
+            if (bsbIslandCmd != null) {
+                new ChallengesCommand(this, bsbIslandCmd);
+                CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
+                new Challenges(this, bsbAdminCmd);
+                hooked = true;
+            }
         });
         // If the add-on never hooks in, then it is useless
         if (!hooked) {
             logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
+            this.setState(State.DISABLED);
+            return;
         }
         // Try to find Level addon and if it does not exist, display a warning
         if (!getAddonByName("Level").isPresent()) {

@@ -4,9 +4,13 @@
 package bentobox.addon.challenges.panel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -134,18 +138,55 @@ public class TryToComplete {
         // Run through inventory
         List<ItemStack> required = new ArrayList<>(challenge.getRequiredItems());
         for (ItemStack req : required) {
-            // I wonder how well this works
-            if (!user.getInventory().containsAtLeast(req, req.getAmount())) {
-                user.sendMessage("challenges.error.not-enough-items", "[items]", Util.prettifyText(req.getType().toString()));
-                return new ChallengeResult();
+            // Check for FIREWORK_ROCKET, ENCHANTED_BOOK, WRITTEN_BOOK, POTION and FILLED_MAP because these have unique meta when created
+            switch (req.getType()) {
+            case FIREWORK_ROCKET:
+            case ENCHANTED_BOOK:
+            case WRITTEN_BOOK:
+            case FILLED_MAP:
+                // Get how many items are in the inventory. Item stacks amounts need to be summed
+                int numInInventory = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).mapToInt(i -> i.getAmount()).sum();
+                if (numInInventory < req.getAmount()) {
+                    user.sendMessage("challenges.error.not-enough-items", "[items]", Util.prettifyText(req.getType().toString()));
+                    return new ChallengeResult();
+                }
+                // If remove items, then remove them
+                if (challenge.isTakeItems()) {
+                    int amountToBeRemoved = req.getAmount();
+                    List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).collect(Collectors.toList());
+                    for (ItemStack i : itemsInInv) {
+                        if (amountToBeRemoved > 0) {
+                            // Remove all of this item
+                            HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
+                            if (!remaining.isEmpty()) {
+                                remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v));
+                            } else {
+                                amountToBeRemoved -= i.getAmount();
+                            }
+                        }
+                    }
+
+                }
+                break;
+            default:
+                // General checking
+                if (!user.getInventory().containsAtLeast(req, req.getAmount())) {
+                    user.sendMessage("challenges.error.not-enough-items", "[items]", Util.prettifyText(req.getType().toString()));
+                    return new ChallengeResult();
+                }
+                // If remove items, then remove them
+                if (challenge.isTakeItems()) {
+                    for (ItemStack items : required) {
+                        HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(items);
+                        if (!remaining.isEmpty()) {
+                            remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v));
+                        }
+                    }
+                }
             }
+
         }
-        // If remove items, then remove them
-        if (challenge.isTakeItems()) {
-            for (ItemStack items : required) {
-                user.getInventory().removeItem(items);
-            }
-        }
+
         return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
     }
 
