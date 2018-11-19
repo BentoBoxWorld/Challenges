@@ -241,24 +241,39 @@ public class TryToComplete {
         }
         // If remove items, then remove them
         if (challenge.isTakeItems()) {
-            for (ItemStack req : required) {
-                int amountToBeRemoved = req.getAmount();
-                List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).collect(Collectors.toList());
-                for (ItemStack i : itemsInInv) {
-                    if (amountToBeRemoved > 0) {
-                        // Remove all of this item
-                        HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
-                        if (!remaining.isEmpty()) {
-                            remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v));
-                        } else {
-                            amountToBeRemoved -= i.getAmount();
-                        }
+            removeItems(required);
+
+        }
+        // Return the result
+        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
+    }
+
+    /**
+     * Removes items from a user's inventory
+     * @param required - a list of item stacks to be removed
+     * @return Map of item type and quantity that were successfully removed from the user's inventory
+     */
+    public Map<Material, Integer> removeItems(List<ItemStack> required) {
+        Map<Material, Integer> removed = new HashMap<>();
+        for (ItemStack req : required) {
+            int amountToBeRemoved = req.getAmount();
+            List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).collect(Collectors.toList());
+            for (ItemStack i : itemsInInv) {
+                if (amountToBeRemoved > 0) {
+                    // Remove either the full amount or the remaining amount
+                    i.setAmount(Math.min(i.getAmount(), amountToBeRemoved));
+                    // Remove all of this item
+                    HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
+                    if (!remaining.isEmpty()) {
+                        remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v.getType() + " x " + v.getAmount()));
+                    } else {
+                        amountToBeRemoved -= i.getAmount();
+                        removed.merge(i.getType(), i.getAmount(), Integer::sum);
                     }
                 }
             }
         }
-        // Return the result
-        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
+        return removed;
     }
 
     private ChallengeResult checkLevel() {
