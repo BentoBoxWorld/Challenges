@@ -21,7 +21,7 @@ import world.bentobox.bentobox.util.Util;
  *
  */
 public class ChallengesPlayerData implements DataObject {
-    
+
     @Expose
     private String uniqueId = "";
     /**
@@ -39,11 +39,25 @@ public class ChallengesPlayerData implements DataObject {
 
     /**
      * Mark a challenge as having been completed. Will increment the number of times and timestamp
+     * @param world - world of challenge
      * @param challengeName - unique challenge name
      */
     public void setChallengeDone(World world, String challengeName) {
         String name = Util.getWorld(world).getName() + challengeName;
         int times = challengeStatus.getOrDefault(name, 0) + 1;
+        challengeStatus.put(name, times);
+        challengesTimestamp.put(name, System.currentTimeMillis());
+    }
+
+    /**
+     * Set the number of times a challenge has been done
+     * @param world - world of challenge
+     * @param challengeName - unique challenge name
+     * @param times - the number of times to set
+     *
+     */
+    public void setChallengeTimes(World world, String challengeName, int times) {
+        String name = Util.getWorld(world).getName() + challengeName;
         challengeStatus.put(name, times);
         challengesTimestamp.put(name, System.currentTimeMillis());
     }

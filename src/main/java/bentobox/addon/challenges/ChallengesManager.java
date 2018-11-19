@@ -399,6 +399,18 @@ public class ChallengesManager {
     }
 
     /**
+     * Reset the challenge to zero time / not done
+     * @param user - user
+     * @param challengeUniqueId - unique challenge id
+     * @param world - world to set
+     */
+    public void setResetChallenge(User user, String challengeUniqueId, World world) {
+        addPlayer(user);
+        playerData.get(user.getUniqueId()).setChallengeTimes(world, challengeUniqueId, 0);
+
+    }
+
+    /**
      * @param challengeList the challengeList to set
      */
     public void setChallengeList(Map<ChallengeLevels, Set<Challenges>> challengeList) {
@@ -485,4 +497,6 @@ public class ChallengesManager {
         Arrays.asList(string.split("\\|")).forEach(line -> result.addAll(Arrays.asList(WordUtils.wrap(line,25).split("\\n"))));
         return result;
     }
+
+
 }

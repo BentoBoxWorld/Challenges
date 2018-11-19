@@ -74,9 +74,12 @@ challenges:
       overwriting: "Overwriting '[challenge]'"
       imported: "Imported '[challenge]'"
     complete:
-      description: "Marks challenge complete"
+      description: "Mark challenge complete"
       parameters: "<player> <unique challenge name>"
       unknown-challenge: "&cUnknown challenge"
+    reset:
+      description: "Reset challenge to 0 times / incomplete"
+      parameters: "<player> <unique challenge name>"
     create:
       description: "&6Collect:"
       description-item-color: "&B"

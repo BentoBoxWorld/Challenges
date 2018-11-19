@@ -6,7 +6,7 @@
 
 	<groupId>us.tastybento</groupId>
 	<artifactId>Challenges</artifactId>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2.2-SNAPSHOT</version>
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like ASkyBlock or AcidIsland.</description>

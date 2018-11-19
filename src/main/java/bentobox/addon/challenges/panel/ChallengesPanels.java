@@ -97,7 +97,9 @@ public class ChallengesPanels {
                 .glow(completed)
                 .clickHandler((panel, player, c, s) -> {
                     if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                        new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
+                        new TryToComplete(addon).user(player).manager(manager).challenge(challenge)
+                        .world(world).permPrefix(permPrefix).label(label).build();
+                        //new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
                     }
                     return true;
                 })

@@ -42,6 +42,85 @@ public class TryToComplete {
     private User user;
     private ChallengesManager manager;
     private Challenges challenge;
+    private String label;
+
+    public TryToComplete label(String label) {
+        this.label = label;
+        return this;
+    }
+
+    public TryToComplete user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public TryToComplete manager(ChallengesManager manager) {
+        this.manager = manager;
+        return this;
+    }
+
+    public TryToComplete challenge(Challenges challenge) {
+        this.challenge = challenge;
+        return this;
+    }
+
+    public TryToComplete world(World world) {
+        this.world = world;
+        return this;
+    }
+
+    public TryToComplete permPrefix(String prefix) {
+        this.permPrefix = prefix;
+        return this;
+    }
+
+    public TryToComplete(ChallengesAddon addon) {
+        this.addon = addon;
+    }
+
+    public ChallengeResult build() {
+        // Check if can complete challenge
+        ChallengeResult result = checkIfCanCompleteChallenge();
+        if (!result.meetsRequirements) {
+            return result;
+        }
+        if (!result.repeat) {
+            // Give rewards
+            for (ItemStack reward : challenge.getRewardItems()) {
+                user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
+            }
+            // Give money
+            challenge.getRewardMoney();
+            // Give exp
+            user.getPlayer().giveExp(challenge.getRewardExp());
+            // Run commands
+            runCommands(challenge.getRewardCommands());
+            user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
+            if (addon.getConfig().getBoolean("broadcastmessages", false)) {
+                for (Player p : addon.getServer().getOnlinePlayers()) {
+                    User.getInstance(p).sendMessage("challenges.name-has-completed",
+                            "[name]", user.getName(), "[challenge]", challenge.getFriendlyName());
+                }
+            }
+        } else {
+            // Give rewards
+            for (ItemStack reward : challenge.getRepeatItemReward()) {
+                user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
+            }
+            // Give money
+            challenge.getRepeatMoneyReward();
+            // Give exp
+            user.getPlayer().giveExp(challenge.getRepeatExpReward());
+            // Run commands
+            runCommands(challenge.getRepeatRewardCommands());
+            user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
+        }
+        // Mark as complete
+        manager.setChallengeComplete(user, challenge.getUniqueId(), world);
+        user.closeInventory();
+        user.getPlayer().performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + challenge.getLevel());
+        return result;
+    }
 
     /**
      * @param addon
@@ -150,23 +229,6 @@ public class TryToComplete {
                     user.sendMessage("challenges.error.not-enough-items", "[items]", Util.prettifyText(req.getType().toString()));
                     return new ChallengeResult();
                 }
-                // If remove items, then remove them
-                if (challenge.isTakeItems()) {
-                    int amountToBeRemoved = req.getAmount();
-                    List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).collect(Collectors.toList());
-                    for (ItemStack i : itemsInInv) {
-                        if (amountToBeRemoved > 0) {
-                            // Remove all of this item
-                            HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
-                            if (!remaining.isEmpty()) {
-                                remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v));
-                            } else {
-                                amountToBeRemoved -= i.getAmount();
-                            }
-                        }
-                    }
-
-                }
                 break;
             default:
                 // General checking
@@ -174,19 +236,28 @@ public class TryToComplete {
                     user.sendMessage("challenges.error.not-enough-items", "[items]", Util.prettifyText(req.getType().toString()));
                     return new ChallengeResult();
                 }
-                // If remove items, then remove them
-                if (challenge.isTakeItems()) {
-                    for (ItemStack items : required) {
-                        HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(items);
+            }
+
+        }
+        // If remove items, then remove them
+        if (challenge.isTakeItems()) {
+            for (ItemStack req : required) {
+                int amountToBeRemoved = req.getAmount();
+                List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType().equals(req.getType())).collect(Collectors.toList());
+                for (ItemStack i : itemsInInv) {
+                    if (amountToBeRemoved > 0) {
+                        // Remove all of this item
+                        HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
                         if (!remaining.isEmpty()) {
                             remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v));
+                        } else {
+                            amountToBeRemoved -= i.getAmount();
                         }
                     }
                 }
             }
-
         }
-
+        // Return the result
         return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
     }
 
