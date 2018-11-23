@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -153,14 +152,13 @@ public class TryToCompleteTest {
      */
     @Test
     public void testRemoveItemsFail() {
-        HashMap<Integer, ItemStack> unremovable = new HashMap<>();
-        unremovable.put(0, new ItemStack(Material.GOLD_BLOCK, 2));
-        when(inv.removeItem(Mockito.any(ItemStack.class))).thenReturn(unremovable);
-        required.add(new ItemStack(Material.GOLD_BLOCK, 5));
+        required.add(new ItemStack(Material.GOLD_BLOCK, 55));
         TryToComplete x = new TryToComplete(addon);
         x.user(user);
         Map<Material, Integer> removed = x.removeItems(required);
-        assertTrue(removed.isEmpty());
+        // It will remove 32, but not any more
+        assertTrue(removed.get(Material.GOLD_BLOCK) == 32);
+        // An error will be thrown
         Mockito.verify(addon, Mockito.times(1)).logError(Mockito.anyString());
     }
 }

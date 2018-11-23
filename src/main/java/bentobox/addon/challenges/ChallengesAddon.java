@@ -1,18 +1,21 @@
 package bentobox.addon.challenges;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import bentobox.addon.challenges.commands.ChallengesCommand;
 import bentobox.addon.challenges.commands.admin.Challenges;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.level.event.IslandLevelCalculatedEvent;
 
 /**
  * Add-on to BSkyBlock that enables challenges
  * @author tastybento
  *
  */
-public class ChallengesAddon extends Addon {
+public class ChallengesAddon extends Addon implements Listener {
 
     private ChallengesManager challengesManager;
     private String permissionPrefix = "addon";
@@ -24,9 +27,15 @@ public class ChallengesAddon extends Addon {
         // Save default config.yml
         saveDefaultConfig();
     }
-
+    @EventHandler
+    public void onIslandLevelChange(IslandLevelCalculatedEvent event)
+    {
+        event.getResults();
+        Bukkit.getLogger().info("DEBUG: event called");
+    }
     @Override
     public void onEnable() {
+        this.registerListener(this);
         // Check if it is enabled - it might be loaded, but not enabled.
         if (getPlugin() == null || !getPlugin().isEnabled()) {
             Bukkit.getLogger().severe("BentoBox is not available or disabled!");

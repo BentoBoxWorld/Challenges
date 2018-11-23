@@ -261,16 +261,20 @@ public class TryToComplete {
             for (ItemStack i : itemsInInv) {
                 if (amountToBeRemoved > 0) {
                     // Remove either the full amount or the remaining amount
-                    i.setAmount(Math.min(i.getAmount(), amountToBeRemoved));
-                    // Remove all of this item
-                    HashMap<Integer, ItemStack> remaining = user.getInventory().removeItem(i);
-                    if (!remaining.isEmpty()) {
-                        remaining.forEach((k,v) -> addon.logError("Could not remove items: " + v.getType() + " x " + v.getAmount()));
+                    if (i.getAmount() >= amountToBeRemoved) {
+                        i.setAmount(i.getAmount() - amountToBeRemoved);
+                        removed.merge(i.getType(), amountToBeRemoved, Integer::sum);
+                        amountToBeRemoved = 0;
                     } else {
-                        amountToBeRemoved -= i.getAmount();
                         removed.merge(i.getType(), i.getAmount(), Integer::sum);
+                        amountToBeRemoved -= i.getAmount();
+                        i.setAmount(0);
+
                     }
                 }
+            }
+            if (amountToBeRemoved > 0) {
+                addon.logError("Could not remove " + amountToBeRemoved + " of " + req.getType() + " from player's inventory!");
             }
         }
         return removed;

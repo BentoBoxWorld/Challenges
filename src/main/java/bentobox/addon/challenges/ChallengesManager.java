@@ -372,7 +372,17 @@ public class ChallengesManager {
             lvConfig.saveConfigObject(en.getKey());
             en.getValue().forEach(chConfig::saveConfigObject);
         });
+        savePlayers();
+    }
+
+    private void savePlayers() {
         playerData.values().forEach(players :: saveObject);
+    }
+
+    private void savePlayer(UUID playerUUID) {
+        if (playerData.containsKey(playerUUID)) {
+            players.saveObject(playerData.get(playerUUID));
+        }
     }
 
     /**
@@ -396,6 +406,8 @@ public class ChallengesManager {
     public void setChallengeComplete(User user, String challengeUniqueId, World world) {
         addPlayer(user);
         playerData.get(user.getUniqueId()).setChallengeDone(world, challengeUniqueId);
+        // Save
+        savePlayer(user.getUniqueId());
     }
 
     /**
@@ -407,7 +419,8 @@ public class ChallengesManager {
     public void setResetChallenge(User user, String challengeUniqueId, World world) {
         addPlayer(user);
         playerData.get(user.getUniqueId()).setChallengeTimes(world, challengeUniqueId, 0);
-
+        // Save
+        savePlayer(user.getUniqueId());
     }
 
     /**
