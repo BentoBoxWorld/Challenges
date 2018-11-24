@@ -511,5 +511,19 @@ public class ChallengesManager {
         return result;
     }
 
+    /**
+     * Resets all the challenges for user in world
+     * @param uuid - island owner's UUID
+     * @param world - world
+     */
+    public void resetAllChallenges(UUID uuid, World world) {
+        User user = User.getInstance(uuid);
+        addPlayer(user);
+        playerData.get(user.getUniqueId()).reset(world);
+        // Save
+        savePlayer(user.getUniqueId());
+
+    }
+
 
 }

@@ -6,36 +6,59 @@
 ### Credits ###
 # Tastybento: maintainer
 
-challenges:
-  completed-times: "Completed [donetimes] out of [maxtimes]"
-  max-reached: "Max reached [donetimes] out of [maxtimes]"
-  challenge:
+challenges: 
+  admin: 
+    challenge-created: "[challenge] created!"
+    complete: 
+      description: "Mark challenge complete"
+      parameters: "<player> <unique challenge name>"
+      unknown-challenge: "&cUnknown challenge"
+    create: 
+      description: "&6Collect:"
+      description-item-color: "&B"
+      inventory: 
+        description: "create an inventory challenge"
+        parameters: "[challenge name]"
+      surrounding: 
+        description: "create a surrounding challenge"
+        hit-things: "Hit things to add them to the list of things required. Right click when done."
+        parameters: "[challenge name]"
+    description: "challenges admin"
+    error: 
+      no-name: "You must include a challenge name"
+    gui-title: "&aChallenges Admin"
+    import: 
+      description: "import challenges from challenges.yml"
+      imported: "Imported '[challenge]'"
+      levels: "Importing levels: [levels]"
+      no-file: "&cCould not find challenges.yml file to import!"
+      no-levels: "Warning: No levels defined in challenges.yml"
+      no-load: "&cError: Could not load challenges.yml. [message]"
+      number: "Imported [number] challenges"
+      overwriting: "Overwriting '[challenge]'"
+      parameters: "[overwrite]"
+      skipping: "'[challenge]' already exists - skipping"
+    parameters: ""
+    reload: 
+      description: "reload challenges from the database"
+      parameters: ""
+    reset: 
+      description: "Reset challenge to 0 times / incomplete"
+      parameters: "<player> <unique challenge name>"
+    seticon: 
+      description: "sets the challenge icon to inhand item"
+      error: 
+        no-such-challenge: "&cNo such challenge name"
+      parameters: "[challenge name]"
+    you-added: "You added one [thing] to the challenge"
+  challenge: 
     format: "[description]"
-  parameters: "[Level]"
-  description: "Open the challenges menu"
   complete: "&BComplete"
-  exp-reward: "&6Exp reward: [reward]"
-  first-time-rewards: "&6First time reward(s)"
-  gui-title: "&aChallenges"
-  incomplete: "Incomplete"
-  item-take-warning: "&cAll required items are|&ctaken when you complete|&cthis challenge!"
-  items-closeby: "&cAll required items|&cmust be close to you|&con your island!"
-  level: "&FLevel: [level]"
-  max-reached: "Max reached [donetimes] out of [maxtimes]"
-  money-reward: "&6Money reward: $[reward]"
-  name: "Challenge Name"
-  name-has-completed: "[name] has completed the [challenge] challenge!"
-  navigation: "Click to see [level] challenges!"
-  repeatable: "This challenge can be repeated [maxtimes] times"
-  not-repeatable: "This challenge is not repeatable!"
-  repeat-rewards: "&6Repeat reward(s)"
-  rewards: "&FReward(s)"
-  to-complete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
-  you-completed: "You completed the [challenge] challenge!"
-  you-repeated: "You repeated the [challenge] challenge!"
   completechallenge: 
     challange-completed: "Challenge: [challengename] has been completed for [name]"
-  error:
+  completed-times: "Completed [donetimes] out of [maxtimes]"
+  description: "Open the challenges menu"
+  error: 
     could-not-save: "&cCould not save the challenge!"
     island-level: "&cYour island must be level [number] to complete this challenge!"
     items-not-there: "&cAll required items must be close to you on your island!"
@@ -45,58 +68,34 @@ challenges:
     not-on-island: "&cYou must be on your island to do that!"
     reward-problem: "&cThere was a problem giving your reward. Ask Admin to check log!"
     you-still-need: "&cYou still need [amount] x [item]"
-  help:
+  exp-reward: "&6Exp reward: [reward]"
+  first-time-rewards: "&6First time reward(s)"
+  gui-title: "&aChallenges"
+  help: 
     command: "/challenges: &fshow challenges"
     config-reloaded: "Configuration reloaded from file."
     reset-all-challenges: "resets all of the player's challenges"
     reset-challenge: "marks a challenge as incomplete"
     reset-challenge-for-all: "globally resets a challenge for every player with an optional repetition"
+  incomplete: Incomplete
+  item-take-warning: "&cAll required items are|&ctaken when you complete|&cthis challenge!"
+  items-closeby: "&cAll required items|&cmust be close to you|&con your island!"
+  level: "&FLevel: [level]"
+  max-reached: "Max reached [donetimes] out of [maxtimes]"
+  money-reward: "&6Money reward: $[reward]"
+  name: "Challenge Name"
+  name-has-completed: "[name] has completed the [challenge] challenge!"
+  navigation: "Click to see [level] challenges!"
+  not-repeatable: "This challenge is not repeatable!"
+  parameters: "[Level]"
+  repeat-rewards: "&6Repeat reward(s)"
+  repeatable: "This challenge can be repeated [maxtimes] times"
   resetallchallenges: 
     success: "[name] has had all challenges reset."
   resetchallenge: 
     challenge-reset: "Challenge: [challengename] has been reset for [name]"
     error-challenge-does-not-exist: "Challenge doesn't exist or isn't yet completed"
-  admin:
-    parameters: ""
-    description: "challenges admin"
-    reload:
-      parameters: ""
-      description: "reload challenges from the database"
-    import:
-      parameters: "[overwrite]"
-      description: "import challenges from challenges.yml"
-      no-file: "&cCould not find challenges.yml file to import!"
-      no-load: "&cError: Could not load challenges.yml. [message]"
-      no-levels: "Warning: No levels defined in challenges.yml"
-      levels: "Importing levels: [levels]"
-      number: "Imported [number] challenges"
-      skipping: "'[challenge]' already exists - skipping"
-      overwriting: "Overwriting '[challenge]'"
-      imported: "Imported '[challenge]'"
-    complete:
-      description: "Mark challenge complete"
-      parameters: "<player> <unique challenge name>"
-      unknown-challenge: "&cUnknown challenge"
-    reset:
-      description: "Reset challenge to 0 times / incomplete"
-      parameters: "<player> <unique challenge name>"
-    create:
-      description: "&6Collect:"
-      description-item-color: "&B"
-      inventory:
-        parameters: "[challenge name]"
-        description: "create an inventory challenge"
-      surrounding:
-        parameters: "[challenge name]"
-        description: "create a surrounding challenge"
-        hit-things: "Hit things to add them to the list of things required. Right click when done."      
-    error:
-      no-name: "You must include a challenge name"
-    challenge-created: "[challenge] created!"
-    you-added: "You added one [thing] to the challenge"
-    seticon:
-      error:
-        no-such-challenge: "&cNo such challenge name"
-      description: "sets the challenge icon to inhand item"
-      parameters: "[challenge name]"
-    gui-title: "&aChallenges Admin"
+  rewards: "&FReward(s)"
+  to-complete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
+  you-completed: "You completed the [challenge] challenge!"
+  you-repeated: "You repeated the [challenge] challenge!"

@@ -3,7 +3,7 @@
 # Reset Challenges - if this is true, player's challenges will reset when they
 # reset an island or if they are kicked or leave a team. Prevents exploiting the
 # challenges by doing them repeatedly.
-resetchallenges: false
+resetchallenges: true
 
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.

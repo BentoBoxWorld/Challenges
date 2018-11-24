@@ -178,4 +178,15 @@ public class ChallengesPlayerData implements DataObject {
         return true;
     }
 
+    /**
+     * Resets all challenges and levels in world for this player
+     * @param world
+     */
+    public void reset(World world) {
+        String worldName = Util.getWorld(world).getName();
+        challengeStatus.keySet().removeIf(n -> n.startsWith(worldName));
+        challengesTimestamp.keySet().removeIf(n -> n.startsWith(worldName));
+        levelsDone.removeIf(n -> n.startsWith(worldName));
+    }
+
 }
