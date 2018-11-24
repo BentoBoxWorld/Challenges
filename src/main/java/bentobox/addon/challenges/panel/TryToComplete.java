@@ -184,6 +184,11 @@ public class TryToComplete {
      * Checks if a challenge can be completed or not
      */
     private ChallengeResult checkIfCanCompleteChallenge() {
+        // Check the world
+        if (!Util.getWorld(user.getWorld()).getName().equalsIgnoreCase(challenge.getWorld())) {
+            user.sendMessage("general.errors.wrong-world");
+            return new ChallengeResult();
+        }
         // Check if user has the
         if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, challenge.getLevel(), world)) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
