@@ -1,0 +1,93 @@
+###########################################################################################
+# This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
+# the one at http://yaml-online-parser.appspot.com                                        #
+###########################################################################################
+
+challenges:
+  completed-times: "已完成 [donetimes] 次，共能完成 [maxtimes] 次"
+  max-reached: "达到上限 [donetimes] 次，共能完成 [maxtimes] 次"
+  challenge:
+    format: "[description]"
+  parameters: "[Level]"
+  description: "打开挑战菜单"
+  complete: "&B已完成"
+  exp-reward: "&6经验奖励：[reward]"
+  first-time-rewards: "&6初次完成奖励"
+  gui-title: "&a挑战"
+  incomplete: "未完成"
+  item-take-warning: "&c当您完成这个挑战时，所|&c有必需品都会被取走！"
+  items-closeby: "&c所有必需品必须在您的岛|&c上，并且要离您很近！"
+  level: "&F等级：[level]"
+  max-reached: "达到上限 [donetimes] 次，共能完成 [maxtimes] 次"
+  money-reward: "&6金钱奖励：$[reward]"
+  name: "挑战名"
+  name-has-completed: "[name] 已经完成了挑战 [challenge]！"
+  navigation: "点击查看 [level] 的挑战！"
+  repeatable: "本挑战可以被重复完成 [maxtimes] 次"
+  not-repeatable: "本挑战不能被重复完成！"
+  repeat-rewards: "&6重复奖励"
+  rewards: "&F奖励"
+  to-complete: "还需要完成 [challengesToDo] 次 [thisLevel] 挑战来解锁这个等级！"
+  you-completed: "您完成了挑战 [challenge]！"
+  you-repeated: "您再次完成了挑战 [challenge] ！"
+  completechallenge: 
+    challange-completed: "挑战：[challengename] 已经被 [name] 完成"
+  error:
+    could-not-save: "&c无法保存挑战！"
+    island-level: "&c您的岛屿必须达到 [number] 级才能完成挑战！"
+    items-not-there: "&c所有必需品必须在您的岛上，并且要离您很近！"
+    no-items-clicked: "&c您没有点选任何东西。正在取消。"
+    not-close-enough: "&c您必须站在距离所需物品 [number] 个方块内。"
+    not-enough-items: "&c您没有足够的 [items] 来完成挑战！"
+    not-on-island: "&c您必须在您的岛上才能这么做！"
+    reward-problem: "&c给予奖励发生错误。请联系管理员检查日志！"
+    you-still-need: "&c您仍需要 [amount] × [item]"
+  help:
+    command: "/challenges：&f显示挑战"
+    config-reloaded: "已从文件重新加载配置。"
+    reset-all-challenges: "重置玩家的所有挑战"
+    reset-challenge: "标记一个挑战为未完成"
+    reset-challenge-for-all: "全局为每位玩家重置（可选重复）一个挑战"
+  resetallchallenges: 
+    success: "[name] 已经重置了所有的挑战。"
+  resetchallenge: 
+    challenge-reset: "挑战：[challengename] 已经被 [name] 重置"
+    error-challenge-does-not-exist: "挑战不存在或尚未被完成"
+  admin:
+    parameters: ""
+    description: "挑战管理员"
+    import:
+      parameters: "[overwrite]"
+      description: "从 challenges.yml 导入挑战"
+      no-file: "&c无法找到用来导入的文件 challenges.yml！"
+      no-load: "&c错误：无法加载 challenges.yml。[message]"
+      no-levels: "警告：challenges.yml 中没有等级定义"
+      levels: "正在导入等级：[levels]"
+      number: "已导入 [number] 个挑战"
+      skipping: "'[challenge]' 已经存在 - 正在跳过"
+      overwriting: "正在覆盖 '[challenge]'"
+      imported: "已导入 '[challenge]'"
+    complete:
+      description: "标记挑战为已完成"
+      parameters: "<player> <unique challenge name>"
+      unknown-challenge: "&c未知挑战"
+    create:
+      description: "&6构建："
+      description-item-color: "&B"
+      inventory:
+        parameters: "[challenge name]"
+        description: "创建一个来自物品栏的挑战"
+      surrounding:
+        parameters: "[challenge name]"
+        description: "创建一个来自周围环境的挑战"
+        hit-things: "左键敲击物体来将其加入必需品列表。右键完成。"      
+    error:
+      no-name: "您必须输入挑战名"
+    challenge-created: "已创建 [challenge]！"
+    you-added: "您向挑战中添加了一个 [thing]"
+    seticon:
+      error:
+        no-such-challenge: "&c没有此挑战名"
+      description: "将挑战图标设置为当前手中物品"
+      parameters: "[challenge name]"
+    gui-title: "&a挑战管理员"
