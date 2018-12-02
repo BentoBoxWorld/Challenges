@@ -22,7 +22,7 @@ import world.bentobox.bentobox.database.objects.DataObject;
  *
  */
 public class Challenges implements DataObject {
-    
+
     public Challenges() {}
 
     public enum ChallengeType {
@@ -61,7 +61,7 @@ public class Challenges implements DataObject {
     // Definition
     @ConfigComment("Challenge level. Default is Free")
     private String level = ChallengesManager.FREE;
-    @ConfigComment("Challenge type can be ICON, INVENTORY, LEVEL or SURROUNDING.")
+    @ConfigComment("Challenge type can be ICON, INVENTORY, LEVEL or ISLAND.")
     private ChallengeType challengeType = ChallengeType.INVENTORY;
     @ConfigComment("World where this challenge operates. List only overworld. Nether and end are automatically covered.")
     private String world = "";
@@ -79,11 +79,11 @@ public class Challenges implements DataObject {
     private boolean takeMoney = false;
 
     // Requirements
-    @ConfigComment("This is a map of the blocks required in a SURROUNDING challenge. Material, Integer")
+    @ConfigComment("This is a map of the blocks required in a ISLAND challenge. Material, Integer")
     private Map<Material, Integer> requiredBlocks = new EnumMap<>(Material.class);
     @ConfigComment("The items that must be in the inventory to complete the challenge. ItemStack List.")
     private List<ItemStack> requiredItems = new ArrayList<>();
-    @ConfigComment("Any entities that must be in the area for SURROUNDING type challenges. Map EntityType, Number")
+    @ConfigComment("Any entities that must be in the area for ISLAND type challenges. Map EntityType, Number")
     private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
     @ConfigComment("Required experience")
     private int reqExp;
