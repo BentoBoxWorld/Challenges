@@ -99,3 +99,5 @@ challenges:
   to-complete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
   you-completed: "You completed the [challenge] challenge!"
   you-repeated: "You repeated the [challenge] challenge!"
+  not-enough-money: "It is necessary to have [money] on your account to complete the challenge."
+  not-enough-exp: "It is necessary to have [xp] EXP to complete challenge."

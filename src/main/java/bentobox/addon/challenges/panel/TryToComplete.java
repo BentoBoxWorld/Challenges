@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ import bentobox.addon.challenges.database.object.Challenges;
 import bentobox.addon.challenges.database.object.Challenges.ChallengeType;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.level.Level;
 
@@ -89,8 +91,11 @@ public class TryToComplete {
             for (ItemStack reward : challenge.getRewardItems()) {
                 user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
+
             // Give money
-            challenge.getRewardMoney();
+            this.addon.getPlugin().getVault().ifPresent(
+            	vaultHook -> vaultHook.deposit(this.user, this.challenge.getRewardMoney()));
+
             // Give exp
             user.getPlayer().giveExp(challenge.getRewardExp());
             // Run commands
@@ -107,8 +112,11 @@ public class TryToComplete {
             for (ItemStack reward : challenge.getRepeatItemReward()) {
                 user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
-            // Give money
-            challenge.getRepeatMoneyReward();
+
+			// Give money
+			this.addon.getPlugin().getVault().ifPresent(
+				vaultHook -> vaultHook.deposit(this.user, this.challenge.getRepeatMoneyReward()));
+
             // Give exp
             user.getPlayer().giveExp(challenge.getRepeatExpReward());
             // Run commands
@@ -148,8 +156,11 @@ public class TryToComplete {
             for (ItemStack reward : challenge.getRewardItems()) {
                 user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
-            // Give money
-            challenge.getRewardMoney();
+
+			// Give money
+			this.addon.getPlugin().getVault().ifPresent(
+				vaultHook -> vaultHook.deposit(this.user, this.challenge.getRewardMoney()));
+
             // Give exp
             user.getPlayer().giveExp(challenge.getRewardExp());
             // Run commands
@@ -166,8 +177,11 @@ public class TryToComplete {
             for (ItemStack reward : challenge.getRepeatItemReward()) {
                 user.getInventory().addItem(reward).forEach((k,v) -> user.getWorld().dropItem(user.getLocation(), v));
             }
+
             // Give money
-            challenge.getRepeatMoneyReward();
+			this.addon.getPlugin().getVault().ifPresent(
+				vaultHook -> vaultHook.deposit(this.user, this.challenge.getRepeatMoneyReward()));
+
             // Give exp
             user.getPlayer().giveExp(challenge.getRepeatExpReward());
             // Run commands
@@ -206,6 +220,26 @@ public class TryToComplete {
             user.sendMessage("challenges.not-repeatable");
             return new ChallengeResult();
         }
+
+        // Check money
+		Optional<VaultHook> vaultHook = this.addon.getPlugin().getVault();
+
+        if (vaultHook.isPresent())
+		{
+			if (!vaultHook.get().has(this.user, this.challenge.getReqMoney()))
+			{
+				this.user.sendMessage("challenges.not-enough-money");
+				return new ChallengeResult();
+			}
+		}
+
+		// Check exp
+		if (this.user.getPlayer().getTotalExperience() < this.challenge.getReqExp())
+		{
+			this.user.sendMessage("challenges.not-enough-exp");
+			return new ChallengeResult();
+		}
+
         switch (challenge.getChallengeType()) {
         case INVENTORY:
             return checkInventory();
@@ -249,9 +283,32 @@ public class TryToComplete {
             removeItems(required);
 
         }
+
+        // process money removal
+		this.removeMoney();
+
         // Return the result
         return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
     }
+
+
+	/**
+	 * This method withdraw user money, if challenge Required Money is larger then 0, and
+	 * it is set to removal.
+	 * This works only if vaultHook is enabled.
+ 	 */
+    private void removeMoney()
+	{
+		Optional<VaultHook> vaultHook = this.addon.getPlugin().getVault();
+
+		if (vaultHook.isPresent() &&
+			this.challenge.isTakeMoney() &&
+			this.challenge.getReqMoney() > 0)
+		{
+			vaultHook.get().withdraw(this.user, this.challenge.getReqMoney());
+		}
+	}
+
 
     /**
      * Removes items from a user's inventory
@@ -290,7 +347,9 @@ public class TryToComplete {
         long level = addon.getAddonByName("Level")
                 .map(l -> ((Level)l).getIslandLevel(world, user.getUniqueId())).orElse(0L);
         if (level >= challenge.getReqIslandlevel()) {
-            return new ChallengeResult().setMeetsRequirements();
+			// process money removal
+			this.removeMoney();
+			return new ChallengeResult().setMeetsRequirements();
         } else {
             user.sendMessage("challenges.error.island-level", TextVariables.NUMBER, String.valueOf(challenge.getReqIslandlevel()));
             return new ChallengeResult();
@@ -309,6 +368,13 @@ public class TryToComplete {
             // Search for items only if entities found
             result = searchForBlocks(challenge.getRequiredBlocks(), challenge.getSearchRadius());
         }
+
+        if (result.meetsRequirements && this.challenge.isTakeMoney())
+		{
+			// process money removal
+			this.removeMoney();
+		}
+
         return result;
     }
 
