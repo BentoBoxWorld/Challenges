@@ -228,7 +228,7 @@ public class TryToComplete {
         {
             if (!vaultHook.get().has(this.user, this.challenge.getReqMoney()))
             {
-                this.user.sendMessage("challenges.not-enough-money");
+                this.user.sendMessage("challenges.not-enough-money", "[money]", Integer.toString(this.challenge.getReqMoney()));
                 return new ChallengeResult();
             }
         }
@@ -236,7 +236,7 @@ public class TryToComplete {
         // Check exp
         if (this.user.getPlayer().getTotalExperience() < this.challenge.getReqExp())
         {
-            this.user.sendMessage("challenges.not-enough-exp");
+            this.user.sendMessage("challenges.not-enough-exp", "[xp]", Integer.toString(this.challenge.getReqExp()));
             return new ChallengeResult();
         }
 
