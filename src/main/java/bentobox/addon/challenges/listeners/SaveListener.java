@@ -23,7 +23,10 @@ public class SaveListener implements Listener
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onWorldSave(WorldSaveEvent e)
 	{
-		this.addon.getChallengesManager().save(e.isAsynchronous());
+		if (!this.addon.getChallengesManager().getAllChallengesList(e.getWorld()).isEmpty())
+		{
+			this.addon.getChallengesManager().save(e.isAsynchronous());
+		}
 	}
 
 
