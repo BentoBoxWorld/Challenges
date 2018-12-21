@@ -167,10 +167,14 @@ public class ChallengesPanels2 {
     }
 
     private void addNavigation(PanelBuilder panelBuilder) {
+        // TODO: This if fix for wrong getNumberOfChallengesStillToDo() issue. #23
+        LevelStatus previousStatus = null;
+
         // Add navigation to other levels
         for (LevelStatus status: manager.getChallengeLevelStatus(requester, world)) {
             if (status.getLevel().getUniqueId().equalsIgnoreCase(level)) {
                 // Skip if this is the current level
+                previousStatus = status;
                 continue;
             }
             // Create a nice name for the level
@@ -195,10 +199,12 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(manager.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(status.getNumberOfChallengesStillToDo()), "[thisLevel]", previousLevelName)))
+                        .description(manager.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.item(item);
             }
+
+            previousStatus = status;
         }
     }
 
