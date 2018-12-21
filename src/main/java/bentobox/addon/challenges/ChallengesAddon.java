@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import bentobox.addon.challenges.commands.ChallengesCommand;
 import bentobox.addon.challenges.commands.admin.Challenges;
 import bentobox.addon.challenges.listeners.ResetListener;
+import bentobox.addon.challenges.listeners.SaveListener;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 
@@ -73,6 +74,8 @@ public class ChallengesAddon extends Addon {
         }
         // Register the reset listener
         this.registerListener(new ResetListener(this));
+        // Register the autosave listener.
+        this.registerListener(new SaveListener(this));
         // Done
     }
 
