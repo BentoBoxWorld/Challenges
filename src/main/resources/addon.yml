@@ -1,5 +1,5 @@
 name: BentoBox-Challenges
-main: bentobox.addon.challenges.ChallengesAddon
+main: world.bentobox.challenges.ChallengesAddon
 version: ${version}
 
 authors: tastybento
