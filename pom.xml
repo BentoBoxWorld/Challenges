@@ -10,18 +10,18 @@
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like ASkyBlock or AcidIsland.</description>
-	<url>https://github.com/BentoBoxWorld/addon-challenges</url>
+	<url>https://github.com/BentoBoxWorld/Challenges</url>
 	<inceptionYear>2018</inceptionYear>
 
 	<scm>
-		<connection>scm:git:https://github.com/BentoBoxWorld/addon-challenges.git</connection>
-		<developerConnection>scm:git:git@github.com:BentoBoxWorld/addon-challenges.git</developerConnection>
-		<url>https://github.com/BentoBoxWorld/addon-challenges</url>
+		<connection>scm:git:https://github.com/BentoBoxWorld/Challenges.git</connection>
+		<developerConnection>scm:git:git@github.com:BentoBoxWorld/Challenges.git</developerConnection>
+		<url>https://github.com/BentoBoxWorld/Challenges</url>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/BentoBoxWorld/addon-challenges/issues</url>
+		<url>https://github.com/BentoBoxWorld/Challenges/issues</url>
 	</issueManagement>
 
 	<properties>
