@@ -20,6 +20,7 @@ import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import org.bukkit.scheduler.BukkitTask;
 import world.bentobox.challenges.commands.admin.SurroundChallengeBuilder;
 import world.bentobox.challenges.objects.ChallengeLevels;
 import world.bentobox.challenges.objects.Challenges;
@@ -390,7 +391,7 @@ public class ChallengesManager {
      */
     public void save(boolean async) {
         if (async) {
-            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), new Runnable() {
+            BukkitTask task = addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
                     save();
