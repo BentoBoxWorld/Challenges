@@ -1,4 +1,4 @@
-name: BentoBox-Challenges
+name: Challenges
 main: world.bentobox.challenges.ChallengesAddon
 version: ${version}
 
