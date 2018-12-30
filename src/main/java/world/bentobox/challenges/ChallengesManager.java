@@ -325,7 +325,6 @@ public class ChallengesManager {
 
     /**
      * Checks if a challenge is complete or not
-     * @param uniqueId - unique ID - player's UUID
      * @param challengeName - Challenge uniqueId
      * @return - true if completed
      */
@@ -391,7 +390,7 @@ public class ChallengesManager {
      */
     public void save(boolean async) {
         if (async) {
-            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), this::save);
+            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), () -> save());
         } else {
             save();
         }
