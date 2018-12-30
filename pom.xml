@@ -95,14 +95,6 @@
 					<include>*.yml</include>
 				</includes>
 			</resource>
-			<resource>
-				<directory>src/main/resources/schems</directory>
-				<targetPath>./schems</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.schems</include>
-				</includes>
-			</resource>
 		</resources>
 		<plugins>
 			<plugin>
