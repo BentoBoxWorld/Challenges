@@ -390,7 +390,12 @@ public class ChallengesManager {
      */
     public void save(boolean async) {
         if (async) {
-            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), () -> save());
+            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), new Runnable() {
+                @Override
+                public void run() {
+                    save();
+                }
+            });
         } else {
             save();
         }
