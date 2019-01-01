@@ -15,25 +15,25 @@ import bentobox.addon.challenges.ChallengesAddon;
  */
 public class SaveListener implements Listener
 {
-	public SaveListener(ChallengesAddon addon) {
-		this.addon = addon;
-	}
+    public SaveListener(ChallengesAddon addon) {
+        this.addon = addon;
+    }
 
 
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void onWorldSave(WorldSaveEvent e)
-	{
-		if (!this.addon.getChallengesManager().getAllChallengesList(e.getWorld()).isEmpty())
-		{
-			this.addon.getChallengesManager().save(e.isAsynchronous());
-		}
-	}
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onWorldSave(WorldSaveEvent e)
+    {
+        if (!this.addon.getChallengesManager().getAllChallengesList(e.getWorld()).isEmpty())
+        {
+            this.addon.getChallengesManager().save();
+        }
+    }
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
 
 
-	private ChallengesAddon addon;
+    private ChallengesAddon addon;
 }

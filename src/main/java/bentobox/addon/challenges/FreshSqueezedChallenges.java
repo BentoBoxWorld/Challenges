@@ -65,7 +65,7 @@ public class FreshSqueezedChallenges {
         }
         makeLevels(user);
         makeChallenges(user, world, overwrite);
-        addon.getChallengesManager().save(false);
+        addon.getChallengesManager().save();
         return true;
     }
 

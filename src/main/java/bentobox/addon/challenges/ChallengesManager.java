@@ -367,7 +367,7 @@ public class ChallengesManager {
     /**
      * Save configs and player data
      */
-    private void save() {
+    public void save() {
         challengeMap.entrySet().forEach(en -> {
             lvConfig.saveConfigObject(en.getKey());
             en.getValue().forEach(chConfig::saveConfigObject);
@@ -382,18 +382,6 @@ public class ChallengesManager {
     private void savePlayer(UUID playerUUID) {
         if (playerData.containsKey(playerUUID)) {
             players.saveObject(playerData.get(playerUUID));
-        }
-    }
-
-    /**
-     * Save to the database
-     * @param async - if true, saving will be done async
-     */
-    public void save(boolean async) {
-        if (async) {
-            addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), this::save);
-        } else {
-            save();
         }
     }
 
