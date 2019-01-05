@@ -1,6 +1,6 @@
 package world.bentobox.challenges;
 
-import world.bentobox.challenges.objects.ChallengeLevels;
+import world.bentobox.challenges.database.object.ChallengeLevels;
 
 /**
  * Level status class

@@ -16,8 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import world.bentobox.challenges.objects.ChallengeLevels;
-import world.bentobox.challenges.objects.Challenges;
+import world.bentobox.challenges.database.object.ChallengeLevels;
+import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
@@ -65,7 +65,7 @@ public class FreshSqueezedChallenges {
         }
         makeLevels(user);
         makeChallenges(user, world, overwrite);
-        addon.getChallengesManager().save(false);
+        addon.getChallengesManager().save();
         return true;
     }
 

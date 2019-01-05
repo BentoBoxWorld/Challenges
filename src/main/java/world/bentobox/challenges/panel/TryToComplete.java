@@ -23,8 +23,8 @@ import org.bukkit.util.Vector;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.objects.Challenges;
-import world.bentobox.challenges.objects.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenges.ChallengeType;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.hooks.VaultHook;
@@ -427,8 +427,9 @@ public class TryToComplete {
     public class ChallengeResult {
         private boolean meetsRequirements;
         private boolean repeat;
-
-
+        /**
+         * @param meetsRequirements the meetsRequirements to set
+         */
         public ChallengeResult setMeetsRequirements() {
             this.meetsRequirements = true;
             return this;

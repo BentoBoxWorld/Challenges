@@ -1,7 +1,7 @@
 /**
  *
  */
-package world.bentobox.challenges.objects;
+package world.bentobox.challenges.database.object;
 
 import java.util.HashMap;
 import java.util.HashSet;

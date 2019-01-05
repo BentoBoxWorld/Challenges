@@ -20,12 +20,11 @@ import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import org.bukkit.scheduler.BukkitTask;
 import world.bentobox.challenges.commands.admin.SurroundChallengeBuilder;
-import world.bentobox.challenges.objects.ChallengeLevels;
-import world.bentobox.challenges.objects.Challenges;
-import world.bentobox.challenges.objects.Challenges.ChallengeType;
-import world.bentobox.challenges.objects.ChallengesPlayerData;
+import world.bentobox.challenges.database.object.ChallengeLevels;
+import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.ChallengesPlayerData;
 import world.bentobox.challenges.panel.ChallengesPanels;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.user.User;
@@ -326,6 +325,7 @@ public class ChallengesManager {
 
     /**
      * Checks if a challenge is complete or not
+     * @param uniqueId - unique ID - player's UUID
      * @param challengeName - Challenge uniqueId
      * @return - true if completed
      */
@@ -367,7 +367,7 @@ public class ChallengesManager {
     /**
      * Save configs and player data
      */
-    private void save() {
+    public void save() {
         challengeMap.entrySet().forEach(en -> {
             lvConfig.saveConfigObject(en.getKey());
             en.getValue().forEach(chConfig::saveConfigObject);
@@ -382,23 +382,6 @@ public class ChallengesManager {
     private void savePlayer(UUID playerUUID) {
         if (playerData.containsKey(playerUUID)) {
             players.saveObject(playerData.get(playerUUID));
-        }
-    }
-
-    /**
-     * Save to the database
-     * @param async - if true, saving will be done async
-     */
-    public void save(boolean async) {
-        if (async) {
-            BukkitTask task = addon.getServer().getScheduler().runTaskAsynchronously(addon.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    save();
-                }
-            });
-        } else {
-            save();
         }
     }
 

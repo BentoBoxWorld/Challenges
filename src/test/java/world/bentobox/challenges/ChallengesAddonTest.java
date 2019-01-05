@@ -35,8 +35,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import world.bentobox.challenges.objects.Challenges;
-import world.bentobox.challenges.objects.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenges.ChallengeType;
 
 /**
  * @author tastybento
