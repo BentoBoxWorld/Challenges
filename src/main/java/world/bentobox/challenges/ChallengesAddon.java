@@ -18,7 +18,7 @@ public class ChallengesAddon extends Addon {
 
     private ChallengesManager challengesManager;
     private String permissionPrefix = "addon";
-    private FreshSqueezedChallenges importManager;
+    private ChallengesImportManager importManager;
     private boolean hooked;
 
     @Override
@@ -39,7 +39,7 @@ public class ChallengesAddon extends Addon {
         // Challenges Manager
         challengesManager = new ChallengesManager(this);
         // Challenge import setup
-        importManager = new FreshSqueezedChallenges(this);
+        importManager = new ChallengesImportManager(this);
 
         // Register commands - run one tick later to allow all addons to load
         // AcidIsland hook in
@@ -98,7 +98,7 @@ public class ChallengesAddon extends Addon {
     /**
      * @return the importManager
      */
-    public FreshSqueezedChallenges getImportManager() {
+    public ChallengesImportManager getImportManager() {
         return importManager;
     }
 

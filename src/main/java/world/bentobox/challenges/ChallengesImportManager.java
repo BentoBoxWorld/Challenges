@@ -26,7 +26,8 @@ import world.bentobox.bentobox.util.Util;
  * @author tastybento
  *
  */
-public class FreshSqueezedChallenges {
+public class ChallengesImportManager
+{
 
     private ChallengesAddon addon;
     private YamlConfiguration chal;
@@ -35,7 +36,7 @@ public class FreshSqueezedChallenges {
      * Import challenges from challenges.yml
      * @param challengesAddon
      */
-    public FreshSqueezedChallenges(ChallengesAddon challengesAddon) {
+    public ChallengesImportManager(ChallengesAddon challengesAddon) {
         this.addon = challengesAddon;
         File challengeFile = new File(addon.getDataFolder(), "challenges.yml");
         if (!challengeFile.exists()) {
