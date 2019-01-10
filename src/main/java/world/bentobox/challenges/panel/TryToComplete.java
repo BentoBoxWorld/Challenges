@@ -101,7 +101,7 @@ public class TryToComplete {
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
-            if (addon.getConfig().getBoolean("broadcastmessages", false)) {
+            if (addon.getChallengesSettings().isBroadcastMessages()) {
                 for (Player p : addon.getServer().getOnlinePlayers()) {
                     User.getInstance(p).sendMessage("challenges.name-has-completed",
                             "[name]", user.getName(), "[challenge]", challenge.getFriendlyName());
@@ -166,7 +166,7 @@ public class TryToComplete {
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
-            if (addon.getConfig().getBoolean("broadcastmessages", false)) {
+            if (addon.getChallengesSettings().isBroadcastMessages()) {
                 for (Player p : addon.getServer().getOnlinePlayers()) {
                     User.getInstance(p).sendMessage("challenges.name-has-completed",
                             "[name]", user.getName(), "[challenge]", challenge.getFriendlyName());
