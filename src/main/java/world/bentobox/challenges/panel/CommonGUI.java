@@ -3,6 +3,10 @@ package world.bentobox.challenges.panel;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Collections;
+import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -64,6 +68,17 @@ public abstract class CommonGUI
 	 * This object holds PanelItem that allows to return to previous panel.
 	 */
 	protected PanelItem returnButton;
+
+
+	/**
+	 * This enum contains buttons that is offten used in multiple GUIs.
+	 */
+	protected enum CommonButtons
+	{
+		NEXT,
+		PREVIOUS,
+		RETURN
+	}
 
 
 // ---------------------------------------------------------------------
@@ -155,8 +170,6 @@ public abstract class CommonGUI
 				this.parentGUI.build();
 				return true;
 			}).build();
-
-		this.build();
 	}
 
 
@@ -169,5 +182,55 @@ public abstract class CommonGUI
 	 * This method builds all necessary elements in GUI panel.
 	 */
 	public abstract void build();
+
+
+	/**
+	 * This method returns PanelItem that represents given Button.
+	 * @param button Button that must be returned.
+	 * @return PanelItem with requested functionality.
+	 */
+	protected PanelItem getButton(CommonButtons button)
+	{
+		ItemStack icon;
+		String name;
+		List<String> description;
+		PanelItem.ClickHandler clickHandler;
+
+		switch (button)
+		{
+			case NEXT:
+			{
+				name = this.user.getTranslation("challenges.gui.buttons.next");
+				description = Collections.emptyList();
+				icon = new ItemStack(Material.SIGN);
+				clickHandler = (panel, user, clickType, slot) -> {
+					this.pageIndex++;
+					this.build();
+					return true;
+				};
+
+				break;
+			}
+			case PREVIOUS:
+			{
+				name = this.user.getTranslation("challenges.gui.buttons.previous");
+				description = Collections.emptyList();
+				icon = new ItemStack(Material.SIGN);
+				clickHandler = (panel, user, clickType, slot) -> {
+					this.pageIndex--;
+					this.build();
+					return true;
+				};
+
+				break;
+			}
+			case RETURN:
+				return this.returnButton;
+			default:
+				return null;
+		}
+
+		return new PanelItem(icon, name, description, false, clickHandler, false);
+	}
 }
 
