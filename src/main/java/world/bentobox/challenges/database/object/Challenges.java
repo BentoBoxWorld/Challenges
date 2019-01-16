@@ -25,6 +25,43 @@ public class Challenges implements DataObject {
 
     public Challenges() {}
 
+
+    public boolean isRemoveEntities()
+    {
+        return false;
+    }
+
+
+    public void setRemoveEntities(boolean b)
+    {
+
+    }
+
+
+    public boolean isRemoveBlocks()
+    {
+        return false;
+    }
+
+
+    public void setRemoveBlocks(boolean b)
+    {
+
+    }
+
+
+    public boolean isTakeExperience()
+    {
+        return false;
+    }
+
+
+    public void setTakeExperience(boolean b)
+    {
+
+    }
+
+
     public enum ChallengeType {
         /**
          * This challenge only shows and icon in the GUI and doesn't do anything.
