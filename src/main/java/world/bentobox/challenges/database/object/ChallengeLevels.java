@@ -1,13 +1,13 @@
 package world.bentobox.challenges.database.object;
 
+
+import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.inventory.ItemStack;
-
-import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.challenges.ChallengesManager;
 
 /**
  * Represent a challenge level
@@ -221,5 +221,10 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
         }
         return true;
     }
-    
+
+
+    public ItemStack getIcon()
+    {
+        return null;
+    }
 }

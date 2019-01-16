@@ -1,17 +1,5 @@
 package world.bentobox.challenges;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -19,17 +7,20 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
+import world.bentobox.bentobox.api.configuration.Config;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.Database;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.commands.admin.SurroundChallengeBuilder;
 import world.bentobox.challenges.database.object.ChallengeLevels;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.database.object.Challenges.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
 import world.bentobox.challenges.panel.ChallengesPanels;
-import world.bentobox.bentobox.api.configuration.Config;
-import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.database.Database;
-import world.bentobox.bentobox.util.Util;
 
 public class ChallengesManager {
 
@@ -514,4 +505,14 @@ public class ChallengesManager {
     }
 
 
+    public Challenges createChallenge()
+    {
+        return new Challenges();
+    }
+
+
+    public List<Challenges> getChallenges(ChallengeLevels challengeLevel)
+    {
+        return new ArrayList<>(this.challengeMap.get(challengeLevel));
+    }
 }
