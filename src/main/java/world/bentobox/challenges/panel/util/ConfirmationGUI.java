@@ -1,13 +1,9 @@
 package world.bentobox.challenges.panel.util;
 
-
-
-
 import org.bukkit.Material;
 
 import java.util.*;
 
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -23,31 +19,23 @@ public class ConfirmationGUI
 {
 	/**
 	 * This constructor inits and opens ConfirmationGUI.
+	 *
 	 * @param user Gui Caller.
 	 * @param parentGUI Parent GUI.
-	 * @param commandLabels Command labels.
-	 * @param variables Variables at the end of command.
+	 * @param command Command .
+	 * @param parameters Variables at the end of command.
 	 */
-	public ConfirmationGUI(BentoBox plugin,
+	public ConfirmationGUI(CommonGUI parentGUI,
 		User user,
-		CommonGUI parentGUI,
-		List<String> commandLabels,
-		String... variables)
+		CompositeCommand command,
+		String... parameters)
 	{
-		this.plugin = plugin;
 		this.user = user;
 		this.parentGUI = parentGUI;
-		this.commandLabels = commandLabels;
-		this.variables = variables;
+		this.command = command;
+		this.parameters = parameters;
 
-		if (this.commandLabels.isEmpty())
-		{
-			this.user.sendMessage("challenges.errors.missing-command");
-		}
-		else
-		{
-			this.build();
-		}
+		this.build();
 	}
 
 
@@ -56,36 +44,16 @@ public class ConfirmationGUI
 	 */
 	public void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().name(this.user.getTranslation("challenges.gui.admin.confirm-title"));
+		PanelBuilder panelBuilder = new PanelBuilder()
+			.name(this.user.getTranslation("challenges.gui.admin.confirm-title"));
 
 		panelBuilder.item(3, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.proceed")).
 			icon(Material.GREEN_STAINED_GLASS_PANE).
 			clickHandler((panel, user1, clickType, index) ->
 			{
-				Iterator<String> iterator = this.commandLabels.iterator();
-
-				CompositeCommand command = this.plugin.getCommandsManager().getCommand(iterator.next());
-
-				while (iterator.hasNext() && command != null)
-				{
-					Optional<CompositeCommand> commandOptional = command.getSubCommand(iterator.next());
-
-					if (commandOptional.isPresent())
-					{
-						command = commandOptional.get();
-					}
-					else
-					{
-						this.user.sendMessage("challenges.errors.missing-command");
-						command = null;
-					}
-				}
-
-				if (command != null)
-				{
-					command.execute(this.user, "CONFIRMATION", Arrays.asList(this.variables));
-				}
+				this.command
+					.execute(this.user, "CONFIRMATION", Arrays.asList(this.parameters));
 
 				this.user.closeInventory();
 				this.parentGUI.build();
@@ -112,11 +80,6 @@ public class ConfirmationGUI
 // ---------------------------------------------------------------------
 
 	/**
-	 * BentoBox plugin.
-	 */
-	private BentoBox plugin;
-
-	/**
 	 * User who wants to run command.
 	 */
 	private User user;
@@ -127,12 +90,12 @@ public class ConfirmationGUI
 	private CommonGUI parentGUI;
 
 	/**
-	 * List of command labels.
+	 * Command that must be run on confirmation.
 	 */
-	private List<String> commandLabels;
+	private CompositeCommand command;
 
 	/**
 	 * List of variables.
 	 */
-	private String[] variables;
+	private String[] parameters;
 }
