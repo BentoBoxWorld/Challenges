@@ -32,10 +32,14 @@ public class ListUsersGUI extends CommonGUI
 	private List<Player> onlineUsers;
 
 	/**
+	 * Current operation mode.
+	 */
+	private Mode operationMode;
+
+	/**
 	 * Current index of view mode
 	 */
 	private int modeIndex = 2;
-
 
 	/**
 	 * This allows to switch which users should be in the list.
@@ -47,6 +51,16 @@ public class ListUsersGUI extends CommonGUI
 		IN_WORLD
 	}
 
+	/**
+	 * This allows to decide what User Icon should do.
+	 */
+	private enum Mode
+	{
+		COMPLETE,
+		RESET,
+		RESET_ALL
+	}
+
 
 // ---------------------------------------------------------------------
 // Section: Constructors
@@ -55,27 +69,34 @@ public class ListUsersGUI extends CommonGUI
 
 	/**
 	 * {@inheritDoc}
+	 * @param operationMode Indicate what should happen on player icon click.
 	 */
 	public ListUsersGUI(ChallengesAddon addon,
 		World world,
-		User user, String topLabel, String permissionPrefix)
+		User user,
+		Mode operationMode,
+		String topLabel,
+		String permissionPrefix)
 	{
-		this(addon, world, user, topLabel, permissionPrefix, null);
+		this(addon, world, user, operationMode, topLabel, permissionPrefix, null);
 	}
 
 
 	/**
 	 * {@inheritDoc}
+	 * @param operationMode Indicate what should happen on player icon click.
 	 */
 	public ListUsersGUI(ChallengesAddon addon,
 		World world,
 		User user,
+		Mode operationMode,
 		String topLabel,
 		String permissionPrefix,
 		CommonGUI parentPanel)
 	{
 		super(addon, world, user, topLabel, permissionPrefix, parentPanel);
 		this.onlineUsers = this.collectUsers(ViewMode.IN_WORLD);
+		this.operationMode = operationMode;
 	}
 
 
@@ -145,7 +166,18 @@ public class ListUsersGUI extends CommonGUI
 		{
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
 				(panel, user1, clickType, slot) -> {
-					// TODO Add operations that should be called from here
+					switch (this.operationMode)
+					{
+						case COMPLETE:
+							// TODO: Open Complete Challenge GUI.
+							break;
+						case RESET:
+							// TODO: Open Reset Challenge GUI.
+							break;
+						case RESET_ALL:
+							// TODO: Confirmation GUI for resetting all challenges.
+							break;
+					}
 
 					return true;
 				}).build();
