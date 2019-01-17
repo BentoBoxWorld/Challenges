@@ -20,7 +20,7 @@ import world.bentobox.challenges.panel.CommonGUI;
 /**
  * This class contains methods that allows to select specific user.
  */
-public class ChallengesUserListGUI extends CommonGUI
+public class UserListGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
 // Section: Variables
@@ -56,7 +56,7 @@ public class ChallengesUserListGUI extends CommonGUI
 	/**
 	 * {@inheritDoc}
 	 */
-	public ChallengesUserListGUI(ChallengesAddon addon,
+	public UserListGUI(ChallengesAddon addon,
 		World world,
 		User user, String topLabel, String permissionPrefix)
 	{
@@ -67,7 +67,7 @@ public class ChallengesUserListGUI extends CommonGUI
 	/**
 	 * {@inheritDoc}
 	 */
-	public ChallengesUserListGUI(ChallengesAddon addon,
+	public UserListGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		String topLabel,

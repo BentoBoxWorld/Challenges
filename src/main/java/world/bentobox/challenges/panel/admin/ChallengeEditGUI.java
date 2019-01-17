@@ -23,7 +23,7 @@ import world.bentobox.challenges.panel.CommonGUI;
  * This class contains all necessary methods that creates GUI and allow to edit challenges
  * properties.
  */
-public class ChallengesEditGUI extends CommonGUI
+public class ChallengeEditGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
 // Section: Constructors
@@ -34,7 +34,7 @@ public class ChallengesEditGUI extends CommonGUI
 	 * {@inheritDoc}
 	 * @param challenge challenge that needs editing.
 	 */
-	public ChallengesEditGUI(ChallengesAddon addon,
+	public ChallengeEditGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		Challenges challenge,
@@ -49,7 +49,7 @@ public class ChallengesEditGUI extends CommonGUI
 	 * {@inheritDoc}
 	 * @param challenge challenge that needs editing.
 	 */
-	public ChallengesEditGUI(ChallengesAddon addon,
+	public ChallengeEditGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		Challenges challenge,
