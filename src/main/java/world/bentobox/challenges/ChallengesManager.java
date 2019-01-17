@@ -515,4 +515,10 @@ public class ChallengesManager {
     {
         return new ArrayList<>(this.challengeMap.get(challengeLevel));
     }
+
+
+    public List<ChallengeLevels> getChallengeLevelList()
+    {
+        return new ArrayList<>(this.challengeMap.keySet());
+    }
 }
