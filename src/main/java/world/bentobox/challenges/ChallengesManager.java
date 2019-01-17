@@ -521,4 +521,10 @@ public class ChallengesManager {
     {
         return new ArrayList<>(this.challengeMap.keySet());
     }
+
+
+    public List<Challenges> getChallengesList()
+    {
+        return new ArrayList<>();
+    }
 }
