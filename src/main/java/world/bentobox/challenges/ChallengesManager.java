@@ -527,4 +527,16 @@ public class ChallengesManager {
     {
         return new ArrayList<>();
     }
+
+
+    public void deleteChallenge(Challenges selectedChallenge)
+    {
+
+    }
+
+
+    public void deleteChallengeLevel(ChallengeLevels valueObject)
+    {
+
+    }
 }
