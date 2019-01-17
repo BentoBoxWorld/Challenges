@@ -3,11 +3,9 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -20,17 +18,11 @@ import world.bentobox.challenges.panel.CommonGUI;
  */
 public class NumberGUI
 {
-	public NumberGUI(CommonGUI parentGUI,
-		User user,
-		int value,
-		CompositeCommand command,
-		String... parameters)
+	public NumberGUI(CommonGUI parentGUI, User user, int value)
 	{
 		this.parentGUI = parentGUI;
 		this.user = user;
 		this.value = value;
-		this.command = command;
-		this.parameters = parameters;
 
 		this.currentOperation = Button.SET;
 
@@ -101,18 +93,9 @@ public class NumberGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					List<String> values = Arrays.asList(this.parameters);
-					values.add(Integer.toString(this.value));
-
-					if (this.command.execute(this.user, "NUMBER_GUI", values))
-					{
-						this.user.closeInventory();
-						this.parentGUI.build();
-					}
-					else
-					{
-						this.build();
-					}
+					this.parentGUI.setValue(this.value);
+					this.user.closeInventory();
+					this.parentGUI.build();
 
 					return true;
 				};
@@ -320,16 +303,6 @@ public class NumberGUI
 	 * Current value.
 	 */
 	private int value;
-
-	/**
-	 * Command that must be processed on save.
-	 */
-	private CompositeCommand command;
-
-	/**
-	 * Command input parameters before number.
-	 */
-	private String[] parameters;
 
 	/**
 	 * This variable holds which operation now is processed.
