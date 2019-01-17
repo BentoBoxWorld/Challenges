@@ -21,7 +21,7 @@ import world.bentobox.challenges.panel.CommonGUI;
 /**
  * This class contains all necessary elements to create Levels Edit GUI.
  */
-public class LevelEditGUI extends CommonGUI
+public class EditLevelGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
 // Section: Constructors
@@ -32,7 +32,7 @@ public class LevelEditGUI extends CommonGUI
 	 * {@inheritDoc}
 	 * @param challengeLevel ChallengeLevel that must be edited.
 	 */
-	public LevelEditGUI(ChallengesAddon addon,
+	public EditLevelGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		ChallengeLevels challengeLevel,
@@ -47,7 +47,7 @@ public class LevelEditGUI extends CommonGUI
 	 * {@inheritDoc}
 	 * @param challengeLevel ChallengeLevel that must be edited.
 	 */
-	public LevelEditGUI(ChallengesAddon addon,
+	public EditLevelGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		ChallengeLevels challengeLevel,
@@ -253,7 +253,7 @@ public class LevelEditGUI extends CommonGUI
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// Open challenges edit screen.
-				new ChallengeEditGUI(this.addon,
+				new EditChallengeGUI(this.addon,
 					this.world,
 					this.user,
 					challenge,

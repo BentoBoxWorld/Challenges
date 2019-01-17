@@ -18,7 +18,7 @@ import world.bentobox.challenges.panel.CommonGUI;
 /**
  * This class contains Main
  */
-public class ChallengesAdminGUI extends CommonGUI
+public class AdminGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
 // Section: Variables
@@ -61,7 +61,7 @@ public class ChallengesAdminGUI extends CommonGUI
 	/**
 	 * {@inheritDoc}
 	 */
-	public ChallengesAdminGUI(ChallengesAddon addon,
+	public AdminGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		String topLabel,

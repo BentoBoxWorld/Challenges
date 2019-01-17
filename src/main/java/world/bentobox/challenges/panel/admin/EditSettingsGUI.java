@@ -15,7 +15,7 @@ import world.bentobox.challenges.panel.CommonGUI;
  * This Class creates GUI that allows to change Challenges Addon Settings via in-game
  * menu.
  */
-public class ChallengesSettingsGUI extends CommonGUI
+public class EditSettingsGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
 // Section: Constructors
@@ -25,7 +25,7 @@ public class ChallengesSettingsGUI extends CommonGUI
 	/**
 	 * {@inheritDoc}
 	 */
-	public ChallengesSettingsGUI(ChallengesAddon addon,
+	public EditSettingsGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		String topLabel,
@@ -38,7 +38,7 @@ public class ChallengesSettingsGUI extends CommonGUI
 	/**
 	 * {@inheritDoc}
 	 */
-	public ChallengesSettingsGUI(ChallengesAddon addon,
+	public EditSettingsGUI(ChallengesAddon addon,
 		World world,
 		User user,
 		String topLabel,
