@@ -3,6 +3,8 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -19,6 +21,12 @@ import world.bentobox.bentobox.api.user.User;
  */
 public class StringListGUI
 {
+	public StringListGUI(User user, Collection<String> value, BiConsumer<Boolean, List<String>> consumer)
+	{
+		this(user, new ArrayList<>(value), consumer);
+	}
+
+
 	public StringListGUI(User user, List<String> value, BiConsumer<Boolean, List<String>> consumer)
 	{
 		this.consumer = consumer;
