@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
@@ -189,7 +190,29 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create AnvilGUI that force to create String for "unique_id"
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						"unique_id",
+						(player, reply) -> {
+
+						if (this.addon.getChallengesManager().validateChallengeUniqueID(this.world, reply))
+						{
+							new EditChallengeGUI(this.addon,
+								this.world,
+								this.user,
+								this.addon.getChallengesManager().createChallenge(reply),
+								this.topLabel,
+								this.permissionPrefix,
+								this).build();
+						}
+						else
+						{
+							// TODO: Throw message that uniqueID is not valid.
+							this.build();
+						}
+
+						return reply;
+					});
 
 					return true;
 				};
@@ -203,7 +226,29 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create AnvilGUI that force to create String for "unique_id"
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						"unique_id",
+						(player, reply) -> {
+
+							if (this.addon.getChallengesManager().validateLevelUniqueID(this.world, reply))
+							{
+								new EditLevelGUI(this.addon,
+									this.world,
+									this.user,
+									this.addon.getChallengesManager().createLevel(reply),
+									this.topLabel,
+									this.permissionPrefix,
+									this).build();
+							}
+							else
+							{
+								// TODO: Throw message that uniqueID is not valid.
+								this.build();
+							}
+
+							return reply;
+						});
 
 					return true;
 				};

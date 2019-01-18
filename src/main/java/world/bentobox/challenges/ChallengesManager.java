@@ -544,4 +544,28 @@ public class ChallengesManager {
     {
 
     }
+
+
+	public Challenges createChallenge(String reply)
+	{
+		return new Challenges();
+	}
+
+
+	public boolean validateChallengeUniqueID(World world, String reply)
+	{
+		return false;
+	}
+
+
+	public boolean validateLevelUniqueID(World world, String reply)
+	{
+		return false;
+	}
+
+
+	public ChallengeLevels createLevel(String reply)
+	{
+		return new ChallengeLevels();
+	}
 }
