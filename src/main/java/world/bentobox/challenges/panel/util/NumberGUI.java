@@ -20,9 +20,24 @@ public class NumberGUI
 {
 	public NumberGUI(User user, int value, BiConsumer<Boolean, Integer> consumer)
 	{
+		this(user, value, Integer.MIN_VALUE, Integer.MAX_VALUE, consumer);
+	}
+
+
+	public NumberGUI(User user, int value, int minValue, BiConsumer<Boolean, Integer> consumer)
+	{
+		this(user, value, minValue, Integer.MAX_VALUE, consumer);
+	}
+
+
+	public NumberGUI(User user, int value, int minValue, int maxValue, BiConsumer<Boolean, Integer> consumer)
+	{
 		this.user = user;
 		this.value = value;
 		this.consumer = consumer;
+
+		this.minValue = minValue;
+		this.maxValue = maxValue;
 
 		this.currentOperation = Button.SET;
 
@@ -119,6 +134,18 @@ public class NumberGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					// TODO: Build Anvil GUI for editing value.
 
+					if (this.value > this.maxValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.maxValue;
+					}
+
+					if (this.value < this.minValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.minValue;
+					}
+
 					this.build();
 					return true;
 				};
@@ -211,6 +238,19 @@ public class NumberGUI
 				itemBuilder.icon(Material.WHITE_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value = number;
+
+					if (this.value > this.maxValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.maxValue;
+					}
+
+					if (this.value < this.minValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.minValue;
+					}
+
 					this.build();
 					return true;
 				});
@@ -223,6 +263,13 @@ public class NumberGUI
 				itemBuilder.icon(Material.GREEN_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value += number;
+
+					if (this.value > this.maxValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.maxValue;
+					}
+
 					this.build();
 					return true;
 				});
@@ -235,6 +282,13 @@ public class NumberGUI
 				itemBuilder.icon(Material.RED_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value -= number;
+
+					if (this.value < this.minValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.minValue;
+					}
+
 					this.build();
 					return true;
 				});
@@ -247,6 +301,13 @@ public class NumberGUI
 				itemBuilder.icon(Material.BLUE_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value *= number;
+
+					if (this.value > this.maxValue)
+					{
+						// TODO: Throw warning message.
+						this.value = this.maxValue;
+					}
+
 					this.build();
 					return true;
 				});
@@ -300,6 +361,16 @@ public class NumberGUI
 	 * Current value.
 	 */
 	private int value;
+
+	/**
+	 * Minimal value that is allowed to set.
+	 */
+	private int minValue;
+
+	/**
+	 * Maximal value that is allowed to set.
+	 */
+	private int maxValue;
 
 	/**
 	 * This variable holds which operation now is processed.
