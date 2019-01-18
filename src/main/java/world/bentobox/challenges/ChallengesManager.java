@@ -539,4 +539,9 @@ public class ChallengesManager {
     {
 
     }
+
+    public void resetAllChallenges(User uuid, World world)
+    {
+
+    }
 }

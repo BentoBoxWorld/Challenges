@@ -15,6 +15,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.ConfirmationGUI;
 
 
 /**
@@ -175,7 +176,12 @@ public class ListUsersGUI extends CommonGUI
 							// TODO: Open Reset Challenge GUI.
 							break;
 						case RESET_ALL:
-							// TODO: Confirmation GUI for resetting all challenges.
+							new ConfirmationGUI(this.user, status -> {
+								if (status)
+								{
+									this.addon.getChallengesManager().resetAllChallenges(this.user, this.world);
+								}
+							});
 							break;
 					}
 
