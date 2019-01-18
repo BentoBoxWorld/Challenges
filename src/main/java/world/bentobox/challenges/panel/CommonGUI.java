@@ -4,7 +4,6 @@ package world.bentobox.challenges.panel;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -231,6 +230,16 @@ public abstract class CommonGUI
 		}
 
 		return new PanelItem(icon, name, description, false, clickHandler, false);
+	}
+
+
+	/**
+	 * This method sets new value to ValueObject variable.
+	 * @param value new Value of valueObject.
+	 */
+	public void setValue(Object value)
+	{
+		this.valueObject = value;
 	}
 }
 

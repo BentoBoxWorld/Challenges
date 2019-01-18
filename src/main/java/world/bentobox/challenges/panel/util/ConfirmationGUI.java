@@ -1,10 +1,8 @@
 package world.bentobox.challenges.panel.util;
 
+
 import org.bukkit.Material;
 
-import java.util.*;
-
-import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
@@ -22,18 +20,11 @@ public class ConfirmationGUI
 	 *
 	 * @param user Gui Caller.
 	 * @param parentGUI Parent GUI.
-	 * @param command Command .
-	 * @param parameters Variables at the end of command.
 	 */
-	public ConfirmationGUI(CommonGUI parentGUI,
-		User user,
-		CompositeCommand command,
-		String... parameters)
+	public ConfirmationGUI(CommonGUI parentGUI, User user)
 	{
 		this.user = user;
 		this.parentGUI = parentGUI;
-		this.command = command;
-		this.parameters = parameters;
 
 		this.build();
 	}
@@ -50,11 +41,8 @@ public class ConfirmationGUI
 		panelBuilder.item(3, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.proceed")).
 			icon(Material.GREEN_STAINED_GLASS_PANE).
-			clickHandler((panel, user1, clickType, index) ->
-			{
-				this.command
-					.execute(this.user, "CONFIRMATION", Arrays.asList(this.parameters));
-
+			clickHandler((panel, user1, clickType, index) -> {
+				this.parentGUI.setValue(true);
 				this.user.closeInventory();
 				this.parentGUI.build();
 				return true;
@@ -66,6 +54,7 @@ public class ConfirmationGUI
 			icon(Material.RED_STAINED_GLASS_PANE).
 			clickHandler((panel, user1, clickType, i) ->
 			{
+				this.parentGUI.setValue(null);
 				this.parentGUI.build();
 				return true;
 			}).
@@ -88,14 +77,4 @@ public class ConfirmationGUI
 	 * Parent GUI where should return on cancel or proceed.
 	 */
 	private CommonGUI parentGUI;
-
-	/**
-	 * Command that must be run on confirmation.
-	 */
-	private CompositeCommand command;
-
-	/**
-	 * List of variables.
-	 */
-	private String[] parameters;
 }

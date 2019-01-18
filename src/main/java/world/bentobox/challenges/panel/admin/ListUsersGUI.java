@@ -54,7 +54,7 @@ public class ListUsersGUI extends CommonGUI
 	/**
 	 * This allows to decide what User Icon should do.
 	 */
-	private enum Mode
+	public enum Mode
 	{
 		COMPLETE,
 		RESET,

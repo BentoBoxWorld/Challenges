@@ -3,11 +3,9 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -21,17 +19,11 @@ import world.bentobox.challenges.panel.CommonGUI;
  */
 public class StringListGUI
 {
-	public StringListGUI(CommonGUI parentGUI,
-		User user,
-		List<String> value,
-		CompositeCommand command,
-		String... parameters)
+	public StringListGUI(CommonGUI parentGUI, User user, List<String> value)
 	{
 		this.parentGUI = parentGUI;
 		this.user = user;
 		this.value = value;
-		this.command = command;
-		this.parameters = parameters;
 
 		if (this.value.size() > 18)
 		{
@@ -90,18 +82,9 @@ public class StringListGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					List<String> values = Arrays.asList(this.parameters);
-					values.addAll(this.value);
-
-					if (this.command.execute(this.user, "STRING_LIST_GUI", values))
-					{
-						this.user.closeInventory();
-						this.parentGUI.build();
-					}
-					else
-					{
-						this.build();
-					}
+					this.parentGUI.setValue(this.value);
+					this.user.closeInventory();
+					this.parentGUI.build();
 
 					return true;
 				};
@@ -228,14 +211,4 @@ public class StringListGUI
 	 * Current value.
 	 */
 	private List<String> value;
-
-	/**
-	 * Command that must be processed on save.
-	 */
-	private CompositeCommand command;
-
-	/**
-	 * Command input parameters before number.
-	 */
-	private String[] parameters;
 }

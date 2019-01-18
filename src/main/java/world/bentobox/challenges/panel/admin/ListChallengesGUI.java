@@ -11,6 +11,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.ConfirmationGUI;
 
 
 /**
@@ -140,12 +141,32 @@ public class ListChallengesGUI extends CommonGUI
 		else if (this.currentMode.equals(Mode.DELETE))
 		{
 			itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-				// TODO: Conformation GUI for DELETING.
+				new ConfirmationGUI(this, this.user);
+				this.valueObject = challenge;
 				return true;
 			});
 		}
 
 		return itemBuilder.build();
+	}
+
+
+	/**
+	 * Overwriting set value allows to catch if ConfirmationGui returns true.
+	 * @param value new Value of valueObject.
+	 */
+	@Override
+	public void setValue(Object value)
+	{
+		if (value instanceof Boolean && ((Boolean) value) && this.valueObject != null)
+		{
+			this.addon.getChallengesManager().deleteChallenge((Challenges) this.valueObject);
+			this.valueObject = null;
+		}
+		else
+		{
+			this.valueObject = null;
+		}
 	}
 
 

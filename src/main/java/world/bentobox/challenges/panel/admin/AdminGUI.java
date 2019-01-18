@@ -4,7 +4,6 @@ package world.bentobox.challenges.panel.admin;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +27,11 @@ public class AdminGUI extends CommonGUI
 	 * This boolean holds if import should overwrite existing challenges.
 	 */
 	private boolean overwriteMode;
+
+	/**
+	 * This indicate if Reset Challenges must work as reset all.
+	 */
+	private boolean resetAllMode;
 
 
 // ---------------------------------------------------------------------
@@ -135,7 +139,13 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Complete Challenge GUI
+					new ListUsersGUI(this.addon,
+						this.world,
+						this.user,
+						ListUsersGUI.Mode.COMPLETE,
+						this.topLabel,
+						this.permissionPrefix,
+						this).build();
 
 					return true;
 				};
@@ -148,12 +158,28 @@ public class AdminGUI extends CommonGUI
 				name = this.user.getTranslation("challenges.gui.admin.buttons.reset");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WRITABLE_BOOK);
+
+				glow = this.resetAllMode;
+
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Reset Challenge GUI
+					if (clickType.isRightClick())
+					{
+						this.resetAllMode = !this.resetAllMode;
+						this.build();
+					}
+					else
+					{
+						new ListUsersGUI(this.addon,
+							this.world,
+							this.user,
+							this.resetAllMode ? ListUsersGUI.Mode.RESET_ALL : ListUsersGUI.Mode.RESET,
+							this.topLabel,
+							this.permissionPrefix,
+							this).build();
+					}
 
 					return true;
 				};
-				glow = false;
 
 				break;
 			case ADD_CHALLENGE:
@@ -163,7 +189,7 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Add Challenge GUI
+					// TODO: Create AnvilGUI that force to create String for "unique_id"
 
 					return true;
 				};
@@ -177,7 +203,7 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Add Level GUI
+					// TODO: Create AnvilGUI that force to create String for "unique_id"
 
 					return true;
 				};
@@ -191,7 +217,13 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Edit Challenge GUI
+					new ListChallengesGUI(this.addon,
+						this.world,
+						this.user,
+						ListChallengesGUI.Mode.EDIT,
+						this.topLabel,
+						this.permissionPrefix,
+						this);
 
 					return true;
 				};
@@ -206,7 +238,13 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Edit Level GUI
+					new ListLevelsGUI(this.addon,
+						this.world,
+						this.user,
+						ListLevelsGUI.Mode.EDIT,
+						this.topLabel,
+						this.permissionPrefix,
+						this);
 
 					return true;
 				};
@@ -222,7 +260,13 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.LAVA_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Delete Challenge GUI
+					new ListChallengesGUI(this.addon,
+						this.world,
+						this.user,
+						ListChallengesGUI.Mode.DELETE,
+						this.topLabel,
+						this.permissionPrefix,
+						this);
 
 					return true;
 				};
@@ -238,7 +282,13 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.LAVA_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Delete Level GUI
+					new ListLevelsGUI(this.addon,
+						this.world,
+						this.user,
+						ListLevelsGUI.Mode.DELETE,
+						this.topLabel,
+						this.permissionPrefix,
+						this);
 
 					return true;
 				};
