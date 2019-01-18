@@ -6,10 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -17,6 +14,9 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.ItemSwitchGUI;
+import world.bentobox.challenges.panel.util.NumberGUI;
+import world.bentobox.challenges.panel.util.StringListGUI;
 
 
 /**
@@ -76,7 +76,7 @@ public class EditChallengeGUI extends CommonGUI
 	@Override
 	public void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().name(
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.edit-challenge-title"));
 
 		panelBuilder.item(2, this.createMenuButton(MenuType.PROPERTIES));
@@ -385,8 +385,15 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement challenges description change GUI.
-					this.build();
+					new StringListGUI(this.user, this.challenge.getDescription(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setDescription(value);
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;
@@ -401,8 +408,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getSlot())));
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getSlot(), -1, 54, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setSlot(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -423,7 +436,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create change enviroment button
+					// TODO: Create Enviroment Change GUI
 					this.build();
 					return true;
 				};
@@ -459,7 +472,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create naming
+					// TODO: Implement AnvilGUI.
 					this.build();
 
 					return true;
@@ -481,7 +494,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CREEPER_HEAD);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Panel
+					// TODO: Entities GUI
 					this.build();
 
 					return true;
@@ -525,7 +538,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.STONE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Panel
+					// TODO: Block GUI
 					this.build();
 
 					return true;
@@ -565,8 +578,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getSearchRadius())));
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setSearchRadius(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -579,8 +598,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(this.challenge.getReqPerms());
 				icon = new ItemStack(Material.REDSTONE_LAMP);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create naming
-					this.build();
+					new StringListGUI(this.user, this.challenge.getReqPerms(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setReqPerms(new HashSet<>(value));
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -600,8 +625,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Panel
-					this.build();
+					new ItemSwitchGUI(this.user, this.challenge.getRequiredItems(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRequiredItems(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -640,9 +671,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getMaxTimes())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getReqExp(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setReqExp(value);
+						}
 
+						this.build();
+					});
 					return true;
 				};
 				glow = false;
@@ -680,8 +716,14 @@ public class EditChallengeGUI extends CommonGUI
 						Long.toString(this.challenge.getReqIslandlevel())));
 				icon = new ItemStack(Material.BEACON);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, (int) this.challenge.getReqIslandlevel(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setReqIslandlevel(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -697,9 +739,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getReqMoney())));
 				icon = new ItemStack(Material.GOLD_INGOT);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getReqMoney(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setReqMoney(value);
+						}
 
+						this.build();
+					});
 					return true;
 				};
 				glow = false;
@@ -735,8 +782,8 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(this.challenge.getRewardText());
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement challenges description change GUI.
-					this.build();
+					// TODO: Implement AnvilGUI
+
 					return true;
 				};
 				glow = false;
@@ -755,8 +802,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Panel
-					this.build();
+					new ItemSwitchGUI(this.user, this.challenge.getRewardItems(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardItems(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -772,8 +825,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getRewardExp())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getReqExp(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardExp(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -789,8 +848,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getRewardMoney())));
 				icon = new ItemStack(Material.GOLD_INGOT);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardMoney(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -803,8 +868,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = this.challenge.getRewardCommands();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create naming
-					this.build();
+					new StringListGUI(this.user, this.challenge.getRewardCommands(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardCommands(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -844,8 +915,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getMaxTimes())));
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getMaxTimes(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setMaxTimes(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -859,8 +936,9 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(this.challenge.getRepeatRewardText());
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement challenges description change GUI.
-					this.build();
+					// TODO: Implement AnvilGUI
+
+
 					return true;
 				};
 				glow = false;
@@ -879,8 +957,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.TRAPPED_CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Panel
-					this.build();
+					new ItemSwitchGUI(this.user, this.challenge.getRepeatItemReward(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatItemReward(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -896,8 +980,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getRepeatExpReward())));
 				icon = new ItemStack(Material.GLASS_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getRepeatExpReward(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatExpReward(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -913,8 +1003,14 @@ public class EditChallengeGUI extends CommonGUI
 						Integer.toString(this.challenge.getRepeatMoneyReward())));
 				icon = new ItemStack(Material.GOLD_NUGGET);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Possibility to change order.
-					this.build();
+					new NumberGUI(this.user, this.challenge.getRepeatMoneyReward(), 0, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatMoneyReward(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -927,8 +1023,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = this.challenge.getRepeatRewardCommands();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create naming
-					this.build();
+					new StringListGUI(this.user, this.challenge.getRepeatRewardCommands(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatRewardCommands(value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
