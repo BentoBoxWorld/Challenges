@@ -141,32 +141,18 @@ public class ListLevelsGUI extends CommonGUI
 		else if (this.currentMode.equals(Mode.DELETE))
 		{
 			itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-				new ConfirmationGUI(this, this.user);
-				this.valueObject = challengeLevel;
+				new ConfirmationGUI(this.user, value -> {
+					if (value)
+					{
+						this.addon.getChallengesManager().
+							deleteChallengeLevel(challengeLevel);
+					}
+				});
 				return true;
 			});
 		}
 
 		return itemBuilder.build();
-	}
-
-
-	/**
-	 * Overwriting set value allows to catch if ConfirmationGui returns true.
-	 * @param value new Value of valueObject.
-	 */
-	@Override
-	public void setValue(Object value)
-	{
-		if (value instanceof Boolean && ((Boolean) value) && this.valueObject != null)
-		{
-			this.addon.getChallengesManager().deleteChallengeLevel((ChallengeLevels) this.valueObject);
-			this.valueObject = null;
-		}
-		else
-		{
-			this.valueObject = null;
-		}
 	}
 
 
