@@ -223,7 +223,7 @@ public class AdminGUI extends CommonGUI
 						ListChallengesGUI.Mode.EDIT,
 						this.topLabel,
 						this.permissionPrefix,
-						this);
+						this).build();
 
 					return true;
 				};
@@ -244,7 +244,7 @@ public class AdminGUI extends CommonGUI
 						ListLevelsGUI.Mode.EDIT,
 						this.topLabel,
 						this.permissionPrefix,
-						this);
+						this).build();
 
 					return true;
 				};
@@ -266,7 +266,7 @@ public class AdminGUI extends CommonGUI
 						ListChallengesGUI.Mode.DELETE,
 						this.topLabel,
 						this.permissionPrefix,
-						this);
+						this).build();
 
 					return true;
 				};
@@ -288,7 +288,7 @@ public class AdminGUI extends CommonGUI
 						ListLevelsGUI.Mode.DELETE,
 						this.topLabel,
 						this.permissionPrefix,
-						this);
+						this).build();
 
 					return true;
 				};
@@ -329,7 +329,12 @@ public class AdminGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.CRAFTING_TABLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Settings GUI
+					new EditSettingsGUI(this.addon,
+						this.world,
+						this.user,
+						this.topLabel,
+						this.permissionPrefix,
+						this).build();
 
 					return true;
 				};
