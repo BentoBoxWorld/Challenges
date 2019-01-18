@@ -5,12 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.panel.CommonGUI;
 
 
 /**
@@ -19,16 +19,16 @@ import world.bentobox.challenges.panel.CommonGUI;
  */
 public class StringListGUI
 {
-	public StringListGUI(CommonGUI parentGUI, User user, List<String> value)
+	public StringListGUI(User user, List<String> value, BiConsumer<Boolean, List<String>> consumer)
 	{
-		this.parentGUI = parentGUI;
+		this.consumer = consumer;
 		this.user = user;
 		this.value = value;
 
 		if (this.value.size() > 18)
 		{
 			// TODO: throw error that so large list cannot be edited.
-			this.parentGUI.build();
+			this.consumer.accept(false, this.value);
 		}
 		else
 		{
@@ -42,7 +42,7 @@ public class StringListGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().name(this.user.getTranslation("challenges.gui.text-edit-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.text-edit-title"));
 
 		panelBuilder.item(0, this.getButton(Button.SAVE));
 		panelBuilder.item(1, this.getButton(Button.VALUE));
@@ -82,9 +82,7 @@ public class StringListGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.parentGUI.setValue(this.value);
-					this.user.closeInventory();
-					this.parentGUI.build();
+					this.consumer.accept(true, this.value);
 
 					return true;
 				};
@@ -96,7 +94,8 @@ public class StringListGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.IRON_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.parentGUI.build();
+					this.consumer.accept(false, this.value);
+
 					return true;
 				};
 				break;
@@ -198,9 +197,9 @@ public class StringListGUI
 
 
 	/**
-	 * This variable stores return GUI.
+	 * This variable stores consumer.
 	 */
-	private CommonGUI parentGUI;
+	private BiConsumer<Boolean, List<String>> consumer;
 
 	/**
 	 * User who runs GUI.

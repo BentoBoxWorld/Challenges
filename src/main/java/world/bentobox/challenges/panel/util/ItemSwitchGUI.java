@@ -8,12 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.panel.CommonGUI;
 
 
 /**
@@ -21,9 +21,9 @@ import world.bentobox.challenges.panel.CommonGUI;
  */
 public class ItemSwitchGUI
 {
-	public ItemSwitchGUI(CommonGUI parentGUI, User user, List<ItemStack> itemStacks)
+	public ItemSwitchGUI(User user, List<ItemStack> itemStacks, BiConsumer<Boolean, List<ItemStack>> consumer)
 	{
-		this.parentGUI = parentGUI;
+		this.consumer = consumer;
 		this.user = user;
 		this.itemStacks = itemStacks;
 		this.build();
@@ -35,7 +35,7 @@ public class ItemSwitchGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().name(this.user.getTranslation("challenges.gui.change-items"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.change-items"));
 
 		// Size of inventory that user can set via GUI.
 		panelBuilder.size(45);
@@ -94,9 +94,7 @@ public class ItemSwitchGUI
 						}
 					}
 
-					this.parentGUI.setValue(returnItems);
-					this.user.closeInventory();
-					this.parentGUI.build();
+					this.consumer.accept(true, returnItems);
 
 					return true;
 				};
@@ -108,7 +106,7 @@ public class ItemSwitchGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.IRON_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.parentGUI.build();
+					this.consumer.accept(false, Collections.emptyList());
 					return true;
 				};
 				break;
@@ -219,10 +217,6 @@ public class ItemSwitchGUI
 // Section: Variables
 // ---------------------------------------------------------------------
 
-	/**
-	 * ParentGUI from which current gui is called.
-	 */
-	private CommonGUI parentGUI;
 
 	/**
 	 * User who opens current gui.
@@ -233,4 +227,9 @@ public class ItemSwitchGUI
 	 * List with original items.
 	 */
 	private List<ItemStack> itemStacks;
+
+	/**
+	 * Consumer that returns item stacks on save action.
+	 */
+	private BiConsumer<Boolean, List<ItemStack>> consumer;
 }

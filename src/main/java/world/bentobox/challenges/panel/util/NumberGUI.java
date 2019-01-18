@@ -5,12 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.panel.CommonGUI;
 
 
 /**
@@ -18,11 +18,11 @@ import world.bentobox.challenges.panel.CommonGUI;
  */
 public class NumberGUI
 {
-	public NumberGUI(CommonGUI parentGUI, User user, int value)
+	public NumberGUI(User user, int value, BiConsumer<Boolean, Integer> consumer)
 	{
-		this.parentGUI = parentGUI;
 		this.user = user;
 		this.value = value;
+		this.consumer = consumer;
 
 		this.currentOperation = Button.SET;
 
@@ -35,7 +35,7 @@ public class NumberGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().name(this.user.getTranslation("challenges.gui.edit-number-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.edit-number-title"));
 
 		// Others
 		panelBuilder.item(0, this.getButton(Button.SAVE));
@@ -93,10 +93,7 @@ public class NumberGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.parentGUI.setValue(this.value);
-					this.user.closeInventory();
-					this.parentGUI.build();
-
+					this.consumer.accept(true, this.value);
 					return true;
 				};
 				glow = false;
@@ -108,7 +105,7 @@ public class NumberGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.IRON_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.parentGUI.build();
+					this.consumer.accept(false, this.value);
 					return true;
 				};
 				glow = false;
@@ -290,9 +287,9 @@ public class NumberGUI
 // ---------------------------------------------------------------------
 
 	/**
-	 * This variable stores return GUI.
+	 * This variable stores current GUI consumer.
 	 */
-	private CommonGUI parentGUI;
+	private BiConsumer<Boolean, Integer> consumer;
 
 	/**
 	 * User who runs GUI.
