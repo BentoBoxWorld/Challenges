@@ -207,7 +207,7 @@ public class AdminGUI extends CommonGUI
 						}
 						else
 						{
-							// TODO: Throw message that uniqueID is not valid.
+							this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
 							this.build();
 						}
 
@@ -243,7 +243,7 @@ public class AdminGUI extends CommonGUI
 							}
 							else
 							{
-								// TODO: Throw message that uniqueID is not valid.
+								this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
 								this.build();
 							}
 
