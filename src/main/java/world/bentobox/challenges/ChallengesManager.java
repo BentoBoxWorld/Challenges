@@ -554,7 +554,7 @@ public class ChallengesManager {
 
 	public boolean validateChallengeUniqueID(World world, String reply)
 	{
-		return false;
+		return true;
 	}
 
 
@@ -567,5 +567,17 @@ public class ChallengesManager {
 	public ChallengeLevels createLevel(String reply)
 	{
 		return new ChallengeLevels();
+	}
+
+
+	public void unlinkChallenge(ChallengeLevels challengeLevel, Challenges value)
+	{
+
+	}
+
+
+	public void linkChallenge(ChallengeLevels challengeLevel, Challenges value)
+	{
+
 	}
 }

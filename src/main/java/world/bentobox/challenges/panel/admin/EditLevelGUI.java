@@ -15,11 +15,13 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.ChallengeLevels;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
+import world.bentobox.challenges.panel.util.SelectChallengeGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
 
 
@@ -523,8 +525,20 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WATER_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Challenge List GUI
-					this.build();
+					ChallengesManager manager = this.addon.getChallengesManager();
+
+					// Get all challenge that is not in current challenge.
+					List<Challenges> challengeList = manager.getChallengesList();
+					challengeList.removeAll(manager.getChallenges(this.challengeLevel));
+
+					new SelectChallengeGUI(this.user, challengeList, (status, value) -> {
+						if (status)
+						{
+							manager.linkChallenge(this.challengeLevel, value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -537,8 +551,16 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.LAVA_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Levels List GUI
-					this.build();
+					ChallengesManager manager = this.addon.getChallengesManager();
+
+					new SelectChallengeGUI(this.user, manager.getChallenges(this.challengeLevel), (status, value) -> {
+						if (status)
+						{
+							manager.unlinkChallenge(this.challengeLevel, value);
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
