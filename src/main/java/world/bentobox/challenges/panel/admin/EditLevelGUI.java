@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.ChallengeLevels;
 import world.bentobox.challenges.database.object.Challenges;
@@ -274,7 +276,7 @@ public class EditLevelGUI extends CommonGUI
 	/**
 	 * This method creates buttons for default main menu.
 	 * @param button Button which panel item must be created.
-	 * @return PanelItem that represetns given button.
+	 * @return PanelItem that represents given button.
 	 */
 	private PanelItem createButton(Button button)
 	{
@@ -292,8 +294,14 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.singletonList(this.challengeLevel.getFriendlyName());
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGui.
-					this.build();
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challengeLevel.getFriendlyName(),
+						(player, reply) -> {
+							this.challengeLevel.setFriendlyName(reply);
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};
@@ -306,8 +314,24 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = this.challengeLevel.getIcon();
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: how to change icon.
-					this.build();
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challengeLevel.getIcon().getType().name(),
+						(player, reply) -> {
+							ItemStack newIcon = ItemParser.parse(reply);
+
+							if (newIcon != null)
+							{
+								this.challengeLevel.setIcon(newIcon);
+							}
+							else
+							{
+								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
+							}
+
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};
@@ -320,8 +344,14 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.singletonList(this.challengeLevel.getUnlockMessage());
 				icon = new ItemStack(Material.WRITABLE_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGUI
-					this.build();
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challengeLevel.getUnlockMessage(),
+						(player, reply) -> {
+							this.challengeLevel.setUnlockMessage(reply);
+							this.build();
+							return reply;
+						});
 					return true;
 				};
 				glow = false;
@@ -380,8 +410,14 @@ public class EditLevelGUI extends CommonGUI
 				description = Collections.singletonList(this.challengeLevel.getRewardDescription());
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGui
-
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challengeLevel.getRewardDescription(),
+						(player, reply) -> {
+							this.challengeLevel.setRewardDescription(reply);
+							this.build();
+							return reply;
+						});
 					return true;
 				};
 				glow = false;

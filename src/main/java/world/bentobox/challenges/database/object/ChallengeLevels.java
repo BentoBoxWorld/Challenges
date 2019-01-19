@@ -227,4 +227,10 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
     {
         return null;
     }
+
+
+    public void setIcon(ItemStack newIcon)
+    {
+
+    }
 }
