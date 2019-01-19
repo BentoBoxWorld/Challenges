@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import net.wesjd.anvilgui.AnvilGUI;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -61,9 +63,9 @@ public class StringListGUI
 
 		panelBuilder.item(8, this.getButton(Button.CANCEL));
 
-		for (String element : this.value)
+		for (int i = 0; i < this.value.size(); i++)
 		{
-			panelBuilder.item(this.createStringElement(element));
+			panelBuilder.item(this.createStringElement(this.value.get(i), i));
 		}
 
 		panelBuilder.build();
@@ -122,10 +124,14 @@ public class StringListGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
-
-					// TODO: Open Anvil GUI.
-
-					this.build();
+					new AnvilGUI(BentoBox.getInstance(),
+						this.user.getPlayer(),
+						" ",
+						(player, reply) -> {
+							this.value.add(reply);
+							this.build();
+							return reply;
+						});
 					return true;
 				};
 				break;
@@ -168,13 +174,20 @@ public class StringListGUI
 	 * @param element Paper Icon name
 	 * @return PanelItem.
 	 */
-	private PanelItem createStringElement(String element)
+	private PanelItem createStringElement(String element, int stringIndex)
 	{
 		return new PanelItemBuilder().
 			name(element).
 			icon(Material.PAPER).
 			clickHandler((panel, user1, clickType, i) -> {
-			// TODO: open anvil gui.
+				new AnvilGUI(BentoBox.getInstance(),
+					this.user.getPlayer(),
+					element,
+					(player, reply) -> {
+						this.value.set(stringIndex, reply);
+						this.build();
+						return reply;
+					});
 			return true;
 		}).build();
 	}
