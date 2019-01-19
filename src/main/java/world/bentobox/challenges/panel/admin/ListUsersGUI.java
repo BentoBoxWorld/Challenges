@@ -14,8 +14,10 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
+import world.bentobox.challenges.panel.util.SelectChallengeGUI;
 
 
 /**
@@ -167,19 +169,35 @@ public class ListUsersGUI extends CommonGUI
 		{
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
 				(panel, user1, clickType, slot) -> {
+					ChallengesManager manager = this.addon.getChallengesManager();
+
 					switch (this.operationMode)
 					{
 						case COMPLETE:
-							// TODO: Open Complete Challenge GUI.
+							new SelectChallengeGUI(this.user, manager.getChallengesList(), (status, value) -> {
+								if (status)
+								{
+									manager.completeChallenge(player.getUniqueId(), value);
+								}
+
+								this.build();
+							});
 							break;
 						case RESET:
-							// TODO: Open Reset Challenge GUI.
+							new SelectChallengeGUI(this.user, manager.getChallengesList(), (status, value) -> {
+								if (status)
+								{
+									manager.resetChallenge(player.getUniqueId(), value);
+								}
+
+								this.build();
+							});
 							break;
 						case RESET_ALL:
 							new ConfirmationGUI(this.user, status -> {
 								if (status)
 								{
-									this.addon.getChallengesManager().resetAllChallenges(this.user, this.world);
+									manager.resetAllChallenges(this.user, this.world);
 								}
 							});
 							break;

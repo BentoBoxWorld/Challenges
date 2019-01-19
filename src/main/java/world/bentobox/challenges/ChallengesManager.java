@@ -580,4 +580,16 @@ public class ChallengesManager {
 	{
 
 	}
+
+
+    public void resetChallenge(UUID uniqueId, Challenges value)
+    {
+
+    }
+
+
+    public void completeChallenge(UUID uniqueId, Challenges value)
+    {
+
+    }
 }
