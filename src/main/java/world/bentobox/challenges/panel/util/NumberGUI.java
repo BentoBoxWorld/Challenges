@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import net.wesjd.anvilgui.AnvilGUI;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -132,21 +134,35 @@ public class NumberGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Build Anvil GUI for editing value.
+					new AnvilGUI(BentoBox.getInstance(),
+						this.user.getPlayer(),
+						Integer.toString(this.value),
+						(player, reply) -> {
+							try
+							{
+								this.value = Integer.parseInt(reply);
 
-					if (this.value > this.maxValue)
-					{
-						// TODO: Throw warning message.
-						this.value = this.maxValue;
-					}
+								if (this.value > this.maxValue || this.value < this.minValue)
+								{
+									this.user.sendMessage("challenges.error.not-valid-integer",
+										"[value]", reply,
+										"[min]", Integer.toString(this.minValue),
+										"[max]", Integer.toString(this.maxValue));
+								}
+								else
+								{
+									this.build();
+								}
+							}
+							catch (Exception e)
+							{
+								reply = Integer.toString(this.value);
+								this.user.sendMessage("challenges.error.not-a-integer", "[value]", reply);
+							}
 
-					if (this.value < this.minValue)
-					{
-						// TODO: Throw warning message.
-						this.value = this.minValue;
-					}
+							return reply;
+						});
 
-					this.build();
 					return true;
 				};
 				glow = false;
@@ -241,13 +257,21 @@ public class NumberGUI
 
 					if (this.value > this.maxValue)
 					{
-						// TODO: Throw warning message.
+						this.user.sendMessage("challenges.error.not-valid-integer",
+							"[value]", Integer.toString(this.value),
+							"[min]", Integer.toString(this.minValue),
+							"[max]", Integer.toString(this.maxValue));
+
 						this.value = this.maxValue;
 					}
 
 					if (this.value < this.minValue)
 					{
-						// TODO: Throw warning message.
+						this.user.sendMessage("challenges.error.not-valid-integer",
+							"[value]", Integer.toString(this.value),
+							"[min]", Integer.toString(this.minValue),
+							"[max]", Integer.toString(this.maxValue));
+
 						this.value = this.minValue;
 					}
 
@@ -266,7 +290,11 @@ public class NumberGUI
 
 					if (this.value > this.maxValue)
 					{
-						// TODO: Throw warning message.
+						this.user.sendMessage("challenges.error.not-valid-integer",
+							"[value]", Integer.toString(this.value),
+							"[min]", Integer.toString(this.minValue),
+							"[max]", Integer.toString(this.maxValue));
+
 						this.value = this.maxValue;
 					}
 
@@ -285,7 +313,11 @@ public class NumberGUI
 
 					if (this.value < this.minValue)
 					{
-						// TODO: Throw warning message.
+						this.user.sendMessage("challenges.error.not-valid-integer",
+							"[value]", Integer.toString(this.value),
+							"[min]", Integer.toString(this.minValue),
+							"[max]", Integer.toString(this.maxValue));
+
 						this.value = this.minValue;
 					}
 
@@ -304,7 +336,11 @@ public class NumberGUI
 
 					if (this.value > this.maxValue)
 					{
-						// TODO: Throw warning message.
+						this.user.sendMessage("challenges.error.not-valid-integer",
+							"[value]", Integer.toString(this.value),
+							"[min]", Integer.toString(this.minValue),
+							"[max]", Integer.toString(this.maxValue));
+
 						this.value = this.maxValue;
 					}
 
