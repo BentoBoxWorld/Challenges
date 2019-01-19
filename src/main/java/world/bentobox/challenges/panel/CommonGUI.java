@@ -235,20 +235,59 @@ public abstract class CommonGUI
 
 
 	/**
-	 * This method creates border of black panes around given panel.
+	 * This method creates border of black panes around given panel with 5 rows.
 	 * @param panelBuilder PanelBuilder which must be filled with border blocks.
 	 */
 	protected void fillBorder(PanelBuilder panelBuilder)
 	{
-		for (int i = 0; i < 45; i++)
+		this.fillBorder(panelBuilder, 5, Material.BLACK_STAINED_GLASS_PANE);
+	}
+
+
+	/**
+	 * This method sets black stained glass pane around Panel with given row count.
+	 * @param panelBuilder object that builds Panel.
+	 * @param rowCount in Panel.
+	 */
+	protected void fillBorder(PanelBuilder panelBuilder, int rowCount)
+	{
+		this.fillBorder(panelBuilder, rowCount, Material.BLACK_STAINED_GLASS_PANE);
+	}
+
+
+	/**
+	 * This method sets blocks with given Material around Panel with 5 rows.
+	 * @param panelBuilder object that builds Panel.
+	 * @param material that will be around Panel.
+	 */
+	protected void fillBorder(PanelBuilder panelBuilder, Material material)
+	{
+		this.fillBorder(panelBuilder, 5, material);
+	}
+
+
+	/**
+	 * This method sets blocks with given Material around Panel with given row count.
+	 * @param panelBuilder object that builds Panel.
+	 * @param rowCount in Panel.
+	 * @param material that will be around Panel.
+	 */
+	protected void fillBorder(PanelBuilder panelBuilder, int rowCount, Material material)
+	{
+		// Only for useful filling.
+		if (rowCount < 3)
+		{
+			return;
+		}
+
+		for (int i = 0; i < 9 * rowCount; i++)
 		{
 			// First (i < 9) and last (i > 35) rows must be filled
 			// First column (i % 9 == 0) and last column (i % 9 == 8) also must be filled.
 
-			if (i < 9 || i > 35 || i % 9 == 0 || i % 9 == 8)
+			if (i < 9 || i > 9 * (rowCount - 1) || i % 9 == 0 || i % 9 == 8)
 			{
-				panelBuilder.item(i,
-					new PanelItemBuilder().name("").icon(Material.BLACK_STAINED_GLASS_PANE).build());
+				panelBuilder.item(i, new PanelItemBuilder().name("&2").icon(material).build());
 			}
 		}
 	}
