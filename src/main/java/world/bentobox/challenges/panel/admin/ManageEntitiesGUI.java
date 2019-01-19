@@ -139,6 +139,7 @@ public class ManageEntitiesGUI extends CommonGUI
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.requiredEntities.keySet().removeAll(this.selectedEntities);
 					this.entityList.removeAll(this.selectedEntities);
+					this.build();
 					return true;
 				});
 				break;
