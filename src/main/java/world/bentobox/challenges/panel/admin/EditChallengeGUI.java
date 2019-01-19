@@ -5,17 +5,19 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.*;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
+import world.bentobox.challenges.panel.util.SelectEnvironmentGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
 
 
@@ -371,8 +373,24 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = this.challenge.getIcon();
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: how to change icon.
-					this.build();
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challenge.getIcon().getType().name(),
+						(player, reply) -> {
+							ItemStack newIcon = ItemParser.parse(reply);
+
+							if (newIcon != null)
+							{
+								this.challenge.setIcon(newIcon);
+							}
+							else
+							{
+								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
+							}
+
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};
@@ -436,8 +454,15 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Create Enviroment Change GUI
-					this.build();
+					new SelectEnvironmentGUI(this.user, this.challenge.getEnvironment(), (status, value) -> {
+						if (status)
+						{
+							this.challenge.setEnvironment(value);
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;
@@ -472,8 +497,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGUI.
-					this.build();
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challenge.getFriendlyName(),
+						(player, reply) -> {
+							this.challenge.setFriendlyName(reply);
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};
@@ -782,7 +813,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(this.challenge.getRewardText());
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGUI
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challenge.getRewardText(),
+						(player, reply) -> {
+							this.challenge.setRewardText(reply);
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};
@@ -936,8 +974,14 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(this.challenge.getRepeatRewardText());
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Implement AnvilGUI
-
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.challenge.getRepeatRewardText(),
+						(player, reply) -> {
+							this.challenge.setRepeatRewardText(reply);
+							this.build();
+							return reply;
+						});
 
 					return true;
 				};

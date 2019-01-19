@@ -1,20 +1,15 @@
 package world.bentobox.challenges.database.object;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import java.util.*;
 
-import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.challenges.ChallengesManager;
 
 /**
  * Data object for challenges
@@ -103,7 +98,7 @@ public class Challenges implements DataObject {
     @ConfigComment("World where this challenge operates. List only overworld. Nether and end are automatically covered.")
     private String world = "";
     @ConfigComment("List of environments where this challenge will occur: NETHER, NORMAL, THE_END. Leave blank for all.")
-    private List<World.Environment> environment = new ArrayList<>();
+    private Set<World.Environment> environment = new HashSet<>();
     @ConfigComment("The required permissions to see this challenge. String list.")
     private Set<String> reqPerms = new HashSet<>();
     @ConfigComment("The number of blocks around the player to search for items on an island")
@@ -591,14 +586,14 @@ public class Challenges implements DataObject {
     /**
      * @return the environment
      */
-    public List<World.Environment> getEnvironment() {
+    public Set<World.Environment> getEnvironment() {
         return environment;
     }
 
     /**
      * @param environment the environment to set
      */
-    public void setEnvironment(List<World.Environment> environment) {
+    public void setEnvironment(Set<World.Environment> environment) {
         this.environment = environment;
     }
 
