@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
+import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
@@ -230,6 +231,26 @@ public abstract class CommonGUI
 		}
 
 		return new PanelItem(icon, name, description, false, clickHandler, false);
+	}
+
+
+	/**
+	 * This method creates border of black panes around given panel.
+	 * @param panelBuilder PanelBuilder which must be filled with border blocks.
+	 */
+	protected void fillBorder(PanelBuilder panelBuilder)
+	{
+		for (int i = 0; i < 45; i++)
+		{
+			// First (i < 9) and last (i > 35) rows must be filled
+			// First column (i % 9 == 0) and last column (i % 9 == 8) also must be filled.
+
+			if (i < 9 || i > 35 || i % 9 == 0 || i % 9 == 8)
+			{
+				panelBuilder.item(i,
+					new PanelItemBuilder().name("").icon(Material.BLACK_STAINED_GLASS_PANE).build());
+			}
+		}
 	}
 
 
