@@ -79,7 +79,7 @@ public class GuiUtils
 
 
 // ---------------------------------------------------------------------
-// Section: Entities Visualization Block
+// Section: ItemStack transformations
 // ---------------------------------------------------------------------
 
 	/**
@@ -213,6 +213,124 @@ public class GuiUtils
 					itemStack = head.toItemStack();
 				}
 				break;
+		}
+
+		itemStack.setAmount(amount);
+
+		return itemStack;
+	}
+
+
+	/**
+	 * This method transforms material into item stack that can be displayed in users
+	 * inventory.
+	 * @param material Material which item stack must be returned.
+	 * @return ItemStack that represents given material.
+	 */
+	public static ItemStack getMaterialItem(Material material)
+	{
+		return GuiUtils.getMaterialItem(material, 1);
+	}
+
+
+	/**
+	 * This method transforms material into item stack that can be displayed in users
+	 * inventory.
+	 * @param material Material which item stack must be returned.
+	 * @param amount Amount of ItemStack elements.
+	 * @return ItemStack that represents given material.
+	 */
+	public static ItemStack getMaterialItem(Material material, int amount)
+	{
+		ItemStack itemStack;
+
+		// Process items that cannot be item-stacks.
+		if (material.name().contains("_WALL"))
+		{
+			// Materials that is attached to wall cannot be showed in GUI. But they should be in list.
+			itemStack = new ItemStack(Material.getMaterial(material.name().replace("WALL_", "")));
+		}
+		else if (material.name().startsWith("POTTED_"))
+		{
+			// Materials Potted elements cannot be in inventory.
+			itemStack = new ItemStack(Material.getMaterial(material.name().replace("POTTED_", "")));
+		}
+		else if (material.name().startsWith("POTTED_"))
+		{
+			// Materials Potted elements cannot be in inventory.
+			itemStack = new ItemStack(Material.getMaterial(material.name().replace("POTTED_", "")));
+		}
+		else if (material.equals(Material.MELON_STEM) || material.equals(Material.ATTACHED_MELON_STEM))
+		{
+			itemStack = new ItemStack(Material.MELON_SEEDS);
+		}
+		else if (material.equals(Material.PUMPKIN_STEM) || material.equals(Material.ATTACHED_PUMPKIN_STEM))
+		{
+			itemStack = new ItemStack(Material.PUMPKIN_SEEDS);
+		}
+		else if (material.equals(Material.TALL_SEAGRASS))
+		{
+			itemStack = new ItemStack(Material.SEAGRASS);
+		}
+		else if (material.equals(Material.CARROTS))
+		{
+			itemStack = new ItemStack(Material.CARROT);
+		}
+		else if (material.equals(Material.BEETROOTS))
+		{
+			itemStack = new ItemStack(Material.BEETROOT);
+		}
+		else if (material.equals(Material.POTATOES))
+		{
+			itemStack = new ItemStack(Material.POTATO);
+		}
+		else if (material.equals(Material.COCOA))
+		{
+			itemStack = new ItemStack(Material.COCOA_BEANS);
+		}
+		else if (material.equals(Material.KELP_PLANT))
+		{
+			itemStack = new ItemStack(Material.KELP);
+		}
+		else if (material.equals(Material.REDSTONE_WIRE))
+		{
+			itemStack = new ItemStack(Material.REDSTONE);
+		}
+		else if (material.equals(Material.TRIPWIRE))
+		{
+			itemStack = new ItemStack(Material.STRING);
+		}
+		else if (material.equals(Material.FROSTED_ICE))
+		{
+			itemStack = new ItemStack(Material.ICE);
+		}
+		else if (material.equals(Material.END_PORTAL) || material.equals(Material.END_GATEWAY) || material.equals(Material.NETHER_PORTAL))
+		{
+			itemStack = new ItemStack(Material.PAPER);
+		}
+		else if (material.equals(Material.BUBBLE_COLUMN) || material.equals(Material.WATER))
+		{
+			itemStack = new ItemStack(Material.WATER_BUCKET);
+		}
+		else if (material.equals(Material.LAVA))
+		{
+			itemStack = new ItemStack(Material.LAVA_BUCKET);
+		}
+		else if (material.equals(Material.FIRE))
+		{
+			itemStack = new ItemStack(Material.FIRE_CHARGE);
+		}
+		else if (material.equals(Material.AIR) || material.equals(Material.CAVE_AIR) || material.equals(Material.VOID_AIR))
+		{
+			itemStack = new ItemStack(Material.GLASS_BOTTLE);
+		}
+		else if (material.equals(Material.PISTON_HEAD) || material.equals(Material.MOVING_PISTON))
+		{
+			itemStack = new ItemStack(Material.PISTON);
+		}
+		else
+		{
+			itemStack = new ItemStack(material);
 		}
 
 		itemStack.setAmount(amount);
