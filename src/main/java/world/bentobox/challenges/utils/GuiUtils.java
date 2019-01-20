@@ -255,11 +255,6 @@ public class GuiUtils
 			// Materials Potted elements cannot be in inventory.
 			itemStack = new ItemStack(Material.getMaterial(material.name().replace("POTTED_", "")));
 		}
-		else if (material.name().startsWith("POTTED_"))
-		{
-			// Materials Potted elements cannot be in inventory.
-			itemStack = new ItemStack(Material.getMaterial(material.name().replace("POTTED_", "")));
-		}
 		else if (material.equals(Material.MELON_STEM) || material.equals(Material.ATTACHED_MELON_STEM))
 		{
 			itemStack = new ItemStack(Material.MELON_SEEDS);
