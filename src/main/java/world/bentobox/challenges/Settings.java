@@ -38,6 +38,10 @@ public class Settings implements DataObject
 	private boolean addCompletedGlow = true;
 
 	@ConfigComment("")
+	@ConfigComment("This indicate if free challenges must be at the start (true) or at the end (false) of list.")
+	private boolean freeChallengesFirst = true;
+
+	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
 	@ConfigComment("To disable addon it is necessary to write its name in new line that starts with -. Example:")
 	@ConfigComment("disabled-gamemodes:")
@@ -109,6 +113,15 @@ public class Settings implements DataObject
 	}
 
 
+	/**
+	 * @return freeChallengesFirst value.
+	 */
+	public boolean isFreeChallengesFirst()
+	{
+		return this.freeChallengesFirst;
+	}
+
+
 	@Override
 	public void setUniqueId(String uniqueId)
 	{
@@ -158,5 +171,14 @@ public class Settings implements DataObject
 	public void setDisabledGameModes(Set<String> disabledGameModes)
 	{
 		this.disabledGameModes = disabledGameModes;
+	}
+
+
+	/**
+	 * @param freeChallengesFirst new freeChallengesFirst value.
+	 */
+	public void setFreeChallengesFirst(boolean freeChallengesFirst)
+	{
+		this.freeChallengesFirst = freeChallengesFirst;
 	}
 }
