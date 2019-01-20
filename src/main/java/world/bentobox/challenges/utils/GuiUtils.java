@@ -245,7 +245,7 @@ public class GuiUtils
 		ItemStack itemStack;
 
 		// Process items that cannot be item-stacks.
-		if (material.name().contains("_WALL"))
+		if (material.name().contains("WALL_"))
 		{
 			// Materials that is attached to wall cannot be showed in GUI. But they should be in list.
 			itemStack = new ItemStack(Material.getMaterial(material.name().replace("WALL_", "")));
