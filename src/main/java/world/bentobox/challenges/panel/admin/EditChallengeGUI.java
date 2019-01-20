@@ -525,8 +525,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CREEPER_HEAD);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Entities GUI
-					this.build();
+					new ManageEntitiesGUI(this.addon,
+						this.world,
+						this.user,
+						this.challenge.getRequiredEntities(),
+						this.topLabel,
+						this.permissionPrefix,
+						this).build();
 
 					return true;
 				};
@@ -569,8 +574,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.STONE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					// TODO: Block GUI
-					this.build();
+					new ManageBlocksGUI(this.addon,
+						this.world,
+						this.user,
+						this.challenge.getRequiredBlocks(),
+						this.topLabel,
+						this.permissionPrefix,
+						this).build();
 
 					return true;
 				};
