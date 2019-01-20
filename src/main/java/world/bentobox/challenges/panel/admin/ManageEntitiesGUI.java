@@ -16,7 +16,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectEntityGUI;
-import world.bentobox.challenges.utils.HeadLib;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -57,7 +57,7 @@ public class ManageEntitiesGUI extends CommonGUI
 			name(this.user.getTranslation("challenges.gui.admin.edit-entities"));
 
 		// create border
-		this.fillBorder(panelBuilder);
+		GuiUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(3, this.createButton(Button.ADD));
 		panelBuilder.item(5, this.createButton(Button.REMOVE));
@@ -158,7 +158,9 @@ public class ManageEntitiesGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			name(WordUtils.capitalize(entity.name().toLowerCase().replace("_", " "))).
-			icon(this.asEggs ? this.getEntityEgg(entity) : this.getEntityHead(entity)).
+			icon(this.asEggs ?
+				GuiUtils.getEntityEgg(entity, this.requiredEntities.get(entity)) :
+				GuiUtils.getEntityHead(entity, this.requiredEntities.get(entity))).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.
 				if (clickType.isRightClick())
@@ -187,115 +189,6 @@ public class ManageEntitiesGUI extends CommonGUI
 			}).
 			glow(this.selectedEntities.contains(entity)).
 			build();
-	}
-
-
-	/**
-	 * This method transforms entity into egg or block that corresponds given entity. If entity egg is not
-	 * found, then it is replaced by block that represents entity or barrier block.
-	 * @param entity Entity which egg must be returned.
-	 * @return ItemStack that may be egg for given entity.
-	 */
-	private ItemStack getEntityEgg(EntityType entity)
-	{
-		ItemStack itemStack;
-
-		switch (entity)
-		{
-			case PIG_ZOMBIE:
-				itemStack = new ItemStack(Material.ZOMBIE_PIGMAN_SPAWN_EGG);
-				break;
-			case ENDER_DRAGON:
-				itemStack = new ItemStack(Material.DRAGON_EGG);
-				break;
-			case WITHER:
-				itemStack = new ItemStack(Material.SOUL_SAND);
-				break;
-			case PLAYER:
-				itemStack = new ItemStack(Material.PLAYER_HEAD);
-				break;
-			case MUSHROOM_COW:
-				itemStack = new ItemStack(Material.MOOSHROOM_SPAWN_EGG);
-				break;
-			case SNOWMAN:
-				itemStack = new ItemStack(Material.CARVED_PUMPKIN);
-				break;
-			case IRON_GOLEM:
-				itemStack = new ItemStack(Material.IRON_BLOCK);
-				break;
-			case ARMOR_STAND:
-				itemStack = new ItemStack(Material.ARMOR_STAND);
-				break;
-			default:
-				Material material = Material.getMaterial(entity.name() + "_SPAWN_EGG");
-
-				if (material == null)
-				{
-					itemStack = new ItemStack(Material.BARRIER);
-				}
-				else
-				{
-					itemStack = new ItemStack(material);
-				}
-
-				break;
-		}
-
-		itemStack.setAmount(this.requiredEntities.get(entity));
-
-		return itemStack;
-	}
-
-
-	/**
-	 * This method transforms entity into player head with skin that corresponds given entity. If entity head
-	 * is not found, then it is replaced by barrier block.
-	 * @param entity Entity which head must be returned.
-	 * @return ItemStack that may be head for given entity.
-	 */
-	private ItemStack getEntityHead(EntityType entity)
-	{
-		ItemStack itemStack;
-
-		switch (entity)
-		{
-			case PLAYER:
-				itemStack = new ItemStack(Material.PLAYER_HEAD);
-				break;
-			case WITHER_SKELETON:
-				itemStack = new ItemStack(Material.WITHER_SKELETON_SKULL);
-				break;
-			case ARMOR_STAND:
-				itemStack = new ItemStack(Material.ARMOR_STAND);
-				break;
-			case SKELETON:
-				itemStack = new ItemStack(Material.SKELETON_SKULL);
-				break;
-			case GIANT:
-			case ZOMBIE:
-				itemStack = new ItemStack(Material.ZOMBIE_HEAD);
-				break;
-			case CREEPER:
-				itemStack = new ItemStack(Material.CREEPER_HEAD);
-				break;
-			case ENDER_DRAGON:
-				itemStack = new ItemStack(Material.DRAGON_HEAD);
-				break;
-			default:
-				HeadLib head = HeadLib.getHead(entity.name());
-
-				if (head == null)
-				{
-					itemStack = new ItemStack(Material.BARRIER);
-				}
-				else
-				{
-					itemStack = head.toItemStack(this.requiredEntities.get(entity));
-				}
-				break;
-		}
-
-		return itemStack;
 	}
 
 
