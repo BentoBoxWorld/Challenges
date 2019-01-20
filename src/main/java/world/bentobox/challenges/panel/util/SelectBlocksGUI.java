@@ -3,6 +3,7 @@ package world.bentobox.challenges.panel.util;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -144,115 +146,17 @@ public class SelectBlocksGUI
 	 */
 	private PanelItem createMaterialButton(Material material)
 	{
-		PanelItemBuilder builder = new PanelItemBuilder().
-			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " ")));
+		ItemStack itemStack = GuiUtils.getMaterialItem(material);
 
-		// Process items that cannot be item-stacks.
-		if (material.name().contains("_WALL"))
-		{
-			// Materials that is attached to wall cannot be showed in GUI. But they should be in list.
-			builder.icon(Material.getMaterial(material.name().replace("WALL_", "")));
-			builder.glow(true);
-		}
-		else if (material.name().startsWith("POTTED_"))
-		{
-			// Materials Potted elements cannot be in inventory.
-			builder.icon(Material.getMaterial(material.name().replace("POTTED_", "")));
-			builder.glow(true);
-		}
-		else if (material.name().startsWith("POTTED_"))
-		{
-			// Materials Potted elements cannot be in inventory.
-			builder.icon(Material.getMaterial(material.name().replace("POTTED_", "")));
-			builder.glow(true);
-		}
-		else if (material.equals(Material.MELON_STEM) || material.equals(Material.ATTACHED_MELON_STEM))
-		{
-			builder.icon(Material.MELON_SEEDS);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.PUMPKIN_STEM) || material.equals(Material.ATTACHED_PUMPKIN_STEM))
-		{
-			builder.icon(Material.PUMPKIN_SEEDS);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.TALL_SEAGRASS))
-		{
-			builder.icon(Material.SEAGRASS);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.CARROTS))
-		{
-			builder.icon(Material.CARROT);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.BEETROOTS))
-		{
-			builder.icon(Material.BEETROOT);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.POTATOES))
-		{
-			builder.icon(Material.POTATO);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.COCOA))
-		{
-			builder.icon(Material.COCOA_BEANS);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.KELP_PLANT))
-		{
-			builder.icon(Material.KELP);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.REDSTONE_WIRE))
-		{
-			builder.icon(Material.REDSTONE);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.TRIPWIRE))
-		{
-			builder.icon(Material.STRING);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.FROSTED_ICE))
-		{
-			builder.icon(Material.ICE);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.END_PORTAL) || material.equals(Material.END_GATEWAY) || material.equals(Material.NETHER_PORTAL))
-		{
-			builder.icon(Material.PAPER);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.BUBBLE_COLUMN) || material.equals(Material.WATER))
-		{
-			builder.icon(Material.WATER_BUCKET);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.LAVA))
-		{
-			builder.icon(Material.LAVA_BUCKET);
-			builder.glow(true);
-		}
-		else if (material.equals(Material.FIRE))
-		{
-			builder.icon(Material.FIRE_CHARGE);
-			builder.glow(true);
-		}
-		else
-		{
-			builder.icon(material);
-			builder.glow(false);
-		}
-
-		builder.clickHandler((panel, user1, clickType, slot) -> {
-			this.consumer.accept(true, material);
-			return true;
-		});
-
-		return builder.build();
+		return new PanelItemBuilder().
+			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " "))).
+			icon(itemStack).
+			clickHandler((panel, user1, clickType, slot) -> {
+				this.consumer.accept(true, material);
+				return true;
+			}).
+			glow(!itemStack.getType().equals(material)).
+			build();
 	}
 
 
