@@ -13,6 +13,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -54,11 +55,15 @@ public class NumberGUI
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.edit-number-title"));
 
+		GuiUtils.fillBorder(panelBuilder);
+
 		// Others
-		panelBuilder.item(0, this.getButton(Button.SAVE));
-		panelBuilder.item(1, this.getButton(Button.VALUE));
-		panelBuilder.item(8, this.getButton(Button.CANCEL));
-		panelBuilder.item(10, this.getButton(Button.INPUT));
+		panelBuilder.item(1, this.getButton(Button.SAVE));
+
+		panelBuilder.item(19, this.getButton(Button.VALUE));
+		panelBuilder.item(44, this.getButton(Button.CANCEL));
+
+		panelBuilder.item(2, this.getButton(Button.INPUT));
 
 		// operations
 		panelBuilder.item(3, this.getButton(Button.SET));
@@ -67,23 +72,23 @@ public class NumberGUI
 		panelBuilder.item(6, this.getButton(Button.MULTIPLY));
 
 		// Numbers
-		panelBuilder.item(20, this.createNumberButton(1));
-		panelBuilder.item(21, this.createNumberButton(10));
-		panelBuilder.item(22, this.createNumberButton(100));
-		panelBuilder.item(23, this.createNumberButton(1000));
-		panelBuilder.item(24, this.createNumberButton(10000));
+		panelBuilder.item(11, this.createNumberButton(1));
+		panelBuilder.item(12, this.createNumberButton(10));
+		panelBuilder.item(13, this.createNumberButton(100));
+		panelBuilder.item(14, this.createNumberButton(1000));
+		panelBuilder.item(15, this.createNumberButton(10000));
 
-		panelBuilder.item(29, this.createNumberButton(2));
-		panelBuilder.item(30, this.createNumberButton(20));
-		panelBuilder.item(31, this.createNumberButton(200));
-		panelBuilder.item(32, this.createNumberButton(2000));
-		panelBuilder.item(33, this.createNumberButton(20000));
+		panelBuilder.item(20, this.createNumberButton(2));
+		panelBuilder.item(21, this.createNumberButton(20));
+		panelBuilder.item(22, this.createNumberButton(200));
+		panelBuilder.item(23, this.createNumberButton(2000));
+		panelBuilder.item(24, this.createNumberButton(20000));
 
-		panelBuilder.item(38, this.createNumberButton(5));
-		panelBuilder.item(39, this.createNumberButton(50));
-		panelBuilder.item(40, this.createNumberButton(500));
-		panelBuilder.item(41, this.createNumberButton(5000));
-		panelBuilder.item(42, this.createNumberButton(50000));
+		panelBuilder.item(29, this.createNumberButton(5));
+		panelBuilder.item(30, this.createNumberButton(50));
+		panelBuilder.item(31, this.createNumberButton(500));
+		panelBuilder.item(32, this.createNumberButton(5000));
+		panelBuilder.item(33, this.createNumberButton(50000));
 
 		panelBuilder.build();
 	}
@@ -120,7 +125,7 @@ public class NumberGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.cancel");
 				description = Collections.emptyList();
-				icon = new ItemStack(Material.IRON_DOOR);
+				icon = new ItemStack(Material.OAK_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(false, this.value);
 					return true;

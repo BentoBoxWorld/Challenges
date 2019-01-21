@@ -73,6 +73,7 @@ public class SelectBlocksGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
 			name(this.user.getTranslation("challenges.gui.admin.select-block"));
 
+		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
 		final int MAX_ELEMENTS = 21;
 		final int correctPage;
@@ -93,7 +94,7 @@ public class SelectBlocksGUI
 		int entitiesIndex = MAX_ELEMENTS * correctPage;
 
 		// I want first row to be only for navigation and return button.
-		int index = 9;
+		int index = 10;
 
 		while (entitiesIndex < ((correctPage + 1) * MAX_ELEMENTS) &&
 			entitiesIndex < this.elements.size())
@@ -106,31 +107,44 @@ public class SelectBlocksGUI
 			index++;
 		}
 
-		// Add navigation Buttons
-		panelBuilder.item(3,
-			new PanelItemBuilder().
-				icon(Material.SIGN).
-				name(this.user.getTranslation("challenges.gui.buttons.previous")).
-				clickHandler( (panel, user1, clickType, slot) -> {
-					this.build(correctPage - 1);
-					return true;
-				}).build());
-
 		panelBuilder.item(4,
 			new PanelItemBuilder().
-				icon(Material.OAK_DOOR).
-				name(this.user.getTranslation("challenges.gui.buttons.return")).
+				icon(Material.RED_STAINED_GLASS_PANE).
+				name(this.user.getTranslation("challenges.gui.buttons.cancel")).
 				clickHandler( (panel, user1, clickType, slot) -> {
 					this.consumer.accept(false, null);
 					return true;
 				}).build());
 
-		panelBuilder.item(5,
+		if (this.elements.size() > MAX_ELEMENTS)
+		{
+			// Navigation buttons if necessary
+
+			panelBuilder.item(18,
+				new PanelItemBuilder().
+					icon(Material.SIGN).
+					name(this.user.getTranslation("challenges.gui.buttons.previous")).
+					clickHandler((panel, user1, clickType, slot) -> {
+						this.build(correctPage - 1);
+						return true;
+					}).build());
+
+			panelBuilder.item(26,
+				new PanelItemBuilder().
+					icon(Material.SIGN).
+					name(this.user.getTranslation("challenges.gui.buttons.next")).
+					clickHandler((panel, user1, clickType, slot) -> {
+						this.build(correctPage + 1);
+						return true;
+					}).build());
+		}
+
+		panelBuilder.item(44,
 			new PanelItemBuilder().
-				icon(Material.SIGN).
-				name(this.user.getTranslation("challenges.gui.buttons.next")).
+				icon(Material.OAK_DOOR).
+				name(this.user.getTranslation("challenges.gui.buttons.return")).
 				clickHandler( (panel, user1, clickType, slot) -> {
-					this.build(correctPage + 1);
+					this.consumer.accept(false, null);
 					return true;
 				}).build());
 

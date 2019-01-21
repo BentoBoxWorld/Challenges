@@ -10,6 +10,7 @@ import java.util.function.BiConsumer;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -35,6 +36,8 @@ public class SelectEnvironmentGUI
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.admin.environment-title"));
 
+		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
+
 		panelBuilder.item(3, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.save")).
 			icon(Material.GREEN_STAINED_GLASS_PANE).
@@ -53,7 +56,7 @@ public class SelectEnvironmentGUI
 			}).
 			build());
 
-		panelBuilder.item(12, new PanelItemBuilder().
+		panelBuilder.item(20, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.nether")).
 			icon(Material.NETHERRACK).
 			clickHandler((panel, user1, clickType, i) -> {
@@ -71,7 +74,7 @@ public class SelectEnvironmentGUI
 			}).
 			glow(this.values.contains(World.Environment.NETHER)).
 			build());
-		panelBuilder.item(13, new PanelItemBuilder().
+		panelBuilder.item(22, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.normal")).
 			icon(Material.DIRT).
 			clickHandler((panel, user1, clickType, i) -> {
@@ -89,7 +92,7 @@ public class SelectEnvironmentGUI
 			}).
 			glow(this.values.contains(World.Environment.NORMAL)).
 			build());
-		panelBuilder.item(14, new PanelItemBuilder().
+		panelBuilder.item(24, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.end")).
 			icon(Material.END_STONE).
 			clickHandler((panel, user1, clickType, i) -> {
@@ -106,6 +109,16 @@ public class SelectEnvironmentGUI
 				return true;
 			}).
 			glow(this.values.contains(World.Environment.THE_END)).
+			build());
+
+
+		panelBuilder.item(44, new PanelItemBuilder().
+			name(this.user.getTranslation("challenges.gui.admin.buttons.return")).
+			icon(Material.OAK_DOOR).
+			clickHandler((panel, user1, clickType, i) -> {
+				this.consumer.accept(false, Collections.emptySet());
+				return true;
+			}).
 			build());
 
 		panelBuilder.build();

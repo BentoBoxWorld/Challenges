@@ -3,10 +3,7 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import net.wesjd.anvilgui.AnvilGUI;
@@ -15,6 +12,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -35,7 +33,7 @@ public class StringListGUI
 		this.user = user;
 		this.value = value;
 
-		if (this.value.size() > 18)
+		if (this.value.size() > 21)
 		{
 			// TODO: throw error that so large list cannot be edited.
 			this.consumer.accept(false, this.value);
@@ -52,20 +50,31 @@ public class StringListGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.text-edit-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
+			name(this.user.getTranslation("challenges.gui.text-edit-title"));
 
-		panelBuilder.item(0, this.getButton(Button.SAVE));
-		panelBuilder.item(1, this.getButton(Button.VALUE));
+		GuiUtils.fillBorder(panelBuilder, Material.BLACK_STAINED_GLASS_PANE);
 
-		panelBuilder.item(3, this.getButton(Button.ADD));
-		panelBuilder.item(4, this.getButton(Button.REMOVE));
-		panelBuilder.item(4, this.getButton(Button.CLEAR));
+		panelBuilder.item(1, this.getButton(Button.SAVE));
+		panelBuilder.item(2, this.getButton(Button.VALUE));
 
-		panelBuilder.item(8, this.getButton(Button.CANCEL));
+		panelBuilder.item(4, this.getButton(Button.ADD));
+		panelBuilder.item(5, this.getButton(Button.REMOVE));
+		panelBuilder.item(6, this.getButton(Button.CLEAR));
 
-		for (int i = 0; i < this.value.size(); i++)
+		panelBuilder.item(44, this.getButton(Button.CANCEL));
+
+		int slot = 10;
+
+		for (int stringIndex = 0; stringIndex < this.value.size() && slot < 36; stringIndex++)
 		{
-			panelBuilder.item(this.createStringElement(this.value.get(i), i));
+			if (!panelBuilder.slotOccupied(slot))
+			{
+				panelBuilder.item(slot,
+					this.createStringElement(this.value.get(stringIndex), stringIndex));
+			}
+
+			slot++;
 		}
 
 		panelBuilder.build();
@@ -90,7 +99,7 @@ public class StringListGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.save");
 				description = Collections.emptyList();
-				icon = new ItemStack(Material.COMMAND_BLOCK);
+				icon = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(true, this.value);
 
@@ -102,7 +111,7 @@ public class StringListGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.cancel");
 				description = Collections.emptyList();
-				icon = new ItemStack(Material.IRON_DOOR);
+				icon = new ItemStack(Material.OAK_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(false, this.value);
 

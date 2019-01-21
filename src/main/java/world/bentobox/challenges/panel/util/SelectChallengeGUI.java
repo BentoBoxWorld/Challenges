@@ -10,6 +10,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -34,8 +35,10 @@ public class SelectChallengeGUI
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.choose-challenge-title"));
 
+		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
+
 		// Maximal elements in page.
-		final int MAX_ELEMENTS = 36;
+		final int MAX_ELEMENTS = 21;
 
 		final int correctPage;
 
@@ -52,18 +55,57 @@ public class SelectChallengeGUI
 			correctPage = pageIndex;
 		}
 
-		// Navigation buttons
-
-		panelBuilder.item(3,
+		panelBuilder.item(4,
 			new PanelItemBuilder().
-				icon(Material.SIGN).
-				name(this.user.getTranslation("challenges.gui.buttons.previous")).
+				icon(Material.RED_STAINED_GLASS_PANE).
+				name(this.user.getTranslation("challenges.gui.buttons.return")).
 				clickHandler( (panel, user1, clickType, slot) -> {
-					this.build(correctPage - 1);
+					this.consumer.accept(false, null);
 					return true;
 				}).build());
 
-		panelBuilder.item(4,
+		if (this.challengesList.size() > MAX_ELEMENTS)
+		{
+			// Navigation buttons if necessary
+
+			panelBuilder.item(18,
+				new PanelItemBuilder().
+					icon(Material.SIGN).
+					name(this.user.getTranslation("challenges.gui.buttons.previous")).
+					clickHandler((panel, user1, clickType, slot) -> {
+						this.build(correctPage - 1);
+						return true;
+					}).build());
+
+			panelBuilder.item(26,
+				new PanelItemBuilder().
+					icon(Material.SIGN).
+					name(this.user.getTranslation("challenges.gui.buttons.next")).
+					clickHandler((panel, user1, clickType, slot) -> {
+						this.build(correctPage + 1);
+						return true;
+					}).build());
+		}
+
+		int challengesIndex = MAX_ELEMENTS * correctPage;
+
+		// I want first row to be only for navigation and return button.
+		int index = 10;
+
+		while (challengesIndex < ((correctPage + 1) * MAX_ELEMENTS) &&
+			challengesIndex < this.challengesList.size() &&
+			index < 36)
+		{
+			if (!panelBuilder.slotOccupied(index))
+			{
+				panelBuilder.item(index,
+					this.createChallengeButton(this.challengesList.get(challengesIndex++)));
+			}
+
+			index++;
+		}
+
+		panelBuilder.item(44,
 			new PanelItemBuilder().
 				icon(Material.OAK_DOOR).
 				name(this.user.getTranslation("challenges.gui.buttons.return")).
@@ -71,28 +113,6 @@ public class SelectChallengeGUI
 					this.consumer.accept(false, null);
 					return true;
 				}).build());
-
-		panelBuilder.item(5,
-			new PanelItemBuilder().
-				icon(Material.SIGN).
-				name(this.user.getTranslation("challenges.gui.buttons.next")).
-				clickHandler( (panel, user1, clickType, slot) -> {
-					this.build(correctPage + 1);
-					return true;
-				}).build());
-
-		int challengesIndex = MAX_ELEMENTS * correctPage;
-
-		// I want first row to be only for navigation and return button.
-		int index = 9;
-
-		while (challengesIndex < ((correctPage + 1) * MAX_ELEMENTS) &&
-			challengesIndex < this.challengesList.size())
-		{
-			panelBuilder.item(index++, this.createChallengeButton(this.challengesList.get(challengesIndex++)));
-		}
-
-		panelBuilder.build();
 
 		panelBuilder.build();
 	}
