@@ -9,6 +9,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -60,8 +61,10 @@ public class EditSettingsGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.settings-title"));
 
+		GuiUtils.fillBorder(panelBuilder);
+
 		// resetChallenges
-		panelBuilder.item(0, new PanelItemBuilder().
+		panelBuilder.item(19, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.reset")).
 			description(this.user.getTranslation("challenges.gui.admin.descriptions.reset")).
 			icon(Material.LAVA_BUCKET).
@@ -74,7 +77,7 @@ public class EditSettingsGUI extends CommonGUI
 			build());
 
 		// broadcastMessages
-		panelBuilder.item(1, new PanelItemBuilder().
+		panelBuilder.item(20, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.broadcast")).
 			description(this.user.getTranslation("challenges.gui.admin.descriptions.broadcast")).
 			icon(Material.JUKEBOX).
@@ -87,7 +90,7 @@ public class EditSettingsGUI extends CommonGUI
 			build());
 
 		// removeCompleteOneTimeChallenges
-		panelBuilder.item(2, new PanelItemBuilder().
+		panelBuilder.item(21, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.remove-on-complete")).
 			description(this.user.getTranslation("challenges.gui.admin.descriptions.remove-on-complete")).
 			icon(Material.MAGMA_BLOCK).
@@ -100,7 +103,7 @@ public class EditSettingsGUI extends CommonGUI
 			build());
 
 		// addCompletedGlow
-		panelBuilder.item(3, new PanelItemBuilder().
+		panelBuilder.item(22, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.glow")).
 			description(this.user.getTranslation("challenges.gui.admin.descriptions.glow")).
 			icon(Material.GLOWSTONE).
@@ -112,8 +115,21 @@ public class EditSettingsGUI extends CommonGUI
 			glow(this.addon.getChallengesSettings().isAddCompletedGlow()).
 			build());
 
+		// freeChallengesAtTheTop
+		panelBuilder.item(23, new PanelItemBuilder().
+			name(this.user.getTranslation("challenges.gui.admin.buttons.free-challenges")).
+			description(this.user.getTranslation("challenges.gui.admin.descriptions.free-challenges")).
+			icon(Material.FILLED_MAP).
+			clickHandler((panel, user1, clickType, i) -> {
+				this.addon.getChallengesSettings().setFreeChallengesFirst(
+					!this.addon.getChallengesSettings().isFreeChallengesFirst());
+				return true;
+			}).
+			glow(this.addon.getChallengesSettings().isFreeChallengesFirst()).
+			build());
+
 		// Return Button
-		panelBuilder.item(8, this.returnButton);
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}

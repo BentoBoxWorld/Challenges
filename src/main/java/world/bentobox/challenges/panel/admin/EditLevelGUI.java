@@ -23,6 +23,7 @@ import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectChallengeGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -82,6 +83,8 @@ public class EditLevelGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.edit-level-title"));
 
+		GuiUtils.fillBorder(panelBuilder);
+
 		panelBuilder.item(2, this.createMenuButton(MenuType.PROPERTIES));
 		panelBuilder.item(4, this.createMenuButton(MenuType.REWARDS));
 		panelBuilder.item(6, this.createMenuButton(MenuType.CHALLENGES));
@@ -99,7 +102,7 @@ public class EditLevelGUI extends CommonGUI
 			this.buildRewardsPanel(panelBuilder);
 		}
 
-		panelBuilder.item(53, this.returnButton);
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}
@@ -127,11 +130,12 @@ public class EditLevelGUI extends CommonGUI
 	 */
 	private void buildRewardsPanel(PanelBuilder panelBuilder)
 	{
-		panelBuilder.item(11, this.createButton(Button.REWARD_DESCRIPTION));
-		panelBuilder.item(20, this.createButton(Button.REWARD_ITEM));
-		panelBuilder.item(29, this.createButton(Button.REWARD_EXPERIENCE));
-		panelBuilder.item(38, this.createButton(Button.REWARD_MONEY));
-		panelBuilder.item(47, this.createButton(Button.REWARD_COMMANDS));
+		panelBuilder.item(12, this.createButton(Button.REWARD_DESCRIPTION));
+		panelBuilder.item(21, this.createButton(Button.REWARD_COMMANDS));
+
+		panelBuilder.item(13, this.createButton(Button.REWARD_ITEM));
+		panelBuilder.item(22, this.createButton(Button.REWARD_EXPERIENCE));
+		panelBuilder.item(31, this.createButton(Button.REWARD_MONEY));
 	}
 
 
@@ -141,39 +145,45 @@ public class EditLevelGUI extends CommonGUI
 	 */
 	private void buildChallengesPanel(PanelBuilder panelBuilder)
 	{
-		List<Challenges> challenges = this.addon.getChallengesManager().getChallenges(this.challengeLevel);
+		List<Challenges> challengeList = this.addon.getChallengesManager().getChallenges(this.challengeLevel);
+
+		final int MAX_ELEMENTS = 21;
 
 		if (this.pageIndex < 0)
 		{
+			this.pageIndex = challengeList.size() / MAX_ELEMENTS;
+		}
+		else if (this.pageIndex > (challengeList.size() / MAX_ELEMENTS))
+		{
 			this.pageIndex = 0;
 		}
-		else if (this.pageIndex > (challenges.size() / 18))
+
+		int challengeIndex = MAX_ELEMENTS * this.pageIndex;
+
+		// I want first row to be only for navigation and return button.
+		int index = 10;
+
+		while (challengeIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
+			challengeIndex < challengeList.size() &&
+			index < 36)
 		{
-			this.pageIndex = challenges.size() / 18;
+			if (!panelBuilder.slotOccupied(index))
+			{
+				panelBuilder.item(index, this.createChallengeIcon(challengeList.get(challengeIndex++)));
+			}
+
+			index++;
 		}
 
-		int challengeIndex = 18 * this.pageIndex;
-		int elementIndex = 9;
-
-		while (challengeIndex < ((this.pageIndex + 1) * 18) &&
-			challengeIndex < challenges.size())
+		// Navigation buttons only if necessary
+		if (challengeList.size() > MAX_ELEMENTS)
 		{
-			panelBuilder.item(elementIndex++, this.createChallengeIcon(challenges.get(challengeIndex)));
-			challengeIndex++;
+			panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 		}
 
-		if (this.pageIndex > 0)
-		{
-			panelBuilder.item(29, this.getButton(CommonButtons.PREVIOUS));
-		}
-
-		if (challengeIndex < challenges.size())
-		{
-			panelBuilder.item(33, this.getButton(CommonButtons.NEXT));
-		}
-
-		panelBuilder.item(30, this.createButton(Button.ADD_CHALLENGE));
-		panelBuilder.item(32, this.createButton(Button.REMOVE_CHALLENGE));
+		panelBuilder.item(39, this.createButton(Button.ADD_CHALLENGE));
+		panelBuilder.item(41, this.createButton(Button.REMOVE_CHALLENGE));
 	}
 
 

@@ -18,6 +18,7 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.panel.util.SelectChallengeGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -50,7 +51,7 @@ public class ListUsersGUI extends CommonGUI
 	private enum ViewMode
 	{
 		ONLINE,
-		OFFLINE,
+		WITH_ISLAND,
 		IN_WORLD
 	}
 
@@ -114,45 +115,48 @@ public class ListUsersGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.choose-user-title"));
 
-		int MAX_ELEMENTS = 45;
+		GuiUtils.fillBorder(panelBuilder);
+
+		final int MAX_ELEMENTS = 21;
+
 		if (this.pageIndex < 0)
 		{
-			this.pageIndex = 0;
+			this.pageIndex = this.onlineUsers.size() / MAX_ELEMENTS;
 		}
 		else if (this.pageIndex > (this.onlineUsers.size() / MAX_ELEMENTS))
 		{
-			this.pageIndex = this.onlineUsers.size() / MAX_ELEMENTS;
+			this.pageIndex = 0;
 		}
 
 		int playerIndex = MAX_ELEMENTS * this.pageIndex;
 
+		// I want first row to be only for navigation and return button.
+		int index = 10;
+
 		while (playerIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			playerIndex < this.onlineUsers.size())
+			playerIndex < this.onlineUsers.size() &&
+			index < 36)
 		{
-			panelBuilder.item(this.createPlayerIcon(this.onlineUsers.get(playerIndex)));
-			playerIndex++;
+			if (!panelBuilder.slotOccupied(index))
+			{
+				panelBuilder.item(index, this.createPlayerIcon(this.onlineUsers.get(playerIndex++)));
+			}
+
+			index++;
 		}
 
-		int nextIndex = playerIndex % MAX_ELEMENTS == 0 ?
-			MAX_ELEMENTS :
-			(((playerIndex % MAX_ELEMENTS) - 1) / 9 + 1) * 9;
+		// Add button that allows to toogle different player lists.
+		panelBuilder.item( 4, this.createToggleButton());
 
-		if (playerIndex > MAX_ELEMENTS)
+		// Navigation buttons only if necessary
+		if (this.onlineUsers.size() > MAX_ELEMENTS)
 		{
-			panelBuilder.item(nextIndex, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 		}
 
-		if (playerIndex < this.onlineUsers.size())
-		{
-			panelBuilder.item(nextIndex + 8, this.getButton(CommonButtons.NEXT));
-		}
+		panelBuilder.item(44, this.returnButton);
 
-		if (this.returnButton != null)
-		{
-			panelBuilder.item(nextIndex + 6, this.returnButton);
-		}
-
-		panelBuilder.item(nextIndex + 3, this.createToggleButton());
 
 		panelBuilder.build();
 	}
@@ -229,17 +233,9 @@ public class ListUsersGUI extends CommonGUI
 		{
 			return new ArrayList<>(Bukkit.getOnlinePlayers());
 		}
-		else if (mode.equals(ViewMode.OFFLINE))
+		else if (mode.equals(ViewMode.WITH_ISLAND))
 		{
-			List<Player> offlinePlayer = new ArrayList<>(Bukkit.getOfflinePlayers().length);
-
-			for (int index = 0; index < Bukkit.getOfflinePlayers().length; index++)
-			{
-				OfflinePlayer player = Bukkit.getOfflinePlayers()[index];
-				offlinePlayer.add(player.getPlayer());
-			}
-
-			return offlinePlayer;
+			return this.addon.getChallengesManager().getPlayers(this.world);
 		}
 		else
 		{

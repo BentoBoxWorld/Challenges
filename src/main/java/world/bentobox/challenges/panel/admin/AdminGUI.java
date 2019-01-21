@@ -13,6 +13,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -89,28 +90,31 @@ public class AdminGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.admin.gui-title"));
 
+		GuiUtils.fillBorder(panelBuilder);
 
-		panelBuilder.item(1, this.createButton(Button.COMPLETE_USER_CHALLENGES));
-		panelBuilder.item(10, this.createButton(Button.RESET_USER_CHALLENGES));
+		panelBuilder.item(10, this.createButton(Button.COMPLETE_USER_CHALLENGES));
+		panelBuilder.item(19, this.createButton(Button.RESET_USER_CHALLENGES));
 
 		// Add Challenges
-		panelBuilder.item(3, this.createButton(Button.ADD_CHALLENGE));
-		panelBuilder.item(12, this.createButton(Button.ADD_LEVEL));
+		panelBuilder.item(12, this.createButton(Button.ADD_CHALLENGE));
+		panelBuilder.item(13, this.createButton(Button.ADD_LEVEL));
 
 		// Edit Challenges
-		panelBuilder.item(4, this.createButton(Button.EDIT_CHALLENGE));
-		panelBuilder.item(13, this.createButton(Button.EDIT_LEVEL));
+		panelBuilder.item(21, this.createButton(Button.EDIT_CHALLENGE));
+		panelBuilder.item(22, this.createButton(Button.EDIT_LEVEL));
 
 		// Remove Challenges
-		panelBuilder.item(5, this.createButton(Button.DELETE_CHALLENGE));
-		panelBuilder.item(14, this.createButton(Button.DELETE_LEVEL));
+		panelBuilder.item(30, this.createButton(Button.DELETE_CHALLENGE));
+		panelBuilder.item(31, this.createButton(Button.DELETE_LEVEL));
 
 
 		// Import Challenges
-		panelBuilder.item(7, this.createButton(Button.IMPORT_CHALLENGES));
+		panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
 
 		// Edit Addon Settings
-		panelBuilder.item(8, this.createButton(Button.EDIT_SETTINGS));
+		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
+
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}

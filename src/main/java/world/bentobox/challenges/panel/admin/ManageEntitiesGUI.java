@@ -79,7 +79,8 @@ public class ManageEntitiesGUI extends CommonGUI
 		int index = 10;
 
 		while (entitiesIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			entitiesIndex < this.entityList.size())
+			entitiesIndex < this.entityList.size() &&
+			index < 26)
 		{
 			if (!panelBuilder.slotOccupied(index))
 			{

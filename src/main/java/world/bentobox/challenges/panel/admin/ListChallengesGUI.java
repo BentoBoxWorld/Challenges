@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -71,42 +73,53 @@ public class ListChallengesGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.choose-challenge-title"));
 
+		if (this.currentMode.equals(Mode.DELETE))
+		{
+			GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
+		}
+		else
+		{
+			GuiUtils.fillBorder(panelBuilder);
+		}
+
 		List<Challenges> challengeList = this.addon.getChallengesManager().getChallengesList();
 
-		int MAX_ELEMENTS = 45;
+		final int MAX_ELEMENTS = 21;
+
 		if (this.pageIndex < 0)
 		{
-			this.pageIndex = 0;
+			this.pageIndex = challengeList.size() / MAX_ELEMENTS;
 		}
 		else if (this.pageIndex > (challengeList.size() / MAX_ELEMENTS))
 		{
-			this.pageIndex = challengeList.size() / MAX_ELEMENTS;
+			this.pageIndex = 0;
 		}
 
 		int challengeIndex = MAX_ELEMENTS * this.pageIndex;
 
+		// I want first row to be only for navigation and return button.
+		int index = 10;
+
 		while (challengeIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			challengeIndex < challengeList.size())
+			challengeIndex < challengeList.size() &&
+			index < 36)
 		{
-			panelBuilder.item(this.createChallengeIcon(challengeList.get(challengeIndex)));
-			challengeIndex++;
+			if (!panelBuilder.slotOccupied(index))
+			{
+				panelBuilder.item(index, this.createChallengeIcon(challengeList.get(challengeIndex++)));
+			}
+
+			index++;
 		}
 
-		int nextIndex = challengeIndex % MAX_ELEMENTS == 0 ?
-			MAX_ELEMENTS :
-			(((challengeIndex % MAX_ELEMENTS) - 1) / 9 + 1) * 9;
-
-		if (challengeIndex > MAX_ELEMENTS)
+		// Navigation buttons only if necessary
+		if (challengeList.size() > MAX_ELEMENTS)
 		{
-			panelBuilder.item(nextIndex + 2, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 		}
 
-		if (challengeIndex < challengeList.size())
-		{
-			panelBuilder.item(nextIndex + 6, this.getButton(CommonButtons.NEXT));
-		}
-
-		panelBuilder.item(nextIndex + 8, this.returnButton);
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}

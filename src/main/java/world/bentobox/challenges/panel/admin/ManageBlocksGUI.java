@@ -79,7 +79,8 @@ public class ManageBlocksGUI extends CommonGUI
 		int index = 10;
 
 		while (entitiesIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			entitiesIndex < this.materialList.size())
+			entitiesIndex < this.materialList.size() &&
+			index < 36)
 		{
 			if (!panelBuilder.slotOccupied(index))
 			{

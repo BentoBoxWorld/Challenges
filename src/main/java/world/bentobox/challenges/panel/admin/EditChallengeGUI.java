@@ -19,6 +19,7 @@ import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectEnvironmentGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -81,6 +82,8 @@ public class EditChallengeGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.edit-challenge-title"));
 
+		GuiUtils.fillBorder(panelBuilder);
+
 		panelBuilder.item(2, this.createMenuButton(MenuType.PROPERTIES));
 		panelBuilder.item(4, this.createMenuButton(MenuType.REQUIREMENTS));
 		panelBuilder.item(6, this.createMenuButton(MenuType.REWARDS));
@@ -109,7 +112,7 @@ public class EditChallengeGUI extends CommonGUI
 			this.buildRewardsPanel(panelBuilder);
 		}
 
-		panelBuilder.item(53, this.returnButton);
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}
@@ -140,14 +143,14 @@ public class EditChallengeGUI extends CommonGUI
 	 */
 	private void buildIslandRequirementsPanel(PanelBuilder panelBuilder)
 	{
-		panelBuilder.item(10, this.createButton(Button.REQUIRED_ENTITIES));
-		panelBuilder.item(11, this.createButton(Button.REMOVE_ENTITIES));
+		panelBuilder.item(19, this.createButton(Button.REQUIRED_ENTITIES));
+		panelBuilder.item(28, this.createButton(Button.REMOVE_ENTITIES));
 
-		panelBuilder.item(15, this.createButton(Button.REQUIRED_BLOCKS));
-		panelBuilder.item(16, this.createButton(Button.REMOVE_BLOCKS));
+		panelBuilder.item(21, this.createButton(Button.REQUIRED_BLOCKS));
+		panelBuilder.item(29, this.createButton(Button.REMOVE_BLOCKS));
 
-		panelBuilder.item(19, this.createButton(Button.SEARCH_RADIUS));
-		panelBuilder.item(28, this.createButton(Button.REQUIRED_PERMISSIONS));
+		panelBuilder.item(23, this.createButton(Button.SEARCH_RADIUS));
+		panelBuilder.item(25, this.createButton(Button.REQUIRED_PERMISSIONS));
 	}
 
 
@@ -158,9 +161,9 @@ public class EditChallengeGUI extends CommonGUI
 	private void buildInventoryRequirementsPanel(PanelBuilder panelBuilder)
 	{
 		panelBuilder.item(10, this.createButton(Button.REQUIRED_ITEMS));
-		panelBuilder.item(11, this.createButton(Button.REMOVE_ITEMS));
+		panelBuilder.item(19, this.createButton(Button.REMOVE_ITEMS));
 
-		panelBuilder.item(28, this.createButton(Button.REQUIRED_PERMISSIONS));
+		panelBuilder.item(25, this.createButton(Button.REQUIRED_PERMISSIONS));
 	}
 
 
@@ -171,14 +174,14 @@ public class EditChallengeGUI extends CommonGUI
 	private void buildOtherRequirementsPanel(PanelBuilder panelBuilder)
 	{
 		panelBuilder.item(10, this.createButton(Button.REQUIRED_EXPERIENCE));
-		panelBuilder.item(11, this.createButton(Button.REMOVE_EXPERIENCE));
+		panelBuilder.item(19, this.createButton(Button.REMOVE_EXPERIENCE));
 
-		panelBuilder.item(13, this.createButton(Button.REQUIRED_LEVEL));
+		panelBuilder.item(12, this.createButton(Button.REQUIRED_MONEY));
+		panelBuilder.item(21, this.createButton(Button.REMOVE_MONEY));
 
-		panelBuilder.item(15, this.createButton(Button.REQUIRED_MONEY));
-		panelBuilder.item(16, this.createButton(Button.REMOVE_MONEY));
+		panelBuilder.item(23, this.createButton(Button.REQUIRED_LEVEL));
 
-		panelBuilder.item(28, this.createButton(Button.REQUIRED_PERMISSIONS));
+		panelBuilder.item(25, this.createButton(Button.REQUIRED_PERMISSIONS));
 	}
 
 
@@ -188,12 +191,12 @@ public class EditChallengeGUI extends CommonGUI
 	 */
 	private void buildRewardsPanel(PanelBuilder panelBuilder)
 	{
-		panelBuilder.item(11, this.createButton(Button.REWARD_TEXT));
-		panelBuilder.item(20, this.createButton(Button.REWARD_ITEM));
-		panelBuilder.item(29, this.createButton(Button.REWARD_EXPERIENCE));
-		panelBuilder.item(38, this.createButton(Button.REWARD_MONEY));
-		panelBuilder.item(47, this.createButton(Button.REWARD_COMMANDS));
+		panelBuilder.item(10, this.createButton(Button.REWARD_TEXT));
+		panelBuilder.item(19, this.createButton(Button.REWARD_COMMANDS));
 
+		panelBuilder.item(11, this.createButton(Button.REWARD_ITEM));
+		panelBuilder.item(20, this.createButton(Button.REWARD_EXPERIENCE));
+		panelBuilder.item(29, this.createButton(Button.REWARD_MONEY));
 
 		panelBuilder.item(22, this.createButton(Button.REPEATABLE));
 
@@ -202,10 +205,11 @@ public class EditChallengeGUI extends CommonGUI
 			panelBuilder.item(31, this.createButton(Button.REPEAT_COUNT));
 
 			panelBuilder.item(15, this.createButton(Button.REPEAT_REWARD_TEXT));
-			panelBuilder.item(24, this.createButton(Button.REPEAT_REWARD_ITEM));
-			panelBuilder.item(33, this.createButton(Button.REPEAT_REWARD_EXPERIENCE));
-			panelBuilder.item(42, this.createButton(Button.REPEAT_REWARD_MONEY));
-			panelBuilder.item(51, this.createButton(Button.REPEAT_REWARD_COMMANDS));
+			panelBuilder.item(24, this.createButton(Button.REPEAT_REWARD_COMMANDS));
+
+			panelBuilder.item(16, this.createButton(Button.REPEAT_REWARD_ITEM));
+			panelBuilder.item(25, this.createButton(Button.REPEAT_REWARD_EXPERIENCE));
+			panelBuilder.item(34, this.createButton(Button.REPEAT_REWARD_MONEY));
 		}
 	}
 

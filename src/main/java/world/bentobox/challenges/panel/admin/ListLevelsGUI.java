@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.ChallengeLevels;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -71,42 +73,53 @@ public class ListLevelsGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.choose-level-title"));
 
+		if (this.currentMode.equals(Mode.DELETE))
+		{
+			GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
+		}
+		else
+		{
+			GuiUtils.fillBorder(panelBuilder);
+		}
+
 		List<ChallengeLevels> levelList = this.addon.getChallengesManager().getChallengeLevelList();
 
-		int MAX_ELEMENTS = 45;
+		final int MAX_ELEMENTS = 21;
+
 		if (this.pageIndex < 0)
 		{
-			this.pageIndex = 0;
+			this.pageIndex = levelList.size() / MAX_ELEMENTS;
 		}
 		else if (this.pageIndex > (levelList.size() / MAX_ELEMENTS))
 		{
-			this.pageIndex = levelList.size() / MAX_ELEMENTS;
+			this.pageIndex = 0;
 		}
 
 		int levelIndex = MAX_ELEMENTS * this.pageIndex;
 
+		// I want first row to be only for navigation and return button.
+		int index = 10;
+
 		while (levelIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			levelIndex < levelList.size())
+			levelIndex < levelList.size() &&
+			index < 36)
 		{
-			panelBuilder.item(this.createLevelIcon(levelList.get(levelIndex)));
-			levelIndex++;
+			if (!panelBuilder.slotOccupied(index))
+			{
+				panelBuilder.item(index, this.createLevelIcon(levelList.get(levelIndex++)));
+			}
+
+			index++;
 		}
 
-		int nextIndex = levelIndex % MAX_ELEMENTS == 0 ?
-			MAX_ELEMENTS :
-			(((levelIndex % MAX_ELEMENTS) - 1) / 9 + 1) * 9;
-
-		if (levelIndex > MAX_ELEMENTS)
+		// Navigation buttons only if necessary
+		if (levelList.size() > MAX_ELEMENTS)
 		{
-			panelBuilder.item(nextIndex + 2, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+			panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 		}
 
-		if (levelIndex < levelList.size())
-		{
-			panelBuilder.item(nextIndex + 6, this.getButton(CommonButtons.NEXT));
-		}
-
-		panelBuilder.item(nextIndex + 8, this.returnButton);
+		panelBuilder.item(44, this.returnButton);
 
 		panelBuilder.build();
 	}
