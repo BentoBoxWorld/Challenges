@@ -5,8 +5,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
+
+import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
-import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 
 
 /**
@@ -72,7 +74,7 @@ public class GuiUtils
 
 			if (i < 9 || i > 9 * (rowCount - 1) || i % 9 == 0 || i % 9 == 8)
 			{
-				panelBuilder.item(i, new PanelItemBuilder().name("&2").icon(material).build());
+				panelBuilder.item(i, BorderBlock.getPanelBorder(material));
 			}
 		}
 	}
@@ -331,5 +333,31 @@ public class GuiUtils
 		itemStack.setAmount(amount);
 
 		return itemStack;
+	}
+
+
+	/**
+	 * This BorderBlock is simple PanelItem but without item meta data.
+	 */
+	private static class BorderBlock extends PanelItem
+	{
+		private BorderBlock(ItemStack icon)
+		{
+			super(icon.clone(), " ", Collections.emptyList(), false, null, false);
+		}
+
+
+		/**
+		 * This method retunrs BorderBlock with requested item stack.
+		 * @param material of which broder must be created.
+		 * @return PanelItem that acts like border.
+		 */
+		private static BorderBlock getPanelBorder(Material material)
+		{
+			ItemStack itemStack = new ItemStack(material);
+			itemStack.getItemMeta().setDisplayName(" ");
+
+			return new BorderBlock(itemStack);
+		}
 	}
 }
