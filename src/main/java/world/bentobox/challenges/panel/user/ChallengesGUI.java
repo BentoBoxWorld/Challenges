@@ -48,7 +48,18 @@ public class ChallengesGUI extends CommonGUI
 		this.challengesManager = this.addon.getChallengesManager();
 
 		this.levelStatusList = this.challengesManager.getChallengeLevelStatus(this.user, this.world);
-		this.lastSelectedLevel = this.levelStatusList.get(0);
+
+		for (int i = 0; i < this.levelStatusList.size(); i++)
+		{
+			if (this.levelStatusList.get(i).isUnlocked())
+			{
+				this.lastSelectedLevel = this.levelStatusList.get(i);
+			}
+			else
+			{
+				break;
+			}
+		}
 	}
 
 // ---------------------------------------------------------------------
@@ -172,55 +183,58 @@ public class ChallengesGUI extends CommonGUI
 	 */
 	private void addChallenges(PanelBuilder panelBuilder)
 	{
-		List<Challenges> challenges = this.challengesManager.getChallenges(this.lastSelectedLevel.getLevel());
-		final int challengesCount = challenges.size();
-
-		if (challengesCount > 18)
+		if (this.lastSelectedLevel != null)
 		{
-			int firstIndex = panelBuilder.nextSlot();
+			List<Challenges> challenges = this.challengesManager.getChallenges(this.lastSelectedLevel.getLevel());
+			final int challengesCount = challenges.size();
 
-			if (this.pageIndex > 0)
+			if (challengesCount > 18)
 			{
-				panelBuilder.item(new PanelItemBuilder().
-					icon(Material.SIGN).
-					name("Previous").
-					clickHandler((panel, user1, clickType, slot) -> {
-						this.pageIndex--;
-						this.build();
-						return true;
-					}).build());
-			}
+				int firstIndex = panelBuilder.nextSlot();
 
-			int currentIndex = this.pageIndex;
+				if (this.pageIndex > 0)
+				{
+					panelBuilder.item(new PanelItemBuilder().
+						icon(Material.SIGN).
+						name("Previous").
+						clickHandler((panel, user1, clickType, slot) -> {
+							this.pageIndex--;
+							this.build();
+							return true;
+						}).build());
+				}
 
-			while (panelBuilder.nextSlot() != firstIndex + 18 && currentIndex < challengesCount)
-			{
-				panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex++)));
-			}
+				int currentIndex = this.pageIndex;
 
-			// Check if one challenge is left
-			if (currentIndex + 1 == challengesCount)
-			{
-				panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex)));
+				while (panelBuilder.nextSlot() != firstIndex + 18 && currentIndex < challengesCount)
+				{
+					panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex++)));
+				}
+
+				// Check if one challenge is left
+				if (currentIndex + 1 == challengesCount)
+				{
+					panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex)));
+				}
+				else if (currentIndex < challengesCount)
+				{
+					panelBuilder.item(new PanelItemBuilder().
+						icon(Material.SIGN).
+						name("Next").
+						clickHandler((panel, user1, clickType, slot) -> {
+							this.pageIndex++;
+							this.build();
+							return true;
+						}).build());
+				}
 			}
-			else if (currentIndex < challengesCount)
+			else
 			{
-				panelBuilder.item(new PanelItemBuilder().
-					icon(Material.SIGN).
-					name("Next").
-					clickHandler((panel, user1, clickType, slot) -> {
-						this.pageIndex++;
-						this.build();
-						return true;
-					}).build());
-			}
-		}
-		else
-		{
-			for (Challenges challenge : challenges)
-			{
-				// there are no limitations. Just bunch insert.
-				panelBuilder.item(this.getChallengeButton(challenge));
+				for (Challenges challenge : challenges)
+				{
+					// there are no limitations. Just bunch insert.
+					panelBuilder.item(this.getChallengeButton(challenge));
+				}
 			}
 		}
 	}
@@ -497,13 +511,10 @@ public class ChallengesGUI extends CommonGUI
 		{
 			icon = new ItemStack(Material.BOOK);
 
-			// This should be safe as first level always should be unlocked.
-			LevelStatus previousLevel = this.levelStatusList.get(this.levelStatusList.indexOf(level) - 1);
-
 			description = Collections.singletonList(
 				this.user.getTranslation("challenges.to-complete",
-					"[challengesToDo]", Integer.toString(previousLevel.getNumberOfChallengesStillToDo()),
-					"[thisLevel]", previousLevel.getLevel().getFriendlyName()));
+					"[challengesToDo]", Integer.toString(level.getNumberOfChallengesStillToDo()),
+					"[thisLevel]", level.getPreviousLevel().getFriendlyName()));
 
 			clickHandler = null;
 		}
