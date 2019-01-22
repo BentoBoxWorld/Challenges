@@ -5,6 +5,7 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
@@ -215,26 +216,37 @@ public class ChallengesManager {
      * @param world - world to check
      * @return Level status - how many challenges still to do on which level
      */
-    public List<LevelStatus> getChallengeLevelStatus(User user, World world) {
-        addPlayer(user);
-        ChallengesPlayerData pd = playerData.get(user.getUniqueId());
+    public List<LevelStatus> getChallengeLevelStatus(User user, World world)
+    {
+        this.addPlayer(user);
+        ChallengesPlayerData playerData = this.playerData.get(user.getUniqueId());
         List<LevelStatus> result = new ArrayList<>();
-        ChallengeLevels previousLevel = null;
+
         // The first level is always unlocked
-        boolean isUnlocked = true;
+        ChallengeLevels previousLevel = null;
+        int doneChallengeCount = Integer.MAX_VALUE;
+
         // For each challenge level, check how many the user has done
-        for (Entry<ChallengeLevels, Set<Challenges>> en : challengeMap.entrySet()) {
-            int total = challengeMap.values().size();
-            int waiverAmount = en.getKey().getWaiveramount();
-            int challengesDone = (int) en.getValue().stream().filter(ch -> pd.isChallengeDone(world, ch.getUniqueId())).count();
-            int challsToDo =  Math.max(0,total - challengesDone - waiverAmount);
-            boolean complete = challsToDo > 0 ? false : true;
+        for (Entry<ChallengeLevels, Set<Challenges>> entry : this.challengeMap.entrySet())
+        {
+            // Check how much challenges must be done in previous level.
+            int challengesToDo = Math.max(0, entry.getKey().getWaiveramount() - doneChallengeCount);
+
+            doneChallengeCount = (int) entry.getValue().stream().filter(
+                ch -> playerData.isChallengeDone(world, ch.getUniqueId())).count();
+
             // Create result class with the data
-            result.add(new LevelStatus(en.getKey(), previousLevel, challsToDo, complete, isUnlocked));
+            result.add(new LevelStatus(
+                entry.getKey(),
+                previousLevel,
+                challengesToDo,
+                entry.getValue().size() == doneChallengeCount,
+                challengesToDo <= 0));
+
             // Set up the next level for the next loop
-            previousLevel = en.getKey();
-            isUnlocked = complete;
+            previousLevel = entry.getKey();
         }
+
         return result;
     }
 
@@ -591,5 +603,38 @@ public class ChallengesManager {
     public void completeChallenge(UUID uniqueId, Challenges value)
     {
 
+    }
+
+
+    public List<Challenges> getFreeChallenges(User user, World world)
+    {
+        return Collections.emptyList();
+    }
+
+
+    public String getChallengesLevel(Challenges challenge)
+    {
+        return "HERE NEED LEVEL NAME";
+    }
+
+
+    public boolean isChallengeComplete(User user, Challenges challenge)
+    {
+        return this.isChallengeComplete(user, challenge.getUniqueId(), user.getWorld());
+    }
+
+
+    public long checkChallengeTimes(User user, Challenges challenge)
+    {
+       return this.checkChallengeTimes(user, challenge, user.getWorld());
+    }
+
+
+    public List<Player> getPlayers(World world)
+    {
+        List<Player> playerList = new ArrayList<>();
+
+
+        return playerList;
     }
 }
