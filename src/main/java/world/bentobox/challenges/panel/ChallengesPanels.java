@@ -22,6 +22,10 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 
 
+/**
+ * @deprecated All panels are reworked.
+ */
+@Deprecated
 public class ChallengesPanels {
     private ChallengesAddon addon;
     private ChallengesManager manager;

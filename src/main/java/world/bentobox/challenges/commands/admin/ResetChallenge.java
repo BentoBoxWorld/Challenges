@@ -13,6 +13,11 @@ import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
+
+/**
+ * @deprecated Challenges can be reset via GUI.
+ */
+@Deprecated
 public class ResetChallenge extends CompositeCommand {
 
     private ChallengesManager manager;

@@ -12,8 +12,9 @@ import world.bentobox.bentobox.api.user.User;
 /**
  * Enables the state of a Surrounding Challenge to be stored as it is built
  * @author tastybento
- *
+ * @deprecated Levels and challenges can be created via GUI. Not necessary command.
  */
+@Deprecated
 public class SurroundChallengeBuilder {
     private ChallengesAddon addon;
     private String name;

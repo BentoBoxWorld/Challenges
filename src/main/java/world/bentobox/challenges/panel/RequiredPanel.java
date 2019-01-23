@@ -25,8 +25,9 @@ import world.bentobox.bentobox.util.Util;
  * Handles the requirements for a challenge
  * Items, blocks, entities
  * @author tastybento
- *
+ * @deprecated All panels are reworked.
  */
+@Deprecated
 public class RequiredPanel implements ClickHandler, PanelListener {
     private static final int CONTROL_NUMBER = 4;
     private Challenges challenge;

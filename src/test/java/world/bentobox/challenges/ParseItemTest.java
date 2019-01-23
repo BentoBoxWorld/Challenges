@@ -26,6 +26,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ParseItem;
 
 @RunWith(PowerMockRunner.class)
+@Deprecated
 public class ParseItemTest {
 
     private static ChallengesAddon addon;
