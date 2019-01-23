@@ -25,6 +25,9 @@ import world.bentobox.challenges.utils.GuiUtils;
 /**
  * This class contains all necessary methods that creates GUI and allow to edit challenges
  * properties.
+ *
+ * TODO: In current class set that MONEY are availabe only if ECONOMY exist.
+ * TODO: In current class set that ISLAND LEVEL are availabe only if LEVEL ADDON exist.
  */
 public class EditChallengeGUI extends CommonGUI
 {

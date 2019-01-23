@@ -28,7 +28,8 @@ import world.bentobox.challenges.utils.GuiUtils;
 
 /**
  * This class contains all necessary elements to create Levels Edit GUI.
- */
+ * TODO: In current class set that MONEY are availabe only if ECONOMY exist.
+*/
 public class EditLevelGUI extends CommonGUI
 {
 // ---------------------------------------------------------------------
