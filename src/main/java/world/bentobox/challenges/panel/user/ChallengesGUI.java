@@ -424,6 +424,8 @@ public class ChallengesGUI extends CommonGUI
 			result.addAll(this.challengeRewards(challenge));
 		}
 
+		result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
 		return result;
 	}
 
