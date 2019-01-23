@@ -1,11 +1,16 @@
 package world.bentobox.challenges.utils;
 
 
+import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -359,5 +364,25 @@ public class GuiUtils
 
 			return new BorderBlock(itemStack);
 		}
+	}
+
+
+	/**
+	 * Simple splitter
+	 *
+	 * @param string - string to be split
+	 * @return list of split strings
+	 */
+	public static List<String> stringSplit(String string)
+	{
+		string = ChatColor.translateAlternateColorCodes('&', string);
+		// Check length of lines
+		List<String> result = new ArrayList<>();
+
+		Arrays.asList(string.split("\\|")).
+			forEach(line -> result.addAll(
+				Arrays.asList(WordUtils.wrap(line, 25).split("\\n"))));
+
+		return result;
 	}
 }

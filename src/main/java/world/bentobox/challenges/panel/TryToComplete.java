@@ -124,7 +124,7 @@ public class TryToComplete {
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
         }
         // Mark as complete
-        manager.setChallengeComplete(user, challenge.getUniqueId(), world);
+        manager.setChallengeComplete(user, challenge);
         user.closeInventory();
         user.getPlayer().performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + challenge.getLevel());
         return result;
@@ -189,7 +189,7 @@ public class TryToComplete {
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
         }
         // Mark as complete
-        manager.setChallengeComplete(user, challenge.getUniqueId(), world);
+        manager.setChallengeComplete(user, challenge);
         user.closeInventory();
         user.getPlayer().performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + challenge.getLevel());
     }
@@ -204,17 +204,17 @@ public class TryToComplete {
             return new ChallengeResult();
         }
         // Check if user has the
-        if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, challenge.getLevel(), world)) {
+        if (!challenge.getLevel().equals(ChallengesManager.FREE) && !manager.isLevelUnlocked(user, world, manager.getLevel(challenge.getLevel()))) {
             user.sendMessage("challenges.errors.challenge-level-not-available");
             return new ChallengeResult();
         }
         // Check max times
-        if (challenge.isRepeatable() && challenge.getMaxTimes() > 0 && manager.checkChallengeTimes(user, challenge, world) >= challenge.getMaxTimes()) {
+        if (challenge.isRepeatable() && challenge.getMaxTimes() > 0 && manager.getChallengeTimes(user, challenge) >= challenge.getMaxTimes()) {
             user.sendMessage("challenges.not-repeatable");
             return new ChallengeResult();
         }
         // Check repeatability
-        if (manager.isChallengeComplete(user, challenge.getUniqueId(), world)
+        if (manager.isChallengeComplete(user, challenge)
                 && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.OTHER)
                         || challenge.getChallengeType().equals(ChallengeType.ISLAND))) {
             user.sendMessage("challenges.not-repeatable");
@@ -288,7 +288,7 @@ public class TryToComplete {
         this.removeMoney();
 
         // Return the result
-        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge.getUniqueId(), world));
+        return new ChallengeResult().setMeetsRequirements().setRepeat(manager.isChallengeComplete(user, challenge));
     }
 
 

@@ -11,6 +11,7 @@ import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.utils.GuiUtils;
@@ -198,25 +199,25 @@ public class AdminGUI extends CommonGUI
 						this.user.getPlayer(),
 						"unique_id",
 						(player, reply) -> {
+							String newName = Util.getWorld(this.world).getName() + "_" + reply;
 
-						if (this.addon.getChallengesManager().validateChallengeUniqueID(this.world, reply))
-						{
-							new EditChallengeGUI(this.addon,
-								this.world,
-								this.user,
-								this.addon.getChallengesManager().createChallenge(reply),
-								this.topLabel,
-								this.permissionPrefix,
-								this).build();
-						}
-						else
-						{
-							this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
-							this.build();
-						}
+							if (this.addon.getChallengesManager().containsChallenge(newName))
+							{
+								new EditChallengeGUI(this.addon,
+									this.world,
+									this.user,
+									this.addon.getChallengesManager().createChallenge(reply),
+									this.topLabel,
+									this.permissionPrefix,
+									this).build();
+							}
+							else
+							{
+								this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
+							}
 
-						return reply;
-					});
+							return reply;
+						});
 
 					return true;
 				};
@@ -234,8 +235,9 @@ public class AdminGUI extends CommonGUI
 						this.user.getPlayer(),
 						"unique_id",
 						(player, reply) -> {
+							String newName = Util.getWorld(this.world).getName() + "_" + reply;
 
-							if (this.addon.getChallengesManager().validateLevelUniqueID(this.world, reply))
+							if (this.addon.getChallengesManager().containsLevel(newName))
 							{
 								new EditLevelGUI(this.addon,
 									this.world,
@@ -248,7 +250,6 @@ public class AdminGUI extends CommonGUI
 							else
 							{
 								this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
-								this.build();
 							}
 
 							return reply;

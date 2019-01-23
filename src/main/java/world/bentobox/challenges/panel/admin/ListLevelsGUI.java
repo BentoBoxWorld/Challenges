@@ -82,7 +82,7 @@ public class ListLevelsGUI extends CommonGUI
 			GuiUtils.fillBorder(panelBuilder);
 		}
 
-		List<ChallengeLevel> levelList = this.addon.getChallengesManager().getChallengeLevelList();
+		List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world);
 
 		final int MAX_ELEMENTS = 21;
 

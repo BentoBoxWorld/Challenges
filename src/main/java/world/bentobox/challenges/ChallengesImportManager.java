@@ -97,7 +97,7 @@ public class ChallengesImportManager
                     challengeLevel.setRewardExperience(unlock.getInt("expReward"));
                     challengeLevel.setRewardCommands(unlock.getStringList("commands"));
                 }
-                addon.getChallengesManager().storeLevel(challengeLevel);
+                addon.getChallengesManager().loadLevel(challengeLevel, overwrite, user, false);
             }
         } else {
             user.sendMessage("challenges.admin.import.no-levels");
@@ -118,7 +118,7 @@ public class ChallengesImportManager
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
-            newChallenge.setDescription(addon.getChallengesManager().stringSplit(details.getString("description", "")));
+            newChallenge.setDescription(GuiUtils.stringSplit(details.getString("description", "")));
             newChallenge.setIcon(ItemParser.parse(details.getString("icon") + ":1"));
             newChallenge.setChallengeType(Challenge.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
             newChallenge.setTakeItems(details.getBoolean("takeItems",true));
@@ -149,7 +149,7 @@ public class ChallengesImportManager
             this.addon.getChallengesManager().addChallengeToLevel(newChallenge,
                 addon.getChallengesManager().getLevel(Util.getWorld(world).getName() + "_" + details.getString("level")));
 
-            if (addon.getChallengesManager().storeChallenge(newChallenge, overwrite, user, false)) {
+            if (addon.getChallengesManager().loadChallenge(newChallenge, overwrite, user, false)) {
                 size++;
             }
         }

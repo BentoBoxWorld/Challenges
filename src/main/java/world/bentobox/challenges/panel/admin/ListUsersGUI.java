@@ -178,20 +178,20 @@ public class ListUsersGUI extends CommonGUI
 					switch (this.operationMode)
 					{
 						case COMPLETE:
-							new SelectChallengeGUI(this.user, manager.getChallengesList(), (status, value) -> {
+							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), (status, value) -> {
 								if (status)
 								{
-									manager.completeChallenge(player.getUniqueId(), value);
+									manager.setChallengeComplete(User.getInstance(player), value);
 								}
 
 								this.build();
 							});
 							break;
 						case RESET:
-							new SelectChallengeGUI(this.user, manager.getChallengesList(), (status, value) -> {
+							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), (status, value) -> {
 								if (status)
 								{
-									manager.resetChallenge(player.getUniqueId(), value);
+									manager.resetChallenge(User.getInstance(player), value);
 								}
 
 								this.build();

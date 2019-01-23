@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.database.object.Challenge;
@@ -30,7 +32,7 @@ public class ChallengesPanels {
     private ChallengesAddon addon;
     private ChallengesManager manager;
     private User user;
-    private String level;
+    private ChallengeLevel level;
     private World world;
     private String permPrefix;
     private String label;
@@ -43,17 +45,17 @@ public class ChallengesPanels {
         this.permPrefix = permPrefix;
         this.label = label;
 
-        if (manager.getChallengeList().isEmpty()) {
+        if (manager.getAllChallenges(world).isEmpty()) {
             addon.getLogger().severe("There are no challenges set up!");
             user.sendMessage("general.errors.general");
             return;
         }
         if (level.isEmpty()) {
-            level = manager.getChallengeList().keySet().iterator().next().getUniqueId();
+            level = manager.getLevels(world).iterator().next().getUniqueId();
         }
-        this.level = level;
+        this.level = this.manager.getLevel(level);
         // Check if level is valid
-        if (!manager.isLevelUnlocked(user, level, world)) {
+        if (!manager.isLevelUnlocked(user, world, this.level)) {
             return;
         }
         PanelBuilder panelBuilder = new PanelBuilder()
@@ -69,7 +71,7 @@ public class ChallengesPanels {
     }
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
-        Set<Challenge> levelChallenges = manager.getChallenges(level, world);
+        List<Challenge> levelChallenges = manager.getLevelChallenges(level);
         // Only show a control panel for the level requested.
         for (Challenge challenge : levelChallenges) {
             createItem(panelBuilder, challenge);
@@ -77,7 +79,7 @@ public class ChallengesPanels {
     }
 
     private void addFreeChallanges(PanelBuilder panelBuilder) {
-        manager.getChallenges(ChallengesManager.FREE, world).forEach(challenge -> createItem(panelBuilder, challenge));
+        manager.getFreeChallenges(world).forEach(challenge -> createItem(panelBuilder, challenge));
     }
 
 
@@ -88,7 +90,7 @@ public class ChallengesPanels {
      */
     private void createItem(PanelBuilder panelBuilder, Challenge challenge) {
         // Check completion
-        boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId(), world);
+        boolean completed = manager.isChallengeComplete(user, challenge);
         // If challenge is removed after completion, remove it
         if (completed && challenge.isRemoveWhenCompleted()) {
             return;
@@ -130,7 +132,7 @@ public class ChallengesPanels {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.ENCHANTED_BOOK))
                         .name(name)
-                        .description(manager.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
+                        .description(GuiUtils.stringSplit(user.getTranslation("challenges.navigation","[level]",name)))
                         .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
                             u.performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
@@ -144,7 +146,7 @@ public class ChallengesPanels {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(manager.stringSplit(user.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
+                        .description(GuiUtils.stringSplit(user.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.item(item);
             }
@@ -167,9 +169,9 @@ public class ChallengesPanels {
         }
         // Check if completed or not
 
-        boolean complete = addon.getChallengesManager().isChallengeComplete(user, challenge.getUniqueId(), world);
+        boolean complete = addon.getChallengesManager().isChallengeComplete(user, challenge);
         int maxTimes = challenge.getMaxTimes();
-        long doneTimes = addon.getChallengesManager().checkChallengeTimes(user, challenge, world);
+        long doneTimes = addon.getChallengesManager().getChallengeTimes(user, challenge);
         if (complete) {
             result.add(user.getTranslation("challenges.complete"));
         }
@@ -234,6 +236,6 @@ public class ChallengesPanels {
     }
 
     private Collection<? extends String> splitTrans(User user, String string, String...strings) {
-        return addon.getChallengesManager().stringSplit(user.getTranslation(string, strings));
+        return GuiUtils.stringSplit(user.getTranslation(string, strings));
     }
 }

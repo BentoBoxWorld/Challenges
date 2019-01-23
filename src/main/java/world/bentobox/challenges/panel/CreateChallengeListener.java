@@ -29,7 +29,7 @@ public class CreateChallengeListener implements PanelListener {
 
     @Override
     public void onInventoryClose(InventoryCloseEvent event) {
-        addon.getChallengesManager().createInvChallenge(user, event.getInventory());    
+        addon.getChallengesManager().createChallenge("uniqueID");
     }
 
     @Override

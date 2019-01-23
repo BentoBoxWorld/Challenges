@@ -123,7 +123,7 @@ public class ChallengesGUI extends CommonGUI
 	 */
 	private void addFreeChallenges(PanelBuilder panelBuilder)
 	{
-		List<Challenge> freeChallenges = this.challengesManager.getFreeChallenges(this.user, this.world);
+		List<Challenge> freeChallenges = this.challengesManager.getFreeChallenges(this.world);
 		final int freeChallengesCount = freeChallenges.size();
 
 		if (freeChallengesCount > 18)
@@ -185,7 +185,7 @@ public class ChallengesGUI extends CommonGUI
 	{
 		if (this.lastSelectedLevel != null)
 		{
-			List<Challenge> challenges = this.challengesManager.getChallenges(this.lastSelectedLevel.getLevel());
+			List<Challenge> challenges = this.challengesManager.getLevelChallenges(this.lastSelectedLevel.getLevel());
 			final int challengesCount = challenges.size();
 
 			if (challengesCount > 18)
@@ -346,7 +346,7 @@ public class ChallengesGUI extends CommonGUI
 		List<String> result = new ArrayList<>();
 
 		result.add(this.user.getTranslation("challenges.level",
-			"[level]", this.challengesManager.getChallengesLevel(challenge)));
+			"[level]", this.challengesManager.getLevel(challenge).getFriendlyName()));
 
 		boolean completed = this.challengesManager.isChallengeComplete(this.user, challenge);
 
@@ -358,7 +358,7 @@ public class ChallengesGUI extends CommonGUI
 		if (challenge.isRepeatable())
 		{
 			int maxTimes = challenge.getMaxTimes();
-			long doneTimes = this.challengesManager.checkChallengeTimes(this.user, challenge);
+			long doneTimes = this.challengesManager.getChallengeTimes(this.user, challenge);
 
 			if (maxTimes > 0)
 			{

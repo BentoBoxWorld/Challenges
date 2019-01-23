@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.database.object.Challenge;
@@ -35,7 +37,7 @@ public class ChallengesPanels2 {
     private ChallengesAddon addon;
     private ChallengesManager manager;
     private User requester;
-    private String level;
+    private ChallengeLevel level;
     private World world;
     private String permPrefix;
     private String label;
@@ -52,18 +54,18 @@ public class ChallengesPanels2 {
         this.label = label;
         this.mode = mode;
 
-        if (manager.getChallengeList().isEmpty()) {
+        if (manager.getAllChallenges(world).isEmpty()) {
             addon.getLogger().severe("There are no challenges set up!");
             requester.sendMessage("general.errors.general");
             return;
         }
         if (level.isEmpty()) {
             // TODO: open the farthest challenge panel
-            level = manager.getChallengeList().keySet().iterator().next().getUniqueId();
+            level = manager.getLevels(world).iterator().next().getUniqueId();
         }
-        this.level = level;
+        this.level = manager.getLevel(level);
         // Check if level is valid
-        if (mode.equals(Mode.PLAYER) && !manager.isLevelUnlocked(requester, level, world)) {
+        if (mode.equals(Mode.PLAYER) && !manager.isLevelUnlocked(requester, world, this.level)) {
             return;
         }
         PanelBuilder panelBuilder = new PanelBuilder();
@@ -93,13 +95,13 @@ public class ChallengesPanels2 {
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
         // Only show a control panel for the level requested.
-        for (Challenge challenge : manager.getChallenges(level, world)) {
+        for (Challenge challenge : manager.getLevelChallenges(level)) {
             createItem(panelBuilder, challenge);
         }
     }
 
     private void addFreeChallanges(PanelBuilder panelBuilder) {
-        manager.getChallenges(ChallengesManager.FREE, world).forEach(challenge -> createItem(panelBuilder, challenge));
+        manager.getFreeChallenges(world).forEach(challenge -> createItem(panelBuilder, challenge));
     }
 
 
@@ -116,10 +118,10 @@ public class ChallengesPanels2 {
             glow = challenge.isDeployed();
             break;
         case EDIT:
-            glow = manager.isChallengeComplete(requester, challenge.getUniqueId(), world);
+            glow = manager.isChallengeComplete(requester, challenge);
             break;
         case PLAYER:
-            glow = manager.isChallengeComplete(requester, challenge.getUniqueId(), world);
+            glow = manager.isChallengeComplete(requester, challenge);
             break;
         default:
             break;
@@ -169,7 +171,7 @@ public class ChallengesPanels2 {
 
         // Add navigation to other levels
         for (LevelStatus status: manager.getChallengeLevelStatus(requester, world)) {
-            if (status.getLevel().getUniqueId().equalsIgnoreCase(level)) {
+            if (status.getLevel().getUniqueId().equalsIgnoreCase(level.getUniqueId())) {
                 // Skip if this is the current level
                 previousStatus = status;
                 continue;
@@ -182,7 +184,7 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.ENCHANTED_BOOK))
                         .name(name)
-                        .description(manager.stringSplit(requester.getTranslation("challenges.navigation","[level]",name)))
+                        .description(GuiUtils.stringSplit(requester.getTranslation("challenges.navigation","[level]",name)))
                         .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
                             u.performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
@@ -196,7 +198,7 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(manager.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
+                        .description(GuiUtils.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
                         .build();
                 panelBuilder.item(item);
             }
@@ -230,9 +232,9 @@ public class ChallengesPanels2 {
             result.addAll(addRewards(challenge, true, true));
         } else {
             // Check if completed or not
-            boolean complete = addon.getChallengesManager().isChallengeComplete(requester, challenge.getUniqueId(), world);
+            boolean complete = addon.getChallengesManager().isChallengeComplete(requester, challenge);
             int maxTimes = challenge.getMaxTimes();
-            long doneTimes = addon.getChallengesManager().checkChallengeTimes(requester, challenge, world);
+            long doneTimes = addon.getChallengesManager().getChallengeTimes(requester, challenge);
             if (complete) {
                 result.add(requester.getTranslation("challenges.complete"));
             }
@@ -307,6 +309,6 @@ public class ChallengesPanels2 {
     }
 
     private Collection<? extends String> splitTrans(User user, String string, String...strings) {
-        return addon.getChallengesManager().stringSplit(user.getTranslation(string, strings));
+        return GuiUtils.stringSplit(user.getTranslation(string, strings));
     }
 }

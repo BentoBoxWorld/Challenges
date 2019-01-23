@@ -77,7 +77,7 @@ public class SurroundChallengeBuilder {
     }
 
     public boolean build() {
-        return addon.getChallengesManager().createSurroundingChallenge(this);
+        return false; //addon.getChallengesManager().createSurroundingChallenge(this);
         
     }
 

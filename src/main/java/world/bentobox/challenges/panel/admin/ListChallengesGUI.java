@@ -82,7 +82,7 @@ public class ListChallengesGUI extends CommonGUI
 			GuiUtils.fillBorder(panelBuilder);
 		}
 
-		List<Challenge> challengeList = this.addon.getChallengesManager().getChallengesList();
+		List<Challenge> challengeList = this.addon.getChallengesManager().getAllChallenges(this.world);
 
 		final int MAX_ELEMENTS = 21;
 

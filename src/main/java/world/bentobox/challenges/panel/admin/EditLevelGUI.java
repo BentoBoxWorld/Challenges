@@ -145,7 +145,7 @@ public class EditLevelGUI extends CommonGUI
 	 */
 	private void buildChallengesPanel(PanelBuilder panelBuilder)
 	{
-		List<Challenge> challengeList = this.addon.getChallengesManager().getChallenges(this.challengeLevel);
+		List<Challenge> challengeList = this.addon.getChallengesManager().getLevelChallenges(this.challengeLevel);
 
 		final int MAX_ELEMENTS = 21;
 
@@ -538,8 +538,8 @@ public class EditLevelGUI extends CommonGUI
 					ChallengesManager manager = this.addon.getChallengesManager();
 
 					// Get all challenge that is not in current challenge.
-					List<Challenge> challengeList = manager.getChallengesList();
-					challengeList.removeAll(manager.getChallenges(this.challengeLevel));
+					List<Challenge> challengeList = manager.getAllChallenges(this.world);
+					challengeList.removeAll(manager.getLevelChallenges(this.challengeLevel));
 
 					new SelectChallengeGUI(this.user, challengeList, (status, value) -> {
 						if (status)
@@ -563,10 +563,10 @@ public class EditLevelGUI extends CommonGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					ChallengesManager manager = this.addon.getChallengesManager();
 
-					new SelectChallengeGUI(this.user, manager.getChallenges(this.challengeLevel), (status, value) -> {
+					new SelectChallengeGUI(this.user, manager.getLevelChallenges(this.challengeLevel), (status, value) -> {
 						if (status)
 						{
-							manager.unlinkChallenge(this.challengeLevel, value);
+							manager.removeChallengeFromLevel(value, this.challengeLevel);
 						}
 
 						this.build();
