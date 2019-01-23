@@ -201,7 +201,7 @@ public class AdminGUI extends CommonGUI
 						(player, reply) -> {
 							String newName = Util.getWorld(this.world).getName() + "_" + reply;
 
-							if (this.addon.getChallengesManager().containsChallenge(newName))
+							if (!this.addon.getChallengesManager().containsChallenge(newName))
 							{
 								new EditChallengeGUI(this.addon,
 									this.world,
@@ -237,7 +237,7 @@ public class AdminGUI extends CommonGUI
 						(player, reply) -> {
 							String newName = Util.getWorld(this.world).getName() + "_" + reply;
 
-							if (this.addon.getChallengesManager().containsLevel(newName))
+							if (!this.addon.getChallengesManager().containsLevel(newName))
 							{
 								new EditLevelGUI(this.addon,
 									this.world,
