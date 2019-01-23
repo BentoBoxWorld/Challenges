@@ -107,7 +107,6 @@ public class ChallengesPanels2 {
      * Creates a panel item for challenge if appropriate and adds it to panelBuilder
      * @param panelBuilder
      * @param challenge
-     * @param requester
      */
     private void createItem(PanelBuilder panelBuilder, Challenge challenge) {
         // For admin, glow means activated. For user, glow means done
@@ -138,33 +137,27 @@ public class ChallengesPanels2 {
         if (mode.equals(Mode.ADMIN)) {
             // Admin click
             itemBuilder.clickHandler((panel, player, c, s) -> {
-                if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                    new AdminGUI(addon, player, challenge, world, permPrefix, label);
-                }
+                new AdminGUI(addon, player, challenge, world, permPrefix, label);
                 return true;
             });
 
         } else if (mode.equals(Mode.EDIT)) {
             // Admin edit click
             itemBuilder.clickHandler((panel, player, c, s) -> {
-                if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                    new AdminEditGUI(addon, player, target, challenge, world, permPrefix, label);
-                }
+                new AdminEditGUI(addon, player, target, challenge, world, permPrefix, label);
                 return true;
             });
         } else {
             // Player click
             itemBuilder.clickHandler((panel, player, c, s) -> {
-                if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                    new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
-                }
+                new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
                 return true;
             });
         }
 
         // If the challenge has a specific slot allocated, use it
-        if (challenge.getSlot() >= 0) {
-            panelBuilder.item(challenge.getSlot(),itemBuilder.build());
+        if (challenge.getOrder() >= 0) {
+            panelBuilder.item(challenge.getOrder(),itemBuilder.build());
         } else {
             panelBuilder.item(itemBuilder.build());
         }
@@ -216,7 +209,6 @@ public class ChallengesPanels2 {
      * Creates the challenge description for the "item" in the inventory
      *
      * @param challenge
-     * @param player
      * @return List of strings splitting challenge string into 25 chars long
      */
     private List<String> challengeDescription(Challenge challenge) {
@@ -287,7 +279,7 @@ public class ChallengesPanels2 {
             // First time
             moneyReward = challenge.getRewardMoney();
             rewardText = challenge.getRewardText();
-            expReward = challenge.getRewardExp();
+            expReward = challenge.getRewardExperience();
             if (!rewardText.isEmpty()) {
                 result.addAll(splitTrans(requester, "challenges.first-time-rewards"));
             }
@@ -296,7 +288,7 @@ public class ChallengesPanels2 {
             // Repeat challenge
             moneyReward = challenge.getRepeatMoneyReward();
             rewardText = challenge.getRepeatRewardText();
-            expReward = challenge.getRepeatExpReward();
+            expReward = challenge.getRepeatExperienceReward();
             if (!rewardText.isEmpty()) {
                 result.addAll(splitTrans(requester, "challenges.repeat-rewards"));
             }

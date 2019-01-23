@@ -443,13 +443,13 @@ public class ChallengesGUI extends CommonGUI
 		{
 			rewardText = challenge.getRewardText();
 			rewardMoney = challenge.getRewardMoney();
-			rewardExperience = challenge.getRewardExp();
+			rewardExperience = challenge.getRewardExperience();
 		}
 		else
 		{
 			rewardText = challenge.getRepeatRewardText();
 			rewardMoney = challenge.getRepeatMoneyReward();
-			rewardExperience = challenge.getRepeatExpReward();
+			rewardExperience = challenge.getRepeatExperienceReward();
 		}
 
 		List<String> result = new ArrayList<>();

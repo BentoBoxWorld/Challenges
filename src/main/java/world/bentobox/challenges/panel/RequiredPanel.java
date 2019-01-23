@@ -73,7 +73,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
                     .clickHandler(this)
                     .build()).forEach(pb::item);
             return pb.user(user).build();
-        case LEVEL:
+        case OTHER:
 
             break;
         default:
@@ -137,8 +137,6 @@ public class RequiredPanel implements ClickHandler, PanelListener {
         }
         // Save changes
         switch (challenge.getChallengeType()) {
-        case ICON:
-            break;
         case INVENTORY:
             List<ItemStack> reqItems = new ArrayList<>();
             // Skip first item
@@ -154,7 +152,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
             break;
         case ISLAND:
             break;
-        case LEVEL:
+            case OTHER:
             break;
         default:
             break;

@@ -80,7 +80,7 @@ public class ChallengesManager {
      */
     public long checkChallengeTimes(User user, Challenge challenge, World world) {
         addPlayer(user);
-        return playerData.get(user.getUniqueId()).getTimes(world, challenge.getUniqueId());
+        return playerData.get(user.getUniqueId()).getTimes(challenge.getUniqueId());
     }
 
     /**
@@ -189,7 +189,7 @@ public class ChallengesManager {
      */
     public List<String> getAllChallengesList(World world) {
         List<String> result = new ArrayList<>();
-        challengeMap.values().forEach(ch -> ch.stream().filter(c -> c.getWorld().equals(Util.getWorld(world).getName())).forEach(c -> result.add(c.getUniqueId())));
+        challengeMap.values().forEach(ch -> ch.stream().filter(c -> c.getUniqueId().startsWith(Util.getWorld(world).getName())).forEach(c -> result.add(c.getUniqueId())));
         return result;
     }
 
@@ -230,10 +230,10 @@ public class ChallengesManager {
         for (Entry<ChallengeLevel, Set<Challenge>> entry : this.challengeMap.entrySet())
         {
             // Check how much challenges must be done in previous level.
-            int challengesToDo = Math.max(0, entry.getKey().getWaiveramount() - doneChallengeCount);
+            int challengesToDo = Math.max(0, entry.getKey().getWaiverAmount() - doneChallengeCount);
 
             doneChallengeCount = (int) entry.getValue().stream().filter(
-                ch -> playerData.isChallengeDone(world, ch.getUniqueId())).count();
+                ch -> playerData.isChallengeDone(ch.getUniqueId())).count();
 
             // Create result class with the data
             result.add(new LevelStatus(
@@ -270,7 +270,7 @@ public class ChallengesManager {
         Optional<ChallengeLevel> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
         // Get the challenges applicable to this world
         return lv.isPresent() ? challengeMap.get(lv.get()).stream()
-                .filter(c -> c.getWorld().equalsIgnoreCase(worldName) || c.getWorld().isEmpty()).collect(Collectors.toSet())
+                .filter(c -> c.getUniqueId().startsWith(worldName)).collect(Collectors.toSet())
                 : new HashSet<>();
     }
 
@@ -319,7 +319,7 @@ public class ChallengesManager {
      */
     public boolean isChallenge(World world, String name) {
         for (Set<Challenge> ch : challengeMap.values())  {
-            if (ch.stream().filter(c -> c.getWorld().equals(Util.getWorld(world).getName())).anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
+            if (ch.stream().filter(c -> c.getUniqueId().startsWith(Util.getWorld(world).getName())).anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
                 return true;
             }
         }
@@ -328,13 +328,12 @@ public class ChallengesManager {
 
     /**
      * Checks if a challenge is complete or not
-     * @param uniqueId - unique ID - player's UUID
      * @param challengeName - Challenge uniqueId
      * @return - true if completed
      */
     public boolean isChallengeComplete(User user, String challengeName, World world) {
         addPlayer(user);
-        return playerData.get(user.getUniqueId()).isChallengeDone(world, challengeName);
+        return playerData.get(user.getUniqueId()).isChallengeDone(challengeName);
     }
 
     /**
@@ -396,7 +395,7 @@ public class ChallengesManager {
      */
     public void setChallengeComplete(User user, String challengeUniqueId, World world) {
         addPlayer(user);
-        playerData.get(user.getUniqueId()).setChallengeDone(world, challengeUniqueId);
+        playerData.get(user.getUniqueId()).setChallengeDone(challengeUniqueId);
         // Save
         savePlayer(user.getUniqueId());
     }
@@ -409,7 +408,7 @@ public class ChallengesManager {
      */
     public void setResetChallenge(User user, String challengeUniqueId, World world) {
         addPlayer(user);
-        playerData.get(user.getUniqueId()).setChallengeTimes(world, challengeUniqueId, 0);
+        playerData.get(user.getUniqueId()).setChallengeTimes(challengeUniqueId, 0);
         // Save
         savePlayer(user.getUniqueId());
     }
@@ -637,4 +636,17 @@ public class ChallengesManager {
 
         return playerList;
     }
+
+
+
+	public ChallengeLevel getLevel(String level)
+	{
+		return null;
+	}
+
+
+	public void addChallengeToLevel(Challenge newChallenge, ChallengeLevel level)
+	{
+
+	}
 }

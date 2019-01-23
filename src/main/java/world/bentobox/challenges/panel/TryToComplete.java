@@ -97,7 +97,7 @@ public class TryToComplete {
                 vaultHook -> vaultHook.deposit(this.user, this.challenge.getRewardMoney()));
 
             // Give exp
-            user.getPlayer().giveExp(challenge.getRewardExp());
+            user.getPlayer().giveExp(challenge.getRewardExperience());
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
@@ -118,7 +118,7 @@ public class TryToComplete {
                 vaultHook -> vaultHook.deposit(this.user, this.challenge.getRepeatMoneyReward()));
 
             // Give exp
-            user.getPlayer().giveExp(challenge.getRepeatExpReward());
+            user.getPlayer().giveExp(challenge.getRepeatExperienceReward());
             // Run commands
             runCommands(challenge.getRepeatRewardCommands());
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
@@ -162,7 +162,7 @@ public class TryToComplete {
                 vaultHook -> vaultHook.deposit(this.user, this.challenge.getRewardMoney()));
 
             // Give exp
-            user.getPlayer().giveExp(challenge.getRewardExp());
+            user.getPlayer().giveExp(challenge.getRewardExperience());
             // Run commands
             runCommands(challenge.getRewardCommands());
             user.sendMessage("challenges.you-completed", "[challenge]", challenge.getFriendlyName());
@@ -183,7 +183,7 @@ public class TryToComplete {
                 vaultHook -> vaultHook.deposit(this.user, this.challenge.getRepeatMoneyReward()));
 
             // Give exp
-            user.getPlayer().giveExp(challenge.getRepeatExpReward());
+            user.getPlayer().giveExp(challenge.getRepeatExperienceReward());
             // Run commands
             runCommands(challenge.getRepeatRewardCommands());
             user.sendMessage("challenges.you-repeated", "[challenge]", challenge.getFriendlyName());
@@ -199,7 +199,7 @@ public class TryToComplete {
      */
     private ChallengeResult checkIfCanCompleteChallenge() {
         // Check the world
-        if (!Util.getWorld(user.getWorld()).getName().equalsIgnoreCase(challenge.getWorld())) {
+        if (!challenge.getUniqueId().startsWith(Util.getWorld(world).getName())) {
             user.sendMessage("general.errors.wrong-world");
             return new ChallengeResult();
         }
@@ -215,7 +215,7 @@ public class TryToComplete {
         }
         // Check repeatability
         if (manager.isChallengeComplete(user, challenge.getUniqueId(), world)
-                && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.LEVEL)
+                && (!challenge.isRepeatable() || challenge.getChallengeType().equals(ChallengeType.OTHER)
                         || challenge.getChallengeType().equals(ChallengeType.ISLAND))) {
             user.sendMessage("challenges.not-repeatable");
             return new ChallengeResult();
@@ -226,24 +226,24 @@ public class TryToComplete {
 
         if (vaultHook.isPresent())
         {
-            if (!vaultHook.get().has(this.user, this.challenge.getReqMoney()))
+            if (!vaultHook.get().has(this.user, this.challenge.getRequiredMoney()))
             {
-                this.user.sendMessage("challenges.not-enough-money", "[money]", Integer.toString(this.challenge.getReqMoney()));
+                this.user.sendMessage("challenges.not-enough-money", "[money]", Integer.toString(this.challenge.getRequiredMoney()));
                 return new ChallengeResult();
             }
         }
 
         // Check exp
-        if (this.user.getPlayer().getTotalExperience() < this.challenge.getReqExp())
+        if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
         {
-            this.user.sendMessage("challenges.not-enough-exp", "[xp]", Integer.toString(this.challenge.getReqExp()));
+            this.user.sendMessage("challenges.not-enough-exp", "[xp]", Integer.toString(this.challenge.getRequiredExperience()));
             return new ChallengeResult();
         }
 
         switch (challenge.getChallengeType()) {
         case INVENTORY:
             return checkInventory();
-        case LEVEL:
+        case OTHER:
             return checkLevel();
         case ISLAND:
             return checkSurrounding();
@@ -303,9 +303,9 @@ public class TryToComplete {
 
         if (vaultHook.isPresent() &&
             this.challenge.isTakeMoney() &&
-            this.challenge.getReqMoney() > 0)
+            this.challenge.getRequiredMoney() > 0)
         {
-            vaultHook.get().withdraw(this.user, this.challenge.getReqMoney());
+            vaultHook.get().withdraw(this.user, this.challenge.getRequiredMoney());
         }
     }
 
@@ -346,12 +346,12 @@ public class TryToComplete {
         // Check if the level addon is installed or not
         long level = addon.getAddonByName("Level")
                 .map(l -> ((Level)l).getIslandLevel(world, user.getUniqueId())).orElse(0L);
-        if (level >= challenge.getReqIslandlevel()) {
+        if (level >= challenge.getRequiredIslandLevel()) {
             // process money removal
             this.removeMoney();
             return new ChallengeResult().setMeetsRequirements();
         } else {
-            user.sendMessage("challenges.error.island-level", TextVariables.NUMBER, String.valueOf(challenge.getReqIslandlevel()));
+            user.sendMessage("challenges.error.island-level", TextVariables.NUMBER, String.valueOf(challenge.getRequiredIslandLevel()));
             return new ChallengeResult();
         }
     }
@@ -428,7 +428,6 @@ public class TryToComplete {
         private boolean meetsRequirements;
         private boolean repeat;
         /**
-         * @param meetsRequirements the meetsRequirements to set
          */
         public ChallengeResult setMeetsRequirements() {
             this.meetsRequirements = true;

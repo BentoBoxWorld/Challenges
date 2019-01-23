@@ -16,10 +16,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
+import world.bentobox.challenges.utils.GuiUtils;
+
 
 /**
  * Imports challenges
@@ -64,13 +67,13 @@ public class ChallengesImportManager
             user.sendMessage("challenges.admin.import.no-load","[message]", e.getMessage());
             return false;
         }
-        makeLevels(user);
+        makeLevels(user, world, overwrite);
         makeChallenges(user, world, overwrite);
         addon.getChallengesManager().save();
         return true;
     }
 
-    private void makeLevels(User user) {
+    private void makeLevels(User user, World world, boolean overwrite) {
         // Parse the levels
         String levels = chal.getString("challenges.levels", "");
         if (!levels.isEmpty()) {
@@ -82,15 +85,16 @@ public class ChallengesImportManager
                 challengeLevel.setFriendlyName(level);
                 challengeLevel.setUniqueId(level);
                 challengeLevel.setOrder(order++);
-                challengeLevel.setWaiveramount(chal.getInt("challenges.waiveramount"));
+                challengeLevel.setWorld(Util.getWorld(world).getName());
+                challengeLevel.setWaiverAmount(chal.getInt("challenges.waiveramount"));
                 // Check if there is a level reward
                 ConfigurationSection unlock = chal.getConfigurationSection("challenges.levelUnlock." + level);
                 if (unlock != null) {
                     challengeLevel.setUnlockMessage(unlock.getString("message"));
-                    challengeLevel.setRewardDescription(unlock.getString("rewardDesc",""));
+                    challengeLevel.setRewardText(unlock.getString("rewardDesc",""));
                     challengeLevel.setRewardItems(parseItems(unlock.getString("itemReward","")));
-                    challengeLevel.setMoneyReward(unlock.getInt("moneyReward"));
-                    challengeLevel.setExpReward(unlock.getInt("expReward"));
+                    challengeLevel.setRewardMoney(unlock.getInt("moneyReward"));
+                    challengeLevel.setRewardExperience(unlock.getInt("expReward"));
                     challengeLevel.setRewardCommands(unlock.getStringList("commands"));
                 }
                 addon.getChallengesManager().storeLevel(challengeLevel);
@@ -103,7 +107,6 @@ public class ChallengesImportManager
     /**
      * Imports challenges
      * @param overwrite
-     * @param args
      */
     private void makeChallenges(User user, World world, boolean overwrite) {
         int size = 0;
@@ -115,41 +118,42 @@ public class ChallengesImportManager
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
-            newChallenge.setWorld(Util.getWorld(world).getName());
             newChallenge.setDescription(addon.getChallengesManager().stringSplit(details.getString("description", "")));
-            newChallenge.setIcon(new ParseItem(addon, details.getString("icon") + ":1").getItem());
-            newChallenge.setLevel(details.getString("level", ChallengesManager.FREE));
+            newChallenge.setIcon(ItemParser.parse(details.getString("icon") + ":1"));
             newChallenge.setChallengeType(Challenge.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
             newChallenge.setTakeItems(details.getBoolean("takeItems",true));
             newChallenge.setRewardText(details.getString("rewardText", ""));
             newChallenge.setRewardCommands(details.getStringList("rewardcommands"));
             newChallenge.setRewardMoney(details.getInt("moneyReward",0));
-            newChallenge.setRewardExp(details.getInt("expReward"));
+            newChallenge.setRewardExperience(details.getInt("expReward"));
             newChallenge.setRepeatable(details.getBoolean("repeatable"));
             newChallenge.setRepeatRewardText(details.getString("repeatRewardText",""));
             newChallenge.setRepeatMoneyReward(details.getInt("repearMoneyReward"));
-            newChallenge.setRepeatExpReward(details.getInt("repeatExpReward"));
+            newChallenge.setRepeatExperienceReward(details.getInt("repeatExpReward"));
             newChallenge.setRepeatRewardCommands(details.getStringList("repeatrewardcommands"));
             newChallenge.setMaxTimes(details.getInt("maxtimes"));
             // TODO reset allowed
-            newChallenge.setReqMoney(details.getInt("requiredMoney"));
-            newChallenge.setReqExp(details.getInt("requiredExp"));
+            newChallenge.setRequiredMoney(details.getInt("requiredMoney"));
+            newChallenge.setRequiredExperience(details.getInt("requiredExp"));
             String reqItems = details.getString("requiredItems","");
             if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY)) {
                 newChallenge.setRequiredItems(parseItems(reqItems));
-            } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.LEVEL)) {
-                newChallenge.setReqIslandlevel(Long.parseLong(reqItems));
+            } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.OTHER)) {
+                newChallenge.setRequiredIslandLevel(Long.parseLong(reqItems));
             } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND)) {
                 parseEntities(newChallenge, reqItems);
             }
             newChallenge.setRewardItems(parseItems(details.getString("itemReward")));
             newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward")));
             // Save
+            this.addon.getChallengesManager().addChallengeToLevel(newChallenge,
+                addon.getChallengesManager().getLevel(Util.getWorld(world).getName() + "_" + details.getString("level")));
+
             if (addon.getChallengesManager().storeChallenge(newChallenge, overwrite, user, false)) {
                 size++;
             }
         }
-        addon.getChallengesManager().sortChallenges();
+
         user.sendMessage("challenges.admin.import.number", "[number]", String.valueOf(size));
     }
 
@@ -180,7 +184,7 @@ public class ChallengesImportManager
         List<ItemStack> result = new ArrayList<>();
         if (!reqList.isEmpty()) {
             for (String s : reqList.split(" ")) {
-                ItemStack item = new ParseItem(addon,s).getItem();
+                ItemStack item = ItemParser.parse(s);
                 if (item != null) {
                     result.add(item);
                 }
@@ -188,7 +192,4 @@ public class ChallengesImportManager
         }
         return result;
     }
-
-
-
 }

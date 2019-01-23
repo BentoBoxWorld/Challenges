@@ -85,7 +85,6 @@ public class ChallengesPanels {
      * Creates a panel item for challenge if appropriate and adds it to panelBuilder
      * @param panelBuilder
      * @param challenge
-     * @param user
      */
     private void createItem(PanelBuilder panelBuilder, Challenge challenge) {
         // Check completion
@@ -100,16 +99,13 @@ public class ChallengesPanels {
                 .description(challengeDescription(challenge))
                 .glow(completed)
                 .clickHandler((panel, player, c, s) -> {
-                    if (!challenge.getChallengeType().equals(ChallengeType.ICON)) {
-                        new TryToComplete(addon).user(player).manager(manager).challenge(challenge)
+                    new TryToComplete(addon).user(player).manager(manager).challenge(challenge)
                         .world(world).permPrefix(permPrefix).label(label).build();
-                        //new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
-                    }
                     return true;
                 })
                 .build();
-        if (challenge.getSlot() >= 0) {
-            panelBuilder.item(challenge.getSlot(),item);
+        if (challenge.getOrder() >= 0) {
+            panelBuilder.item(challenge.getOrder(),item);
         } else {
             panelBuilder.item(item);
         }
@@ -161,7 +157,6 @@ public class ChallengesPanels {
      * Creates the challenge description for the "item" in the inventory
      *
      * @param challenge
-     * @param player
      * @return List of strings splitting challenge string into 25 chars long
      */
     private List<String> challengeDescription(Challenge challenge) {
@@ -210,7 +205,7 @@ public class ChallengesPanels {
             // First time
             moneyReward = challenge.getRewardMoney();
             rewardText = challenge.getRewardText();
-            expReward = challenge.getRewardExp();
+            expReward = challenge.getRewardExperience();
             if (!rewardText.isEmpty()) {
                 result.addAll(splitTrans(user, "challenges.first-time-rewards"));
             }
@@ -218,7 +213,7 @@ public class ChallengesPanels {
             // Repeat challenge
             moneyReward = challenge.getRepeatMoneyReward();
             rewardText = challenge.getRepeatRewardText();
-            expReward = challenge.getRepeatExpReward();
+            expReward = challenge.getRepeatExperienceReward();
             if (!rewardText.isEmpty()) {
                 result.addAll(splitTrans(user, "challenges.repeat-rewards"));
             }

@@ -102,7 +102,7 @@ public class EditChallengeGUI extends CommonGUI
 				case ISLAND:
 					this.buildIslandRequirementsPanel(panelBuilder);
 					break;
-				case LEVEL:
+				case OTHER:
 					this.buildOtherRequirementsPanel(panelBuilder);
 					break;
 			}
@@ -320,7 +320,7 @@ public class EditChallengeGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.CHEST);
 				}
-				else if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.LEVEL))
+				else if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.OTHER))
 				{
 					icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				}
@@ -427,13 +427,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.order",
 						"[value]",
-						Integer.toString(this.challenge.getSlot())));
+						Integer.toString(this.challenge.getOrder())));
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getSlot(), -1, 54, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getOrder(), -1, 54, (status, value) -> {
 						if (status)
 						{
-							this.challenge.setSlot(value);
+							this.challenge.setOrder(value);
 						}
 
 						this.build();
@@ -640,13 +640,13 @@ public class EditChallengeGUI extends CommonGUI
 			case REQUIRED_PERMISSIONS:
 			{
 				name = this.user.getTranslation("challenges.gui.admin.buttons.permissions");
-				description = new ArrayList<>(this.challenge.getReqPerms());
+				description = new ArrayList<>(this.challenge.getRequiredPermissions());
 				icon = new ItemStack(Material.REDSTONE_LAMP);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challenge.getReqPerms(), (status, value) -> {
+					new StringListGUI(this.user, this.challenge.getRequiredPermissions(), (status, value) -> {
 						if (status)
 						{
-							this.challenge.setReqPerms(new HashSet<>(value));
+							this.challenge.setRequiredPermissions(new HashSet<>(value));
 						}
 
 						this.build();
@@ -713,13 +713,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.required-exp",
 						"[value]",
-						Integer.toString(this.challenge.getMaxTimes())));
+						Integer.toString(this.challenge.getRequiredExperience())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getReqExp(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRequiredExperience(), 0, (status, value) -> {
 						if (status)
 						{
-							this.challenge.setReqExp(value);
+							this.challenge.setRequiredExperience(value);
 						}
 
 						this.build();
@@ -758,13 +758,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.required-level",
 						"[value]",
-						Long.toString(this.challenge.getReqIslandlevel())));
+						Long.toString(this.challenge.getRequiredIslandLevel())));
 				icon = new ItemStack(Material.BEACON);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, (int) this.challenge.getReqIslandlevel(), (status, value) -> {
+					new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), (status, value) -> {
 						if (status)
 						{
-							this.challenge.setReqIslandlevel(value);
+							this.challenge.setRequiredIslandLevel(value);
 						}
 
 						this.build();
@@ -781,13 +781,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.required-money",
 						"[value]",
-						Integer.toString(this.challenge.getReqMoney())));
+						Integer.toString(this.challenge.getRequiredMoney())));
 				icon = new ItemStack(Material.GOLD_INGOT);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getReqMoney(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, (status, value) -> {
 						if (status)
 						{
-							this.challenge.setReqMoney(value);
+							this.challenge.setRequiredMoney(value);
 						}
 
 						this.build();
@@ -874,13 +874,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.reward-exp",
 						"[value]",
-						Integer.toString(this.challenge.getRewardExp())));
+						Integer.toString(this.challenge.getRewardExperience())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getReqExp(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRewardExperience(), 0, (status, value) -> {
 						if (status)
 						{
-							this.challenge.setRewardExp(value);
+							this.challenge.setRewardExperience(value);
 						}
 
 						this.build();
@@ -1035,13 +1035,13 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.singletonList(
 					this.user.getTranslation("challenges.gui.admin.descriptions.repeat-reward-exp",
 						"[value]",
-						Integer.toString(this.challenge.getRepeatExpReward())));
+						Integer.toString(this.challenge.getRepeatExperienceReward())));
 				icon = new ItemStack(Material.GLASS_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRepeatExpReward(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRepeatExperienceReward(), 0, (status, value) -> {
 						if (status)
 						{
-							this.challenge.setRepeatExpReward(value);
+							this.challenge.setRepeatExperienceReward(value);
 						}
 
 						this.build();
