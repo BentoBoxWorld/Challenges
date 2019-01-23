@@ -331,18 +331,18 @@ public class EditLevelGUI extends CommonGUI
 						this.user.getPlayer(),
 						this.challengeLevel.getIcon().getType().name(),
 						(player, reply) -> {
-							ItemStack newIcon = ItemParser.parse(reply);
+							Material material = Material.getMaterial(reply);
 
-							if (newIcon != null)
+							if (material != null)
 							{
-								this.challengeLevel.setIcon(newIcon);
+								this.challengeLevel.setIcon(new ItemStack(material));
+								this.build();
 							}
 							else
 							{
 								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
 							}
 
-							this.build();
 							return reply;
 						});
 

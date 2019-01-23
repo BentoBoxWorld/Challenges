@@ -384,18 +384,18 @@ public class EditChallengeGUI extends CommonGUI
 						this.user.getPlayer(),
 						this.challenge.getIcon().getType().name(),
 						(player, reply) -> {
-							ItemStack newIcon = ItemParser.parse(reply);
+							Material material = Material.getMaterial(reply);
 
-							if (newIcon != null)
+							if (material != null)
 							{
-								this.challenge.setIcon(newIcon);
+								this.challenge.setIcon(new ItemStack(material));
+								this.build();
 							}
 							else
 							{
 								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
 							}
 
-							this.build();
 							return reply;
 						});
 
