@@ -3,16 +3,17 @@ package world.bentobox.challenges.panel.admin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Players;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.panel.CommonGUI;
@@ -235,7 +236,10 @@ public class ListUsersGUI extends CommonGUI
 		}
 		else if (mode.equals(ViewMode.WITH_ISLAND))
 		{
-			return this.addon.getChallengesManager().getPlayers(this.world);
+			return this.addon.getPlayers().getPlayers().stream().
+				filter(player -> this.addon.getIslands().getIsland(this.world, player.getPlayerUUID()) != null).
+				map(Players::getPlayer).
+				collect(Collectors.toList());
 		}
 		else
 		{
