@@ -28,6 +28,15 @@ public class ChallengesAddon extends Addon {
 
     private boolean hooked;
 
+    /**
+     * This indicate if economy plugin exists.
+     */
+    private boolean economyProvided;
+
+    /**
+     * This indicate if level addon exists.
+     */
+    private boolean levelProvided;
 
 // ---------------------------------------------------------------------
 // Section: Constants
@@ -93,8 +102,17 @@ public class ChallengesAddon extends Addon {
 
         if (this.hooked) {
             // Try to find Level addon and if it does not exist, display a warning
-            if (!this.getAddonByName("Level").isPresent()) {
+
+            this.levelProvided = this.getAddonByName("Level").isPresent();
+
+            if (!this.levelProvided) {
                 this.logWarning("Level add-on not found so level challenges will not work!");
+            }
+
+            this.economyProvided = this.getPlugin().getVault().isPresent() && this.getPlugin().getVault().get().hook();
+
+            if (!this.economyProvided) {
+                this.logWarning("Economy plugin not found so money options will not work!");
             }
 
             // Register the reset listener
@@ -184,5 +202,25 @@ public class ChallengesAddon extends Addon {
     public Settings getChallengesSettings()
     {
         return this.settings;
+    }
+
+
+    /**
+     *
+     * @return economyProvided variable.
+     */
+    public boolean isEconomyProvided()
+    {
+        return economyProvided;
+    }
+
+
+    /**
+     *
+     * @return levelProvided variable.
+     */
+    public boolean isLevelProvided()
+    {
+        return levelProvided;
     }
 }
