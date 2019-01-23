@@ -488,10 +488,10 @@ public class ChallengesManager
 		{
 			// To find how many challenges user still must do in previous level, we must
 			// know how many challenges there were and how many has been done. Then
-			// from waiver amount remove calculated value and you get count.
+			// remove waiver amount to get count of challenges that still necessary to do.
 
 			int challengesToDo = previousLevel == null ? 0 :
-				level.getWaiverAmount() - (previousLevel.getChallenges().size() - doneChallengeCount);
+				(previousLevel.getChallenges().size() - doneChallengeCount - level.getWaiverAmount());
 
 			// As level already contains unique ids of challenges, just iterate through them.
 			doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
