@@ -2,7 +2,6 @@ package world.bentobox.challenges;
 
 import org.bukkit.Bukkit;
 
-import world.bentobox.acidisland.AcidIsland;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
@@ -75,45 +74,22 @@ public class ChallengesAddon extends Addon {
         // Challenge import setup
         this.importManager = new ChallengesImportManager(this);
 
+        this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
+        	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
+			{
+				if (gameModeAddon.getPlayerCommand().isPresent())
+				{
+					new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
+					this.hooked = true;
+				}
 
-        // Integrate into AcidIsland.
-        if (this.settings.getDisabledGameModes().isEmpty() ||
-            !this.settings.getDisabledGameModes().contains("AcidIsland"))
-        {
-            this.getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(
-                addon -> {
-                    AcidIsland acidIsland = (AcidIsland) addon;
-
-                    new Challenges(this,
-                        this.getPlugin().getCommandsManager().getCommand(
-                            acidIsland.getSettings().getAdminCommand()));
-
-                    new ChallengesCommand(this,
-                        this.getPlugin().getCommandsManager().getCommand(
-                            acidIsland.getSettings().getIslandCommand()));
-
-                    this.hooked = true;
-                });
-        }
-
-        // Integrate into BSkyBlock.
-        if (this.settings.getDisabledGameModes().isEmpty() ||
-            !this.settings.getDisabledGameModes().contains("BSkyBlock"))
-        {
-            this.getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(
-                addon -> {
-//                  BSkyBlock skyBlock = (BSkyBlock) addon;
-//                  SkyBlock addon cannot change commands ;(
-
-                    new Challenges(this,
-                        this.getPlugin().getCommandsManager().getCommand("bsbadmin"));
-
-                    new ChallengesCommand(this,
-                        this.getPlugin().getCommandsManager().getCommand("island"));
-
-                    this.hooked = true;
-                });
-        }
+				if (gameModeAddon.getAdminCommand().isPresent())
+				{
+					new Challenges(this, gameModeAddon.getAdminCommand().get());
+					this.hooked = true;
+				}
+			}
+		});
 
         if (this.hooked) {
             // Try to find Level addon and if it does not exist, display a warning

@@ -100,19 +100,7 @@
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>world.bentobox</groupId>
-			<artifactId>bskyblock</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>world.bentobox</groupId>
-			<artifactId>acidisland</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
