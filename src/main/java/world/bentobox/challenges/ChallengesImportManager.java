@@ -83,7 +83,7 @@ public class ChallengesImportManager
             for (String level : lvs) {
                 ChallengeLevel challengeLevel = new ChallengeLevel();
                 challengeLevel.setFriendlyName(level);
-                challengeLevel.setUniqueId(level);
+                challengeLevel.setUniqueId(Util.getWorld(world).getName() + "_" + level);
                 challengeLevel.setOrder(order++);
                 challengeLevel.setWorld(Util.getWorld(world).getName());
                 challengeLevel.setWaiverAmount(chal.getInt("challenges.waiveramount"));
@@ -120,7 +120,17 @@ public class ChallengesImportManager
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
             newChallenge.setDescription(GuiUtils.stringSplit(details.getString("description", "")));
             newChallenge.setIcon(ItemParser.parse(details.getString("icon") + ":1"));
-            newChallenge.setChallengeType(Challenge.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
+
+            if (details.getString("type").equalsIgnoreCase("level"))
+            {
+                // Fix for older version config
+                newChallenge.setChallengeType(Challenge.ChallengeType.OTHER);
+            }
+            else
+            {
+                newChallenge.setChallengeType(Challenge.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
+            }
+
             newChallenge.setTakeItems(details.getBoolean("takeItems",true));
             newChallenge.setRewardText(details.getString("rewardText", ""));
             newChallenge.setRewardCommands(details.getStringList("rewardcommands"));
