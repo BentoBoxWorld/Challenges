@@ -138,7 +138,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      */
     public ItemStack getIcon()
     {
-        return icon;
+        return icon.clone();
     }
 
 

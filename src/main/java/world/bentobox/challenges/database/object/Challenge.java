@@ -308,7 +308,7 @@ public class Challenge implements DataObject
      */
     public ItemStack getIcon()
     {
-        return icon;
+        return icon.clone();
     }
 
 
