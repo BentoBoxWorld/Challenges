@@ -15,7 +15,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.LevelStatus;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.TryToComplete;
 
@@ -123,7 +123,7 @@ public class ChallengesGUI extends CommonGUI
 	 */
 	private void addFreeChallenges(PanelBuilder panelBuilder)
 	{
-		List<Challenges> freeChallenges = this.challengesManager.getFreeChallenges(this.user, this.world);
+		List<Challenge> freeChallenges = this.challengesManager.getFreeChallenges(this.user, this.world);
 		final int freeChallengesCount = freeChallenges.size();
 
 		if (freeChallengesCount > 18)
@@ -168,7 +168,7 @@ public class ChallengesGUI extends CommonGUI
 		}
 		else
 		{
-			for (Challenges challenge : freeChallenges)
+			for (Challenge challenge : freeChallenges)
 			{
 				// there are no limitations. Just bunch insert.
 				panelBuilder.item(this.getChallengeButton(challenge));
@@ -185,7 +185,7 @@ public class ChallengesGUI extends CommonGUI
 	{
 		if (this.lastSelectedLevel != null)
 		{
-			List<Challenges> challenges = this.challengesManager.getChallenges(this.lastSelectedLevel.getLevel());
+			List<Challenge> challenges = this.challengesManager.getChallenges(this.lastSelectedLevel.getLevel());
 			final int challengesCount = challenges.size();
 
 			if (challengesCount > 18)
@@ -230,7 +230,7 @@ public class ChallengesGUI extends CommonGUI
 			}
 			else
 			{
-				for (Challenges challenge : challenges)
+				for (Challenge challenge : challenges)
 				{
 					// there are no limitations. Just bunch insert.
 					panelBuilder.item(this.getChallengeButton(challenge));
@@ -315,7 +315,7 @@ public class ChallengesGUI extends CommonGUI
 	 * @param challenge which icon must be constructed.
 	 * @return PanelItem icon for challenge.
 	 */
-	private PanelItem getChallengeButton(Challenges challenge)
+	private PanelItem getChallengeButton(Challenge challenge)
 	{
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
@@ -341,7 +341,7 @@ public class ChallengesGUI extends CommonGUI
 	 * @param challenge Which information must be retrieved.
 	 * @return List with strings that contains information about given challenge.
 	 */
-	private List<String> createChallengeDescription(Challenges challenge)
+	private List<String> createChallengeDescription(Challenge challenge)
 	{
 		List<String> result = new ArrayList<>();
 
@@ -392,14 +392,14 @@ public class ChallengesGUI extends CommonGUI
 		{
 			result.addAll(challenge.getDescription());
 
-			if (challenge.getChallengeType().equals(Challenges.ChallengeType.INVENTORY))
+			if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
 			{
 				if (challenge.isTakeItems())
 				{
 					result.add(this.user.getTranslation("challenges.item-take-warning"));
 				}
 			}
-			else if (challenge.getChallengeType().equals(Challenges.ChallengeType.ISLAND))
+			else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
 			{
 				result.add(this.user.getTranslation("challenges.items-closeby"));
 
@@ -433,7 +433,7 @@ public class ChallengesGUI extends CommonGUI
 	 * @param challenge which reward message must be created.
 	 * @return list of strings that contains rewards message.
 	 */
-	private List<String> challengeRewards(Challenges challenge)
+	private List<String> challengeRewards(Challenge challenge)
 	{
 		String rewardText;
 		double rewardMoney;

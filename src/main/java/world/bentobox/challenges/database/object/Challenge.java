@@ -16,9 +16,9 @@ import world.bentobox.challenges.ChallengesManager;
  * @author tastybento
  *
  */
-public class Challenges implements DataObject {
+public class Challenge implements DataObject {
 
-    public Challenges() {}
+    public Challenge() {}
 
 
     public boolean isRemoveEntities()
@@ -649,10 +649,10 @@ public class Challenges implements DataObject {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Challenges)) {
+        if (!(obj instanceof Challenge)) {
             return false;
         }
-        Challenges other = (Challenges) obj;
+        Challenge other = (Challenge) obj;
         if (uniqueId == null) {
             if (other.uniqueId != null) {
                 return false;

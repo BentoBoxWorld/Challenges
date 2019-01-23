@@ -1,6 +1,6 @@
 package world.bentobox.challenges;
 
-import world.bentobox.challenges.database.object.ChallengeLevels;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 
 /**
  * Level status class
@@ -8,8 +8,8 @@ import world.bentobox.challenges.database.object.ChallengeLevels;
  *
  */
 public class LevelStatus {
-    private final ChallengeLevels level;
-    private final ChallengeLevels previousLevel;
+    private final ChallengeLevel level;
+    private final ChallengeLevel previousLevel;
     private final int numberOfChallengesStillToDo;
     private final boolean complete;
     private final boolean isUnlocked;
@@ -21,7 +21,7 @@ public class LevelStatus {
      * @param complete - whether complete or not
      * @param isUnlocked 
      */
-    public LevelStatus(ChallengeLevels level, ChallengeLevels previousLevel, int numberOfChallengesStillToDo, boolean complete, boolean isUnlocked) {
+    public LevelStatus(ChallengeLevel level, ChallengeLevel previousLevel, int numberOfChallengesStillToDo, boolean complete, boolean isUnlocked) {
         super();
         this.level = level;
         this.previousLevel = previousLevel;
@@ -32,7 +32,7 @@ public class LevelStatus {
     /**
      * @return the level
      */
-    public ChallengeLevels getLevel() {
+    public ChallengeLevel getLevel() {
         return level;
     }
     /**
@@ -44,7 +44,7 @@ public class LevelStatus {
     /**
      * @return the previousLevel
      */
-    public ChallengeLevels getPreviousLevel() {
+    public ChallengeLevel getPreviousLevel() {
         return previousLevel;
     }
     /**

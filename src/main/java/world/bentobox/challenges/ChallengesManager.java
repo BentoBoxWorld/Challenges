@@ -17,18 +17,18 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.commands.admin.SurroundChallengeBuilder;
-import world.bentobox.challenges.database.object.ChallengeLevels;
-import world.bentobox.challenges.database.object.Challenges;
-import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
 import world.bentobox.challenges.panel.ChallengesPanels;
 
 public class ChallengesManager {
 
     public static final String FREE = "Free";
-    private Map<ChallengeLevels, Set<Challenges>> challengeMap;
-    private Config<Challenges> chConfig;
-    private Config<ChallengeLevels> lvConfig;
+    private Map<ChallengeLevel, Set<Challenge>> challengeMap;
+    private Config<Challenge> chConfig;
+    private Config<ChallengeLevel> lvConfig;
     private Database<ChallengesPlayerData> players;
     private ChallengesPanels challengesPanels;
     private Map<UUID,ChallengesPlayerData> playerData;
@@ -37,8 +37,8 @@ public class ChallengesManager {
     public ChallengesManager(ChallengesAddon addon) {
         this.addon = addon;
         // Set up the configs
-        chConfig = new Config<>(addon, Challenges.class);
-        lvConfig = new Config<>(addon, ChallengeLevels.class);
+        chConfig = new Config<>(addon, Challenge.class);
+        lvConfig = new Config<>(addon, ChallengeLevel.class);
         // Players is where all the player history will be stored
         players = new Database<>(addon, ChallengesPlayerData.class);
         // Cache of challenges
@@ -78,7 +78,7 @@ public class ChallengesManager {
      * @param challenge - challenge
      * @return - number of times
      */
-    public long checkChallengeTimes(User user, Challenges challenge, World world) {
+    public long checkChallengeTimes(User user, Challenge challenge, World world) {
         addPlayer(user);
         return playerData.get(user.getUniqueId()).getTimes(world, challenge.getUniqueId());
     }
@@ -109,7 +109,7 @@ public class ChallengesManager {
         if (inventory.getContents().length == 0) {
             return false;
         }
-        Challenges newChallenge = new Challenges();
+        Challenge newChallenge = new Challenge();
         newChallenge.setChallengeType(ChallengeType.INVENTORY);
         newChallenge.setFriendlyName(inventory.getTitle());
         newChallenge.setDeployed(false);
@@ -154,7 +154,7 @@ public class ChallengesManager {
             challengeInfo.getOwner().sendMessage("challenges.error.no-items-clicked");
             return false;
         }
-        Challenges newChallenge = new Challenges();
+        Challenge newChallenge = new Challenge();
         newChallenge.setChallengeType(ChallengeType.ISLAND);
         newChallenge.setFriendlyName(challengeInfo.getName());
         newChallenge.setDeployed(true);
@@ -199,10 +199,10 @@ public class ChallengesManager {
      * @param world - world to check
      * @return - challenge or null if it does not exist
      */
-    public Challenges getChallenge(String name, World world) {
+    public Challenge getChallenge(String name, World world) {
         String worldName = Util.getWorld(world).getName();
-        for (Set<Challenges> ch : challengeMap.values())  {
-            Optional<Challenges> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(worldName + name)).findFirst();
+        for (Set<Challenge> ch : challengeMap.values())  {
+            Optional<Challenge> challenge = ch.stream().filter(c -> c.getUniqueId().equalsIgnoreCase(worldName + name)).findFirst();
             if (challenge.isPresent()) {
                 return challenge.get();
             }
@@ -223,11 +223,11 @@ public class ChallengesManager {
         List<LevelStatus> result = new ArrayList<>();
 
         // The first level is always unlocked
-        ChallengeLevels previousLevel = null;
+        ChallengeLevel previousLevel = null;
         int doneChallengeCount = Integer.MAX_VALUE;
 
         // For each challenge level, check how many the user has done
-        for (Entry<ChallengeLevels, Set<Challenges>> entry : this.challengeMap.entrySet())
+        for (Entry<ChallengeLevel, Set<Challenge>> entry : this.challengeMap.entrySet())
         {
             // Check how much challenges must be done in previous level.
             int challengesToDo = Math.max(0, entry.getKey().getWaiveramount() - doneChallengeCount);
@@ -254,7 +254,7 @@ public class ChallengesManager {
      * Get the challenge list
      * @return the challengeList
      */
-    public Map<ChallengeLevels, Set<Challenges>> getChallengeList() {
+    public Map<ChallengeLevel, Set<Challenge>> getChallengeList() {
         // TODO return the challenges for world
         return challengeMap;
     }
@@ -265,9 +265,9 @@ public class ChallengesManager {
      * @param world
      * @return the set of challenges for this level, or the first set of challenges if level is blank, or a blank list if there are no challenges
      */
-    public Set<Challenges> getChallenges(String level, World world) {
+    public Set<Challenge> getChallenges(String level, World world) {
         String worldName = Util.getWorld(world).getName();
-        Optional<ChallengeLevels> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
+        Optional<ChallengeLevel> lv = challengeMap.keySet().stream().filter(l -> l.getUniqueId().equalsIgnoreCase(level)).findFirst();
         // Get the challenges applicable to this world
         return lv.isPresent() ? challengeMap.get(lv.get()).stream()
                 .filter(c -> c.getWorld().equalsIgnoreCase(worldName) || c.getWorld().isEmpty()).collect(Collectors.toSet())
@@ -286,9 +286,9 @@ public class ChallengesManager {
      * @param currentLevel - the current level
      * @return the previous level, or null if there is none
      */
-    public ChallengeLevels getPreviousLevel(ChallengeLevels currentLevel) {
-        ChallengeLevels result = null;
-        for (ChallengeLevels level : challengeMap.keySet()) {
+    public ChallengeLevel getPreviousLevel(ChallengeLevel currentLevel) {
+        ChallengeLevel result = null;
+        for (ChallengeLevel level : challengeMap.keySet()) {
             if (level.equals(currentLevel)) {
                 return result;
             }
@@ -303,7 +303,7 @@ public class ChallengesManager {
      * @return true if it exists, otherwise false
      */
     public boolean isChallenge(String name) {
-        for (Set<Challenges> ch : challengeMap.values())  {
+        for (Set<Challenge> ch : challengeMap.values())  {
             if (ch.stream().anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
                 return true;
             }
@@ -318,7 +318,7 @@ public class ChallengesManager {
      * @return true if it exists, otherwise false
      */
     public boolean isChallenge(World world, String name) {
-        for (Set<Challenges> ch : challengeMap.values())  {
+        for (Set<Challenge> ch : challengeMap.values())  {
             if (ch.stream().filter(c -> c.getWorld().equals(Util.getWorld(world).getName())).anyMatch(c -> c.getUniqueId().equalsIgnoreCase(name))) {
                 return true;
             }
@@ -417,7 +417,7 @@ public class ChallengesManager {
     /**
      * @param challengeList the challengeList to set
      */
-    public void setChallengeList(Map<ChallengeLevels, Set<Challenges>> challengeList) {
+    public void setChallengeList(Map<ChallengeLevel, Set<Challenge>> challengeList) {
         this.challengeMap = challengeList;
     }
 
@@ -435,7 +435,7 @@ public class ChallengesManager {
      * @param challenge
      * @return true if successful
      */
-    private boolean storeChallenge(Challenges challenge) {
+    private boolean storeChallenge(Challenge challenge) {
         return storeChallenge(challenge, true, null, true);
     }
 
@@ -447,15 +447,15 @@ public class ChallengesManager {
      * @param silent - if true, no messages are sent to user
      * @return - true if imported
      */
-    public boolean storeChallenge(Challenges challenge, boolean overwrite, User user, boolean silent) {
+    public boolean storeChallenge(Challenge challenge, boolean overwrite, User user, boolean silent) {
         // See if we have this level already
-        ChallengeLevels level;
+        ChallengeLevel level;
         if (lvConfig.configObjectExists(challenge.getLevel())) {
             // Get it from the database
             level = lvConfig.loadConfigObject(challenge.getLevel());
         } else {
             // Make it
-            level = new ChallengeLevels();
+            level = new ChallengeLevel();
             level.setUniqueId(challenge.getLevel());
             lvConfig.saveConfigObject(level);
         }
@@ -485,7 +485,7 @@ public class ChallengesManager {
      * Store a challenge level
      * @param level the challenge level
      */
-    public void storeLevel(ChallengeLevels level) {
+    public void storeLevel(ChallengeLevel level) {
         lvConfig.saveConfigObject(level);
     }
 
@@ -517,37 +517,37 @@ public class ChallengesManager {
     }
 
 
-    public Challenges createChallenge()
+    public Challenge createChallenge()
     {
-        return new Challenges();
+        return new Challenge();
     }
 
 
-    public List<Challenges> getChallenges(ChallengeLevels challengeLevel)
+    public List<Challenge> getChallenges(ChallengeLevel challengeLevel)
     {
         return new ArrayList<>(this.challengeMap.get(challengeLevel));
     }
 
 
-    public List<ChallengeLevels> getChallengeLevelList()
+    public List<ChallengeLevel> getChallengeLevelList()
     {
         return new ArrayList<>(this.challengeMap.keySet());
     }
 
 
-    public List<Challenges> getChallengesList()
+    public List<Challenge> getChallengesList()
     {
         return new ArrayList<>();
     }
 
 
-    public void deleteChallenge(Challenges selectedChallenge)
+    public void deleteChallenge(Challenge selectedChallenge)
     {
 
     }
 
 
-    public void deleteChallengeLevel(ChallengeLevels valueObject)
+    public void deleteChallengeLevel(ChallengeLevel valueObject)
     {
 
     }
@@ -558,9 +558,9 @@ public class ChallengesManager {
     }
 
 
-	public Challenges createChallenge(String reply)
+	public Challenge createChallenge(String reply)
 	{
-		return new Challenges();
+		return new Challenge();
 	}
 
 
@@ -576,55 +576,55 @@ public class ChallengesManager {
 	}
 
 
-	public ChallengeLevels createLevel(String reply)
+	public ChallengeLevel createLevel(String reply)
 	{
-		return new ChallengeLevels();
+		return new ChallengeLevel();
 	}
 
 
-	public void unlinkChallenge(ChallengeLevels challengeLevel, Challenges value)
-	{
-
-	}
-
-
-	public void linkChallenge(ChallengeLevels challengeLevel, Challenges value)
+	public void unlinkChallenge(ChallengeLevel challengeLevel, Challenge value)
 	{
 
 	}
 
 
-    public void resetChallenge(UUID uniqueId, Challenges value)
+	public void linkChallenge(ChallengeLevel challengeLevel, Challenge value)
+	{
+
+	}
+
+
+    public void resetChallenge(UUID uniqueId, Challenge value)
     {
 
     }
 
 
-    public void completeChallenge(UUID uniqueId, Challenges value)
+    public void completeChallenge(UUID uniqueId, Challenge value)
     {
 
     }
 
 
-    public List<Challenges> getFreeChallenges(User user, World world)
+    public List<Challenge> getFreeChallenges(User user, World world)
     {
         return Collections.emptyList();
     }
 
 
-    public String getChallengesLevel(Challenges challenge)
+    public String getChallengesLevel(Challenge challenge)
     {
         return "HERE NEED LEVEL NAME";
     }
 
 
-    public boolean isChallengeComplete(User user, Challenges challenge)
+    public boolean isChallengeComplete(User user, Challenge challenge)
     {
         return this.isChallengeComplete(user, challenge.getUniqueId(), user.getWorld());
     }
 
 
-    public long checkChallengeTimes(User user, Challenges challenge)
+    public long checkChallengeTimes(User user, Challenge challenge)
     {
        return this.checkChallengeTimes(user, challenge, user.getWorld());
     }

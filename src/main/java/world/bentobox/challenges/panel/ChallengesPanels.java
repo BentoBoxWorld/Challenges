@@ -13,8 +13,8 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.LevelStatus;
 import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.database.object.Challenges;
-import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -69,9 +69,9 @@ public class ChallengesPanels {
     }
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
-        Set<Challenges> levelChallenges = manager.getChallenges(level, world);
+        Set<Challenge> levelChallenges = manager.getChallenges(level, world);
         // Only show a control panel for the level requested.
-        for (Challenges challenge : levelChallenges) {
+        for (Challenge challenge : levelChallenges) {
             createItem(panelBuilder, challenge);
         }
     }
@@ -87,7 +87,7 @@ public class ChallengesPanels {
      * @param challenge
      * @param user
      */
-    private void createItem(PanelBuilder panelBuilder, Challenges challenge) {
+    private void createItem(PanelBuilder panelBuilder, Challenge challenge) {
         // Check completion
         boolean completed = manager.isChallengeComplete(user, challenge.getUniqueId(), world);
         // If challenge is removed after completion, remove it
@@ -164,7 +164,7 @@ public class ChallengesPanels {
      * @param player
      * @return List of strings splitting challenge string into 25 chars long
      */
-    private List<String> challengeDescription(Challenges challenge) {
+    private List<String> challengeDescription(Challenge challenge) {
         List<String> result = new ArrayList<String>();
         String level = challenge.getLevel();
         if (!level.isEmpty()) {

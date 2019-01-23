@@ -16,8 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import world.bentobox.challenges.database.object.ChallengeLevels;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
@@ -78,7 +78,7 @@ public class ChallengesImportManager
             String[] lvs = levels.split(" ");
             int order = 0;
             for (String level : lvs) {
-                ChallengeLevels challengeLevel = new ChallengeLevels();
+                ChallengeLevel challengeLevel = new ChallengeLevel();
                 challengeLevel.setFriendlyName(level);
                 challengeLevel.setUniqueId(level);
                 challengeLevel.setOrder(order++);
@@ -110,7 +110,7 @@ public class ChallengesImportManager
         // Parse the challenge file
         ConfigurationSection chals = chal.getConfigurationSection("challenges.challengeList");
         for (String challenge : chals.getKeys(false)) {
-            Challenges newChallenge = new Challenges();
+            Challenge newChallenge = new Challenge();
             newChallenge.setUniqueId(Util.getWorld(world).getName() + "_" + challenge);
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
@@ -119,7 +119,7 @@ public class ChallengesImportManager
             newChallenge.setDescription(addon.getChallengesManager().stringSplit(details.getString("description", "")));
             newChallenge.setIcon(new ParseItem(addon, details.getString("icon") + ":1").getItem());
             newChallenge.setLevel(details.getString("level", ChallengesManager.FREE));
-            newChallenge.setChallengeType(Challenges.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
+            newChallenge.setChallengeType(Challenge.ChallengeType.valueOf(details.getString("type","INVENTORY").toUpperCase()));
             newChallenge.setTakeItems(details.getBoolean("takeItems",true));
             newChallenge.setRewardText(details.getString("rewardText", ""));
             newChallenge.setRewardCommands(details.getStringList("rewardcommands"));
@@ -135,11 +135,11 @@ public class ChallengesImportManager
             newChallenge.setReqMoney(details.getInt("requiredMoney"));
             newChallenge.setReqExp(details.getInt("requiredExp"));
             String reqItems = details.getString("requiredItems","");
-            if (newChallenge.getChallengeType().equals(Challenges.ChallengeType.INVENTORY)) {
+            if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY)) {
                 newChallenge.setRequiredItems(parseItems(reqItems));
-            } else if (newChallenge.getChallengeType().equals(Challenges.ChallengeType.LEVEL)) {
+            } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.LEVEL)) {
                 newChallenge.setReqIslandlevel(Long.parseLong(reqItems));
-            } else if (newChallenge.getChallengeType().equals(Challenges.ChallengeType.ISLAND)) {
+            } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND)) {
                 parseEntities(newChallenge, reqItems);
             }
             newChallenge.setRewardItems(parseItems(details.getString("itemReward")));
@@ -158,7 +158,7 @@ public class ChallengesImportManager
      * @param challenge - challenge to be adjusted
      * @param string - string from YAML file
      */
-    private void parseEntities(Challenges challenge, String string) {
+    private void parseEntities(Challenge challenge, String string) {
         Map<EntityType, Integer> req = new EnumMap<>(EntityType.class);
         Map<Material, Integer> blocks = new EnumMap<>(Material.class);
         if (!string.isEmpty()) {

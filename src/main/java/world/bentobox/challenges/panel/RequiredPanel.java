@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem.ClickHandler;
 import world.bentobox.bentobox.api.panels.PanelListener;
@@ -30,7 +30,7 @@ import world.bentobox.bentobox.util.Util;
 @Deprecated
 public class RequiredPanel implements ClickHandler, PanelListener {
     private static final int CONTROL_NUMBER = 4;
-    private Challenges challenge;
+    private Challenge challenge;
     private User user;
     private Panel panel;
     private Panel referringPanel;
@@ -39,7 +39,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
      * @param challenge
      * @param user
      */
-    public RequiredPanel(Challenges challenge, User user, Panel referringPanel) {
+    public RequiredPanel(Challenge challenge, User user, Panel referringPanel) {
         this.challenge = challenge;
         this.user = user;
         this.panel = openPanel();

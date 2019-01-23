@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem.ClickHandler;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -22,7 +22,7 @@ public class AdminGUI implements ClickHandler {
 
     private ChallengesAddon addon;
     private User player;
-    private Challenges challenge;
+    private Challenge challenge;
     private World world;
     private String permPrefix;
     private String label;
@@ -36,7 +36,7 @@ public class AdminGUI implements ClickHandler {
      * @param permPrefix
      * @param label
      */
-    public AdminGUI(ChallengesAddon addon, User player, Challenges challenge, World world,
+    public AdminGUI(ChallengesAddon addon, User player, Challenge challenge, World world,
             String permPrefix, String label) {
         super();
         this.addon = addon;

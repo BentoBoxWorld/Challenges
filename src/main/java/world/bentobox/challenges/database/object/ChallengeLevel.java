@@ -14,9 +14,9 @@ import world.bentobox.challenges.ChallengesManager;
  * @author tastybento
  *
  */
-public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> {
+public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel> {
 
-    public ChallengeLevels() {}
+    public ChallengeLevel() {}
 
     @ConfigComment("A friendly name for the level. If blank, level name is used.")
     private String friendlyName = "";
@@ -98,7 +98,7 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
     }
 
     @Override
-    public int compareTo(ChallengeLevels o) {
+    public int compareTo(ChallengeLevel o) {
         return Integer.compare(this.order, o.order);
     }
     
@@ -208,10 +208,10 @@ public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> 
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ChallengeLevels)) {
+        if (!(obj instanceof ChallengeLevel)) {
             return false;
         }
-        ChallengeLevels other = (ChallengeLevels) obj;
+        ChallengeLevel other = (ChallengeLevel) obj;
         if (uniqueId == null) {
             if (other.uniqueId != null) {
                 return false;

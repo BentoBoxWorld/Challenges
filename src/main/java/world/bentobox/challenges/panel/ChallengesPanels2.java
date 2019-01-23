@@ -12,8 +12,8 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.LevelStatus;
 import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.database.object.Challenges;
-import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -93,7 +93,7 @@ public class ChallengesPanels2 {
 
     private void addChallengeItems(PanelBuilder panelBuilder) {
         // Only show a control panel for the level requested.
-        for (Challenges challenge : manager.getChallenges(level, world)) {
+        for (Challenge challenge : manager.getChallenges(level, world)) {
             createItem(panelBuilder, challenge);
         }
     }
@@ -109,7 +109,7 @@ public class ChallengesPanels2 {
      * @param challenge
      * @param requester
      */
-    private void createItem(PanelBuilder panelBuilder, Challenges challenge) {
+    private void createItem(PanelBuilder panelBuilder, Challenge challenge) {
         // For admin, glow means activated. For user, glow means done
         boolean glow = false;
         switch (mode) {
@@ -219,7 +219,7 @@ public class ChallengesPanels2 {
      * @param player
      * @return List of strings splitting challenge string into 25 chars long
      */
-    private List<String> challengeDescription(Challenges challenge) {
+    private List<String> challengeDescription(Challenge challenge) {
         List<String> result = new ArrayList<String>();
         String level = challenge.getLevel();
         if (!level.isEmpty()) {
@@ -278,7 +278,7 @@ public class ChallengesPanels2 {
         return result;
     }
 
-    private List<String> addRewards(Challenges challenge, boolean complete, boolean admin) {
+    private List<String> addRewards(Challenge challenge, boolean complete, boolean admin) {
         List<String> result = new ArrayList<>();
         double moneyReward = 0;
         int expReward = 0;

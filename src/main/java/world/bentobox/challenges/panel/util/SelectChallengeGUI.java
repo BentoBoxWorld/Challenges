@@ -9,7 +9,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -18,7 +18,7 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectChallengeGUI
 {
-	public SelectChallengeGUI(User user, List<Challenges> challengesList, BiConsumer<Boolean, Challenges> consumer)
+	public SelectChallengeGUI(User user, List<Challenge> challengesList, BiConsumer<Boolean, Challenge> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
@@ -123,7 +123,7 @@ public class SelectChallengeGUI
 	 * @param challenge Challenge which PanelItem must be created.
 	 * @return new PanelItem for given Challenge.
 	 */
-	private PanelItem createChallengeButton(Challenges challenge)
+	private PanelItem createChallengeButton(Challenge challenge)
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
@@ -144,7 +144,7 @@ public class SelectChallengeGUI
 	/**
 	 * This variable stores consumer.
 	 */
-	private BiConsumer<Boolean, Challenges> consumer;
+	private BiConsumer<Boolean, Challenge> consumer;
 
 	/**
 	 * User who runs GUI.
@@ -154,5 +154,5 @@ public class SelectChallengeGUI
 	/**
 	 * Current value.
 	 */
-	private List<Challenges> challengesList;
+	private List<Challenge> challengesList;
 }

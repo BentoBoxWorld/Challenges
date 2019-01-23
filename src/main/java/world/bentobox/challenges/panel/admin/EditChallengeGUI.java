@@ -13,7 +13,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
@@ -40,7 +40,7 @@ public class EditChallengeGUI extends CommonGUI
 	public EditChallengeGUI(ChallengesAddon addon,
 		World world,
 		User user,
-		Challenges challenge,
+		Challenge challenge,
 		String topLabel,
 		String permissionPrefix)
 	{
@@ -55,7 +55,7 @@ public class EditChallengeGUI extends CommonGUI
 	public EditChallengeGUI(ChallengesAddon addon,
 		World world,
 		User user,
-		Challenges challenge,
+		Challenge challenge,
 		String topLabel,
 		String permissionPrefix,
 		CommonGUI parentGUI)
@@ -301,9 +301,9 @@ public class EditChallengeGUI extends CommonGUI
 		{
 			case TYPE:
 			{
-				List<String> values = new ArrayList<>(Challenges.ChallengeType.values().length);
+				List<String> values = new ArrayList<>(Challenge.ChallengeType.values().length);
 
-				for (Challenges.ChallengeType type : Challenges.ChallengeType.values())
+				for (Challenge.ChallengeType type : Challenge.ChallengeType.values())
 				{
 					values.add((this.challenge.getChallengeType().equals(type) ? "§2" : "§c") +
 						this.user.getTranslation("challenges.gui.admin.descriptions." + type.name().toLowerCase()));
@@ -312,15 +312,15 @@ public class EditChallengeGUI extends CommonGUI
 				name = this.user.getTranslation("challenges.gui.admin.buttons.type");
 				description = values;
 
-				if (this.challenge.getChallengeType().equals(Challenges.ChallengeType.ISLAND))
+				if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
 				{
 					icon = new ItemStack(Material.GRASS_BLOCK);
 				}
-				else if (this.challenge.getChallengeType().equals(Challenges.ChallengeType.INVENTORY))
+				else if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
 				{
 					icon = new ItemStack(Material.CHEST);
 				}
-				else if (this.challenge.getChallengeType().equals(Challenges.ChallengeType.LEVEL))
+				else if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.LEVEL))
 				{
 					icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				}
@@ -1108,9 +1108,9 @@ public class EditChallengeGUI extends CommonGUI
 	 * @param type Given challenge type.
 	 * @return Next Challenge Type.
 	 */
-	private Challenges.ChallengeType getNextType(Challenges.ChallengeType type)
+	private Challenge.ChallengeType getNextType(Challenge.ChallengeType type)
 	{
-		Challenges.ChallengeType[] values = Challenges.ChallengeType.values();
+		Challenge.ChallengeType[] values = Challenge.ChallengeType.values();
 
 		for (int i = 0; i < values.length; i++)
 		{
@@ -1136,9 +1136,9 @@ public class EditChallengeGUI extends CommonGUI
 	 * @param type Given challenge type.
 	 * @return Previous Challenge Type.
 	 */
-	private Challenges.ChallengeType getPreviousType(Challenges.ChallengeType type)
+	private Challenge.ChallengeType getPreviousType(Challenge.ChallengeType type)
 	{
-		Challenges.ChallengeType[] values = Challenges.ChallengeType.values();
+		Challenge.ChallengeType[] values = Challenge.ChallengeType.values();
 
 		for (int i = 0; i < values.length; i++)
 		{
@@ -1228,7 +1228,7 @@ public class EditChallengeGUI extends CommonGUI
 	/**
 	 * Variable holds challenge thats needs editing.
 	 */
-	private Challenges challenge;
+	private Challenge challenge;
 
 	/**
 	 * Variable holds current active menu.

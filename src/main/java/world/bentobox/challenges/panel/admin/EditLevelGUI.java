@@ -16,8 +16,8 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
-import world.bentobox.challenges.database.object.ChallengeLevels;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
@@ -43,7 +43,7 @@ public class EditLevelGUI extends CommonGUI
 	public EditLevelGUI(ChallengesAddon addon,
 		World world,
 		User user,
-		ChallengeLevels challengeLevel,
+		ChallengeLevel challengeLevel,
 		String topLabel,
 		String permissionPrefix)
 	{
@@ -58,7 +58,7 @@ public class EditLevelGUI extends CommonGUI
 	public EditLevelGUI(ChallengesAddon addon,
 		World world,
 		User user,
-		ChallengeLevels challengeLevel,
+		ChallengeLevel challengeLevel,
 		String topLabel,
 		String permissionPrefix,
 		CommonGUI parentGUI)
@@ -145,7 +145,7 @@ public class EditLevelGUI extends CommonGUI
 	 */
 	private void buildChallengesPanel(PanelBuilder panelBuilder)
 	{
-		List<Challenges> challengeList = this.addon.getChallengesManager().getChallenges(this.challengeLevel);
+		List<Challenge> challengeList = this.addon.getChallengesManager().getChallenges(this.challengeLevel);
 
 		final int MAX_ELEMENTS = 21;
 
@@ -262,7 +262,7 @@ public class EditLevelGUI extends CommonGUI
 	 * @param challenge Challenge which icon must be created.
 	 * @return PanelItem that represents given challenge.
 	 */
-	private PanelItem createChallengeIcon(Challenges challenge)
+	private PanelItem createChallengeIcon(Challenge challenge)
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
@@ -538,7 +538,7 @@ public class EditLevelGUI extends CommonGUI
 					ChallengesManager manager = this.addon.getChallengesManager();
 
 					// Get all challenge that is not in current challenge.
-					List<Challenges> challengeList = manager.getChallengesList();
+					List<Challenge> challengeList = manager.getChallengesList();
 					challengeList.removeAll(manager.getChallenges(this.challengeLevel));
 
 					new SelectChallengeGUI(this.user, challengeList, (status, value) -> {
@@ -630,7 +630,7 @@ public class EditLevelGUI extends CommonGUI
 	/**
 	 * This variable holds current challenge level that is in editing GUI.
 	 */
-	private ChallengeLevels challengeLevel;
+	private ChallengeLevel challengeLevel;
 
 	/**
 	 * Variable holds current active menu.

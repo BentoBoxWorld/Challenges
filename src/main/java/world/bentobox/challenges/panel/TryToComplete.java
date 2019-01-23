@@ -23,8 +23,8 @@ import org.bukkit.util.Vector;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.database.object.Challenges;
-import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.hooks.VaultHook;
@@ -43,7 +43,7 @@ public class TryToComplete {
     private String permPrefix;
     private User user;
     private ChallengesManager manager;
-    private Challenges challenge;
+    private Challenge challenge;
     private String label;
 
     public TryToComplete label(String label) {
@@ -61,7 +61,7 @@ public class TryToComplete {
         return this;
     }
 
-    public TryToComplete challenge(Challenges challenge) {
+    public TryToComplete challenge(Challenge challenge) {
         this.challenge = challenge;
         return this;
     }
@@ -138,7 +138,7 @@ public class TryToComplete {
      * @param world
      * @param permPrefix
      */
-    public TryToComplete(ChallengesAddon addon, User user, ChallengesManager manager, Challenges challenge, World world, String permPrefix, String label) {
+    public TryToComplete(ChallengesAddon addon, User user, ChallengesManager manager, Challenge challenge, World world, String permPrefix, String label) {
         this.addon = addon;
         this.world = world;
         this.permPrefix = permPrefix;

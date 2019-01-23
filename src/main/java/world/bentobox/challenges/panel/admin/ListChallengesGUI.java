@@ -10,7 +10,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.utils.GuiUtils;
@@ -82,7 +82,7 @@ public class ListChallengesGUI extends CommonGUI
 			GuiUtils.fillBorder(panelBuilder);
 		}
 
-		List<Challenges> challengeList = this.addon.getChallengesManager().getChallengesList();
+		List<Challenge> challengeList = this.addon.getChallengesManager().getChallengesList();
 
 		final int MAX_ELEMENTS = 21;
 
@@ -130,7 +130,7 @@ public class ListChallengesGUI extends CommonGUI
 	 * @param challenge Challenge which button must be created.
 	 * @return Challenge button.
 	 */
-	private PanelItem createChallengeIcon(Challenges challenge)
+	private PanelItem createChallengeIcon(Challenge challenge)
 	{
 		PanelItemBuilder itemBuilder = new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
