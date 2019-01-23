@@ -11,7 +11,6 @@ import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
@@ -25,9 +24,6 @@ import world.bentobox.challenges.utils.GuiUtils;
 /**
  * This class contains all necessary methods that creates GUI and allow to edit challenges
  * properties.
- *
- * TODO: In current class set that MONEY are availabe only if ECONOMY exist.
- * TODO: In current class set that ISLAND LEVEL are availabe only if LEVEL ADDON exist.
  */
 public class EditChallengeGUI extends CommonGUI
 {
@@ -762,19 +758,29 @@ public class EditChallengeGUI extends CommonGUI
 					this.user.getTranslation("challenges.gui.admin.descriptions.required-level",
 						"[value]",
 						Long.toString(this.challenge.getRequiredIslandLevel())));
-				icon = new ItemStack(Material.BEACON);
-				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), (status, value) -> {
-						if (status)
-						{
-							this.challenge.setRequiredIslandLevel(value);
-						}
 
-						this.build();
-					});
+				if (this.addon.isLevelProvided())
+				{
+					icon = new ItemStack(Material.BEACON);
+					clickHandler = (panel, user, clickType, slot) -> {
+						new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), (status, value) -> {
+							if (status)
+							{
+								this.challenge.setRequiredIslandLevel(value);
+							}
 
-					return true;
-				};
+							this.build();
+						});
+
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = false;
 				break;
 			}
@@ -785,18 +791,28 @@ public class EditChallengeGUI extends CommonGUI
 					this.user.getTranslation("challenges.gui.admin.descriptions.required-money",
 						"[value]",
 						Integer.toString(this.challenge.getRequiredMoney())));
-				icon = new ItemStack(Material.GOLD_INGOT);
-				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, (status, value) -> {
-						if (status)
-						{
-							this.challenge.setRequiredMoney(value);
-						}
 
-						this.build();
-					});
-					return true;
-				};
+				if (this.addon.isEconomyProvided())
+				{
+					icon = new ItemStack(Material.GOLD_INGOT);
+					clickHandler = (panel, user, clickType, slot) -> {
+						new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, (status, value) -> {
+							if (status)
+							{
+								this.challenge.setRequiredMoney(value);
+							}
+
+							this.build();
+						});
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = false;
 				break;
 			}
@@ -806,20 +822,31 @@ public class EditChallengeGUI extends CommonGUI
 
 				if (this.challenge.isTakeMoney())
 				{
-					description = Collections.singletonList(this.user.getTranslation("challenges.gui.admin.descriptions.enabled"));
+					description = Collections.singletonList(this.user
+						.getTranslation("challenges.gui.admin.descriptions.enabled"));
 				}
 				else
 				{
-					description = Collections.singletonList(this.user.getTranslation("challenges.gui.admin.descriptions.disabled"));
+					description = Collections.singletonList(this.user
+						.getTranslation("challenges.gui.admin.descriptions.disabled"));
 				}
 
-				icon = new ItemStack(Material.LEVER);
-				clickHandler = (panel, user, clickType, slot) -> {
-					this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
+				if (this.addon.isEconomyProvided())
+				{
+					icon = new ItemStack(Material.LEVER);
+					clickHandler = (panel, user, clickType, slot) -> {
+						this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
 
-					this.build();
-					return true;
-				};
+						this.build();
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = this.challenge.isTakeMoney();
 				break;
 			}
@@ -901,19 +928,29 @@ public class EditChallengeGUI extends CommonGUI
 					this.user.getTranslation("challenges.gui.admin.descriptions.reward-money",
 						"[value]",
 						Integer.toString(this.challenge.getRewardMoney())));
-				icon = new ItemStack(Material.GOLD_INGOT);
-				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, (status, value) -> {
-						if (status)
-						{
-							this.challenge.setRewardMoney(value);
-						}
 
-						this.build();
-					});
+				if (this.addon.isEconomyProvided())
+				{
+					icon = new ItemStack(Material.GOLD_INGOT);
+					clickHandler = (panel, user, clickType, slot) -> {
+						new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, (status, value) -> {
+							if (status)
+							{
+								this.challenge.setRewardMoney(value);
+							}
 
-					return true;
-				};
+							this.build();
+						});
+
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = false;
 				break;
 			}
@@ -1062,19 +1099,32 @@ public class EditChallengeGUI extends CommonGUI
 					this.user.getTranslation("challenges.gui.admin.descriptions.repeat-reward-money",
 						"[value]",
 						Integer.toString(this.challenge.getRepeatMoneyReward())));
-				icon = new ItemStack(Material.GOLD_NUGGET);
-				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRepeatMoneyReward(), 0, (status, value) -> {
-						if (status)
-						{
-							this.challenge.setRepeatMoneyReward(value);
-						}
 
-						this.build();
-					});
+				if (this.addon.isEconomyProvided())
+				{
+					icon = new ItemStack(Material.GOLD_NUGGET);
+					clickHandler = (panel, user, clickType, slot) -> {
+						new NumberGUI(this.user,
+							this.challenge.getRepeatMoneyReward(),
+							0,
+							(status, value) -> {
+								if (status)
+								{
+									this.challenge.setRepeatMoneyReward(value);
+								}
 
-					return true;
-				};
+								this.build();
+							});
+
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = false;
 				break;
 			}

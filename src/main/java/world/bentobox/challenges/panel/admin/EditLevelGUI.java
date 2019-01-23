@@ -28,7 +28,6 @@ import world.bentobox.challenges.utils.GuiUtils;
 
 /**
  * This class contains all necessary elements to create Levels Edit GUI.
- * TODO: In current class set that MONEY are availabe only if ECONOMY exist.
 */
 public class EditLevelGUI extends CommonGUI
 {
@@ -493,19 +492,29 @@ public class EditLevelGUI extends CommonGUI
 					this.user.getTranslation("challenges.gui.admin.descriptions.reward-money",
 						"[value]",
 						Integer.toString(this.challengeLevel.getRewardMoney())));
-				icon = new ItemStack(Material.GOLD_INGOT);
-				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, (status, value) -> {
-						if (status)
-						{
-							this.challengeLevel.setRewardMoney(value);
-						}
 
-						this.build();
-					});
+				if (this.addon.isEconomyProvided())
+				{
+					icon = new ItemStack(Material.GOLD_INGOT);
+					clickHandler = (panel, user, clickType, slot) -> {
+						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, (status, value) -> {
+							if (status)
+							{
+								this.challengeLevel.setRewardMoney(value);
+							}
 
-					return true;
-				};
+							this.build();
+						});
+
+						return true;
+					};
+				}
+				else
+				{
+					icon = new ItemStack(Material.BARRIER);
+					clickHandler = null;
+				}
+
 				glow = false;
 				break;
 			}
