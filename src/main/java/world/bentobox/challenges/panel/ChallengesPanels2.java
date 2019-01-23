@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
-import world.bentobox.challenges.LevelStatus;
+import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;

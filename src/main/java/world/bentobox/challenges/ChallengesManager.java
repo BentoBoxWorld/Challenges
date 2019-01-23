@@ -22,6 +22,8 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
 import world.bentobox.challenges.panel.ChallengesPanels;
+import world.bentobox.challenges.utils.LevelStatus;
+
 
 public class ChallengesManager {
 

@@ -14,7 +14,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
-import world.bentobox.challenges.LevelStatus;
+import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.TryToComplete;
