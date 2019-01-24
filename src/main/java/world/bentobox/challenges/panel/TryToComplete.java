@@ -274,6 +274,12 @@ public class TryToComplete
         {
             this.user.sendMessage("challenges.not-repeatable");
         }
+        // Check environment
+        else if (!this.challenge.getEnvironment().isEmpty() &&
+            !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
+        {
+            this.user.sendMessage("general.errors.wrong-environment");
+        }
         else if (type.equals(ChallengeType.INVENTORY))
         {
             return this.checkInventory();
