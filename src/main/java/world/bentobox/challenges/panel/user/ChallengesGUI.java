@@ -49,11 +49,11 @@ public class ChallengesGUI extends CommonGUI
 
 		this.levelStatusList = this.challengesManager.getChallengeLevelStatus(this.user, this.world);
 
-		for (int i = 0; i < this.levelStatusList.size(); i++)
+		for (LevelStatus levelStatus : this.levelStatusList)
 		{
-			if (this.levelStatusList.get(i).isUnlocked())
+			if (levelStatus.isUnlocked())
 			{
-				this.lastSelectedLevel = this.levelStatusList.get(i);
+				this.lastSelectedLevel = levelStatus;
 			}
 			else
 			{
@@ -491,6 +491,7 @@ public class ChallengesGUI extends CommonGUI
 		ItemStack icon;
 		List<String> description;
 		PanelItem.ClickHandler clickHandler;
+		boolean glow;
 
 		if (level.isUnlocked())
 		{
@@ -507,6 +508,7 @@ public class ChallengesGUI extends CommonGUI
 				this.build();
 				return true;
 			};
+			glow = this.challengesManager.isLevelCompleted(this.user, level.getLevel());
 		}
 		else
 		{
@@ -518,9 +520,10 @@ public class ChallengesGUI extends CommonGUI
 					"[thisLevel]", level.getPreviousLevel().getFriendlyName()));
 
 			clickHandler = null;
+			glow = false;
 		}
 
-		return new PanelItem(icon, name, description, false, clickHandler, false);
+		return new PanelItem(icon, name, description, glow, clickHandler, false);
 	}
 
 
