@@ -1,26 +1,26 @@
 package world.bentobox.challenges.panel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.ChallengesManager;
-import world.bentobox.challenges.database.object.ChallengeLevel;
-import world.bentobox.challenges.utils.GuiUtils;
-import world.bentobox.challenges.utils.LevelStatus;
-import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.database.object.Challenge;
-import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.commands.ChallengesCommand;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.LevelStatus;
 
 
 /**
@@ -152,7 +152,7 @@ public class ChallengesPanels2 {
         } else {
             // Player click
             itemBuilder.clickHandler((panel, player, c, s) -> {
-                new TryToComplete(addon, player, manager, challenge, world, permPrefix, label);
+                new TryToComplete(addon, player, challenge, world, label, permPrefix);
                 return true;
             });
         }

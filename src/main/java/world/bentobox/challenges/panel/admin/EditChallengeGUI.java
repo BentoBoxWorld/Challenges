@@ -24,6 +24,7 @@ import world.bentobox.challenges.utils.GuiUtils;
 /**
  * This class contains all necessary methods that creates GUI and allow to edit challenges
  * properties.
+ * TODO: ISLAND is not repeatable.
  */
 public class EditChallengeGUI extends CommonGUI
 {
