@@ -278,7 +278,12 @@ public class TryToComplete
         else if (!this.challenge.getEnvironment().isEmpty() &&
             !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
-            this.user.sendMessage("general.errors.wrong-environment");
+            this.user.sendMessage("challenges.errors.wrong-environment");
+        }
+        // Check permission
+        else if (!this.checkPermissions())
+        {
+            this.user.sendMessage("general.errors.no-permission");
         }
         else if (type.equals(ChallengeType.INVENTORY))
         {
@@ -297,6 +302,16 @@ public class TryToComplete
         return new ChallengeResult();
     }
 
+
+    /**
+     * This method checks if user has all required permissions.
+     * @return true if user has all required permissions, otherwise false.
+     */
+    private boolean checkPermissions()
+    {
+        return this.challenge.getRequiredPermissions().isEmpty() ||
+            this.challenge.getRequiredPermissions().stream().allMatch(s -> this.user.hasPermission(s));
+    }
 
     /**
      * This method runs all commands from command list.
