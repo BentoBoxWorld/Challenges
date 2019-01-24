@@ -574,6 +574,49 @@ public class ChallengesManager
 	}
 
 
+	/**
+	 * This method returns if given user has been already completed given level.
+	 * @param level Level that must be checked.
+	 * @param user User who need to be checked.
+	 * @return true, if level is already completed.
+	 */
+	public boolean isLevelCompleted(User user, ChallengeLevel level)
+	{
+		this.addPlayer(user);
+		return this.playerCacheData.get(user.getUniqueId()).isLevelDone(level.getUniqueId());
+	}
+
+
+	/**
+	 * This method checks all level challenges and checks if all challenges are done.
+	 * @param level Level that must be checked.
+	 * @param user User who need to be checked.
+	 * @return true, if all challenges are done, otherwise false.
+	 */
+	public boolean validateLevelCompletion(User user, ChallengeLevel level)
+	{
+		this.addPlayer(user);
+		ChallengesPlayerData playerData = this.playerCacheData.get(user.getUniqueId());
+		long doneChallengeCount = level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+
+		return level.getChallenges().size() == doneChallengeCount;
+	}
+
+
+	/**
+	 * This method sets given level as completed.
+	 * @param level Level that must be completed.
+	 * @param user User who complete level.
+	 */
+	public void setLevelComplete(User user, ChallengeLevel level)
+	{
+		this.addPlayer(user);
+		this.playerCacheData.get(user.getUniqueId()).addCompletedLevel(level.getUniqueId());
+		// Save
+		this.savePlayer(user.getUniqueId());
+	}
+
+
 // ---------------------------------------------------------------------
 // Section: Challenges related methods
 // ---------------------------------------------------------------------

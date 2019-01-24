@@ -1,13 +1,12 @@
 package world.bentobox.challenges.database.object;
 
+
+import com.google.gson.annotations.Expose;
+import org.bukkit.World;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.bukkit.World;
-
-import com.google.gson.annotations.Expose;
 
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.Util;
@@ -232,6 +231,27 @@ public class ChallengesPlayerData implements DataObject
 	public int getTimes(String challengeName)
 	{
 		return challengeStatus.getOrDefault(challengeName, 0);
+	}
+
+
+	/**
+	 * This method adds given level id to completed level set.
+	 * @param uniqueId from ChallengeLevel object.
+	 */
+	public void addCompletedLevel(String uniqueId)
+	{
+		this.levelsDone.add(uniqueId);
+	}
+
+
+	/**
+	 * This method returns if given level is done.
+	 * @param uniqueId  of ChallengeLevel object.
+	 * @return <code>true</code> if level is completed, otherwise <code>false</code>
+	 */
+	public boolean isLevelDone(String uniqueId)
+	{
+		return !this.levelsDone.isEmpty() && this.levelsDone.contains(uniqueId);
 	}
 
 

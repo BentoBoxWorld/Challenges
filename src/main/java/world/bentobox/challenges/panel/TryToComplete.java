@@ -21,6 +21,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 
 
 /**
@@ -242,6 +243,49 @@ public class TryToComplete
 
         // Mark as complete
         this.manager.setChallengeComplete(this.user, this.challenge);
+
+        if (!result.repeat)
+        {
+            ChallengeLevel level = this.manager.getLevel(this.challenge);
+
+            if (!this.manager.isLevelCompleted(this.user, level))
+            {
+                if (this.manager.validateLevelCompletion(this.user, level))
+                {
+                    // Item rewards
+                    for (ItemStack reward : level.getRewardItems())
+                    {
+                        this.user.getInventory().addItem(reward).forEach((k, v) ->
+                            this.user.getWorld().dropItem(this.user.getLocation(), v));
+                    }
+
+                    // Money Reward
+                    if (this.addon.isEconomyProvided())
+                    {
+                        this.addon.getEconomyProvider().deposit(this.user, level.getRewardMoney());
+                    }
+
+                    // Experience Reward
+                    this.user.getPlayer().giveExp(level.getRewardExperience());
+
+                    // Run commands
+                    this.runCommands(level.getRewardCommands());
+
+                    this.user.sendMessage("challenges.you-completed-level", "[level]", level.getFriendlyName());
+
+                    if (this.addon.getChallengesSettings().isBroadcastMessages())
+                    {
+                        for (Player p : this.addon.getServer().getOnlinePlayers())
+                        {
+                            User.getInstance(p).sendMessage("challenges.name-has-completed-level",
+                                "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                        }
+                    }
+
+                    this.manager.setLevelComplete(this.user, level);
+                }
+            }
+        }
 
         return result;
     }
