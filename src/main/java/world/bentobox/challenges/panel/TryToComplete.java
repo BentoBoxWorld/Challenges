@@ -69,6 +69,10 @@ public class TryToComplete
      */
     private Challenge challenge;
 
+    /**
+     * Variable that will be used to avoid multiple empty object generation.
+     */
+    private final ChallengeResult EMPTY_RESULT = new ChallengeResult();
 
 // ---------------------------------------------------------------------
 // Section: Builder
@@ -249,57 +253,69 @@ public class TryToComplete
      */
     private ChallengeResult checkIfCanCompleteChallenge()
     {
+        ChallengeResult result;
+
         ChallengeType type = this.challenge.getChallengeType();
 
         // Check the world
         if (!this.challenge.getUniqueId().startsWith(Util.getWorld(this.world).getName()))
         {
             this.user.sendMessage("general.errors.wrong-world");
+            result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
             !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
             this.user.sendMessage("challenges.errors.challenge-level-not-available");
+            result = EMPTY_RESULT;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
             this.manager.getChallengeTimes(this.user, this.challenge) >= this.challenge.getMaxTimes())
         {
             this.user.sendMessage("challenges.not-repeatable");
+            result = EMPTY_RESULT;
         }
         // Check repeatability
         else if (this.manager.isChallengeComplete(this.user, this.challenge)
             && (!this.challenge.isRepeatable() || type.equals(ChallengeType.ISLAND)))
         {
             this.user.sendMessage("challenges.not-repeatable");
+            result = EMPTY_RESULT;
         }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
             !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
             this.user.sendMessage("challenges.errors.wrong-environment");
+            result = EMPTY_RESULT;
         }
         // Check permission
         else if (!this.checkPermissions())
         {
             this.user.sendMessage("general.errors.no-permission");
+            result = EMPTY_RESULT;
         }
         else if (type.equals(ChallengeType.INVENTORY))
         {
-            return this.checkInventory();
+            result = this.checkInventory();
         }
         else if (type.equals(ChallengeType.ISLAND))
         {
-            return this.checkSurrounding();
+            result = this.checkSurrounding();
         }
         else if (type.equals(ChallengeType.OTHER))
         {
-            return this.checkOthers();
+            result = this.checkOthers();
+        }
+        else
+        {
+            result = EMPTY_RESULT;
         }
 
         // Everything fails till this point.
-        return new ChallengeResult();
+        return result;
     }
 
 
@@ -407,7 +423,7 @@ public class TryToComplete
                         this.user.sendMessage("challenges.error.not-enough-items",
                             "[items]",
                             Util.prettifyText(req.getType().toString()));
-                        return new ChallengeResult();
+                        return EMPTY_RESULT;
                     }
                     break;
                 default:
@@ -417,7 +433,7 @@ public class TryToComplete
                         this.user.sendMessage("challenges.error.not-enough-items",
                             "[items]",
                             Util.prettifyText(req.getType().toString()));
-                        return new ChallengeResult();
+                        return EMPTY_RESULT;
                     }
             }
         }
@@ -500,7 +516,7 @@ public class TryToComplete
         {
             // Player is not on island
             this.user.sendMessage("challenges.error.not-on-island");
-            result = new ChallengeResult();
+            result = EMPTY_RESULT;
         }
         else
         {
@@ -569,7 +585,7 @@ public class TryToComplete
             "[amount]", String.valueOf(v),
             "[item]", Util.prettifyText(k.toString())));
 
-        return new ChallengeResult();
+        return EMPTY_RESULT;
     }
 
 
@@ -598,7 +614,7 @@ public class TryToComplete
             "[amount]", String.valueOf(amount),
             "[item]", Util.prettifyText(reqEnt.toString())));
 
-        return new ChallengeResult();
+        return EMPTY_RESULT;
     }
 
 
@@ -703,7 +719,7 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements();
         }
 
-        return new ChallengeResult();
+        return EMPTY_RESULT;
     }
 
 
