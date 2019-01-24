@@ -2,12 +2,17 @@ package world.bentobox.challenges;
 
 import org.bukkit.Bukkit;
 
+import java.util.Optional;
+
 import world.bentobox.bentobox.api.configuration.Config;
+import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
 import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.level.Level;
+
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -29,9 +34,19 @@ public class ChallengesAddon extends Addon {
     private boolean hooked;
 
     /**
-     * This indicate if economy plugin exists.
+     * This boolean indicate if economy is enabled.
      */
     private boolean economyProvided;
+
+    /**
+     * VaultHook that process economy.
+     */
+    private VaultHook vaultHook;
+
+    /**
+     * Level addon.
+     */
+    private Level levelAddon;
 
     /**
      * This indicate if level addon exists.
@@ -103,16 +118,30 @@ public class ChallengesAddon extends Addon {
         if (this.hooked) {
             // Try to find Level addon and if it does not exist, display a warning
 
-            this.levelProvided = this.getAddonByName("Level").isPresent();
+            Optional<Addon> level = this.getAddonByName("Level");
 
-            if (!this.levelProvided) {
+            if (!level.isPresent())
+            {
                 this.logWarning("Level add-on not found so level challenges will not work!");
+                this.levelAddon = null;
+            }
+            else
+            {
+                this.levelProvided = true;
+                this.levelAddon = (Level) level.get();
             }
 
-            this.economyProvided = this.getPlugin().getVault().isPresent() && this.getPlugin().getVault().get().hook();
+            Optional<VaultHook> vault = this.getPlugin().getVault();
 
-            if (!this.economyProvided) {
+            if (!vault.isPresent() || !vault.get().hook())
+            {
+                this.vaultHook = null;
                 this.logWarning("Economy plugin not found so money options will not work!");
+            }
+            else
+            {
+                this.economyProvided = true;
+                this.vaultHook = vault.get();
             }
 
             // Register the reset listener
@@ -216,11 +245,32 @@ public class ChallengesAddon extends Addon {
 
 
     /**
+     * Returns VaultHook. Used to get easier access to Economy. NEVER USE WITHOUT isEconomyProvided or null
+     * check.
+     * @return VaultHook or null.
+     */
+    public VaultHook getEconomyProvider()
+    {
+        return vaultHook;
+    }
+
+
+    /**
      *
      * @return levelProvided variable.
      */
     public boolean isLevelProvided()
     {
         return levelProvided;
+    }
+
+
+    /**
+     * This method returns Level addon. Used to easier access to Level. NEVER USE WITHOUT isLevelProvided or null
+     * @return LevelAddon or null.
+     */
+    public Level getLevelAddon()
+    {
+        return levelAddon;
     }
 }
