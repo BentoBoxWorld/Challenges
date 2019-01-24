@@ -7,12 +7,11 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
 import world.bentobox.bentobox.util.Util;
-import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
 import world.bentobox.challenges.utils.LevelStatus;
 
