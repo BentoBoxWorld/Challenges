@@ -154,7 +154,7 @@ public class ChallengesManager
 			{
 				if (!silent)
 				{
-					user.sendMessage("challenges.admin.import.skip",
+					user.sendMessage("challenges.admin.import.skipping",
 						"[object]", challenge.getFriendlyName());
 				}
 
@@ -219,7 +219,7 @@ public class ChallengesManager
 			{
 				if (!silent)
 				{
-					user.sendMessage("challenges.admin.import.skip",
+					user.sendMessage("challenges.admin.import.skipping",
 						"[object]", level.getFriendlyName());
 				}
 

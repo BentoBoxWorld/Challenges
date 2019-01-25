@@ -451,7 +451,7 @@ public class EditChallengeGUI extends CommonGUI
 				for (World.Environment environment : World.Environment.values())
 				{
 					values.add((this.challenge.getEnvironment().contains(environment.name()) ? "§2" : "§c") +
-						this.user.getTranslation("challenges.gui.admin.descriptions." + environment.name()));
+						this.user.getTranslation("challenges.gui.admin.descriptions." + environment.name().toLowerCase()));
 				}
 
 				name = this.user.getTranslation("challenges.gui.admin.buttons.environment");

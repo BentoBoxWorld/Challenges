@@ -134,7 +134,7 @@ public class ChallengesGUI extends CommonGUI
 			{
 				panelBuilder.item(new PanelItemBuilder().
 					icon(Material.SIGN).
-					name("Previous").
+					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex--;
 						this.build();
@@ -158,7 +158,7 @@ public class ChallengesGUI extends CommonGUI
 			{
 				panelBuilder.item(new PanelItemBuilder().
 					icon(Material.SIGN).
-					name("Next").
+					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex++;
 						this.build();
@@ -196,7 +196,7 @@ public class ChallengesGUI extends CommonGUI
 				{
 					panelBuilder.item(new PanelItemBuilder().
 						icon(Material.SIGN).
-						name("Previous").
+						name(this.user.getTranslation("challenges.gui.buttons.previous")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex--;
 							this.build();
@@ -220,7 +220,7 @@ public class ChallengesGUI extends CommonGUI
 				{
 					panelBuilder.item(new PanelItemBuilder().
 						icon(Material.SIGN).
-						name("Next").
+						name(this.user.getTranslation("challenges.gui.buttons.next")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex++;
 							this.build();
@@ -262,7 +262,7 @@ public class ChallengesGUI extends CommonGUI
 			{
 				panelBuilder.item(new PanelItemBuilder().
 					icon(Material.SIGN).
-					name("Previous").
+					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex--;
 						this.build();
@@ -286,7 +286,7 @@ public class ChallengesGUI extends CommonGUI
 			{
 				panelBuilder.item(new PanelItemBuilder().
 					icon(Material.SIGN).
-					name("Next").
+					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex++;
 						this.build();
