@@ -71,6 +71,7 @@ public class EditSettingsGUI extends CommonGUI
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setResetChallenges(
 					!this.addon.getChallengesSettings().isResetChallenges());
+				this.build();
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isResetChallenges()).
@@ -84,6 +85,7 @@ public class EditSettingsGUI extends CommonGUI
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setBroadcastMessages(
 					!this.addon.getChallengesSettings().isBroadcastMessages());
+				this.build();
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isBroadcastMessages()).
@@ -97,6 +99,7 @@ public class EditSettingsGUI extends CommonGUI
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setRemoveCompleteOneTimeChallenges(
 					!this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges());
+				this.build();
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges()).
@@ -110,6 +113,7 @@ public class EditSettingsGUI extends CommonGUI
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setAddCompletedGlow(
 					!this.addon.getChallengesSettings().isAddCompletedGlow());
+				this.build();
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isAddCompletedGlow()).
@@ -123,6 +127,7 @@ public class EditSettingsGUI extends CommonGUI
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setFreeChallengesFirst(
 					!this.addon.getChallengesSettings().isFreeChallengesFirst());
+				this.build();
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isFreeChallengesFirst()).
