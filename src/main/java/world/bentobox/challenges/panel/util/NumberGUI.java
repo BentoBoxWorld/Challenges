@@ -238,7 +238,7 @@ public class NumberGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
 	}
 
 

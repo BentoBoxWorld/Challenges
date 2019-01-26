@@ -280,7 +280,7 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
 	}
 
 
@@ -305,11 +305,12 @@ public class EditChallengeGUI extends CommonGUI
 
 				for (Challenge.ChallengeType type : Challenge.ChallengeType.values())
 				{
-					values.add((this.challenge.getChallengeType().equals(type) ? "§2" : "§c") +
+					values.add((this.challenge.getChallengeType().equals(type) ? "&2" : "&c") +
 						this.user.getTranslation("challenges.gui.admin.descriptions." + type.name().toLowerCase()));
 				}
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.type");
+				name = this.user.getTranslation("challenges.gui.admin.buttons.type",
+					"[value]", this.challenge.getChallengeType().name());
 				description = values;
 
 				if (this.challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
@@ -450,7 +451,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				for (World.Environment environment : World.Environment.values())
 				{
-					values.add((this.challenge.getEnvironment().contains(environment.name()) ? "§2" : "§c") +
+					values.add((this.challenge.getEnvironment().contains(environment.name()) ? "&2" : "&c") +
 						this.user.getTranslation("challenges.gui.admin.descriptions." + environment.name().toLowerCase()));
 				}
 
@@ -1153,7 +1154,7 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
 	}
 
 

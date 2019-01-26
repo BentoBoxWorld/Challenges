@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -17,6 +16,7 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.TryToComplete;
+import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
 
 
@@ -320,7 +320,7 @@ public class ChallengesGUI extends CommonGUI
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
 			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
-			description(this.createChallengeDescription(challenge)).
+			description(GuiUtils.stringSplit(this.createChallengeDescription(challenge))).
 			clickHandler((panel, user1, clickType, slot) -> {
 				new TryToComplete(this.addon,
 					this.user,
@@ -496,8 +496,7 @@ public class ChallengesGUI extends CommonGUI
 		if (level.isUnlocked())
 		{
 			icon = level.getLevel().getIcon();
-			description = Collections.singletonList(
-				this.user.getTranslation("challenges.navigation", "[level]", name));
+			description = GuiUtils.stringSplit(this.user.getTranslation("challenges.navigation", "[level]", name));
 			clickHandler = (panel, user1, clickType, slot) -> {
 				this.lastSelectedLevel = level;
 
@@ -514,7 +513,7 @@ public class ChallengesGUI extends CommonGUI
 		{
 			icon = new ItemStack(Material.BOOK);
 
-			description = Collections.singletonList(
+			description = GuiUtils.stringSplit(
 				this.user.getTranslation("challenges.to-complete",
 					"[challengesToDo]", Integer.toString(level.getNumberOfChallengesStillToDo()),
 					"[thisLevel]", level.getPreviousLevel().getFriendlyName()));

@@ -216,7 +216,7 @@ public class ListUsersGUI extends CommonGUI
 			return new PanelItemBuilder().
 				name(player.getName()).
 				icon(Material.BARRIER).
-				description(this.user.getTranslation("general.errors.player-has-no-island")).
+				description(GuiUtils.stringSplit(this.user.getTranslation("general.errors.player-has-no-island"))).
 				clickHandler((panel, user1, clickType, slot) -> false).
 				build();
 		}
@@ -258,7 +258,7 @@ public class ListUsersGUI extends CommonGUI
 
 		for (int i = 0; i < ViewMode.values().length; i++)
 		{
-			values.add((this.modeIndex == i ? "§2" : "§c") +
+			values.add((this.modeIndex == i ? "&2" : "&c") +
 				this.user.getTranslation("challenges.gui.admin.descriptions." +
 					ViewMode.values()[i].name().toLowerCase()));
 		}
@@ -267,7 +267,7 @@ public class ListUsersGUI extends CommonGUI
 			name(this.user.getTranslation("challenges.gui.admin.buttons.toggle-users",
 				"[value]",
 				this.user.getTranslation("challenges.gui.admin.descriptions." + ViewMode.values()[this.modeIndex].name().toLowerCase()))).
-			description(values).
+			description(GuiUtils.stringSplit(values)).
 			icon(Material.STONE_BUTTON).
 			clickHandler(
 				(panel, user1, clickType, slot) -> {

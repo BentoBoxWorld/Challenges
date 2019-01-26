@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -384,5 +383,23 @@ public class GuiUtils
 				Arrays.asList(WordUtils.wrap(line, 25).split("\\n"))));
 
 		return result;
+	}
+
+
+	/**
+	 * Simple splitter for all strings in list.
+	 * @param stringList - list of string to be split
+	 * @return list of split strings
+	 */
+	public static List<String> stringSplit(List<String> stringList)
+	{
+		if (stringList.isEmpty())
+		{
+			return stringList;
+		}
+
+		List<String> newList = new ArrayList<>(stringList.size());
+		stringList.stream().map(GuiUtils::stringSplit).forEach(newList::addAll);
+		return newList;
 	}
 }

@@ -134,7 +134,7 @@ challenges:
                 search-radius: Search radius
                 settings: Settings
                 toggle-users: Choose players
-                type: Challenge Type
+                type: 'Challenge Type: [value]'
                 waiver-amount: Waiver Amount
                 import: Import
             choose-challenge-title: Challenges List

@@ -66,7 +66,7 @@ public class EditSettingsGUI extends CommonGUI
 		// resetChallenges
 		panelBuilder.item(19, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.reset")).
-			description(this.user.getTranslation("challenges.gui.admin.descriptions.reset")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.reset"))).
 			icon(Material.LAVA_BUCKET).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setResetChallenges(
@@ -79,7 +79,7 @@ public class EditSettingsGUI extends CommonGUI
 		// broadcastMessages
 		panelBuilder.item(20, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.broadcast")).
-			description(this.user.getTranslation("challenges.gui.admin.descriptions.broadcast")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.broadcast"))).
 			icon(Material.JUKEBOX).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setBroadcastMessages(
@@ -92,7 +92,7 @@ public class EditSettingsGUI extends CommonGUI
 		// removeCompleteOneTimeChallenges
 		panelBuilder.item(21, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.remove-on-complete")).
-			description(this.user.getTranslation("challenges.gui.admin.descriptions.remove-on-complete")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.remove-on-complete"))).
 			icon(Material.MAGMA_BLOCK).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setRemoveCompleteOneTimeChallenges(
@@ -105,7 +105,7 @@ public class EditSettingsGUI extends CommonGUI
 		// addCompletedGlow
 		panelBuilder.item(22, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.glow")).
-			description(this.user.getTranslation("challenges.gui.admin.descriptions.glow")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.glow"))).
 			icon(Material.GLOWSTONE).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setAddCompletedGlow(
@@ -118,7 +118,7 @@ public class EditSettingsGUI extends CommonGUI
 		// freeChallengesAtTheTop
 		panelBuilder.item(23, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.free-challenges")).
-			description(this.user.getTranslation("challenges.gui.admin.descriptions.free-challenges")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.free-challenges"))).
 			icon(Material.FILLED_MAP).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setFreeChallengesFirst(

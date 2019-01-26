@@ -3,7 +3,10 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import net.wesjd.anvilgui.AnvilGUI;
@@ -174,7 +177,7 @@ public class StringListGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, false, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), false, clickHandler, false);
 	}
 
 

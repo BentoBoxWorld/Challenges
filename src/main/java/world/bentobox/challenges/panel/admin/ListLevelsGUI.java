@@ -134,7 +134,7 @@ public class ListLevelsGUI extends CommonGUI
 	{
 		PanelItemBuilder itemBuilder = new PanelItemBuilder().
 			name(challengeLevel.getFriendlyName()).
-			description(challengeLevel.getUnlockMessage()).
+			description(GuiUtils.stringSplit(challengeLevel.getUnlockMessage())).
 			icon(challengeLevel.getIcon()).
 			glow(false);
 

@@ -13,11 +13,10 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
-import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ItemSwitchGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
@@ -253,7 +252,7 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
 	}
 
 
@@ -266,7 +265,7 @@ public class EditLevelGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(challenge.getDescription()).
+			description(GuiUtils.stringSplit(challenge.getDescription())).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// Open challenges edit screen.
@@ -591,7 +590,7 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
 	}
 
 

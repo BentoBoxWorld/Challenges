@@ -127,7 +127,7 @@ public class SelectChallengeGUI
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(challenge.getDescription()).
+			description(GuiUtils.stringSplit(challenge.getDescription())).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				this.consumer.accept(true, challenge);

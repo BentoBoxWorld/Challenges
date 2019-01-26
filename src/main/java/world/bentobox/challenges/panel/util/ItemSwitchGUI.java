@@ -14,6 +14,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -123,7 +124,7 @@ public class ItemSwitchGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, false, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description), false, clickHandler, false);
 	}
 
 
