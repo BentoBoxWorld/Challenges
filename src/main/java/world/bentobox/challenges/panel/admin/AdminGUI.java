@@ -206,7 +206,7 @@ public class AdminGUI extends CommonGUI
 								new EditChallengeGUI(this.addon,
 									this.world,
 									this.user,
-									this.addon.getChallengesManager().createChallenge(reply),
+									this.addon.getChallengesManager().createChallenge(newName),
 									this.topLabel,
 									this.permissionPrefix,
 									this).build();
@@ -242,7 +242,7 @@ public class AdminGUI extends CommonGUI
 								new EditLevelGUI(this.addon,
 									this.world,
 									this.user,
-									this.addon.getChallengesManager().createLevel(reply),
+									this.addon.getChallengesManager().createLevel(newName),
 									this.topLabel,
 									this.permissionPrefix,
 									this).build();

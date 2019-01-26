@@ -147,7 +147,7 @@ public class EditChallengeGUI extends CommonGUI
 		panelBuilder.item(28, this.createButton(Button.REMOVE_ENTITIES));
 
 		panelBuilder.item(21, this.createButton(Button.REQUIRED_BLOCKS));
-		panelBuilder.item(29, this.createButton(Button.REMOVE_BLOCKS));
+		panelBuilder.item(30, this.createButton(Button.REMOVE_BLOCKS));
 
 		panelBuilder.item(23, this.createButton(Button.SEARCH_RADIUS));
 		panelBuilder.item(25, this.createButton(Button.REQUIRED_PERMISSIONS));
