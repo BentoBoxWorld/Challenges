@@ -135,6 +135,7 @@ challenges:
                 toggle-users: Choose players
                 type: Challenge Type
                 waiver-amount: Waiver Amount
+                import: Import
             choose-challenge-title: Challenges List
             choose-level-title: Levels List
             choose-user-title: Users List
