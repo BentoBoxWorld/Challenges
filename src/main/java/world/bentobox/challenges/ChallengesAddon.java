@@ -1,16 +1,16 @@
 package world.bentobox.challenges;
 
-import org.bukkit.Bukkit;
 
+import org.bukkit.Bukkit;
 import java.util.Optional;
 
+import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
-import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.level.Level;
 
 
@@ -177,6 +177,11 @@ public class ChallengesAddon extends Addon {
     public void onDisable() {
         if (this.hooked) {
             this.challengesManager.save();
+        }
+
+        if (this.settings != null)
+        {
+            new Config<>(this, Settings.class).saveConfigObject(this.settings);
         }
     }
 
