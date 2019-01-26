@@ -374,13 +374,15 @@ public class GuiUtils
 	 */
 	public static List<String> stringSplit(String string)
 	{
+		// Remove all ending lines from string.
+		string = string.replaceAll("([\\r\\n])", "\\|");
 		string = ChatColor.translateAlternateColorCodes('&', string);
 		// Check length of lines
 		List<String> result = new ArrayList<>();
 
-		Arrays.asList(string.split("\\|")).
-			forEach(line -> result.addAll(
-				Arrays.asList(WordUtils.wrap(line, 25).split("\\n"))));
+		Arrays.stream(string.split("\\|")).
+			map(line -> Arrays.asList(WordUtils.wrap(line, 25).split("\\r\\n"))).
+			forEach(result::addAll);
 
 		return result;
 	}
