@@ -329,8 +329,7 @@ public class TryToComplete
             result = EMPTY_RESULT;
         }
         // Check repeatability
-        else if (this.manager.isChallengeComplete(this.user, this.challenge)
-            && (!this.challenge.isRepeatable() || type.equals(ChallengeType.ISLAND)))
+        else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.challenge))
         {
             this.user.sendMessage("challenges.not-repeatable");
             result = EMPTY_RESULT;
