@@ -40,8 +40,9 @@ public class ChallengesAddon extends Addon {
 
     /**
      * VaultHook that process economy.
+     * todo: because of BentoBox limitations.
      */
-    private VaultHook vaultHook;
+    private Optional<VaultHook> vaultHook = null;
 
     /**
      * Level addon.
@@ -131,18 +132,19 @@ public class ChallengesAddon extends Addon {
                 this.levelAddon = (Level) level.get();
             }
 
-            Optional<VaultHook> vault = this.getPlugin().getVault();
-
-            if (!vault.isPresent() || !vault.get().hook())
-            {
-                this.vaultHook = null;
-                this.logWarning("Economy plugin not found so money options will not work!");
-            }
-            else
-            {
-                this.economyProvided = true;
-                this.vaultHook = vault.get();
-            }
+            // BentoBox limitation. Cannot check hooks, as HookManager is created after loading addons.
+//            Optional<VaultHook> vault = this.getPlugin().getVault();
+//
+//            if (!vault.isPresent() || !vault.get().hook())
+//            {
+//                this.vaultHook = null;
+//                this.logWarning("Economy plugin not found so money options will not work!");
+//            }
+//            else
+//            {
+//                this.economyProvided = true;
+//                this.vaultHook = vault.get();
+//            }
 
             // Register the reset listener
             this.registerListener(new ResetListener(this));
@@ -245,7 +247,13 @@ public class ChallengesAddon extends Addon {
      */
     public boolean isEconomyProvided()
     {
-        return economyProvided;
+        if (!this.economyProvided && this.getPlugin().getVault().isPresent() && this.vaultHook == null)
+        {
+            this.vaultHook = this.getPlugin().getVault();
+            this.economyProvided = this.vaultHook.get().hook();
+        }
+
+        return this.economyProvided;
     }
 
 
@@ -256,7 +264,7 @@ public class ChallengesAddon extends Addon {
      */
     public VaultHook getEconomyProvider()
     {
-        return vaultHook;
+        return vaultHook.orElseGet(null);
     }
 
 
