@@ -302,9 +302,16 @@ public class TryToComplete
         ChallengeType type = this.challenge.getChallengeType();
 
         // Check the world
-        if (!this.challenge.getUniqueId().startsWith(Util.getWorld(this.world).getName()))
+        if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
+            !this.challenge.getUniqueId().startsWith(Util.getWorld(this.world).getName()))
         {
             this.user.sendMessage("general.errors.wrong-world");
+            result = EMPTY_RESULT;
+        }
+        // Player is not on island
+        else if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
+        {
+            this.user.sendMessage("challenges.error.not-on-island");
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
@@ -556,7 +563,7 @@ public class TryToComplete
     {
         ChallengeResult result;
 
-        if (!this.addon.getIslands().userIsOnIsland(this.world, this.user))
+        if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
         {
             // Player is not on island
             this.user.sendMessage("challenges.error.not-on-island");
