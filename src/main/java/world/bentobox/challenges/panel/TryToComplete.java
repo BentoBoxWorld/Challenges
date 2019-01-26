@@ -302,7 +302,12 @@ public class TryToComplete
         ChallengeType type = this.challenge.getChallengeType();
 
         // Check the world
-        if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
+        if (!this.challenge.isDeployed())
+        {
+            this.user.sendMessage("challenges.error.not-deployed");
+            result = EMPTY_RESULT;
+        }
+        else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
             !this.challenge.getUniqueId().startsWith(Util.getWorld(this.world).getName()))
         {
             this.user.sendMessage("general.errors.wrong-world");

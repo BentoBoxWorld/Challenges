@@ -73,6 +73,7 @@ challenges:
         reward-problem: '&cThere was a problem giving your reward. Ask Admin to check
             log!'
         you-still-need: '&cYou still need [amount] x [item]'
+        not-deployed: '&cChallenge is not deployed.'
     errors:
         challenge-level-not-available: You have not unlocked level to complete this challenge.
         unique-id: Unique ID [id] is already taken. Choose different.
