@@ -184,8 +184,10 @@ public class ListUsersGUI extends CommonGUI
 								{
 									manager.setChallengeComplete(User.getInstance(player), value);
 								}
-
-								this.build();
+								else
+								{
+									this.build();
+								}
 							});
 							break;
 						case RESET:
@@ -194,8 +196,10 @@ public class ListUsersGUI extends CommonGUI
 								{
 									manager.resetChallenge(User.getInstance(player), value);
 								}
-
-								this.build();
+								else
+								{
+									this.build();
+								}
 							});
 							break;
 						case RESET_ALL:
@@ -204,6 +208,8 @@ public class ListUsersGUI extends CommonGUI
 								{
 									manager.resetAllChallenges(this.user, this.world);
 								}
+
+								this.build();
 							});
 							break;
 					}
