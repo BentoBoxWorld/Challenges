@@ -381,7 +381,7 @@ public class GuiUtils
 		List<String> result = new ArrayList<>();
 
 		Arrays.stream(string.split("\\|")).
-			map(line -> Arrays.asList(WordUtils.wrap(line, 25).split("\\r\\n"))).
+			map(line -> Arrays.asList(WordUtils.wrap(line, 25).split(System.getProperty("line.separator")))).
 			forEach(result::addAll);
 
 		return result;
