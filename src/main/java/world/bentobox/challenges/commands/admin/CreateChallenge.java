@@ -9,6 +9,11 @@ import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.user.User;
 
+
+/**
+ * @deprecated Challenges can be creaded via GUI.
+ */
+@Deprecated
 public class CreateChallenge extends CompositeCommand {
 
     /**

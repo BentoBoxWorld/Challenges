@@ -6,18 +6,23 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem.ClickHandler;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 
+
+/**
+ * @deprecated All panels are reworked.
+ */
+@Deprecated
 public class AdminEditGUI implements ClickHandler {
 
     private ChallengesAddon addon;
     private User requester;
-    private Challenges challenge;
+    private Challenge challenge;
     private World world;
     private String permPrefix;
     private String label;
@@ -33,7 +38,7 @@ public class AdminEditGUI implements ClickHandler {
      * @param permPrefix permission prefix for world
      * @param label command label
      */
-    public AdminEditGUI(ChallengesAddon addon, User requester, User target, Challenges challenge, World world,
+    public AdminEditGUI(ChallengesAddon addon, User requester, User target, Challenge challenge, World world,
             String permPrefix, String label) {
         super();
         this.addon = addon;

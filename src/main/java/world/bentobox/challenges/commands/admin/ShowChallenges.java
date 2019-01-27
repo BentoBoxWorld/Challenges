@@ -28,7 +28,7 @@ public class ShowChallenges extends CompositeCommand {
 
     @Override
     public boolean execute(User user, String label, List<String> args) {
-        ((ChallengesAddon)getAddon()).getChallengesManager().getAllChallengesList().forEach(user::sendRawMessage);
+        ((ChallengesAddon)getAddon()).getChallengesManager().getAllChallengesNames(this.getWorld()).forEach(user::sendRawMessage);
         return true;
     }
 

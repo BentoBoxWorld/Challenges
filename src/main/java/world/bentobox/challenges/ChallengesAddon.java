@@ -1,13 +1,18 @@
 package world.bentobox.challenges;
 
-import org.bukkit.Bukkit;
 
+import org.bukkit.Bukkit;
+import java.util.Optional;
+
+import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.bentobox.api.configuration.Config;
+import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
-import world.bentobox.bentobox.api.addons.Addon;
-import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.level.Level;
+
 
 /**
  * Add-on to BSkyBlock that enables challenges
@@ -16,90 +21,269 @@ import world.bentobox.bentobox.api.commands.CompositeCommand;
  */
 public class ChallengesAddon extends Addon {
 
+// ---------------------------------------------------------------------
+// Section: Variables
+// ---------------------------------------------------------------------
+
     private ChallengesManager challengesManager;
-    private String permissionPrefix = "addon";
-    private FreshSqueezedChallenges importManager;
+
+    private ChallengesImportManager importManager;
+
+    private Settings settings;
+
     private boolean hooked;
 
+    /**
+     * This boolean indicate if economy is enabled.
+     */
+    private boolean economyProvided;
+
+    /**
+     * VaultHook that process economy.
+     * todo: because of BentoBox limitations.
+     */
+    private Optional<VaultHook> vaultHook = null;
+
+    /**
+     * Level addon.
+     */
+    private Level levelAddon;
+
+    /**
+     * This indicate if level addon exists.
+     */
+    private boolean levelProvided;
+
+// ---------------------------------------------------------------------
+// Section: Constants
+// ---------------------------------------------------------------------
+
+
+    /**
+     * Permission prefix for addon.
+     */
+    private static final String PERMISSION_PREFIX = "addon";
+
+
+// ---------------------------------------------------------------------
+// Section: Methods
+// ---------------------------------------------------------------------
+
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onLoad() {
         // Save default config.yml
-        saveDefaultConfig();
+        this.saveDefaultConfig();
+        // Load the plugin's config
+        this.loadSettings();
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onEnable() {
         // Check if it is enabled - it might be loaded, but not enabled.
-        if (getPlugin() == null || !getPlugin().isEnabled()) {
+        if (this.getPlugin() == null || !this.getPlugin().isEnabled()) {
             Bukkit.getLogger().severe("BentoBox is not available or disabled!");
             this.setState(State.DISABLED);
             return;
         }
 
         // Challenges Manager
-        challengesManager = new ChallengesManager(this);
+        this.challengesManager = new ChallengesManager(this);
         // Challenge import setup
-        importManager = new FreshSqueezedChallenges(this);
+        this.importManager = new ChallengesImportManager(this);
 
-        // Register commands - run one tick later to allow all addons to load
-        // AcidIsland hook in
-        getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
-            CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
-            if (acidIslandCmd != null) {
-                new ChallengesCommand(this, acidIslandCmd);
-                CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
-                new Challenges(this, acidCmd);
-                hooked = true;
+        this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
+        	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
+			{
+				if (gameModeAddon.getPlayerCommand().isPresent())
+				{
+					new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
+					this.hooked = true;
+				}
+
+				if (gameModeAddon.getAdminCommand().isPresent())
+				{
+					new Challenges(this, gameModeAddon.getAdminCommand().get());
+					this.hooked = true;
+				}
+			}
+		});
+
+        if (this.hooked) {
+            // Try to find Level addon and if it does not exist, display a warning
+
+            Optional<Addon> level = this.getAddonByName("Level");
+
+            if (!level.isPresent())
+            {
+                this.logWarning("Level add-on not found so level challenges will not work!");
+                this.levelAddon = null;
             }
-        });
-        getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
-            // BSkyBlock hook in
-            CompositeCommand bsbIslandCmd = getPlugin().getCommandsManager().getCommand("island");
-            if (bsbIslandCmd != null) {
-                new ChallengesCommand(this, bsbIslandCmd);
-                CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
-                new Challenges(this, bsbAdminCmd);
-                hooked = true;
+            else
+            {
+                this.levelProvided = true;
+                this.levelAddon = (Level) level.get();
             }
-        });
-        // If the add-on never hooks in, then it is useless
-        if (!hooked) {
-            logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
+
+            // BentoBox limitation. Cannot check hooks, as HookManager is created after loading addons.
+//            Optional<VaultHook> vault = this.getPlugin().getVault();
+//
+//            if (!vault.isPresent() || !vault.get().hook())
+//            {
+//                this.vaultHook = null;
+//                this.logWarning("Economy plugin not found so money options will not work!");
+//            }
+//            else
+//            {
+//                this.economyProvided = true;
+//                this.vaultHook = vault.get();
+//            }
+
+            // Register the reset listener
+            this.registerListener(new ResetListener(this));
+            // Register the autosave listener.
+            this.registerListener(new SaveListener(this));
+        } else {
+            this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);
-            return;
         }
-        // Try to find Level addon and if it does not exist, display a warning
-        if (!getAddonByName("Level").isPresent()) {
-            logWarning("Level add-on not found so level challenges will not work!");
-        }
-        // Register the reset listener
-        this.registerListener(new ResetListener(this));
-        // Register the autosave listener.
-        this.registerListener(new SaveListener(this));
-        // Done
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void onDisable(){
-        if (challengesManager != null) {
-            challengesManager.save();
+    public void onReload()
+    {
+        if (this.hooked) {
+            this.challengesManager.save();
+
+            this.loadSettings();
+            this.getLogger().info("Challenges addon reloaded.");
         }
     }
 
-    public ChallengesManager getChallengesManager() {
-        return challengesManager;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onDisable() {
+        if (this.hooked) {
+            this.challengesManager.save();
+        }
+
+        if (this.settings != null)
+        {
+            new Config<>(this, Settings.class).saveConfigObject(this.settings);
+        }
     }
 
+
+    /**
+     * This method loads addon configuration settings in memory.
+     */
+    private void loadSettings() {
+        this.settings = new Config<>(this, Settings.class).loadConfigObject();
+
+        if (this.settings == null) {
+            // Disable
+            this.logError("Challenges settings could not load! Addon disabled.");
+            this.setState(State.DISABLED);
+        }
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Getters
+// ---------------------------------------------------------------------
+
+
+    /**
+     * @return challengesManager
+     */
+    public ChallengesManager getChallengesManager() {
+        return this.challengesManager;
+    }
+
+
+    /**
+     * @return Permission Prefix.
+     */
     @Override
     public String getPermissionPrefix() {
-        return permissionPrefix ;
+        return PERMISSION_PREFIX;
     }
+
 
     /**
      * @return the importManager
      */
-    public FreshSqueezedChallenges getImportManager() {
-        return importManager;
+    public ChallengesImportManager getImportManager() {
+        return this.importManager;
     }
 
+
+    /**
+     * @return the challenge settings.
+     */
+    public Settings getChallengesSettings()
+    {
+        return this.settings;
+    }
+
+
+    /**
+     *
+     * @return economyProvided variable.
+     */
+    public boolean isEconomyProvided()
+    {
+        if (!this.economyProvided && this.getPlugin().getVault().isPresent() && this.vaultHook == null)
+        {
+            this.vaultHook = this.getPlugin().getVault();
+            this.economyProvided = this.vaultHook.get().hook();
+        }
+
+        return this.economyProvided;
+    }
+
+
+    /**
+     * Returns VaultHook. Used to get easier access to Economy. NEVER USE WITHOUT isEconomyProvided or null
+     * check.
+     * @return VaultHook or null.
+     */
+    public VaultHook getEconomyProvider()
+    {
+        return vaultHook.orElseGet(null);
+    }
+
+
+    /**
+     *
+     * @return levelProvided variable.
+     */
+    public boolean isLevelProvided()
+    {
+        return levelProvided;
+    }
+
+
+    /**
+     * This method returns Level addon. Used to easier access to Level. NEVER USE WITHOUT isLevelProvided or null
+     * @return LevelAddon or null.
+     */
+    public Level getLevelAddon()
+    {
+        return levelAddon;
+    }
 }

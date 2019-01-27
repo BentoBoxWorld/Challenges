@@ -25,8 +25,9 @@ import world.bentobox.bentobox.util.Util;
 /**
  * Command to create a surrounding type challenge
  * @author tastybento
- *
+ * @deprecated Required blocks can be added via GUI. Not necessary.
  */
+@Deprecated
 public class CreateSurrounding extends CompositeCommand implements Listener {
 
     HashMap<UUID,SurroundChallengeBuilder> inProgress = new HashMap<>();

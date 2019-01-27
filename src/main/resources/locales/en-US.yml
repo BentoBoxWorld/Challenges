@@ -6,98 +6,213 @@
 ### Credits ###
 # Tastybento: maintainer
 
-challenges: 
-  admin: 
-    challenge-created: "[challenge] created!"
-    complete: 
-      description: "Mark challenge complete"
-      parameters: "<player> <unique challenge name>"
-      unknown-challenge: "&cUnknown challenge"
-    create: 
-      description: "&6Collect:"
-      description-item-color: "&B"
-      inventory: 
-        description: "create an inventory challenge"
-        parameters: "[challenge name]"
-      surrounding: 
-        description: "create a surrounding challenge"
-        hit-things: "Hit things to add them to the list of things required. Right click when done."
-        parameters: "[challenge name]"
-    description: "challenges admin"
-    error: 
-      no-name: "You must include a challenge name"
-    gui-title: "&aChallenges Admin"
-    import: 
-      description: "import challenges from challenges.yml"
-      imported: "Imported '[challenge]'"
-      levels: "Importing levels: [levels]"
-      no-file: "&cCould not find challenges.yml file to import!"
-      no-levels: "Warning: No levels defined in challenges.yml"
-      no-load: "&cError: Could not load challenges.yml. [message]"
-      number: "Imported [number] challenges"
-      overwriting: "Overwriting '[challenge]'"
-      parameters: "[overwrite]"
-      skipping: "'[challenge]' already exists - skipping"
-    parameters: ""
-    reload: 
-      description: "reload challenges from the database"
-      parameters: ""
-    reset: 
-      description: "Reset challenge to 0 times / incomplete"
-      parameters: "<player> <unique challenge name>"
-    seticon: 
-      description: "sets the challenge icon to inhand item"
-      error: 
-        no-such-challenge: "&cNo such challenge name"
-      parameters: "[challenge name]"
-    you-added: "You added one [thing] to the challenge"
-  challenge: 
-    format: "[description]"
-  complete: "&BComplete"
-  completechallenge: 
-    challange-completed: "Challenge: [challengename] has been completed for [name]"
-  completed-times: "Completed [donetimes] out of [maxtimes]"
-  description: "Open the challenges menu"
-  error: 
-    could-not-save: "&cCould not save the challenge!"
-    island-level: "&cYour island must be level [number] to complete this challenge!"
-    items-not-there: "&cAll required items must be close to you on your island!"
-    no-items-clicked: "&cYou did not click on anything. Cancelling."
-    not-close-enough: "&cYou must be standing within [number] blocks of all required items."
-    not-enough-items: "&cYou do not have enough [items] to complete this challenge!"
-    not-on-island: "&cYou must be on your island to do that!"
-    reward-problem: "&cThere was a problem giving your reward. Ask Admin to check log!"
-    you-still-need: "&cYou still need [amount] x [item]"
-  exp-reward: "&6Exp reward: [reward]"
-  first-time-rewards: "&6First time reward(s)"
-  gui-title: "&aChallenges"
-  help: 
-    command: "/challenges: &fshow challenges"
-    config-reloaded: "Configuration reloaded from file."
-    reset-all-challenges: "resets all of the player's challenges"
-    reset-challenge: "marks a challenge as incomplete"
-    reset-challenge-for-all: "globally resets a challenge for every player with an optional repetition"
-  incomplete: Incomplete
-  item-take-warning: "&cAll required items are|&ctaken when you complete|&cthis challenge!"
-  items-closeby: "&cAll required items|&cmust be close to you|&con your island!"
-  level: "&FLevel: [level]"
-  max-reached: "Max reached [donetimes] out of [maxtimes]"
-  money-reward: "&6Money reward: $[reward]"
-  name: "Challenge Name"
-  name-has-completed: "[name] has completed the [challenge] challenge!"
-  navigation: "Click to see [level] challenges!"
-  not-repeatable: "This challenge is not repeatable!"
-  parameters: "[Level]"
-  repeat-rewards: "&6Repeat reward(s)"
-  repeatable: "This challenge can be repeated [maxtimes] times"
-  resetallchallenges: 
-    success: "[name] has had all challenges reset."
-  resetchallenge: 
-    challenge-reset: "Challenge: [challengename] has been reset for [name]"
-    error-challenge-does-not-exist: "Challenge doesn't exist or isn't yet completed"
-  rewards: "&FReward(s)"
-  to-complete: "Complete [challengesToDo] more [thisLevel] challenges to unlock this level!"
-  you-completed: "You completed the [challenge] challenge!"
-  you-repeated: "You repeated the [challenge] challenge!"
-  not-enough-money: "It is necessary to have [money] on your account to complete the challenge."
-  not-enough-exp: "It is necessary to have [xp] EXP to complete challenge."
+challenges:
+    admin:
+        challenge-created: '[challenge] created!'
+        complete:
+            description: Mark challenge complete
+            parameters: <player> <unique challenge name>
+            unknown-challenge: '&cUnknown challenge'
+        create:
+            description: '&6Collect:'
+            description-item-color: '&B'
+            inventory:
+                description: create an inventory challenge
+                parameters: '[challenge name]'
+            surrounding:
+                description: create a surrounding challenge
+                hit-things: Hit things to add them to the list of things required. Right click when done.
+                parameters: '[challenge name]'
+        description: challenges admin
+        error:
+            no-name: You must include a challenge name
+        gui-title: '&aChallenges Admin'
+        import:
+            add: 'Adding new challenge: [object]'
+            description: import challenges from challenges.yml
+            imported: Imported '[challenge]'
+            levels: 'Importing levels: [levels]'
+            no-file: '&cCould not find challenges.yml file to import!'
+            no-levels: 'Warning: No levels defined in challenges.yml'
+            no-load: '&cError: Could not load challenges.yml. [message]'
+            number: Imported [number] challenges
+            overwriting: Overwriting '[challenge]'
+            parameters: '[overwrite]'
+            skipping: '''[challenge]'' already exists - skipping'
+        parameters: ''
+        reload:
+            description: reload challenges from the database
+            parameters: ''
+        reset:
+            description: Reset challenge to 0 times / incomplete
+            parameters: <player> <unique challenge name>
+        seticon:
+            description: sets the challenge icon to inhand item
+            error:
+                no-such-challenge: '&cNo such challenge name'
+            parameters: '[challenge name]'
+        you-added: You added one [thing] to the challenge
+    blocks-take-warning: Blocks will be removed.
+    challenge:
+        format: '[description]'
+    complete: '&BComplete'
+    completechallenge:
+        challange-completed: 'Challenge: [challengename] has been completed for [name]'
+    completed-times: Completed [donetimes] out of [maxtimes]
+    description: Open the challenges menu
+    entities-kill-warning: Entities will be killed.
+    error:
+        could-not-save: '&cCould not save the challenge!'
+        island-level: '&cYour island must be level [number] to complete this challenge!'
+        items-not-there: '&cAll required items must be close to you on your island!'
+        no-items-clicked: '&cYou did not click on anything. Cancelling.'
+        not-close-enough: '&cYou must be standing within [number] blocks of all required
+            items.'
+        not-enough-items: '&cYou do not have enough [items] to complete this challenge!'
+        not-on-island: '&cYou must be on your island to do that!'
+        reward-problem: '&cThere was a problem giving your reward. Ask Admin to check
+            log!'
+        you-still-need: '&cYou still need [amount] x [item]'
+        not-deployed: '&cChallenge is not deployed.'
+    errors:
+        challenge-level-not-available: You have not unlocked level to complete this challenge.
+        unique-id: Unique ID [id] is already taken. Choose different.
+        wrong-environment: You are in wrong environment!
+        wrong-icon: Material [icon] is not recognized
+    exp-reward: '&6Exp reward: [reward]'
+    first-time-rewards: '&6First time reward(s)'
+    gui:
+        admin:
+            buttons:
+                add-challenge: Create Challenge
+                add-level: Create Level
+                blocks: Blocks
+                broadcast: Broadcast Messages
+                challenges: Challenges
+                complete: Complete
+                delete-challenge: Delete Challenge
+                delete-level: Delete Level
+                deployed: Deployment status
+                description: Description
+                edit-challenge: Edit Challenge
+                edit-level: Edit Level
+                entities: Entities
+                environment: Environment
+                free-challenges: Free Challenges Position
+                glow: Completion Glowing
+                icon: Icon
+                name: Name
+                order: Order Number
+                permissions: Permissions
+                properties: Properties
+                remove-blocks: Remove Blocks
+                remove-challenge: Remove Challenge
+                remove-entities: Remove Entities
+                remove-exp: Take Experience
+                remove-items: Remove items
+                remove-money: Remove Money
+                remove-on-complete: Remove on completion
+                repeat-count: Repeat Count
+                repeat-reward-command: Repeat Reward Command
+                repeat-reward-exp: Repeat Reward Experience
+                repeat-reward-items: Repeat Reward Items
+                repeat-reward-money: Repeat Reward Money
+                repeat-reward-text: Repeat Reward Text
+                repeatable: Repeatable
+                required-exp: Required Experience
+                required-items: Required items
+                required-level: Required Island Level
+                required-money: Required Money
+                requirements: Requirements
+                reset: Reset
+                reward-command: Reward Command
+                reward-exp: Reward Experience
+                reward-items: Reward Items
+                reward-money: Reward Money
+                reward-text: Reward Text
+                rewards: Rewards
+                search-radius: Search radius
+                settings: Settings
+                toggle-users: Choose players
+                type: 'Challenge Type: [value]'
+                waiver-amount: Waiver Amount
+                import: Import
+            choose-challenge-title: Challenges List
+            choose-level-title: Levels List
+            choose-user-title: Users List
+            descriptions:
+                broadcast: Broadcast 1st time challenge completion messages to all players.
+                disabled: disabled
+                enabled: enabled
+                free-challenges: This indicate if free challenges must be at the start (true) or at the end (false) of list.
+                glow: Add enchanted glow to completed challenges
+                in_world: In World
+                inventory: This type of challenges allows to define blocks and entities on island requirements.
+                island: This type of challenges allows to define inventory item requirements.
+                nether: Nether
+                normal: Normal
+                online: Online
+                order: Current order [value]
+                other: This type of challenges allows to define Money, Experience or island level requirements.
+                remove-on-complete: Remove non-repeatable challenges from the challenge GUI when complete.
+                repeat-count: 'Current value: [value]'
+                repeat-reward-exp: 'Current value: [value]'
+                repeat-reward-money: 'Current value: [value]'
+                required-exp: Current necessary [value]
+                required-level: 'Current value: [value]'
+                required-money: 'Current value: [value]'
+                reset: Reset Challenges - if this is true, player's challenges will reset when they reset an island or if they are kicked or leave a team
+                reward-exp: 'Current value: [value]'
+                reward-money: 'Current value: [value]'
+                search-radius: Current radius [value]
+                the_end: The End
+                waiver-amount: 'Current value: [value]'
+                with_island: With Island
+            edit-challenge-title: Edit Challenge
+            edit-entities: Manage Entities
+            edit-level-title: Edit Levels
+            manage-blocks: Manage Blocks
+            settings-title: Edit Settings
+        button:
+            add: Add
+            remove-selected: Remove Selected
+        buttons:
+            back: Return
+            next: Next
+            previous: Previous
+        title: '"Challenges GUI"'
+    gui-title: '&aChallenges'
+    help:
+        command: '/challenges: &fshow challenges'
+        config-reloaded: Configuration reloaded from file.
+        reset-all-challenges: resets all of the player's challenges
+        reset-challenge: marks a challenge as incomplete
+        reset-challenge-for-all: globally resets a challenge for every player with an optional repetition
+    incomplete: Incomplete
+    item-take-warning: '&cAll required items are|&ctaken when you complete|&cthis
+        challenge!'
+    items-closeby: '&cAll required items|&cmust be close to you|&con your island!'
+    level: '&FLevel: [level]'
+    max-reached: Max reached [donetimes] out of [maxtimes]
+    maxed-reached: Completed [donetimes] out of [maxtimes]
+    money-reward: '&6Money reward: $[reward]'
+    name: Challenge Name
+    name-has-completed: '[name] has completed the [challenge] challenge!'
+    name-has-completed-level: '[name] completed all challenges in [level]!'
+    navigation: Click to see [level] challenges!
+    not-enough-exp: It is necessary to have [xp] EXP to complete challenge.
+    not-enough-money: It is necessary to have [money] on your account to complete the challenge.
+    not-repeatable: This challenge is not repeatable!
+    parameters: '[Level]'
+    repeat-rewards: '&6Repeat reward(s)'
+    repeatable: This challenge can be repeated [maxtimes] times
+    resetallchallenges:
+        success: '[name] has had all challenges reset.'
+    resetchallenge:
+        challenge-reset: 'Challenge: [challengename] has been reset for [name]'
+        error-challenge-does-not-exist: Challenge doesn't exist or isn't yet completed
+    rewards: '&FReward(s)'
+    to-complete: Complete [challengesToDo] more [thisLevel] challenges to unlock this level!
+    you-completed: You completed the [challenge] challenge!
+    you-completed-level: Congratulations, you complete [level]!
+    you-repeated: You repeated the [challenge] challenge!

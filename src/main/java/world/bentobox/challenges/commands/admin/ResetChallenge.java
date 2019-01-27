@@ -13,6 +13,11 @@ import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
+
+/**
+ * @deprecated Challenges can be reset via GUI.
+ */
+@Deprecated
 public class ResetChallenge extends CompositeCommand {
 
     private ChallengesManager manager;
@@ -51,13 +56,13 @@ public class ResetChallenge extends CompositeCommand {
             return false;
         }
         // Check for valid challenge name
-        if (!manager.isChallenge(getWorld(), args.get(1))) {
+        if (!manager.containsChallenge(args.get(1))) {
             user.sendMessage("challenges.admin.complete.unknown-challenge");
             return false;
         }
         // Complete challenge
         User target = User.getInstance(targetUUID);
-        manager.setResetChallenge(target, args.get(1), getWorld());
+        manager.resetChallenge(target, manager.getChallenge(args.get(1)));
         user.sendMessage("general.success");
         return true;
     }
@@ -70,7 +75,7 @@ public class ResetChallenge extends CompositeCommand {
             return Optional.of(Util.tabLimit(new ArrayList<>(Util.getOnlinePlayerList(user)), lastArg));
         } else if (args.size() == 4) {
             // Challenges in this world
-            return Optional.of(Util.tabLimit(manager.getAllChallengesList(getWorld()), lastArg));
+            return Optional.of(Util.tabLimit(manager.getAllChallengesNames(getWorld()), lastArg));
         }
         return Optional.empty();
     }

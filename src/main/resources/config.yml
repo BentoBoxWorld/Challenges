@@ -1,16 +1,31 @@
-# Challenges Config
-
+# Challenges Configuration ${project.version}
+# This config file is dynamic and saved when the server is shutdown.
+# You cannot edit it while the server is running because changes will
+# be lost! Use in-game settings GUI or edit when server is offline.
+#
+#
 # Reset Challenges - if this is true, player's challenges will reset when they
 # reset an island or if they are kicked or leave a team. Prevents exploiting the
 # challenges by doing them repeatedly.
-resetchallenges: true
-
+resetChallenges: true
+#
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.
-broadcastmessages: true
-
-# Remove non-repeatable challenges from the challenge GUI when complete
-removecompleteonetimechallenges: false
-
+broadcastMessages: true
+#
+# Remove non-repeatable challenges from the challenge GUI when complete.
+removeCompleteOneTimeChallenges: false
+#
 # Add enchanted glow to completed challenges
-addcompletedglow: true
+addCompletedGlow: true
+#
+# This indicate if free challenges must be at the start (true) or at the end (false) of list.
+freeChallengesFirst: false
+#
+# This list stores GameModes in which Challenges addon should not work.
+# To disable addon it is necessary to write its name in new line that starts with -. Example:
+# disabled-gamemodes:
+#  - BSkyBlock
+disabled-gamemodes: []
+#
+uniqueId: config

@@ -11,7 +11,10 @@ import org.bukkit.potion.PotionType;
  * Used for converting config file entries to objects
  * @author tastybento
  *
+ * @deprecated
+ * @see world.bentobox.bentobox.util.ItemParser#parse(String)
  */
+@Deprecated
 public class ParseItem {
 
     private final ItemStack item;
