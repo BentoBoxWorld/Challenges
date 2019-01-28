@@ -56,6 +56,7 @@ public class AdminGUI extends CommonGUI
 		DELETE_CHALLENGE,
 		DELETE_LEVEL,
 		IMPORT_CHALLENGES,
+		BACKWARD_CHALLENGES,
 		EDIT_SETTINGS
 	}
 
@@ -111,6 +112,7 @@ public class AdminGUI extends CommonGUI
 
 		// Import Challenges
 		panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
+		panelBuilder.item(24, this.createButton(Button.BACKWARD_CHALLENGES));
 
 		// Edit Addon Settings
 		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
@@ -368,6 +370,23 @@ public class AdminGUI extends CommonGUI
 					return true;
 				};
 				glow = this.overwriteMode;
+
+				break;
+			}
+			case BACKWARD_CHALLENGES:
+			{
+				permissionSuffix = IMPORT;
+
+				name = this.user.getTranslation("challenges.gui.admin.buttons.backward");
+				description = Collections.emptyList();
+				icon = new ItemStack(Material.HOPPER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					this.addon.getImportManager().
+						importPreviousChallenges(this.user, this.world, false);
+
+					return true;
+				};
+				glow = false;
 
 				break;
 			}
