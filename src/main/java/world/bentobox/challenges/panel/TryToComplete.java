@@ -210,10 +210,14 @@ public class TryToComplete
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
-                for (Player p : this.addon.getServer().getOnlinePlayers())
+                for (Player player : this.addon.getServer().getOnlinePlayers())
                 {
-                    User.getInstance(p).sendMessage("challenges.name-has-completed",
-                        "[name]", this.user.getName(), "[challenge]", this.challenge.getFriendlyName());
+                    // Only other players should see message.
+                    if (!player.getUniqueId().equals(this.user.getUniqueId()))
+                    {
+                        User.getInstance(player).sendMessage("challenges.name-has-completed",
+                            "[name]", this.user.getName(), "[challenge]", this.challenge.getFriendlyName());
+                    }
                 }
             }
         }
@@ -275,10 +279,14 @@ public class TryToComplete
 
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
-                        for (Player p : this.addon.getServer().getOnlinePlayers())
+                        for (Player player : this.addon.getServer().getOnlinePlayers())
                         {
-                            User.getInstance(p).sendMessage("challenges.name-has-completed-level",
-                                "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                            // Only other players should see message.
+                            if (!player.getUniqueId().equals(this.user.getUniqueId()))
+                            {
+                                User.getInstance(player).sendMessage("challenges.name-has-completed-level",
+                                    "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                            }
                         }
                     }
 
