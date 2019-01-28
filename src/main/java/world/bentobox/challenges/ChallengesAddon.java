@@ -41,27 +41,20 @@ public class ChallengesAddon extends Addon {
         // Challenge import setup
         importManager = new FreshSqueezedChallenges(this);
 
-        // Register commands - run one tick later to allow all addons to load
-        // AcidIsland hook in
-        getPlugin().getAddonsManager().getAddonByName("AcidIsland").ifPresent(a -> {
-            CompositeCommand acidIslandCmd = getPlugin().getCommandsManager().getCommand("ai");
-            if (acidIslandCmd != null) {
-                new ChallengesCommand(this, acidIslandCmd);
-                CompositeCommand acidCmd = getPlugin().getCommandsManager().getCommand("acid");
-                new Challenges(this, acidCmd);
-                hooked = true;
+        this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
+            if (gameModeAddon.getPlayerCommand().isPresent())
+            {
+                new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
+                this.hooked = true;
+            }
+
+            if (gameModeAddon.getAdminCommand().isPresent())
+            {
+                new Challenges(this, gameModeAddon.getAdminCommand().get());
+                this.hooked = true;
             }
         });
-        getPlugin().getAddonsManager().getAddonByName("BSkyBlock").ifPresent(a -> {
-            // BSkyBlock hook in
-            CompositeCommand bsbIslandCmd = getPlugin().getCommandsManager().getCommand("island");
-            if (bsbIslandCmd != null) {
-                new ChallengesCommand(this, bsbIslandCmd);
-                CompositeCommand bsbAdminCmd = getPlugin().getCommandsManager().getCommand("bsbadmin");
-                new Challenges(this, bsbAdminCmd);
-                hooked = true;
-            }
-        });
+        
         // If the add-on never hooks in, then it is useless
         if (!hooked) {
             logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
