@@ -148,8 +148,8 @@ challenges:
                 free-challenges: This indicate if free challenges must be at the start (true) or at the end (false) of list.
                 glow: Add enchanted glow to completed challenges
                 in_world: In World
-                inventory: This type of challenges allows to define blocks and entities on island requirements.
-                island: This type of challenges allows to define inventory item requirements.
+                inventory: This type of challenges allows to define inventory item requirements.
+                island: This type of challenges allows to define blocks and entities on island requirements.
                 nether: Nether
                 normal: Normal
                 online: Online
