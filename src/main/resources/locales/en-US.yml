@@ -136,7 +136,8 @@ challenges:
                 toggle-users: Choose players
                 type: 'Challenge Type: [value]'
                 waiver-amount: Waiver Amount
-                import: Import
+                import: Import from ASkyBlock Challenges
+                backward: Import from Older ChallengesAddon
             choose-challenge-title: Challenges List
             choose-level-title: Levels List
             choose-user-title: Users List
