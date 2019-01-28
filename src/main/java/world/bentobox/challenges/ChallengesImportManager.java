@@ -229,12 +229,23 @@ public class ChallengesImportManager
 
             for (ChallengeLevels level : levels)
             {
-                manager.loadLevel(this.createLevel(level, world), overwrite, user, false);
+                ChallengeLevel newlevel = this.createLevel(level, world);
+
+                if (newlevel != null)
+                {
+                    manager.loadLevel(newlevel, overwrite, user, false);
+                }
             }
 
             for (Challenges challenge : challenges)
             {
                 Challenge newChallenge = this.createChallenge(challenge, world);
+
+                if (newChallenge == null)
+                {
+                    continue;
+                }
+
                 manager.loadChallenge(newChallenge, overwrite, user, false);
 
                 if (challenge.getLevel().isEmpty() || challenge.getLevel().equals("FREE"))
@@ -266,7 +277,7 @@ public class ChallengesImportManager
      */
     private ChallengeLevel createLevel(ChallengeLevels level, World world)
     {
-        if (!level.getWorlds().isEmpty() ||
+        if (!level.getWorlds().isEmpty() &&
             !level.getWorlds().contains(Util.getWorld(world).getName()))
         {
             return null;
@@ -310,6 +321,7 @@ public class ChallengesImportManager
         newChallenge.setFriendlyName(challenge.getFriendlyName());
         newChallenge.setRemoveWhenCompleted(challenge.isRemoveWhenCompleted());
         newChallenge.setDeployed(challenge.isDeployed());
+        newChallenge.setIcon(challenge.getIcon());
 
         newChallenge.setEnvironment(new HashSet<>(challenge.getEnvironment()));
 
