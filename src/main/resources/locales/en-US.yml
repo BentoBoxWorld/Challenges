@@ -177,6 +177,7 @@ challenges:
         button:
             add: Add
             remove-selected: Remove Selected
+            show-eggs: Toogle Mob View
         buttons:
             back: Return
             next: Next
