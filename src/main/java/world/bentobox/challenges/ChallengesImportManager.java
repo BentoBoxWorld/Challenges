@@ -2,11 +2,7 @@ package world.bentobox.challenges;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,9 +12,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.ChallengeLevels;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenges;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.utils.GuiUtils;
@@ -201,5 +200,162 @@ public class ChallengesImportManager
             }
         }
         return result;
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Backward compatibility
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This method imports challenges form 0.3 and below version.
+     * @param user - user
+     * @param world - world to import into
+     * @param overwrite - true if previous ones should be overwritten
+     * @return true if successful
+     */
+    public boolean importPreviousChallenges(User user, World world, boolean overwrite)
+    {
+        ChallengesManager manager = this.addon.getChallengesManager();
+
+        List<Challenges> challenges =
+            new Config<>(this.addon, Challenges.class).loadConfigObjects();
+
+        if (!challenges.isEmpty())
+        {
+            List<ChallengeLevels> levels =
+                new Config<>(this.addon, ChallengeLevels.class).loadConfigObjects();
+
+            for (ChallengeLevels level : levels)
+            {
+                manager.loadLevel(this.createLevel(level, world), overwrite, user, false);
+            }
+
+            for (Challenges challenge : challenges)
+            {
+                Challenge newChallenge = this.createChallenge(challenge, world);
+                manager.loadChallenge(newChallenge, overwrite, user, false);
+
+                if (challenge.getLevel().isEmpty() || challenge.getLevel().equals("FREE"))
+                {
+                    newChallenge.setLevel(ChallengesManager.FREE);
+                }
+                else
+                {
+                    String levelName = Util.getWorld(world).getName() + "_" + challenge.getLevel();
+
+                    if (this.addon.getChallengesManager().containsLevel(levelName))
+                    {
+                        manager.addChallengeToLevel(newChallenge,
+                            this.addon.getChallengesManager().getLevel(levelName));
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     * This method creates new ChallengeLevel based on old level settings.
+     * @param level Old level object.
+     * @param world World where new challenge will operate.
+     * @return New level or null, if old level does not operate in this world.
+     */
+    private ChallengeLevel createLevel(ChallengeLevels level, World world)
+    {
+        if (!level.getWorlds().isEmpty() ||
+            !level.getWorlds().contains(Util.getWorld(world).getName()))
+        {
+            return null;
+        }
+
+        ChallengeLevel newLevel = new ChallengeLevel();
+        newLevel.setUniqueId(Util.getWorld(world).getName() + "_" + level.getUniqueId());
+        newLevel.setFriendlyName(level.getFriendlyName());
+        newLevel.setOrder(level.getOrder());
+        newLevel.setWorld(Util.getWorld(world).getName());
+
+        newLevel.setUnlockMessage(level.getUnlockMessage());
+        newLevel.setWaiverAmount(level.getWaiveramount());
+
+        newLevel.setRewardText(level.getRewardDescription());
+        newLevel.setRewardMoney(level.getMoneyReward());
+        newLevel.setRewardExperience(level.getExpReward());
+        newLevel.setRewardItems(level.getRewardItems());
+        newLevel.setRewardCommands(level.getRewardCommands());
+
+        return newLevel;
+    }
+
+
+    /**
+     * This method creates new Challenge based on old challenges settings.
+     * @param challenge Old challenges object.
+     * @param world World where new challenge will operate.
+     * @return New Challenge or null, if old challenge does not operate in this world.
+     */
+    private Challenge createChallenge(Challenges challenge, World world)
+    {
+        if (!challenge.getWorld().equals(Util.getWorld(world).getName()))
+        {
+            // Does not operate in given world.
+            return null;
+        }
+
+        Challenge newChallenge = new Challenge();
+        newChallenge.setUniqueId(challenge.getUniqueId());
+        newChallenge.setFriendlyName(challenge.getFriendlyName());
+        newChallenge.setRemoveWhenCompleted(challenge.isRemoveWhenCompleted());
+        newChallenge.setDeployed(challenge.isDeployed());
+
+        newChallenge.setEnvironment(new HashSet<>(challenge.getEnvironment()));
+
+        switch (challenge.getChallengeType())
+        {
+            case INVENTORY:
+                newChallenge.setChallengeType(Challenge.ChallengeType.INVENTORY);
+                break;
+            case ISLAND:
+                newChallenge.setChallengeType(Challenge.ChallengeType.ISLAND);
+                break;
+            default:
+                newChallenge.setChallengeType(Challenge.ChallengeType.OTHER);
+                break;
+        }
+
+        newChallenge.setOrder(challenge.getSlot());
+        newChallenge.setDescription(challenge.getDescription());
+
+        newChallenge.setRequiredEntities(challenge.getRequiredEntities());
+        newChallenge.setRequiredItems(challenge.getRequiredItems());
+        newChallenge.setRequiredBlocks(challenge.getRequiredBlocks());
+        newChallenge.setRequiredMoney(challenge.getReqMoney());
+        newChallenge.setRequiredExperience(challenge.getReqExp());
+        newChallenge.setRequiredIslandLevel(challenge.getReqIslandlevel());
+        newChallenge.setRequiredPermissions(challenge.getReqPerms());
+
+        newChallenge.setTakeMoney(challenge.isTakeMoney());
+        newChallenge.setTakeItems(challenge.isTakeItems());
+        newChallenge.setSearchRadius(challenge.getSearchRadius());
+
+        newChallenge.setRewardText(challenge.getRewardText());
+        newChallenge.setRewardItems(challenge.getRewardItems());
+        newChallenge.setRewardMoney(challenge.getRewardMoney());
+        newChallenge.setRewardExperience(challenge.getRewardExp());
+        newChallenge.setRewardCommands(challenge.getRewardCommands());
+
+        newChallenge.setRepeatable(challenge.isRepeatable());
+        newChallenge.setMaxTimes(challenge.getMaxTimes());
+
+        newChallenge.setRepeatRewardText(challenge.getRepeatRewardText());
+        newChallenge.setRepeatItemReward(challenge.getRepeatItemReward());
+        newChallenge.setRepeatMoneyReward(challenge.getRepeatMoneyReward());
+        newChallenge.setRepeatExperienceReward(challenge.getRepeatExpReward());
+        newChallenge.setRepeatRewardCommands(challenge.getRepeatRewardCommands());
+
+        return newChallenge;
     }
 }
