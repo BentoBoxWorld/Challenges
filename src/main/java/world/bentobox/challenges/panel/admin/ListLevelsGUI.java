@@ -160,6 +160,8 @@ public class ListLevelsGUI extends CommonGUI
 						this.addon.getChallengesManager().
 							deleteChallengeLevel(challengeLevel);
 					}
+
+					this.build();
 				});
 				return true;
 			});

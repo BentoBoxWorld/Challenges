@@ -159,6 +159,8 @@ public class ListChallengesGUI extends CommonGUI
 					{
 						this.addon.getChallengesManager().deleteChallenge(challenge);
 					}
+
+					this.build();
 				});
 				return true;
 			});

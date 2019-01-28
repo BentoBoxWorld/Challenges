@@ -78,39 +78,39 @@ public class ChallengesGUI extends CommonGUI
 
 		// TODO: get last completed level.
 
+		int nextItemIndex = 0;
+
 		if (this.addon.getChallengesSettings().isFreeChallengesFirst())
 		{
-			this.addFreeChallenges(panelBuilder);
+			this.addFreeChallenges(panelBuilder, nextItemIndex);
 
 			// Start new row for challenges.
-			while (panelBuilder.nextSlot() % 9 != 0)
+			if (panelBuilder.nextSlot() % 9 != 0)
 			{
-				panelBuilder.item(
-					new PanelItemBuilder().icon(Material.LIGHT_GRAY_STAINED_GLASS_PANE).name(" ").build());
+				nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
 			}
 		}
 
-		this.addChallenges(panelBuilder);
+		this.addChallenges(panelBuilder, nextItemIndex);
 
 		// Start new row for levels.
-		while (panelBuilder.nextSlot() % 9 != 0)
+		// Start new row for challenges.
+		if (panelBuilder.nextSlot() % 9 != 0)
 		{
-			panelBuilder.item(
-				new PanelItemBuilder().icon(Material.LIGHT_GRAY_STAINED_GLASS_PANE).name(" ").build());
+			nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
 		}
 
-		this.addChallengeLevels(panelBuilder);
+		this.addChallengeLevels(panelBuilder, nextItemIndex);
 
 		if (!this.addon.getChallengesSettings().isFreeChallengesFirst())
 		{
 			// Start new row for free challenges.
-			while (panelBuilder.nextSlot() % 9 != 0)
+			if (panelBuilder.nextSlot() % 9 != 0)
 			{
-				panelBuilder.item(
-					new PanelItemBuilder().icon(Material.LIGHT_GRAY_STAINED_GLASS_PANE).name(" ").build());
+				nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
 			}
 
-			this.addFreeChallenges(panelBuilder);
+			this.addFreeChallenges(panelBuilder, nextItemIndex);
 		}
 
 		panelBuilder.build();
@@ -120,19 +120,20 @@ public class ChallengesGUI extends CommonGUI
 	/**
 	 * This method adds free challenges to panelBuilder.
 	 * @param panelBuilder where free challenges must be added.
+	 * @param firstItemIndex index of first element.
 	 */
-	private void addFreeChallenges(PanelBuilder panelBuilder)
+	private void addFreeChallenges(PanelBuilder panelBuilder, int firstItemIndex)
 	{
 		List<Challenge> freeChallenges = this.challengesManager.getFreeChallenges(this.world);
 		final int freeChallengesCount = freeChallenges.size();
 
 		if (freeChallengesCount > 18)
 		{
-			int firstIndex = panelBuilder.nextSlot();
+			int index = firstItemIndex;
 
 			if (this.freeChallengeIndex > 0)
 			{
-				panelBuilder.item(new PanelItemBuilder().
+				panelBuilder.item(index++, new PanelItemBuilder().
 					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
@@ -144,19 +145,19 @@ public class ChallengesGUI extends CommonGUI
 
 			int currentIndex = this.freeChallengeIndex;
 
-			while (panelBuilder.nextSlot() != firstIndex + 18 && currentIndex < freeChallengesCount)
+			while (panelBuilder.nextSlot() != firstItemIndex + 18 && currentIndex < freeChallengesCount)
 			{
-				panelBuilder.item(this.getChallengeButton(freeChallenges.get(currentIndex++)));
+				panelBuilder.item(index++, this.getChallengeButton(freeChallenges.get(currentIndex++)));
 			}
 
 			// Check if one challenge is left
 			if (currentIndex + 1 == freeChallengesCount)
 			{
-				panelBuilder.item(this.getChallengeButton(freeChallenges.get(currentIndex)));
+				panelBuilder.item(index, this.getChallengeButton(freeChallenges.get(currentIndex)));
 			}
 			else if (currentIndex < freeChallengesCount)
 			{
-				panelBuilder.item(new PanelItemBuilder().
+				panelBuilder.item(index, new PanelItemBuilder().
 					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
@@ -171,7 +172,7 @@ public class ChallengesGUI extends CommonGUI
 			for (Challenge challenge : freeChallenges)
 			{
 				// there are no limitations. Just bunch insert.
-				panelBuilder.item(this.getChallengeButton(challenge));
+				panelBuilder.item(firstItemIndex++, this.getChallengeButton(challenge));
 			}
 		}
 	}
@@ -180,8 +181,9 @@ public class ChallengesGUI extends CommonGUI
 	/**
 	 * This method adds last selected level challenges to panelBuilder.
 	 * @param panelBuilder where last selected level challenges must be added.
+	 * @param firstItemIndex index of first element.
 	 */
-	private void addChallenges(PanelBuilder panelBuilder)
+	private void addChallenges(PanelBuilder panelBuilder, int firstItemIndex)
 	{
 		if (this.lastSelectedLevel != null)
 		{
@@ -190,11 +192,11 @@ public class ChallengesGUI extends CommonGUI
 
 			if (challengesCount > 18)
 			{
-				int firstIndex = panelBuilder.nextSlot();
+				int index = firstItemIndex;
 
 				if (this.pageIndex > 0)
 				{
-					panelBuilder.item(new PanelItemBuilder().
+					panelBuilder.item(index++, new PanelItemBuilder().
 						icon(Material.SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.previous")).
 						clickHandler((panel, user1, clickType, slot) -> {
@@ -206,19 +208,19 @@ public class ChallengesGUI extends CommonGUI
 
 				int currentIndex = this.pageIndex;
 
-				while (panelBuilder.nextSlot() != firstIndex + 18 && currentIndex < challengesCount)
+				while (panelBuilder.nextSlot() != firstItemIndex + 18 && currentIndex < challengesCount)
 				{
-					panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex++)));
+					panelBuilder.item(index++, this.getChallengeButton(challenges.get(currentIndex++)));
 				}
 
 				// Check if one challenge is left
 				if (currentIndex + 1 == challengesCount)
 				{
-					panelBuilder.item(this.getChallengeButton(challenges.get(currentIndex)));
+					panelBuilder.item(index, this.getChallengeButton(challenges.get(currentIndex)));
 				}
 				else if (currentIndex < challengesCount)
 				{
-					panelBuilder.item(new PanelItemBuilder().
+					panelBuilder.item(index, new PanelItemBuilder().
 						icon(Material.SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.next")).
 						clickHandler((panel, user1, clickType, slot) -> {
@@ -233,7 +235,7 @@ public class ChallengesGUI extends CommonGUI
 				for (Challenge challenge : challenges)
 				{
 					// there are no limitations. Just bunch insert.
-					panelBuilder.item(this.getChallengeButton(challenge));
+					panelBuilder.item(firstItemIndex++, this.getChallengeButton(challenge));
 				}
 			}
 		}
@@ -243,8 +245,9 @@ public class ChallengesGUI extends CommonGUI
 	/**
 	 * This method adds challenge levels to panelBuilder.
 	 * @param panelBuilder where challenge levels must be added.
+	 * @param firstItemIndex index of first element.
 	 */
-	private void addChallengeLevels(PanelBuilder panelBuilder)
+	private void addChallengeLevels(PanelBuilder panelBuilder, int firstItemIndex)
 	{
 		// Clone to avoid creating new level on each build.
 		List<LevelStatus> leftLevels = new ArrayList<>(this.levelStatusList);
@@ -256,11 +259,11 @@ public class ChallengesGUI extends CommonGUI
 
 		if (levelCounts > 9)
 		{
-			int firstIndex = panelBuilder.nextSlot();
+			int index = firstItemIndex;
 
 			if (this.levelIndex > 0)
 			{
-				panelBuilder.item(new PanelItemBuilder().
+				panelBuilder.item(index++, new PanelItemBuilder().
 					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
@@ -272,19 +275,19 @@ public class ChallengesGUI extends CommonGUI
 
 			int currentIndex = this.levelIndex;
 
-			while (panelBuilder.nextSlot() != firstIndex + 9 && currentIndex < levelCounts)
+			while (panelBuilder.nextSlot() != firstItemIndex + 9 && currentIndex < levelCounts)
 			{
-				panelBuilder.item(this.getLevelButton(leftLevels.get(currentIndex++)));
+				panelBuilder.item(index++, this.getLevelButton(leftLevels.get(currentIndex++)));
 			}
 
 			// Check if one challenge is left
 			if (currentIndex + 1 == levelCounts)
 			{
-				panelBuilder.item(this.getLevelButton(leftLevels.get(currentIndex)));
+				panelBuilder.item(index, this.getLevelButton(leftLevels.get(currentIndex)));
 			}
 			else if (currentIndex < levelCounts)
 			{
-				panelBuilder.item(new PanelItemBuilder().
+				panelBuilder.item(index, new PanelItemBuilder().
 					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
@@ -299,7 +302,7 @@ public class ChallengesGUI extends CommonGUI
 			for (LevelStatus level : leftLevels)
 			{
 				// there are no limitations. Just bunch insert.
-				panelBuilder.item(this.getLevelButton(level));
+				panelBuilder.item(firstItemIndex++, this.getLevelButton(level));
 			}
 		}
 	}
