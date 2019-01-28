@@ -325,12 +325,16 @@ public class ChallengesGUI extends CommonGUI
 			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
 			description(GuiUtils.stringSplit(this.createChallengeDescription(challenge))).
 			clickHandler((panel, user1, clickType, slot) -> {
-				new TryToComplete(this.addon,
+				if (TryToComplete.complete(this.addon,
 					this.user,
 					challenge,
 					this.world,
 					this.topLabel,
-					this.permissionPrefix);
+					this.permissionPrefix))
+				{
+					this.build();
+				}
+
 				return true;
 			}).
 			glow(this.challengesManager.isChallengeComplete(this.user, challenge)).

@@ -152,7 +152,7 @@ public class ChallengesPanels2 {
         } else {
             // Player click
             itemBuilder.clickHandler((panel, player, c, s) -> {
-                new TryToComplete(addon, player, challenge, world, label, permPrefix);
+                new TryToComplete(addon, player, challenge, world, label, permPrefix).build();
                 return true;
             });
         }
