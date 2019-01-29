@@ -332,7 +332,7 @@ public class ChallengesGUI extends CommonGUI
 					this.topLabel,
 					this.permissionPrefix))
 				{
-					this.build();
+				    panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
 				}
 
 				return true;
