@@ -5,7 +5,6 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -61,6 +60,7 @@ public class ManageEntitiesGUI extends CommonGUI
 
 		panelBuilder.item(3, this.createButton(Button.ADD));
 		panelBuilder.item(5, this.createButton(Button.REMOVE));
+		panelBuilder.item(8, this.createButton(Button.SWITCH));
 
 		final int MAX_ELEMENTS = 21;
 
@@ -119,7 +119,7 @@ public class ManageEntitiesGUI extends CommonGUI
 				builder.name(this.user.getTranslation("challenges.gui.button.add"));
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
-					new SelectEntityGUI(this.user, (status, entity) -> {
+					new SelectEntityGUI(this.user, Collections.emptySet(), this.asEggs, (status, entity) -> {
 						if (status)
 						{
 							if (!this.requiredEntities.containsKey(entity))
@@ -140,6 +140,15 @@ public class ManageEntitiesGUI extends CommonGUI
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.requiredEntities.keySet().removeAll(this.selectedEntities);
 					this.entityList.removeAll(this.selectedEntities);
+					this.build();
+					return true;
+				});
+				break;
+			case SWITCH:
+				builder.name(this.user.getTranslation("challenges.gui.button.show-eggs"));
+				builder.icon(this.asEggs ? Material.EGG : Material.PLAYER_HEAD);
+				builder.clickHandler((panel, user1, clickType, slot) -> {
+					this.asEggs = !this.asEggs;
 					this.build();
 					return true;
 				});
@@ -204,7 +213,8 @@ public class ManageEntitiesGUI extends CommonGUI
 	private enum Button
 	{
 		ADD,
-		REMOVE
+		REMOVE,
+		SWITCH
 	}
 
 

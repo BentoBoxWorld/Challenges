@@ -161,8 +161,28 @@ public class TryToComplete
         this.manager = addon.getChallengesManager();
         this.challenge = challenge;
         this.topLabel = topLabel;
+    }
 
-        this.build();
+
+    /**
+     * This static method allows complete challenge and get result about completion.
+     * @param addon - Challenges Addon.
+     * @param user - User who performs challenge.
+     * @param challenge - Challenge that should be completed.
+     * @param world - World where completion may occur.
+     * @param topLabel - Label of the top command.
+     * @param permissionPrefix - Permission prefix for GameMode addon.
+     * @return true, if challenge is completed, otherwise false.
+     */
+    public static boolean complete(ChallengesAddon addon,
+        User user,
+        Challenge challenge,
+        World world,
+        String topLabel,
+        String permissionPrefix)
+    {
+        return new TryToComplete(addon, user, challenge, world, topLabel, permissionPrefix).
+            build().meetsRequirements;
     }
 
 
@@ -210,10 +230,14 @@ public class TryToComplete
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
-                for (Player p : this.addon.getServer().getOnlinePlayers())
+                for (Player player : this.addon.getServer().getOnlinePlayers())
                 {
-                    User.getInstance(p).sendMessage("challenges.name-has-completed",
-                        "[name]", this.user.getName(), "[challenge]", this.challenge.getFriendlyName());
+                    // Only other players should see message.
+                    if (!player.getUniqueId().equals(this.user.getUniqueId()))
+                    {
+                        User.getInstance(player).sendMessage("challenges.name-has-completed",
+                            "[name]", this.user.getName(), "[challenge]", this.challenge.getFriendlyName());
+                    }
                 }
             }
         }
@@ -275,10 +299,14 @@ public class TryToComplete
 
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
-                        for (Player p : this.addon.getServer().getOnlinePlayers())
+                        for (Player player : this.addon.getServer().getOnlinePlayers())
                         {
-                            User.getInstance(p).sendMessage("challenges.name-has-completed-level",
-                                "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                            // Only other players should see message.
+                            if (!player.getUniqueId().equals(this.user.getUniqueId()))
+                            {
+                                User.getInstance(player).sendMessage("challenges.name-has-completed-level",
+                                    "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                            }
                         }
                     }
 
