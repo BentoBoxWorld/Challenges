@@ -89,7 +89,7 @@ public class ChallengesImportManager
                 // Check if there is a level reward
                 ConfigurationSection unlock = chal.getConfigurationSection("challenges.levelUnlock." + level);
                 if (unlock != null) {
-                    challengeLevel.setUnlockMessage(unlock.getString("message"));
+                    challengeLevel.setUnlockMessage(unlock.getString("message", ""));
                     challengeLevel.setRewardText(unlock.getString("rewardDesc",""));
                     challengeLevel.setRewardItems(parseItems(unlock.getString("itemReward","")));
                     challengeLevel.setRewardMoney(unlock.getInt("moneyReward"));
@@ -118,9 +118,9 @@ public class ChallengesImportManager
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
             newChallenge.setDescription(GuiUtils.stringSplit(details.getString("description", "")));
-            newChallenge.setIcon(ItemParser.parse(details.getString("icon") + ":1"));
+            newChallenge.setIcon(ItemParser.parse(details.getString("icon", "") + ":1"));
 
-            if (details.getString("type").equalsIgnoreCase("level"))
+            if (details.getString("type", "").equalsIgnoreCase("level"))
             {
                 // Fix for older version config
                 newChallenge.setChallengeType(Challenge.ChallengeType.OTHER);
@@ -152,11 +152,11 @@ public class ChallengesImportManager
             } else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND)) {
                 parseEntities(newChallenge, reqItems);
             }
-            newChallenge.setRewardItems(parseItems(details.getString("itemReward")));
-            newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward")));
+            newChallenge.setRewardItems(parseItems(details.getString("itemReward", "")));
+            newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward", "")));
             // Save
             this.addon.getChallengesManager().addChallengeToLevel(newChallenge,
-                addon.getChallengesManager().getLevel(Util.getWorld(world).getName() + "_" + details.getString("level")));
+                addon.getChallengesManager().getLevel(Util.getWorld(world).getName() + "_" + details.getString("level", "")));
 
             if (addon.getChallengesManager().loadChallenge(newChallenge, overwrite, user, false)) {
                 size++;
