@@ -765,14 +765,14 @@ public class TryToComplete
     private ChallengeResult checkOthers()
     {
         if (!this.addon.isEconomyProvided() ||
-            this.challenge.getRequiredMoney() <= 0 ||
+            this.challenge.getRequiredMoney() < 0 ||
             !this.addon.getEconomyProvider().has(this.user, this.challenge.getRequiredMoney()))
         {
             this.user.sendMessage("challenges.not-enough-money",
                 "[money]",
                 Integer.toString(this.challenge.getRequiredMoney()));
         }
-        else if (this.challenge.getRequiredExperience() <= 0 ||
+        else if (this.challenge.getRequiredExperience() < 0 ||
             this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
         {
             this.user.sendMessage("challenges.not-enough-exp",
