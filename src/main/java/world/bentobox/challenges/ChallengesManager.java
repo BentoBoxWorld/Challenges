@@ -237,7 +237,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.admin.import.overwriting",
-                            "[object]", level.getFriendlyName());
+                            "[challenge]", level.getFriendlyName());
                 }
             }
         }

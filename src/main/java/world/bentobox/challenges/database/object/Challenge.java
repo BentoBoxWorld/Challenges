@@ -1,12 +1,19 @@
 package world.bentobox.challenges.database.object;
 
 
-import com.google.gson.annotations.Expose;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
+
+import com.google.gson.annotations.Expose;
 
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
@@ -50,9 +57,9 @@ public class Challenge implements DataObject
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
 
     @ConfigComment("")
     @ConfigComment("Unique name of the challenge")
@@ -108,9 +115,9 @@ public class Challenge implements DataObject
     @Expose
     private String level = "";
 
-// ---------------------------------------------------------------------
-// Section: Requirement related
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Requirement related
+    // ---------------------------------------------------------------------
 
     @ConfigComment("")
     @ConfigComment("")
@@ -184,9 +191,9 @@ public class Challenge implements DataObject
     private int searchRadius = 10;
 
 
-// ---------------------------------------------------------------------
-// Section: Rewards
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Rewards
+    // ---------------------------------------------------------------------
 
     @ConfigComment("")
     @ConfigComment("")
@@ -218,9 +225,9 @@ public class Challenge implements DataObject
     private List<String> rewardCommands = new ArrayList<>();
 
 
-// ---------------------------------------------------------------------
-// Section: Repeat Rewards
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Repeat Rewards
+    // ---------------------------------------------------------------------
 
 
     @ConfigComment("")
@@ -261,9 +268,9 @@ public class Challenge implements DataObject
     private List<String> repeatRewardCommands = new ArrayList<>();
 
 
-// ---------------------------------------------------------------------
-// Section: Getters
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Getters
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -281,7 +288,7 @@ public class Challenge implements DataObject
      */
     public String getFriendlyName()
     {
-        return friendlyName;
+        return friendlyName.isEmpty() ? uniqueId : friendlyName;
     }
 
 
@@ -582,9 +589,9 @@ public class Challenge implements DataObject
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Setters
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Setters
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -970,9 +977,9 @@ public class Challenge implements DataObject
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Other methods
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Other methods
+    // ---------------------------------------------------------------------
 
 
     /**
