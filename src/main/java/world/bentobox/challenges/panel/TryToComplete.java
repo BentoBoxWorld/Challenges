@@ -764,23 +764,39 @@ public class TryToComplete
      */
     private ChallengeResult checkOthers()
     {
-        if (!this.addon.isEconomyProvided() ||
-            this.challenge.getRequiredMoney() <= 0 ||
-            !this.addon.getEconomyProvider().has(this.user, this.challenge.getRequiredMoney()))
+    	if (!this.addon.isLevelProvided() && 
+			this.challenge.getRequiredIslandLevel() != 0)
+		{
+			this.user.sendMessage("challenges.missing-addon");
+		}
+    	else if (!this.addon.isEconomyProvided() && 
+			this.challenge.getRequiredMoney() != 0)
+		{
+			this.user.sendMessage("challenges.missing-addon");
+		}
+		else if (this.addon.isEconomyProvided() && this.challenge.getRequiredMoney() < 0)
+		{
+			this.user.sendMessage("challenges.incorrect");
+		}
+    	else if (this.addon.isEconomyProvided() && 
+			!this.addon.getEconomyProvider().has(this.user, this.challenge.getRequiredMoney()))
         {
             this.user.sendMessage("challenges.not-enough-money",
                 "[money]",
                 Integer.toString(this.challenge.getRequiredMoney()));
         }
-        else if (this.challenge.getRequiredExperience() <= 0 ||
-            this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
+		else if (this.challenge.getRequiredExperience() < 0)
+		{
+			this.user.sendMessage("challenges.incorrect");
+		}
+        else if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
         {
             this.user.sendMessage("challenges.not-enough-exp",
                 "[xp]",
                 Integer.toString(this.challenge.getRequiredExperience()));
         }
-        else if (!this.addon.isLevelProvided() ||
-            this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < this.challenge.getRequiredIslandLevel())
+        else if (this.addon.isLevelProvided() && 
+			this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < this.challenge.getRequiredIslandLevel())
         {
             this.user.sendMessage("challenges.error.island-level",
                 TextVariables.NUMBER,
