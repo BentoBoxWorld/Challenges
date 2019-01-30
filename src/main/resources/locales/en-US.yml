@@ -218,3 +218,5 @@ challenges:
     you-completed: You completed the [challenge] challenge!
     you-completed-level: Congratulations, you complete [level]!
     you-repeated: You repeated the [challenge] challenge!
+    missing-addon: It is not possible to complete challenge. Plugin or addon is missing.
+    incorrect: Current challenge is corupted.
