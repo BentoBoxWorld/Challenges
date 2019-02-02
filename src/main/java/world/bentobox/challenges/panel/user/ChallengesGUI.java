@@ -89,6 +89,10 @@ public class ChallengesGUI extends CommonGUI
 			{
 				nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
 			}
+			else
+			{
+				nextItemIndex = panelBuilder.nextSlot();
+			}
 		}
 
 		this.addChallenges(panelBuilder, nextItemIndex);
@@ -99,6 +103,10 @@ public class ChallengesGUI extends CommonGUI
 		{
 			nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
 		}
+		else
+		{
+			nextItemIndex = panelBuilder.nextSlot();
+		}
 
 		this.addChallengeLevels(panelBuilder, nextItemIndex);
 
@@ -108,6 +116,10 @@ public class ChallengesGUI extends CommonGUI
 			if (panelBuilder.nextSlot() % 9 != 0)
 			{
 				nextItemIndex = panelBuilder.nextSlot() - panelBuilder.nextSlot() % 9 + 9;
+			}
+			else
+			{
+				nextItemIndex = panelBuilder.nextSlot();
 			}
 
 			this.addFreeChallenges(panelBuilder, nextItemIndex);
