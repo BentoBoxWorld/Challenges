@@ -4,18 +4,30 @@ version: ${version}
 
 authors: tastybento
 
-softdepend: AcidIsland, BSkyBlock, Level
+softdepend: AcidIsland, BSkyBlock, CaveBlock, SkyGrid, Level
 
 permissions:    
   bskyblock.challenges:
-    description: Let the player use the /challenges command
+    description: Let the player use the '/island challenges' command
     default: true
   bskyblock.admin.challenges:
     description: Access challenge admin commands 
     default: op
   acidisland.challenges:
-    description: Let the player use the /challenges command
+    description: Let the player use the '/ai challenges' command
     default: true
   acidisland.admin.challenges:
     description: Access challenge admin commands 
+    default: op
+  caveblock.challenges:
+    description: Let the player use the '/cave challenges' command
+    default: true
+  caveblock.admin.challenges:
+    description: Access challenge admin commands
+    default: op
+  skygrid.challenges:
+    description: Let the player use the '/skygrid challenges' command
+    default: true
+  skygrid.admin.challenges:
+    description: Access challenge admin commands
     default: op
