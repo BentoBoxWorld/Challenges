@@ -214,8 +214,15 @@ public class ChallengesManager
     {
         if (!this.isValidLevel(level))
         {
-            user.sendMessage("challenges.admin.import.error",
+            if (user != null)
+            {
+                user.sendMessage("challenges.admin.import.error",
                     "[object]", level.getFriendlyName());
+            }
+            else
+            {
+                this.addon.logError("Challenge Level '" + level.getUniqueId() + "' is not valid and skipped");
+            }
 
             return false;
         }
