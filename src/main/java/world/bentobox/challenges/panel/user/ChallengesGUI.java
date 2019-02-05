@@ -73,6 +73,14 @@ public class ChallengesGUI extends CommonGUI
 	@Override
 	public void build()
 	{
+		// Do not open gui if there is no challenges.
+		if (this.challengesManager.getAllChallenges(this.world).isEmpty())
+		{
+			this.addon.getLogger().severe("There are no challenges set up!");
+			this.user.sendMessage("general.errors.general");
+			return;
+		}
+
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
 			name(this.user.getTranslation("challenges.gui.title"));
 
