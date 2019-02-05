@@ -244,7 +244,7 @@ public class AdminGUI extends CommonGUI
 								new EditLevelGUI(this.addon,
 									this.world,
 									this.user,
-									this.addon.getChallengesManager().createLevel(newName),
+									this.addon.getChallengesManager().createLevel(newName, this.world),
 									this.topLabel,
 									this.permissionPrefix,
 									this).build();

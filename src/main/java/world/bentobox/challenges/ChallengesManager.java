@@ -930,12 +930,13 @@ public class ChallengesManager
      * @param uniqueID - new ID for challenge level.
      * @return ChallengeLevel that is currently created.
      */
-    public ChallengeLevel createLevel(String uniqueID)
+    public ChallengeLevel createLevel(String uniqueID, World world)
     {
         if (!this.containsLevel(uniqueID))
         {
             ChallengeLevel level = new ChallengeLevel();
             level.setUniqueId(uniqueID);
+            level.setWorld(world.getName());
 
             this.saveLevel(level);
             this.loadLevel(level);
