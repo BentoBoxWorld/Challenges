@@ -1,6 +1,8 @@
 package world.bentobox.challenges;
 
 
+import org.eclipse.jdt.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -322,9 +324,20 @@ public class ChallengesManager
      *
      * @param user - user to add
      */
-    private void addPlayer(User user)
+    private void addPlayer(@NonNull User user)
     {
-        if (this.playerCacheData.containsKey(user.getUniqueId()))
+        this.addPlayer(user.getUniqueId());
+    }
+
+
+    /**
+     * Load player from database into the cache or create new player data
+     *
+     * @param userID - userID to add
+     */
+    private void addPlayer(@NonNull UUID userID)
+    {
+        if (this.playerCacheData.containsKey(userID))
         {
             return;
         }
@@ -332,20 +345,20 @@ public class ChallengesManager
         // The player is not in the cache
         // Check if the player exists in the database
 
-        if (this.playersDatabase.objectExists(user.getUniqueId().toString()))
+        if (this.playersDatabase.objectExists(userID.toString()))
         {
             // Load player from database
-            ChallengesPlayerData data = this.playersDatabase.loadObject(user.getUniqueId().toString());
+            ChallengesPlayerData data = this.playersDatabase.loadObject(userID.toString());
             // Store in cache
-            this.playerCacheData.put(user.getUniqueId(), data);
+            this.playerCacheData.put(userID, data);
         }
         else
         {
             // Create the player data
-            ChallengesPlayerData pd = new ChallengesPlayerData(user.getUniqueId().toString());
+            ChallengesPlayerData pd = new ChallengesPlayerData(userID.toString());
             this.playersDatabase.saveObject(pd);
             // Add to cache
-            this.playerCacheData.put(user.getUniqueId(), pd);
+            this.playerCacheData.put(userID, pd);
         }
     }
 
@@ -563,7 +576,7 @@ public class ChallengesManager
      * @param user - user
      * @param challenge - challenge
      */
-    public void resetChallenge(User user, Challenge challenge)
+    public void resetChallenge(@NonNull User user, @NonNull Challenge challenge)
     {
         this.addPlayer(user);
         this.playerCacheData.get(user.getUniqueId()).setChallengeTimes(challenge.getUniqueId(), 0);
@@ -572,6 +585,20 @@ public class ChallengesManager
     }
 
 
+    /**
+     * Resets all the challenges for user in world
+     *
+     * @param userID - island owner's UUID
+     * @param world - world
+     */
+    public void resetAllChallenges(@NonNull UUID userID, @NonNull World world)
+    {
+        this.addPlayer(userID);
+        this.playerCacheData.get(userID).reset(world);
+        // Save
+        this.savePlayer(userID);
+    }
+
 
     /**
      * Resets all the challenges for user in world
@@ -579,12 +606,9 @@ public class ChallengesManager
      * @param user - island owner's UUID
      * @param world - world
      */
-    public void resetAllChallenges(User user, World world)
+    public void resetAllChallenges(@NonNull User user, @NonNull World world)
     {
-        this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).reset(world);
-        // Save
-        this.savePlayer(user.getUniqueId());
+        this.resetAllChallenges(user.getUniqueId(), world);
     }
 
 
@@ -594,7 +618,7 @@ public class ChallengesManager
      * @param user User who need to be checked.
      * @return true, if level is already completed.
      */
-    public boolean isLevelCompleted(User user, ChallengeLevel level)
+    public boolean isLevelCompleted(@NonNull User user, @NonNull ChallengeLevel level)
     {
         this.addPlayer(user);
         return this.playerCacheData.get(user.getUniqueId()).isLevelDone(level.getUniqueId());
@@ -607,7 +631,7 @@ public class ChallengesManager
      * @param user User who need to be checked.
      * @return true, if all challenges are done, otherwise false.
      */
-    public boolean validateLevelCompletion(User user, ChallengeLevel level)
+    public boolean validateLevelCompletion(@NonNull User user, @NonNull ChallengeLevel level)
     {
         this.addPlayer(user);
         ChallengesPlayerData playerData = this.playerCacheData.get(user.getUniqueId());
@@ -622,7 +646,7 @@ public class ChallengesManager
      * @param level Level that must be completed.
      * @param user User who complete level.
      */
-    public void setLevelComplete(User user, ChallengeLevel level)
+    public void setLevelComplete(@NonNull User user, @NonNull ChallengeLevel level)
     {
         this.addPlayer(user);
         this.playerCacheData.get(user.getUniqueId()).addCompletedLevel(level.getUniqueId());
