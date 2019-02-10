@@ -689,8 +689,8 @@ public class ChallengesManager
         String worldName = Util.getWorld(world).getName();
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
-                sorted(Comparator.comparing(Challenge::getOrder)).
                 filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
 
@@ -705,6 +705,7 @@ public class ChallengesManager
         // Free Challenges hides under FREE level.
         return this.getAllChallenges(world).stream().
                 filter(challenge -> challenge.getLevel().equals(FREE)).
+                sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
 
@@ -719,6 +720,7 @@ public class ChallengesManager
         return level.getChallenges().stream().
                 map(this::getChallenge).
                 filter(Objects::nonNull).
+                sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
 
