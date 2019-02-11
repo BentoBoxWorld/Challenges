@@ -66,10 +66,25 @@ public class Settings implements DataObject
 	@ConfigComment("")
 	private String uniqueId = "config";
 
+	/**
+	 * Configuration version
+	 */
+	@ConfigComment("")
+	private String configVersion = "v1.0";
 
 // ---------------------------------------------------------------------
 // Section: Methods
 // ---------------------------------------------------------------------
+
+
+	/**
+	 * This method returns the configVersion object.
+	 * @return the configVersion object.
+	 */
+	public String getConfigVersion()
+	{
+		return configVersion;
+	}
 
 
 	@Override
@@ -140,6 +155,16 @@ public class Settings implements DataObject
 	public int getLoreLineLength()
 	{
 		return loreLineLength;
+	}
+
+
+	/**
+	 * This method sets the configVersion object value.
+	 * @param configVersion the configVersion object new value.
+	 */
+	public void setConfigVersion(String configVersion)
+	{
+		this.configVersion = configVersion;
 	}
 
 

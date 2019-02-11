@@ -28,8 +28,8 @@ public class CompleteChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challenges.admin.complete.parameters");
-        this.setDescription("challenges.admin.complete.description");
+        this.setParametersHelp("challenges.commands.admin.complete.parameters");
+        this.setDescription("challenges.commands.admin.complete.description");
         manager = ((ChallengesAddon)getAddon()).getChallengesManager();
     }
 

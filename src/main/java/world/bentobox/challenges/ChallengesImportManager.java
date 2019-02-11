@@ -56,14 +56,14 @@ public class ChallengesImportManager
     public boolean importChallenges(User user, World world, boolean overwrite) {
         File challengeFile = new File(addon.getDataFolder(), "challenges.yml");
         if (!challengeFile.exists()) {
-            user.sendMessage("challenges.admin.import.no-file");
+            user.sendMessage("challenges.errors.import-no-file");
             return false;
         }
         chal = new YamlConfiguration();
         try {
             chal.load(challengeFile);
         } catch (IOException | InvalidConfigurationException e) {
-            user.sendMessage("challenges.admin.import.no-load","[message]", e.getMessage());
+            user.sendMessage("challenges.errors.no-load","[message]", e.getMessage());
             return false;
         }
         makeLevels(user, world, overwrite);
@@ -76,7 +76,7 @@ public class ChallengesImportManager
         // Parse the levels
         String levels = chal.getString("challenges.levels", "");
         if (!levels.isEmpty()) {
-            user.sendMessage("challenges.admin.import.levels", "[levels]", levels);
+            user.sendMessage("challenges.messages.import-levels");
             String[] lvs = levels.split(" ");
             int order = 0;
             for (String level : lvs) {
@@ -99,7 +99,7 @@ public class ChallengesImportManager
                 addon.getChallengesManager().loadLevel(challengeLevel, overwrite, user, false);
             }
         } else {
-            user.sendMessage("challenges.admin.import.no-levels");
+            user.sendMessage("challenges.messages.no-levels");
         }
     }
 
@@ -111,6 +111,8 @@ public class ChallengesImportManager
         int size = 0;
         // Parse the challenge file
         ConfigurationSection chals = chal.getConfigurationSection("challenges.challengeList");
+        user.sendMessage("challenges.messages.import-challenges");
+
         for (String challenge : chals.getKeys(false)) {
             Challenge newChallenge = new Challenge();
             newChallenge.setUniqueId(Util.getWorld(world).getName() + "_" + challenge);
@@ -165,7 +167,7 @@ public class ChallengesImportManager
             }
         }
 
-        user.sendMessage("challenges.admin.import.number", "[number]", String.valueOf(size));
+        user.sendMessage("challenges.messages.import-number", "[number]", String.valueOf(size));
     }
 
     /**

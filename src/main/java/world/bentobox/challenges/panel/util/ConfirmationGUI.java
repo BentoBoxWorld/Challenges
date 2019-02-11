@@ -37,7 +37,7 @@ public class ConfirmationGUI
 	 */
 	public void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.admin.confirm-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.confirm-title"));
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 

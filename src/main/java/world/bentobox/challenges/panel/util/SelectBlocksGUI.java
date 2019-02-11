@@ -71,7 +71,7 @@ public class SelectBlocksGUI
 	public void build(int pageIndex)
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation("challenges.gui.admin.select-block"));
+			name(this.user.getTranslation("challenges.gui.title.admin.select-block"));
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
@@ -110,7 +110,7 @@ public class SelectBlocksGUI
 		panelBuilder.item(4,
 			new PanelItemBuilder().
 				icon(Material.RED_STAINED_GLASS_PANE).
-				name(this.user.getTranslation("challenges.gui.buttons.cancel")).
+				name(this.user.getTranslation("challenges.gui.buttons.admin.cancel")).
 				clickHandler( (panel, user1, clickType, slot) -> {
 					this.consumer.accept(false, null);
 					return true;

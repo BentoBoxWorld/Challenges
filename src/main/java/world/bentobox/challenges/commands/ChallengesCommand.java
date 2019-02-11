@@ -34,8 +34,8 @@ public class ChallengesCommand extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission(CHALLENGE_COMMAND);
-        this.setParametersHelp(CHALLENGE_COMMAND + ".parameters");
-        this.setDescription(CHALLENGE_COMMAND + ".description");
+        this.setParametersHelp("challenges.commands.user.parameters");
+        this.setDescription("challenges.commands.user.description");
     }
 
 

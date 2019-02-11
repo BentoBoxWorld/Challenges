@@ -4,8 +4,6 @@ package world.bentobox.challenges.panel.admin;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import java.util.Collections;
-import java.util.List;
 
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -90,7 +88,7 @@ public class AdminGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-			this.user.getTranslation("challenges.admin.gui-title"));
+			this.user.getTranslation("challenges.gui.title.admin.gui-title"));
 
 		GuiUtils.fillBorder(panelBuilder);
 
@@ -132,7 +130,7 @@ public class AdminGUI extends CommonGUI
 	{
 		ItemStack icon;
 		String name;
-		List<String> description;
+		String description;
 		boolean glow;
 		PanelItem.ClickHandler clickHandler;
 
@@ -143,8 +141,8 @@ public class AdminGUI extends CommonGUI
 			case COMPLETE_USER_CHALLENGES:
 				permissionSuffix = COMPLETE;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.complete");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.complete");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.complete");
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new ListUsersGUI(this.addon,
@@ -163,8 +161,8 @@ public class AdminGUI extends CommonGUI
 			case RESET_USER_CHALLENGES:
 				permissionSuffix = RESET;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.reset");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.reset");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.reset");
 				icon = new ItemStack(Material.WRITABLE_BOOK);
 
 				glow = this.resetAllMode;
@@ -193,8 +191,8 @@ public class AdminGUI extends CommonGUI
 			case ADD_CHALLENGE:
 				permissionSuffix = ADD;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.add-challenge");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.create-challenge");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.create-challenge");
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new AnvilGUI(this.addon.getPlugin(),
@@ -229,8 +227,8 @@ public class AdminGUI extends CommonGUI
 			case ADD_LEVEL:
 				permissionSuffix = ADD;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.add-level");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.create-level");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.create-level");
 				icon = new ItemStack(Material.BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new AnvilGUI(this.addon.getPlugin(),
@@ -265,8 +263,8 @@ public class AdminGUI extends CommonGUI
 			case EDIT_CHALLENGE:
 				permissionSuffix = EDIT;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.edit-challenge");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.edit-challenge");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.edit-challenge");
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new ListChallengesGUI(this.addon,
@@ -286,8 +284,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = EDIT;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.edit-level");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.edit-level");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.edit-level");
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new ListLevelsGUI(this.addon,
@@ -308,8 +306,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = DELETE;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.delete-challenge");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.delete-challenge");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.delete-challenge");
 				icon = new ItemStack(Material.LAVA_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new ListChallengesGUI(this.addon,
@@ -330,8 +328,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = DELETE;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.delete-level");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.delete-level");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.delete-level");
 				icon = new ItemStack(Material.LAVA_BUCKET);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new ListLevelsGUI(this.addon,
@@ -352,8 +350,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = IMPORT;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.import");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.import");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.import");
 				icon = new ItemStack(Material.HOPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
 					if (clickType.isRightClick())
@@ -377,8 +375,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = IMPORT;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.backward");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.backward");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.backward");
 				icon = new ItemStack(Material.HOPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.addon.getImportManager().
@@ -394,8 +392,8 @@ public class AdminGUI extends CommonGUI
 			{
 				permissionSuffix = SETTINGS;
 
-				name = this.user.getTranslation("challenges.gui.admin.buttons.settings");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.settings");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.settings");
 				icon = new ItemStack(Material.CRAFTING_TABLE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new EditSettingsGUI(this.addon,
@@ -428,6 +426,6 @@ public class AdminGUI extends CommonGUI
 			};
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
 	}
 }

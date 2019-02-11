@@ -29,15 +29,15 @@ public class CreateChallenge extends CompositeCommand {
     public void setup() {
         this.setOnlyPlayer(true);
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challaneges.admin.create.parameters");
-        this.setDescription("challenges.admin.create.description");
+        this.setParametersHelp("challenges.commands.admin.create.parameters");
+        this.setDescription("challenges.commands.admin.create.description");
 
     }
 
     @Override
     public boolean execute(User user, String label, List<String> args) {
         if (args.isEmpty()) {
-            user.sendRawMessage("not enough args");
+            user.sendMessage("challenges.errors.no-name");
             return false;
         }
         new PanelBuilder()

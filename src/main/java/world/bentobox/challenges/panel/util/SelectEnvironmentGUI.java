@@ -34,12 +34,12 @@ public class SelectEnvironmentGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.admin.environment-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.toggle-environment"));
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
 		panelBuilder.item(3, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.save")).
+			name(this.user.getTranslation("challenges.gui.buttons.admin.save")).
 			icon(Material.GREEN_STAINED_GLASS_PANE).
 			clickHandler((panel, user1, clickType, index) -> {
 				this.consumer.accept(true, this.values);
@@ -48,7 +48,7 @@ public class SelectEnvironmentGUI
 			build());
 
 		panelBuilder.item(5, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.cancel")).
+			name(this.user.getTranslation("challenges.gui.buttons.admin.cancel")).
 			icon(Material.RED_STAINED_GLASS_PANE).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.consumer.accept(false, Collections.emptySet());
@@ -57,7 +57,7 @@ public class SelectEnvironmentGUI
 			build());
 
 		panelBuilder.item(20, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.nether")).
+			name(World.Environment.NETHER.name()).
 			icon(Material.NETHERRACK).
 			clickHandler((panel, user1, clickType, i) -> {
 				if (this.values.contains(World.Environment.NETHER))
@@ -75,7 +75,7 @@ public class SelectEnvironmentGUI
 			glow(this.values.contains(World.Environment.NETHER)).
 			build());
 		panelBuilder.item(22, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.normal")).
+			name(World.Environment.NORMAL.name()).
 			icon(Material.DIRT).
 			clickHandler((panel, user1, clickType, i) -> {
 				if (this.values.contains(World.Environment.NORMAL))
@@ -93,7 +93,7 @@ public class SelectEnvironmentGUI
 			glow(this.values.contains(World.Environment.NORMAL)).
 			build());
 		panelBuilder.item(24, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.end")).
+			name(World.Environment.THE_END.name()).
 			icon(Material.END_STONE).
 			clickHandler((panel, user1, clickType, i) -> {
 				if (this.values.contains(World.Environment.THE_END))
@@ -113,7 +113,7 @@ public class SelectEnvironmentGUI
 
 
 		panelBuilder.item(44, new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.return")).
+			name(this.user.getTranslation("challenges.gui.buttons.return")).
 			icon(Material.OAK_DOOR).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.consumer.accept(false, Collections.emptySet());

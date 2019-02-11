@@ -29,8 +29,8 @@ public class ImportCommand extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("challenges.admin");
-        this.setParametersHelp("challenges.admin.import.parameters");
-        this.setDescription("challenges.admin.import.description");
+        this.setParametersHelp("challenges.commands.admin.import.parameters");
+        this.setDescription("challenges.commands.admin.import.description");
     }
 
     @Override

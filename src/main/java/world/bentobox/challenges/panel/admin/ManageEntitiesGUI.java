@@ -53,7 +53,7 @@ public class ManageEntitiesGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation("challenges.gui.admin.edit-entities"));
+			name(this.user.getTranslation("challenges.gui.title.admin.manage-entities"));
 
 		// create border
 		GuiUtils.fillBorder(panelBuilder);
@@ -116,7 +116,7 @@ public class ManageEntitiesGUI extends CommonGUI
 		switch (button)
 		{
 			case ADD:
-				builder.name(this.user.getTranslation("challenges.gui.button.add"));
+				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.add"));
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					new SelectEntityGUI(this.user, Collections.emptySet(), this.asEggs, (status, entity) -> {
@@ -135,7 +135,8 @@ public class ManageEntitiesGUI extends CommonGUI
 				});
 				break;
 			case REMOVE:
-				builder.name(this.user.getTranslation("challenges.gui.button.remove-selected"));
+				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.remove-selected"));
+				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"));
 				builder.icon(Material.LAVA_BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.requiredEntities.keySet().removeAll(this.selectedEntities);
@@ -145,7 +146,8 @@ public class ManageEntitiesGUI extends CommonGUI
 				});
 				break;
 			case SWITCH:
-				builder.name(this.user.getTranslation("challenges.gui.button.show-eggs"));
+				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.show-eggs"));
+				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.show-eggs"));
 				builder.icon(this.asEggs ? Material.EGG : Material.PLAYER_HEAD);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.asEggs = !this.asEggs;
@@ -168,6 +170,8 @@ public class ManageEntitiesGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			name(WordUtils.capitalize(entity.name().toLowerCase().replace("_", " "))).
+			description(this.selectedEntities.contains(entity) ?
+				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			icon(this.asEggs ?
 				GuiUtils.getEntityEgg(entity, this.requiredEntities.get(entity)) :
 				GuiUtils.getEntityHead(entity, this.requiredEntities.get(entity))).

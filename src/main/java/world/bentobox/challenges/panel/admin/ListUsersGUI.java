@@ -114,7 +114,7 @@ public class ListUsersGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-			this.user.getTranslation("challenges.gui.admin.choose-user-title"));
+			this.user.getTranslation("challenges.gui.title.admin.choose-user-title"));
 
 		GuiUtils.fillBorder(panelBuilder);
 
@@ -262,20 +262,18 @@ public class ListUsersGUI extends CommonGUI
 	 */
 	private PanelItem createToggleButton()
 	{
-		List<String> values = new ArrayList<>(ViewMode.values().length);
-
-		for (int i = 0; i < ViewMode.values().length; i++)
-		{
-			values.add((this.modeIndex == i ? "&2" : "&c") +
-				this.user.getTranslation("challenges.gui.admin.descriptions." +
-					ViewMode.values()[i].name().toLowerCase()));
-		}
+		List<String> description = new ArrayList<>(ViewMode.values().length + 1);
+		description.add(this.user.getTranslation("challenges.gui.descriptions.admin.toggle-user-list"));
+		description.add((ViewMode.ONLINE == ViewMode.values()[this.modeIndex] ? "&2" : "&c") +
+			this.user.getTranslation("challenges.gui.descriptions.admin.mode-online"));
+		description.add((ViewMode.WITH_ISLAND == ViewMode.values()[this.modeIndex] ? "&2" : "&c") +
+			this.user.getTranslation("challenges.gui.descriptions.admin.mode-in-world"));
+		description.add((ViewMode.IN_WORLD == ViewMode.values()[this.modeIndex] ? "&2" : "&c") +
+			this.user.getTranslation("challenges.gui.descriptions.admin.mode-with-island"));
 
 		return new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons.toggle-users",
-				"[value]",
-				this.user.getTranslation("challenges.gui.admin.descriptions." + ViewMode.values()[this.modeIndex].name().toLowerCase()))).
-			description(GuiUtils.stringSplit(values, this.addon.getChallengesSettings().getLoreLineLength())).
+			name(this.user.getTranslation("challenges.gui.buttons.admin.toggle-user-list")).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
 			icon(Material.STONE_BUTTON).
 			clickHandler(
 				(panel, user1, clickType, slot) -> {

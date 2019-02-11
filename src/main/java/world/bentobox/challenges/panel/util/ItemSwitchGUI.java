@@ -37,7 +37,7 @@ public class ItemSwitchGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.change-items"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.manage-items"));
 
 		// Size of inventory that user can set via GUI.
 		panelBuilder.size(45);
@@ -78,7 +78,7 @@ public class ItemSwitchGUI
 		{
 			case SAVE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.save");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.save");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
@@ -104,7 +104,7 @@ public class ItemSwitchGUI
 			}
 			case CANCEL:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.cancel");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.cancel");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.IRON_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {

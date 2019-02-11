@@ -71,7 +71,7 @@ public class ListChallengesGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-			this.user.getTranslation("challenges.gui.admin.choose-challenge-title"));
+			this.user.getTranslation("challenges.gui.title.admin.choose-challenge-title"));
 
 		if (this.currentMode.equals(Mode.DELETE))
 		{

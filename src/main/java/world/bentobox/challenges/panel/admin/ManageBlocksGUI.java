@@ -54,7 +54,7 @@ public class ManageBlocksGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation("challenges.gui.admin.manage-blocks"));
+			name(this.user.getTranslation("challenges.gui.title.admin.manage-blocks"));
 
 		// Create nice border.
 		GuiUtils.fillBorder(panelBuilder);
@@ -116,7 +116,7 @@ public class ManageBlocksGUI extends CommonGUI
 		switch (button)
 		{
 			case ADD:
-				builder.name(this.user.getTranslation("challenges.gui.button.add"));
+				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.add"));
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 
@@ -133,7 +133,8 @@ public class ManageBlocksGUI extends CommonGUI
 				});
 				break;
 			case REMOVE:
-				builder.name(this.user.getTranslation("challenges.gui.button.remove-selected"));
+				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.remove-selected"));
+				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"));
 				builder.icon(Material.LAVA_BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.materialMap.keySet().removeAll(this.selectedMaterials);
@@ -158,6 +159,8 @@ public class ManageBlocksGUI extends CommonGUI
 		return new PanelItemBuilder().
 			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " "))).
 			icon(GuiUtils.getMaterialItem(material, this.materialMap.get(material))).
+			description(this.selectedMaterials.contains(material) ?
+				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.
 				if (clickType.isRightClick())

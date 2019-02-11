@@ -157,7 +157,7 @@ public abstract class CommonGUI
 		this.pageIndex = 0;
 
 		this.returnButton = new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.buttons.back")).
+			name(this.user.getTranslation("challenges.gui.buttons.return")).
 			icon(Material.OAK_DOOR).
 			clickHandler((panel, user1, clickType, i) -> {
 				if (this.parentGUI == null)

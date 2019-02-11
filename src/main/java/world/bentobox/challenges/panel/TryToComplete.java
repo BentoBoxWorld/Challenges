@@ -226,7 +226,7 @@ public class TryToComplete
             // Run commands
             this.runCommands(this.challenge.getRewardCommands());
 
-            this.user.sendMessage("challenges.you-completed", "[challenge]", this.challenge.getFriendlyName());
+            this.user.sendMessage("challenges.messages.you-completed-challenge", "[value]", this.challenge.getFriendlyName());
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
@@ -235,8 +235,9 @@ public class TryToComplete
                     // Only other players should see message.
                     if (!player.getUniqueId().equals(this.user.getUniqueId()))
                     {
-                        User.getInstance(player).sendMessage("challenges.name-has-completed",
-                            "[name]", this.user.getName(), "[challenge]", this.challenge.getFriendlyName());
+                        User.getInstance(player).sendMessage("challenges.messages.name-has-completed-challenge",
+                            "[name]", this.user.getName(),
+                            "[value]", this.challenge.getFriendlyName());
                     }
                 }
             }
@@ -262,7 +263,7 @@ public class TryToComplete
             // Run commands
             this.runCommands(this.challenge.getRepeatRewardCommands());
 
-            this.user.sendMessage("challenges.you-repeated", "[challenge]", this.challenge.getFriendlyName());
+            this.user.sendMessage("challenges.messages.you-repeated-challenge", "[value]", this.challenge.getFriendlyName());
         }
 
         // Mark as complete
@@ -295,7 +296,7 @@ public class TryToComplete
                     // Run commands
                     this.runCommands(level.getRewardCommands());
 
-                    this.user.sendMessage("challenges.you-completed-level", "[level]", level.getFriendlyName());
+                    this.user.sendMessage("challenges.messages.you-completed-level", "[value]", level.getFriendlyName());
 
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
@@ -304,8 +305,8 @@ public class TryToComplete
                             // Only other players should see message.
                             if (!player.getUniqueId().equals(this.user.getUniqueId()))
                             {
-                                User.getInstance(player).sendMessage("challenges.name-has-completed-level",
-                                    "[name]", this.user.getName(), "[level]", level.getFriendlyName());
+                                User.getInstance(player).sendMessage("challenges.messages.name-has-completed-level",
+                                    "[name]", this.user.getName(), "[value]", level.getFriendlyName());
                             }
                         }
                     }
@@ -332,7 +333,7 @@ public class TryToComplete
         // Check the world
         if (!this.challenge.isDeployed())
         {
-            this.user.sendMessage("challenges.error.not-deployed");
+            this.user.sendMessage("challenges.errors.not-deployed");
             result = EMPTY_RESULT;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
@@ -344,7 +345,7 @@ public class TryToComplete
         // Player is not on island
         else if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
         {
-            this.user.sendMessage("challenges.error.not-on-island");
+            this.user.sendMessage("challenges.errors.not-on-island");
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
@@ -358,13 +359,13 @@ public class TryToComplete
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
             this.manager.getChallengeTimes(this.user, this.challenge) >= this.challenge.getMaxTimes())
         {
-            this.user.sendMessage("challenges.not-repeatable");
+            this.user.sendMessage("challenges.errors.not-repeatable");
             result = EMPTY_RESULT;
         }
         // Check repeatability
         else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.challenge))
         {
-            this.user.sendMessage("challenges.not-repeatable");
+            this.user.sendMessage("challenges.errors.not-repeatable");
             result = EMPTY_RESULT;
         }
         // Check environment
@@ -503,7 +504,7 @@ public class TryToComplete
 
                     if (numInInventory < req.getAmount())
                     {
-                        this.user.sendMessage("challenges.error.not-enough-items",
+                        this.user.sendMessage("challenges.errors.not-enough-items",
                             "[items]",
                             Util.prettifyText(req.getType().toString()));
                         return EMPTY_RESULT;
@@ -513,7 +514,7 @@ public class TryToComplete
                     // General checking
                     if (!this.user.getInventory().containsAtLeast(req, req.getAmount()))
                     {
-                        this.user.sendMessage("challenges.error.not-enough-items",
+                        this.user.sendMessage("challenges.errors.not-enough-items",
                             "[items]",
                             Util.prettifyText(req.getType().toString()));
                         return EMPTY_RESULT;
@@ -598,7 +599,7 @@ public class TryToComplete
         if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
         {
             // Player is not on island
-            this.user.sendMessage("challenges.error.not-on-island");
+            this.user.sendMessage("challenges.errors.not-on-island");
             result = EMPTY_RESULT;
         }
         else
@@ -662,9 +663,9 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements();
         }
 
-        this.user.sendMessage("challenges.error.not-close-enough", "[number]", String.valueOf(searchRadius));
+        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(searchRadius));
 
-        blocks.forEach((k, v) -> user.sendMessage("challenges.error.you-still-need",
+        blocks.forEach((k, v) -> user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(v),
             "[item]", Util.prettifyText(k.toString())));
 
@@ -693,7 +694,7 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements();
         }
 
-        entities.forEach((reqEnt, amount) -> this.user.sendMessage("challenges.error.you-still-need",
+        entities.forEach((reqEnt, amount) -> this.user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(amount),
             "[item]", Util.prettifyText(reqEnt.toString())));
 
@@ -767,38 +768,38 @@ public class TryToComplete
     	if (!this.addon.isLevelProvided() && 
 			this.challenge.getRequiredIslandLevel() != 0)
 		{
-			this.user.sendMessage("challenges.missing-addon");
+			this.user.sendMessage("challenges.errors.missing-addon");
 		}
     	else if (!this.addon.isEconomyProvided() && 
 			this.challenge.getRequiredMoney() != 0)
 		{
-			this.user.sendMessage("challenges.missing-addon");
+			this.user.sendMessage("challenges.errors.missing-addon");
 		}
 		else if (this.addon.isEconomyProvided() && this.challenge.getRequiredMoney() < 0)
 		{
-			this.user.sendMessage("challenges.incorrect");
+			this.user.sendMessage("challenges.errors.incorrect");
 		}
     	else if (this.addon.isEconomyProvided() && 
 			!this.addon.getEconomyProvider().has(this.user, this.challenge.getRequiredMoney()))
         {
-            this.user.sendMessage("challenges.not-enough-money",
-                "[money]",
+            this.user.sendMessage("challenges.errors.not-enough-money",
+                "[value]",
                 Integer.toString(this.challenge.getRequiredMoney()));
         }
 		else if (this.challenge.getRequiredExperience() < 0)
 		{
-			this.user.sendMessage("challenges.incorrect");
+			this.user.sendMessage("challenges.errors.incorrect");
 		}
         else if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
         {
-            this.user.sendMessage("challenges.not-enough-exp",
-                "[xp]",
+            this.user.sendMessage("challenges.errors.not-enough-experience",
+                "[value]",
                 Integer.toString(this.challenge.getRequiredExperience()));
         }
         else if (this.addon.isLevelProvided() && 
 			this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < this.challenge.getRequiredIslandLevel())
         {
-            this.user.sendMessage("challenges.error.island-level",
+            this.user.sendMessage("challenges.errors.island-level",
                 TextVariables.NUMBER,
                 String.valueOf(this.challenge.getRequiredIslandLevel()));
         }

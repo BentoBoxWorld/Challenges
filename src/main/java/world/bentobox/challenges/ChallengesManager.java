@@ -163,8 +163,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.admin.import.skipping",
-                            "[object]", challenge.getFriendlyName());
+                    user.sendMessage("challenges.messages.load-skipping",
+                            "[value]", challenge.getFriendlyName());
                 }
 
                 return false;
@@ -173,8 +173,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.admin.import.overwriting",
-                            "[challenge]", challenge.getFriendlyName());
+                    user.sendMessage("challenges.messages.load-overwriting",
+                            "[value]", challenge.getFriendlyName());
                 }
             }
         }
@@ -182,8 +182,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.admin.import.add",
-                        "[object]", challenge.getFriendlyName());
+                user.sendMessage("challenges.messages.load-add",
+                        "[value]", challenge.getFriendlyName());
             }
         }
 
@@ -218,8 +218,8 @@ public class ChallengesManager
         {
             if (user != null)
             {
-                user.sendMessage("challenges.admin.import.error",
-                    "[object]", level.getFriendlyName());
+                user.sendMessage("challenges.errors.load-error",
+                    "[value]", level.getFriendlyName());
             }
             else
             {
@@ -235,8 +235,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.admin.import.skipping",
-                            "[object]", level.getFriendlyName());
+                    user.sendMessage("challenges.messages.load-skipping",
+                            "[value]", level.getFriendlyName());
                 }
 
                 return false;
@@ -245,8 +245,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.admin.import.overwriting",
-                            "[challenge]", level.getFriendlyName());
+                    user.sendMessage("challenges.messages.load-overwriting",
+                            "[value]", level.getFriendlyName());
                 }
             }
         }
@@ -254,8 +254,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.admin.import.add",
-                        "[object]", level.getFriendlyName());
+                user.sendMessage("challenges.messages.load-add",
+                        "[value]", level.getFriendlyName());
             }
         }
 
@@ -280,7 +280,6 @@ public class ChallengesManager
             this.addon.getLogger().severe("UUID for player in challenge data file is invalid!");
         }
     }
-
 
     // ---------------------------------------------------------------------
     // Section: Other storing related methods

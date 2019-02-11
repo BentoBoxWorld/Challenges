@@ -71,7 +71,7 @@ public class ListLevelsGUI extends CommonGUI
 	public void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-			this.user.getTranslation("challenges.gui.admin.choose-level-title"));
+			this.user.getTranslation("challenges.gui.title.admin.choose-level-title"));
 
 		if (this.currentMode.equals(Mode.DELETE))
 		{

@@ -3,9 +3,11 @@ package world.bentobox.challenges.panel.user;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -82,7 +84,7 @@ public class ChallengesGUI extends CommonGUI
 		}
 
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation("challenges.gui.title"));
+			name(this.user.getTranslation("challenges.gui.title.challenges"));
 
 		// TODO: get last completed level.
 
@@ -372,14 +374,14 @@ public class ChallengesGUI extends CommonGUI
 	{
 		List<String> result = new ArrayList<>();
 
-		result.add(this.user.getTranslation("challenges.level",
+		result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
 			"[level]", this.challengesManager.getLevel(challenge).getFriendlyName()));
 
 		boolean completed = this.challengesManager.isChallengeComplete(this.user, challenge);
 
 		if (completed)
 		{
-			result.add(this.user.getTranslation("challenges.complete"));
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.completed"));
 		}
 
 		if (challenge.isRepeatable())
@@ -391,7 +393,8 @@ public class ChallengesGUI extends CommonGUI
 			{
 				if (doneTimes < maxTimes)
 				{
-					result.add(this.user.getTranslation("challenges.completed-times",
+					result.add(this.user.getTranslation(
+						"challenges.gui.challenge-description.completed-times-of",
 						"[donetimes]", String.valueOf(doneTimes),
 						"[maxtimes]", String.valueOf(maxTimes)));
 
@@ -400,14 +403,14 @@ public class ChallengesGUI extends CommonGUI
 				}
 				else
 				{
-					result.add(this.user.getTranslation("challenges.maxed-reached",
+					result.add(this.user.getTranslation("challenges.gui.challenge-description.maxed-reached",
 						"[donetimes]", String.valueOf(doneTimes),
 						"[maxtimes]", String.valueOf(maxTimes)));
 				}
 			}
 			else
 			{
-				result.add(this.user.getTranslation("challenges.completed-times",
+				result.add(this.user.getTranslation("challenges.gui.challenge-description.completed-times",
 					"[donetimes]", String.valueOf(doneTimes)));
 
 				// Change value to false, as max count not reached.
@@ -423,28 +426,31 @@ public class ChallengesGUI extends CommonGUI
 			{
 				if (challenge.isTakeItems())
 				{
-					result.add(this.user.getTranslation("challenges.item-take-warning"));
+					result.add(this.user.getTranslation(
+						"challenges.gui.challenge-description.warning-items-take"));
 				}
 			}
 			else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
 			{
-				result.add(this.user.getTranslation("challenges.items-closeby"));
+				result.add(this.user.getTranslation("challenges.gui.challenge-description.objects-close-by"));
 
 				if (challenge.isRemoveEntities() && !challenge.getRequiredEntities().isEmpty())
 				{
-					result.add(this.user.getTranslation("challenges.entities-kill-warning"));
+					result.add(this.user.getTranslation(
+						"challenges.gui.challenge-description.warning-entities-kill"));
 				}
 
 				if (challenge.isRemoveBlocks() && !challenge.getRequiredBlocks().isEmpty())
 				{
-					result.add(this.user.getTranslation("challenges.blocks-take-warning"));
+					result.add(this.user.getTranslation(
+						"challenges.gui.challenge-description.warning-blocks-remove"));
 				}
 			}
 		}
 
 		if (completed)
 		{
-			result.add(this.user.getTranslation("challenges.not-repeatable"));
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
 		}
 		else
 		{
@@ -467,18 +473,24 @@ public class ChallengesGUI extends CommonGUI
 		String rewardText;
 		double rewardMoney;
 		int rewardExperience;
+		List<ItemStack> rewardItems;
+		List<String> rewardCommands;
 
 		if (!this.challengesManager.isChallengeComplete(this.user, challenge))
 		{
 			rewardText = challenge.getRewardText();
 			rewardMoney = challenge.getRewardMoney();
 			rewardExperience = challenge.getRewardExperience();
+			rewardItems = challenge.getRewardItems();
+			rewardCommands = challenge.getRewardCommands();
 		}
 		else
 		{
 			rewardText = challenge.getRepeatRewardText();
 			rewardMoney = challenge.getRepeatMoneyReward();
 			rewardExperience = challenge.getRepeatExperienceReward();
+			rewardItems = challenge.getRepeatItemReward();
+			rewardCommands = challenge.getRepeatRewardCommands();
 		}
 
 		List<String> result = new ArrayList<>();
@@ -489,15 +501,48 @@ public class ChallengesGUI extends CommonGUI
 		// Add message about reward XP
 		if (rewardExperience > 0)
 		{
-			result.add(this.user.getTranslation("challenges.exp-reward",
-				"[reward]", Integer.toString(rewardExperience)));
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.experience-reward",
+				"[value]", Integer.toString(rewardExperience)));
 		}
 
 		// Add message about reward money
 		if (this.addon.getPlugin().getSettings().isUseEconomy() && rewardMoney > 0)
 		{
-			result.add(this.user.getTranslation("challenges.money-reward",
-				"[reward]", Double.toString(rewardMoney)));
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.money-reward",
+				"[value]", Double.toString(rewardMoney)));
+		}
+
+		// Add message about reward items
+		if (!rewardItems.isEmpty())
+		{
+			for (ItemStack itemStack : rewardItems)
+			{
+				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
+					"[item]", itemStack.getType().name(),
+					"[count]", Integer.toString(itemStack.getAmount())));
+
+				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
+						"[meta]", itemStack.getItemMeta().toString()));
+				}
+
+				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
+						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
+				}
+			}
+		}
+
+		// Add message about reward commands
+		if (!rewardCommands.isEmpty())
+		{
+			for (String command : rewardCommands)
+			{
+				result.add(this.user.getTranslation("challenges.gui.descriptions.command",
+					"[command]",  command.replace("[player]", this.user.getName()).replace("[SELF]", "")));
+			}
 		}
 
 		return result;
@@ -525,7 +570,7 @@ public class ChallengesGUI extends CommonGUI
 		{
 			icon = level.getLevel().getIcon();
 			description = GuiUtils.stringSplit(
-				this.user.getTranslation("challenges.navigation", "[level]", name),
+				this.user.getTranslation("challenges.gui.descriptions.level-unlocked", "[level]", name),
 				this.addon.getChallengesSettings().getLoreLineLength());
 			clickHandler = (panel, user1, clickType, slot) -> {
 				this.lastSelectedLevel = level;
@@ -544,9 +589,9 @@ public class ChallengesGUI extends CommonGUI
 			icon = new ItemStack(Material.BOOK);
 
 			description = GuiUtils.stringSplit(
-				this.user.getTranslation("challenges.to-complete",
-					"[challengesToDo]", Integer.toString(level.getNumberOfChallengesStillToDo()),
-					"[thisLevel]", level.getPreviousLevel().getFriendlyName()),
+				this.user.getTranslation("challenges.gui.descriptions.level-locked",
+					"[count]", Integer.toString(level.getNumberOfChallengesStillToDo()),
+					"[level]", level.getPreviousLevel().getFriendlyName()),
 				this.addon.getChallengesSettings().getLoreLineLength());
 
 			clickHandler = null;

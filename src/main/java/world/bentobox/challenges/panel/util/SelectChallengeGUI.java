@@ -34,7 +34,7 @@ public class SelectChallengeGUI
 	 */
 	private void build(int pageIndex)
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.choose-challenge-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.select-challenge"));
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 

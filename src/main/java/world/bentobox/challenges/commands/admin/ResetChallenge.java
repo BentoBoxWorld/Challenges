@@ -33,8 +33,8 @@ public class ResetChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challenges.admin.reset.parameters");
-        this.setDescription("challenges.admin.reset.description");
+        this.setParametersHelp("challenges.commands.admin.reset.parameters");
+        this.setDescription("challenges.commands.admin.reset.description");
         manager = ((ChallengesAddon)getAddon()).getChallengesManager();
     }
 
@@ -57,7 +57,7 @@ public class ResetChallenge extends CompositeCommand {
         }
         // Check for valid challenge name
         if (!manager.containsChallenge(args.get(1))) {
-            user.sendMessage("challenges.admin.complete.unknown-challenge");
+            user.sendMessage("challenges.errors.unknown-challenge");
             return false;
         }
         // Complete challenge

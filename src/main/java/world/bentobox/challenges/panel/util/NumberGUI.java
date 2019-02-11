@@ -4,7 +4,6 @@ package world.bentobox.challenges.panel.util;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
-import java.util.List;
 import java.util.function.BiConsumer;
 
 import net.wesjd.anvilgui.AnvilGUI;
@@ -55,7 +54,7 @@ public class NumberGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.edit-number-title"));
+		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.manage-numbers"));
 
 		GuiUtils.fillBorder(panelBuilder);
 
@@ -105,7 +104,7 @@ public class NumberGUI
 	{
 		ItemStack icon;
 		String name;
-		List<String> description;
+		String description;
 		PanelItem.ClickHandler clickHandler;
 		boolean glow;
 
@@ -113,8 +112,8 @@ public class NumberGUI
 		{
 			case SAVE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.save");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.save");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.save");
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(true, this.value);
@@ -125,8 +124,8 @@ public class NumberGUI
 			}
 			case CANCEL:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.cancel");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.cancel");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.cancel");
 				icon = new ItemStack(Material.OAK_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(false, this.value);
@@ -137,8 +136,8 @@ public class NumberGUI
 			}
 			case INPUT:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.input");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.input");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.input");
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
 					new AnvilGUI(BentoBox.getInstance(),
@@ -151,7 +150,7 @@ public class NumberGUI
 
 								if (this.value > this.maxValue || this.value < this.minValue)
 								{
-									this.user.sendMessage("challenges.error.not-valid-integer",
+									this.user.sendMessage("challenges.errors.not-valid-integer",
 										"[value]", reply,
 										"[min]", Integer.toString(this.minValue),
 										"[max]", Integer.toString(this.maxValue));
@@ -164,7 +163,7 @@ public class NumberGUI
 							catch (Exception e)
 							{
 								reply = Integer.toString(this.value);
-								this.user.sendMessage("challenges.error.not-a-integer", "[value]", reply);
+								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
 							}
 
 							return reply;
@@ -177,8 +176,8 @@ public class NumberGUI
 			}
 			case VALUE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.value");
-				description = Collections.singletonList(Integer.toString(this.value));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.value");
+				description = this.user.getTranslation("challenges.gui.descriptions.current-value", "[value]", Integer.toString(this.value));
 				icon = new ItemStack(Material.PAPER);
 				clickHandler = (panel, user, clickType, slot) -> true;
 				glow = false;
@@ -186,8 +185,8 @@ public class NumberGUI
 			}
 			case SET:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.set");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.set");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.set");
 				icon = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.currentOperation = Button.SET;
@@ -199,8 +198,8 @@ public class NumberGUI
 			}
 			case INCREASE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.increase");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.increase");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.increase");
 				icon = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.currentOperation = Button.INCREASE;
@@ -212,8 +211,8 @@ public class NumberGUI
 			}
 			case REDUCE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.reduce");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.reduce");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.reduce");
 				icon = new ItemStack(Material.RED_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.currentOperation = Button.REDUCE;
@@ -225,8 +224,8 @@ public class NumberGUI
 			}
 			case MULTIPLY:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.multiply");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.multiply");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.multiply");
 				icon = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.currentOperation = Button.MULTIPLY;
@@ -257,14 +256,14 @@ public class NumberGUI
 		{
 			case SET:
 			{
-				itemBuilder.name(this.user.getTranslation("biomes.gui.buttons.set","[number]", Integer.toString(number)));
+				itemBuilder.name(this.user.getTranslation("challenges.gui.buttons.admin.number","[number]", Integer.toString(number)));
 				itemBuilder.icon(Material.WHITE_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value = number;
 
 					if (this.value > this.maxValue)
 					{
-						this.user.sendMessage("challenges.error.not-valid-integer",
+						this.user.sendMessage("challenges.errors.not-valid-integer",
 							"[value]", Integer.toString(this.value),
 							"[min]", Integer.toString(this.minValue),
 							"[max]", Integer.toString(this.maxValue));
@@ -274,7 +273,7 @@ public class NumberGUI
 
 					if (this.value < this.minValue)
 					{
-						this.user.sendMessage("challenges.error.not-valid-integer",
+						this.user.sendMessage("challenges.errors.not-valid-integer",
 							"[value]", Integer.toString(this.value),
 							"[min]", Integer.toString(this.minValue),
 							"[max]", Integer.toString(this.maxValue));
@@ -290,14 +289,14 @@ public class NumberGUI
 			}
 			case INCREASE:
 			{
-				itemBuilder.name(this.user.getTranslation("biomes.gui.buttons.increase","[number]", Integer.toString(number)));
+				itemBuilder.name(this.user.getTranslation("challenges.gui.buttons.admin.number","[number]", Integer.toString(number)));
 				itemBuilder.icon(Material.GREEN_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value += number;
 
 					if (this.value > this.maxValue)
 					{
-						this.user.sendMessage("challenges.error.not-valid-integer",
+						this.user.sendMessage("challenges.errors.not-valid-integer",
 							"[value]", Integer.toString(this.value),
 							"[min]", Integer.toString(this.minValue),
 							"[max]", Integer.toString(this.maxValue));
@@ -313,14 +312,14 @@ public class NumberGUI
 			}
 			case REDUCE:
 			{
-				itemBuilder.name(this.user.getTranslation("biomes.gui.buttons.reduce","[number]", Integer.toString(number)));
+				itemBuilder.name(this.user.getTranslation("challenges.gui.buttons.admin.number","[number]", Integer.toString(number)));
 				itemBuilder.icon(Material.RED_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value -= number;
 
 					if (this.value < this.minValue)
 					{
-						this.user.sendMessage("challenges.error.not-valid-integer",
+						this.user.sendMessage("challenges.errors.not-valid-integer",
 							"[value]", Integer.toString(this.value),
 							"[min]", Integer.toString(this.minValue),
 							"[max]", Integer.toString(this.maxValue));
@@ -336,14 +335,14 @@ public class NumberGUI
 			}
 			case MULTIPLY:
 			{
-				itemBuilder.name(this.user.getTranslation("biomes.gui.buttons.multiply","[number]", Integer.toString(number)));
+				itemBuilder.name(this.user.getTranslation("challenges.gui.buttons.admin.number","[number]", Integer.toString(number)));
 				itemBuilder.icon(Material.BLUE_STAINED_GLASS_PANE);
 				itemBuilder.clickHandler((panel, user1, clickType, i) -> {
 					this.value *= number;
 
 					if (this.value > this.maxValue)
 					{
-						this.user.sendMessage("challenges.error.not-valid-integer",
+						this.user.sendMessage("challenges.errors.not-valid-integer",
 							"[value]", Integer.toString(this.value),
 							"[min]", Integer.toString(this.minValue),
 							"[max]", Integer.toString(this.maxValue));

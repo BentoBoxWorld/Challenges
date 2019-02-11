@@ -55,7 +55,7 @@ public class StringListGUI
 	private void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation("challenges.gui.text-edit-title"));
+			name(this.user.getTranslation("challenges.gui.title.admin.edit-text-fields"));
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLACK_STAINED_GLASS_PANE);
 
@@ -101,8 +101,8 @@ public class StringListGUI
 		{
 			case SAVE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.save");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.save");
+				description = Collections.singletonList(this.user.getTranslation("challenges.gui.descriptions.admin.save"));
 				icon = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(true, this.value);
@@ -113,8 +113,8 @@ public class StringListGUI
 			}
 			case CANCEL:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.cancel");
-				description = Collections.emptyList();
+				name = this.user.getTranslation("challenges.gui.buttons.admin.cancel");
+				description = Collections.singletonList(this.user.getTranslation("challenges.gui.descriptions.admin.cancel"));
 				icon = new ItemStack(Material.OAK_DOOR);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.consumer.accept(false, this.value);
@@ -125,15 +125,17 @@ public class StringListGUI
 			}
 			case VALUE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.value");
-				description = this.value;
+				name = this.user.getTranslation("challenges.gui.buttons.admin.value");
+				description = new ArrayList<>();
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value", "[value]", ""));
+				description.addAll(this.value);
 				icon = new ItemStack(Material.PAPER);
 				clickHandler = (panel, user, clickType, slot) -> true;
 				break;
 			}
 			case ADD:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.add");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.add");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
@@ -151,7 +153,7 @@ public class StringListGUI
 			}
 			case CLEAR:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.clear");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.clear");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.RED_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
@@ -163,7 +165,7 @@ public class StringListGUI
 			}
 			case REMOVE:
 			{
-				name = this.user.getTranslation("challenges.gui.buttons.remove");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.remove-empty");
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {

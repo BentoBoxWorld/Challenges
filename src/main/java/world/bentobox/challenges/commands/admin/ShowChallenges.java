@@ -21,8 +21,8 @@ public class ShowChallenges extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challaneges.admin.show.parameters");
-        this.setDescription("challenges.admin.show.description");
+        this.setParametersHelp("challenges.commands.admin.show.parameters");
+        this.setDescription("challenges.commands.admin.show.description");
 
     }
 
