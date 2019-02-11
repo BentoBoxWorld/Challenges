@@ -280,7 +280,7 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
 	}
 
 
@@ -296,6 +296,8 @@ public class EditChallengeGUI extends CommonGUI
 		List<String> description;
 		boolean glow;
 		PanelItem.ClickHandler clickHandler;
+
+		final int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 
 		switch (button)
 		{
@@ -408,7 +410,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = Collections.emptyList();
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challenge.getDescription(), (status, value) -> {
+					new StringListGUI(this.user, this.challenge.getDescription(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setDescription(value);
@@ -644,7 +646,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(this.challenge.getRequiredPermissions());
 				icon = new ItemStack(Material.REDSTONE_LAMP);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challenge.getRequiredPermissions(), (status, value) -> {
+					new StringListGUI(this.user, this.challenge.getRequiredPermissions(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRequiredPermissions(new HashSet<>(value));
@@ -671,7 +673,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new ItemSwitchGUI(this.user, this.challenge.getRequiredItems(), (status, value) -> {
+					new ItemSwitchGUI(this.user, this.challenge.getRequiredItems(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRequiredItems(value);
@@ -765,7 +767,7 @@ public class EditChallengeGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.BEACON);
 					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), (status, value) -> {
+						new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), lineLength, (status, value) -> {
 							if (status)
 							{
 								this.challenge.setRequiredIslandLevel(value);
@@ -886,7 +888,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new ItemSwitchGUI(this.user, this.challenge.getRewardItems(), (status, value) -> {
+					new ItemSwitchGUI(this.user, this.challenge.getRewardItems(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRewardItems(value);
@@ -962,7 +964,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = this.challenge.getRewardCommands();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challenge.getRewardCommands(), (status, value) -> {
+					new StringListGUI(this.user, this.challenge.getRewardCommands(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRewardCommands(value);
@@ -1057,7 +1059,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.TRAPPED_CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new ItemSwitchGUI(this.user, this.challenge.getRepeatItemReward(), (status, value) -> {
+					new ItemSwitchGUI(this.user, this.challenge.getRepeatItemReward(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRepeatItemReward(value);
@@ -1136,7 +1138,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = this.challenge.getRepeatRewardCommands();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challenge.getRepeatRewardCommands(), (status, value) -> {
+					new StringListGUI(this.user, this.challenge.getRepeatRewardCommands(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRepeatRewardCommands(value);
@@ -1154,7 +1156,7 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
 	}
 
 

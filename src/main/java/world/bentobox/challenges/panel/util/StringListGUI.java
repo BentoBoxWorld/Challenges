@@ -24,17 +24,18 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class StringListGUI
 {
-	public StringListGUI(User user, Collection<String> value, BiConsumer<Boolean, List<String>> consumer)
+	public StringListGUI(User user, Collection<String> value, int lineLength, BiConsumer<Boolean, List<String>> consumer)
 	{
-		this(user, new ArrayList<>(value), consumer);
+		this(user, new ArrayList<>(value), lineLength, consumer);
 	}
 
 
-	public StringListGUI(User user, List<String> value, BiConsumer<Boolean, List<String>> consumer)
+	public StringListGUI(User user, List<String> value, int lineLength, BiConsumer<Boolean, List<String>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
 		this.value = value;
+		this.lineLength = lineLength;
 
 		if (this.value.size() > 21)
 		{
@@ -177,7 +178,7 @@ public class StringListGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), false, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), false, clickHandler, false);
 	}
 
 
@@ -243,4 +244,9 @@ public class StringListGUI
 	 * Current value.
 	 */
 	private List<String> value;
+
+	/**
+	 * This variable stores how large line can be, before warp it.
+	 */
+	private int lineLength;
 }

@@ -21,19 +21,19 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class NumberGUI
 {
-	public NumberGUI(User user, int value, BiConsumer<Boolean, Integer> consumer)
+	public NumberGUI(User user, int value, int lineLength, BiConsumer<Boolean, Integer> consumer)
 	{
-		this(user, value, Integer.MIN_VALUE, Integer.MAX_VALUE, consumer);
+		this(user, value, Integer.MIN_VALUE, Integer.MAX_VALUE, lineLength, consumer);
 	}
 
 
-	public NumberGUI(User user, int value, int minValue, BiConsumer<Boolean, Integer> consumer)
+	public NumberGUI(User user, int value, int minValue, int lineLength, BiConsumer<Boolean, Integer> consumer)
 	{
-		this(user, value, minValue, Integer.MAX_VALUE, consumer);
+		this(user, value, minValue, Integer.MAX_VALUE, lineLength, consumer);
 	}
 
 
-	public NumberGUI(User user, int value, int minValue, int maxValue, BiConsumer<Boolean, Integer> consumer)
+	public NumberGUI(User user, int value, int minValue, int maxValue, int lineLength, BiConsumer<Boolean, Integer> consumer)
 	{
 		this.user = user;
 		this.value = value;
@@ -43,6 +43,8 @@ public class NumberGUI
 		this.maxValue = maxValue;
 
 		this.currentOperation = Button.SET;
+
+		this.lineLength = lineLength;
 
 		this.build();
 	}
@@ -238,7 +240,7 @@ public class NumberGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), glow, clickHandler, false);
 	}
 
 
@@ -417,4 +419,9 @@ public class NumberGUI
 	 * This variable holds which operation now is processed.
 	 */
 	private Button currentOperation;
+
+	/**
+	 * This variable stores how large line can be, before warp it.
+	 */
+	private int lineLength;
 }

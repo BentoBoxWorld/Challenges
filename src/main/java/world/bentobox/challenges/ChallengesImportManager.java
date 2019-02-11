@@ -117,7 +117,9 @@ public class ChallengesImportManager
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
-            newChallenge.setDescription(GuiUtils.stringSplit(details.getString("description", "")));
+            newChallenge.setDescription(GuiUtils.stringSplit(
+                details.getString("description", ""),
+                this.addon.getChallengesSettings().getLoreLineLength()));
             newChallenge.setIcon(ItemParser.parse(details.getString("icon", "") + ":1"));
 
             if (details.getString("type", "").equalsIgnoreCase("level"))

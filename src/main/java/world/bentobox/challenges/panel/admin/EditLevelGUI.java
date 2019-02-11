@@ -252,7 +252,7 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
 	}
 
 
@@ -265,7 +265,9 @@ public class EditLevelGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(challenge.getDescription())).
+			description(GuiUtils.stringSplit(
+				challenge.getDescription(),
+				this.addon.getChallengesSettings().getLoreLineLength())).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// Open challenges edit screen.
@@ -296,6 +298,8 @@ public class EditLevelGUI extends CommonGUI
 		List<String> description;
 		boolean glow;
 		PanelItem.ClickHandler clickHandler;
+
+		final int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 
 		switch (button)
 		{
@@ -447,7 +451,7 @@ public class EditLevelGUI extends CommonGUI
 				description = values;
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new ItemSwitchGUI(this.user, this.challengeLevel.getRewardItems(), (status, value) -> {
+					new ItemSwitchGUI(this.user, this.challengeLevel.getRewardItems(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setRewardItems(value);
@@ -523,7 +527,7 @@ public class EditLevelGUI extends CommonGUI
 				description = this.challengeLevel.getRewardCommands();
 				icon = new ItemStack(Material.COMMAND_BLOCK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new StringListGUI(this.user, this.challengeLevel.getRewardCommands(), (status, value) -> {
+					new StringListGUI(this.user, this.challengeLevel.getRewardCommands(), lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setRewardCommands(value);
@@ -550,7 +554,7 @@ public class EditLevelGUI extends CommonGUI
 					List<Challenge> challengeList = manager.getAllChallenges(this.world);
 					challengeList.removeAll(manager.getLevelChallenges(this.challengeLevel));
 
-					new SelectChallengeGUI(this.user, challengeList, (status, value) -> {
+					new SelectChallengeGUI(this.user, challengeList, lineLength, (status, value) -> {
 						if (status)
 						{
 							manager.addChallengeToLevel(value, this.challengeLevel);
@@ -572,7 +576,7 @@ public class EditLevelGUI extends CommonGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					ChallengesManager manager = this.addon.getChallengesManager();
 
-					new SelectChallengeGUI(this.user, manager.getLevelChallenges(this.challengeLevel), (status, value) -> {
+					new SelectChallengeGUI(this.user, manager.getLevelChallenges(this.challengeLevel), lineLength, (status, value) -> {
 						if (status)
 						{
 							manager.removeChallengeFromLevel(value, this.challengeLevel);
@@ -590,7 +594,7 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), glow, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
 	}
 
 

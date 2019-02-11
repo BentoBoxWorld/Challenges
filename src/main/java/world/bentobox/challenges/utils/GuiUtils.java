@@ -370,9 +370,10 @@ public class GuiUtils
 	 * Simple splitter
 	 *
 	 * @param string - string to be split
+	 * @param warpLength - whn warp should be affected.
 	 * @return list of split strings
 	 */
-	public static List<String> stringSplit(String string)
+	public static List<String> stringSplit(String string, int warpLength)
 	{
 		// Remove all ending lines from string.
 		string = string.replaceAll("([\\r\\n])", "\\|");
@@ -381,7 +382,7 @@ public class GuiUtils
 		List<String> result = new ArrayList<>();
 
 		Arrays.stream(string.split("\\|")).
-			map(line -> Arrays.asList(WordUtils.wrap(line, 25).split(System.getProperty("line.separator")))).
+			map(line -> Arrays.asList(WordUtils.wrap(line, warpLength).split(System.getProperty("line.separator")))).
 			forEach(result::addAll);
 
 		return result;
@@ -391,9 +392,10 @@ public class GuiUtils
 	/**
 	 * Simple splitter for all strings in list.
 	 * @param stringList - list of string to be split
+	 * @param warpLength - whn warp should be affected.
 	 * @return list of split strings
 	 */
-	public static List<String> stringSplit(List<String> stringList)
+	public static List<String> stringSplit(List<String> stringList, int warpLength)
 	{
 		if (stringList.isEmpty())
 		{
@@ -401,7 +403,7 @@ public class GuiUtils
 		}
 
 		List<String> newList = new ArrayList<>(stringList.size());
-		stringList.stream().map(GuiUtils::stringSplit).forEach(newList::addAll);
+		stringList.stream().map(string -> GuiUtils.stringSplit(string, warpLength)).forEach(newList::addAll);
 		return newList;
 	}
 }

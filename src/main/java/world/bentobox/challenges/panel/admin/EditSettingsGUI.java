@@ -9,6 +9,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -61,12 +62,13 @@ public class EditSettingsGUI extends CommonGUI
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
 			this.user.getTranslation("challenges.gui.admin.settings-title"));
 
+		final int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 		GuiUtils.fillBorder(panelBuilder);
 
 		// resetChallenges
 		panelBuilder.item(19, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.reset")).
-			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.reset"))).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.reset"), lineLength)).
 			icon(Material.LAVA_BUCKET).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setResetChallenges(
@@ -80,7 +82,7 @@ public class EditSettingsGUI extends CommonGUI
 		// broadcastMessages
 		panelBuilder.item(20, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.broadcast")).
-			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.broadcast"))).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.broadcast"), lineLength)).
 			icon(Material.JUKEBOX).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setBroadcastMessages(
@@ -94,7 +96,7 @@ public class EditSettingsGUI extends CommonGUI
 		// removeCompleteOneTimeChallenges
 		panelBuilder.item(21, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.remove-on-complete")).
-			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.remove-on-complete"))).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.remove-on-complete"), lineLength)).
 			icon(Material.MAGMA_BLOCK).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setRemoveCompleteOneTimeChallenges(
@@ -108,7 +110,7 @@ public class EditSettingsGUI extends CommonGUI
 		// addCompletedGlow
 		panelBuilder.item(22, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.glow")).
-			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.glow"))).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.glow"), lineLength)).
 			icon(Material.GLOWSTONE).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setAddCompletedGlow(
@@ -122,12 +124,35 @@ public class EditSettingsGUI extends CommonGUI
 		// freeChallengesAtTheTop
 		panelBuilder.item(23, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.admin.buttons.free-challenges")).
-			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.free-challenges"))).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.free-challenges"), lineLength)).
 			icon(Material.FILLED_MAP).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.addon.getChallengesSettings().setFreeChallengesFirst(
 					!this.addon.getChallengesSettings().isFreeChallengesFirst());
 				this.build();
+				return true;
+			}).
+			glow(this.addon.getChallengesSettings().isFreeChallengesFirst()).
+			build());
+
+		// Lore line length
+		panelBuilder.item(23, new PanelItemBuilder().
+			name(this.user.getTranslation("challenges.gui.admin.buttons.lore-length")).
+			description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.admin.descriptions.lore-length"), lineLength)).
+			icon(Material.ANVIL).
+			clickHandler((panel, user1, clickType, i) -> {
+				new NumberGUI(this.user,
+					this.addon.getChallengesSettings().getLoreLineLength(),
+					0,
+					(status, value) -> {
+						if (status)
+						{
+							this.addon.getChallengesSettings().setLoreLineLength(value);
+						}
+
+						this.build();
+					});
+
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isFreeChallengesFirst()).

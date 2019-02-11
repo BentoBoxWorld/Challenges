@@ -170,6 +170,8 @@ public class ListUsersGUI extends CommonGUI
 	 */
 	private PanelItem createPlayerIcon(Player player)
 	{
+		int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
+
 		if (this.addon.getIslands().hasIsland(this.world, player.getUniqueId()))
 		{
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
@@ -179,7 +181,7 @@ public class ListUsersGUI extends CommonGUI
 					switch (this.operationMode)
 					{
 						case COMPLETE:
-							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), (status, value) -> {
+							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), lineLength, (status, value) -> {
 								if (status)
 								{
 									manager.setChallengeComplete(User.getInstance(player), value);
@@ -191,7 +193,7 @@ public class ListUsersGUI extends CommonGUI
 							});
 							break;
 						case RESET:
-							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), (status, value) -> {
+							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), lineLength, (status, value) -> {
 								if (status)
 								{
 									manager.resetChallenge(User.getInstance(player), value);
@@ -222,7 +224,7 @@ public class ListUsersGUI extends CommonGUI
 			return new PanelItemBuilder().
 				name(player.getName()).
 				icon(Material.BARRIER).
-				description(GuiUtils.stringSplit(this.user.getTranslation("general.errors.player-has-no-island"))).
+				description(GuiUtils.stringSplit(this.user.getTranslation("general.errors.player-has-no-island"), lineLength)).
 				clickHandler((panel, user1, clickType, slot) -> false).
 				build();
 		}
@@ -273,7 +275,7 @@ public class ListUsersGUI extends CommonGUI
 			name(this.user.getTranslation("challenges.gui.admin.buttons.toggle-users",
 				"[value]",
 				this.user.getTranslation("challenges.gui.admin.descriptions." + ViewMode.values()[this.modeIndex].name().toLowerCase()))).
-			description(GuiUtils.stringSplit(values)).
+			description(GuiUtils.stringSplit(values, this.addon.getChallengesSettings().getLoreLineLength())).
 			icon(Material.STONE_BUTTON).
 			clickHandler(
 				(panel, user1, clickType, slot) -> {

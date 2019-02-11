@@ -7,20 +7,24 @@
 # Reset Challenges - if this is true, player's challenges will reset when they
 # reset an island or if they are kicked or leave a team. Prevents exploiting the
 # challenges by doing them repeatedly.
-resetChallenges: true
+reset-challenges: true
 #
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.
-broadcastMessages: true
+broadcast-messages: true
 #
 # Remove non-repeatable challenges from the challenge GUI when complete.
-removeCompleteOneTimeChallenges: false
+remove-complete-one-time-challenges: false
 #
 # Add enchanted glow to completed challenges
-addCompletedGlow: true
+add-completed-glow: true
 #
 # This indicate if free challenges must be at the start (true) or at the end (false) of list.
-freeChallengesFirst: false
+free-challenges-first: true
+#
+# This allows to change lore description line length. By default it is 25, but some server
+# owners may like it to be larger.
+lore-length: 25
 #
 # This list stores GameModes in which Challenges addon should not work.
 # To disable addon it is necessary to write its name in new line that starts with -. Example:

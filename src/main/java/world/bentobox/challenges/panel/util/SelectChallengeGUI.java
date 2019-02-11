@@ -18,11 +18,12 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectChallengeGUI
 {
-	public SelectChallengeGUI(User user, List<Challenge> challengesList, BiConsumer<Boolean, Challenge> consumer)
+	public SelectChallengeGUI(User user, List<Challenge> challengesList, int lineLength, BiConsumer<Boolean, Challenge> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
 		this.challengesList = challengesList;
+		this.lineLength = lineLength;
 
 		this.build(0);
 	}
@@ -127,7 +128,7 @@ public class SelectChallengeGUI
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(challenge.getDescription())).
+			description(GuiUtils.stringSplit(challenge.getDescription(), this.lineLength)).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				this.consumer.accept(true, challenge);
@@ -155,4 +156,9 @@ public class SelectChallengeGUI
 	 * Current value.
 	 */
 	private List<Challenge> challengesList;
+
+	/**
+	 * This variable stores how large line can be, before warp it.
+	 */
+	private int lineLength;
 }

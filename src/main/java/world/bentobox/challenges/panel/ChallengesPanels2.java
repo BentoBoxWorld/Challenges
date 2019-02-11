@@ -184,7 +184,9 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.ENCHANTED_BOOK))
                         .name(name)
-                        .description(GuiUtils.stringSplit(requester.getTranslation("challenges.navigation","[level]",name)))
+                        .description(GuiUtils.stringSplit(
+                            requester.getTranslation("challenges.navigation","[level]",name),
+                            this.addon.getChallengesSettings().getLoreLineLength()))
                         .clickHandler((p, u, c, s) -> {
                             u.closeInventory();
                             u.performCommand(label + " " + ChallengesCommand.CHALLENGE_COMMAND + " " + status.getLevel().getUniqueId());
@@ -198,7 +200,10 @@ public class ChallengesPanels2 {
                 PanelItem item = new PanelItemBuilder()
                         .icon(new ItemStack(Material.BOOK))
                         .name(name)
-                        .description(GuiUtils.stringSplit(requester.getTranslation("challenges.to-complete", "[challengesToDo]",String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""), "[thisLevel]", previousLevelName)))
+                        .description(GuiUtils.stringSplit(requester.getTranslation("challenges.to-complete",
+                            "[challengesToDo]", String.valueOf(previousStatus != null ? previousStatus.getNumberOfChallengesStillToDo() : ""),
+                            "[thisLevel]", previousLevelName),
+                            this.addon.getChallengesSettings().getLoreLineLength()))
                         .build();
                 panelBuilder.item(item);
             }
@@ -309,6 +314,7 @@ public class ChallengesPanels2 {
     }
 
     private Collection<? extends String> splitTrans(User user, String string, String...strings) {
-        return GuiUtils.stringSplit(user.getTranslation(string, strings));
+        return GuiUtils.stringSplit(user.getTranslation(string, strings),
+            this.addon.getChallengesSettings().getLoreLineLength());
     }
 }

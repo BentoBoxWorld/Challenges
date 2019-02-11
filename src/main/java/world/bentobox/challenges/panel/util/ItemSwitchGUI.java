@@ -22,11 +22,12 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class ItemSwitchGUI
 {
-	public ItemSwitchGUI(User user, List<ItemStack> itemStacks, BiConsumer<Boolean, List<ItemStack>> consumer)
+	public ItemSwitchGUI(User user, List<ItemStack> itemStacks, int lineLength, BiConsumer<Boolean, List<ItemStack>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
 		this.itemStacks = itemStacks;
+		this.lineLength = lineLength;
 		this.build();
 	}
 
@@ -124,7 +125,7 @@ public class ItemSwitchGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description), false, clickHandler, false);
+		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), false, clickHandler, false);
 	}
 
 
@@ -233,4 +234,9 @@ public class ItemSwitchGUI
 	 * Consumer that returns item stacks on save action.
 	 */
 	private BiConsumer<Boolean, List<ItemStack>> consumer;
+
+	/**
+	 * This variable stores how large line can be, before warp it.
+	 */
+	private int lineLength;
 }

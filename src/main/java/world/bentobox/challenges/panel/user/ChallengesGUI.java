@@ -343,7 +343,8 @@ public class ChallengesGUI extends CommonGUI
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
 			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(this.createChallengeDescription(challenge))).
+			description(GuiUtils.stringSplit(this.createChallengeDescription(challenge),
+				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
 				if (TryToComplete.complete(this.addon,
 					this.user,
@@ -523,7 +524,9 @@ public class ChallengesGUI extends CommonGUI
 		if (level.isUnlocked())
 		{
 			icon = level.getLevel().getIcon();
-			description = GuiUtils.stringSplit(this.user.getTranslation("challenges.navigation", "[level]", name));
+			description = GuiUtils.stringSplit(
+				this.user.getTranslation("challenges.navigation", "[level]", name),
+				this.addon.getChallengesSettings().getLoreLineLength());
 			clickHandler = (panel, user1, clickType, slot) -> {
 				this.lastSelectedLevel = level;
 
@@ -543,7 +546,8 @@ public class ChallengesGUI extends CommonGUI
 			description = GuiUtils.stringSplit(
 				this.user.getTranslation("challenges.to-complete",
 					"[challengesToDo]", Integer.toString(level.getNumberOfChallengesStillToDo()),
-					"[thisLevel]", level.getPreviousLevel().getFriendlyName()));
+					"[thisLevel]", level.getPreviousLevel().getFriendlyName()),
+				this.addon.getChallengesSettings().getLoreLineLength());
 
 			clickHandler = null;
 			glow = false;

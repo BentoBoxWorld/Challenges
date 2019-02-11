@@ -22,24 +22,35 @@ public class Settings implements DataObject
 	@ConfigComment("Reset Challenges - if this is true, player's challenges will reset when they")
 	@ConfigComment("reset an island or if they are kicked or leave a team. Prevents exploiting the")
 	@ConfigComment("challenges by doing them repeatedly.")
+	@ConfigEntry(path = "reset-challenges")
 	private boolean resetChallenges = true;
 
 	@ConfigComment("")
 	@ConfigComment("Broadcast 1st time challenge completion messages to all players.")
 	@ConfigComment("Change to false if the spam becomes too much.")
+	@ConfigEntry(path = "broadcast-messages")
 	private boolean broadcastMessages = true;
 
 	@ConfigComment("")
 	@ConfigComment("Remove non-repeatable challenges from the challenge GUI when complete.")
+	@ConfigEntry(path = "remove-complete-one-time-challenges")
 	private boolean removeCompleteOneTimeChallenges = false;
 
 	@ConfigComment("")
 	@ConfigComment("Add enchanted glow to completed challenges")
+	@ConfigEntry(path = "add-completed-glow")
 	private boolean addCompletedGlow = true;
 
 	@ConfigComment("")
 	@ConfigComment("This indicate if free challenges must be at the start (true) or at the end (false) of list.")
+	@ConfigEntry(path = "free-challenges-first")
 	private boolean freeChallengesFirst = true;
+
+	@ConfigComment("")
+	@ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
+	@ConfigComment("owners may like it to be larger.")
+	@ConfigEntry(path = "lore-length")
+	private int loreLineLength = 25;
 
 	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
@@ -122,6 +133,16 @@ public class Settings implements DataObject
 	}
 
 
+	/**
+	 * This method returns the loreLineLength object.
+	 * @return the loreLineLength object.
+	 */
+	public int getLoreLineLength()
+	{
+		return loreLineLength;
+	}
+
+
 	@Override
 	public void setUniqueId(String uniqueId)
 	{
@@ -180,5 +201,15 @@ public class Settings implements DataObject
 	public void setFreeChallengesFirst(boolean freeChallengesFirst)
 	{
 		this.freeChallengesFirst = freeChallengesFirst;
+	}
+
+
+	/**
+	 * This method sets the loreLineLength object value.
+	 * @param loreLineLength the loreLineLength object new value.
+	 */
+	public void setLoreLineLength(int loreLineLength)
+	{
+		this.loreLineLength = loreLineLength;
 	}
 }
