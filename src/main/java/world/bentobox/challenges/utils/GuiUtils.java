@@ -385,6 +385,17 @@ public class GuiUtils
 			map(line -> Arrays.asList(WordUtils.wrap(line, warpLength).split(System.getProperty("line.separator")))).
 			forEach(result::addAll);
 
+		// Fix colors, as splitting my lost that information.
+
+		for (int i = 0, resultSize = result.size(); i < resultSize; i++)
+		{
+			if (i > 0)
+			{
+				String lastColor = ChatColor.getLastColors(result.get(i - 1));
+				result.set(i, lastColor + result.get(i));
+			}
+		}
+
 		return result;
 	}
 
