@@ -1,25 +1,36 @@
-# addon-challenges
-Add-on for BentoBox to provide challenges for BSkyBlock and AcidIsland. This add-on will work
-for both game modes.
+# Challenges Addon
+Add-on for BentoBox to provide challenges for any BentoBox GameMode. 
 
 ## How to use
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
 2. Restart the server
 3. The addon will create a data folder and inside the folder will be a config.yml and an example challenges.yml
-4. Edit the config.yml and challenges.yml files how you want. Note that unlike ASkyBlock, the challenges.yml is for *importing only*.
+4. Edit the config.yml and challenges.yml files how you want. Note that unlike ASkyBlock, the challenges.yml is for *importing only* and faster start.
 5. Restart the server
-6. To import challenges into BSkyBlock do /bsb challenges import. To import into AcidIsland do /acid challenges import.
+6. To import challenges into GameMode, you must run admin command and attach `challenges import` at the end. Or you can use challenges admin GUI to do the same.
+
+## Compatibility
+
+- [x] BSkyBlock - since 1.1 version
+- [ ] AcidIsland - only in snapshots from #85 build.
+- [x] SkyGrid
+- [x] CaveBlock
 
 ## Config.yml
 
+As most of BenotBox addons, config can be edited only when server is stopped. Otherwise all changes will be overwritten by server.
 The config.yml has the following sections:
 
 * Reset Challenges - if this is true, player's challenges will reset when they reset an island or if they are kicked or leave a team. Prevents exploiting the challenges by doing them repeatedly. Default is true
 * Broadcast 1st time challenge completion messages to all players. Change to false if the spam becomes too much. Default is true.
 * Remove non-repeatable challenges from the challenge GUI when complete. Default is false.
 * Add enchanted glow to completed challenges. Default is true
-
+* Free challenges location - You can decide, either free challenges will be at the top, or at the bottom.
+* Description line length - allows to specify maximal line length in GUI icon descriptions.
+* Challenge Description structure - allows to modify structure of challenge description.
+* Level Description structure - allows to modify structure of Level description.
+* Disabled GameModes - specify Game Modes where challenges will not work.
 
 ## Challenges.yml
 
@@ -47,7 +58,6 @@ There are a few admin commands and more being written. The main challenge admin 
 
 * /bsbadmin challenges help : Show help for all the commands
 * /bsbadmin challenges import [overwrite]: import challenges from challenges.yml
-* /bsbadmin challenges complete <player> <unique challenge name>: Mark challenge complete
 * /bsbadmin challenges reload : reload challenges from the database
 * /bsbadmin challenges reset <player> <unique challenge name>: Reset challenge to 0 times / incomplete
 
