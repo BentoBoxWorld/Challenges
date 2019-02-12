@@ -26,6 +26,37 @@ free-challenges-first: true
 # owners may like it to be larger.
 lore-length: 25
 #
+# This string allows to change element order in Challenge description. Each letter represents
+# one object from challenge description. If letter is not used, then its represented part
+# will not be in description. If use any letter that is not recognized, then it will be
+# ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.
+# List of letters and their meaning:
+#  - L - Level String: '*.level'
+#  - S - Status String: '*.completed'
+#  - T - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'
+#  - D - Description String: defined in challenge object - challenge.description
+#  - W - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'
+#  - E - Environment String: defined in challenge object - challenge.environment
+#  - Q - Requirement String: '*.required-level', '*.required-money', '*.required-experience'
+#  - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
+# By adding 'i' after Q or R (requirements and rewards) will display list of items, blocks
+# and entities that are defined in challenge and can be customized under 'challenges.gui.description.*'
+challenge-lore-message: LSTDEQiWRi
+#
+# This string allows to change element order in Level description. Each letter represents
+# one object from level description. If letter is not used, then its represented part
+# will not be in description. If use any letter that is not recognized, then it will be
+# ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.
+# List of letters and their meaning:
+#  - S - Status String: '*.completed'
+#  - T - Count of completed challenges String: '*.completed-challenges-of'
+#  - D - Description String: defined in level object - challengeLevel.unlockMessage
+#  - A - WaiverAmount String: '*.waver-amount'
+#  - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
+# By adding 'i' after R (rewards) will display list of items that are defined in challenge
+# and can be customized under 'challenges.gui.description.*'
+level-lore-message: STDARi
+#
 # This list stores GameModes in which Challenges addon should not work.
 # To disable addon it is necessary to write its name in new line that starts with -. Example:
 # disabled-gamemodes:
@@ -33,5 +64,5 @@ lore-length: 25
 disabled-gamemodes: []
 #
 uniqueId: config
-
-challenge-lore-message: 'LSTDEQiWRi'
+#
+configVersion: v1.1

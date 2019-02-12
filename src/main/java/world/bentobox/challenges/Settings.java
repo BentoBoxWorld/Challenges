@@ -84,7 +84,7 @@ public class Settings implements DataObject
 	@ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
 	@ConfigComment("By adding 'i' after R (rewards) will display list of items that are defined in challenge")
 	@ConfigComment("and can be customized under 'challenges.gui.description.*'")
-	@ConfigEntry(path = "challenge-lore-message")
+	@ConfigEntry(path = "level-lore-message")
 	private String levelLoreMessage = "STDARi";
 
 	@ConfigComment("")
