@@ -276,7 +276,7 @@ public abstract class CommonGUI
 			manager.getChallengeTimes(this.user, challenge) :
 			isCompletedOnce ? 0 : 1;
 		boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
-			challenge.getMaxTimes() > 0 && doneTimes < challenge.getMaxTimes();
+			challenge.getMaxTimes() > 0 && doneTimes >= challenge.getMaxTimes();
 
 		// Used to know if blocks, entities, items should be added after requirements and rewards.
 		char prevChar = ' ';
@@ -800,6 +800,5 @@ public abstract class CommonGUI
 
 		return result;
 	}
-
 }
 
