@@ -55,7 +55,7 @@ public class ChallengesPanels {
         }
         this.level = this.manager.getLevel(level);
         // Check if level is valid
-        if (!manager.isLevelUnlocked(user, world, this.level)) {
+        if (!manager.isLevelUnlocked(user, this.level)) {
             return;
         }
         PanelBuilder panelBuilder = new PanelBuilder()

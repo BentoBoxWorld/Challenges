@@ -496,8 +496,21 @@ public class ChallengesManager
      */
     public boolean isChallengeComplete(UUID user, Challenge challenge)
     {
+        return this.isChallengeComplete(user, challenge.getUniqueId());
+    }
+
+
+    /**
+     * Checks if a challenge is complete or not
+     *
+     * @param user - User who must be checked.
+     * @param challenge - Challenge
+     * @return - true if completed
+     */
+    public boolean isChallengeComplete(UUID user, String challenge)
+    {
         this.addPlayer(user);
-        return this.playerCacheData.get(user).isChallengeDone(challenge.getUniqueId());
+        return this.playerCacheData.get(user).isChallengeDone(challenge);
     }
 
 
@@ -510,8 +523,21 @@ public class ChallengesManager
      */
     public List<LevelStatus> getChallengeLevelStatus(User user, World world)
     {
+        return this.getChallengeLevelStatus(user.getUniqueId(), Util.getWorld(world).getName());
+    }
+
+
+    /**
+     * Get the status on every level
+     *
+     * @param user - user
+     * @param world - world
+     * @return Level status - how many challenges still to do on which level
+     */
+    public List<LevelStatus> getChallengeLevelStatus(UUID user, String world)
+    {
         this.addPlayer(user);
-        ChallengesPlayerData playerData = this.playerCacheData.get(user.getUniqueId());
+        ChallengesPlayerData playerData = this.playerCacheData.get(user);
 
         List<ChallengeLevel> challengeLevelList = this.getLevels(world);
 
@@ -552,17 +578,29 @@ public class ChallengesManager
      * Check is user can see given level.
      *
      * @param user - user
-     * @param world - world
      * @param level - level
      * @return true if level is unlocked
      */
-    public boolean isLevelUnlocked(User user, World world, ChallengeLevel level)
+    public boolean isLevelUnlocked(User user, ChallengeLevel level)
+    {
+        return this.isLevelUnlocked(user.getUniqueId(), level);
+    }
+
+
+    /**
+     * Check is user can see given level.
+     *
+     * @param user - user
+     * @param level - level
+     * @return true if level is unlocked
+     */
+    public boolean isLevelUnlocked(UUID user, ChallengeLevel level)
     {
         this.addPlayer(user);
 
-        return this.getChallengeLevelStatus(user, world).stream().
-                filter(LevelStatus::isUnlocked).
-                anyMatch(lv -> lv.getLevel().equals(level));
+        return this.getChallengeLevelStatus(user, level.getWorld()).stream().
+            filter(LevelStatus::isUnlocked).
+            anyMatch(lv -> lv.getLevel().equals(level));
     }
 
 
@@ -664,6 +702,28 @@ public class ChallengesManager
         this.playerCacheData.get(user.getUniqueId()).addCompletedLevel(level.getUniqueId());
         // Save
         this.savePlayer(user.getUniqueId());
+    }
+
+
+    /**
+     * This method returns LevelStatus object for given challenge level.
+     * @param user User which level status must be acquired.
+     * @param level Level which status must be calculated.
+     * @return LevelStatus fof given level.
+     */
+    public LevelStatus getChallengeLevelStatus(UUID user, ChallengeLevel level)
+    {
+        List<LevelStatus> statusList = this.getChallengeLevelStatus(user, level.getWorld());
+
+        for (LevelStatus status : statusList)
+        {
+            if (status.getLevel().equals(level))
+            {
+                return status;
+            }
+        }
+
+        return null;
     }
 
 
@@ -841,11 +901,21 @@ public class ChallengesManager
      */
     public List<ChallengeLevel> getLevels(World world)
     {
-        String worldName = Util.getWorld(world).getName();
+        return this.getLevels(Util.getWorld(world).getName());
+    }
+
+
+    /**
+     * This method returns list of challenge levels in given world.
+     * @param world for which levels must be searched.
+     * @return List with challenges in given world.
+     */
+    public List<ChallengeLevel> getLevels(String world)
+    {
         // TODO: Probably need to check also database.
         return this.levelCacheData.values().stream().
                 sorted(ChallengeLevel::compareTo).
-                filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                filter(challenge -> challenge.getUniqueId().startsWith(world)).
                 collect(Collectors.toList());
     }
 

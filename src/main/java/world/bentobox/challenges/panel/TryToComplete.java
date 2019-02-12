@@ -350,7 +350,7 @@ public class TryToComplete
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
-            !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
+            !this.manager.isLevelUnlocked(this.user, this.manager.getLevel(this.challenge.getLevel())))
         {
             this.user.sendMessage("challenges.errors.challenge-level-not-available");
             result = EMPTY_RESULT;

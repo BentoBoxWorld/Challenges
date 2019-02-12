@@ -384,7 +384,7 @@ public class ChallengesGUI extends CommonGUI
 		{
 			icon = level.getLevel().getIcon();
 			description = GuiUtils.stringSplit(
-				this.user.getTranslation("challenges.gui.descriptions.level-unlocked", "[level]", name),
+				this.generateLevelDescription(level.getLevel(), user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength());
 			clickHandler = (panel, user1, clickType, slot) -> {
 				this.lastSelectedLevel = level;

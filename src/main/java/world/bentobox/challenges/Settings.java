@@ -72,6 +72,22 @@ public class Settings implements DataObject
 	private String challengeLoreMessage = "LSTDEQiWRi";
 
 	@ConfigComment("")
+	@ConfigComment("This string allows to change element order in Level description. Each letter represents")
+	@ConfigComment("one object from level description. If letter is not used, then its represented part")
+	@ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
+	@ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.")
+	@ConfigComment("List of letters and their meaning: ")
+	@ConfigComment(" - S - Status String: '*.completed'")
+	@ConfigComment(" - T - Count of completed challenges String: '*.completed-challenges-of'")
+	@ConfigComment(" - D - Description String: defined in level object - challengeLevel.unlockMessage")
+	@ConfigComment(" - A - WaiverAmount String: '*.waver-amount'")
+	@ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
+	@ConfigComment("By adding 'i' after R (rewards) will display list of items that are defined in challenge")
+	@ConfigComment("and can be customized under 'challenges.gui.description.*'")
+	@ConfigEntry(path = "challenge-lore-message")
+	private String levelLoreMessage = "STDARi";
+
+	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
 	@ConfigComment("To disable addon it is necessary to write its name in new line that starts with -. Example:")
 	@ConfigComment("disabled-gamemodes:")
@@ -188,6 +204,16 @@ public class Settings implements DataObject
 
 
 	/**
+	 * This method returns the levelLoreMessage object.
+	 * @return the levelLoreMessage object.
+	 */
+	public String getLevelLoreMessage()
+	{
+		return levelLoreMessage;
+	}
+
+
+	/**
 	 * This method sets the configVersion object value.
 	 * @param configVersion the configVersion object new value.
 	 */
@@ -211,6 +237,16 @@ public class Settings implements DataObject
 	public void setChallengeLoreMessage(String challengeLoreMessage)
 	{
 		this.challengeLoreMessage = challengeLoreMessage;
+	}
+
+
+	/**
+	 * This method sets the levelLoreMessage object value.
+	 * @param levelLoreMessage the levelLoreMessage object new value.
+	 */
+	public void setLevelLoreMessage(String levelLoreMessage)
+	{
+		this.levelLoreMessage = levelLoreMessage;
 	}
 
 

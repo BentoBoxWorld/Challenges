@@ -253,6 +253,14 @@ challenges:
             required-items: 'Required Items:'
             required-entities: 'Required Entities:'
             required-blocks: 'Required Blocks:'
+        level-description:
+            completed: '&BCompleted'
+            completed-challenges-of: '&3You have completed [number] of [max] challenges in this level.'
+            waver-amount: '&6Can skip [value] challenges to unlock next level.'
+            experience-reward: '&6Exp reward: [value]'
+            money-reward: '&6Money reward: $[value]'
+            reward-items: '&6Reward Items:'
+            reward-commands: '&6Reward Commands:'
     messages:
         admin:
             hit-things: 'Hit things to add them to the list of things required. Right click when done.'
@@ -293,4 +301,4 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 3
+version: 4

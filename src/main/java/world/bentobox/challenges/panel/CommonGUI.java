@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
@@ -18,6 +19,8 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.LevelStatus;
 
 
 /**
@@ -248,6 +251,11 @@ public abstract class CommonGUI
 	{
 		this.valueObject = value;
 	}
+
+
+// ---------------------------------------------------------------------
+// Section: Generate Challenge Description
+// ---------------------------------------------------------------------
 
 
 	/**
@@ -651,5 +659,147 @@ public abstract class CommonGUI
 
 		return result;
 	}
+
+
+// ---------------------------------------------------------------------
+// Section: Generate Level Description
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * This method generates level description string.
+	 * @param level Level which string must be generated.
+	 * @param user User who calls generation.
+	 * @return List with generated description.
+	 */
+	protected List<String> generateLevelDescription(ChallengeLevel level, Player user)
+	{
+		List<String> result = new ArrayList<>();
+
+		ChallengesManager manager = this.addon.getChallengesManager();
+		LevelStatus status = manager.getChallengeLevelStatus(user.getUniqueId(), level);
+
+		// Used to know if blocks, entities, items should be added after requirements and rewards.
+		char prevChar = ' ';
+
+		for (char c : this.addon.getChallengesSettings().getChallengeLoreMessage().toLowerCase().toCharArray())
+		{
+			switch (c)
+			{
+				case 's':
+				{
+					if (status.isComplete())
+					{
+						result.add(this.user.getTranslation("challenges.gui.level-description.completed"));
+					}
+					break;
+				}
+				case 't':
+				{
+					if (!status.isComplete())
+					{
+						int doneChallengeCount = (int) level.getChallenges().stream().
+							filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), challenge)).
+							count();
+
+						result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",
+							"[number]", Integer.toString(doneChallengeCount),
+							"[max]", Integer.toString(level.getChallenges().size())));
+					}
+					break;
+				}
+				case 'd':
+				{
+					if (!status.isUnlocked())
+					{
+						result.add(level.getUnlockMessage());
+					}
+					break;
+				}
+				case 'a':
+				{
+					if (!status.isUnlocked() && !status.isComplete())
+					{
+						result.add(this.user.getTranslation("challenges.gui.level-description.waver-amount",
+							"[value]", Integer.toString(level.getWaiverAmount())));
+					}
+					break;
+				}
+				case 'r':
+				{
+					if (status.isUnlocked() && !status.isComplete())
+					{
+						if (level.getRewardExperience() > 0)
+						{
+							result.add(this.user
+								.getTranslation("challenges.gui.level-description.experience-reward",
+									"[value]", Integer.toString(level.getWaiverAmount())));
+						}
+
+						if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
+						{
+							result.add(this.user.getTranslation("challenges.gui.level-description.money-reward",
+								"[value]", Integer.toString(level.getRewardMoney())));
+						}
+					}
+					break;
+				}
+				case 'i':
+				{
+					if (status.isUnlocked() && !status.isComplete() && prevChar == 'r')
+					{
+						// Add message about reward items
+						if (!level.getRewardItems().isEmpty())
+						{
+							result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
+
+							for (ItemStack itemStack : level.getRewardItems())
+							{
+								result.add(this.user.getTranslation("challenges.gui.descriptions.item",
+									"[item]", itemStack.getType().name(),
+									"[count]", Integer.toString(itemStack.getAmount())));
+
+								if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
+								{
+									result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
+										"[meta]", itemStack.getItemMeta().toString()));
+								}
+
+								for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
+								{
+									result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
+										"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
+								}
+							}
+						}
+
+						// Add message about reward commands
+						if (!level.getRewardCommands().isEmpty())
+						{
+							result.add(this.user.getTranslation("challenges.gui.level-description.reward-commands"));
+
+							for (String command : level.getRewardCommands())
+							{
+								result.add(this.user.getTranslation("challenges.gui.descriptions.command",
+									"[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
+							}
+						}
+					}
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+
+			prevChar = c;
+		}
+
+		result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
+		return result;
+	}
+
 }
 
