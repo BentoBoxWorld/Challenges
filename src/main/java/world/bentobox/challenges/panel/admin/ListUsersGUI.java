@@ -175,7 +175,8 @@ public class ListUsersGUI extends CommonGUI
 	{
 		int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 
-		if (this.addon.getIslands().hasIsland(this.world, player.getUniqueId()))
+		if (this.addon.getIslands().hasIsland(this.world, player.getUniqueId()) ||
+			this.addon.getIslands().inTeam(this.world, player.getUniqueId()))
 		{
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
 				(panel, user1, clickType, slot) -> {
