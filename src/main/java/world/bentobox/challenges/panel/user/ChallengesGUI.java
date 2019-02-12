@@ -269,13 +269,7 @@ public class ChallengesGUI extends CommonGUI
 	 */
 	private void addChallengeLevels(PanelBuilder panelBuilder, int firstItemIndex)
 	{
-		// Clone to avoid creating new level on each build.
-		List<LevelStatus> leftLevels = new ArrayList<>(this.levelStatusList);
-		leftLevels.remove(this.lastSelectedLevel);
-
-		// TODO: Focusing on middle should be awsome.
-
-		final int levelCounts = leftLevels.size();
+		final int levelCounts = this.levelStatusList.size();
 
 		if (levelCounts > 9)
 		{
@@ -297,13 +291,13 @@ public class ChallengesGUI extends CommonGUI
 
 			while (panelBuilder.nextSlot() != firstItemIndex + 9 && currentIndex < levelCounts)
 			{
-				panelBuilder.item(index++, this.getLevelButton(leftLevels.get(currentIndex++)));
+				panelBuilder.item(index++, this.getLevelButton(this.levelStatusList.get(currentIndex++)));
 			}
 
 			// Check if one challenge is left
 			if (currentIndex + 1 == levelCounts)
 			{
-				panelBuilder.item(index, this.getLevelButton(leftLevels.get(currentIndex)));
+				panelBuilder.item(index, this.getLevelButton(this.levelStatusList.get(currentIndex)));
 			}
 			else if (currentIndex < levelCounts)
 			{
@@ -319,7 +313,7 @@ public class ChallengesGUI extends CommonGUI
 		}
 		else
 		{
-			for (LevelStatus level : leftLevels)
+			for (LevelStatus level : this.levelStatusList)
 			{
 				// there are no limitations. Just bunch insert.
 				panelBuilder.item(firstItemIndex++, this.getLevelButton(level));
@@ -380,7 +374,16 @@ public class ChallengesGUI extends CommonGUI
 		PanelItem.ClickHandler clickHandler;
 		boolean glow;
 
-		if (level.isUnlocked())
+		if (level == this.lastSelectedLevel)
+		{
+			icon = level.getLevel().getIcon();
+			description = GuiUtils.stringSplit(
+				this.generateLevelDescription(level.getLevel(), user.getPlayer()),
+				this.addon.getChallengesSettings().getLoreLineLength());
+			clickHandler = null;
+			glow = true;
+		}
+		else if (level.isUnlocked())
 		{
 			icon = level.getLevel().getIcon();
 			description = GuiUtils.stringSplit(
@@ -389,8 +392,7 @@ public class ChallengesGUI extends CommonGUI
 			clickHandler = (panel, user1, clickType, slot) -> {
 				this.lastSelectedLevel = level;
 
-				// Reset level and page index.
-				this.levelIndex = 0;
+				// Reset page index for challenges.
 				this.pageIndex = 0;
 
 				this.build();
