@@ -11,7 +11,7 @@ import world.bentobox.bentobox.database.objects.DataObject;
 
 
 @StoreAt(filename="config.yml", path="addons/Challenges")
-@ConfigComment("Challenges Configuration [version]")
+@ConfigComment("Challenges [version] Configuration")
 @ConfigComment("This config file is dynamic and saved when the server is shutdown.")
 @ConfigComment("You cannot edit it while the server is running because changes will")
 @ConfigComment("be lost! Use in-game settings GUI or edit when server is offline.")
@@ -53,6 +53,25 @@ public class Settings implements DataObject
 	private int loreLineLength = 25;
 
 	@ConfigComment("")
+	@ConfigComment("This string allows to change element order in Challenge description. Each letter represents")
+	@ConfigComment("one object from challenge description. If letter is not used, then its represented part")
+	@ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
+	@ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.")
+	@ConfigComment("List of letters and their meaning: ")
+	@ConfigComment(" - L - Level String: '*.level'")
+	@ConfigComment(" - S - Status String: '*.completed'")
+	@ConfigComment(" - T - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'")
+	@ConfigComment(" - D - Description String: defined in challenge object - challenge.description")
+	@ConfigComment(" - W - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'")
+	@ConfigComment(" - E - Environment String: defined in challenge object - challenge.environment")
+	@ConfigComment(" - Q - Requirement String: '*.required-level', '*.required-money', '*.required-experience'")
+	@ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
+	@ConfigComment("By adding 'i' after Q or R (requirements and rewards) will display list of items, blocks")
+	@ConfigComment("and entities that are defined in challenge and can be customized under 'challenges.gui.description.*'")
+	@ConfigEntry(path = "challenge-lore-message")
+	private String challengeLoreMessage = "LSTDEQiWRi";
+
+	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
 	@ConfigComment("To disable addon it is necessary to write its name in new line that starts with -. Example:")
 	@ConfigComment("disabled-gamemodes:")
@@ -70,11 +89,21 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.0";
+	private String configVersion = "v1.1";
 
 // ---------------------------------------------------------------------
 // Section: Methods
 // ---------------------------------------------------------------------
+
+
+	/**
+	 * This method returns the challengeLoreMessage object.
+	 * @return the challengeLoreMessage object.
+	 */
+	public String getChallengeLoreMessage()
+	{
+		return challengeLoreMessage;
+	}
 
 
 	/**
@@ -172,6 +201,16 @@ public class Settings implements DataObject
 	public void setUniqueId(String uniqueId)
 	{
 		this.uniqueId = uniqueId;
+	}
+
+
+	/**
+	 * This method sets the challengeLoreMessage object value.
+	 * @param challengeLoreMessage the challengeLoreMessage object new value.
+	 */
+	public void setChallengeLoreMessage(String challengeLoreMessage)
+	{
+		this.challengeLoreMessage = challengeLoreMessage;
 	}
 
 

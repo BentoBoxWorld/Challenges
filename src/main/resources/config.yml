@@ -33,3 +33,5 @@ lore-length: 25
 disabled-gamemodes: []
 #
 uniqueId: config
+
+challenge-lore-message: 'LSTDEQiWRi'

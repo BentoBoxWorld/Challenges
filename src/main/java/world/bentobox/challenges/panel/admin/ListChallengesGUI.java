@@ -134,7 +134,7 @@ public class ListChallengesGUI extends CommonGUI
 	{
 		PanelItemBuilder itemBuilder = new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(challenge.getDescription(),
+			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			icon(challenge.getIcon()).
 			glow(challenge.isDeployed());

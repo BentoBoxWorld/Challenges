@@ -3,14 +3,20 @@ package world.bentobox.challenges.panel;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.database.object.Challenge;
 
 
 /**
@@ -240,6 +246,409 @@ public abstract class CommonGUI
 	public void setValue(Object value)
 	{
 		this.valueObject = value;
+	}
+
+
+	/**
+	 * This method generates and returns given challenge description. It is used here to avoid multiple
+	 * duplicates, as it would be nice to have single place where challenge could be generated.
+	 * @param challenge Challenge which description must be generated.
+	 * @return List of strings that will be used in challenges description.
+	 */
+	protected List<String> generateChallengeDescription(Challenge challenge, User user)
+	{
+		List<String> result = new ArrayList<>();
+
+		// Some values to avoid overchecking.
+		ChallengesManager manager = this.addon.getChallengesManager();
+
+		final boolean isCompletedOnce = manager.isChallengeComplete(user, challenge);
+		final long doneTimes = challenge.isRepeatable() ?
+			manager.getChallengeTimes(this.user, challenge) :
+			isCompletedOnce ? 0 : 1;
+		boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
+			challenge.getMaxTimes() > 0 && doneTimes < challenge.getMaxTimes();
+
+		// Used to know if blocks, entities, items should be added after requirements and rewards.
+		char prevChar = ' ';
+
+		for (char c : this.addon.getChallengesSettings().getChallengeLoreMessage().toLowerCase().toCharArray())
+		{
+			switch (c)
+			{
+				case 'l':
+				{
+					result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
+						"[level]", manager.getLevel(challenge).getFriendlyName()));
+					break;
+				}
+				case 's':
+				{
+					if (isCompletedOnce)
+					{
+						result.add(this.user.getTranslation("challenges.gui.challenge-description.completed"));
+					}
+					break;
+				}
+				case 't':
+				{
+					if (challenge.isRepeatable())
+					{
+						if (challenge.getMaxTimes() > 0)
+						{
+							if (isCompletedAll)
+							{
+								result.add(this.user.getTranslation("challenges.gui.challenge-description.maxed-reached",
+									"[donetimes]", String.valueOf(doneTimes),
+									"[maxtimes]", String.valueOf(challenge.getMaxTimes())));
+							}
+							else
+							{
+								result.add(this.user.getTranslation(
+									"challenges.gui.challenge-description.completed-times-of",
+									"[donetimes]", String.valueOf(doneTimes),
+									"[maxtimes]", String.valueOf(challenge.getMaxTimes())));
+							}
+						}
+						else
+						{
+							result.add(this.user.getTranslation("challenges.gui.challenge-description.completed-times",
+								"[donetimes]", String.valueOf(doneTimes)));
+						}
+					}
+					break;
+				}
+				case 'd':
+				{
+					if (!isCompletedAll)
+					{
+						result.addAll(challenge.getDescription());
+					}
+					break;
+				}
+				case 'w':
+				{
+					if (!isCompletedAll)
+					{
+						if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
+						{
+							if (challenge.isTakeItems())
+							{
+								result.add(this.user.getTranslation(
+									"challenges.gui.challenge-description.warning-items-take"));
+							}
+						}
+						else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
+						{
+							result.add(this.user.getTranslation("challenges.gui.challenge-description.objects-close-by"));
+
+							if (challenge.isRemoveEntities() && !challenge.getRequiredEntities().isEmpty())
+							{
+								result.add(this.user.getTranslation(
+									"challenges.gui.challenge-description.warning-entities-kill"));
+							}
+
+							if (challenge.isRemoveBlocks() && !challenge.getRequiredBlocks().isEmpty())
+							{
+								result.add(this.user.getTranslation(
+									"challenges.gui.challenge-description.warning-blocks-remove"));
+							}
+						}
+					}
+					break;
+				}
+				case 'e':
+				{
+					// Display only if there are limited environments
+
+					if (!isCompletedAll &&
+						!challenge.getEnvironment().isEmpty() &&
+						challenge.getEnvironment().size() != 3)
+					{
+						result.add(this.user.getTranslation("challenges.gui.challenge-description.environment"));
+
+						if (challenge.getEnvironment().contains(World.Environment.NORMAL))
+						{
+							result.add(this.user.getTranslation("challenges.gui.descriptions.normal"));
+						}
+
+						if (challenge.getEnvironment().contains(World.Environment.NETHER))
+						{
+							result.add(this.user.getTranslation("challenges.gui.descriptions.nether"));
+						}
+
+						if (challenge.getEnvironment().contains(World.Environment.THE_END))
+						{
+							result.add(this.user.getTranslation("challenges.gui.descriptions.the-end"));
+						}
+					}
+					break;
+				}
+				case 'q':
+				{
+					if (!isCompletedAll && challenge.getChallengeType() == Challenge.ChallengeType.OTHER)
+					{
+						result.addAll(this.getChallengeRequirements(challenge));
+					}
+					break;
+				}
+				case 'r':
+				{
+					if (isCompletedAll)
+					{
+						result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
+					}
+					else
+					{
+						result.addAll(this.getChallengeRewards(challenge, isCompletedOnce));
+					}
+					break;
+				}
+				case 'i':
+				{
+					if (!isCompletedAll)
+					{
+						if (prevChar == 'q' && challenge.getChallengeType() != Challenge.ChallengeType.OTHER)
+						{
+							result.addAll(this.getChallengeRequiredItems(challenge));
+						}
+						else if (prevChar == 'r')
+						{
+							result.addAll(this.getChallengeRewardItems(challenge, isCompletedOnce, user));
+						}
+					}
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+
+			prevChar = c;
+		}
+
+		result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
+		return result;
+	}
+
+
+	/**
+	 * This method returns list of strings that contains basic information about challenge rewards.
+	 * @param challenge which reward message must be created.
+	 * @param isCompletedOnce indicate if must use repeat rewards
+	 * @return list of strings that contains rewards message.
+	 */
+	private List<String> getChallengeRewards(Challenge challenge, boolean isCompletedOnce)
+	{
+		String rewardText;
+		double rewardMoney;
+		int rewardExperience;
+
+
+		if (!isCompletedOnce)
+		{
+			rewardText = challenge.getRewardText();
+			rewardMoney = challenge.getRewardMoney();
+			rewardExperience = challenge.getRewardExperience();
+		}
+		else
+		{
+			rewardText = challenge.getRepeatRewardText();
+			rewardMoney = challenge.getRepeatMoneyReward();
+			rewardExperience = challenge.getRepeatExperienceReward();
+		}
+
+		List<String> result = new ArrayList<>();
+
+		// Add reward text
+		result.add(rewardText);
+
+		// Add message about reward XP
+		if (rewardExperience > 0)
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.experience-reward",
+				"[value]", Integer.toString(rewardExperience)));
+		}
+
+		// Add message about reward money
+		if (this.addon.getPlugin().getSettings().isUseEconomy() && rewardMoney > 0)
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.money-reward",
+				"[value]", Double.toString(rewardMoney)));
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * This method returns list of strings that contains reward items and commands from given challenge.
+	 * @param challenge Challenge which reward items and commands must be returned.
+	 * @param isCompletedOnce Boolean that indicate if must use repeat rewards.
+	 * @param user Target user for command string.
+	 * @return List of strings that contains message from challenges.
+	 */
+	private List<String> getChallengeRewardItems(Challenge challenge, boolean isCompletedOnce, User user)
+	{
+		List<String> result = new ArrayList<>();
+
+		List<ItemStack> rewardItems;
+		List<String> rewardCommands;
+
+		if (!isCompletedOnce)
+		{
+			rewardItems = challenge.getRewardItems();
+			rewardCommands = challenge.getRewardCommands();
+		}
+		else
+		{
+			rewardItems = challenge.getRepeatItemReward();
+			rewardCommands = challenge.getRepeatRewardCommands();
+		}
+
+		// Add message about reward items
+		if (!rewardItems.isEmpty())
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.reward-items"));
+
+			for (ItemStack itemStack : rewardItems)
+			{
+				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
+					"[item]", itemStack.getType().name(),
+					"[count]", Integer.toString(itemStack.getAmount())));
+
+				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
+						"[meta]", itemStack.getItemMeta().toString()));
+				}
+
+				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
+						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
+				}
+			}
+		}
+
+		// Add message about reward commands
+		if (!rewardCommands.isEmpty())
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.reward-commands"));
+
+			for (String command : rewardCommands)
+			{
+				result.add(this.user.getTranslation("challenges.gui.descriptions.command",
+					"[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
+			}
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * This method returns list of strings that contains basic information about challenge requirements.
+	 * @param challenge which requirements message must be created.
+	 * @return list of strings that contains requirements message.
+	 */
+	private List<String> getChallengeRequirements(Challenge challenge)
+	{
+		List<String> result = new ArrayList<>();
+
+		// Add message about required exp
+		if (challenge.getRequiredExperience() > 0)
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-experience",
+				"[value]", Integer.toString(challenge.getRequiredExperience())));
+		}
+
+		// Add message about required money
+		if (this.addon.isEconomyProvided() && challenge.getRequiredMoney() > 0)
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-money",
+				"[value]", Integer.toString(challenge.getRequiredMoney())));
+		}
+
+		// Add message about required island level
+		if (this.addon.isLevelProvided() && challenge.getRequiredIslandLevel() > 0)
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-island-level",
+				"[value]", Long.toString(challenge.getRequiredIslandLevel())));
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * This method returns list of strings that contains required items, entities and blocks from given challenge.
+	 * @param challenge Challenge which requirement items, entities and blocks must be returned.
+	 * @return List of strings that contains message from challenges.
+	 */
+	private List<String> getChallengeRequiredItems(Challenge challenge)
+	{
+		List<String> result = new ArrayList<>();
+
+		// Add message about required items
+		if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY) &&
+			!challenge.getRequiredItems().isEmpty())
+		{
+			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
+
+			for (ItemStack itemStack : challenge.getRequiredItems())
+			{
+				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
+					"[item]", itemStack.getType().name(),
+					"[count]", Integer.toString(itemStack.getAmount())));
+
+				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
+						"[meta]", itemStack.getItemMeta().toString()));
+				}
+
+				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
+						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
+				}
+			}
+		}
+
+		if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND) &&
+			(!challenge.getRequiredBlocks().isEmpty() || !challenge.getRequiredEntities().isEmpty()))
+		{
+			// Add required blocks
+			if (!challenge.getRequiredBlocks().isEmpty())
+			{
+				result.add(this.user.getTranslation("challenges.gui.challenge-description.required-blocks"));
+
+				for (Map.Entry<Material, Integer> entry : challenge.getRequiredBlocks().entrySet())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.block",
+						"[block]", entry.getKey().name(),
+						"[count]", Integer.toString(entry.getValue())));
+				}
+			}
+
+			// Add required entities
+			if (!challenge.getRequiredEntities().isEmpty())
+			{
+				result.add(this.user.getTranslation("challenges.gui.challenge-description.required-entities"));
+
+				for (Map.Entry<EntityType, Integer> entry : challenge.getRequiredEntities().entrySet())
+				{
+					result.add(this.user.getTranslation("challenges.gui.descriptions.entity",
+						"[entity]", entry.getKey().name(),
+						"[count]", Integer.toString(entry.getValue())));
+				}
+			}
+		}
+
+		return result;
 	}
 }
 

@@ -3,11 +3,9 @@ package world.bentobox.challenges.panel.user;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -345,7 +343,7 @@ public class ChallengesGUI extends CommonGUI
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
 			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(this.createChallengeDescription(challenge),
+			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
 				if (TryToComplete.complete(this.addon,
@@ -362,190 +360,6 @@ public class ChallengesGUI extends CommonGUI
 			}).
 			glow(this.challengesManager.isChallengeComplete(this.user, challenge)).
 			build();
-	}
-
-
-	/**
-	 * This method creates challenges description by adding all information that is necessary for this challenge.
-	 * @param challenge Which information must be retrieved.
-	 * @return List with strings that contains information about given challenge.
-	 */
-	private List<String> createChallengeDescription(Challenge challenge)
-	{
-		List<String> result = new ArrayList<>();
-
-		result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
-			"[level]", this.challengesManager.getLevel(challenge).getFriendlyName()));
-
-		boolean completed = this.challengesManager.isChallengeComplete(this.user, challenge);
-
-		if (completed)
-		{
-			result.add(this.user.getTranslation("challenges.gui.challenge-description.completed"));
-		}
-
-		if (challenge.isRepeatable())
-		{
-			int maxTimes = challenge.getMaxTimes();
-			long doneTimes = this.challengesManager.getChallengeTimes(this.user, challenge);
-
-			if (maxTimes > 0)
-			{
-				if (doneTimes < maxTimes)
-				{
-					result.add(this.user.getTranslation(
-						"challenges.gui.challenge-description.completed-times-of",
-						"[donetimes]", String.valueOf(doneTimes),
-						"[maxtimes]", String.valueOf(maxTimes)));
-
-					// Change value to false, as max count not reached.
-					completed = false;
-				}
-				else
-				{
-					result.add(this.user.getTranslation("challenges.gui.challenge-description.maxed-reached",
-						"[donetimes]", String.valueOf(doneTimes),
-						"[maxtimes]", String.valueOf(maxTimes)));
-				}
-			}
-			else
-			{
-				result.add(this.user.getTranslation("challenges.gui.challenge-description.completed-times",
-					"[donetimes]", String.valueOf(doneTimes)));
-
-				// Change value to false, as max count not reached.
-				completed = false;
-			}
-		}
-
-		if (!completed)
-		{
-			result.addAll(challenge.getDescription());
-
-			if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
-			{
-				if (challenge.isTakeItems())
-				{
-					result.add(this.user.getTranslation(
-						"challenges.gui.challenge-description.warning-items-take"));
-				}
-			}
-			else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
-			{
-				result.add(this.user.getTranslation("challenges.gui.challenge-description.objects-close-by"));
-
-				if (challenge.isRemoveEntities() && !challenge.getRequiredEntities().isEmpty())
-				{
-					result.add(this.user.getTranslation(
-						"challenges.gui.challenge-description.warning-entities-kill"));
-				}
-
-				if (challenge.isRemoveBlocks() && !challenge.getRequiredBlocks().isEmpty())
-				{
-					result.add(this.user.getTranslation(
-						"challenges.gui.challenge-description.warning-blocks-remove"));
-				}
-			}
-		}
-
-		if (completed)
-		{
-			result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
-		}
-		else
-		{
-			result.addAll(this.challengeRewards(challenge));
-		}
-
-		result.replaceAll(x -> x.replace("[label]", this.topLabel));
-
-		return result;
-	}
-
-
-	/**
-	 * This method returns list of strings that contains basic information about challenge rewards.
-	 * @param challenge which reward message must be created.
-	 * @return list of strings that contains rewards message.
-	 */
-	private List<String> challengeRewards(Challenge challenge)
-	{
-		String rewardText;
-		double rewardMoney;
-		int rewardExperience;
-		List<ItemStack> rewardItems;
-		List<String> rewardCommands;
-
-		if (!this.challengesManager.isChallengeComplete(this.user, challenge))
-		{
-			rewardText = challenge.getRewardText();
-			rewardMoney = challenge.getRewardMoney();
-			rewardExperience = challenge.getRewardExperience();
-			rewardItems = challenge.getRewardItems();
-			rewardCommands = challenge.getRewardCommands();
-		}
-		else
-		{
-			rewardText = challenge.getRepeatRewardText();
-			rewardMoney = challenge.getRepeatMoneyReward();
-			rewardExperience = challenge.getRepeatExperienceReward();
-			rewardItems = challenge.getRepeatItemReward();
-			rewardCommands = challenge.getRepeatRewardCommands();
-		}
-
-		List<String> result = new ArrayList<>();
-
-		// Add reward text
-		result.add(rewardText);
-
-		// Add message about reward XP
-		if (rewardExperience > 0)
-		{
-			result.add(this.user.getTranslation("challenges.gui.challenge-description.experience-reward",
-				"[value]", Integer.toString(rewardExperience)));
-		}
-
-		// Add message about reward money
-		if (this.addon.getPlugin().getSettings().isUseEconomy() && rewardMoney > 0)
-		{
-			result.add(this.user.getTranslation("challenges.gui.challenge-description.money-reward",
-				"[value]", Double.toString(rewardMoney)));
-		}
-
-		// Add message about reward items
-		if (!rewardItems.isEmpty())
-		{
-			for (ItemStack itemStack : rewardItems)
-			{
-				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
-					"[item]", itemStack.getType().name(),
-					"[count]", Integer.toString(itemStack.getAmount())));
-
-				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-						"[meta]", itemStack.getItemMeta().toString()));
-				}
-
-				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-				}
-			}
-		}
-
-		// Add message about reward commands
-		if (!rewardCommands.isEmpty())
-		{
-			for (String command : rewardCommands)
-			{
-				result.add(this.user.getTranslation("challenges.gui.descriptions.command",
-					"[command]",  command.replace("[player]", this.user.getName()).replace("[SELF]", "")));
-			}
-		}
-
-		return result;
 	}
 
 

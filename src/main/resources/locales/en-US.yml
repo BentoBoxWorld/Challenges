@@ -244,6 +244,15 @@ challenges:
             not-repeatable: '&cThis challenge is not repeatable!'
             experience-reward: '&6Exp reward: [value]'
             money-reward: '&6Money reward: $[value]'
+            required-experience: '&6Required exp: [value]'
+            required-money: '&6Required money: $[value]'
+            required-island-level: '&6Required island level: [value]'
+            environment: 'Required Environments:'
+            reward-items: '&6Reward Items:'
+            reward-commands: '&6Reward Commands:'
+            required-items: 'Required Items:'
+            required-entities: 'Required Entities:'
+            required-blocks: 'Required Blocks:'
     messages:
         admin:
             hit-things: 'Hit things to add them to the list of things required. Right click when done.'
@@ -284,4 +293,4 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 2
+version: 3
