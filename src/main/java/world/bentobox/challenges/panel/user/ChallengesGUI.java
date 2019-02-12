@@ -4,7 +4,6 @@ package world.bentobox.challenges.panel.user;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
 import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -145,6 +144,13 @@ public class ChallengesGUI extends CommonGUI
 	private void addFreeChallenges(PanelBuilder panelBuilder, int firstItemIndex)
 	{
 		List<Challenge> freeChallenges = this.challengesManager.getFreeChallenges(this.world);
+
+		if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
+		{
+			freeChallenges.removeIf(challenge -> !challenge.isRepeatable() &&
+				this.challengesManager.isChallengeComplete(this.user, challenge));
+		}
+
 		final int freeChallengesCount = freeChallenges.size();
 
 		if (freeChallengesCount > 18)
@@ -208,6 +214,13 @@ public class ChallengesGUI extends CommonGUI
 		if (this.lastSelectedLevel != null)
 		{
 			List<Challenge> challenges = this.challengesManager.getLevelChallenges(this.lastSelectedLevel.getLevel());
+
+			if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
+			{
+				challenges.removeIf(challenge -> !challenge.isRepeatable() &&
+					this.challengesManager.isChallengeComplete(this.user, challenge));
+			}
+
 			final int challengesCount = challenges.size();
 
 			if (challengesCount > 18)
