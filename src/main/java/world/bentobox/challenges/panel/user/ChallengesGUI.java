@@ -343,7 +343,7 @@ public class ChallengesGUI extends CommonGUI
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
 			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user),
+			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
 				if (TryToComplete.complete(this.addon,

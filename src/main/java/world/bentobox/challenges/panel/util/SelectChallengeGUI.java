@@ -2,7 +2,9 @@ package world.bentobox.challenges.panel.util;
 
 
 import org.bukkit.Material;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -18,11 +20,12 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectChallengeGUI
 {
-	public SelectChallengeGUI(User user, List<Challenge> challengesList, int lineLength, BiConsumer<Boolean, Challenge> consumer)
+	public SelectChallengeGUI(User user, Map<Challenge, List<String>> challengesDescriptionMap, int lineLength, BiConsumer<Boolean, Challenge> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
-		this.challengesList = challengesList;
+		this.challengesList = new ArrayList<>(challengesDescriptionMap.keySet());
+		this.challengesDescriptionMap = challengesDescriptionMap;
 		this.lineLength = lineLength;
 
 		this.build(0);
@@ -128,7 +131,7 @@ public class SelectChallengeGUI
 	{
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(challenge.getDescription(), this.lineLength)).
+			description(GuiUtils.stringSplit(this.challengesDescriptionMap.get(challenge), this.lineLength)).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
 				this.consumer.accept(true, challenge);
@@ -156,6 +159,11 @@ public class SelectChallengeGUI
 	 * Current value.
 	 */
 	private List<Challenge> challengesList;
+
+	/**
+	 * Map that contains all challenge descriptions
+	 */
+	private Map<Challenge, List<String>> challengesDescriptionMap;
 
 	/**
 	 * This variable stores how large line can be, before warp it.

@@ -5,10 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -586,11 +584,19 @@ public class EditLevelGUI extends CommonGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					ChallengesManager manager = this.addon.getChallengesManager();
 
-					// Get all challenge that is not in current challenge.
+					// Get all challenge that is not in current level.
 					List<Challenge> challengeList = manager.getAllChallenges(this.world);
 					challengeList.removeAll(manager.getLevelChallenges(this.challengeLevel));
 
-					new SelectChallengeGUI(this.user, challengeList, lineLength, (status, value) -> {
+					// Generate descriptions for these challenges
+					Map<Challenge, List<String>> challengeDescriptionMap = challengeList.stream().
+						collect(Collectors.toMap(challenge -> challenge,
+							challenge -> this.generateChallengeDescription(challenge, this.user.getPlayer()),
+							(a, b) -> b,
+							() -> new LinkedHashMap<>(challengeList.size())));
+
+					// Open select gui
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
 						if (status)
 						{
 							manager.addChallengeToLevel(value, this.challengeLevel);
@@ -612,7 +618,18 @@ public class EditLevelGUI extends CommonGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					ChallengesManager manager = this.addon.getChallengesManager();
 
-					new SelectChallengeGUI(this.user, manager.getLevelChallenges(this.challengeLevel), lineLength, (status, value) -> {
+					// Get all challenge that is in current level.
+					List<Challenge> challengeList = manager.getLevelChallenges(this.challengeLevel);
+
+					// Generate descriptions for these challenges
+					Map<Challenge, List<String>> challengeDescriptionMap = challengeList.stream().
+						collect(Collectors.toMap(challenge -> challenge,
+							challenge -> this.generateChallengeDescription(challenge, this.user.getPlayer()),
+							(a, b) -> b,
+							() -> new LinkedHashMap<>(challengeList.size())));
+
+					// Open select gui
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
 						if (status)
 						{
 							manager.removeChallengeFromLevel(value, this.challengeLevel);

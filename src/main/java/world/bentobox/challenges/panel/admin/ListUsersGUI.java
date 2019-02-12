@@ -6,7 +6,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -16,6 +18,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Players;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.panel.util.SelectChallengeGUI;
@@ -177,11 +180,22 @@ public class ListUsersGUI extends CommonGUI
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
 				(panel, user1, clickType, slot) -> {
 					ChallengesManager manager = this.addon.getChallengesManager();
+					Map<Challenge, List<String>> challengeDescriptionMap;
 
 					switch (this.operationMode)
 					{
 						case COMPLETE:
-							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), lineLength, (status, value) -> {
+							challengeDescriptionMap = new LinkedHashMap<>();
+
+							for (Challenge challenge : manager.getAllChallenges(this.world))
+							{
+								if (!manager.isChallengeComplete(player.getUniqueId(), challenge))
+								{
+									challengeDescriptionMap.put(challenge, this.generateChallengeDescription(challenge, player));
+								}
+							}
+
+							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
 								if (status)
 								{
 									manager.setChallengeComplete(User.getInstance(player), value);
@@ -193,7 +207,17 @@ public class ListUsersGUI extends CommonGUI
 							});
 							break;
 						case RESET:
-							new SelectChallengeGUI(this.user, manager.getAllChallenges(this.world), lineLength, (status, value) -> {
+							challengeDescriptionMap = new LinkedHashMap<>();
+
+							for (Challenge challenge : manager.getAllChallenges(this.world))
+							{
+								if (manager.isChallengeComplete(player.getUniqueId(), challenge))
+								{
+									challengeDescriptionMap.put(challenge, this.generateChallengeDescription(challenge, player));
+								}
+							}
+
+							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
 								if (status)
 								{
 									manager.resetChallenge(User.getInstance(player), value);

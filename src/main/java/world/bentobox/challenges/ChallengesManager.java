@@ -483,8 +483,21 @@ public class ChallengesManager
      */
     public boolean isChallengeComplete(User user, Challenge challenge)
     {
+        return this.isChallengeComplete(user.getUniqueId(), challenge);
+    }
+
+
+    /**
+     * Checks if a challenge is complete or not
+     *
+     * @param user - User who must be checked.
+     * @param challenge - Challenge
+     * @return - true if completed
+     */
+    public boolean isChallengeComplete(UUID user, Challenge challenge)
+    {
         this.addPlayer(user);
-        return this.playerCacheData.get(user.getUniqueId()).isChallengeDone(challenge.getUniqueId());
+        return this.playerCacheData.get(user).isChallengeDone(challenge.getUniqueId());
     }
 
 

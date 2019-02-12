@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -255,14 +256,14 @@ public abstract class CommonGUI
 	 * @param challenge Challenge which description must be generated.
 	 * @return List of strings that will be used in challenges description.
 	 */
-	protected List<String> generateChallengeDescription(Challenge challenge, User user)
+	protected List<String> generateChallengeDescription(Challenge challenge, Player user)
 	{
 		List<String> result = new ArrayList<>();
 
 		// Some values to avoid overchecking.
 		ChallengesManager manager = this.addon.getChallengesManager();
 
-		final boolean isCompletedOnce = manager.isChallengeComplete(user, challenge);
+		final boolean isCompletedOnce = manager.isChallengeComplete(user.getUniqueId(), challenge);
 		final long doneTimes = challenge.isRepeatable() ?
 			manager.getChallengeTimes(this.user, challenge) :
 			isCompletedOnce ? 0 : 1;
@@ -490,7 +491,7 @@ public abstract class CommonGUI
 	 * @param user Target user for command string.
 	 * @return List of strings that contains message from challenges.
 	 */
-	private List<String> getChallengeRewardItems(Challenge challenge, boolean isCompletedOnce, User user)
+	private List<String> getChallengeRewardItems(Challenge challenge, boolean isCompletedOnce, Player user)
 	{
 		List<String> result = new ArrayList<>();
 
