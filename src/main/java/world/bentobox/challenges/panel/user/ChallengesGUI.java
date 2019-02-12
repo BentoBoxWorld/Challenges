@@ -352,7 +352,8 @@ public class ChallengesGUI extends CommonGUI
 
 				return true;
 			}).
-			glow(this.challengesManager.isChallengeComplete(this.user, challenge)).
+			glow(this.addon.getChallengesSettings().isAddCompletedGlow() &&
+				this.challengesManager.isChallengeComplete(this.user, challenge)).
 			build();
 	}
 
@@ -398,7 +399,8 @@ public class ChallengesGUI extends CommonGUI
 				this.build();
 				return true;
 			};
-			glow = this.challengesManager.isLevelCompleted(this.user, level.getLevel());
+			glow = this.addon.getChallengesSettings().isAddCompletedGlow() &&
+				this.challengesManager.isLevelCompleted(this.user, level.getLevel());
 		}
 		else
 		{
