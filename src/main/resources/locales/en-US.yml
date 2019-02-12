@@ -133,6 +133,8 @@ challenges:
                 clear: 'Clear'
                 remove-empty: 'Remove empty'
                 number: '[number]'
+                level-lore: 'Level Description'
+                challenge-lore: 'Challenge Description'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -212,6 +214,8 @@ challenges:
                 selected: 'Selected'
                 remove-selected: 'Remove selected elements.|You can select elements with right mouse button.'
                 show-eggs: 'Switch entity view between Egg mode or Head mode.'
+                level-lore: 'Allows to modify which elements of level description should be visible.'
+                challenge-lore: 'Allows to modify which elements of challenge description should be visible.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -301,4 +305,4 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 4
+version: 5

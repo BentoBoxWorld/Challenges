@@ -7,6 +7,7 @@ import org.bukkit.World;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
@@ -179,12 +180,60 @@ public class EditSettingsGUI extends CommonGUI
 			glow(this.addon.getChallengesSettings().isFreeChallengesFirst()).
 			build());
 
+		// Challenge Lore Message
+		description = new ArrayList<>(2);
+		description.add(this.user.getTranslation("challenges.gui.descriptions.admin.challenge-lore"));
+		description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+			"[value]", this.addon.getChallengesSettings().getChallengeLoreMessage()));
+		panelBuilder.item(24, new PanelItemBuilder().
+			name(this.user.getTranslation("challenges.gui.buttons.admin.challenge-lore")).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			icon(Material.PAPER).
+			clickHandler((panel, user1, clickType, i) -> {
+				new AnvilGUI(this.addon.getPlugin(),
+					this.user.getPlayer(),
+					this.addon.getChallengesSettings().getChallengeLoreMessage(),
+					(player, reply) -> {
+						this.addon.getChallengesSettings().setChallengeLoreMessage(reply);
+						this.build();
+						return reply;
+					});
+
+				return true;
+			}).
+			glow(false).
+			build());
+
+		// Level Lore Message
+		description = new ArrayList<>(2);
+		description.add(this.user.getTranslation("challenges.gui.descriptions.admin.level-lore"));
+		description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+			"[value]", this.addon.getChallengesSettings().getLevelLoreMessage()));
+		panelBuilder.item(33, new PanelItemBuilder().
+			name(this.user.getTranslation("challenges.gui.buttons.admin.level-lore")).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			icon(Material.PAPER).
+			clickHandler((panel, user1, clickType, i) -> {
+				new AnvilGUI(this.addon.getPlugin(),
+					this.user.getPlayer(),
+					this.addon.getChallengesSettings().getLevelLoreMessage(),
+					(player, reply) -> {
+						this.addon.getChallengesSettings().setLevelLoreMessage(reply);
+						this.build();
+						return reply;
+					});
+
+				return true;
+			}).
+			glow(false).
+			build());
+
 		// Lore line length
 		description = new ArrayList<>(2);
 		description.add(this.user.getTranslation("challenges.gui.descriptions.admin.line-length"));
 		description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 			"[value]", Integer.toString(this.addon.getChallengesSettings().getLoreLineLength())));
-		panelBuilder.item(24, new PanelItemBuilder().
+		panelBuilder.item(25, new PanelItemBuilder().
 			name(this.user.getTranslation("challenges.gui.buttons.admin.line-length")).
 			description(GuiUtils.stringSplit(description, lineLength)).
 			icon(Material.ANVIL).
