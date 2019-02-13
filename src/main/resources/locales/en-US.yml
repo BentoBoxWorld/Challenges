@@ -69,6 +69,7 @@ challenges:
                 delete-level: 'Remove level'
                 import: 'Import ASkyblock Challenges'
                 backward: 'Import 0.3.0 Challenges'
+                backward-player: 'Fix 0.3.0 PlayerData'
                 settings: 'Edit Settings'
                 properties: 'Properties'
                 requirements: 'Requirements'
@@ -157,6 +158,7 @@ challenges:
                 delete-challenge: 'Allows remove any Challenge.'
                 delete-level: 'Allows remove any Level.'
                 backward: 'Allows to import challenges from 0.3.0 and below addon version.'
+                backward-player: 'Allows to fix corrupted PlayerData from 0.3.0 version.|&2USE ONLY IF NECESSARY|&2MAY NOT WORK IN ALL SITUATIONS'
                 settings: 'Allows to change addon settings.'
                 properties: 'Allows to change general properties'
                 requirements: 'Allows to manage requirements'
@@ -305,4 +307,4 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 5
+version: 6

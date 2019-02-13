@@ -88,8 +88,8 @@ public class ConfirmationGUI
 	private PanelItem getButton(boolean returnValue)
 	{
 		return new PanelItemBuilder().
-			name(this.user.getTranslation("challenges.gui.admin.buttons." + (returnValue ? "accept" : "cancel"))).
-			icon(returnValue ? Material.GRAY_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE).
+			name(this.user.getTranslation("challenges.gui.buttons.admin." + (returnValue ? "accept" : "cancel"))).
+			icon(returnValue ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE).
 			clickHandler((panel, user1, clickType, i) -> {
 				this.consumer.accept(returnValue);
 				return true;
