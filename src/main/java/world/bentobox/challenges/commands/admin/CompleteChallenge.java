@@ -28,8 +28,8 @@ public class CompleteChallenge extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challenges.admin.complete.parameters");
-        this.setDescription("challenges.admin.complete.description");
+        this.setParametersHelp("challenges.commands.admin.complete.parameters");
+        this.setDescription("challenges.commands.admin.complete.description");
         manager = ((ChallengesAddon)getAddon()).getChallengesManager();
     }
 
@@ -51,13 +51,13 @@ public class CompleteChallenge extends CompositeCommand {
             return false;
         }
         // Check for valid challenge name
-        if (!manager.isChallenge(getWorld(), args.get(1))) {
+        if (!manager.containsChallenge(args.get(1))) {
             user.sendMessage("challenges.admin.complete.unknown-challenge");
             return false;
         }
         // Complete challenge
         User target = User.getInstance(targetUUID);
-        manager.setChallengeComplete(target, args.get(1), getWorld());
+        manager.setChallengeComplete(target, this.manager.getChallenge(args.get(1)));
         user.sendMessage("general.success");
         return true;
     }
@@ -70,7 +70,7 @@ public class CompleteChallenge extends CompositeCommand {
             return Optional.of(Util.tabLimit(new ArrayList<>(Util.getOnlinePlayerList(user)), lastArg));
         } else if (args.size() == 4) {
             // Challenges in this world
-            return Optional.of(Util.tabLimit(manager.getAllChallengesList(getWorld()), lastArg));
+            return Optional.of(Util.tabLimit(manager.getAllChallengesNames(getWorld()), lastArg));
         }
         return Optional.empty();
     }

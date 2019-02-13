@@ -14,6 +14,7 @@ import world.bentobox.bentobox.database.objects.DataObject;
  * @author tastybento
  *
  */
+@Deprecated
 public class ChallengeLevels implements DataObject, Comparable<ChallengeLevels> {
 
     public ChallengeLevels() {}

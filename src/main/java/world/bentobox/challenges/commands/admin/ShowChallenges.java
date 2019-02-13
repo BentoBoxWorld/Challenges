@@ -21,14 +21,14 @@ public class ShowChallenges extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challaneges.admin.show.parameters");
-        this.setDescription("challenges.admin.show.description");
+        this.setParametersHelp("challenges.commands.admin.show.parameters");
+        this.setDescription("challenges.commands.admin.show.description");
 
     }
 
     @Override
     public boolean execute(User user, String label, List<String> args) {
-        ((ChallengesAddon)getAddon()).getChallengesManager().getAllChallengesList().forEach(user::sendRawMessage);
+        ((ChallengesAddon)getAddon()).getChallengesManager().getAllChallengesNames(this.getWorld()).forEach(user::sendRawMessage);
         return true;
     }
 

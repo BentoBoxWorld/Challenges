@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.events.island.IslandEvent;
 import world.bentobox.bentobox.api.events.island.IslandEvent.Reason;
@@ -26,7 +27,7 @@ public class ResetListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIslandReset(IslandEvent e) {
-        if (e.getReason().equals(Reason.CREATED) || (addon.getConfig().getBoolean("resetchallenges") && e.getReason().equals(Reason.RESETTED))) {
+        if (e.getReason().equals(Reason.CREATED) || (addon.getChallengesSettings().isResetChallenges() && e.getReason().equals(Reason.RESETTED))) {
             addon.getChallengesManager().resetAllChallenges(e.getOwner(), e.getLocation().getWorld());
         }
     }

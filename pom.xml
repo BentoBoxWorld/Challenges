@@ -6,7 +6,7 @@
 
 	<groupId>world.bentobox</groupId>
 	<artifactId>challenges</artifactId>
-	<version>0.3.1</version>
+	<version>0.5.0-SNAPSHOT</version>
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like ASkyBlock or AcidIsland.</description>
@@ -60,12 +60,22 @@
 			<id>vault-repo</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 		</repository>
+		<repository>
+			<id>wesjd-repo</id>
+			<url>https://nexus.wesjd.net/repository/thirdparty/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
 			<version>1.13.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
@@ -90,7 +100,7 @@
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>
-			<version>1.2</version>
+			<version>1.2.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -110,6 +120,11 @@
                     <artifactId>bukkit</artifactId>
                 </exclusion>
             </exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.wesjd</groupId>
+			<artifactId>anvilgui</artifactId>
+			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -195,8 +210,16 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.1.1</version>
 				<configuration>
-					<minimizeJar>false</minimizeJar>
+					<minimizeJar>true</minimizeJar>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

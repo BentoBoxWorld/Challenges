@@ -35,8 +35,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import world.bentobox.challenges.database.object.Challenges;
-import world.bentobox.challenges.database.object.Challenges.ChallengeType;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 
 /**
  * @author tastybento
@@ -81,7 +81,7 @@ public class ChallengesAddonTest {
     public void test() {
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Challenges challenges = new Challenges();
+        Challenge challenges = new Challenge();
         challenges.setChallengeType(ChallengeType.ISLAND);
         Map<Material, Integer> map = new HashMap<>();
         map.put(Material.DIRT, 5);

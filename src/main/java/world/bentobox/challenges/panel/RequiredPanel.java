@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
-import world.bentobox.challenges.database.object.Challenges;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem.ClickHandler;
 import world.bentobox.bentobox.api.panels.PanelListener;
@@ -25,11 +25,12 @@ import world.bentobox.bentobox.util.Util;
  * Handles the requirements for a challenge
  * Items, blocks, entities
  * @author tastybento
- *
+ * @deprecated All panels are reworked.
  */
+@Deprecated
 public class RequiredPanel implements ClickHandler, PanelListener {
     private static final int CONTROL_NUMBER = 4;
-    private Challenges challenge;
+    private Challenge challenge;
     private User user;
     private Panel panel;
     private Panel referringPanel;
@@ -38,7 +39,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
      * @param challenge
      * @param user
      */
-    public RequiredPanel(Challenges challenge, User user, Panel referringPanel) {
+    public RequiredPanel(Challenge challenge, User user, Panel referringPanel) {
         this.challenge = challenge;
         this.user = user;
         this.panel = openPanel();
@@ -72,7 +73,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
                     .clickHandler(this)
                     .build()).forEach(pb::item);
             return pb.user(user).build();
-        case LEVEL:
+        case OTHER:
 
             break;
         default:
@@ -136,8 +137,6 @@ public class RequiredPanel implements ClickHandler, PanelListener {
         }
         // Save changes
         switch (challenge.getChallengeType()) {
-        case ICON:
-            break;
         case INVENTORY:
             List<ItemStack> reqItems = new ArrayList<>();
             // Skip first item
@@ -153,7 +152,7 @@ public class RequiredPanel implements ClickHandler, PanelListener {
             break;
         case ISLAND:
             break;
-        case LEVEL:
+            case OTHER:
             break;
         default:
             break;

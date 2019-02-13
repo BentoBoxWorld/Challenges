@@ -23,8 +23,8 @@ public class ReloadChallenges extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challenges.admin.reload.parameters");
-        this.setDescription("challenges.admin.reload.description");
+        this.setParametersHelp("challenges.commands.admin.reload.parameters");
+        this.setDescription("challenges.commands.admin.reload.description");
         manager = ((ChallengesAddon)getAddon()).getChallengesManager();
     }
 

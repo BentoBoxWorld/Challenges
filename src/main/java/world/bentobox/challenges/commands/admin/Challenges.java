@@ -3,10 +3,10 @@ package world.bentobox.challenges.commands.admin;
 import java.util.List;
 
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.panel.ChallengesPanels2;
-import world.bentobox.challenges.panel.ChallengesPanels2.Mode;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.panel.admin.AdminGUI;
+
 
 public class Challenges extends CompositeCommand {
 
@@ -21,11 +21,11 @@ public class Challenges extends CompositeCommand {
     @Override
     public void setup() {
         this.setPermission("admin.challenges");
-        this.setParametersHelp("challeneges.admin.parameters");
-        this.setDescription("challenges.admin.description");
+        this.setParametersHelp("challenges.commands.admin.main.parameters");
+        this.setDescription("challenges.commands.admin.main.description");
         // Register sub commands
         new ImportCommand(getAddon(), this);
-        new CompleteChallenge(getAddon(), this);
+        // new CompleteChallenge(getAddon(), this);
         new ReloadChallenges(getAddon(), this);
         new ResetChallenge(getAddon(), this);
         //new ShowChallenges(getAddon(), this);
@@ -37,7 +37,12 @@ public class Challenges extends CompositeCommand {
     public boolean execute(User user, String label, List<String> args) {
         // Open up the admin challenges GUI
         if (user.isPlayer()) {
-            new ChallengesPanels2((ChallengesAddon) getAddon(), user, user, args.isEmpty() ? "" : args.get(0), getWorld(), getPermissionPrefix(), getTopLabel(), Mode.ADMIN);
+            new AdminGUI((ChallengesAddon) this.getAddon(),
+                this.getWorld(),
+                user,
+                this.getTopLabel(),
+                this.getPermissionPrefix()).build();
+
             return true;
         }
         return false;

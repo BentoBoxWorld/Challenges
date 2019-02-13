@@ -21,6 +21,7 @@ import world.bentobox.bentobox.database.objects.DataObject;
  * @author tastybento
  *
  */
+@Deprecated
 public class Challenges implements DataObject {
 
     public Challenges() {}
