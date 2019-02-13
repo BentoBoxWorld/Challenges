@@ -2,6 +2,7 @@ name: Challenges
 main: world.bentobox.challenges.ChallengesAddon
 version: ${version}
 repository: 'BentoBoxWorld/Challenges'
+metrics: true
 
 authors: tastybento
 
