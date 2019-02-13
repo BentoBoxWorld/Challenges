@@ -1,5 +1,6 @@
 # Challenges Addon
 [![Build Status](https://ci.codemc.org/buildStatus/icon?job=BentoBoxWorld/Challenges)](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/)
+
 Add-on for BentoBox to provide challenges for any BentoBox GameMode. 
 
 ## Where to find
