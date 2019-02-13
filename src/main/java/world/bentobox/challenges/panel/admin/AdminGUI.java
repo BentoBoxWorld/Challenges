@@ -12,6 +12,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -55,6 +56,7 @@ public class AdminGUI extends CommonGUI
 		DELETE_LEVEL,
 		IMPORT_CHALLENGES,
 		BACKWARD_CHALLENGES,
+		BACKWARD_PLAYER_DATA,
 		EDIT_SETTINGS
 	}
 
@@ -111,6 +113,7 @@ public class AdminGUI extends CommonGUI
 		// Import Challenges
 		panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
 		panelBuilder.item(24, this.createButton(Button.BACKWARD_CHALLENGES));
+		panelBuilder.item(33, this.createButton(Button.BACKWARD_PLAYER_DATA));
 
 		// Edit Addon Settings
 		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
@@ -381,6 +384,30 @@ public class AdminGUI extends CommonGUI
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.addon.getImportManager().
 						importPreviousChallenges(this.user, this.world, false);
+
+					return true;
+				};
+				glow = false;
+
+				break;
+			}
+			case BACKWARD_PLAYER_DATA:
+			{
+				permissionSuffix = IMPORT;
+
+				name = this.user.getTranslation("challenges.gui.buttons.admin.backward-player");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.backward-player");
+				icon = new ItemStack(Material.HOPPER);
+				clickHandler = (panel, user, clickType, slot) -> {
+
+					new ConfirmationGUI(this.user, status -> {
+						if (status)
+						{
+							this.addon.getChallengesManager().fixCorruptedPlayerData();
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
