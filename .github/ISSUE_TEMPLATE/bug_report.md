@@ -18,17 +18,17 @@ assignees: BONNe
 <!-- 3. Error: -->
 <!-- Please type below this line. -->
 
-### Server / BentoBox information:
+#### Server / BentoBox information:
 <!-- Please provide information from `/bentobox version`  -->
 <!-- Please provide information about database type for BentoBox plugin  -->
 <!-- Please provide information about other plugins `/pl`  -->
 <!-- Please type below this line. -->
 
-### Screenshots / Server log
+#### Screenshots / Server log
 <!-- Any screenshots or videos that could help to diagnostic issue -->
 <!-- Server log could help to diagnostic issue a lot faster  -->
 <!-- Please add links or images below this line. -->
 
-### Expected behavior / Additional context
+#### Expected behavior / Additional context
 <!-- Add any other context about the problem here. -->
 <!-- Please type below this line. -->
