@@ -4,7 +4,9 @@ version: ${version}
 repository: 'BentoBoxWorld/Challenges'
 metrics: true
 
-authors: tastybento
+authors:
+- tastybento
+- BONNe
 
 softdepend: AcidIsland, BSkyBlock, CaveBlock, SkyGrid, Level
 
