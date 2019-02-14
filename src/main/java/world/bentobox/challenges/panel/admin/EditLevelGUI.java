@@ -388,7 +388,7 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", Integer.toString(this.challengeLevel.getOrder())));
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getOrder(), -1, 54, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getOrder(), -1, 54, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setOrder(value);
@@ -412,7 +412,7 @@ public class EditLevelGUI extends CommonGUI
 
 				icon = new ItemStack(Material.REDSTONE_TORCH);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getWaiverAmount(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getWaiverAmount(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setWaiverAmount(value);
@@ -500,7 +500,7 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", Integer.toString(this.challengeLevel.getRewardExperience())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getRewardExperience(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getRewardExperience(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setRewardExperience(value);
@@ -526,7 +526,7 @@ public class EditLevelGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.GOLD_INGOT);
 					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, (status, value) -> {
+						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
 							if (status)
 							{
 								this.challengeLevel.setRewardMoney(value);

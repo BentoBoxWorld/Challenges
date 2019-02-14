@@ -189,15 +189,19 @@ public class ManageEntitiesGUI extends CommonGUI
 				}
 				else
 				{
-					new NumberGUI(this.user, this.requiredEntities.get(entity), 1, (status, value) -> {
-						if (status)
-						{
-							// Update value only when something changes.
-							this.requiredEntities.put(entity, value);
-						}
+					new NumberGUI(this.user,
+						this.requiredEntities.get(entity),
+						1,
+						this.addon.getChallengesSettings().getLoreLineLength(),
+						(status, value) -> {
+							if (status)
+							{
+								// Update value only when something changes.
+								this.requiredEntities.put(entity, value);
+							}
 
-						this.build();
-					});
+							this.build();
+						});
 				}
 				return true;
 			}).

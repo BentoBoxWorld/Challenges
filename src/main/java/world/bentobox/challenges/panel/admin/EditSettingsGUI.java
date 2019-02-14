@@ -241,6 +241,7 @@ public class EditSettingsGUI extends CommonGUI
 				new NumberGUI(this.user,
 					this.addon.getChallengesSettings().getLoreLineLength(),
 					0,
+					lineLength,
 					(status, value) -> {
 						if (status)
 						{

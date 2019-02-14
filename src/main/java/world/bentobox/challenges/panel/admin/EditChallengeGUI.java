@@ -440,7 +440,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getOrder(), -1, 54, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getOrder(), -1, 54, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setOrder(value);
@@ -648,7 +648,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setSearchRadius(value);
@@ -764,7 +764,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRequiredExperience(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRequiredExperience(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRequiredExperience(value);
@@ -843,7 +843,7 @@ public class EditChallengeGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.GOLD_INGOT);
 					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, (status, value) -> {
+						new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, lineLength, (status, value) -> {
 							if (status)
 							{
 								this.challenge.setRequiredMoney(value);
@@ -969,7 +969,7 @@ public class EditChallengeGUI extends CommonGUI
 					"[value]", Integer.toString(this.challenge.getRewardExperience())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRewardExperience(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRewardExperience(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRewardExperience(value);
@@ -995,7 +995,7 @@ public class EditChallengeGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.GOLD_INGOT);
 					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, (status, value) -> {
+						new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, lineLength, (status, value) -> {
 							if (status)
 							{
 								this.challenge.setRewardMoney(value);
@@ -1076,7 +1076,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getMaxTimes(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getMaxTimes(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setMaxTimes(value);
@@ -1167,7 +1167,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.GLASS_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getRepeatExperienceReward(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getRepeatExperienceReward(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setRepeatExperienceReward(value);
@@ -1196,6 +1196,7 @@ public class EditChallengeGUI extends CommonGUI
 						new NumberGUI(this.user,
 							this.challenge.getRepeatMoneyReward(),
 							0,
+							lineLength,
 							(status, value) -> {
 								if (status)
 								{
