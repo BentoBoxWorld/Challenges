@@ -161,6 +161,7 @@ public class SelectChallengeGUI
 				}
 				else
 				{
+					this.selectedChallenges.add(challenge);
 					this.consumer.accept(true, this.selectedChallenges);
 				}
 
