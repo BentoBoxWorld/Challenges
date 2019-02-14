@@ -210,7 +210,9 @@ public class TryToComplete
             // Item rewards
             for (ItemStack reward : this.challenge.getRewardItems())
             {
-                this.user.getInventory().addItem(reward).forEach((k, v) ->
+                // Clone is necessary because otherwise it will chane reward itemstack
+                // amount.
+                this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
                     this.user.getWorld().dropItem(this.user.getLocation(), v));
             }
 
@@ -247,7 +249,9 @@ public class TryToComplete
             // Item Repeat Rewards
             for (ItemStack reward : this.challenge.getRepeatItemReward())
             {
-                this.user.getInventory().addItem(reward).forEach((k, v) ->
+                // Clone is necessary because otherwise it will chane reward itemstack
+                // amount.
+                this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
                     this.user.getWorld().dropItem(this.user.getLocation(), v));
             }
 
@@ -280,7 +284,9 @@ public class TryToComplete
                     // Item rewards
                     for (ItemStack reward : level.getRewardItems())
                     {
-                        this.user.getInventory().addItem(reward).forEach((k, v) ->
+                        // Clone is necessary because otherwise it will chane reward itemstack
+                        // amount.
+                        this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
                             this.user.getWorld().dropItem(this.user.getLocation(), v));
                     }
 
