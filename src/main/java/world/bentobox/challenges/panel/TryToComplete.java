@@ -4,6 +4,7 @@
 package world.bentobox.challenges.panel;
 
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -486,49 +487,56 @@ public class TryToComplete
     {
         // Run through inventory
         List<ItemStack> required = new ArrayList<>(this.challenge.getRequiredItems());
-        for (ItemStack req : required)
-        {
-            // Check for FIREWORK_ROCKET, ENCHANTED_BOOK, WRITTEN_BOOK, POTION and FILLED_MAP because these have unique meta when created
-            switch (req.getType())
-            {
-                case FIREWORK_ROCKET:
-                case ENCHANTED_BOOK:
-                case WRITTEN_BOOK:
-                case FILLED_MAP:
-                    // Get how many items are in the inventory. Item stacks amounts need to be summed
-                    int numInInventory =
-                        Arrays.stream(this.user.getInventory().getContents()).filter(Objects::nonNull).
-                            filter(i -> i.getType().equals(req.getType())).
-                            mapToInt(ItemStack::getAmount).
-                            sum();
 
-                    if (numInInventory < req.getAmount())
-                    {
-                        this.user.sendMessage("challenges.errors.not-enough-items",
-                            "[items]",
-                            Util.prettifyText(req.getType().toString()));
-                        return EMPTY_RESULT;
-                    }
-                    break;
-                default:
-                    // General checking
-                    if (!this.user.getInventory().containsAtLeast(req, req.getAmount()))
-                    {
-                        this.user.sendMessage("challenges.errors.not-enough-items",
-                            "[items]",
-                            Util.prettifyText(req.getType().toString()));
-                        return EMPTY_RESULT;
-                    }
+        // Players in creative game mode has got all items. No point to search for them.
+        if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
+        {
+            for (ItemStack req : required)
+            {
+                // Check for FIREWORK_ROCKET, ENCHANTED_BOOK, WRITTEN_BOOK, POTION and
+                // FILLED_MAP because these have unique meta when created
+                switch (req.getType())
+                {
+                    case FIREWORK_ROCKET:
+                    case ENCHANTED_BOOK:
+                    case WRITTEN_BOOK:
+                    case FILLED_MAP:
+                        // Get how many items are in the inventory. Item stacks amounts need to be summed
+                        int numInInventory =
+                            Arrays.stream(this.user.getInventory().getContents()).
+                                filter(Objects::nonNull).
+                                filter(i -> i.getType().equals(req.getType())).
+                                mapToInt(ItemStack::getAmount).
+                                sum();
+
+                        if (numInInventory < req.getAmount())
+                        {
+                            this.user.sendMessage("challenges.errors.not-enough-items",
+                                "[items]",
+                                Util.prettifyText(req.getType().toString()));
+                            return EMPTY_RESULT;
+                        }
+                        break;
+                    default:
+                        // General checking
+                        if (!this.user.getInventory().containsAtLeast(req, req.getAmount()))
+                        {
+                            this.user.sendMessage("challenges.errors.not-enough-items",
+                                "[items]",
+                                Util.prettifyText(req.getType().toString()));
+                            return EMPTY_RESULT;
+                        }
+                        break;
+                }
+            }
+
+            // If remove items, then remove them
+
+            if (this.challenge.isTakeItems())
+            {
+                this.removeItems(required);
             }
         }
-
-        // If remove items, then remove them
-
-        if (this.challenge.isTakeItems())
-        {
-            this.removeItems(required);
-        }
-
 
         // Return the result
         return new ChallengeResult().setMeetsRequirements().setRepeat(
@@ -790,8 +798,11 @@ public class TryToComplete
 		{
 			this.user.sendMessage("challenges.errors.incorrect");
 		}
-        else if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience())
+        else if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience() &&
+            this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
+            // Players in creative gamemode has infinite amount of EXP.
+
             this.user.sendMessage("challenges.errors.not-enough-experience",
                 "[value]",
                 Integer.toString(this.challenge.getRequiredExperience()));
@@ -810,8 +821,10 @@ public class TryToComplete
                 this.addon.getEconomyProvider().withdraw(this.user, this.challenge.getRequiredMoney());
             }
 
-            if (this.challenge.isTakeExperience())
+            if (this.challenge.isTakeExperience() &&
+                this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
             {
+                // Cannot take anything from creative game mode.
                 this.user.getPlayer().setTotalExperience(
                     this.user.getPlayer().getTotalExperience() - this.challenge.getRequiredExperience());
             }
