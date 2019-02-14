@@ -196,15 +196,13 @@ public class ListUsersGUI extends CommonGUI
 								}
 							}
 
-							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									manager.setChallengeComplete(User.getInstance(player), value);
+									valueSet.forEach(challenge -> manager.setChallengeComplete(player.getUniqueId(), challenge));
 								}
-								else
-								{
-									this.build();
-								}
+
+								this.build();
 							});
 							break;
 						case RESET:
@@ -218,15 +216,13 @@ public class ListUsersGUI extends CommonGUI
 								}
 							}
 
-							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									manager.resetChallenge(User.getInstance(player), value);
+									valueSet.forEach(challenge -> manager.resetChallenge(player.getUniqueId(), challenge));
 								}
-								else
-								{
-									this.build();
-								}
+
+								this.build();
 							});
 							break;
 						case RESET_ALL:

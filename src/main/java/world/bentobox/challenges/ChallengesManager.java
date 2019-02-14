@@ -611,12 +611,25 @@ public class ChallengesManager
      * @param user - user
      * @param challenge - challenge
      */
-    public void setChallengeComplete(User user, Challenge challenge)
+    public void setChallengeComplete(@NonNull User user, @NonNull Challenge challenge)
+    {
+        this.setChallengeComplete(user.getUniqueId(), challenge);
+    }
+
+
+    /**
+     * Sets the challenge as complete and increments the number of times it has been
+     * completed
+     *
+     * @param user - user
+     * @param challenge - challenge
+     */
+    public void setChallengeComplete(@NonNull UUID user, @NonNull Challenge challenge)
     {
         this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).setChallengeDone(challenge.getUniqueId());
+        this.playerCacheData.get(user).setChallengeDone(challenge.getUniqueId());
         // Save
-        this.savePlayer(user.getUniqueId());
+        this.savePlayer(user);
     }
 
 
@@ -628,10 +641,22 @@ public class ChallengesManager
      */
     public void resetChallenge(@NonNull User user, @NonNull Challenge challenge)
     {
+        this.resetChallenge(user.getUniqueId(), challenge);
+    }
+
+
+    /**
+     * Reset the challenge to zero time / not done
+     *
+     * @param user - user
+     * @param challenge - challenge
+     */
+    public void resetChallenge(@NonNull UUID user, @NonNull Challenge challenge)
+    {
         this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).setChallengeTimes(challenge.getUniqueId(), 0);
+        this.playerCacheData.get(user).setChallengeTimes(challenge.getUniqueId(), 0);
         // Save
-        this.savePlayer(user.getUniqueId());
+        this.savePlayer(user);
     }
 
 

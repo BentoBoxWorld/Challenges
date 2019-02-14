@@ -596,10 +596,10 @@ public class EditLevelGUI extends CommonGUI
 							() -> new LinkedHashMap<>(challengeList.size())));
 
 					// Open select gui
-					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 						if (status)
 						{
-							manager.addChallengeToLevel(value, this.challengeLevel);
+							valueSet.forEach(challenge -> manager.addChallengeToLevel(challenge, this.challengeLevel));
 						}
 
 						this.build();
@@ -629,10 +629,10 @@ public class EditLevelGUI extends CommonGUI
 							() -> new LinkedHashMap<>(challengeList.size())));
 
 					// Open select gui
-					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 						if (status)
 						{
-							manager.removeChallengeFromLevel(value, this.challengeLevel);
+							valueSet.forEach(challenge -> manager.removeChallengeFromLevel(challenge, this.challengeLevel));
 						}
 
 						this.build();

@@ -2,9 +2,8 @@ package world.bentobox.challenges.panel.util;
 
 
 import org.bukkit.Material;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.bukkit.event.inventory.ClickType;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -20,13 +19,14 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectChallengeGUI
 {
-	public SelectChallengeGUI(User user, Map<Challenge, List<String>> challengesDescriptionMap, int lineLength, BiConsumer<Boolean, Challenge> consumer)
+	public SelectChallengeGUI(User user, Map<Challenge, List<String>> challengesDescriptionMap, int lineLength, BiConsumer<Boolean, Set<Challenge>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
 		this.challengesList = new ArrayList<>(challengesDescriptionMap.keySet());
 		this.challengesDescriptionMap = challengesDescriptionMap;
 		this.lineLength = lineLength;
+		this.selectedChallenges = new HashSet<>(this.challengesList.size());
 
 		this.build(0);
 	}
@@ -129,14 +129,45 @@ public class SelectChallengeGUI
 	 */
 	private PanelItem createChallengeButton(Challenge challenge)
 	{
+		List<String> description;
+
+		if (this.selectedChallenges.contains(challenge))
+		{
+			description = new ArrayList<>();
+			description.add(this.user.getTranslation("challenges.gui.descriptions.admin.selected"));
+			description.addAll(this.challengesDescriptionMap.get(challenge));
+		}
+		else
+		{
+			description = this.challengesDescriptionMap.get(challenge);
+		}
+
+
 		return new PanelItemBuilder().
 			name(challenge.getFriendlyName()).
-			description(GuiUtils.stringSplit(this.challengesDescriptionMap.get(challenge), this.lineLength)).
+			description(GuiUtils.stringSplit(description, this.lineLength)).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
-				this.consumer.accept(true, challenge);
+				if (clickType == ClickType.RIGHT)
+				{
+					// If challenge is not selected, then select :)
+					if (!this.selectedChallenges.remove(challenge))
+					{
+						this.selectedChallenges.add(challenge);
+					}
+
+					// Reset button.
+					panel.getInventory().setItem(slot, this.createChallengeButton(challenge).getItem());
+				}
+				else
+				{
+					this.consumer.accept(true, this.selectedChallenges);
+				}
+
 				return true;
-			}).build();
+			}).
+			glow(this.selectedChallenges.contains(challenge)).
+			build();
 	}
 
 
@@ -148,7 +179,7 @@ public class SelectChallengeGUI
 	/**
 	 * This variable stores consumer.
 	 */
-	private BiConsumer<Boolean, Challenge> consumer;
+	private BiConsumer<Boolean, Set<Challenge>> consumer;
 
 	/**
 	 * User who runs GUI.
@@ -159,6 +190,11 @@ public class SelectChallengeGUI
 	 * Current value.
 	 */
 	private List<Challenge> challengesList;
+
+	/**
+	 * Selected challenges that will be returned to consumer.
+	 */
+	private Set<Challenge> selectedChallenges;
 
 	/**
 	 * Map that contains all challenge descriptions
