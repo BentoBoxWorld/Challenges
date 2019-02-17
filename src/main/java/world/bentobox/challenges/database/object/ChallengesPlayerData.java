@@ -2,14 +2,9 @@ package world.bentobox.challenges.database.object;
 
 
 import com.google.gson.annotations.Expose;
-import org.bukkit.World;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import world.bentobox.bentobox.database.objects.DataObject;
-import world.bentobox.bentobox.util.Util;
 
 /**
  * Stores the player's challenge situation
@@ -172,11 +167,10 @@ public class ChallengesPlayerData implements DataObject
 	/**
 	 * Resets all challenges and levels in world for this player
 	 *
-	 * @param world world which challenges must be reset.
+	 * @param worldName world which challenges must be reset.
 	 */
-	public void reset(World world)
+	public void reset(String worldName)
 	{
-		String worldName = Util.getWorld(world).getName();
 		challengeStatus.keySet().removeIf(n -> n.startsWith(worldName));
 		challengesTimestamp.keySet().removeIf(n -> n.startsWith(worldName));
 		levelsDone.removeIf(n -> n.startsWith(worldName));

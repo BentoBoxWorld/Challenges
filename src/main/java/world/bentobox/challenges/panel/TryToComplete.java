@@ -272,15 +272,15 @@ public class TryToComplete
         }
 
         // Mark as complete
-        this.manager.setChallengeComplete(this.user, this.challenge);
+        this.manager.setChallengeComplete(this.user, this.world, this.challenge);
 
         if (!result.repeat)
         {
             ChallengeLevel level = this.manager.getLevel(this.challenge);
 
-            if (!this.manager.isLevelCompleted(this.user, level))
+            if (!this.manager.isLevelCompleted(this.user, this.world, level))
             {
-                if (this.manager.validateLevelCompletion(this.user, level))
+                if (this.manager.validateLevelCompletion(this.user, this.world, level))
                 {
                     // Item rewards
                     for (ItemStack reward : level.getRewardItems())
@@ -318,7 +318,7 @@ public class TryToComplete
                         }
                     }
 
-                    this.manager.setLevelComplete(this.user, level);
+                    this.manager.setLevelComplete(this.user, this.world, level);
                 }
             }
         }
@@ -357,20 +357,20 @@ public class TryToComplete
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
-            !this.manager.isLevelUnlocked(this.user, this.manager.getLevel(this.challenge.getLevel())))
+            !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
             this.user.sendMessage("challenges.errors.challenge-level-not-available");
             result = EMPTY_RESULT;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
-            this.manager.getChallengeTimes(this.user, this.challenge) >= this.challenge.getMaxTimes())
+            this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
         {
             this.user.sendMessage("challenges.errors.not-repeatable");
             result = EMPTY_RESULT;
         }
         // Check repeatability
-        else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.challenge))
+        else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.world, this.challenge))
         {
             this.user.sendMessage("challenges.errors.not-repeatable");
             result = EMPTY_RESULT;
@@ -546,7 +546,7 @@ public class TryToComplete
 
         // Return the result
         return new ChallengeResult().setMeetsRequirements().setRepeat(
-            this.manager.isChallengeComplete(this.user, this.challenge));
+            this.manager.isChallengeComplete(this.user, this.world, this.challenge));
     }
 
 

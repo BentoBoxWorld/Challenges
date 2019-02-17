@@ -47,6 +47,11 @@ public class Settings implements DataObject
 	private boolean freeChallengesFirst = true;
 
 	@ConfigComment("")
+	@ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
+	@ConfigEntry(path = "store-island-data")
+	private boolean storeAsIslandData = false;
+
+	@ConfigComment("")
 	@ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
 	@ConfigComment("owners may like it to be larger.")
 	@ConfigEntry(path = "lore-length")
@@ -105,7 +110,7 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.1";
+	private String configVersion = "v1.2";
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -214,6 +219,16 @@ public class Settings implements DataObject
 
 
 	/**
+	 * This method returns the storeAsIslandData object.
+	 * @return the storeAsIslandData object.
+	 */
+	public boolean isStoreAsIslandData()
+	{
+		return storeAsIslandData;
+	}
+
+
+	/**
 	 * This method sets the configVersion object value.
 	 * @param configVersion the configVersion object new value.
 	 */
@@ -311,5 +326,15 @@ public class Settings implements DataObject
 	public void setLoreLineLength(int loreLineLength)
 	{
 		this.loreLineLength = loreLineLength;
+	}
+
+
+	/**
+	 * This method sets the storeAsIslandData object value.
+	 * @param storeAsIslandData the storeAsIslandData object new value.
+	 */
+	public void setStoreAsIslandData(boolean storeAsIslandData)
+	{
+		this.storeAsIslandData = storeAsIslandData;
 	}
 }

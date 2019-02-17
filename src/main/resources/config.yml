@@ -22,6 +22,9 @@ add-completed-glow: true
 # This indicate if free challenges must be at the start (true) or at the end (false) of list.
 free-challenges-first: true
 #
+# This indicate if challenges data will be stored per island (true) or per player (false).
+store-island-data: true
+#
 # This allows to change lore description line length. By default it is 25, but some server
 # owners may like it to be larger.
 lore-length: 25
@@ -65,4 +68,4 @@ disabled-gamemodes: []
 #
 uniqueId: config
 #
-configVersion: v1.1
+configVersion: v1.2

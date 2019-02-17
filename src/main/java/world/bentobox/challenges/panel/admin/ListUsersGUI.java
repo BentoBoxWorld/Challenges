@@ -175,8 +175,7 @@ public class ListUsersGUI extends CommonGUI
 	{
 		int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 
-		if (this.addon.getIslands().hasIsland(this.world, player.getUniqueId()) ||
-			this.addon.getIslands().inTeam(this.world, player.getUniqueId()))
+		if (this.addon.getIslands().getIsland(this.world, player.getUniqueId()) != null)
 		{
 			return new PanelItemBuilder().name(player.getName()).icon(player.getName()).clickHandler(
 				(panel, user1, clickType, slot) -> {
@@ -190,7 +189,7 @@ public class ListUsersGUI extends CommonGUI
 
 							for (Challenge challenge : manager.getAllChallenges(this.world))
 							{
-								if (!manager.isChallengeComplete(player.getUniqueId(), challenge))
+								if (!manager.isChallengeComplete(player.getUniqueId(), this.world, challenge))
 								{
 									challengeDescriptionMap.put(challenge, this.generateChallengeDescription(challenge, player));
 								}
@@ -199,7 +198,7 @@ public class ListUsersGUI extends CommonGUI
 							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									valueSet.forEach(challenge -> manager.setChallengeComplete(player.getUniqueId(), challenge));
+									valueSet.forEach(challenge -> manager.setChallengeComplete(player.getUniqueId(), this.world, challenge));
 								}
 
 								this.build();
@@ -210,7 +209,7 @@ public class ListUsersGUI extends CommonGUI
 
 							for (Challenge challenge : manager.getAllChallenges(this.world))
 							{
-								if (manager.isChallengeComplete(player.getUniqueId(), challenge))
+								if (manager.isChallengeComplete(player.getUniqueId(), this.world, challenge))
 								{
 									challengeDescriptionMap.put(challenge, this.generateChallengeDescription(challenge, player));
 								}
@@ -219,7 +218,7 @@ public class ListUsersGUI extends CommonGUI
 							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									valueSet.forEach(challenge -> manager.resetChallenge(player.getUniqueId(), challenge));
+									valueSet.forEach(challenge -> manager.resetChallenge(player.getUniqueId(), this.world, challenge));
 								}
 
 								this.build();

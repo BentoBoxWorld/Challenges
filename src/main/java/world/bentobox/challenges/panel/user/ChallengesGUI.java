@@ -46,7 +46,7 @@ public class ChallengesGUI extends CommonGUI
 		super(addon, world, user, topLabel, permissionPrefix);
 		this.challengesManager = this.addon.getChallengesManager();
 
-		this.levelStatusList = this.challengesManager.getChallengeLevelStatus(this.user, this.world);
+		this.levelStatusList = this.challengesManager.getAllChallengeLevelStatus(this.user, this.world);
 
 		for (LevelStatus levelStatus : this.levelStatusList)
 		{
@@ -148,7 +148,7 @@ public class ChallengesGUI extends CommonGUI
 		if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
 		{
 			freeChallenges.removeIf(challenge -> !challenge.isRepeatable() &&
-				this.challengesManager.isChallengeComplete(this.user, challenge));
+				this.challengesManager.isChallengeComplete(this.user, this.world, challenge));
 		}
 
 		final int freeChallengesCount = freeChallenges.size();
@@ -218,7 +218,7 @@ public class ChallengesGUI extends CommonGUI
 			if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
 			{
 				challenges.removeIf(challenge -> !challenge.isRepeatable() &&
-					this.challengesManager.isChallengeComplete(this.user, challenge));
+					this.challengesManager.isChallengeComplete(this.user, this.world, challenge));
 			}
 
 			final int challengesCount = challenges.size();
@@ -366,7 +366,7 @@ public class ChallengesGUI extends CommonGUI
 				return true;
 			}).
 			glow(this.addon.getChallengesSettings().isAddCompletedGlow() &&
-				this.challengesManager.isChallengeComplete(this.user, challenge)).
+				this.challengesManager.isChallengeComplete(this.user, this.world, challenge)).
 			build();
 	}
 
@@ -413,7 +413,7 @@ public class ChallengesGUI extends CommonGUI
 				return true;
 			};
 			glow = this.addon.getChallengesSettings().isAddCompletedGlow() &&
-				this.challengesManager.isLevelCompleted(this.user, level.getLevel());
+				this.challengesManager.isLevelCompleted(this.user, this.world, level.getLevel());
 		}
 		else
 		{
