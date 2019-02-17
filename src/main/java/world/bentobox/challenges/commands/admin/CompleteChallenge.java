@@ -13,6 +13,7 @@ import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
+@Deprecated
 public class CompleteChallenge extends CompositeCommand {
 
     private ChallengesManager manager;
