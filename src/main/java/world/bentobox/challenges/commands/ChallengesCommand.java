@@ -50,7 +50,7 @@ public class ChallengesCommand extends CompositeCommand
     public void setup()
     {
         this.setPermission(CHALLENGE_COMMAND);
-        this.setParametersHelp("challen/ges.commands.user.parameters");
+        this.setParametersHelp("challenges.commands.user.parameters");
         this.setDescription("challenges.commands.user.description");
     }
 }
