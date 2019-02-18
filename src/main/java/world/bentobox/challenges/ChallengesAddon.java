@@ -2,13 +2,18 @@ package world.bentobox.challenges;
 
 
 import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.challenges.commands.ChallengesCommand;
+import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
+import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
 import world.bentobox.level.Level;
@@ -98,14 +103,18 @@ public class ChallengesAddon extends Addon {
         // Challenge import setup
         this.importManager = new ChallengesImportManager(this);
 
+        List<GameModeAddon> hookedGameModes = new ArrayList<>();
+
         this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
         	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
 			{
 				if (gameModeAddon.getPlayerCommand().isPresent())
 				{
 					new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
-					this.hooked = true;
-				}
+                    this.hooked = true;
+
+                    hookedGameModes.add(gameModeAddon);
+                }
 
 				if (gameModeAddon.getAdminCommand().isPresent())
 				{
@@ -116,6 +125,19 @@ public class ChallengesAddon extends Addon {
 		});
 
         if (this.hooked) {
+
+            // Create general challenge commands
+
+            if (this.settings.isUseCommonGUI())
+            {
+                new ChallengesUserCommand(this,
+                    this.settings.getUserCommand(),
+                    hookedGameModes);
+                new ChallengesAdminCommand(this,
+                    this.settings.getAdminCommand(),
+                    hookedGameModes);
+            }
+
             // Try to find Level addon and if it does not exist, display a warning
 
             Optional<Addon> level = this.getAddonByName("Level");

@@ -19,6 +19,37 @@ import world.bentobox.bentobox.database.objects.DataObject;
 public class Settings implements DataObject
 {
 	@ConfigComment("")
+	@ConfigComment("Allows to define common challenges command that will open User GUI")
+	@ConfigComment("with all GameMode selection or Challenges from user world.")
+	@ConfigComment("This will not affect /{gamemode_user} challenges command.")
+	@ConfigEntry(path = "commands.user", needsReset = true)
+	private String userCommand = "challenges c";
+
+	@ConfigComment("")
+	@ConfigComment("Allows to define common challenges command that will open Admin GUI")
+	@ConfigComment("with all GameMode selection.")
+	@ConfigComment("This will not affect /{gamemode_admin} challenges command.")
+	@ConfigEntry(path = "commands.admin", needsReset = true)
+	private String adminCommand = "challengesadmin chadmin";
+
+	@ConfigComment("")
+	@ConfigComment("This enables/disables common command that will be independent from")
+	@ConfigComment("all GameModes. For admins it will open selection with all GameModes")
+	@ConfigComment("(unless there is one), but for users it will open GUI that corresponds")
+	@ConfigComment("to their world (unless it is specified other way in Admin GUI).")
+	@ConfigEntry(path = "commands.single-gui", needsReset = true)
+	private boolean useCommonGUI = false;
+
+	@ConfigComment("")
+	@ConfigComment("This allows for admins to define which GUI will be opened for admins")
+	@ConfigComment("when users calls single-gui command.")
+	@ConfigComment("Acceptable values:")
+	@ConfigComment("   - CURRENT_WORLD - will open GUI that corresponds to user location.")
+	@ConfigComment("   - GAMEMODE_LIST - will open GUI with all installed game modes.")
+	@ConfigEntry(path = "commands.single-gamemode")
+	private GuiMode userGuiMode = GuiMode.CURRENT_WORLD;
+
+	@ConfigComment("")
 	@ConfigComment("Reset Challenges - if this is true, player's challenges will reset when they")
 	@ConfigComment("reset an island or if they are kicked or leave a team. Prevents exploiting the")
 	@ConfigComment("challenges by doing them repeatedly.")
@@ -115,7 +146,7 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.3";
+	private String configVersion = "v1.4";
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -244,6 +275,46 @@ public class Settings implements DataObject
 
 
 	/**
+	 * This method returns the userCommand value.
+	 * @return the value of userCommand.
+	 */
+	public String getUserCommand()
+	{
+		return userCommand;
+	}
+
+
+	/**
+	 * This method returns the adminCommand value.
+	 * @return the value of adminCommand.
+	 */
+	public String getAdminCommand()
+	{
+		return adminCommand;
+	}
+
+
+	/**
+	 * This method returns the useCommonGUI value.
+	 * @return the value of useCommonGUI.
+	 */
+	public boolean isUseCommonGUI()
+	{
+		return useCommonGUI;
+	}
+
+
+	/**
+	 * This method sets the userGuiMode value.
+	 * @param userGuiMode the userGuiMode new value.
+	 */
+	public void setUserGuiMode(GuiMode userGuiMode)
+	{
+		this.userGuiMode = userGuiMode;
+	}
+
+
+	/**
 	 * This method sets the configVersion object value.
 	 * @param configVersion the configVersion object new value.
 	 */
@@ -361,5 +432,66 @@ public class Settings implements DataObject
 	public void setStoreHistory(boolean storeHistory)
 	{
 		this.storeHistory = storeHistory;
+	}
+
+
+	/**
+	 * This method sets the userCommand value.
+	 * @param userCommand the userCommand new value.
+	 */
+	public void setUserCommand(String userCommand)
+	{
+		this.userCommand = userCommand;
+	}
+
+
+	/**
+	 * This method sets the adminCommand value.
+	 * @param adminCommand the adminCommand new value.
+	 */
+	public void setAdminCommand(String adminCommand)
+	{
+		this.adminCommand = adminCommand;
+	}
+
+
+	/**
+	 * This method sets the useCommonGUI value.
+	 * @param useCommonGUI the useCommonGUI new value.
+	 */
+	public void setUseCommonGUI(boolean useCommonGUI)
+	{
+		this.useCommonGUI = useCommonGUI;
+	}
+
+
+	/**
+	 * This method returns the userGuiMode value.
+	 * @return the value of userGuiMode.
+	 */
+	public GuiMode getUserGuiMode()
+	{
+		return userGuiMode;
+	}
+
+
+// ---------------------------------------------------------------------
+// Section: Enums
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * This enum holds all possible values for Gui Opening for users.
+	 */
+	public enum GuiMode
+	{
+		/**
+		 * Opens user GUI with list of all GameModes.
+		 */
+		GAMEMODE_LIST,
+		/**
+		 * Opens user GUI with challenges in given world.
+		 */
+		CURRENT_WORLD
 	}
 }

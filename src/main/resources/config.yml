@@ -3,6 +3,30 @@
 # You cannot edit it while the server is running because changes will
 # be lost! Use in-game settings GUI or edit when server is offline.
 #
+commands:
+  #
+  # Allows to define common challenges command that will open User GUI
+  # with all GameMode selection or Challenges from user world.
+  # This will not affect /{gamemode_user} challenges command.
+  user: challenges c
+  #
+  # Allows to define common challenges command that will open Admin GUI
+  # with all GameMode selection.
+  # This will not affect /{gamemode_admin} challenges command.
+  admin: challengesadmin chadmin
+  #
+  # This enables/disables common command that will be independent from
+  # all GameModes. For admins it will open selection with all GameModes
+  # (unless there is one), but for users it will open GUI that corresponds
+  # to their world (unless it is specified other way in Admin GUI).
+  single-gui: false
+  #
+  # This allows for admins to define which GUI will be opened for admins
+  # when users calls single-gui command.
+  # Acceptable values:
+  #    - CURRENT_WORLD - will open GUI that corresponds to user location.
+  #    - GAMEMODE_LIST - will open GUI with all installed game modes.
+  single-gamemode: CURRENT_WORLD
 #
 # Reset Challenges - if this is true, player's challenges will reset when they
 # reset an island or if they are kicked or leave a team. Prevents exploiting the
@@ -71,4 +95,4 @@ disabled-gamemodes: []
 #
 uniqueId: config
 #
-configVersion: v1.3
+configVersion: v1.4
