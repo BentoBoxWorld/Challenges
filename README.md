@@ -1,4 +1,5 @@
 # Challenges Addon
+[![Discord](https://img.shields.io/discord/272499714048524288.svg?logo=discord)](https://discord.bentobox.world)
 [![Build Status](https://ci.codemc.org/buildStatus/icon?job=BentoBoxWorld/Challenges)](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/)
 
 Add-on for BentoBox to provide challenges for any BentoBox GameMode. 
@@ -6,11 +7,11 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 ## Where to find
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
-Latest official **Beta Release is 0.5.0**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+Latest official **Beta Release is 0.5.1**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
 
 Or you can try **nightly builds** where you can check and test new features that will be implemented in next release from [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
-If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.gg/JgWKvR)
+If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.bentobox.world)
 
 ## How to use
 
