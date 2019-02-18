@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
 import world.bentobox.bentobox.database.objects.Island;
@@ -689,6 +690,26 @@ public class ChallengesManager
     }
 
 
+    /**
+     * This methods adds given log entry to database.
+     *
+     * @param storageDataID of type UUID
+     * @param entry of type LogEntry
+     */
+    private void addLogEntry(@NonNull UUID storageDataID, @NonNull LogEntry entry)
+    {
+        // Store data only if it is enabled.
+
+        if (this.settings.isStoreHistory())
+        {
+            this.addPlayerData(storageDataID);
+            this.playerCacheData.get(storageDataID).addHistoryRecord(entry);
+            // Save
+            this.savePlayerData(storageDataID);
+        }
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Public methods for processing player/island data.
     // ---------------------------------------------------------------------
@@ -754,8 +775,32 @@ public class ChallengesManager
      */
     public void setChallengeComplete(UUID userID, World world, Challenge challenge)
     {
-        world = Util.getWorld(world);
-        this.setChallengeComplete(this.getDataUniqueID(userID, world), challenge.getUniqueId());
+        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+        this.setChallengeComplete(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            build());
+    }
+
+
+    /**
+     * This method sets given challenge as completed.
+     * @param userID - Targeted user.
+     * @param world - World where completion must be called.
+     * @param challenge - That must be completed.
+     * @param adminID - admin who sets challenge as completed.
+     */
+    public void setChallengeComplete(UUID userID, World world, Challenge challenge, UUID adminID)
+    {
+        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+
+        this.setChallengeComplete(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            data("admin-id", adminID == null ? "OP" : adminID.toString()).
+            build());
     }
 
 
@@ -765,10 +810,16 @@ public class ChallengesManager
      * @param world - World where reset must be called.
      * @param challenge - That must be reset.
      */
-    public void resetChallenge(UUID userID, World world, Challenge challenge)
+    public void resetChallenge(UUID userID, World world, Challenge challenge, UUID adminID)
     {
-        world = Util.getWorld(world);
-        this.resetChallenge(this.getDataUniqueID(userID, world), challenge.getUniqueId());
+        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+
+        this.resetChallenge(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("RESET").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            data("admin-id", adminID == null ? "RESET" : adminID.toString()).
+            build());
     }
 
 
@@ -779,8 +830,7 @@ public class ChallengesManager
      */
     public void resetAllChallenges(User user, World world)
     {
-        world = Util.getWorld(world);
-        this.resetAllChallenges(this.getDataUniqueID(user, world), world.getName());
+        this.resetAllChallenges(user.getUniqueId(), world, null);
     }
 
 
@@ -788,11 +838,18 @@ public class ChallengesManager
      * This method resets all challenges in given world.
      * @param userID - Targeted user.
      * @param world - World where challenges must be reset.
+     * @param adminID - admin iD
      */
-    public void resetAllChallenges(UUID userID, World world)
+    public void resetAllChallenges(UUID userID, World world, UUID adminID)
     {
         world = Util.getWorld(world);
-        this.resetChallenge(this.getDataUniqueID(userID, world), world.getName());
+        UUID storageID = this.getDataUniqueID(userID, world);
+
+        this.resetAllChallenges(storageID, world.getName());
+        this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
+            data("user-id", userID.toString()).
+            data("admin-id", adminID == null ? "ISLAND_RESET" : adminID.toString()).
+            build());
     }
 
 
@@ -820,8 +877,7 @@ public class ChallengesManager
      */
     public boolean isLevelCompleted(User user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        return this.isLevelCompleted(this.getDataUniqueID(user, world), level.getUniqueId());
+        return this.isLevelCompleted(this.getDataUniqueID(user, Util.getWorld(world)), level.getUniqueId());
     }
 
 
@@ -834,8 +890,7 @@ public class ChallengesManager
      */
     public boolean isLevelUnlocked(User user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        return this.isLevelUnlocked(this.getDataUniqueID(user, world), level);
+        return this.isLevelUnlocked(this.getDataUniqueID(user, Util.getWorld(world)), level);
     }
 
 
@@ -847,8 +902,12 @@ public class ChallengesManager
      */
     public void setLevelComplete(User user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        this.setLevelComplete(this.getDataUniqueID(user, world), level.getUniqueId());
+        UUID storageID = this.getDataUniqueID(user, Util.getWorld(world));
+
+        this.setLevelComplete(storageID, level.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
+            data("user-id", user.getUniqueId().toString()).
+            data("level", level.getUniqueId()).build());
     }
 
 
@@ -861,8 +920,7 @@ public class ChallengesManager
      */
     public boolean validateLevelCompletion(User user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        return this.validateLevelCompletion(this.getDataUniqueID(user, world), level);
+        return this.validateLevelCompletion(this.getDataUniqueID(user, Util.getWorld(world)), level);
     }
 
 
@@ -875,8 +933,7 @@ public class ChallengesManager
      */
     public LevelStatus getChallengeLevelStatus(User user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        return this.getChallengeLevelStatus(this.getDataUniqueID(user, world), level);
+        return this.getChallengeLevelStatus(this.getDataUniqueID(user, Util.getWorld(world)), level);
     }
 
 
@@ -889,8 +946,7 @@ public class ChallengesManager
      */
     public LevelStatus getChallengeLevelStatus(UUID user, World world, ChallengeLevel level)
     {
-        world = Util.getWorld(world);
-        return this.getChallengeLevelStatus(this.getDataUniqueID(user, world), level);
+        return this.getChallengeLevelStatus(this.getDataUniqueID(user, Util.getWorld(world)), level);
     }
 
 

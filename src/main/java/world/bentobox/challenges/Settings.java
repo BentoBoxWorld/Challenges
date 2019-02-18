@@ -52,6 +52,11 @@ public class Settings implements DataObject
 	private boolean storeAsIslandData = false;
 
 	@ConfigComment("")
+	@ConfigComment("This indicate if player challenges data history will be stored or not.")
+	@ConfigEntry(path = "store-history-data")
+	private boolean storeHistory = false;
+
+	@ConfigComment("")
 	@ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
 	@ConfigComment("owners may like it to be larger.")
 	@ConfigEntry(path = "lore-length")
@@ -110,7 +115,7 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.2";
+	private String configVersion = "v1.3";
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -229,6 +234,16 @@ public class Settings implements DataObject
 
 
 	/**
+	 * This method returns the storeHistory object.
+	 * @return the storeHistory object.
+	 */
+	public boolean isStoreHistory()
+	{
+		return storeHistory;
+	}
+
+
+	/**
 	 * This method sets the configVersion object value.
 	 * @param configVersion the configVersion object new value.
 	 */
@@ -336,5 +351,15 @@ public class Settings implements DataObject
 	public void setStoreAsIslandData(boolean storeAsIslandData)
 	{
 		this.storeAsIslandData = storeAsIslandData;
+	}
+
+
+	/**
+	 * This method sets the storeHistory object value.
+	 * @param storeHistory the storeHistory object new value.
+	 */
+	public void setStoreHistory(boolean storeHistory)
+	{
+		this.storeHistory = storeHistory;
 	}
 }

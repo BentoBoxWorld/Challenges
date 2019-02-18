@@ -57,7 +57,7 @@ public class CompleteChallenge extends CompositeCommand {
             return false;
         }
         // Complete challenge
-        manager.setChallengeComplete(targetUUID, this.getWorld(), this.manager.getChallenge(args.get(1)));
+        manager.setChallengeComplete(targetUUID, this.getWorld(), this.manager.getChallenge(args.get(1)), user.getUniqueId());
         user.sendMessage("general.success");
         return true;
     }

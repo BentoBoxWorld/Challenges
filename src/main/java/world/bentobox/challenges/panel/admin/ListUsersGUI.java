@@ -198,7 +198,7 @@ public class ListUsersGUI extends CommonGUI
 							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									valueSet.forEach(challenge -> manager.setChallengeComplete(player.getUniqueId(), this.world, challenge));
+									valueSet.forEach(challenge -> manager.setChallengeComplete(player.getUniqueId(), this.world, challenge, this.user.getUniqueId()));
 								}
 
 								this.build();
@@ -218,7 +218,7 @@ public class ListUsersGUI extends CommonGUI
 							new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 								if (status)
 								{
-									valueSet.forEach(challenge -> manager.resetChallenge(player.getUniqueId(), this.world, challenge));
+									valueSet.forEach(challenge -> manager.resetChallenge(player.getUniqueId(), this.world, challenge, this.user.getUniqueId()));
 								}
 
 								this.build();
@@ -228,7 +228,7 @@ public class ListUsersGUI extends CommonGUI
 							new ConfirmationGUI(this.user, status -> {
 								if (status)
 								{
-									manager.resetAllChallenges(this.user, this.world);
+									manager.resetAllChallenges(player.getUniqueId(), this.world, this.user.getUniqueId());
 								}
 
 								this.build();
