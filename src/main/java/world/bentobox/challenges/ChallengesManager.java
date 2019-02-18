@@ -780,7 +780,7 @@ public class ChallengesManager
     public void resetAllChallenges(User user, World world)
     {
         world = Util.getWorld(world);
-        this.resetChallenge(this.getDataUniqueID(user, world), world.getName());
+        this.resetAllChallenges(this.getDataUniqueID(user, world), world.getName());
     }
 
 
