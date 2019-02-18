@@ -682,7 +682,7 @@ public abstract class CommonGUI
 		// Used to know if blocks, entities, items should be added after requirements and rewards.
 		char prevChar = ' ';
 
-		for (char c : this.addon.getChallengesSettings().getChallengeLoreMessage().toLowerCase().toCharArray())
+		for (char c : this.addon.getChallengesSettings().getLevelLoreMessage().toLowerCase().toCharArray())
 		{
 			switch (c)
 			{
