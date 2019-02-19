@@ -58,7 +58,7 @@ public class ChallengesManager
     /**
      * This is local cache that links UUID with corresponding player challenge data.
      */
-    private Map<UUID, ChallengesPlayerData> playerCacheData;
+    private Map<String, ChallengesPlayerData> playerCacheData;
 
     /**
      * This variable allows to access ChallengesAddon.
@@ -274,8 +274,7 @@ public class ChallengesManager
     {
         try
         {
-            UUID uuid = UUID.fromString(playerData.getUniqueId());
-            this.playerCacheData.put(uuid, playerData);
+            this.playerCacheData.put(playerData.getUniqueId(), playerData);
         }
         catch (Exception e)
         {
@@ -326,7 +325,7 @@ public class ChallengesManager
      *
      * @param uniqueID - uniqueID to add
      */
-    private void addPlayerData(@NonNull UUID uniqueID)
+    private void addPlayerData(@NonNull String uniqueID)
     {
         if (this.playerCacheData.containsKey(uniqueID))
         {
@@ -421,7 +420,7 @@ public class ChallengesManager
      * This method saves player/island with given UUID.
      * @param uniqueID user/island UUID.
      */
-    private void savePlayerData(@NonNull UUID uniqueID)
+    private void savePlayerData(@NonNull String uniqueID)
     {
         if (this.playerCacheData.containsKey(uniqueID))
         {
@@ -472,7 +471,7 @@ public class ChallengesManager
      * @param world of type World
      * @return UUID
      */
-    private UUID getDataUniqueID(User user, World world)
+    private String getDataUniqueID(User user, World world)
     {
         return this.getDataUniqueID(user.getUniqueId(), world);
     }
@@ -485,7 +484,7 @@ public class ChallengesManager
      * @param world of type World
      * @return UUID
      */
-    private UUID getDataUniqueID(UUID userID, World world)
+    private String getDataUniqueID(UUID userID, World world)
     {
         if (this.settings.isStoreAsIslandData())
         {
@@ -496,17 +495,17 @@ public class ChallengesManager
                 // If storage is in island mode and user does not have island, then it can happen.
                 // This should never happen ...
                 // Just return random UUID and hope that it will not be necessary.
-                return UUID.randomUUID();
+                return "";
             }
             else
             {
                 // Unfortunately, island does not store UUID, just a string.
-                return UUID.fromString(island.getUniqueId());
+                return island.getUniqueId();
             }
         }
         else
         {
-            return userID;
+            return userID.toString();
         }
     }
 
@@ -518,7 +517,7 @@ public class ChallengesManager
      * @param challengeID - Challenge uniqueID
      * @return - true if completed
      */
-    private long getChallengeTimes(UUID storageDataID, String challengeID)
+    private long getChallengeTimes(String storageDataID, String challengeID)
     {
         this.addPlayerData(storageDataID);
         return this.playerCacheData.get(storageDataID).getTimes(challengeID);
@@ -532,7 +531,7 @@ public class ChallengesManager
      * @param challengeID - Challenge uniqueID
      * @return - true if completed
      */
-    private boolean isChallengeComplete(UUID storageDataID, String challengeID)
+    private boolean isChallengeComplete(String storageDataID, String challengeID)
     {
         this.addPlayerData(storageDataID);
         return this.playerCacheData.get(storageDataID).isChallengeDone(challengeID);
@@ -546,7 +545,7 @@ public class ChallengesManager
      * @param storageDataID - playerData ID
      * @param challengeID - challengeID
      */
-    private void setChallengeComplete(@NonNull UUID storageDataID, @NonNull String challengeID)
+    private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID)
     {
         this.addPlayerData(storageDataID);
         this.playerCacheData.get(storageDataID).setChallengeDone(challengeID);
@@ -561,7 +560,7 @@ public class ChallengesManager
      * @param storageDataID - playerData ID
      * @param challengeID - challenge ID
      */
-    private void resetChallenge(@NonNull UUID storageDataID, @NonNull String challengeID)
+    private void resetChallenge(@NonNull String storageDataID, @NonNull String challengeID)
     {
         this.addPlayerData(storageDataID);
         this.playerCacheData.get(storageDataID).setChallengeTimes(challengeID, 0);
@@ -576,7 +575,7 @@ public class ChallengesManager
      * @param storageDataID - island owner's UUID
      * @param worldName - world
      */
-    private void resetAllChallenges(@NonNull UUID storageDataID, @NonNull String worldName)
+    private void resetAllChallenges(@NonNull String storageDataID, @NonNull String worldName)
     {
         this.addPlayerData(storageDataID);
         this.playerCacheData.get(storageDataID).reset(worldName);
@@ -592,7 +591,7 @@ public class ChallengesManager
      * @param worldName - World Name where levels should be searched.
      * @return Level status - how many challenges still to do on which level
      */
-    private List<LevelStatus> getAllChallengeLevelStatus(UUID storageDataID, String worldName)
+    private List<LevelStatus> getAllChallengeLevelStatus(String storageDataID, String worldName)
     {
         this.addPlayerData(storageDataID);
         ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
@@ -638,7 +637,7 @@ public class ChallengesManager
      * @param level Level which status must be calculated.
      * @return LevelStatus of given level.
      */
-    private LevelStatus getChallengeLevelStatus(@NonNull UUID storageDataID, @NonNull ChallengeLevel level)
+    private LevelStatus getChallengeLevelStatus(@NonNull String storageDataID, @NonNull ChallengeLevel level)
     {
         List<LevelStatus> statusList = this.getAllChallengeLevelStatus(storageDataID, level.getWorld());
 
@@ -661,7 +660,7 @@ public class ChallengesManager
      * @param level - level
      * @return true if level is unlocked
      */
-    private boolean isLevelUnlocked(@NonNull UUID storageDataID, ChallengeLevel level)
+    private boolean isLevelUnlocked(@NonNull String storageDataID, ChallengeLevel level)
     {
         this.addPlayerData(storageDataID);
 
@@ -677,7 +676,7 @@ public class ChallengesManager
      * @param storageDataID User who need to be checked.
      * @return true, if level is already completed.
      */
-    private boolean isLevelCompleted(@NonNull UUID storageDataID, @NonNull String levelID)
+    private boolean isLevelCompleted(@NonNull String storageDataID, @NonNull String levelID)
     {
         this.addPlayerData(storageDataID);
         return this.playerCacheData.get(storageDataID).isLevelDone(levelID);
@@ -690,7 +689,7 @@ public class ChallengesManager
      * @param storageDataID User who need to be checked.
      * @return true, if all challenges are done, otherwise false.
      */
-    private boolean validateLevelCompletion(@NonNull UUID storageDataID, @NonNull ChallengeLevel level)
+    private boolean validateLevelCompletion(@NonNull String storageDataID, @NonNull ChallengeLevel level)
     {
         this.addPlayerData(storageDataID);
         ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
@@ -705,7 +704,7 @@ public class ChallengesManager
      * @param levelID Level that must be completed.
      * @param storageDataID User who complete level.
      */
-    private void setLevelComplete(@NonNull UUID storageDataID, @NonNull String levelID)
+    private void setLevelComplete(@NonNull String storageDataID, @NonNull String levelID)
     {
         this.addPlayerData(storageDataID);
         this.playerCacheData.get(storageDataID).addCompletedLevel(levelID);
@@ -720,7 +719,7 @@ public class ChallengesManager
      * @param storageDataID of type UUID
      * @param entry of type LogEntry
      */
-    private void addLogEntry(@NonNull UUID storageDataID, @NonNull LogEntry entry)
+    private void addLogEntry(@NonNull String storageDataID, @NonNull LogEntry entry)
     {
         // Store data only if it is enabled.
 
@@ -799,7 +798,7 @@ public class ChallengesManager
      */
     public void setChallengeComplete(UUID userID, World world, Challenge challenge)
     {
-        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
         this.setChallengeComplete(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
             data("user-id", userID.toString()).
@@ -817,7 +816,7 @@ public class ChallengesManager
      */
     public void setChallengeComplete(UUID userID, World world, Challenge challenge, UUID adminID)
     {
-        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
 
         this.setChallengeComplete(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
@@ -836,7 +835,7 @@ public class ChallengesManager
      */
     public void resetChallenge(UUID userID, World world, Challenge challenge, UUID adminID)
     {
-        UUID storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
 
         this.resetChallenge(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("RESET").
@@ -867,7 +866,7 @@ public class ChallengesManager
     public void resetAllChallenges(UUID userID, World world, UUID adminID)
     {
         world = Util.getWorld(world);
-        UUID storageID = this.getDataUniqueID(userID, world);
+        String storageID = this.getDataUniqueID(userID, world);
 
         this.resetAllChallenges(storageID, world.getName());
         this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
@@ -926,7 +925,7 @@ public class ChallengesManager
      */
     public void setLevelComplete(User user, World world, ChallengeLevel level)
     {
-        UUID storageID = this.getDataUniqueID(user, Util.getWorld(world));
+        String storageID = this.getDataUniqueID(user, Util.getWorld(world));
 
         this.setLevelComplete(storageID, level.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
@@ -1371,8 +1370,8 @@ public class ChallengesManager
                 }
             });
 
-            this.playerCacheData.put(UUID.fromString(playerData.getUniqueId()), playerData);
-            this.savePlayerData(UUID.fromString(playerData.getUniqueId()));
+            this.playerCacheData.put(playerData.getUniqueId(), playerData);
+            this.savePlayerData(playerData.getUniqueId());
         });
     }
 }
