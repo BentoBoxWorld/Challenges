@@ -27,6 +27,14 @@ commands:
   #    - CURRENT_WORLD - will open GUI that corresponds to user location.
   #    - GAMEMODE_LIST - will open GUI with all installed game modes.
   single-gamemode: CURRENT_WORLD
+history:
+  #
+  # This indicate if player challenges data history will be stored or not.
+  store-history-data: false
+  #
+  # This allows to specify an amount of time in days when history data will
+  # be removed. 0 means that data will not be removed.
+  lifespan: false
 #
 # Reset Challenges - if this is true, player's challenges will reset when they
 # reset an island or if they are kicked or leave a team. Prevents exploiting the
@@ -48,9 +56,6 @@ free-challenges-first: true
 #
 # This indicate if challenges data will be stored per island (true) or per player (false).
 store-island-data: false
-#
-# This indicate if player challenges data history will be stored or not.
-store-history-data: false
 #
 # This allows to change lore description line length. By default it is 25, but some server
 # owners may like it to be larger.
@@ -95,4 +100,4 @@ disabled-gamemodes: []
 #
 uniqueId: config
 #
-configVersion: v1.4
+configVersion: v1.5

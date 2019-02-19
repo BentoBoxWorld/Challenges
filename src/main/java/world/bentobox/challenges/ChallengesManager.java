@@ -3,13 +3,7 @@ package world.bentobox.challenges;
 
 import org.eclipse.jdt.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -431,7 +425,24 @@ public class ChallengesManager
     {
         if (this.playerCacheData.containsKey(uniqueID))
         {
-            this.playersDatabase.saveObject(this.playerCacheData.get(uniqueID));
+            // Clean History Data
+            ChallengesPlayerData cachedData = this.playerCacheData.get(uniqueID);
+
+            if (this.settings.getLifeSpan() > 0)
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DAY_OF_YEAR, -this.settings.getLifeSpan());
+                long survivalTime = calendar.getTimeInMillis();
+
+                Iterator<LogEntry> entryIterator = cachedData.getHistory().iterator();
+
+                while (this.shouldBeRemoved(entryIterator.next(), survivalTime))
+                {
+                    entryIterator.remove();
+                }
+            }
+
+            this.playersDatabase.saveObject(cachedData);
         }
     }
 
@@ -439,6 +450,19 @@ public class ChallengesManager
     // ---------------------------------------------------------------------
     // Section: Private methods that is used to process player/island data.
     // ---------------------------------------------------------------------
+
+
+    /**
+     * This method returns if given log entry stored time stamp is older then survivalTime.
+     * @param entry Entry that must be checed.
+     * @param survivalTime TimeStamp value.
+     * @return true, if log entry is too old for database.
+     */
+    private boolean shouldBeRemoved(LogEntry entry, long survivalTime)
+    {
+        return entry.getTimestamp() < survivalTime;
+    }
+
 
 
     /**

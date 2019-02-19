@@ -50,6 +50,17 @@ public class Settings implements DataObject
 	private GuiMode userGuiMode = GuiMode.CURRENT_WORLD;
 
 	@ConfigComment("")
+	@ConfigComment("This indicate if player challenges data history will be stored or not.")
+	@ConfigEntry(path = "history.store-history-data")
+	private boolean storeHistory = false;
+
+	@ConfigComment("")
+	@ConfigComment("This allows to specify an amount of time in days when history data will")
+	@ConfigComment("be removed. 0 means that data will not be removed.")
+	@ConfigEntry(path = "history.lifespan")
+	private int lifeSpan = 14;
+
+	@ConfigComment("")
 	@ConfigComment("Reset Challenges - if this is true, player's challenges will reset when they")
 	@ConfigComment("reset an island or if they are kicked or leave a team. Prevents exploiting the")
 	@ConfigComment("challenges by doing them repeatedly.")
@@ -81,11 +92,6 @@ public class Settings implements DataObject
 	@ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
 	@ConfigEntry(path = "store-island-data")
 	private boolean storeAsIslandData = false;
-
-	@ConfigComment("")
-	@ConfigComment("This indicate if player challenges data history will be stored or not.")
-	@ConfigEntry(path = "store-history-data")
-	private boolean storeHistory = false;
 
 	@ConfigComment("")
 	@ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
@@ -146,7 +152,7 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.4";
+	private String configVersion = "v1.5";
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -301,6 +307,26 @@ public class Settings implements DataObject
 	public boolean isUseCommonGUI()
 	{
 		return useCommonGUI;
+	}
+
+
+	/**
+	 * This method returns the userGuiMode value.
+	 * @return the value of userGuiMode.
+	 */
+	public GuiMode getUserGuiMode()
+	{
+		return userGuiMode;
+	}
+
+
+	/**
+	 * This method returns the lifeSpan value.
+	 * @return the value of lifeSpan.
+	 */
+	public int getLifeSpan()
+	{
+		return lifeSpan;
 	}
 
 
@@ -466,12 +492,13 @@ public class Settings implements DataObject
 
 
 	/**
-	 * This method returns the userGuiMode value.
-	 * @return the value of userGuiMode.
+	 * This method sets the lifeSpan value.
+	 * @param lifeSpan the lifeSpan new value.
+	 *
 	 */
-	public GuiMode getUserGuiMode()
+	public void setLifeSpan(int lifeSpan)
 	{
-		return userGuiMode;
+		this.lifeSpan = lifeSpan;
 	}
 
 
