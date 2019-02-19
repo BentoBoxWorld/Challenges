@@ -435,7 +435,7 @@ public class ChallengesManager
 
                 Iterator<LogEntry> entryIterator = cachedData.getHistory().iterator();
 
-                while (this.shouldBeRemoved(entryIterator.next(), survivalTime))
+                while (entryIterator.hasNext() && this.shouldBeRemoved(entryIterator.next(), survivalTime))
                 {
                     entryIterator.remove();
                 }
