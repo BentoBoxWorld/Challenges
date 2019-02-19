@@ -1,7 +1,7 @@
 /**
  *
  */
-package world.bentobox.challenges.panel;
+package world.bentobox.challenges.tasks;
 
 
 import org.bukkit.GameMode;
