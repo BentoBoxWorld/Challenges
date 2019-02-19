@@ -350,9 +350,18 @@ public class TryToComplete
             result = EMPTY_RESULT;
         }
         // Player is not on island
-        else if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
+        else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
+            !this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
         {
             this.user.sendMessage("challenges.errors.not-on-island");
+            result = EMPTY_RESULT;
+        }
+        // Check player permission
+        else if (!this.addon.getIslands().getIslandAt(this.user.getLocation()).
+            map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).
+            orElse(false))
+        {
+            this.user.sendMessage("challenges.errors.no-rank");
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.

@@ -2,6 +2,7 @@ package world.bentobox.challenges;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,9 @@ import java.util.Optional;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.configuration.Config;
+import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.hooks.VaultHook;
+import world.bentobox.bentobox.managers.RanksManager;
 import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
@@ -68,6 +71,21 @@ public class ChallengesAddon extends Addon {
      */
     private static final String PERMISSION_PREFIX = "addon";
 
+	/**
+	 * This flag allows to complete challenges in any part of the world. It will not limit
+	 * player to their island. Useful for skygrid without protection flags.
+	 */
+	public static Flag CHALLENGES_WORLD_PROTECTION =
+		new Flag.Builder("CHALLENGES_WORLD_PROTECTION", Material.GRASS_BLOCK).type(Flag.Type.WORLD_SETTING).defaultSetting(true).build();
+
+	/**
+	 * This flag allows to define which users can complete challenge. F.e. it can be set
+	 * that only Island owner can complete challenge.
+	 * By default it is set to Visitor.
+	 */
+	public static Flag CHALLENGES_ISLAND_PROTECTION =
+		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
+
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -121,6 +139,9 @@ public class ChallengesAddon extends Addon {
 					new Challenges(this, gameModeAddon.getAdminCommand().get());
 					this.hooked = true;
 				}
+
+				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
+				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
 			}
 		});
 
@@ -170,6 +191,10 @@ public class ChallengesAddon extends Addon {
             this.registerListener(new ResetListener(this));
             // Register the autosave listener.
             this.registerListener(new SaveListener(this));
+
+            // Register Flags
+			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_ISLAND_PROTECTION);
+			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_WORLD_PROTECTION);
         } else {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);
