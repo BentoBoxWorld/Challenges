@@ -14,6 +14,7 @@ import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
+import world.bentobox.challenges.handlers.*;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
 import world.bentobox.level.Level;
@@ -170,6 +171,15 @@ public class ChallengesAddon extends Addon {
             this.registerListener(new ResetListener(this));
             // Register the autosave listener.
             this.registerListener(new SaveListener(this));
+
+            // Register Request Handlers
+            this.registerRequestHandler(new ChallengeListRequestHandler(this));
+            this.registerRequestHandler(new LevelListRequestHandler(this));
+
+            this.registerRequestHandler(new ChallengeDataRequestHandler(this));
+            this.registerRequestHandler(new LevelDataRequestHandler(this));
+
+            this.registerRequestHandler(new CompletedChallengesRequestHandler(this));
         } else {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);
