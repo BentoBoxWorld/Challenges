@@ -136,6 +136,10 @@ challenges:
                 number: '[number]'
                 level-lore: 'Level Description'
                 challenge-lore: 'Challenge Description'
+                gui-view-mode: 'Display All GameModes'
+                history-store: 'Challenges History'
+                history-lifespan: 'History LifeSpan'
+                island-store: 'Store per Island'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -218,6 +222,10 @@ challenges:
                 show-eggs: 'Switch entity view between Egg mode or Head mode.'
                 level-lore: 'Allows to modify which elements of level description should be visible.'
                 challenge-lore: 'Allows to modify which elements of challenge description should be visible.'
+                gui-view-mode: 'Allows to set if /challenges GUI should show GameModes or challenges in players world.'
+                history-store: 'Allows to enable/disable challenges history storage.'
+                history-lifespan: 'Allows to modify how many days history data will be saved.|0 means forever.'
+                island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will convert data on click.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -307,4 +315,4 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 6
+version: 7

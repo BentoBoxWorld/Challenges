@@ -73,13 +73,26 @@ public class EditSettingsGUI extends CommonGUI
 		GuiUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(19, this.getSettingsButton(Button.RESET_CHALLENGES));
+		panelBuilder.item(28, this.getSettingsButton(Button.REMOVE_COMPLETED));
+
 		panelBuilder.item(20, this.getSettingsButton(Button.BROADCAST));
-		panelBuilder.item(21, this.getSettingsButton(Button.REMOVE_COMPLETED));
-		panelBuilder.item(22, this.getSettingsButton(Button.GLOW_COMPLETED));
-		panelBuilder.item(23, this.getSettingsButton(Button.FREE_AT_TOP));
-		panelBuilder.item(24, this.getSettingsButton(Button.CHALLENGE_LORE));
-		panelBuilder.item(33, this.getSettingsButton(Button.LEVEL_LORE));
-		panelBuilder.item(25, this.getSettingsButton(Button.LORE_LENGTH));
+		panelBuilder.item(29, this.getSettingsButton(Button.GLOW_COMPLETED));
+
+		panelBuilder.item(22, this.getSettingsButton(Button.FREE_AT_TOP));
+		panelBuilder.item(31, this.getSettingsButton(Button.GAMEMODE_GUI));
+
+		panelBuilder.item(14, this.getSettingsButton(Button.LORE_LENGTH));
+		panelBuilder.item(23, this.getSettingsButton(Button.CHALLENGE_LORE));
+		panelBuilder.item(32, this.getSettingsButton(Button.LEVEL_LORE));
+
+		panelBuilder.item(24, this.getSettingsButton(Button.HISTORY));
+
+		if (this.settings.isStoreHistory())
+		{
+			panelBuilder.item(33, this.getSettingsButton(Button.PURGE_HISTORY));
+		}
+
+		panelBuilder.item(25, this.getSettingsButton(Button.STORE_MODE));
 
 		// Return Button
 		panelBuilder.item(44, this.returnButton);
@@ -265,7 +278,7 @@ public class EditSettingsGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.glow"));
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]",
-					this.addon.getChallengesSettings().isAddCompletedGlow() ?
+					this.settings.isAddCompletedGlow() ?
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
@@ -278,6 +291,102 @@ public class EditSettingsGUI extends CommonGUI
 					return true;
 				};
 				glow = this.settings.isAddCompletedGlow();
+				break;
+			}
+			case GAMEMODE_GUI:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.gui-view-mode"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]",
+					this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST) ?
+						this.user.getTranslation("challenges.gui.descriptions.enabled") :
+						this.user.getTranslation("challenges.gui.descriptions.disabled")));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.gui-view-mode");
+				icon = new ItemStack(Material.GLOWSTONE);
+				clickHandler = (panel, user1, clickType, i) -> {
+
+					if (this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST))
+					{
+						this.settings.setUserGuiMode(Settings.GuiMode.CURRENT_WORLD);
+					}
+					else
+					{
+						this.settings.setUserGuiMode(Settings.GuiMode.GAMEMODE_LIST);
+					}
+
+					panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+					return true;
+				};
+				glow = this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST);
+				break;
+			}
+			case HISTORY:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.history-store"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]",
+					this.settings.isStoreHistory() ?
+						this.user.getTranslation("challenges.gui.descriptions.enabled") :
+						this.user.getTranslation("challenges.gui.descriptions.disabled")));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.history-store");
+				icon = new ItemStack(Material.GLOWSTONE);
+				clickHandler = (panel, user1, clickType, i) -> {
+					this.settings.setStoreHistory(!this.settings.isStoreHistory());
+
+					// Need to rebuild all as new buttons will show up.
+					this.build();
+					return true;
+				};
+				glow = this.settings.isStoreHistory();
+				break;
+			}
+			case PURGE_HISTORY:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.history-lifespan"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]", Integer.toString(this.settings.getLifeSpan())));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.history-lifespan");
+				icon = new ItemStack(Material.ANVIL);
+				clickHandler = (panel, user1, clickType, i) -> {
+					new NumberGUI(this.user,
+						this.settings.getLifeSpan(),
+						0,
+						this.settings.getLoreLineLength(),
+						(status, value) -> {
+							if (status)
+							{
+								this.settings.setLifeSpan(value);
+							}
+
+							panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+						});
+
+					return true;
+				};
+				glow = false;
+				break;
+			}
+			case STORE_MODE:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.island-store"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]",
+					this.settings.isStoreAsIslandData() ?
+						this.user.getTranslation("challenges.gui.descriptions.enabled") :
+						this.user.getTranslation("challenges.gui.descriptions.disabled")));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.island-store");
+				icon = new ItemStack(Material.GLOWSTONE);
+				clickHandler = (panel, user1, clickType, i) -> {
+					this.settings.setStoreAsIslandData(!this.settings.isStoreAsIslandData());
+					// TODO: Data Migration must be added here.
+					panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+					return true;
+				};
+				glow = this.settings.isStoreAsIslandData();
 				break;
 			}
 			default:
@@ -304,7 +413,11 @@ public class EditSettingsGUI extends CommonGUI
 		LORE_LENGTH, 
 		LEVEL_LORE, 
 		CHALLENGE_LORE,
-		FREE_AT_TOP, 
+		FREE_AT_TOP,
+		GAMEMODE_GUI, 
+		HISTORY, 
+		PURGE_HISTORY, 
+		STORE_MODE, 
 		GLOW_COMPLETED
 	}
 
