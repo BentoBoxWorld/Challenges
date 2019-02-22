@@ -17,6 +17,10 @@ import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
+import world.bentobox.challenges.events.ChallengeCompletedEvent;
+import world.bentobox.challenges.events.ChallengeResetAllEvent;
+import world.bentobox.challenges.events.ChallengeResetEvent;
+import world.bentobox.challenges.events.LevelCompletedEvent;
 import world.bentobox.challenges.utils.LevelStatus;
 
 
@@ -805,6 +809,13 @@ public class ChallengesManager
             data("user-id", userID.toString()).
             data("challenge-id", challenge.getUniqueId()).
             build());
+
+        // Fire event that user completes challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeCompletedEvent(challenge.getUniqueId(),
+                userID,
+                false,
+                1));
     }
 
 
@@ -825,6 +836,13 @@ public class ChallengesManager
             data("challenge-id", challenge.getUniqueId()).
             data("admin-id", adminID == null ? "OP" : adminID.toString()).
             build());
+
+        // Fire event that admin completes user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeCompletedEvent(challenge.getUniqueId(),
+                userID,
+                true,
+                1));
     }
 
 
@@ -844,6 +862,13 @@ public class ChallengesManager
             data("challenge-id", challenge.getUniqueId()).
             data("admin-id", adminID == null ? "RESET" : adminID.toString()).
             build());
+
+        // Fire event that admin resets user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeResetEvent(challenge.getUniqueId(),
+                userID,
+                true,
+                "RESET"));
     }
 
 
@@ -874,6 +899,13 @@ public class ChallengesManager
             data("user-id", userID.toString()).
             data("admin-id", adminID == null ? "ISLAND_RESET" : adminID.toString()).
             build());
+
+        // Fire event that admin resets user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeResetAllEvent(world.getName(),
+                userID,
+                adminID != null,
+                adminID == null ? "ISLAND_RESET" : "RESET_ALL"));
     }
 
 
@@ -932,6 +964,12 @@ public class ChallengesManager
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
             data("user-id", user.getUniqueId().toString()).
             data("level", level.getUniqueId()).build());
+
+        // Fire event that user completes level
+        Bukkit.getServer().getPluginManager().callEvent(
+            new LevelCompletedEvent(level.getUniqueId(),
+                user.getUniqueId(),
+                false));
     }
 
 
