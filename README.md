@@ -7,7 +7,7 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 ## Where to find
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
-Latest official **Beta Release is 0.5.1**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+Latest official **Beta Release is 0.6.0**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
 
 Or you can try **nightly builds** where you can check and test new features that will be implemented in next release from [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
@@ -24,10 +24,11 @@ If you like this addon but something is missing or is not working as you want, y
 
 ## Compatibility
 
-- [x] BSkyBlock - since 1.1 version
-- [ ] AcidIsland - only in snapshots from #85 build.
-- [x] SkyGrid
-- [x] CaveBlock
+- [x] BentoBox - 1.3.0 version
+- [x] BSkyBlock - 1.3.0 version
+- [x] AcidIsland - 1.3.0 version
+- [x] SkyGrid - 1.3.0-SNAPSHOT version
+- [ ] CaveBlock
 
 ## Config.yml
 
