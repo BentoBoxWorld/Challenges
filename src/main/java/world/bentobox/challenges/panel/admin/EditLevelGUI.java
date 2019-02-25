@@ -116,6 +116,7 @@ public class EditLevelGUI extends CommonGUI
 		panelBuilder.item(10, this.createButton(Button.NAME));
 
 		panelBuilder.item(19, this.createButton(Button.ICON));
+		panelBuilder.item(28, this.createButton(Button.CLOSED_ICON));
 		panelBuilder.item(22, this.createButton(Button.UNLOCK_MESSAGE));
 		panelBuilder.item(25, this.createButton(Button.ORDER));
 
@@ -330,7 +331,7 @@ public class EditLevelGUI extends CommonGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.admin.icon");
 				description = Collections.singletonList(this.user.getTranslation(
-					"challenges.gui.descriptions.admin.icon-challenge"));
+					"challenges.gui.descriptions.admin.icon-level"));
 				icon = this.challengeLevel.getIcon();
 				clickHandler = (panel, user, clickType, slot) -> {
 					new AnvilGUI(this.addon.getPlugin(),
@@ -342,6 +343,55 @@ public class EditLevelGUI extends CommonGUI
 							if (material != null)
 							{
 								this.challengeLevel.setIcon(new ItemStack(material));
+								this.build();
+							}
+							else
+							{
+								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
+							}
+
+							return reply;
+						});
+
+					return true;
+				};
+				glow = false;
+				break;
+			}
+			case CLOSED_ICON:
+			{
+				name = this.user.getTranslation("challenges.gui.buttons.admin.locked-icon");
+				description = Collections.singletonList(this.user.getTranslation(
+					"challenges.gui.descriptions.admin.locked-icon"));
+
+				boolean isNull = this.challengeLevel.getLockedIcon() == null;
+
+				if (isNull)
+				{
+					icon = new ItemStack(Material.BARRIER);
+				}
+				else
+				{
+					icon = this.challengeLevel.getLockedIcon().clone();
+				}
+
+				clickHandler = (panel, user, clickType, slot) -> {
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						isNull ? "NULL" : icon.getType().name(),
+						(player, reply) -> {
+							if (reply.equals("NULL"))
+							{
+								this.challengeLevel.setLockedIcon(null);
+								this.build();
+								return reply;
+							}
+
+							Material material = Material.getMaterial(reply);
+
+							if (material != null)
+							{
+								this.challengeLevel.setLockedIcon(new ItemStack(material));
 								this.build();
 							}
 							else
@@ -388,7 +438,7 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", Integer.toString(this.challengeLevel.getOrder())));
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getOrder(), -1, 54, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getOrder(), -1, 54, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setOrder(value);
@@ -412,7 +462,7 @@ public class EditLevelGUI extends CommonGUI
 
 				icon = new ItemStack(Material.REDSTONE_TORCH);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getWaiverAmount(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getWaiverAmount(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setWaiverAmount(value);
@@ -500,7 +550,7 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", Integer.toString(this.challengeLevel.getRewardExperience())));
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challengeLevel.getRewardExperience(), 0, (status, value) -> {
+					new NumberGUI(this.user, this.challengeLevel.getRewardExperience(), 0, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challengeLevel.setRewardExperience(value);
@@ -526,7 +576,7 @@ public class EditLevelGUI extends CommonGUI
 				{
 					icon = new ItemStack(Material.GOLD_INGOT);
 					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, (status, value) -> {
+						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
 							if (status)
 							{
 								this.challengeLevel.setRewardMoney(value);
@@ -596,10 +646,10 @@ public class EditLevelGUI extends CommonGUI
 							() -> new LinkedHashMap<>(challengeList.size())));
 
 					// Open select gui
-					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 						if (status)
 						{
-							manager.addChallengeToLevel(value, this.challengeLevel);
+							valueSet.forEach(challenge -> manager.addChallengeToLevel(challenge, this.challengeLevel));
 						}
 
 						this.build();
@@ -629,10 +679,10 @@ public class EditLevelGUI extends CommonGUI
 							() -> new LinkedHashMap<>(challengeList.size())));
 
 					// Open select gui
-					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, value) -> {
+					new SelectChallengeGUI(this.user, challengeDescriptionMap, lineLength, (status, valueSet) -> {
 						if (status)
 						{
-							manager.removeChallengeFromLevel(value, this.challengeLevel);
+							valueSet.forEach(challenge -> manager.removeChallengeFromLevel(challenge, this.challengeLevel));
 						}
 
 						this.build();
@@ -663,6 +713,7 @@ public class EditLevelGUI extends CommonGUI
 	{
 		NAME,
 		ICON,
+		CLOSED_ICON,
 		UNLOCK_MESSAGE,
 		ORDER,
 		WAIVER_AMOUNT,

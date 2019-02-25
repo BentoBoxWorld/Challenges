@@ -175,15 +175,19 @@ public class ManageBlocksGUI extends CommonGUI
 				}
 				else
 				{
-					new NumberGUI(this.user, this.materialMap.get(material), 1, (status, value) -> {
-						if (status)
-						{
-							// Update value only when something changes.
-							this.materialMap.put(material, value);
-						}
+					new NumberGUI(this.user,
+						this.materialMap.get(material),
+						1,
+						this.addon.getChallengesSettings().getLoreLineLength(),
+						(status, value) -> {
+							if (status)
+							{
+								// Update value only when something changes.
+								this.materialMap.put(material, value);
+							}
 
-						this.build();
-					});
+							this.build();
+						});
 				}
 				return true;
 			}).

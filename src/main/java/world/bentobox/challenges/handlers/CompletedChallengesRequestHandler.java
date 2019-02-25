@@ -1,0 +1,80 @@
+package world.bentobox.challenges.handlers;
+
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
+import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.ChallengesManager;
+
+
+/**
+ * This Request Handler returns completed challenges for user in given world.
+ */
+public class CompletedChallengesRequestHandler extends AddonRequestHandler
+{
+
+	/**
+	 * Constructor creates a new CompletedChallengesRequestHandler instance.
+	 *
+	 * @param addon of type ChallengesAddon
+	 */
+	public CompletedChallengesRequestHandler(ChallengesAddon addon)
+	{
+		super("completed-challenges");
+		this.addon = addon;
+	}
+
+
+	/**
+	 * @param metaData Required meta data.
+	 * @return Set of strings that contains completed challenges.
+	 * @see AddonRequestHandler#handle(Map<String, Object>)
+	 */
+	@Override
+	public Object handle(Map<String, Object> metaData)
+	{
+		/*
+            What we need in the metaData:
+            	0. "player" -> UUID
+				1. "world-name" -> String
+            What we will return:
+				- Empty Set if player or given world is not valid.
+            	- Set of completed challenges in given world (or empty list if user haven't completed any challenge)
+         */
+
+		if (metaData == null ||
+			metaData.isEmpty() ||
+			metaData.get("world-name") == null ||
+			!(metaData.get("world-name") instanceof String) ||
+			metaData.get("player") == null ||
+			!(metaData.get("player") instanceof UUID) ||
+			Bukkit.getWorld((String) metaData.get("world-name")) == null)
+		{
+			return Collections.emptySet();
+		}
+
+		World world = Bukkit.getWorld((String) metaData.get("world-name"));
+		UUID player = (UUID) metaData.get("player");
+
+		ChallengesManager manager = this.addon.getChallengesManager();
+
+		return manager.getAllChallengesNames(world).stream().
+			filter(challenge -> manager.isChallengeComplete(player, world, challenge)).
+			collect(Collectors.toSet());
+	}
+
+
+// ---------------------------------------------------------------------
+// Section: Variables
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * Variable stores challenges addon.
+	 */
+	private ChallengesAddon addon;
+}

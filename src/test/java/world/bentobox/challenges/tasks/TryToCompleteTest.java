@@ -1,7 +1,7 @@
 /**
  *
  */
-package world.bentobox.challenges.panel;
+package world.bentobox.challenges.tasks;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -58,7 +58,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsSuccess() {
@@ -72,7 +72,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsMax() {
@@ -86,7 +86,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsZero() {
@@ -100,7 +100,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsSuccessMultiple() {
@@ -114,7 +114,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsSuccessMultipleOther() {
@@ -131,7 +131,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsMultipleOtherFail() {
@@ -148,7 +148,7 @@ public class TryToCompleteTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.panel.TryToComplete#removeItems(java.util.List)}.
+     * Test method for {@link TryToComplete#removeItems(java.util.List)}.
      */
     @Test
     public void testRemoveItemsFail() {

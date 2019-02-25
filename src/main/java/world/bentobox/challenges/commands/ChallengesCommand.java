@@ -8,35 +8,49 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.panel.user.ChallengesGUI;
 
 
-public class ChallengesCommand extends CompositeCommand {
+public class ChallengesCommand extends CompositeCommand
+{
     public static final String CHALLENGE_COMMAND = "challenges";
 
-    public ChallengesCommand(ChallengesAddon addon, CompositeCommand cmd) {
+
+    public ChallengesCommand(ChallengesAddon addon, CompositeCommand cmd)
+    {
         super(addon, cmd, CHALLENGE_COMMAND);
     }
 
+
     @Override
-    public boolean execute(User user, String label, List<String> args) {
+    public boolean execute(User user, String label, List<String> args)
+    {
         // Open up the challenges GUI
-        if (user.isPlayer()) {
-            new ChallengesGUI((ChallengesAddon) this.getAddon(),
-                this.getWorld(),
-                user,
-                this.getTopLabel(),
-                this.getPermissionPrefix()).build();
-            return true;
+        if (user.isPlayer())
+        {
+            if (this.getPlugin().getIslands().getIsland(this.getWorld(), user.getUniqueId()) != null)
+            {
+                new ChallengesGUI((ChallengesAddon) this.getAddon(),
+                    this.getWorld(),
+                    user,
+                    this.getTopLabel(),
+                    this.getPermissionPrefix()).build();
+                return true;
+            }
+            else
+            {
+                user.sendMessage("general.errors.no-island");
+                return false;
+            }
         }
         // Show help
         showHelp(this, user);
         return false;
     }
 
+
     @Override
-    public void setup() {
+    public void setup()
+    {
         this.setPermission(CHALLENGE_COMMAND);
         this.setParametersHelp("challenges.commands.user.parameters");
         this.setDescription("challenges.commands.user.description");
     }
-
-
 }

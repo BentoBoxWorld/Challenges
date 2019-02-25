@@ -61,8 +61,7 @@ public class ResetChallenge extends CompositeCommand {
             return false;
         }
         // Complete challenge
-        User target = User.getInstance(targetUUID);
-        manager.resetChallenge(target, manager.getChallenge(args.get(1)));
+        manager.resetChallenge(targetUUID, this.getWorld(), manager.getChallenge(args.get(1)), user.getUniqueId());
         user.sendMessage("general.success");
         return true;
     }

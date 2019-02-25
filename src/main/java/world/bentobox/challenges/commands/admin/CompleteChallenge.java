@@ -13,6 +13,7 @@ import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 
+@Deprecated
 public class CompleteChallenge extends CompositeCommand {
 
     private ChallengesManager manager;
@@ -56,8 +57,7 @@ public class CompleteChallenge extends CompositeCommand {
             return false;
         }
         // Complete challenge
-        User target = User.getInstance(targetUUID);
-        manager.setChallengeComplete(target, this.manager.getChallenge(args.get(1)));
+        manager.setChallengeComplete(targetUUID, this.getWorld(), this.manager.getChallenge(args.get(1)), user.getUniqueId());
         user.sendMessage("general.success");
         return true;
     }

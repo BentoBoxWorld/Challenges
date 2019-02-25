@@ -3,25 +3,24 @@ package world.bentobox.challenges;
 
 import org.eclipse.jdt.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 
+import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
+import world.bentobox.challenges.events.ChallengeCompletedEvent;
+import world.bentobox.challenges.events.ChallengeResetAllEvent;
+import world.bentobox.challenges.events.ChallengeResetEvent;
+import world.bentobox.challenges.events.LevelCompletedEvent;
 import world.bentobox.challenges.utils.LevelStatus;
 
 
@@ -63,12 +62,17 @@ public class ChallengesManager
     /**
      * This is local cache that links UUID with corresponding player challenge data.
      */
-    private Map<UUID, ChallengesPlayerData> playerCacheData;
+    private Map<String, ChallengesPlayerData> playerCacheData;
 
     /**
      * This variable allows to access ChallengesAddon.
      */
     private ChallengesAddon addon;
+
+    /**
+     * This variable allows to access ChallengesAddon settings.
+     */
+    private Settings settings;
 
 
     // ---------------------------------------------------------------------
@@ -94,6 +98,8 @@ public class ChallengesManager
     public ChallengesManager(ChallengesAddon addon)
     {
         this.addon = addon;
+        this.settings = addon.getChallengesSettings();
+
         // Set up the configs
         this.challengeDatabase = new Database<>(addon, Challenge.class);
         this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
@@ -272,14 +278,14 @@ public class ChallengesManager
     {
         try
         {
-            UUID uuid = UUID.fromString(playerData.getUniqueId());
-            this.playerCacheData.put(uuid, playerData);
+            this.playerCacheData.put(playerData.getUniqueId(), playerData);
         }
         catch (Exception e)
         {
             this.addon.getLogger().severe("UUID for player in challenge data file is invalid!");
         }
     }
+
 
     // ---------------------------------------------------------------------
     // Section: Other storing related methods
@@ -319,24 +325,13 @@ public class ChallengesManager
 
 
     /**
-     * Load player from database into the cache or create new player data
+     * Load player/island from database into the cache or create new player/island data
      *
-     * @param user - user to add
+     * @param uniqueID - uniqueID to add
      */
-    private void addPlayer(@NonNull User user)
+    private void addPlayerData(@NonNull String uniqueID)
     {
-        this.addPlayer(user.getUniqueId());
-    }
-
-
-    /**
-     * Load player from database into the cache or create new player data
-     *
-     * @param userID - userID to add
-     */
-    private void addPlayer(@NonNull UUID userID)
-    {
-        if (this.playerCacheData.containsKey(userID))
+        if (this.playerCacheData.containsKey(uniqueID))
         {
             return;
         }
@@ -344,20 +339,20 @@ public class ChallengesManager
         // The player is not in the cache
         // Check if the player exists in the database
 
-        if (this.playersDatabase.objectExists(userID.toString()))
+        if (this.playersDatabase.objectExists(uniqueID.toString()))
         {
             // Load player from database
-            ChallengesPlayerData data = this.playersDatabase.loadObject(userID.toString());
+            ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID.toString());
             // Store in cache
-            this.playerCacheData.put(userID, data);
+            this.playerCacheData.put(uniqueID, data);
         }
         else
         {
             // Create the player data
-            ChallengesPlayerData pd = new ChallengesPlayerData(userID.toString());
+            ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID.toString());
             this.playersDatabase.saveObject(pd);
             // Add to cache
-            this.playerCacheData.put(userID, pd);
+            this.playerCacheData.put(uniqueID, pd);
         }
     }
 
@@ -374,7 +369,7 @@ public class ChallengesManager
     {
         this.saveChallenges();
         this.saveLevels();
-        this.savePlayers();
+        this.savePlayersData();
     }
 
 
@@ -417,129 +412,195 @@ public class ChallengesManager
 
 
     /**
-     * This method saves all players to database.
+     * This method saves all players/islands to database.
      */
-    private void savePlayers()
+    private void savePlayersData()
     {
         this.playerCacheData.values().forEach(this.playersDatabase::saveObject);
     }
 
 
     /**
-     * This method saves player with given UUID.
-     * @param playerUUID users UUID.
+     * This method saves player/island with given UUID.
+     * @param uniqueID user/island UUID.
      */
-    private void savePlayer(UUID playerUUID)
+    private void savePlayerData(@NonNull String uniqueID)
     {
-        if (this.playerCacheData.containsKey(playerUUID))
+        if (this.playerCacheData.containsKey(uniqueID))
         {
-            this.playersDatabase.saveObject(this.playerCacheData.get(playerUUID));
+            // Clean History Data
+            ChallengesPlayerData cachedData = this.playerCacheData.get(uniqueID);
+
+            if (this.settings.getLifeSpan() > 0)
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DAY_OF_YEAR, -this.settings.getLifeSpan());
+                long survivalTime = calendar.getTimeInMillis();
+
+                Iterator<LogEntry> entryIterator = cachedData.getHistory().iterator();
+
+                while (entryIterator.hasNext() && this.shouldBeRemoved(entryIterator.next(), survivalTime))
+                {
+                    entryIterator.remove();
+                }
+            }
+
+            this.playersDatabase.saveObject(cachedData);
         }
     }
 
 
     // ---------------------------------------------------------------------
-    // Section: Player Data related methods
+    // Section: Private methods that is used to process player/island data.
     // ---------------------------------------------------------------------
 
 
     /**
-     * This method returns all players who have done at least one challenge in given world.
-     * @param world World in which must search challenges.
-     * @return List with players who have done at least on challenge.
+     * This method returns if given log entry stored time stamp is older then survivalTime.
+     * @param entry Entry that must be checed.
+     * @param survivalTime TimeStamp value.
+     * @return true, if log entry is too old for database.
      */
-    public List<Player> getPlayers(World world)
+    private boolean shouldBeRemoved(LogEntry entry, long survivalTime)
     {
-        List<String> allChallengeList = this.getAllChallengesNames(world);
-
-        // This is using Database, as some users may not be in the cache.
-
-        return this.playersDatabase.loadObjects().stream().filter(playerData ->
-        allChallengeList.stream().anyMatch(playerData::isChallengeDone)).
-                map(playerData -> Bukkit.getPlayer(UUID.fromString(playerData.getUniqueId()))).
-                collect(Collectors.toList());
+        return entry.getTimestamp() < survivalTime;
     }
 
 
-    /**
-     * This method returns how many times a player has done a challenge before
-     * @param user - user
-     * @param challenge - challenge
-     * @return - number of times
-     */
-    public long getChallengeTimes(User user, Challenge challenge)
-    {
-        this.addPlayer(user);
-        return this.playerCacheData.get(user.getUniqueId()).getTimes(challenge.getUniqueId());
-    }
-
 
     /**
-     * Checks if a challenge is complete or not
+     * This method returns UUID that corresponds to player or player's island in given world.
      *
-     * @param user - User who must be checked.
-     * @param challenge - Challenge
+     * @param user of type User
+     * @param world of type World
+     * @return UUID
+     */
+    private String getDataUniqueID(User user, World world)
+    {
+        return this.getDataUniqueID(user.getUniqueId(), world);
+    }
+
+
+    /**
+     * This method returns UUID that corresponds to player or player's island in given world.
+     *
+     * @param userID of type User
+     * @param world of type World
+     * @return UUID
+     */
+    private String getDataUniqueID(UUID userID, World world)
+    {
+        if (this.settings.isStoreAsIslandData())
+        {
+            Island island = this.addon.getIslands().getIsland(world, userID);
+
+            if (island == null)
+            {
+                // If storage is in island mode and user does not have island, then it can happen.
+                // This should never happen ...
+                // Just return random UUID and hope that it will not be necessary.
+                return "";
+            }
+            else
+            {
+                // Unfortunately, island does not store UUID, just a string.
+                return island.getUniqueId();
+            }
+        }
+        else
+        {
+            return userID.toString();
+        }
+    }
+
+
+    /**
+     * Checks if a challengeID is complete or not
+     *
+     * @param storageDataID - PlayerData ID object who must be checked.
+     * @param challengeID - Challenge uniqueID
      * @return - true if completed
      */
-    public boolean isChallengeComplete(User user, Challenge challenge)
+    private long getChallengeTimes(String storageDataID, String challengeID)
     {
-        return this.isChallengeComplete(user.getUniqueId(), challenge);
+        this.addPlayerData(storageDataID);
+        return this.playerCacheData.get(storageDataID).getTimes(challengeID);
     }
 
 
     /**
-     * Checks if a challenge is complete or not
+     * Checks if a challenge with given ID is complete or not
      *
-     * @param user - User who must be checked.
-     * @param challenge - Challenge
+     * @param storageDataID - PlayerData ID object who must be checked.
+     * @param challengeID - Challenge uniqueID
      * @return - true if completed
      */
-    public boolean isChallengeComplete(UUID user, Challenge challenge)
+    private boolean isChallengeComplete(String storageDataID, String challengeID)
     {
-        return this.isChallengeComplete(user, challenge.getUniqueId());
+        this.addPlayerData(storageDataID);
+        return this.playerCacheData.get(storageDataID).isChallengeDone(challengeID);
     }
 
 
     /**
-     * Checks if a challenge is complete or not
+     * Sets the challenge with given ID as complete and increments the number of times it has been
+     * completed
      *
-     * @param user - User who must be checked.
-     * @param challenge - Challenge
-     * @return - true if completed
+     * @param storageDataID - playerData ID
+     * @param challengeID - challengeID
      */
-    public boolean isChallengeComplete(UUID user, String challenge)
+    private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID)
     {
-        this.addPlayer(user);
-        return this.playerCacheData.get(user).isChallengeDone(challenge);
+        this.addPlayerData(storageDataID);
+        this.playerCacheData.get(storageDataID).setChallengeDone(challengeID);
+        // Save
+        this.savePlayerData(storageDataID);
     }
 
 
     /**
-     * Get the status on every level
+     * Reset the challenge with given ID to zero time / not done
      *
-     * @param user - user
-     * @param world - world
+     * @param storageDataID - playerData ID
+     * @param challengeID - challenge ID
+     */
+    private void resetChallenge(@NonNull String storageDataID, @NonNull String challengeID)
+    {
+        this.addPlayerData(storageDataID);
+        this.playerCacheData.get(storageDataID).setChallengeTimes(challengeID, 0);
+        // Save
+        this.savePlayerData(storageDataID);
+    }
+
+
+    /**
+     * Resets all the challenges for user in world
+     *
+     * @param storageDataID - island owner's UUID
+     * @param worldName - world
+     */
+    private void resetAllChallenges(@NonNull String storageDataID, @NonNull String worldName)
+    {
+        this.addPlayerData(storageDataID);
+        this.playerCacheData.get(storageDataID).reset(worldName);
+        // Save
+        this.savePlayerData(storageDataID);
+    }
+
+
+    /**
+     * Get the status on every level for required world and playerData
+     *
+     * @param storageDataID - playerData ID
+     * @param worldName - World Name where levels should be searched.
      * @return Level status - how many challenges still to do on which level
      */
-    public List<LevelStatus> getChallengeLevelStatus(User user, World world)
+    private List<LevelStatus> getAllChallengeLevelStatus(String storageDataID, String worldName)
     {
-        return this.getChallengeLevelStatus(user.getUniqueId(), Util.getWorld(world).getName());
-    }
+        this.addPlayerData(storageDataID);
+        ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
 
-
-    /**
-     * Get the status on every level
-     *
-     * @param user - user
-     * @param world - world
-     * @return Level status - how many challenges still to do on which level
-     */
-    public List<LevelStatus> getChallengeLevelStatus(UUID user, String world)
-    {
-        this.addPlayer(user);
-        ChallengesPlayerData playerData = this.playerCacheData.get(user);
-
-        List<ChallengeLevel> challengeLevelList = this.getLevels(world);
+        List<ChallengeLevel> challengeLevelList = this.getLevels(worldName);
 
         List<LevelStatus> result = new ArrayList<>();
 
@@ -547,7 +608,7 @@ public class ChallengesManager
         ChallengeLevel previousLevel = null;
         int doneChallengeCount = 0;
 
-        // For each challenge level, check how many the user has done
+        // For each challenge level, check how many the storageDataID has done
         for (ChallengeLevel level : challengeLevelList)
         {
             // To find how many challenges user still must do in previous level, we must
@@ -575,145 +636,14 @@ public class ChallengesManager
 
 
     /**
-     * Check is user can see given level.
-     *
-     * @param user - user
-     * @param level - level
-     * @return true if level is unlocked
-     */
-    public boolean isLevelUnlocked(User user, ChallengeLevel level)
-    {
-        return this.isLevelUnlocked(user.getUniqueId(), level);
-    }
-
-
-    /**
-     * Check is user can see given level.
-     *
-     * @param user - user
-     * @param level - level
-     * @return true if level is unlocked
-     */
-    public boolean isLevelUnlocked(UUID user, ChallengeLevel level)
-    {
-        this.addPlayer(user);
-
-        return this.getChallengeLevelStatus(user, level.getWorld()).stream().
-            filter(LevelStatus::isUnlocked).
-            anyMatch(lv -> lv.getLevel().equals(level));
-    }
-
-
-    /**
-     * Sets the challenge as complete and increments the number of times it has been
-     * completed
-     *
-     * @param user - user
-     * @param challenge - challenge
-     */
-    public void setChallengeComplete(User user, Challenge challenge)
-    {
-        this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).setChallengeDone(challenge.getUniqueId());
-        // Save
-        this.savePlayer(user.getUniqueId());
-    }
-
-
-    /**
-     * Reset the challenge to zero time / not done
-     *
-     * @param user - user
-     * @param challenge - challenge
-     */
-    public void resetChallenge(@NonNull User user, @NonNull Challenge challenge)
-    {
-        this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).setChallengeTimes(challenge.getUniqueId(), 0);
-        // Save
-        this.savePlayer(user.getUniqueId());
-    }
-
-
-    /**
-     * Resets all the challenges for user in world
-     *
-     * @param userID - island owner's UUID
-     * @param world - world
-     */
-    public void resetAllChallenges(@NonNull UUID userID, @NonNull World world)
-    {
-        this.addPlayer(userID);
-        this.playerCacheData.get(userID).reset(world);
-        // Save
-        this.savePlayer(userID);
-    }
-
-
-    /**
-     * Resets all the challenges for user in world
-     *
-     * @param user - island owner's UUID
-     * @param world - world
-     */
-    public void resetAllChallenges(@NonNull User user, @NonNull World world)
-    {
-        this.resetAllChallenges(user.getUniqueId(), world);
-    }
-
-
-    /**
-     * This method returns if given user has been already completed given level.
-     * @param level Level that must be checked.
-     * @param user User who need to be checked.
-     * @return true, if level is already completed.
-     */
-    public boolean isLevelCompleted(@NonNull User user, @NonNull ChallengeLevel level)
-    {
-        this.addPlayer(user);
-        return this.playerCacheData.get(user.getUniqueId()).isLevelDone(level.getUniqueId());
-    }
-
-
-    /**
-     * This method checks all level challenges and checks if all challenges are done.
-     * @param level Level that must be checked.
-     * @param user User who need to be checked.
-     * @return true, if all challenges are done, otherwise false.
-     */
-    public boolean validateLevelCompletion(@NonNull User user, @NonNull ChallengeLevel level)
-    {
-        this.addPlayer(user);
-        ChallengesPlayerData playerData = this.playerCacheData.get(user.getUniqueId());
-        long doneChallengeCount = level.getChallenges().stream().filter(playerData::isChallengeDone).count();
-
-        return level.getChallenges().size() == doneChallengeCount;
-    }
-
-
-    /**
-     * This method sets given level as completed.
-     * @param level Level that must be completed.
-     * @param user User who complete level.
-     */
-    public void setLevelComplete(@NonNull User user, @NonNull ChallengeLevel level)
-    {
-        this.addPlayer(user);
-        this.playerCacheData.get(user.getUniqueId()).addCompletedLevel(level.getUniqueId());
-        // Save
-        this.savePlayer(user.getUniqueId());
-    }
-
-
-    /**
      * This method returns LevelStatus object for given challenge level.
-     * @param user User which level status must be acquired.
+     * @param storageDataID User which level status must be acquired.
      * @param level Level which status must be calculated.
-     * @return LevelStatus fof given level.
+     * @return LevelStatus of given level.
      */
-    public LevelStatus getChallengeLevelStatus(UUID user, ChallengeLevel level)
+    private LevelStatus getChallengeLevelStatus(@NonNull String storageDataID, @NonNull ChallengeLevel level)
     {
-        List<LevelStatus> statusList = this.getChallengeLevelStatus(user, level.getWorld());
+        List<LevelStatus> statusList = this.getAllChallengeLevelStatus(storageDataID, level.getWorld());
 
         for (LevelStatus status : statusList)
         {
@@ -724,6 +654,374 @@ public class ChallengesManager
         }
 
         return null;
+    }
+
+
+    /**
+     * Check is playerData can see given level.
+     * TODO: not an optimal way. Faster would be to check previous level challenges.
+     * @param storageDataID - playerData ID
+     * @param level - level
+     * @return true if level is unlocked
+     */
+    private boolean isLevelUnlocked(@NonNull String storageDataID, ChallengeLevel level)
+    {
+        this.addPlayerData(storageDataID);
+
+        return this.getAllChallengeLevelStatus(storageDataID, level.getWorld()).stream().
+            filter(LevelStatus::isUnlocked).
+            anyMatch(lv -> lv.getLevel().equals(level));
+    }
+
+
+    /**
+     * This method returns if given user has been already completed given level.
+     * @param levelID Level that must be checked.
+     * @param storageDataID User who need to be checked.
+     * @return true, if level is already completed.
+     */
+    private boolean isLevelCompleted(@NonNull String storageDataID, @NonNull String levelID)
+    {
+        this.addPlayerData(storageDataID);
+        return this.playerCacheData.get(storageDataID).isLevelDone(levelID);
+    }
+
+
+    /**
+     * This method checks all level challenges and checks if all challenges are done.
+     * @param level Level that must be checked.
+     * @param storageDataID User who need to be checked.
+     * @return true, if all challenges are done, otherwise false.
+     */
+    private boolean validateLevelCompletion(@NonNull String storageDataID, @NonNull ChallengeLevel level)
+    {
+        this.addPlayerData(storageDataID);
+        ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
+        long doneChallengeCount = level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+
+        return level.getChallenges().size() == doneChallengeCount;
+    }
+
+
+    /**
+     * This method sets given level as completed.
+     * @param levelID Level that must be completed.
+     * @param storageDataID User who complete level.
+     */
+    private void setLevelComplete(@NonNull String storageDataID, @NonNull String levelID)
+    {
+        this.addPlayerData(storageDataID);
+        this.playerCacheData.get(storageDataID).addCompletedLevel(levelID);
+        // Save
+        this.savePlayerData(storageDataID);
+    }
+
+
+    /**
+     * This methods adds given log entry to database.
+     *
+     * @param storageDataID of type UUID
+     * @param entry of type LogEntry
+     */
+    private void addLogEntry(@NonNull String storageDataID, @NonNull LogEntry entry)
+    {
+        // Store data only if it is enabled.
+
+        if (this.settings.isStoreHistory())
+        {
+            this.addPlayerData(storageDataID);
+            this.playerCacheData.get(storageDataID).addHistoryRecord(entry);
+            // Save
+            this.savePlayerData(storageDataID);
+        }
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Public methods for processing player/island data.
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * This method returns if given user has completed given challenge in world.
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challenge - Challenge that must be checked.
+     * @return True, if challenge is completed, otherwise - false.
+     */
+    public boolean isChallengeComplete(User user, World world, Challenge challenge)
+    {
+        return this.isChallengeComplete(user.getUniqueId(), world, challenge.getUniqueId());
+    }
+
+
+    /**
+     * This method returns if given user has completed given challenge in world.
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challenge - Challenge that must be checked.
+     * @return True, if challenge is completed, otherwise - false.
+     */
+    public boolean isChallengeComplete(UUID user, World world, Challenge challenge)
+    {
+        return this.isChallengeComplete(user, world, challenge.getUniqueId());
+    }
+
+
+    /**
+     * This method returns if given user has completed given challenge in world.
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challengeID - Challenge that must be checked.
+     * @return True, if challenge is completed, otherwise - false.
+     */
+    public boolean isChallengeComplete(UUID user, World world, String challengeID)
+    {
+        world = Util.getWorld(world);
+        return this.isChallengeComplete(this.getDataUniqueID(user, world), challengeID);
+    }
+
+
+    /**
+     * This method sets given challenge as completed.
+     * @param user - Targeted user.
+     * @param world - World where completion must be called.
+     * @param challenge - That must be completed.
+     */
+    public void setChallengeComplete(User user, World world, Challenge challenge)
+    {
+        this.setChallengeComplete(user.getUniqueId(), world, challenge);
+    }
+
+
+    /**
+     * This method sets given challenge as completed.
+     * @param userID - Targeted user.
+     * @param world - World where completion must be called.
+     * @param challenge - That must be completed.
+     */
+    public void setChallengeComplete(UUID userID, World world, Challenge challenge)
+    {
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+        this.setChallengeComplete(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            build());
+
+        // Fire event that user completes challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeCompletedEvent(challenge.getUniqueId(),
+                userID,
+                false,
+                1));
+    }
+
+
+    /**
+     * This method sets given challenge as completed.
+     * @param userID - Targeted user.
+     * @param world - World where completion must be called.
+     * @param challenge - That must be completed.
+     * @param adminID - admin who sets challenge as completed.
+     */
+    public void setChallengeComplete(UUID userID, World world, Challenge challenge, UUID adminID)
+    {
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+
+        this.setChallengeComplete(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            data("admin-id", adminID == null ? "OP" : adminID.toString()).
+            build());
+
+        // Fire event that admin completes user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeCompletedEvent(challenge.getUniqueId(),
+                userID,
+                true,
+                1));
+    }
+
+
+    /**
+     * This method resets given challenge.
+     * @param userID - Targeted user.
+     * @param world - World where reset must be called.
+     * @param challenge - That must be reset.
+     */
+    public void resetChallenge(UUID userID, World world, Challenge challenge, UUID adminID)
+    {
+        String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
+
+        this.resetChallenge(storageID, challenge.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("RESET").
+            data("user-id", userID.toString()).
+            data("challenge-id", challenge.getUniqueId()).
+            data("admin-id", adminID == null ? "RESET" : adminID.toString()).
+            build());
+
+        // Fire event that admin resets user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeResetEvent(challenge.getUniqueId(),
+                userID,
+                true,
+                "RESET"));
+    }
+
+
+    /**
+     * This method resets all challenges in given world.
+     * @param user - Targeted user.
+     * @param world - World where challenges must be reset.
+     */
+    public void resetAllChallenges(User user, World world)
+    {
+        this.resetAllChallenges(user.getUniqueId(), world, null);
+    }
+
+
+    /**
+     * This method resets all challenges in given world.
+     * @param userID - Targeted user.
+     * @param world - World where challenges must be reset.
+     * @param adminID - admin iD
+     */
+    public void resetAllChallenges(UUID userID, World world, UUID adminID)
+    {
+        world = Util.getWorld(world);
+        String storageID = this.getDataUniqueID(userID, world);
+
+        this.resetAllChallenges(storageID, world.getName());
+        this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
+            data("user-id", userID.toString()).
+            data("admin-id", adminID == null ? "ISLAND_RESET" : adminID.toString()).
+            build());
+
+        // Fire event that admin resets user challenge
+        Bukkit.getServer().getPluginManager().callEvent(
+            new ChallengeResetAllEvent(world.getName(),
+                userID,
+                adminID != null,
+                adminID == null ? "ISLAND_RESET" : "RESET_ALL"));
+    }
+
+
+    /**
+     * Checks if a challenge is complete or not
+     *
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challenge - Challenge that must be checked.
+     * @return - true if completed
+     */
+    public long getChallengeTimes(User user, World world, Challenge challenge)
+    {
+        world = Util.getWorld(world);
+        return this.getChallengeTimes(this.getDataUniqueID(user, world), challenge.getUniqueId());
+    }
+
+
+    /**
+     * This method returns if given user has been already completed given level.
+     * @param world World where level must be checked.
+     * @param level Level that must be checked.
+     * @param user User who need to be checked.
+     * @return true, if level is already completed.
+     */
+    public boolean isLevelCompleted(User user, World world, ChallengeLevel level)
+    {
+        return this.isLevelCompleted(this.getDataUniqueID(user, Util.getWorld(world)), level.getUniqueId());
+    }
+
+
+    /**
+     * This method returns if given user has unlocked given level.
+     * @param world World where level must be checked.
+     * @param level Level that must be checked.
+     * @param user User who need to be checked.
+     * @return true, if level is already completed.
+     */
+    public boolean isLevelUnlocked(User user, World world, ChallengeLevel level)
+    {
+        return this.isLevelUnlocked(this.getDataUniqueID(user, Util.getWorld(world)), level);
+    }
+
+
+    /**
+     * This method sets given level as completed.
+     * @param world World where level must be completed.
+     * @param level Level that must be completed.
+     * @param user User who need to be updated.
+     */
+    public void setLevelComplete(User user, World world, ChallengeLevel level)
+    {
+        String storageID = this.getDataUniqueID(user, Util.getWorld(world));
+
+        this.setLevelComplete(storageID, level.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
+            data("user-id", user.getUniqueId().toString()).
+            data("level", level.getUniqueId()).build());
+
+        // Fire event that user completes level
+        Bukkit.getServer().getPluginManager().callEvent(
+            new LevelCompletedEvent(level.getUniqueId(),
+                user.getUniqueId(),
+                false));
+    }
+
+
+    /**
+     * This method checks all level challenges and checks if all challenges are done.
+     * @param world World where level must be validated.
+     * @param level Level that must be validated.
+     * @param user User who need to be validated.
+     * @return true, if all challenges are done, otherwise false.
+     */
+    public boolean validateLevelCompletion(User user, World world, ChallengeLevel level)
+    {
+        return this.validateLevelCompletion(this.getDataUniqueID(user, Util.getWorld(world)), level);
+    }
+
+
+    /**
+     * This method returns LevelStatus object for given challenge level.
+     * @param world World where level must be validated.
+     * @param level Level that must be validated.
+     * @param user User who need to be validated.
+     * @return LevelStatus of given level.
+     */
+    public LevelStatus getChallengeLevelStatus(User user, World world, ChallengeLevel level)
+    {
+        return this.getChallengeLevelStatus(this.getDataUniqueID(user, Util.getWorld(world)), level);
+    }
+
+
+    /**
+     * This method returns LevelStatus object for given challenge level.
+     * @param world World where level must be validated.
+     * @param level Level that must be validated.
+     * @param user User who need to be validated.
+     * @return LevelStatus of given level.
+     */
+    public LevelStatus getChallengeLevelStatus(UUID user, World world, ChallengeLevel level)
+    {
+        return this.getChallengeLevelStatus(this.getDataUniqueID(user, Util.getWorld(world)), level);
+    }
+
+
+    /**
+     * Get the status on every level for required world and user
+     *
+     * @param user - user which levels should be checked
+     * @param world - World where levels should be searched.
+     * @return Level status - how many challenges still to do on which level
+     */
+    public List<LevelStatus> getAllChallengeLevelStatus(User user, World world)
+    {
+        world = Util.getWorld(world);
+        return this.getAllChallengeLevelStatus(this.getDataUniqueID(user, world), world.getName());
     }
 
 
@@ -877,6 +1175,7 @@ public class ChallengesManager
 
     /**
      * This method removes challenge from cache and memory.
+     * TODO: This will not remove challenge from user data. Probably should do it.
      * @param challenge that must be removed.
      */
     public void deleteChallenge(Challenge challenge)
@@ -1067,6 +1366,7 @@ public class ChallengesManager
 
     /**
      * This method removes challenge level from cache and memory.
+     * TODO: This will not remove level from user data. Probably should do it.
      * @param challengeLevel Level that must be removed.
      */
     public void deleteChallengeLevel(ChallengeLevel challengeLevel)
@@ -1108,8 +1408,8 @@ public class ChallengesManager
                 }
             });
 
-            this.playerCacheData.put(UUID.fromString(playerData.getUniqueId()), playerData);
-            this.savePlayer(UUID.fromString(playerData.getUniqueId()));
+            this.playerCacheData.put(playerData.getUniqueId(), playerData);
+            this.savePlayerData(playerData.getUniqueId());
         });
     }
 }

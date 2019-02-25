@@ -271,9 +271,9 @@ public abstract class CommonGUI
 		// Some values to avoid overchecking.
 		ChallengesManager manager = this.addon.getChallengesManager();
 
-		final boolean isCompletedOnce = manager.isChallengeComplete(user.getUniqueId(), challenge);
+		final boolean isCompletedOnce = manager.isChallengeComplete(user.getUniqueId(), world, challenge);
 		final long doneTimes = challenge.isRepeatable() ?
-			manager.getChallengeTimes(this.user, challenge) :
+			manager.getChallengeTimes(this.user, this.world, challenge) :
 			isCompletedOnce ? 0 : 1;
 		boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
 			challenge.getMaxTimes() > 0 && doneTimes >= challenge.getMaxTimes();
@@ -677,12 +677,12 @@ public abstract class CommonGUI
 		List<String> result = new ArrayList<>();
 
 		ChallengesManager manager = this.addon.getChallengesManager();
-		LevelStatus status = manager.getChallengeLevelStatus(user.getUniqueId(), level);
+		LevelStatus status = manager.getChallengeLevelStatus(user.getUniqueId(), this.world, level);
 
 		// Used to know if blocks, entities, items should be added after requirements and rewards.
 		char prevChar = ' ';
 
-		for (char c : this.addon.getChallengesSettings().getChallengeLoreMessage().toLowerCase().toCharArray())
+		for (char c : this.addon.getChallengesSettings().getLevelLoreMessage().toLowerCase().toCharArray())
 		{
 			switch (c)
 			{
@@ -699,7 +699,7 @@ public abstract class CommonGUI
 					if (!status.isComplete())
 					{
 						int doneChallengeCount = (int) level.getChallenges().stream().
-							filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), challenge)).
+							filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge)).
 							count();
 
 						result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",

@@ -2,13 +2,22 @@ package world.bentobox.challenges;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.configuration.Config;
+import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.hooks.VaultHook;
+import world.bentobox.bentobox.managers.RanksManager;
 import world.bentobox.challenges.commands.ChallengesCommand;
+import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
+import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
+import world.bentobox.challenges.handlers.*;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
 import world.bentobox.level.Level;
@@ -63,6 +72,21 @@ public class ChallengesAddon extends Addon {
      */
     private static final String PERMISSION_PREFIX = "addon";
 
+	/**
+	 * This flag allows to complete challenges in any part of the world. It will not limit
+	 * player to their island. Useful for skygrid without protection flags.
+	 */
+	public static Flag CHALLENGES_WORLD_PROTECTION =
+		new Flag.Builder("CHALLENGES_WORLD_PROTECTION", Material.GRASS_BLOCK).type(Flag.Type.WORLD_SETTING).defaultSetting(true).build();
+
+	/**
+	 * This flag allows to define which users can complete challenge. F.e. it can be set
+	 * that only Island owner can complete challenge.
+	 * By default it is set to Visitor.
+	 */
+	public static Flag CHALLENGES_ISLAND_PROTECTION =
+		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
+
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -93,10 +117,19 @@ public class ChallengesAddon extends Addon {
             return;
         }
 
+        // Check if addon is not disabled before.
+        if (this.getState().equals(State.DISABLED))
+        {
+            Bukkit.getLogger().severe("Challenges Addon is not available or disabled!");
+            return;
+        }
+
         // Challenges Manager
         this.challengesManager = new ChallengesManager(this);
         // Challenge import setup
         this.importManager = new ChallengesImportManager(this);
+
+        List<GameModeAddon> hookedGameModes = new ArrayList<>();
 
         this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
         	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
@@ -104,18 +137,36 @@ public class ChallengesAddon extends Addon {
 				if (gameModeAddon.getPlayerCommand().isPresent())
 				{
 					new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
-					this.hooked = true;
-				}
+                    this.hooked = true;
+
+                    hookedGameModes.add(gameModeAddon);
+                }
 
 				if (gameModeAddon.getAdminCommand().isPresent())
 				{
 					new Challenges(this, gameModeAddon.getAdminCommand().get());
 					this.hooked = true;
 				}
+
+				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
+				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
 			}
 		});
 
         if (this.hooked) {
+
+            // Create general challenge commands
+
+            if (this.settings.isUseCommonGUI())
+            {
+                new ChallengesUserCommand(this,
+                    this.settings.getUserCommand(),
+                    hookedGameModes);
+                new ChallengesAdminCommand(this,
+                    this.settings.getAdminCommand(),
+                    hookedGameModes);
+            }
+
             // Try to find Level addon and if it does not exist, display a warning
 
             Optional<Addon> level = this.getAddonByName("Level");
@@ -148,6 +199,19 @@ public class ChallengesAddon extends Addon {
             this.registerListener(new ResetListener(this));
             // Register the autosave listener.
             this.registerListener(new SaveListener(this));
+
+            // Register Flags
+			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_ISLAND_PROTECTION);
+			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_WORLD_PROTECTION);
+
+            // Register Request Handlers
+            this.registerRequestHandler(new ChallengeListRequestHandler(this));
+            this.registerRequestHandler(new LevelListRequestHandler(this));
+
+            this.registerRequestHandler(new ChallengeDataRequestHandler(this));
+            this.registerRequestHandler(new LevelDataRequestHandler(this));
+
+            this.registerRequestHandler(new CompletedChallengesRequestHandler(this));
         } else {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);

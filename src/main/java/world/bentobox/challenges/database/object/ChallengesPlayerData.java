@@ -2,14 +2,14 @@ package world.bentobox.challenges.database.object;
 
 
 import com.google.gson.annotations.Expose;
-import org.bukkit.World;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.eclipse.jdt.annotation.NonNull;
+import java.util.*;
 
+import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.database.objects.DataObject;
-import world.bentobox.bentobox.util.Util;
+import world.bentobox.bentobox.database.objects.adapters.Adapter;
+import world.bentobox.bentobox.database.objects.adapters.LogEntryListAdapter;
+
 
 /**
  * Stores the player's challenge situation
@@ -68,6 +68,13 @@ public class ChallengesPlayerData implements DataObject
 	@Expose
 	private Set<String> levelsDone = new HashSet<>();
 
+	/**
+	 * Stores history about challenge completion.
+	 */
+	@Adapter(LogEntryListAdapter.class)
+	@Expose
+	private List<LogEntry> history = new LinkedList<>();
+
 
 // ---------------------------------------------------------------------
 // Section: Getters
@@ -112,6 +119,16 @@ public class ChallengesPlayerData implements DataObject
 	public Set<String> getLevelsDone()
 	{
 		return levelsDone;
+	}
+
+
+	/**
+	 * This method returns the history object.
+	 * @return the history object.
+	 */
+	public List<LogEntry> getHistory()
+	{
+		return history;
 	}
 
 
@@ -164,6 +181,16 @@ public class ChallengesPlayerData implements DataObject
 	}
 
 
+	/**
+	 * This method sets the history object value.
+	 * @param history the history object new value.
+	 */
+	public void setHistory(List<LogEntry> history)
+	{
+		this.history = history;
+	}
+
+
 // ---------------------------------------------------------------------
 // Section: Other Methods
 // ---------------------------------------------------------------------
@@ -172,11 +199,10 @@ public class ChallengesPlayerData implements DataObject
 	/**
 	 * Resets all challenges and levels in world for this player
 	 *
-	 * @param world world which challenges must be reset.
+	 * @param worldName world which challenges must be reset.
 	 */
-	public void reset(World world)
+	public void reset(@NonNull String worldName)
 	{
-		String worldName = Util.getWorld(world).getName();
 		challengeStatus.keySet().removeIf(n -> n.startsWith(worldName));
 		challengesTimestamp.keySet().removeIf(n -> n.startsWith(worldName));
 		levelsDone.removeIf(n -> n.startsWith(worldName));
@@ -189,7 +215,7 @@ public class ChallengesPlayerData implements DataObject
 	 *
 	 * @param challengeName - unique challenge name
 	 */
-	public void setChallengeDone(String challengeName)
+	public void setChallengeDone(@NonNull String challengeName)
 	{
 		int times = challengeStatus.getOrDefault(challengeName, 0) + 1;
 		challengeStatus.put(challengeName, times);
@@ -203,7 +229,7 @@ public class ChallengesPlayerData implements DataObject
 	 * @param challengeName - unique challenge name
 	 * @param times - the number of times to set
 	 */
-	public void setChallengeTimes(String challengeName, int times)
+	public void setChallengeTimes(@NonNull String challengeName, @NonNull int times)
 	{
 		challengeStatus.put(challengeName, times);
 		challengesTimestamp.put(challengeName, System.currentTimeMillis());
@@ -216,7 +242,7 @@ public class ChallengesPlayerData implements DataObject
 	 * @param challengeName - unique challenge name
 	 * @return true if done at least once
 	 */
-	public boolean isChallengeDone(String challengeName)
+	public boolean isChallengeDone(@NonNull String challengeName)
 	{
 		return this.getTimes(challengeName) > 0;
 	}
@@ -228,7 +254,7 @@ public class ChallengesPlayerData implements DataObject
 	 * @param challengeName - unique challenge name
 	 * @return - number of times
 	 */
-	public int getTimes(String challengeName)
+	public int getTimes(@NonNull String challengeName)
 	{
 		return challengeStatus.getOrDefault(challengeName, 0);
 	}
@@ -238,7 +264,7 @@ public class ChallengesPlayerData implements DataObject
 	 * This method adds given level id to completed level set.
 	 * @param uniqueId from ChallengeLevel object.
 	 */
-	public void addCompletedLevel(String uniqueId)
+	public void addCompletedLevel(@NonNull String uniqueId)
 	{
 		this.levelsDone.add(uniqueId);
 	}
@@ -249,9 +275,20 @@ public class ChallengesPlayerData implements DataObject
 	 * @param uniqueId  of ChallengeLevel object.
 	 * @return <code>true</code> if level is completed, otherwise <code>false</code>
 	 */
-	public boolean isLevelDone(String uniqueId)
+	public boolean isLevelDone(@NonNull String uniqueId)
 	{
 		return !this.levelsDone.isEmpty() && this.levelsDone.contains(uniqueId);
+	}
+
+
+	/**
+	 * This method adds given LogEntry to history.
+	 *
+	 * @param entry of type LogEntry
+	 */
+	public void addHistoryRecord(@NonNull LogEntry entry)
+	{
+		this.history.add(entry);
 	}
 
 

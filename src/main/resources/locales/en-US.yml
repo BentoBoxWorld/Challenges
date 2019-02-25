@@ -78,6 +78,7 @@ challenges:
                 type: 'Challenge Type'
                 deployment: 'Deployment'
                 icon: 'Icon'
+                locked-icon: 'Locked Icon'
                 description: 'Description'
                 order: 'Order'
                 environment: 'Environment'
@@ -136,6 +137,11 @@ challenges:
                 number: '[number]'
                 level-lore: 'Level Description'
                 challenge-lore: 'Challenge Description'
+                gui-view-mode: 'Display All GameModes'
+                history-store: 'Challenges History'
+                history-lifespan: 'History LifeSpan'
+                island-store: 'Store per Island'
+                default-locked-icon: 'Locked Level Icon'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -167,6 +173,7 @@ challenges:
                 deployment: 'Allows users to complete (view) challenge.'
                 icon-challenge: 'Icon that will be displayed in GUI panels for this challenge.'
                 icon-level: 'Icon that will be displayed in GUI panels for this level.'
+                locked-icon: 'Icon that will be displayed in GUI panels if level is locked.'
                 description: 'Allows to edit description.'
                 order: 'Allows to change order number.'
                 environment: 'Allows to change environment where challenge operates.'
@@ -218,6 +225,11 @@ challenges:
                 show-eggs: 'Switch entity view between Egg mode or Head mode.'
                 level-lore: 'Allows to modify which elements of level description should be visible.'
                 challenge-lore: 'Allows to modify which elements of challenge description should be visible.'
+                gui-view-mode: 'Allows to set if /challenges GUI should show GameModes or challenges in players world.'
+                history-store: 'Allows to enable/disable challenges history storage.'
+                history-lifespan: 'Allows to modify how many days history data will be saved.|0 means forever.'
+                island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will convert data on click.'
+                default-locked-icon: 'Allows to change default locked level icon.|This option can be overwritten by each level.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -307,4 +319,14 @@ challenges:
         import-no-file: '&cCould not find challenges.yml file to import!'
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
-version: 6
+        no-rank: "&cYou do not have rank to do that."
+protection:
+    flags:
+        CHALLENGES_ISLAND_PROTECTION:
+            description: "&5&oToggle who can\n&5&ocomplete challenges"
+            name: "Challenges protection"
+        CHALLENGES_WORLD_PROTECTION:
+            description: "&5&oThis allows to enable/disable\n&5&orequirement for players to\n&5&obe on their island to\n&5&ocomplete a challenge."
+            name: "Challenges Island limitation"
+            hint: "No challenges outside island"
+version: 9

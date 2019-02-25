@@ -1,10 +1,14 @@
 ##########################################################################################
 # Example challenges.yml file. This is the same format as ASkyBlock.
 # Use the cimport command to import the challenges to your world.
-# For example: /bsbadmin cimport
-# to overwrite previous challenges, use /bsbadmin cimport overwrite
+# For example: /bsbadmin challenges import
+# to overwrite previous challenges, use /bsbadmin challenges import overwrite
 # Once challenges are imported, you can edit them directly in the database folder.
 # BSkyBlock offers more features in the native challenge definition files.
+# Do not use ASkyBlock format for editing challenges, as it misses a lot of functions that
+# is added in new Challenges Add-on. This feature is just for admins who want to use old
+# challenges for new BentoBox plugin.
+# This is just a converter, not editor.
 #
 ##########################################################################################
 # Rewards and required items have to be described using Bukkit Materials

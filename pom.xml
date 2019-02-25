@@ -6,7 +6,7 @@
 
 	<groupId>world.bentobox</groupId>
 	<artifactId>challenges</artifactId>
-	<version>0.5.1</version>
+	<version>0.6.0-SNAPSHOT</version>
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like SkyBlock, AcidIsland or CaveBlock.</description>
@@ -56,9 +56,14 @@
 			<id>codemc-repo</id>
 			<url>https://repo.codemc.org/repository/maven-public/</url>
 		</repository>
+		<!--Vault Repo is down.-->
+		<!--<repository>-->
+			<!--<id>vault-repo</id>-->
+			<!--<url>http://nexus.hc.to/content/repositories/pub_releases</url>-->
+		<!--</repository>-->
 		<repository>
-			<id>vault-repo</id>
-			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
 			<id>wesjd-repo</id>
@@ -100,26 +105,20 @@
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>
-			<version>1.2.1</version>
+			<version>1.3.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>level</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
+			<version>1.3.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.milkbowl.vault</groupId>
+			<groupId>com.github.MilkBowl</groupId>
 			<artifactId>VaultAPI</artifactId>
-			<version>1.7</version>
+			<version>68f14ec</version>
 			<scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>bukkit</artifactId>
-                </exclusion>
-            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.wesjd</groupId>
