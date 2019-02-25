@@ -48,6 +48,12 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     private ItemStack icon = new ItemStack(Material.BOOK);
 
     @ConfigComment("")
+    @ConfigComment("ItemStack that represents current level when it is locked. Will be used")
+    @ConfigComment("as icon in GUIs. Will overwrite icon defined in addon settings.")
+    @Expose
+    private ItemStack lockedIcon = null;
+
+    @ConfigComment("")
     @ConfigComment("World that this level applies in. String.")
     @Expose
     private String world = "";
@@ -139,6 +145,16 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public ItemStack getIcon()
     {
         return icon.clone();
+    }
+
+
+    /**
+     * This method returns the closedIcon value.
+     * @return the value of closedIcon.
+     */
+    public ItemStack getLockedIcon()
+    {
+        return lockedIcon;
     }
 
 
@@ -279,6 +295,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public void setIcon(ItemStack icon)
     {
         this.icon = icon;
+    }
+
+
+    /**
+     * This method sets the closedIcon value.
+     * @param closedIcon the closedIcon new value.
+     *
+     */
+    public void setLockedIcon(ItemStack closedIcon)
+    {
+        this.lockedIcon = closedIcon;
     }
 
 

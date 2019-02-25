@@ -99,6 +99,13 @@ public class ChallengesAddon extends Addon {
             return;
         }
 
+        // Check if addon is not disabled before.
+        if (this.getState().equals(State.DISABLED))
+        {
+            Bukkit.getLogger().severe("Challenges Addon is not available or disabled!");
+            return;
+        }
+
         // Challenges Manager
         this.challengesManager = new ChallengesManager(this);
         // Challenge import setup

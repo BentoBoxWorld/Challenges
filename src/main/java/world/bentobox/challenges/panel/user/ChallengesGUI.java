@@ -417,7 +417,16 @@ public class ChallengesGUI extends CommonGUI
 		}
 		else
 		{
-			icon = new ItemStack(Material.BOOK);
+			if (level.getLevel().getLockedIcon() != null)
+			{
+				// Clone will prevent issues with description storing.
+				// It can be done only here as it can be null.
+				icon = level.getLevel().getLockedIcon().clone();
+			}
+			else
+			{
+				icon = this.addon.getChallengesSettings().getLockedLevelIcon();
+			}
 
 			description = GuiUtils.stringSplit(
 				this.user.getTranslation("challenges.gui.descriptions.level-locked",

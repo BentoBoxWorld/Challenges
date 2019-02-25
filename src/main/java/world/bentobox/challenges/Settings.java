@@ -1,6 +1,8 @@
 package world.bentobox.challenges;
 
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,42 +63,31 @@ public class Settings implements DataObject
 	private int lifeSpan = 14;
 
 	@ConfigComment("")
-	@ConfigComment("Reset Challenges - if this is true, player's challenges will reset when they")
-	@ConfigComment("reset an island or if they are kicked or leave a team. Prevents exploiting the")
-	@ConfigComment("challenges by doing them repeatedly.")
-	@ConfigEntry(path = "reset-challenges")
-	private boolean resetChallenges = true;
-
-	@ConfigComment("")
-	@ConfigComment("Broadcast 1st time challenge completion messages to all players.")
-	@ConfigComment("Change to false if the spam becomes too much.")
-	@ConfigEntry(path = "broadcast-messages")
-	private boolean broadcastMessages = true;
-
-	@ConfigComment("")
 	@ConfigComment("Remove non-repeatable challenges from the challenge GUI when complete.")
-	@ConfigEntry(path = "remove-complete-one-time-challenges")
+	@ConfigEntry(path = "gui-settings.remove-complete-one-time-challenges")
 	private boolean removeCompleteOneTimeChallenges = false;
 
 	@ConfigComment("")
 	@ConfigComment("Add enchanted glow to completed challenges")
-	@ConfigEntry(path = "add-completed-glow")
+	@ConfigEntry(path = "gui-settings.add-completed-glow")
 	private boolean addCompletedGlow = true;
 
 	@ConfigComment("")
-	@ConfigComment("This indicate if free challenges must be at the start (true) or at the end (false) of list.")
-	@ConfigEntry(path = "free-challenges-first")
-	private boolean freeChallengesFirst = true;
+	@ConfigComment("This allows to change default locked level icon. This option may be")
+	@ConfigComment("overwritten by each challenge level. If challenge level has specified")
+	@ConfigComment("their locked level icon, then it will be used, instead of this one.")
+	@ConfigEntry(path = "gui-settings.locked-level-icon")
+	private ItemStack lockedLevelIcon = new ItemStack(Material.BOOK);
 
 	@ConfigComment("")
-	@ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
-	@ConfigEntry(path = "store-island-data")
-	private boolean storeAsIslandData = false;
+	@ConfigComment("This indicate if free challenges must be at the start (true) or at the end (false) of list.")
+	@ConfigEntry(path = "gui-settings.free-challenges-first")
+	private boolean freeChallengesFirst = true;
 
 	@ConfigComment("")
 	@ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
 	@ConfigComment("owners may like it to be larger.")
-	@ConfigEntry(path = "lore-length")
+	@ConfigEntry(path = "gui-settings.lore-length")
 	private int loreLineLength = 25;
 
 	@ConfigComment("")
@@ -115,7 +106,7 @@ public class Settings implements DataObject
 	@ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
 	@ConfigComment("By adding 'i' after Q or R (requirements and rewards) will display list of items, blocks")
 	@ConfigComment("and entities that are defined in challenge and can be customized under 'challenges.gui.description.*'")
-	@ConfigEntry(path = "challenge-lore-message")
+	@ConfigEntry(path = "gui-settings.challenge-lore-message")
 	private String challengeLoreMessage = "LSTDEQiWRi";
 
 	@ConfigComment("")
@@ -131,8 +122,26 @@ public class Settings implements DataObject
 	@ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
 	@ConfigComment("By adding 'i' after R (rewards) will display list of items that are defined in challenge")
 	@ConfigComment("and can be customized under 'challenges.gui.description.*'")
-	@ConfigEntry(path = "level-lore-message")
+	@ConfigEntry(path = "gui-settings.level-lore-message")
 	private String levelLoreMessage = "STDARi";
+
+	@ConfigComment("")
+	@ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
+	@ConfigEntry(path = "store-island-data")
+	private boolean storeAsIslandData = false;
+
+	@ConfigComment("")
+	@ConfigComment("Reset Challenges - if this is true, player's challenges will reset when users")
+	@ConfigComment("reset an island or if users are kicked or leave a team. Prevents exploiting the")
+	@ConfigComment("challenges by doing them repeatedly.")
+	@ConfigEntry(path = "reset-challenges")
+	private boolean resetChallenges = true;
+
+	@ConfigComment("")
+	@ConfigComment("Broadcast 1st time challenge completion messages to all players.")
+	@ConfigComment("Change to false if the spam becomes too much.")
+	@ConfigEntry(path = "broadcast-messages")
+	private boolean broadcastMessages = true;
 
 	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
@@ -152,7 +161,8 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v1.5";
+	private String configVersion = "v2";
+
 
 // ---------------------------------------------------------------------
 // Section: Methods
@@ -327,6 +337,27 @@ public class Settings implements DataObject
 	public int getLifeSpan()
 	{
 		return lifeSpan;
+	}
+
+
+	/**
+	 * This method returns the lockedLevelIcon value.
+	 * @return the value of lockedLevelIcon.
+	 */
+	public ItemStack getLockedLevelIcon()
+	{
+		return lockedLevelIcon.clone();
+	}
+
+
+	/**
+	 * This method sets the lockedLevelIcon value.
+	 * @param lockedLevelIcon the lockedLevelIcon new value.
+	 *
+	 */
+	public void setLockedLevelIcon(ItemStack lockedLevelIcon)
+	{
+		this.lockedLevelIcon = lockedLevelIcon;
 	}
 
 

@@ -73,13 +73,14 @@ public class EditSettingsGUI extends CommonGUI
 		GuiUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(19, this.getSettingsButton(Button.RESET_CHALLENGES));
-		panelBuilder.item(28, this.getSettingsButton(Button.REMOVE_COMPLETED));
+		panelBuilder.item(28, this.getSettingsButton(Button.BROADCAST));
 
-		panelBuilder.item(20, this.getSettingsButton(Button.BROADCAST));
-		panelBuilder.item(29, this.getSettingsButton(Button.GLOW_COMPLETED));
+		panelBuilder.item(20, this.getSettingsButton(Button.GLOW_COMPLETED));
+		panelBuilder.item(29, this.getSettingsButton(Button.REMOVE_COMPLETED));
 
-		panelBuilder.item(22, this.getSettingsButton(Button.FREE_AT_TOP));
-		panelBuilder.item(31, this.getSettingsButton(Button.GAMEMODE_GUI));
+		panelBuilder.item(12, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
+		panelBuilder.item(21, this.getSettingsButton(Button.FREE_AT_TOP));
+		panelBuilder.item(30, this.getSettingsButton(Button.GAMEMODE_GUI));
 
 		panelBuilder.item(14, this.getSettingsButton(Button.LORE_LENGTH));
 		panelBuilder.item(23, this.getSettingsButton(Button.CHALLENGE_LORE));
@@ -389,6 +390,37 @@ public class EditSettingsGUI extends CommonGUI
 				glow = this.settings.isStoreAsIslandData();
 				break;
 			}
+			case LOCKED_LEVEL_ICON:
+			{
+				description = new ArrayList<>(1);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.default-locked-icon"));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.default-locked-icon");
+				icon = this.settings.getLockedLevelIcon();
+				clickHandler = (panel, user, clickType, slot) -> {
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						this.settings.getLockedLevelIcon().getType().name(),
+						(player, reply) -> {
+							Material material = Material.getMaterial(reply);
+
+							if (material != null)
+							{
+								this.settings.setLockedLevelIcon(new ItemStack(material));
+								this.build();
+							}
+							else
+							{
+								this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
+							}
+
+							return reply;
+						});
+
+					return true;
+				};
+				glow = false;
+				break;
+			}
 			default:
 				return new PanelItemBuilder().build();
 		}
@@ -418,7 +450,8 @@ public class EditSettingsGUI extends CommonGUI
 		HISTORY, 
 		PURGE_HISTORY, 
 		STORE_MODE, 
-		GLOW_COMPLETED
+		GLOW_COMPLETED,
+		LOCKED_LEVEL_ICON
 	}
 
 
