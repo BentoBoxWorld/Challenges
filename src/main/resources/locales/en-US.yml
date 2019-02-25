@@ -228,7 +228,7 @@ challenges:
                 gui-view-mode: 'Allows to set if /challenges GUI should show GameModes or challenges in players world.'
                 history-store: 'Allows to enable/disable challenges history storage.'
                 history-lifespan: 'Allows to modify how many days history data will be saved.|0 means forever.'
-                island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will convert data on click.'
+                island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will NOT convert data on click. PROGRESS WILL BE LOST.'
                 default-locked-icon: 'Allows to change default locked level icon.|This option can be overwritten by each level.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
