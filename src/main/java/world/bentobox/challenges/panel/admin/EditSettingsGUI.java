@@ -78,9 +78,16 @@ public class EditSettingsGUI extends CommonGUI
 		panelBuilder.item(20, this.getSettingsButton(Button.GLOW_COMPLETED));
 		panelBuilder.item(29, this.getSettingsButton(Button.REMOVE_COMPLETED));
 
-		panelBuilder.item(12, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
-		panelBuilder.item(21, this.getSettingsButton(Button.FREE_AT_TOP));
-		panelBuilder.item(30, this.getSettingsButton(Button.GAMEMODE_GUI));
+		panelBuilder.item(21, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
+		panelBuilder.item(30, this.getSettingsButton(Button.FREE_AT_TOP));
+
+		panelBuilder.item(22, this.getSettingsButton(Button.GAMEMODE_GUI));
+
+		if (this.settings.isUseCommonGUI())
+		{
+			// This should be active only when single gui is enabled.
+			panelBuilder.item(31, this.getSettingsButton(Button.GAMEMODE_GUI_VIEW_MODE));
+		}
 
 		panelBuilder.item(14, this.getSettingsButton(Button.LORE_LENGTH));
 		panelBuilder.item(23, this.getSettingsButton(Button.CHALLENGE_LORE));
@@ -294,7 +301,7 @@ public class EditSettingsGUI extends CommonGUI
 				glow = this.settings.isAddCompletedGlow();
 				break;
 			}
-			case GAMEMODE_GUI:
+			case GAMEMODE_GUI_VIEW_MODE:
 			{
 				description = new ArrayList<>(2);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.gui-view-mode"));
@@ -320,6 +327,27 @@ public class EditSettingsGUI extends CommonGUI
 					return true;
 				};
 				glow = this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST);
+				break;
+			}
+			case GAMEMODE_GUI:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.gui-mode"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]",
+					this.settings.isUseCommonGUI() ?
+						this.user.getTranslation("challenges.gui.descriptions.enabled") :
+						this.user.getTranslation("challenges.gui.descriptions.disabled")));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.gui-mode");
+				icon = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+				clickHandler = (panel, user1, clickType, i) -> {
+					this.settings.setUseCommonGUI(!this.settings.isUseCommonGUI());
+					// We cannot use single item changing as this option enabling/disabling will change other
+					// option visibility.
+					this.build();
+					return true;
+				};
+				glow = this.settings.isUseCommonGUI();
 				break;
 			}
 			case HISTORY:
@@ -446,8 +474,9 @@ public class EditSettingsGUI extends CommonGUI
 		LEVEL_LORE, 
 		CHALLENGE_LORE,
 		FREE_AT_TOP,
-		GAMEMODE_GUI, 
-		HISTORY, 
+		GAMEMODE_GUI_VIEW_MODE,
+		GAMEMODE_GUI,
+		HISTORY,
 		PURGE_HISTORY, 
 		STORE_MODE, 
 		GLOW_COMPLETED,
