@@ -215,7 +215,7 @@ public class EditSettingsGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", this.settings.getLevelLoreMessage()));
 				name = this.user.getTranslation("challenges.gui.buttons.admin.level-lore");
-				icon = new ItemStack(Material.PAPER);
+				icon = new ItemStack(Material.MAP);
 				clickHandler = (panel, user1, clickType, i) -> {
 					new AnvilGUI(this.addon.getPlugin(),
 						this.user.getPlayer(),
@@ -304,7 +304,7 @@ public class EditSettingsGUI extends CommonGUI
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 				name = this.user.getTranslation("challenges.gui.buttons.admin.gui-view-mode");
-				icon = new ItemStack(Material.GLOWSTONE);
+				icon = new ItemStack(Material.STONE_BUTTON);
 				clickHandler = (panel, user1, clickType, i) -> {
 
 					if (this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST))
@@ -332,7 +332,7 @@ public class EditSettingsGUI extends CommonGUI
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 				name = this.user.getTranslation("challenges.gui.buttons.admin.history-store");
-				icon = new ItemStack(Material.GLOWSTONE);
+				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user1, clickType, i) -> {
 					this.settings.setStoreHistory(!this.settings.isStoreHistory());
 
@@ -350,7 +350,7 @@ public class EditSettingsGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.settings.getLifeSpan())));
 				name = this.user.getTranslation("challenges.gui.buttons.admin.history-lifespan");
-				icon = new ItemStack(Material.ANVIL);
+				icon = new ItemStack(Material.FLINT_AND_STEEL);
 				clickHandler = (panel, user1, clickType, i) -> {
 					new NumberGUI(this.user,
 						this.settings.getLifeSpan(),
@@ -380,7 +380,7 @@ public class EditSettingsGUI extends CommonGUI
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 				name = this.user.getTranslation("challenges.gui.buttons.admin.island-store");
-				icon = new ItemStack(Material.GLOWSTONE);
+				icon = new ItemStack(Material.GRASS_BLOCK);
 				clickHandler = (panel, user1, clickType, i) -> {
 					this.settings.setStoreAsIslandData(!this.settings.isStoreAsIslandData());
 					// TODO: Data Migration must be added here.
