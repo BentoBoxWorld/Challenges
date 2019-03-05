@@ -6,7 +6,7 @@
 
 	<groupId>world.bentobox</groupId>
 	<artifactId>challenges</artifactId>
-	<version>0.6.0</version>
+	<version>${revision}</version>
 
 	<name>Challenges</name>
 	<description>Challenges is an add-on for BentoBox, an expandable Minecraft Bukkit plugin for island-type games like SkyBlock, AcidIsland or CaveBlock.</description>
@@ -34,7 +34,46 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<powermock.version>1.7.4</powermock.version>
+		<!-- More visible way how to change dependency versions -->
+		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
+		<bentobox.version>1.3.0</bentobox.version>
+		<level.version>1.3.0</level.version>
+		<vault.version>68f14ec</vault.version>
+		<!-- Revision variable removes warning about dynamic version -->
+		<revision>${build.version}</revision>
+		<!-- This allows to change between versions and snapshots. -->
+		<build.version>0.6.1</build.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>develop</id>
+			<activation>
+				<property>
+					<name>env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- Override only if necessary -->
+				<revision>${build.version}-SNAPSHOT #${env.BUILD_NUMBER}</revision>
+				<!-- GIT_BRANCH -->
+			</properties>
+		</profile>
+		<profile>
+			<id>master</id>
+			<activation>
+				<property>
+					<name>env.GIT_BRANCH</name>
+					<value>origin/master</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- Override only if necessary -->
+				<revision>${build.version}</revision>
+				<!-- GIT_BRANCH -->
+			</properties>
+		</profile>
+	</profiles>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -75,13 +114,13 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${spigot.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${spigot.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -105,19 +144,19 @@
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>
-			<version>1.3.0</version>
+			<version>${bentobox.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>level</artifactId>
-			<version>1.3.0</version>
+			<version>${level.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.MilkBowl</groupId>
 			<artifactId>VaultAPI</artifactId>
-			<version>68f14ec</version>
+			<version>${vault.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
