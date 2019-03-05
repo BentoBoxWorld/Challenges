@@ -650,6 +650,9 @@ public class TryToComplete
             {
                 this.removeBlocks();
             }
+
+            // Check if challenge is repeated.
+            result.setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
         }
 
         return result;
@@ -844,7 +847,8 @@ public class TryToComplete
                     this.user.getPlayer().getTotalExperience() - this.challenge.getRequiredExperience());
             }
 
-            return new ChallengeResult().setMeetsRequirements();
+            return new ChallengeResult().setMeetsRequirements().
+                setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
         }
 
         return EMPTY_RESULT;
