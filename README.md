@@ -7,7 +7,7 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 ## Where to find
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
-Latest official **Beta Release is 0.6.0**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+Latest official **Beta Release is 0.6.1**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
 
 Or you can try **nightly builds** where you can check and test new features that will be implemented in next release from [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
