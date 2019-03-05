@@ -70,7 +70,7 @@ public class ChallengesAddon extends Addon {
     /**
      * Permission prefix for addon.
      */
-    private static final String PERMISSION_PREFIX = "addon";
+    private static final String PERMISSION_PREFIX = "addon.";
 
 	/**
 	 * This flag allows to complete challenges in any part of the world. It will not limit

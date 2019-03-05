@@ -10,7 +10,13 @@ authors:
 
 softdepend: AcidIsland, BSkyBlock, CaveBlock, SkyGrid, Level
 
-permissions:    
+permissions:
+  addon.admin.challenges:
+    description: Access to '/challengesadmin' command
+    default: op
+  addon.challenges:
+    description: Let the player use the '/challenges' command
+    default: true
   bskyblock.challenges:
     description: Let the player use the '/island challenges' command
     default: true
