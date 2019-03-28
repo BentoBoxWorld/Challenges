@@ -438,7 +438,13 @@ public class ChallengesGUI extends CommonGUI
 			glow = false;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(description).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

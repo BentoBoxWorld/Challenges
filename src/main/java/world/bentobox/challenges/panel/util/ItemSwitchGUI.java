@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.GuiUtils;
 
@@ -125,7 +126,13 @@ public class ItemSwitchGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), false, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.lineLength)).
+			glow(false).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -143,7 +150,13 @@ public class ItemSwitchGUI
 	{
 		CustomPanelItem(ItemStack item)
 		{
-			super(item.clone(), "", Collections.emptyList(), false, null, false);
+			super(new PanelItemBuilder().
+				icon(item.clone()).
+				name("").
+				description(Collections.emptyList()).
+				glow(false).
+				clickHandler(null));
+
 			this.getItem().setItemMeta(item.getItemMeta());
 		}
 

@@ -13,6 +13,7 @@ import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 
 
 /**
@@ -347,7 +348,12 @@ public class GuiUtils
 	{
 		private BorderBlock(ItemStack icon)
 		{
-			super(icon.clone(), " ", Collections.emptyList(), false, null, false);
+			super(new PanelItemBuilder().
+				icon(icon.clone()).
+				name(" ").
+				description(Collections.emptyList()).
+				glow(false).
+				clickHandler(null));
 		}
 
 

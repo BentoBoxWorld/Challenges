@@ -11,6 +11,7 @@ import java.util.*;
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
@@ -281,7 +282,13 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -1250,7 +1257,13 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

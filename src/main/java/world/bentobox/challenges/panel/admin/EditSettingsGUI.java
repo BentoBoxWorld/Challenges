@@ -453,7 +453,13 @@ public class EditSettingsGUI extends CommonGUI
 				return new PanelItemBuilder().build();
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.settings.getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.settings.getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

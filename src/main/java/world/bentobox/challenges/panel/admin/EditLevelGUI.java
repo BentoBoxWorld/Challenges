@@ -253,7 +253,13 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -697,7 +703,15 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
+
+
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

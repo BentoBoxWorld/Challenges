@@ -180,7 +180,13 @@ public class StringListGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), false, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.lineLength)).
+			glow(false).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
