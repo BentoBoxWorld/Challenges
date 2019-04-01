@@ -501,55 +501,93 @@ public class TryToComplete
     private ChallengeResult checkInventory()
     {
         // Run through inventory
-        List<ItemStack> required = new ArrayList<>(this.challenge.getRequiredItems());
+        List<ItemStack> requiredItems = new ArrayList<>(this.challenge.getRequiredItems().size());
 
         // Players in creative game mode has got all items. No point to search for them.
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
-            for (ItemStack req : required)
+            // Group all equal items in singe stack, as otherwise it will be too complicated to check if all
+            // items are in players inventory.
+            for (ItemStack item : this.challenge.getRequiredItems())
             {
-                // Check for FIREWORK_ROCKET, ENCHANTED_BOOK, WRITTEN_BOOK, POTION and
-                // FILLED_MAP because these have unique meta when created
-                switch (req.getType())
-                {
-                    case FIREWORK_ROCKET:
-                    case ENCHANTED_BOOK:
-                    case WRITTEN_BOOK:
-                    case FILLED_MAP:
-                        // Get how many items are in the inventory. Item stacks amounts need to be summed
-                        int numInInventory =
-                            Arrays.stream(this.user.getInventory().getContents()).
-                                filter(Objects::nonNull).
-                                filter(i -> i.getType().equals(req.getType())).
-                                mapToInt(ItemStack::getAmount).
-                                sum();
+                boolean isUnique = true;
 
-                        if (numInInventory < req.getAmount())
-                        {
-                            this.user.sendMessage("challenges.errors.not-enough-items",
-                                "[items]",
-                                Util.prettifyText(req.getType().toString()));
-                            return EMPTY_RESULT;
-                        }
-                        break;
-                    default:
-                        // General checking
-                        if (!this.user.getInventory().containsAtLeast(req, req.getAmount()))
-                        {
-                            this.user.sendMessage("challenges.errors.not-enough-items",
-                                "[items]",
-                                Util.prettifyText(req.getType().toString()));
-                            return EMPTY_RESULT;
-                        }
-                        break;
+                int i = 0;
+                final int requiredSize = requiredItems.size();
+
+                while (i < requiredSize && isUnique)
+                {
+                    ItemStack required = requiredItems.get(i);
+
+                    // Merge items which meta can be ignored or is similar to item in required list.
+                    if (this.canIgnoreMeta(item.getType()) && item.getType().equals(required.getType()) ||
+                        required.isSimilar(item))
+                    {
+                        required.setAmount(required.getAmount() + item.getAmount());
+                        isUnique = false;
+                    }
+
+                    i++;
+                }
+
+                if (isUnique)
+                {
+                    // The same issue as in other places. Clone prevents from changing original item.
+                    requiredItems.add(item.clone());
                 }
             }
 
-            // If remove items, then remove them
+            int sumEverything = 0;
 
+            // Check if all required items are in players inventory.
+            for (ItemStack required : requiredItems)
+            {
+                if (this.canIgnoreMeta(required.getType()))
+                {
+                    int numInInventory =
+                        Arrays.stream(this.user.getInventory().getContents()).
+                            filter(Objects::nonNull).
+                            filter(i -> i.getType().equals(required.getType())).
+                            mapToInt(ItemStack::getAmount).
+                            sum();
+
+                    if (numInInventory < required.getAmount())
+                    {
+                        this.user.sendMessage("challenges.errors.not-enough-items",
+                            "[items]",
+                            Util.prettifyText(required.getType().toString()));
+                        return EMPTY_RESULT;
+                    }
+                }
+                else
+                {
+                    if (!this.user.getInventory().containsAtLeast(required, required.getAmount()))
+                    {
+                        this.user.sendMessage("challenges.errors.not-enough-items",
+                            "[items]",
+                            Util.prettifyText(required.getType().toString()));
+                        return EMPTY_RESULT;
+                    }
+                }
+
+                sumEverything += required.getAmount();
+            }
+
+            // If remove items, then remove them
             if (this.challenge.isTakeItems())
             {
-                this.removeItems(required);
+                Map<Material, Integer> removedItems = this.removeItems(requiredItems);
+
+                int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
+
+                // Something is not removed.
+                if (sumEverything != removedAmount)
+                {
+                    this.user.sendMessage("challenges.errors.cannot-remove-items");
+                    // TODO: Necessary to implement returning removed items.
+
+                    return EMPTY_RESULT;
+                }
             }
         }
 
@@ -561,21 +599,36 @@ public class TryToComplete
 
     /**
      * Removes items from a user's inventory
-     * @param required - a list of item stacks to be removed
+     * @param requiredItemList - a list of item stacks to be removed
      */
-    Map<Material, Integer> removeItems(List<ItemStack> required)
+    Map<Material, Integer> removeItems(List<ItemStack> requiredItemList)
     {
         Map<Material, Integer> removed = new HashMap<>();
 
-        for (ItemStack req : required)
+        for (ItemStack required : requiredItemList)
         {
-            int amountToBeRemoved = req.getAmount();
-            List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).
-                filter(Objects::nonNull).
-                filter(i -> i.getType().equals(req.getType())).
-                collect(Collectors.toList());
+            int amountToBeRemoved = required.getAmount();
 
-            for (ItemStack i : itemsInInv)
+            List<ItemStack> itemsInInventory;
+
+            if (this.canIgnoreMeta(required.getType()))
+            {
+                // Use collecting method that ignores item meta.
+                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.getType().equals(required.getType())).
+                    collect(Collectors.toList());
+            }
+            else
+            {
+                // Use collecting method that compares item meta.
+                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.isSimilar(required)).
+                    collect(Collectors.toList());
+            }
+
+            for (ItemStack i : itemsInInventory)
             {
                 if (amountToBeRemoved > 0)
                 {
@@ -597,12 +650,35 @@ public class TryToComplete
 
             if (amountToBeRemoved > 0)
             {
-                this.addon.logError("Could not remove " + amountToBeRemoved + " of " + req.getType() +
+                this.addon.logError("Could not remove " + amountToBeRemoved + " of " + required.getType() +
                     " from player's inventory!");
             }
         }
 
         return removed;
+    }
+
+
+    /**
+     * This method returns if meta data of these items can be ignored. It means, that items will be searched
+     * and merged by they type instead of using ItemStack#isSimilar(ItemStack) method.
+     *
+     * This limits custom Challenges a lot. It comes from ASkyBlock times, and that is the reason why it is
+     * still here. It would be a great Challenge that could be completed by collecting 4 books, that cannot
+     * be crafted. Unfortunately, this prevents it.
+     * The same happens with firework rockets, enchanted books and filled maps.
+     * In future it should be able to specify, which items meta should be ignored when adding item in required
+     * item list.
+     *
+     * @param material Material that need to be checked.
+     * @return True if material meta can be ignored, otherwise false.
+     */
+    private boolean canIgnoreMeta(Material material)
+    {
+        return material.equals(Material.FIREWORK_ROCKET) ||
+            material.equals(Material.ENCHANTED_BOOK) ||
+            material.equals(Material.WRITTEN_BOOK) ||
+            material.equals(Material.FILLED_MAP);
     }
 
 

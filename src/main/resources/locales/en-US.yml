@@ -322,6 +322,7 @@ challenges:
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
         no-rank: "&cYou do not have rank to do that."
+        cannot-remove-items: '&cSome items cannot be removed from inventory!'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
@@ -331,4 +332,4 @@ protection:
             description: "&5&oThis allows to enable/disable\n&5&orequirement for players to\n&5&obe on their island to\n&5&ocomplete a challenge."
             name: "Challenges Island limitation"
             hint: "No challenges outside island"
-version: 9
+version: 10
