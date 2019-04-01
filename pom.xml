@@ -43,7 +43,7 @@
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
 		<build.version>0.7.0</build.version>
-		<build.number>0</build.number>
+		<build.number>-LOCAL</build.number>
 	</properties>
 
 	<profiles>
@@ -56,7 +56,7 @@
 			</activation>
 			<properties>
 				<!-- Override only if necessary -->
-				<build.number>${env.BUILD_NUMBER}</build.number>
+				<build.number>-#${env.BUILD_NUMBER}</build.number>
 				<!-- GIT_BRANCH -->
 			</properties>
 		</profile>
@@ -71,7 +71,8 @@
 			<properties>
 				<!-- Override only if necessary -->
 				<revision>${build.version}</revision>
-				<!-- GIT_BRANCH -->
+				<!-- Empties build number variable.-->
+				<build.number></build.number>
 			</properties>
 		</profile>
 	</profiles>
