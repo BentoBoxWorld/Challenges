@@ -1036,13 +1036,19 @@ public class ChallengesManager
      * @param world - the world to check
      * @return List of challenge names
      */
-    public List<String> getAllChallengesNames(World world)
+    public List<String> getAllChallengesNames(@NonNull World world)
     {
-        String worldName = Util.getWorld(world).getName();
+        World gameWorld = Util.getWorld(world);
+
+        if (gameWorld == null)
+        {
+            return Collections.emptyList();
+        }
+
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
                 sorted(Comparator.comparing(Challenge::getOrder)).
-                filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
                 map(Challenge::getUniqueId).
                 collect(Collectors.toList());
     }
@@ -1054,12 +1060,18 @@ public class ChallengesManager
      * @param world - the world to check
      * @return List of challenges
      */
-    public List<Challenge> getAllChallenges(World world)
+    public List<Challenge> getAllChallenges(@NonNull World world)
     {
-        String worldName = Util.getWorld(world).getName();
+        World gameWorld = Util.getWorld(world);
+
+        if (gameWorld == null)
+        {
+            return Collections.emptyList();
+        }
+
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
-                filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
                 sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
@@ -1198,9 +1210,16 @@ public class ChallengesManager
      * @param world for which levels must be searched.
      * @return List with challenges in given world.
      */
-    public List<ChallengeLevel> getLevels(World world)
+    public List<ChallengeLevel> getLevels(@NonNull World world)
     {
-        return this.getLevels(Util.getWorld(world).getName());
+        world = Util.getWorld(world);
+
+        if (world == null)
+        {
+            return Collections.emptyList();
+        }
+
+        return this.getLevels(world.getName());
     }
 
 
