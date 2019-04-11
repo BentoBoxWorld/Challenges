@@ -1,0 +1,527 @@
+# This file contains default levels and challenges for current addon.
+
+# List all default levels
+levels:
+  novice:
+    name: 'Novice'
+    icon: ORANGE_CONCRETE
+    order: 1
+    waiver: 3
+    unlockMessage: ''
+    rewardText: 'Small reward for completing all Novice challenges.'
+    rewardItems:
+      - GRASS_BLOCK:1
+    rewardExperience: 1395
+    rewardMoney: 100
+    rewardCommands:
+      - effect give [player] speed 600
+    challenges:
+      - pumpkinfarm
+      - melonfarm
+      - cactusfarm
+      - treefarm
+      - mushroomfarm
+      - sugarfarm
+      - cobblegenerator
+      - treecollector
+      - stonebrickcollector
+      - pumpkinmaker
+      - melonmaker
+      - papermaker
+      - applecollector
+  competent:
+    name: 'Competent'
+    icon: YELLOW_CONCRETE
+    order: 1
+    waiver: 2
+    unlockMessage: 'Congratulations - you unlocked the &dComponent level!'
+    rewardText: 'Small reward for completing all Component challenges.'
+    rewardItems:
+      - DIRT:16
+    rewardExperience: 1395
+    rewardMoney: 500
+    rewardCommands:
+       - effect give [player] strength 600
+   challenges:
+      - carrotfarm
+      - potatofarm
+      - beetrootfarm
+      - animalfarm
+      - monsterfarm
+      - portal
+      - netherrack
+      - home
+      - crafter
+      - angler
+      - component
+  expert:
+    name: 'Expert'
+    icon: LIME_CONCRETE
+    order: 3
+    waiver: 1
+    unlockMessage: 'Congratulations - you unlocked the &dExpert level!'
+    rewardText: 'Small reward for completing all Expert challenges.'
+    rewardItems:
+      - DIAMOND_PICKAXE:1:UNBREAKING:3:EFFICIENCY:5
+      - DIAMOND_AXE:1:UNBREAKING:3:EFFICIENCY:5
+      - DIAMOND_SHOVEL:1:UNBREAKING:3:EFFICIENCY:5
+    rewardExperience: 2920
+    rewardMoney: 1000
+    rewardCommands:
+      - effect give [player] resistance 600
+    challenges:
+      - slimecollector
+      - ironfarmer
+      - snowfarmer
+      - woolcollector
+      - eggcollector
+      - milker
+      - golemarmy
+      - alchemist
+      - ironage
+      - trader
+      - expert
+  advanced:
+    name: 'Advanced'
+    icon: LIGHT_BLUE_CONCRETE
+    order: 4
+    waiver: 0
+    unlockMessage: 'Congratulations - you unlocked the &dAdvanced level!'
+    rewardText: 'Small reward for completing all Advanced challenges.'
+    rewardItems:
+      - DIAMOND_HELMET:1:UNBREAKING:3:PROTECTION:4
+      - DIAMOND_CHESTPLATE:1:UNBREAKING:3:PROTECTION:4
+      - DIAMOND_LEGGINGS:1:UNBREAKING:3:PROTECTION:4
+      - DIAMOND_BOOTS:1:UNBREAKING:3:PROTECTION:4
+    rewardExperience: 5345
+    rewardMoney: 5000
+    rewardCommands:
+      - effect give [player] regeneration 600
+    challenges:
+      - dj
+      - cheff
+      - icefarmer
+      - enderkiller
+      - witherkiller
+      - netherkiller
+      - goldage
+      - advanced
+  elite:
+    name: 'Elite'
+    icon: MAGENTA_CONCRETE
+    order: 5
+    waiver: 0
+    unlockMessage: 'Congratulations - you unlocked the &dElite level!'
+    rewardText: 'Small reward for completing all Elite challenges.'
+    rewardItems:
+      - ELYTRA:1:UNBREAKING:3
+      - DIAMOND_SWORD:1:UNBREAKING:3:SHARPNESS:5
+    rewardExperience: 8670
+    rewardMoney: 10000
+    rewardCommands:
+      - effect give [player] luck 600
+    challenges:
+      - engineer
+      - beaconator
+      - diamondage
+      - endbuster
+      - zoomaker
+      - glassmaker
+      - terracotamaker
+      - elite
+
+# List all default challenges
+challenges:
+# Free Challenge List
+  cobblecollector:
+    name: 'Cobble Stone Exchange'
+    icon: COBBLESTONE
+    order: 1
+    description: 'Exchange cobble stone to some useful materials'
+    type: INVENTORY
+    required:
+      - ITEM:COBBLESTONE:64
+    take: true
+
+    rewardText: 'Small amount of gravel will help to expand your island.'
+    rewardItems:
+      - GRAVLE:4
+    rewardExperience: 50
+    rewardMoney: 10
+    rewardCommands: []
+
+    repeatable: true
+    repeattimes: -1
+    repeatText: 'Small amount of gravel will help to expand your island.'
+    repeatItems:
+      - GRAVLE:1
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  seedcollector:
+      name: 'Seed Exchange'
+      icon: WHEAT_SEEDS
+      order: 2
+      description: 'Exchange seeds to some useful materials'
+      type: INVENTORY
+      required:
+        - ITEM:WHEAT_SEEDS:64
+      take: true
+
+      rewardText: 'Small amount of dirt will help to expand your island.'
+      rewardItems:
+        - DIRT:4
+      rewardExperience: 50
+      rewardMoney: 10
+      rewardCommands: []
+
+      repeatable: true
+      repeattimes: -1
+      repeatText: 'Small amount of dirt will help to expand your island.'
+      repeatItems:
+        - DIRT:1
+      repeatExperience: 5
+      repeatMoney: 1
+      repeatCommands: []
+  cactuscollector:
+      name: 'Cactus Exchange'
+      icon: CACTUS
+      order: 3
+      description: 'Exchange cactus to some useful materials'
+      type: INVENTORY
+      required:
+        - ITEM:CACTUS:64
+      take: true
+
+      rewardText: 'Small amount of sabd will help to expand your island.'
+      rewardItems:
+        - SAND:4
+      rewardExperience: 50
+      rewardMoney: 10
+      rewardCommands: []
+
+      repeatable: true
+      repeattimes: -1
+      repeatText: 'Small amount of sand will help to expand your island.'
+      repeatItems:
+        - SAND:1
+      repeatExperience: 5
+      repeatMoney: 1
+      repeatCommands: []
+# Novice Challenge List
+  cobblegenerator:
+    name: 'Cobblestone Generator'
+    icon: COBBLESTONE
+    order: 0
+    description: 'Everything starts with cobblestone generator'
+    type: ISLAND
+    required:
+      - BLOCK:LAVA:1
+      - BLOCK:WATER:1
+      - BLOCK:COBBLESTONE:1
+    radius: 3
+    take: false
+    rewardText: 'Extra dirt will always be handy'
+    rewardItems:
+      - STONE_PICKAXE:1:UNBREAKING:3:EFFICIENCY:5
+      - STONE_SHOVEL:1:UNBREAKING:3:EFFICIENCY:5
+      - STONE_AXE:1:UNBREAKING:3:EFFICIENCY:5
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  pumpkinfarm:
+    name: 'Pumpkin Farm'
+    icon: PUMPKIN
+    order: 1
+    description: 'Create pumpkin farm'
+    type: ISLAND
+    required:
+      - BLOCK:PUMPKIN_STEM:8
+    take: false
+    radius: 10
+    rewardText: 'Extra dirt will always be handy'
+    rewardItems:
+      - DIRT:16
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  melonfarm:
+    name: 'Melon Farm'
+    icon: MELON
+    order: 2
+    description: 'Create melon farm'
+    type: ISLAND
+    required:
+      - BLOCK:MELON_STEM:8
+    take: false
+    radius: 10
+    rewardText: 'Extra dirt will always be handy'
+    rewardItems:
+      - DIRT:16
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  cactusfarm:
+    name: 'Cactus Farm'
+    icon: CACTUS
+    order: 3
+    description: 'Create cactus farm'
+    type: ISLAND
+    required:
+      - BLOCK:CACTUS:5
+    radius: 10
+    take: false
+    rewardText: 'Extra sand will always be handy'
+    rewardItems:
+      - SAND:10
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  treefarm:
+    name: 'Tree Farm'
+    icon: OAK_SAPLING
+    order: 4
+    description: 'Create simple oak tree farm'
+    type: ISLAND
+    required:
+      - BLOCK:OAK_SAPLING:10
+    radius: 20
+    take: false
+    rewardText: 'Extra dirt will always be handy'
+    rewardItems:
+      - DIRT:10
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  mushroomfarm:
+    name: 'Mushroom Farm'
+    icon: BROWN_MUSHROOM
+    order: 5
+    description: 'Plant some mushrooms in dark place'
+    type: ISLAND
+    required:
+      - BLOCK:BROWN_MUSHROOM:5
+      - BLOCK:RED_MUSHROOM:5
+    radius: 10
+    take: false
+    rewardText: 'Some mycelium will help to grow these mushrooms everywhere'
+    rewardItems:
+      - MYCELIUM:4
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  sugarfarm:
+    name: 'Sugarcane Farm'
+    icon: SUGAR_CANE
+    order: 6
+    description: 'Plant some sugar canes.'
+    type: ISLAND
+    required:
+      - BLOCK:SUGAR_CANE:16
+    radius: 10
+    take: false
+    rewardText: 'Extra sand will help you to grow sugar canes more faster.'
+    rewardItems:
+      - SAND:16
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+  applecollector:
+    name: 'Apple Picker'
+    icon: APPLE
+    order: 7
+    description: 'Find and collect some apples from trees'
+    type: INVENTORY
+    required:
+      - ITEM:APPLE:5
+    take: true
+    rewardText: 'These saplings will help you to get more trees'
+    rewardItems:
+      - SPRUCE_SAPLING:4
+      - ACACIA_SAPLING:4
+      - BIRCH_SAPLING:4
+      - DARK_OAK_SAPLING:4
+      - JUNGLE_SAPLING:4
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: 100
+    repeatText: 'These saplings will help you to get more trees'
+    repeatItems:
+      - SPRUCE_SAPLING:1
+      - ACACIA_SAPLING:1
+      - BIRCH_SAPLING:1
+      - DARK_OAK_SAPLING:1
+      - JUNGLE_SAPLING:1
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  treecollector:
+    name: 'Tree Cutter'
+    icon: OAK_LOG
+    order: 8
+    description: 'Collect some tree logs'
+    type: INVENTORY
+    required:
+      - ITEM:OAK_LOG:16
+    take: true
+    rewardText: 'Magic transformed collected logs into ...'
+    rewardItems:
+      - ???
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: -1
+    repeatText: 'Magic transformed collected logs into ...'
+    repeatItems:
+      - ???
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  stonebrickcollector:
+    name: 'Stone brick maker'
+    icon: STONE_BRICKS
+    order: 9
+    description: 'Craft some stone bricks'
+    type: INVENTORY
+    required:
+      - ITEM:STONE_BRICKS:64
+    take: true
+    rewardText: 'Magic transformed crafted bricks into some ...'
+    rewardItems:
+      - ???
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: 100
+    repeatText: 'Magic transformed crafted bricks into some ...'
+    repeatItems:
+      - ???
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  pumpkinmaker:
+    name: 'Pumpkin collector'
+    icon: PUMPKIN
+    order: 10
+    description: 'Collect some pumpkins'
+    type: INVENTORY
+    required:
+      - ITEM:PUMPKIN:32
+    take: true
+    rewardText: 'Magic transformed collected pumpkins into some clay blocks'
+    rewardItems:
+      - CLAY:4
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: -1
+    repeatText: 'Magic transformed collected pumpkins into some clay balls'
+    repeatItems:
+      - CLAY_BALL:4
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  melonmaker:
+    name: 'Melon collector'
+    icon: MELON
+    order: 11
+    description: 'Collect and craft some melons'
+    type: INVENTORY
+    required:
+      - ITEM:MELON:32
+    take: true
+    rewardText: 'Magic transformed collected melons into some clay blocks'
+    rewardItems:
+      - CLAY:4
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: -1
+    repeatText: 'Magic transformed collected melons into some clay balls'
+    repeatItems:
+      - CLAY_BALL:4
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+  papermaker:
+    name: 'Paper Maker'
+    icon: PAPER
+    order: 12
+    description: 'Craft some paper'
+    type: INVENTORY
+    required:
+      - ITEM:PAPER:32
+    take: true
+    rewardText: 'Used paper transformed into some dirt.'
+    rewardItems:
+      - DIRT:2
+    rewardExperience: 100
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeattimes: -1
+    repeatText: 'Used paper transformed into some dirt.'
+    repeatItems:
+      - DIRT:1
+    repeatExperience: 5
+    repeatMoney: 1
+    repeatCommands: []
+# component challenges
+  unfinished:
+      - carrotfarm
+      - potatofarm
+      - beetrootfarm
+      - animalfarm
+      - monsterfarm
+      - portal
+      - netherrack
+      - home
+      - crafter
+      - angler
+      - component
+
+# expert challenges
+      - slimecollector
+      - ironfarmer
+      - snowfarmer
+      - woolcollector
+      - eggcollector
+      - milker
+      - golemarmy
+      - alchemist
+      - ironage
+      - trader
+      - expert
+# advanced challenges
+      - dj
+      - cheff
+      - icefarmer
+      - enderkiller
+      - witherkiller
+      - netherkiller
+      - goldage
+      - advanced
+# elite challenges
+      - engineer
+      - beaconator
+      - diamondage
+      - endbuster
+      - zoomaker
+      - glassmaker
+      - terracotamaker
+      - elite
+
+version: 1
