@@ -146,6 +146,55 @@ challenges:
       type: SAND
     repeatMoneyReward: 1
     repeatRewardCommands: []
+  treecollector:
+    friendlyName: Logs Exchange
+    description:
+      - Cut trees and collect some logs
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OAK_LOG
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: OAK_LOG
+        amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Change your logs for some clay
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CLAY
+        amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Change your logs for some clay balls
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CLAY_BALL
+        amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   # Novice Challenges
   cobblegenerator:
     friendlyName: Cobble Stone Generator
@@ -703,55 +752,6 @@ challenges:
       amount: 1
     repeatMoneyReward: 0
     repeatRewardCommands: []
-  treecollector:
-    friendlyName: Tree Cutter
-    description:
-    - Cut trees and collect some logs
-    icon:
-      ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: OAK_LOG
-    order: 4
-    challengeType: INVENTORY
-    environment: []
-    removeWhenCompleted: false
-    requiredPermissions: []
-    requiredBlocks: {}
-    removeBlocks: false
-    requiredEntities: {}
-    removeEntities: false
-    requiredItems:
-    - ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: OAK_LOG
-      amount: 16
-    takeItems: true
-    requiredExperience: 0
-    takeExperience: false
-    requiredMoney: 0
-    takeMoney: false
-    requiredIslandLevel: 0
-    searchRadius: 10
-    rewardText: Magic transformed these logs into diorite
-    rewardItems:
-    - ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: DIORITE
-      amount: 4
-    rewardExperience: 50
-    rewardMoney: 0
-    rewardCommands: []
-    repeatable: true
-    repeatRewardText: Magic transformed these logs into diorite
-    maxTimes: 0
-    repeatExperienceReward: 5
-    repeatItemReward:
-    - ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: DIORITE
-      amount: 1
-    repeatMoneyReward: 0
-    repeatRewardCommands: []
   stonesmelter:
     friendlyName: Stone brick maker
     description:
@@ -801,10 +801,10 @@ challenges:
       amount: 1
     repeatMoneyReward: 0
     repeatRewardCommands: []
-  chizedmaker:
+  chisedmaker:
     friendlyName: Chiseled stone bricks crafter
     description:
-    - Smelt some stone and craft some chiseled stone bricks
+      - Smelt some stone and craft some chiseled stone bricks
     icon:
       ==: org.bukkit.inventory.ItemStack
       v: 1631
@@ -819,10 +819,10 @@ challenges:
     requiredEntities: {}
     removeEntities: false
     requiredItems:
-    - ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: CHISELED_STONE_BRICKS
-      amount: 64
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CHISELED_STONE_BRICKS
+        amount: 64
     takeItems: true
     requiredExperience: 0
     takeExperience: false
@@ -832,10 +832,10 @@ challenges:
     searchRadius: 10
     rewardText: Magic transformed these bricks into andesite
     rewardItems:
-    - ==: org.bukkit.inventory.ItemStack
-      v: 1631
-      type: ANDESITE
-      amount: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ANDESITE
+        amount: 4
     rewardExperience: 50
     rewardMoney: 0
     rewardCommands: []
@@ -844,10 +844,59 @@ challenges:
     maxTimes: 0
     repeatExperienceReward: 5
     repeatItemReward:
-    - ==: org.bukkit.inventory.ItemStack
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ANDESITE
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  crackedmaker:
+    friendlyName: Cracked stone bricks
+    description:
+      - Smelt some bricks to get cracked briks.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
       v: 1631
-      type: ANDESITE
-      amount: 1
+      type: CRACKED_STONE_BRICKS
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CRACKED_STONE_BRICKS
+        amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed these bricks into diorite.
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIORITE
+        amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Magic transformed these bricks into diorite.
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIORITE
+        amount: 1
     repeatMoneyReward: 0
     repeatRewardCommands: []
   # Competent Challenges
@@ -1329,7 +1378,7 @@ challenges:
     takeExperience: false
     requiredMoney: 0
     takeMoney: false
-    requiredIslandLevel: 0
+    requiredIslandLevel: 20
     searchRadius: 10
     rewardText: Now you can create nether portal
     rewardItems:
@@ -1348,35 +1397,814 @@ challenges:
     repeatMoneyReward: 0
     repeatRewardCommands: []
   # Expert Challenges
-      - slimecollector
-      - ironfarmer
-      - snowfarmer
-      - woolcollector
-      - eggcollector
-      - milker
-      - golemarmy
-      - alchemist
-      - ironage
-      - trader
-      - expert
+  villagerbreeder:
+    friendlyName: Villager Breeder
+    description:
+      - Start to create slave army.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: EMERALD_BLOCK
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks: []
+    removeBlocks: false
+    requiredEntities:
+      VILLAGER: 10
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Iron for tools crafting and some cats.
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_ORE
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: OCELOT_SPAWN_EGG
+        amount: 2
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  irongolemfarm:
+    friendlyName: Iron Farm
+    description:
+      - Use your villagers to produce free iron golems.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_BLOCK
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks: []
+    removeBlocks: false
+    requiredEntities:
+      IRON_GOLEM: 5
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Some handy mending books and redstone ore
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ENCHANTED_BOOK
+      meta:
+        ==: ItemMeta
+        meta-type: ENCHANTED
+        stored-enchants:
+          MENDING: 1
+      amount: 2
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: REDSTONE_ORE
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  snowgolemfarm:
+    friendlyName: Snow farm
+    description:
+      - .
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SNOW_BLOCK
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      SNOW: 1
+    removeBlocks: false
+    requiredEntities:
+      SNOWMAN: 1
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Some mending books and lapis ore
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ENCHANTED_BOOK
+        meta:
+          ==: ItemMeta
+          meta-type: ENCHANTED
+          stored-enchants:
+            MENDING: 1
+        amount: 2
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LAPIS_ORE
+        amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  slimefarm:
+    friendlyName: Slime farm
+    description:
+      - Create slime farm to get some slime blocks
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SLIME_BLOCK
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities:
+      SLIME: 5
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Get some nether quartz ore and extra mending book
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ENCHANTED_BOOK
+        meta:
+          ==: ItemMeta
+          meta-type: ENCHANTED
+          stored-enchants:
+            MENDING: 1
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: NETHER_QUARTZ_ORE
+        amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  flowercollector:
+    friendlyName: Flower gatherer
+    description:
+      - Collect all small flowers.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DANDELION
+    order: 2
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DANDELION
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: poppy
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: blue_orchid
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: allium
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: azure_bluet
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: red_tulip
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: orange_tulip
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: white_tulip
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: pink_tulip
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: oxeye_daisy
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: orange_tulip
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: white_tulip
+        amount: 8
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Large flowers are always better.
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: COCOA_BEANS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: sunflower
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: lilac
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: rose_bush
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: peony
+        amount: 1
+    rewardExperience: 50
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  woolcollector:
+    friendlyName: Wool Collector
+    description:
+      - Collect all colors of wool.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: WHITE_WOOL
+    order: 2
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: WHITE_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: YELLOW_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: RED_WOOL
+        amount: 8
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PURPLE_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PINK_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ORANGE_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MAGENTA_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIME_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_GRAY_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_BLUE_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GREEN_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GRAY_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CYAN_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BROWN_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLUE_WOOL
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLACK_WOOL
+        amount: 16
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Get some handy items for your wool
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND
+      amount: 2
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MUSIC_DISC_CAT
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MUSIC_DISC_BLOCKS
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MUSIC_DISC_STAL
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SHEEP_SPAWN_EGG
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: EMERALD
+      amount: 5
+    rewardExperience: 50
+    rewardMoney: 10
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: EMERALD
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SHEEP_SPAWN_EGG
+    repeatMoneyReward: 1
+    repeatRewardCommands: []
+  #MISSING
+  eggcollector:
+    friendlyName: Egg Collector
+    description:
+      - Create Chicken farm and collect their eggs.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: EGG
+    order: 2
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: EGG
+        amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: These saplings will help you to get more trees
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SPRUCE_SAPLING
+        amount: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ACACIA_SAPLING
+        amount: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BIRCH_SAPLING
+        amount: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DARK_OAK_SAPLING
+        amount: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: JUNGLE_SAPLING
+        amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: These saplings will help you to get more trees
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SPRUCE_SAPLING
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ACACIA_SAPLING
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BIRCH_SAPLING
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DARK_OAK_SAPLING
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: JUNGLE_SAPLING
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  #MISSING
+  milkcollector:
+    friendlyName: Milk your cows
+    description:
+      - Create some buckets and milk your cows
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MILK_BUCKET
+    order: 2
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MILK_BUCKET
+        amount: 9
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange milk to some useful iron
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BUCKET
+        amount: 9
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PARROT_SPAWN_EGG
+        amount: 2
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: These saplings will help you to get more trees
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BUCKET
+        amount: 9
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  slimeballcollector:
+    friendlyName: Slimeball collector
+    description:
+      - Kill slimes and collect their slime balls
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SLIME_BALL
+    order: 3
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SLIME_BALL
+        amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: These saplings will help you to get more trees
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: REDSTONE
+        amount: 27
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: These saplings will help you to get more trees
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: REDSTONE
+        amount: 9
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  ironage:
+    friendlyName: Iron Age
+    description:
+      - Craft Iron Tools and Armor
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_INGOT
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_AXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_HOE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_PICKAXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_SHOVEL
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_SWORD
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_BOOTS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_LEGGINGS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_CHESTPLATE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_HELMET
+        amount: 1
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your iron stuff to some diamond
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your iron stuff to diamond
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  trader:
+    friendlyName: Trader
+    description:
+      - Use your slaves to get some gems
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: EMERALD
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: EMERALD
+        amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your emeralds to some diamond
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your emeralds to diamond
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  expert:
+    friendlyName: Expert Island
+    description:
+      - Reach 100th level of island.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GREEN_CONCRETE
+    order: 6
+    challengeType: OTHER
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 100
+    searchRadius: 10
+    rewardText: Get some extra diamonds
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 10
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   # Advanced Challenges
-      - dj
-      - cheff
-      - icefarmer
-      - enderkiller
-      - witherkiller
-      - netherkiller
-      - goldage
-      - advanced
+
+- dj
+- cheff
+- icefarmer
+- enderkiller
+- witherkiller
+- netherkiller
+- alchemist
+- goldage
+- advanced
   # Elite Challenges
-      - engineer
-      - beaconator
-      - diamondage
-      - endbuster
-      - zoomaker
-      - glassmaker
-      - terracotamaker
-      - elite
+- engineer
+- beaconator
+- diamondage
+- endbuster
+- zoomaker
+- glassmaker
+- terracotamaker
+- elite
 
 # List of default levels.
 levels:
