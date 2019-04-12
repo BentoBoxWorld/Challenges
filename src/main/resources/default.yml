@@ -1,499 +1,1353 @@
 # This file contains default levels and challenges for current addon.
-
-# List all default levels
-levels:
-  novice:
-    name: 'Novice'
-    icon: ORANGE_CONCRETE
-    order: 1
-    waiver: 3
-    unlockMessage: ''
-    rewardText: 'Small reward for completing all Novice challenges.'
-    rewardItems:
-      - GRASS_BLOCK:1
-    rewardExperience: 1395
-    rewardMoney: 100
-    rewardCommands:
-      - effect give [player] speed 600
-    challenges:
-      - pumpkinfarm
-      - melonfarm
-      - cactusfarm
-      - treefarm
-      - mushroomfarm
-      - sugarfarm
-      - cobblegenerator
-      - treecollector
-      - stonebrickcollector
-      - pumpkinmaker
-      - melonmaker
-      - papermaker
-      - applecollector
-  competent:
-    name: 'Competent'
-    icon: YELLOW_CONCRETE
-    order: 1
-    waiver: 2
-    unlockMessage: 'Congratulations - you unlocked the &dComponent level!'
-    rewardText: 'Small reward for completing all Component challenges.'
-    rewardItems:
-      - DIRT:16
-    rewardExperience: 1395
-    rewardMoney: 500
-    rewardCommands:
-       - effect give [player] strength 600
-   challenges:
-      - carrotfarm
-      - potatofarm
-      - beetrootfarm
-      - animalfarm
-      - monsterfarm
-      - portal
-      - netherrack
-      - home
-      - crafter
-      - angler
-      - component
-  expert:
-    name: 'Expert'
-    icon: LIME_CONCRETE
-    order: 3
-    waiver: 1
-    unlockMessage: 'Congratulations - you unlocked the &dExpert level!'
-    rewardText: 'Small reward for completing all Expert challenges.'
-    rewardItems:
-      - DIAMOND_PICKAXE:1:UNBREAKING:3:EFFICIENCY:5
-      - DIAMOND_AXE:1:UNBREAKING:3:EFFICIENCY:5
-      - DIAMOND_SHOVEL:1:UNBREAKING:3:EFFICIENCY:5
-    rewardExperience: 2920
-    rewardMoney: 1000
-    rewardCommands:
-      - effect give [player] resistance 600
-    challenges:
-      - slimecollector
-      - ironfarmer
-      - snowfarmer
-      - woolcollector
-      - eggcollector
-      - milker
-      - golemarmy
-      - alchemist
-      - ironage
-      - trader
-      - expert
-  advanced:
-    name: 'Advanced'
-    icon: LIGHT_BLUE_CONCRETE
-    order: 4
-    waiver: 0
-    unlockMessage: 'Congratulations - you unlocked the &dAdvanced level!'
-    rewardText: 'Small reward for completing all Advanced challenges.'
-    rewardItems:
-      - DIAMOND_HELMET:1:UNBREAKING:3:PROTECTION:4
-      - DIAMOND_CHESTPLATE:1:UNBREAKING:3:PROTECTION:4
-      - DIAMOND_LEGGINGS:1:UNBREAKING:3:PROTECTION:4
-      - DIAMOND_BOOTS:1:UNBREAKING:3:PROTECTION:4
-    rewardExperience: 5345
-    rewardMoney: 5000
-    rewardCommands:
-      - effect give [player] regeneration 600
-    challenges:
-      - dj
-      - cheff
-      - icefarmer
-      - enderkiller
-      - witherkiller
-      - netherkiller
-      - goldage
-      - advanced
-  elite:
-    name: 'Elite'
-    icon: MAGENTA_CONCRETE
-    order: 5
-    waiver: 0
-    unlockMessage: 'Congratulations - you unlocked the &dElite level!'
-    rewardText: 'Small reward for completing all Elite challenges.'
-    rewardItems:
-      - ELYTRA:1:UNBREAKING:3
-      - DIAMOND_SWORD:1:UNBREAKING:3:SHARPNESS:5
-    rewardExperience: 8670
-    rewardMoney: 10000
-    rewardCommands:
-      - effect give [player] luck 600
-    challenges:
-      - engineer
-      - beaconator
-      - diamondage
-      - endbuster
-      - zoomaker
-      - glassmaker
-      - terracotamaker
-      - elite
-
-# List all default challenges
+# List of default challenges
 challenges:
-# Free Challenge List
+  # Free Challenges
   cobblecollector:
-    name: 'Cobble Stone Exchange'
-    icon: COBBLESTONE
+    friendlyName: Cobble Stone Exchange
+    description:
+    - Exchange cobble to some useful materials
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: COBBLESTONE
     order: 1
-    description: 'Exchange cobble stone to some useful materials'
-    type: INVENTORY
-    required:
-      - ITEM:COBBLESTONE:64
-    take: true
-
-    rewardText: 'Small amount of gravel will help to expand your island.'
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: COBBLESTONE
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Small amount of gravel will always be handy
     rewardItems:
-      - GRAVLE:4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRAVEL
+      amount: 4
     rewardExperience: 50
     rewardMoney: 10
     rewardCommands: []
-
     repeatable: true
-    repeattimes: -1
-    repeatText: 'Small amount of gravel will help to expand your island.'
-    repeatItems:
-      - GRAVLE:1
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
+    repeatRewardText: Small amount of gravel will always be handy
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRAVEL
+    repeatMoneyReward: 1
+    repeatRewardCommands: []
   seedcollector:
-      name: 'Seed Exchange'
-      icon: WHEAT_SEEDS
-      order: 2
-      description: 'Exchange seeds to some useful materials'
-      type: INVENTORY
-      required:
-        - ITEM:WHEAT_SEEDS:64
-      take: true
-
-      rewardText: 'Small amount of dirt will help to expand your island.'
-      rewardItems:
-        - DIRT:4
-      rewardExperience: 50
-      rewardMoney: 10
-      rewardCommands: []
-
-      repeatable: true
-      repeattimes: -1
-      repeatText: 'Small amount of dirt will help to expand your island.'
-      repeatItems:
-        - DIRT:1
-      repeatExperience: 5
-      repeatMoney: 1
-      repeatCommands: []
-  cactuscollector:
-      name: 'Cactus Exchange'
-      icon: CACTUS
-      order: 3
-      description: 'Exchange cactus to some useful materials'
-      type: INVENTORY
-      required:
-        - ITEM:CACTUS:64
-      take: true
-
-      rewardText: 'Small amount of sabd will help to expand your island.'
-      rewardItems:
-        - SAND:4
-      rewardExperience: 50
-      rewardMoney: 10
-      rewardCommands: []
-
-      repeatable: true
-      repeattimes: -1
-      repeatText: 'Small amount of sand will help to expand your island.'
-      repeatItems:
-        - SAND:1
-      repeatExperience: 5
-      repeatMoney: 1
-      repeatCommands: []
-# Novice Challenge List
-  cobblegenerator:
-    name: 'Cobblestone Generator'
-    icon: COBBLESTONE
-    order: 0
-    description: 'Everything starts with cobblestone generator'
-    type: ISLAND
-    required:
-      - BLOCK:LAVA:1
-      - BLOCK:WATER:1
-      - BLOCK:COBBLESTONE:1
-    radius: 3
-    take: false
-    rewardText: 'Extra dirt will always be handy'
-    rewardItems:
-      - STONE_PICKAXE:1:UNBREAKING:3:EFFICIENCY:5
-      - STONE_SHOVEL:1:UNBREAKING:3:EFFICIENCY:5
-      - STONE_AXE:1:UNBREAKING:3:EFFICIENCY:5
-    rewardExperience: 100
-    rewardMoney: 10
-    rewardCommands: []
-    repeatable: false
-  pumpkinfarm:
-    name: 'Pumpkin Farm'
-    icon: PUMPKIN
-    order: 1
-    description: 'Create pumpkin farm'
-    type: ISLAND
-    required:
-      - BLOCK:PUMPKIN_STEM:8
-    take: false
-    radius: 10
-    rewardText: 'Extra dirt will always be handy'
-    rewardItems:
-      - DIRT:16
-    rewardExperience: 100
-    rewardMoney: 10
-    rewardCommands: []
-    repeatable: false
-  melonfarm:
-    name: 'Melon Farm'
-    icon: MELON
+    friendlyName: Seeds Exchange
+    description:
+    - Exchange seeds to some useful materials
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: WHEAT_SEEDS
     order: 2
-    description: 'Create melon farm'
-    type: ISLAND
-    required:
-      - BLOCK:MELON_STEM:8
-    take: false
-    radius: 10
-    rewardText: 'Extra dirt will always be handy'
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: WHEAT_SEEDS
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Small amount of dirt will always be handy
     rewardItems:
-      - DIRT:16
-    rewardExperience: 100
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 4
+    rewardExperience: 50
     rewardMoney: 10
     rewardCommands: []
-    repeatable: false
-  cactusfarm:
-    name: 'Cactus Farm'
-    icon: CACTUS
+    repeatable: true
+    repeatRewardText: Small amount of dirt will always be handy
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+    repeatMoneyReward: 1
+    repeatRewardCommands: []
+  cactuscollector:
+    friendlyName: Cactus Exchange
+    description:
+    - Exchange cactus to some useful materials
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CACTUS
     order: 3
-    description: 'Create cactus farm'
-    type: ISLAND
-    required:
-      - BLOCK:CACTUS:5
-    radius: 10
-    take: false
-    rewardText: 'Extra sand will always be handy'
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CACTUS
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Small amount of sand will always be handy
     rewardItems:
-      - SAND:10
-    rewardExperience: 100
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SAND
+      amount: 4
+    rewardExperience: 50
     rewardMoney: 10
     rewardCommands: []
+    repeatable: true
+    repeatRewardText: Small amount of sand will always be handy
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SAND
+    repeatMoneyReward: 1
+    repeatRewardCommands: []
+  # Novice Challenges
+  cobblegenerator:
+    friendlyName: Cobble Stone Generator
+    description:
+    - Everything starts with a simple cobblestone generator.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: COBBLESTONE
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      LAVA: 1
+      COBBLESTONE: 1
+      WATER: 1
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 5
+    rewardText: These tools will help you with some grind.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_PICKAXE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_AXE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_SHOVEL
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_HOE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
     repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: {}
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  pumpkinfarm:
+    friendlyName: Pumpkin farm
+    description:
+    - Create simple Pumpkin farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PUMPKIN
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      PUMPKIN_STEM: 8
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra dirt will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  melonfarm:
+    friendlyName: Melon farm
+    description:
+    - Create simple Melon farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MELON
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      MELON_STEM: 8
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra dirt will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  cactusfarm:
+    friendlyName: Cactus farm
+    description:
+    - Create simple Cactus farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CACTUS
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      CACTUS: 10
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra sand will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SAND
+      amount: 10
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   treefarm:
-    name: 'Tree Farm'
-    icon: OAK_SAPLING
-    order: 4
-    description: 'Create simple oak tree farm'
-    type: ISLAND
-    required:
-      - BLOCK:OAK_SAPLING:10
-    radius: 20
-    take: false
-    rewardText: 'Extra dirt will always be handy'
+    friendlyName: Tree farm
+    description:
+    - Create simple tree farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OAK_SAPLING
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      OAK_SAPLING: 10
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 20
+    rewardText: Extra dirt will always be handy
     rewardItems:
-      - DIRT:10
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 10
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   mushroomfarm:
-    name: 'Mushroom Farm'
-    icon: BROWN_MUSHROOM
-    order: 5
-    description: 'Plant some mushrooms in dark place'
-    type: ISLAND
-    required:
-      - BLOCK:BROWN_MUSHROOM:5
-      - BLOCK:RED_MUSHROOM:5
-    radius: 10
-    take: false
-    rewardText: 'Some mycelium will help to grow these mushrooms everywhere'
+    friendlyName: Mushroom farm
+    description:
+    - Create simple mushroom farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BROWN_MUSHROOM
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      BROWN_MUSHROOM: 5
+      RED_MUSHROOM: 5
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: This mycelium will help you with collecting mushrooms faster.
     rewardItems:
-      - MYCELIUM:4
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MYCELIUM
+      amount: 1
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: false
-  sugarfarm:
-    name: 'Sugarcane Farm'
-    icon: SUGAR_CANE
-    order: 6
-    description: 'Plant some sugar canes.'
-    type: ISLAND
-    required:
-      - BLOCK:SUGAR_CANE:16
-    radius: 10
-    take: false
-    rewardText: 'Extra sand will help you to grow sugar canes more faster.'
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  sugarcanefarm:
+    friendlyName: Sugarcane farm
+    description:
+    - Create simple sugarcane farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SUGAR_CANE
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      SUGAR_CANE: 32
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: This sand will allow to increase your farm size.
     rewardItems:
-      - SAND:16
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SAND
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   applecollector:
-    name: 'Apple Picker'
-    icon: APPLE
-    order: 7
-    description: 'Find and collect some apples from trees'
-    type: INVENTORY
-    required:
-      - ITEM:APPLE:5
-    take: true
-    rewardText: 'These saplings will help you to get more trees'
+    friendlyName: Apple Picker
+    description:
+    - Find and collect some apples from trees
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: APPLE
+    order: 3
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: APPLE
+      amount: 5
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: These saplings will help you to get more trees
     rewardItems:
-      - SPRUCE_SAPLING:4
-      - ACACIA_SAPLING:4
-      - BIRCH_SAPLING:4
-      - DARK_OAK_SAPLING:4
-      - JUNGLE_SAPLING:4
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SPRUCE_SAPLING
+      amount: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ACACIA_SAPLING
+      amount: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BIRCH_SAPLING
+      amount: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DARK_OAK_SAPLING
+      amount: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: JUNGLE_SAPLING
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeattimes: 100
-    repeatText: 'These saplings will help you to get more trees'
-    repeatItems:
-      - SPRUCE_SAPLING:1
-      - ACACIA_SAPLING:1
-      - BIRCH_SAPLING:1
-      - DARK_OAK_SAPLING:1
-      - JUNGLE_SAPLING:1
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
-  treecollector:
-    name: 'Tree Cutter'
-    icon: OAK_LOG
-    order: 8
-    description: 'Collect some tree logs'
-    type: INVENTORY
-    required:
-      - ITEM:OAK_LOG:16
-    take: true
-    rewardText: 'Magic transformed collected logs into ...'
-    rewardItems:
-      - ???
-    rewardExperience: 100
-    rewardMoney: 10
-    rewardCommands: []
-    repeatable: true
-    repeattimes: -1
-    repeatText: 'Magic transformed collected logs into ...'
-    repeatItems:
-      - ???
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
-  stonebrickcollector:
-    name: 'Stone brick maker'
-    icon: STONE_BRICKS
-    order: 9
-    description: 'Craft some stone bricks'
-    type: INVENTORY
-    required:
-      - ITEM:STONE_BRICKS:64
-    take: true
-    rewardText: 'Magic transformed crafted bricks into some ...'
-    rewardItems:
-      - ???
-    rewardExperience: 100
-    rewardMoney: 10
-    rewardCommands: []
-    repeatable: true
-    repeattimes: 100
-    repeatText: 'Magic transformed crafted bricks into some ...'
-    repeatItems:
-      - ???
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
+    repeatRewardText: These saplings will help you to get more trees
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SPRUCE_SAPLING
+      amount: 1
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ACACIA_SAPLING
+      amount: 1
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BIRCH_SAPLING
+      amount: 1
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DARK_OAK_SAPLING
+      amount: 1
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: JUNGLE_SAPLING
+      amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   pumpkinmaker:
-    name: 'Pumpkin collector'
-    icon: PUMPKIN
-    order: 10
-    description: 'Collect some pumpkins'
-    type: INVENTORY
-    required:
-      - ITEM:PUMPKIN:32
-    take: true
-    rewardText: 'Magic transformed collected pumpkins into some clay blocks'
+    friendlyName: Pumpkin collector
+    description:
+    - Grow and collect some pumpkin
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PUMPKIN
+    order: 3
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PUMPKIN
+      amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed collected pumpkins into some clay blocks
     rewardItems:
-      - CLAY:4
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CLAY
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeattimes: -1
-    repeatText: 'Magic transformed collected pumpkins into some clay balls'
-    repeatItems:
-      - CLAY_BALL:4
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
+    repeatRewardText: Magic transformed collected pumpkins into some clay balls
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CLAY_BALL
+      amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   melonmaker:
-    name: 'Melon collector'
-    icon: MELON
-    order: 11
-    description: 'Collect and craft some melons'
-    type: INVENTORY
-    required:
-      - ITEM:MELON:32
-    take: true
-    rewardText: 'Magic transformed collected melons into some clay blocks'
+    friendlyName: Melon collector
+    description:
+    - Grow, collect and craft some melons
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MELON
+    order: 3
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MELON
+      amount: 16
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed collected melons into some clay blocks
     rewardItems:
-      - CLAY:4
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CLAY
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeattimes: -1
-    repeatText: 'Magic transformed collected melons into some clay balls'
-    repeatItems:
-      - CLAY_BALL:4
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
+    repeatRewardText: Magic transformed collected melons into some clay balls
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CLAY_BALL
+      amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   papermaker:
-    name: 'Paper Maker'
-    icon: PAPER
-    order: 12
-    description: 'Craft some paper'
-    type: INVENTORY
-    required:
-      - ITEM:PAPER:32
-    take: true
-    rewardText: 'Used paper transformed into some dirt.'
+    friendlyName: Paper Maker
+    description:
+    - Collect sugar canes and craft some paper
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PAPER
+    order: 3
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PAPER
+      amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic will transform crafted paper into red sand
     rewardItems:
-      - DIRT:2
-    rewardExperience: 100
-    rewardMoney: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: RED_SAND
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeattimes: -1
-    repeatText: 'Used paper transformed into some dirt.'
-    repeatItems:
-      - DIRT:1
-    repeatExperience: 5
-    repeatMoney: 1
-    repeatCommands: []
-# component challenges
-  unfinished:
-      - carrotfarm
-      - potatofarm
-      - beetrootfarm
-      - animalfarm
-      - monsterfarm
-      - portal
-      - netherrack
-      - home
-      - crafter
-      - angler
-      - component
-
-# expert challenges
+    repeatRewardText: Magic will transform crafted paper into red sand
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: RED_SAND
+      amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  treecollector:
+    friendlyName: Tree Cutter
+    description:
+    - Cut trees and collect some logs
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OAK_LOG
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OAK_LOG
+      amount: 16
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed these logs into diorite
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIORITE
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Magic transformed these logs into diorite
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIORITE
+      amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  stonesmelter:
+    friendlyName: Stone brick maker
+    description:
+    - Smelt some stone and craft some stone bricks
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_BRICKS
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE_BRICKS
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed these bricks into granite
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRANITE
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Magic transformed these bricks into granite
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRANITE
+      amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  chizedmaker:
+    friendlyName: Chiseled stone bricks crafter
+    description:
+    - Smelt some stone and craft some chiseled stone bricks
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CHISELED_STONE_BRICKS
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CHISELED_STONE_BRICKS
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Magic transformed these bricks into andesite
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ANDESITE
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Magic transformed these bricks into andesite
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ANDESITE
+      amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  # Competent Challenges
+  carrotfarm:
+    friendlyName: Carrot farm
+    description:
+    - Create simple Carrot farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: CARROT
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      CARROTS: 16
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra dirt will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  potatofarm:
+    friendlyName: Potato farm
+    description:
+    - Create simple potato farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: POTATO
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      POTATOES: 16
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra dirt will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  beetrootfarm:
+    friendlyName: Beetroot farm
+    description:
+    - Create simple beetroot farm
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BEETROOT
+    order: 1
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      BEETROOTS: 16
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Extra dirt will always be handy
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  animalfarm:
+    friendlyName: Animal farm
+    description:
+    - Create grass field and wait for animals to spawn.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRASS_BLOCK
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      GRASS_BLOCK: 16
+    removeBlocks: false
+    requiredEntities:
+      PIG: 2
+      SHEEP: 2
+      COW: 2
+      CHICKEN: 2
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Iron for tools crafting and some cats.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_ORE
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OCELOT_SPAWN_EGG
+      amount: 2
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  mobfarm:
+    friendlyName: Mob farm
+    description:
+    - Create dark place and spawn some hostile mobs.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STONE
+    order: 2
+    challengeType: ISLAND
+    environment: []
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities:
+      CREEPER: 1
+      SPIDER: 1
+      ZOMBIE: 1
+      SKELETON: 1
+    removeEntities: false
+    requiredItems: {}
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 20
+    rewardText: Iron for item crafting and some dogs.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_ORE
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: WOLF_SPAWN_EGG
+      amount: 2
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  visitnether:
+    friendlyName: Visit nether
+    description:
+    - Nether is a horrible place, but it has some useful stuff.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: NETHERRACK
+    order: 3
+    challengeType: ISLAND
+    environment:
+    - NETHER
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      NETHERRACK: 1
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 20
+    rewardText: Some iron and lapis for your efforts.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_ORE
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: LAPIS_BLOCK
+      amount: 3
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  fisherman:
+    friendlyName: Fisherman
+    description:
+    - Catch some cod
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: COD
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: COD
+      amount: 64
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Some prismarine shards and sea pickles
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PRISMARINE_SHARD
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SEA_PICKLE
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Some prismarine shards
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PRISMARINE_SHARD
+      amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  angler:
+    friendlyName: Angler
+    description:
+    - Catch some salmon
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SALMON
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SALMON
+      amount: 32
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Some prismarine crystals and kelp
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PRISMARINE_CRYSTALS
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: KELP
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Some prismarine crystals
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: PRISMARINE_CRYSTALS
+      amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  grinder:
+    friendlyName: Grinder
+    description:
+    - Use your mobfarm to collest mob drops
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BONE
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ROTTEN_FLESH
+      amount: 64
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: STRING
+      amount: 32
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ARROW
+      amount: 32
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BONE
+      amount: 32
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GUNPOWDER
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: SPIDER_EYE
+      amount: 5
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchaning drops will provide some useful materials.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: REDSTONE
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: IRON_ORE
+      amount: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: FLINT
+      amount: 1
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Some prismarine crystals
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: REDSTONE
+      amount: 4
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  component:
+    friendlyName: Component Island
+    description:
+    - Reach 20th level of island.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: YELLOW_CONCRETE
+    order: 5
+    challengeType: OTHER
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Now you can create nether portal
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: OBSIDIAN
+      amount: 10
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  # Expert Challenges
       - slimecollector
       - ironfarmer
       - snowfarmer
@@ -505,7 +1359,7 @@ challenges:
       - ironage
       - trader
       - expert
-# advanced challenges
+  # Advanced Challenges
       - dj
       - cheff
       - icefarmer
@@ -514,7 +1368,7 @@ challenges:
       - netherkiller
       - goldage
       - advanced
-# elite challenges
+  # Elite Challenges
       - engineer
       - beaconator
       - diamondage
@@ -523,5 +1377,260 @@ challenges:
       - glassmaker
       - terracotamaker
       - elite
+
+# List of default levels.
+levels:
+  novice:
+    friendlyName: Novice
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ORANGE_CONCRETE
+    lockedIcon: 'null'
+    order: 1
+    waiverAmount: 3
+    unlockMessage: ''
+    rewardText: Small reward for completing all Novice challenges.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GRASS_BLOCK
+    rewardExperience: 1395
+    rewardMoney: 100
+    rewardCommands:
+    - effect give [player] speed 600
+    challenges:
+    - pumpkinfarm
+    - melonfarm
+    - cactusfarm
+    - treefarm
+    - mushroomfarm
+    - sugarfarm
+    - cobblegenerator
+    - treecollector
+    - chizedmaker
+    - stonesmelter
+    - pumpkinmaker
+    - melonmaker
+    - papermaker
+    - applecollector
+  competent:
+    friendlyName: Competent
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: YELLOW_CONCRETE
+    lockedIcon: 'null'
+    order: 2
+    waiverAmount: 2
+    unlockMessage: 'Congratulations - you unlocked the &dComponent level!'
+    rewardText: 'Small reward for completing all Component challenges.'
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIRT
+      amount: 16
+    rewardExperience: 1395
+    rewardMoney: 500
+    rewardCommands:
+    - effect give [player] strength 600
+    challenges:
+      - carrotfarm
+      - potatofarm
+      - beetrootfarm
+      - animalfarm
+      - mobfarm
+      - visitnether
+      - fisherman
+      - angler
+      - grinder
+      - component
+  expert:
+    friendlyName: Expert
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GREEN_CONCRETE
+    lockedIcon: 'null'
+    order: 3
+    waiverAmount: 1
+    unlockMessage: 'Congratulations - you unlocked the &dExpert level!'
+    rewardText: 'Small reward for completing all Expert challenges.'
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_PICKAXE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_AXE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_SHOVEL
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          DIG_SPEED: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_HOE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+    rewardExperience: 2920
+    rewardMoney: 1000
+    rewardCommands:
+    - effect give [player] resistance 600
+    challenges:
+    - slimecollector
+    - ironfarmer
+    - snowfarmer
+    - woolcollector
+    - eggcollector
+    - milker
+    - golemarmy
+    - alchemist
+    - ironage
+    - trader
+    - expert
+  advanced:
+    friendlyName: Advanced
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BLUE_CONCRETE
+    lockedIcon: 'null'
+    order: 4
+    waiverAmount: 0
+    unlockMessage: 'Congratulations - you unlocked the &dAdvanced level!'
+    rewardText: 'Small reward for completing all Advanced challenges.'
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_HELMET
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          PROTECTION_ENVIRONMENTAL: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_CHESTPLATE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          PROTECTION_ENVIRONMENTAL: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_LEGGINGS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          PROTECTION_ENVIRONMENTAL: 4
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_BOOTS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          PROTECTION_FALL: 4
+          DURABILITY: 3
+          PROTECTION_ENVIRONMENTAL: 4
+    rewardExperience: 5345
+    rewardMoney: 5000
+    rewardCommands:
+    - effect give [player] regeneration 600
+    challenges:
+    - dj
+    - cheff
+    - icefarmer
+    - enderkiller
+    - witherkiller
+    - netherkiller
+    - goldage
+    - advanced
+  elite:
+    friendlyName: Elite
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MAGENTA_CONCRETE
+    lockedIcon: 'null'
+    order: 5
+    waiverAmount: 0
+    unlockMessage: 'Congratulations - you unlocked the &dElite level!'
+    rewardText: 'Small reward for completing all Elite challenges.'
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_SWORD
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          LOOT_BONUS_MOBS: 3
+          DURABILITY: 3
+          DAMAGE_ALL: 5
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BOW
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+          ARROW_DAMAGE: 5
+          ARROW_INFINITE: 1
+          ARROW_FIRE: 1
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ELYTRA
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: TRIDENT
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          DURABILITY: 3
+    rewardExperience: 8670
+    rewardMoney: 0
+    rewardCommands:
+    - effect give [player] luck 600
+    challenges: []
+    - engineer
+    - beaconator
+    - diamondage
+    - endbuster
+    - zoomaker
+    - glassmaker
+    - terracotamaker
+    - elite
 
 version: 1
