@@ -654,8 +654,14 @@ public class EditChallengeGUI extends CommonGUI
 					"[value]", Integer.toString(this.challenge.getSearchRadius())));
 
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
+
+				// Search radius should not be larger then island radius.
+				int maxSearchDistance =
+					this.addon.getPlugin().getIWM().getAddon(this.world).map(gameModeAddon ->
+						gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
+
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, lineLength, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, maxSearchDistance, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setSearchRadius(value);
