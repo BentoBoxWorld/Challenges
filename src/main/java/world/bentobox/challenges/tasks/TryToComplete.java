@@ -5,18 +5,21 @@ package world.bentobox.challenges.tasks;
 
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
+import org.bukkit.util.BoundingBox;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
@@ -693,69 +696,112 @@ public class TryToComplete
      */
     private ChallengeResult checkSurrounding()
     {
-        ChallengeResult result;
+        Location playerLocation = this.user.getLocation();
 
-        if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
+        // Init location in player position.
+        BoundingBox boundingBox = new BoundingBox(playerLocation.getBlockX(),
+            playerLocation.getBlockY(),
+            playerLocation.getBlockZ(),
+            playerLocation.getBlockX(),
+            playerLocation.getBlockY(),
+            playerLocation.getBlockZ());
+
+        // Expand position with search radius.
+        boundingBox.expand(this.challenge.getSearchRadius());
+
+        if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world))
         {
-            // Player is not on island
-            this.user.sendMessage("challenges.errors.not-on-island");
-            result = EMPTY_RESULT;
+            // Players should not be able to complete challenge if they stay near island with required blocks.
+
+            Island island = this.addon.getIslands().getIsland(this.world, this.user);
+
+            if (boundingBox.getMinX() < island.getMinX())
+            {
+                boundingBox.expand(BlockFace.EAST, Math.abs(island.getMinX() - boundingBox.getMinX()));
+            }
+
+            if (boundingBox.getMinZ() < island.getMinZ())
+            {
+                boundingBox.expand(BlockFace.NORTH, Math.abs(island.getMinZ() - boundingBox.getMinZ()));
+            }
+
+            int range = island.getRange();
+
+            int islandMaxX = island.getMinX() + range * 2;
+            int islandMaxZ = island.getMinZ() + range * 2;
+
+            if (boundingBox.getMaxX() > islandMaxX)
+            {
+                boundingBox.expand(BlockFace.WEST, Math.abs(boundingBox.getMaxX() - islandMaxX));
+            }
+
+            if (boundingBox.getMaxZ() > islandMaxZ)
+            {
+                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - islandMaxZ));
+            }
         }
-        else
+
+        ChallengeResult result = this.searchForEntities(this.challenge.getRequiredEntities(), boundingBox);
+
+        if (result.meetsRequirements && !this.challenge.getRequiredBlocks().isEmpty())
         {
-            // Check for items or entities in the area
-
-            result = this.searchForEntities(this.challenge.getRequiredEntities(), this.challenge.getSearchRadius());
-
-            if (result.meetsRequirements && !this.challenge.getRequiredBlocks().isEmpty())
-            {
-                // Search for items only if entities found
-                result = this.searchForBlocks(this.challenge.getRequiredBlocks(), this.challenge.getSearchRadius());
-            }
-
-            if (result.meetsRequirements &&
-                this.challenge.isRemoveEntities() &&
-                !this.challenge.getRequiredEntities().isEmpty())
-            {
-                this.removeEntities();
-            }
-
-            if (result.meetsRequirements &&
-                this.challenge.isRemoveBlocks() &&
-                !this.challenge.getRequiredBlocks().isEmpty())
-            {
-                this.removeBlocks();
-            }
-
-            // Check if challenge is repeated.
-            result.setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
+            // Search for items only if entities found
+            result = this.searchForBlocks(this.challenge.getRequiredBlocks(), boundingBox);
         }
+
+        if (result.meetsRequirements &&
+            this.challenge.isRemoveEntities() &&
+            !this.challenge.getRequiredEntities().isEmpty())
+        {
+            this.removeEntities(boundingBox);
+        }
+
+        if (result.meetsRequirements &&
+            this.challenge.isRemoveBlocks() &&
+            !this.challenge.getRequiredBlocks().isEmpty())
+        {
+            this.removeBlocks(boundingBox);
+        }
+
+        // Check if challenge is repeated.
+        result.setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
 
         return result;
     }
 
 
     /**
-     * This method search required blocks in given radius from user position.
+     * This method search required blocks in given challenge boundingBox.
      * @param map RequiredBlock Map.
-     * @param searchRadius Search distance
+     * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForBlocks(Map<Material, Integer> map, int searchRadius)
+    private ChallengeResult searchForBlocks(Map<Material, Integer> map, BoundingBox boundingBox)
     {
         Map<Material, Integer> blocks = new EnumMap<>(map);
 
-        for (int x = -searchRadius; x <= searchRadius; x++)
+        if (blocks.isEmpty())
         {
-            for (int y = -searchRadius; y <= searchRadius; y++)
+            return new ChallengeResult().setMeetsRequirements();
+        }
+
+        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++)
+        {
+            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++)
             {
-                for (int z = -searchRadius; z <= searchRadius; z++)
+                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++)
                 {
-                    Material mat = this.user.getWorld().getBlockAt(this.user.getLocation().add(new Vector(x, y, z))).getType();
+                    Material mat = this.user.getWorld().getBlockAt(x, y, z).getType();
                     // Remove one
                     blocks.computeIfPresent(mat, (b, amount) -> amount - 1);
                     // Remove any that have an amount of 0
                     blocks.entrySet().removeIf(en -> en.getValue() <= 0);
+
+                    if (blocks.isEmpty())
+                    {
+                        // Return as soon as it s empty as no point to search more.
+                        return new ChallengeResult().setMeetsRequirements();
+                    }
                 }
             }
         }
@@ -765,7 +811,7 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements();
         }
 
-        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(searchRadius));
+        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(this.challenge.getSearchRadius()));
 
         blocks.forEach((k, v) -> user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(v),
@@ -776,19 +822,30 @@ public class TryToComplete
 
 
     /**
-     * This method search required entities in given radius from user position.
+     * This method search required entities in given radius from user position and entity is inside boundingBox.
      * @param map RequiredEntities Map.
-     * @param searchRadius Search distance
+     * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForEntities(Map<EntityType, Integer> map, int searchRadius)
+    private ChallengeResult searchForEntities(Map<EntityType, Integer> map, BoundingBox boundingBox)
     {
         Map<EntityType, Integer> entities = map.isEmpty() ? new EnumMap<>(EntityType.class) : new EnumMap<>(map);
 
+        if (entities.isEmpty())
+        {
+            return new ChallengeResult().setMeetsRequirements();
+        }
+
+        int searchRadius = this.challenge.getSearchRadius();
+
         this.user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
-            // Look through all the nearby Entities, filtering by type
-            entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
-            entities.entrySet().removeIf(e -> e.getValue() == 0);
+            // Check if entity is inside challenge bounding box
+            if (boundingBox.contains(entity.getBoundingBox()))
+            {
+                // Look through all the nearby Entities, filtering by type
+                entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
+                entities.entrySet().removeIf(e -> e.getValue() == 0);
+            }
         });
 
         if (entities.isEmpty())
@@ -806,19 +863,19 @@ public class TryToComplete
 
     /**
      * This method removes required block and set air instead of it.
+     * @param boundingBox Bounding box of island challenge
      */
-    private void removeBlocks()
+    private void removeBlocks(BoundingBox boundingBox)
     {
         Map<Material, Integer> blocks = new EnumMap<>(this.challenge.getRequiredBlocks());
-        int searchRadius = this.challenge.getSearchRadius();
 
-        for (int x = -searchRadius; x <= searchRadius; x++)
+        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++)
         {
-            for (int y = -searchRadius; y <= searchRadius; y++)
+            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++)
             {
-                for (int z = -searchRadius; z <= searchRadius; z++)
+                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++)
                 {
-                    Block block = this.user.getWorld().getBlockAt(this.user.getLocation().add(new Vector(x, y, z)));
+                    Block block = this.user.getWorld().getBlockAt(new Location(this.user.getWorld(), x, y, z));
 
                     if (blocks.containsKey(block.getType()))
                     {
@@ -835,8 +892,9 @@ public class TryToComplete
 
     /**
      * This method removes required entities.
+     * @param boundingBox Bounding box of island challenge
      */
-    private void removeEntities()
+    private void removeEntities(BoundingBox boundingBox)
     {
         Map<EntityType, Integer> entities = this.challenge.getRequiredEntities().isEmpty() ?
             new EnumMap<>(EntityType.class) : new EnumMap<>(this.challenge.getRequiredEntities());
@@ -846,7 +904,7 @@ public class TryToComplete
         this.user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
             // Look through all the nearby Entities, filtering by type
 
-            if (entities.containsKey(entity.getType()))
+            if (entities.containsKey(entity.getType()) && boundingBox.contains(entity.getBoundingBox()))
             {
                 entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
                 entities.entrySet().removeIf(e -> e.getValue() == 0);
