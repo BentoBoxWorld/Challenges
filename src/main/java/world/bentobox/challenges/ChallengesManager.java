@@ -1396,39 +1396,4 @@ public class ChallengesManager
             this.levelDatabase.deleteObject(challengeLevel);
         }
     }
-
-
-// ---------------------------------------------------------------------
-// Section: Fix world duplication issue.
-// ---------------------------------------------------------------------
-
-
-    /**
-     * This allows to fix player data issue when world name is duplicated.
-     * @deprecated Will be removed in 0.7.0 release.
-     */
-    @Deprecated
-    public void fixCorruptedPlayerData()
-    {
-        this.playersDatabase.loadObjects().forEach(playerData -> {
-            Map<String, Integer> completed = playerData.getChallengeStatus();
-            Map<String, Long> timeStamps = playerData.getChallengesTimestamp();
-
-            new ArrayList<>(completed.keySet()).forEach(challenge -> {
-                String correctName = challenge.replaceFirst("(\\w+)(?=(\\1))", "");
-                if (!correctName.isEmpty() && !correctName.equals(challenge))
-                {
-                    completed.put(correctName, completed.get(challenge));
-                    timeStamps.put(correctName, timeStamps.get(challenge));
-
-                    completed.remove(challenge);
-                    timeStamps.remove(challenge);
-                    this.addon.log("ChallengeString was modified " + challenge + " was changed to " + correctName);
-                }
-            });
-
-            this.playerCacheData.put(playerData.getUniqueId(), playerData);
-            this.savePlayerData(playerData.getUniqueId());
-        });
-    }
 }
