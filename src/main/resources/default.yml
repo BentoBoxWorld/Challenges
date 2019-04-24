@@ -2298,42 +2298,66 @@ challenges:
         v: 1631
         type: POTION
         amount: 1
-#        FIRE_RESISTANCE
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:FIRE_RESISTANCE
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        SLOWNESS
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:SLOWNESS
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        SPEED
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:speed
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        INSTANT_HEAL
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:INSTANT_HEAL
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        INSTANT_DAMAGE
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:INSTANT_DAMAGE
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        INVISIBILITY
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:INVISIBILITY
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        STRENGTH
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:STRENGTH
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
         type: POTION
         amount: 1
-#        REGEN
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:REGEN
     takeItems: true
     requiredExperience: 0
     takeExperience: false
