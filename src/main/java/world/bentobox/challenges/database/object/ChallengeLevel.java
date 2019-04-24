@@ -504,7 +504,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * @return ChallengeLevel that is cloned from current object.
      */
     @Override
-    protected ChallengeLevel clone()
+    public ChallengeLevel clone()
     {
         ChallengeLevel clone;
 
