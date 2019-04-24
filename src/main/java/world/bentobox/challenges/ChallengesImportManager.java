@@ -1,7 +1,9 @@
 package world.bentobox.challenges;
 
+import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import org.bukkit.Material;
@@ -11,7 +13,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
 
+import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.database.DatabaseConnector;
+import world.bentobox.bentobox.database.json.AbstractJSONDatabaseHandler;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.Challenge;
@@ -197,5 +203,231 @@ public class ChallengesImportManager
             }
         }
         return result;
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Default Challenge Loader
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This method loads default challenges into memory.
+     * @param user User who calls default challenge loading
+     * @param world Target world.
+     * @return <code>true</code> if everything was successful, otherwise <code>false</code>.
+     */
+    private boolean loadDefaultChallenges(User user, World world)
+    {
+        ChallengesManager manager = this.addon.getChallengesManager();
+
+        // If exist any challenge or level that is bound to current world, then do not load default challenges.
+        if (manager.hasAnyChallengeData(world.getName()))
+        {
+            if (user.isPlayer())
+            {
+                user.sendMessage("challenges.errors.exist-challenges-or-levels");
+            }
+            else
+            {
+                this.addon.logWarning("challenges.errors.exist-challenges-or-levels");
+            }
+
+            return false;
+        }
+
+        // Safe json configuration to Challenges folder.
+        this.addon.saveResource("default.json", true);
+
+        // Init Connector
+        CustomJSONConnector connector = new CustomJSONConnector();
+
+        // Load challenges
+        CustomJSONHandler<Challenge> challengeHandler =
+            new CustomJSONHandler<>(BentoBox.getInstance(), Challenge.class, connector);
+
+        // Load levels
+        CustomJSONHandler<ChallengeLevel> levelHandler =
+            new CustomJSONHandler<>(BentoBox.getInstance(), ChallengeLevel.class, connector);
+
+        try
+        {
+            challengeHandler.loadObjects().forEach(challenge -> manager.loadChallenge(challenge, false, user, false));
+            levelHandler.loadObjects().forEach(level -> manager.loadLevel(level, false, user, false));
+        }
+        catch (NoSuchMethodException |
+            ClassNotFoundException |
+            IllegalAccessException |
+            IntrospectionException |
+            InvocationTargetException |
+            InstantiationException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        this.addon.getChallengesManager().save();
+
+        // Remove default.yml file from resources to avoid interacting with it.
+        new File(this.addon.getDataFolder(), "default.json").delete();
+
+        return true;
+    }
+
+
+    /**
+     * This Class allows to load default challenges and their levels as objects much easier.
+     */
+    private final class CustomJSONHandler<T> extends AbstractJSONDatabaseHandler<T>
+    {
+        /**
+         * {@inheritDoc}
+         */
+        CustomJSONHandler(BentoBox plugin, Class<T> type, DatabaseConnector databaseConnector)
+        {
+            super(plugin, type, databaseConnector);
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public List<T> loadObjects() throws
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException,
+            ClassNotFoundException,
+            IntrospectionException,
+            NoSuchMethodException
+        {
+            return Collections.emptyList();
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public T loadObject(@NonNull String s) throws
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException,
+            ClassNotFoundException,
+            IntrospectionException,
+            NoSuchMethodException
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void saveObject(T t)
+            throws IllegalAccessException, InvocationTargetException, IntrospectionException
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void deleteObject(T t)
+            throws IllegalAccessException, InvocationTargetException, IntrospectionException
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean objectExists(String s)
+        {
+            // Will not be used in default challenge loading process.
+            return false;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void close()
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void deleteID(String s)
+        {
+            // Will not be used in default challenge loading process.
+        }
+    }
+
+
+    /**
+     * Simple custom connector used for importing default challenges
+     */
+    private final class CustomJSONConnector implements DatabaseConnector
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object createConnection()
+        {
+            return null;
+        }
+
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void closeConnection()
+        {
+
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getConnectionUrl()
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getUniqueId(String s)
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean uniqueIdExists(String s, String s1)
+        {
+            return false;
+        }
     }
 }
