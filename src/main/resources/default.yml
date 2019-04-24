@@ -1829,7 +1829,6 @@ challenges:
       type: SHEEP_SPAWN_EGG
     repeatMoneyReward: 1
     repeatRewardCommands: []
-  #MISSING
   eggcollector:
     friendlyName: Egg Collector
     description:
@@ -1859,59 +1858,26 @@ challenges:
     takeMoney: false
     requiredIslandLevel: 0
     searchRadius: 10
-    rewardText: These saplings will help you to get more trees
+    rewardText: Exchange eggs for some iron
     rewardItems:
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
-        type: SPRUCE_SAPLING
-        amount: 4
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: ACACIA_SAPLING
-        amount: 4
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: BIRCH_SAPLING
-        amount: 4
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: DARK_OAK_SAPLING
-        amount: 4
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: JUNGLE_SAPLING
-        amount: 4
+        type: IRON_ORE
+        amount: 24
     rewardExperience: 50
     rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeatRewardText: These saplings will help you to get more trees
+    repeatRewardText: Exchange eggs for some iron
     maxTimes: 100
     repeatExperienceReward: 5
     repeatItemReward:
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
-        type: SPRUCE_SAPLING
-        amount: 1
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: ACACIA_SAPLING
-        amount: 1
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: BIRCH_SAPLING
-        amount: 1
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: DARK_OAK_SAPLING
-        amount: 1
-      - ==: org.bukkit.inventory.ItemStack
-        v: 1631
-        type: JUNGLE_SAPLING
+        type: IRON_ORE
         amount: 1
     repeatMoneyReward: 0
     repeatRewardCommands: []
-  #MISSING
   milkcollector:
     friendlyName: Milk your cows
     description:
@@ -1941,7 +1907,7 @@ challenges:
     takeMoney: false
     requiredIslandLevel: 0
     searchRadius: 10
-    rewardText: Exchange milk to some useful iron
+    rewardText: Exchange milk to mooshrooms
     rewardItems:
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
@@ -1949,13 +1915,13 @@ challenges:
         amount: 9
       - ==: org.bukkit.inventory.ItemStack
         v: 1631
-        type: PARROT_SPAWN_EGG
+        type: MOOSHROOM_SPAWN_EGG
         amount: 2
     rewardExperience: 50
     rewardMoney: 0
     rewardCommands: []
     repeatable: true
-    repeatRewardText: These saplings will help you to get more trees
+    repeatRewardText: Exchange milk to some iron
     maxTimes: 100
     repeatExperienceReward: 5
     repeatItemReward:
@@ -1963,6 +1929,10 @@ challenges:
         v: 1631
         type: BUCKET
         amount: 9
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: IRON_INGOT
+        amount: 5
     repeatMoneyReward: 0
     repeatRewardCommands: []
   slimeballcollector:
@@ -2186,25 +2156,731 @@ challenges:
     repeatMoneyReward: 0
     repeatRewardCommands: []
   # Advanced Challenges
+  dj:
+    friendlyName: DJ
+    description:
+      - Craft a jukebox and collect all music discs
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MUSIC_DISC_CHIRP
+    order: 1
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: JUKEBOX
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_11
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_13
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_BLOCKS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_CAT
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_CHIRP
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_FAR
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_MALL
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_MELLOHI
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_STAL
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_STRAD
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_WAIT
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MUSIC_DISC_WARD
+        amount: 1
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Some diamonds and emeralds for your disks
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: EMERALD
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_INGOT
+        amount: 5
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: 'Diamond and some emeralds for your disks'
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: EMERALD
+        amount: 5
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_INGOT
+        amount: 2
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
 
-- dj
 - cheff
 - icefarmer
-- enderkiller
 - witherkiller
 - netherkiller
-- alchemist
-- goldage
-- advanced
+
+# TODO: alchemist will not work.
+  alchemist:
+    friendlyName: Alchemist
+    description:
+      - Brew some potions
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BREWING_STAND
+    order: 1
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        FIRE_RESISTANCE
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        SLOWNESS
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        SPEED
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        INSTANT_HEAL
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        INSTANT_DAMAGE
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        INVISIBILITY
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        STRENGTH
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: POTION
+        amount: 1
+#        REGEN
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: There are never too much diamonds
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_ORE
+      amount: 4
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 5
+    repeatItemReward:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_ORE
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  goldage:
+    friendlyName: Gold Age
+    description:
+      - Craft Gold Tools and Armor
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GOLD_INGOT
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_AXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_HOE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_PICKAXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_SHOVEL
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_SWORD
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_BOOTS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_LEGGINGS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_CHESTPLATE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_HELMET
+        amount: 1
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your gold stuff to some diamond
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 32
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your gold stuff to diamond
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  advanced:
+    friendlyName: Advanced Island
+    description:
+      - Reach 500th level of island.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: BLUE_CONCRETE
+    order: 6
+    challengeType: OTHER
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 500
+    searchRadius: 10
+    rewardText: Get some extra diamonds and some shulker shells
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 20
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_SHELL
+        amount: 5
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
   # Elite Challenges
 - engineer
 - beaconator
-- diamondage
-- endbuster
 - zoomaker
-- glassmaker
-- terracotamaker
-- elite
+- enderkiller
+
+  terracottamaker:
+    friendlyName: Terracotta maker
+    description:
+      - Smelt some clay into terracotta
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: TERRACOTTA
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: WHITE_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ORANGE_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MAGENTA_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_BLUE_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: YELLOW_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIME_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PINK_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GRAY_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_GRAY_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CYAN_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PURPLE_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLUE_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BROWN_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GREEN_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: RED_TERRACOTTA
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLACK_TERRACOTTA
+        amount: 10
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your terracotta to shulker box
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_BOX
+        amount: 1
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your terracotta to shulker shell
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_SHELL
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  glassmaker:
+    friendlyName: Glass maker
+    description:
+      - Craft and collect all colors of glass
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: GLASS
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: WHITE_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: ORANGE_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: MAGENTA_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_BLUE_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: YELLOW_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIME_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PINK_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GRAY_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: LIGHT_GRAY_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: CYAN_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: PURPLE_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLUE_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BROWN_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GREEN_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: RED_STAINED_GLASS
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: BLACK_STAINED_GLASS
+        amount: 10
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your glass to shulker box
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_BOX
+        amount: 1
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your glass to shulker shell
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_SHELL
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  visitend:
+    friendlyName: Visit the End
+    description:
+    - Is there something even after the end?
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: END_STONE
+    order: 3
+    challengeType: ISLAND
+    environment:
+    - THE_END
+    removeWhenCompleted: true
+    requiredPermissions: []
+    requiredBlocks:
+      NETHERRACK: 1
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 20
+    rewardText: Some diaond and elytra for your efforts.
+    rewardItems:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND_ORE
+      amount: 16
+    - ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: ELYTRA
+      amount: 1
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  diamondage:
+    friendlyName: Diamond Age
+    description:
+      - Craft Diamond Tools and Armor
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: DIAMOND
+    order: 4
+    challengeType: INVENTORY
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_AXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_HOE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_PICKAXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_SHOVEL
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_SWORD
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_BOOTS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_LEGGINGS
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_CHESTPLATE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: GOLD_HELMET
+        amount: 1
+    takeItems: true
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 0
+    searchRadius: 10
+    rewardText: Exchange your diamond stuff to some shulker boxes
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_BOX
+        amount: 3
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: true
+    repeatRewardText: Exchange your diamond stuff to shulker shell
+    maxTimes: 100
+    repeatExperienceReward: 5
+    repeatItemReward:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_SHELL
+        amount: 1
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
+  elite:
+    friendlyName: Elite Island
+    description:
+      - Reach 10 000th level of island.
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      v: 1631
+      type: MAGENTA_CONCRETE
+    order: 6
+    challengeType: OTHER
+    environment: []
+    removeWhenCompleted: false
+    requiredPermissions: []
+    requiredBlocks: {}
+    removeBlocks: false
+    requiredEntities: {}
+    removeEntities: false
+    requiredItems: {}
+    takeItems: false
+    requiredExperience: 0
+    takeExperience: false
+    requiredMoney: 0
+    takeMoney: false
+    requiredIslandLevel: 10000
+    searchRadius: 10
+    rewardText: Get some extra diamonds and some shulker boxes
+    rewardItems:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: DIAMOND
+        amount: 64
+      - ==: org.bukkit.inventory.ItemStack
+        v: 1631
+        type: SHULKER_BOX
+        amount: 5
+    rewardExperience: 50
+    rewardMoney: 0
+    rewardCommands: []
+    repeatable: false
+    repeatRewardText: ''
+    maxTimes: 0
+    repeatExperienceReward: 0
+    repeatItemReward: []
+    repeatMoneyReward: 0
+    repeatRewardCommands: []
 
 # List of default levels.
 levels:
