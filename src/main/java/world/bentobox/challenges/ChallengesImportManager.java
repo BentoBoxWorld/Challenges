@@ -2,6 +2,7 @@ package world.bentobox.challenges;
 
 import java.beans.IntrospectionException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -18,6 +19,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.database.DatabaseConnector;
 import world.bentobox.bentobox.database.json.AbstractJSONDatabaseHandler;
+import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.Challenge;
@@ -372,13 +374,37 @@ public class ChallengesImportManager
         {
             // Will not be used in default challenge loading process.
         }
+
+
+        /**
+         * This method returns json object that is parsed to string. Json object is made from given instance.
+         * @param instance Instance that must be parsed to json string.
+         * @return String that contains JSON information from instance object.
+         */
+        public String toJsonString(T instance)
+        {
+            // Null check
+            if (instance == null)
+            {
+                plugin.logError("JSON database request to store a null. ");
+                return null;
+            }
+
+            if (!(instance instanceof DataObject))
+            {
+                plugin.logError("This class is not a DataObject: " + instance.getClass().getName());
+                return null;
+            }
+
+            return this.getGson().toJson(instance);
+        }
     }
 
 
     /**
      * Simple custom connector used for importing default challenges
      */
-    private final class CustomJSONConnector implements DatabaseConnector
+    private final static class CustomJSONConnector implements DatabaseConnector
     {
         /**
          * {@inheritDoc}
@@ -390,14 +416,12 @@ public class ChallengesImportManager
         }
 
 
-
         /**
          * {@inheritDoc}
          */
         @Override
         public void closeConnection()
         {
-
         }
 
 
@@ -428,6 +452,88 @@ public class ChallengesImportManager
         public boolean uniqueIdExists(String s, String s1)
         {
             return false;
+        }
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Default generation
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * Create method that can generate default challenge file from existing challenges in given world.
+     * This method will create default.json file in Challenges folder.
+     * @param world from which challenges must be stored.
+     */
+    public void generateDefaultChallengeFile(World world)
+    {
+        File defaultFile = new File(BentoBox.getInstance().getDataFolder() + "/addons/Challenges", "default.json");
+
+        try
+        {
+            if (defaultFile.createNewFile())
+            {
+                String replacementString = Util.getWorld(world).getName() + "_";
+                ChallengesManager manager = this.addon.getChallengesManager();
+
+                // Store all challenges to single file
+                List<Challenge> challengeList = manager.getAllChallenges(world);
+
+                CustomJSONHandler<Challenge> generateChallengeJSON =
+                    new CustomJSONHandler<>(BentoBox.getInstance(), Challenge.class, new CustomJSONConnector());
+
+                StringBuilder outputString = new StringBuilder();
+                outputString.append("{\"challenges\": [");
+
+                // Populate all challenges
+                for (int i = 0, size = challengeList.size(); i < size; i++)
+                {
+                    Challenge clone = challengeList.get(i).clone();
+
+                    clone.setUniqueId(clone.getUniqueId().replaceFirst(replacementString, ""));
+                    clone.setLevel(clone.getLevel().replaceFirst(replacementString, ""));
+
+                    if (i != 0)
+                    {
+                        outputString.append(",");
+                    }
+
+                    outputString.append(generateChallengeJSON.toJsonString(clone));
+                }
+
+                outputString.append("],\"levels\": [");
+
+                // Populate all levels
+                List<ChallengeLevel> levelList = manager.getLevels(world);
+                CustomJSONHandler<ChallengeLevel> generateLevelJSON =
+                    new CustomJSONHandler<>(BentoBox.getInstance(), ChallengeLevel.class, new CustomJSONConnector());
+
+                for (int i = 0, size = levelList.size(); i < size; i++)
+                {
+                    ChallengeLevel clone = levelList.get(i).clone();
+                    clone.setUniqueId(clone.getUniqueId().replaceFirst(replacementString, ""));
+                    clone.getChallenges().forEach(challenge -> challenge = challenge.replaceFirst(replacementString, ""));
+                    clone.setWorld("");
+
+                    if (i != 0)
+                    {
+                        outputString.append(",");
+                    }
+
+                    outputString.append(generateLevelJSON.toJsonString(clone));
+                }
+
+                // Add version string
+                outputString.append("],\"version\": \"").append(this.addon.getDescription().getVersion()).append("\"}");
+
+                // Store to file.
+                new FileWriter(defaultFile).write(outputString.toString());
+            }
+        }
+        catch (IOException e)
+        {
+            this.addon.logError("Could not save json file: " + e.getMessage());
         }
     }
 }
