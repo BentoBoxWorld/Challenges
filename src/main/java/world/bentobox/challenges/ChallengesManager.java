@@ -1396,4 +1396,36 @@ public class ChallengesManager
             this.levelDatabase.deleteObject(challengeLevel);
         }
     }
+
+
+    /**
+     * This method returns if in given world has any stored challenge or level.
+     * @param world World that needs to be checked
+     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
+     */
+    public boolean hasAnyChallengeData(@NonNull World world)
+    {
+        world = Util.getWorld(world);
+
+        if (world == null)
+        {
+            return false;
+        }
+
+        return this.hasAnyChallengeData(world.getName());
+    }
+
+
+    /**
+     * This method returns if in given world has any stored challenge or level.
+     * @param worldName World name that needs to be checked
+     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
+     */
+    public boolean hasAnyChallengeData(@NonNull String worldName)
+    {
+        return this.challengeDatabase.loadObjects().stream().anyMatch(
+            challenge -> challenge.getUniqueId().startsWith(worldName)) ||
+            this.levelDatabase.loadObjects().stream().anyMatch(
+                level -> level.getUniqueId().startsWith(worldName));
+    }
 }
