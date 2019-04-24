@@ -696,15 +696,8 @@ public class TryToComplete
      */
     private ChallengeResult checkSurrounding()
     {
-        Location playerLocation = this.user.getLocation();
-
         // Init location in player position.
-        BoundingBox boundingBox = new BoundingBox(playerLocation.getBlockX(),
-            playerLocation.getBlockY(),
-            playerLocation.getBlockZ(),
-            playerLocation.getBlockX(),
-            playerLocation.getBlockY(),
-            playerLocation.getBlockZ());
+        BoundingBox boundingBox = this.user.getPlayer().getBoundingBox().clone();
 
         // Expand position with search radius.
         boundingBox.expand(this.challenge.getSearchRadius());
