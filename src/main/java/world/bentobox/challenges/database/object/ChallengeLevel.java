@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
@@ -495,5 +496,41 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
         {
             return uniqueId.equals(other.uniqueId);
         }
+    }
+
+
+    /**
+     * Clone method that returns clone of current challengeLevel.
+     * @return ChallengeLevel that is cloned from current object.
+     */
+    @Override
+    protected ChallengeLevel clone()
+    {
+        ChallengeLevel clone;
+
+        try
+        {
+            clone = (ChallengeLevel) super.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            clone = new ChallengeLevel();
+            clone.setUniqueId(this.uniqueId);
+            clone.setFriendlyName(this.friendlyName);
+            clone.setIcon(this.icon.clone());
+            clone.setLockedIcon(this.lockedIcon != null ? this.lockedIcon.clone() : null);
+            clone.setWorld(this.world);
+            clone.setOrder(this.order);
+            clone.setWaiverAmount(this.waiverAmount);
+            clone.setUnlockMessage(this.unlockMessage);
+            clone.setRewardText(this.rewardText);
+            clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone).collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
+            clone.setRewardExperience(this.rewardExperience);
+            clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
+            clone.setChallenges(new HashSet<>(this.challenges));
+        }
+
+        return clone;
     }
 }
