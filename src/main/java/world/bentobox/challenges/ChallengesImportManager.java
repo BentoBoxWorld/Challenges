@@ -257,12 +257,7 @@ public class ChallengesImportManager
             challengeHandler.loadObjects().forEach(challenge -> manager.loadChallenge(challenge, false, user, false));
             levelHandler.loadObjects().forEach(level -> manager.loadLevel(level, false, user, false));
         }
-        catch (NoSuchMethodException |
-            ClassNotFoundException |
-            IllegalAccessException |
-            IntrospectionException |
-            InvocationTargetException |
-            InstantiationException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return false;
@@ -277,185 +272,6 @@ public class ChallengesImportManager
     }
 
 
-    /**
-     * This Class allows to load default challenges and their levels as objects much easier.
-     */
-    private final class CustomJSONHandler<T> extends AbstractJSONDatabaseHandler<T>
-    {
-        /**
-         * {@inheritDoc}
-         */
-        CustomJSONHandler(BentoBox plugin, Class<T> type, DatabaseConnector databaseConnector)
-        {
-            super(plugin, type, databaseConnector);
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public List<T> loadObjects() throws
-            InstantiationException,
-            IllegalAccessException,
-            InvocationTargetException,
-            ClassNotFoundException,
-            IntrospectionException,
-            NoSuchMethodException
-        {
-            return Collections.emptyList();
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public T loadObject(@NonNull String s) throws
-            InstantiationException,
-            IllegalAccessException,
-            InvocationTargetException,
-            ClassNotFoundException,
-            IntrospectionException,
-            NoSuchMethodException
-        {
-            return null;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void saveObject(T t)
-            throws IllegalAccessException, InvocationTargetException, IntrospectionException
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void deleteObject(T t)
-            throws IllegalAccessException, InvocationTargetException, IntrospectionException
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean objectExists(String s)
-        {
-            // Will not be used in default challenge loading process.
-            return false;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void close()
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void deleteID(String s)
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * This method returns json object that is parsed to string. Json object is made from given instance.
-         * @param instance Instance that must be parsed to json string.
-         * @return String that contains JSON information from instance object.
-         */
-        public String toJsonString(T instance)
-        {
-            // Null check
-            if (instance == null)
-            {
-                plugin.logError("JSON database request to store a null. ");
-                return null;
-            }
-
-            if (!(instance instanceof DataObject))
-            {
-                plugin.logError("This class is not a DataObject: " + instance.getClass().getName());
-                return null;
-            }
-
-            return this.getGson().toJson(instance);
-        }
-    }
-
-
-    /**
-     * Simple custom connector used for importing default challenges
-     */
-    private final static class CustomJSONConnector implements DatabaseConnector
-    {
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object createConnection()
-        {
-            return null;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void closeConnection()
-        {
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getConnectionUrl()
-        {
-            return null;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getUniqueId(String s)
-        {
-            return null;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean uniqueIdExists(String s, String s1)
-        {
-            return false;
-        }
-    }
-
-
     // ---------------------------------------------------------------------
     // Section: Default generation
     // ---------------------------------------------------------------------
@@ -466,7 +282,8 @@ public class ChallengesImportManager
      * This method will create default.json file in Challenges folder.
      * @param world from which challenges must be stored.
      */
-    public void generateDefaultChallengeFile(World world)
+    @SuppressWarnings("unused")
+    private void generateDefaultChallengeFile(World world)
     {
         File defaultFile = new File(BentoBox.getInstance().getDataFolder() + "/addons/Challenges", "default.json");
 
@@ -534,6 +351,178 @@ public class ChallengesImportManager
         catch (IOException e)
         {
             this.addon.logError("Could not save json file: " + e.getMessage());
+        }
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Private classes for default challegnes
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * This Class allows to load default challenges and their levels as objects much easier.
+     */
+    private final class CustomJSONHandler<T> extends AbstractJSONDatabaseHandler<T>
+    {
+        /**
+         * {@inheritDoc}
+         */
+        CustomJSONHandler(BentoBox plugin, Class<T> type, DatabaseConnector databaseConnector)
+        {
+            super(plugin, type, databaseConnector);
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public List<T> loadObjects()
+        {
+            return Collections.emptyList();
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public T loadObject(@NonNull String s)
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void saveObject(T t)
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void deleteObject(T t)
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean objectExists(String s)
+        {
+            // Will not be used in default challenge loading process.
+            return false;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void close()
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void deleteID(String s)
+        {
+            // Will not be used in default challenge loading process.
+        }
+
+
+        /**
+         * This method returns json object that is parsed to string. Json object is made from given instance.
+         * @param instance Instance that must be parsed to json string.
+         * @return String that contains JSON information from instance object.
+         */
+        public String toJsonString(T instance)
+        {
+            // Null check
+            if (instance == null)
+            {
+                plugin.logError("JSON database request to store a null. ");
+                return null;
+            }
+
+            if (!(instance instanceof DataObject))
+            {
+                plugin.logError("This class is not a DataObject: " + instance.getClass().getName());
+                return null;
+            }
+
+            return this.getGson().toJson(instance);
+        }
+    }
+
+
+    /**
+     * Empty JSON connector. It is used just because it is necessary for AbstractJSONDatabaseHandler.
+     * UniqueIDs will always be unique, as default challenges will be implemented only if there
+     * does not exist any challenge in targeted world.
+     */
+    private final static class CustomJSONConnector implements DatabaseConnector
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object createConnection()
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void closeConnection()
+        {
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getConnectionUrl()
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getUniqueId(String s)
+        {
+            return null;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean uniqueIdExists(String s, String s1)
+        {
+            return false;
         }
     }
 }
