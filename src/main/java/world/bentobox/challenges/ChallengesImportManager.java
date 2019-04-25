@@ -1,12 +1,14 @@
 package world.bentobox.challenges;
 
-import java.beans.IntrospectionException;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,11 +16,10 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.eclipse.jdt.annotation.NonNull;
+import org.bukkit.potion.PotionEffectType;
 
-import world.bentobox.bentobox.BentoBox;
-import world.bentobox.bentobox.database.DatabaseConnector;
-import world.bentobox.bentobox.database.json.AbstractJSONDatabaseHandler;
+import world.bentobox.bentobox.api.flags.Flag;
+import world.bentobox.bentobox.database.json.adapters.*;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
@@ -219,6 +220,7 @@ public class ChallengesImportManager
      * @param world Target world.
      * @return <code>true</code> if everything was successful, otherwise <code>false</code>.
      */
+	@SuppressWarnings("unused")
     private boolean loadDefaultChallenges(User user, World world)
     {
         ChallengesManager manager = this.addon.getChallengesManager();
@@ -241,21 +243,11 @@ public class ChallengesImportManager
         // Safe json configuration to Challenges folder.
         this.addon.saveResource("default.json", true);
 
-        // Init Connector
-        CustomJSONConnector connector = new CustomJSONConnector();
-
-        // Load challenges
-        CustomJSONHandler<Challenge> challengeHandler =
-            new CustomJSONHandler<>(BentoBox.getInstance(), Challenge.class, connector);
-
-        // Load levels
-        CustomJSONHandler<ChallengeLevel> levelHandler =
-            new CustomJSONHandler<>(BentoBox.getInstance(), ChallengeLevel.class, connector);
-
         try
         {
-            challengeHandler.loadObjects().forEach(challenge -> manager.loadChallenge(challenge, false, user, false));
-            levelHandler.loadObjects().forEach(level -> manager.loadLevel(level, false, user, false));
+        	DefaultDataHolder defaultChallenges = new DefaultJSONHandler(this.addon).loadObject();
+        	defaultChallenges.getChallengeList().forEach(challenge -> manager.loadChallenge(challenge, false, user, true));
+			defaultChallenges.getLevelList().forEach(level -> manager.loadLevel(level, false, user, true));
         }
         catch (Exception e)
         {
@@ -285,7 +277,7 @@ public class ChallengesImportManager
     @SuppressWarnings("unused")
     private void generateDefaultChallengeFile(World world)
     {
-        File defaultFile = new File(BentoBox.getInstance().getDataFolder() + "/addons/Challenges", "default.json");
+        File defaultFile = new File(this.addon.getDataFolder(), "default.json");
 
         try
         {
@@ -294,58 +286,25 @@ public class ChallengesImportManager
                 String replacementString = Util.getWorld(world).getName() + "_";
                 ChallengesManager manager = this.addon.getChallengesManager();
 
-                // Store all challenges to single file
-                List<Challenge> challengeList = manager.getAllChallenges(world);
+				List<Challenge> challengeList = manager.getAllChallenges(world).
+					stream().
+					map(Challenge::clone).
+					collect(Collectors.toList());
 
-                CustomJSONHandler<Challenge> generateChallengeJSON =
-                    new CustomJSONHandler<>(BentoBox.getInstance(), Challenge.class, new CustomJSONConnector());
+				List<ChallengeLevel> levelList = manager.getLevels(world).
+					stream().
+					map(ChallengeLevel::clone).
+					collect(Collectors.toList());
 
-                StringBuilder outputString = new StringBuilder();
-                outputString.append("{\"challenges\": [");
+				DefaultDataHolder defaultChallenges = new DefaultDataHolder();
+				defaultChallenges.setChallengeList(challengeList);
+				defaultChallenges.setLevelList(levelList);
+				defaultChallenges.setVersion(this.addon.getDescription().getVersion());
 
-                // Populate all challenges
-                for (int i = 0, size = challengeList.size(); i < size; i++)
-                {
-                    Challenge clone = challengeList.get(i).clone();
-
-                    clone.setUniqueId(clone.getUniqueId().replaceFirst(replacementString, ""));
-                    clone.setLevel(clone.getLevel().replaceFirst(replacementString, ""));
-
-                    if (i != 0)
-                    {
-                        outputString.append(",");
-                    }
-
-                    outputString.append(generateChallengeJSON.toJsonString(clone));
-                }
-
-                outputString.append("],\"levels\": [");
-
-                // Populate all levels
-                List<ChallengeLevel> levelList = manager.getLevels(world);
-                CustomJSONHandler<ChallengeLevel> generateLevelJSON =
-                    new CustomJSONHandler<>(BentoBox.getInstance(), ChallengeLevel.class, new CustomJSONConnector());
-
-                for (int i = 0, size = levelList.size(); i < size; i++)
-                {
-                    ChallengeLevel clone = levelList.get(i).clone();
-                    clone.setUniqueId(clone.getUniqueId().replaceFirst(replacementString, ""));
-                    clone.getChallenges().forEach(challenge -> challenge = challenge.replaceFirst(replacementString, ""));
-                    clone.setWorld("");
-
-                    if (i != 0)
-                    {
-                        outputString.append(",");
-                    }
-
-                    outputString.append(generateLevelJSON.toJsonString(clone));
-                }
-
-                // Add version string
-                outputString.append("],\"version\": \"").append(this.addon.getDescription().getVersion()).append("\"}");
-
-                // Store to file.
-                new FileWriter(defaultFile).write(outputString.toString());
+				BufferedWriter writer = new BufferedWriter(new FileWriter(defaultFile, false));
+				writer.write(Objects.requireNonNull(
+					new DefaultJSONHandler(this.addon).toJsonString(defaultChallenges)));
+				writer.close();
             }
         }
         catch (IOException e)
@@ -363,85 +322,28 @@ public class ChallengesImportManager
     /**
      * This Class allows to load default challenges and their levels as objects much easier.
      */
-    private final class CustomJSONHandler<T> extends AbstractJSONDatabaseHandler<T>
+	private final class DefaultJSONHandler
     {
-        /**
-         * {@inheritDoc}
-         */
-        CustomJSONHandler(BentoBox plugin, Class<T> type, DatabaseConnector databaseConnector)
+		/**
+		 * This constructor inits JSON builder that will be used to parese challenges.
+		 * @param addon Challenges Adddon
+		 */
+		DefaultJSONHandler(ChallengesAddon addon)
         {
-            super(plugin, type, databaseConnector);
-        }
+			GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().enableComplexMapKeySerialization();
+			// Register adapters
+			builder.registerTypeAdapter(Location.class, new LocationAdapter()) ;
+			builder.registerTypeAdapter(World.class, new WorldAdapter());
+			builder.registerTypeAdapter(Flag.class, new FlagAdapter(addon.getPlugin()));
+			builder.registerTypeAdapter(PotionEffectType.class, new PotionEffectTypeAdapter());
+			builder.registerTypeAdapter(ItemStack.class, new ItemStackTypeAdapter());
+			// Keep null in the database
+			builder.serializeNulls();
+			// Allow characters like < or > without escaping them
+			builder.disableHtmlEscaping();
 
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public List<T> loadObjects()
-        {
-            return Collections.emptyList();
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public T loadObject(@NonNull String s)
-        {
-            return null;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void saveObject(T t)
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void deleteObject(T t)
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean objectExists(String s)
-        {
-            // Will not be used in default challenge loading process.
-            return false;
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void close()
-        {
-            // Will not be used in default challenge loading process.
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void deleteID(String s)
-        {
-            // Will not be used in default challenge loading process.
+			this.addon = addon;
+			this.gson = builder.create();
         }
 
 
@@ -450,79 +352,179 @@ public class ChallengesImportManager
          * @param instance Instance that must be parsed to json string.
          * @return String that contains JSON information from instance object.
          */
-        public String toJsonString(T instance)
+		String toJsonString(DefaultDataHolder instance)
         {
             // Null check
             if (instance == null)
             {
-                plugin.logError("JSON database request to store a null. ");
+                this.addon.logError("JSON database request to store a null. ");
                 return null;
             }
 
-            if (!(instance instanceof DataObject))
-            {
-                plugin.logError("This class is not a DataObject: " + instance.getClass().getName());
-                return null;
-            }
-
-            return this.getGson().toJson(instance);
+			return this.gson.toJson(instance);
         }
+
+
+		/**
+		 * This method creates and adds to list all objects from default.json file.
+		 * @return List of all objects from default.json that is with T instance.
+		 */
+		DefaultDataHolder loadObject()
+		{
+			File defaultFile = new File(this.addon.getDataFolder(), "default.json");
+
+			StringBuilder builder = new StringBuilder();
+
+			try
+			{
+				Files.readAllLines(defaultFile.toPath()).forEach(builder::append);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+
+
+			return this.gson.fromJson(builder.toString(), DefaultDataHolder.class);
+		}
+
+
+    	// ---------------------------------------------------------------------
+    	// Section: Variables
+    	// ---------------------------------------------------------------------
+
+
+		/**
+		 * Holds JSON builder object.
+		 */
+		private Gson gson;
+
+		/**
+		 * Holds ChallengesAddon object.
+		 */
+		private ChallengesAddon addon;
     }
 
 
-    /**
-     * Empty JSON connector. It is used just because it is necessary for AbstractJSONDatabaseHandler.
-     * UniqueIDs will always be unique, as default challenges will be implemented only if there
-     * does not exist any challenge in targeted world.
-     */
-    private final static class CustomJSONConnector implements DatabaseConnector
-    {
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object createConnection()
-        {
-            return null;
-        }
+	/**
+	 * This is simple object that will allow to store all current challenges and levels
+	 * in single file.
+	 */
+	private final class DefaultDataHolder implements DataObject
+	{
+		/**
+		 * Default constructor. Creates object with empty lists.
+		 */
+		DefaultDataHolder()
+		{
+			this.challengeList = Collections.emptyList();
+			this.challengeLevelList = Collections.emptyList();
+			this.version = "";
+		}
 
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void closeConnection()
-        {
-        }
+		/**
+		 * This method returns stored challenge list.
+		 * @return list that contains default challenges.
+		 */
+		public List<Challenge> getChallengeList()
+		{
+			return challengeList;
+		}
 
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getConnectionUrl()
-        {
-            return null;
-        }
+		/**
+		 * This method sets given list as default challenge list.
+		 * @param challengeList new default challenge list.
+		 */
+		public void setChallengeList(List<Challenge> challengeList)
+		{
+			this.challengeList = challengeList;
+		}
 
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getUniqueId(String s)
-        {
-            return null;
-        }
+		/**
+		 * This method returns list of default challenge levels.
+		 * @return List that contains default challenge levels.
+		 */
+		public List<ChallengeLevel> getLevelList()
+		{
+			return challengeLevelList;
+		}
 
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean uniqueIdExists(String s, String s1)
-        {
-            return false;
-        }
-    }
+		/**
+		 * This method sets given list as default challenge level list.
+		 * @param levelList new default challenge level list.
+		 */
+		public void setLevelList(List<ChallengeLevel> levelList)
+		{
+			this.challengeLevelList = levelList;
+		}
+
+
+		/**
+		 * This method returns the version value.
+		 * @return the value of version.
+		 */
+		public String getVersion()
+		{
+			return version;
+		}
+
+
+		/**
+		 * This method sets the version value.
+		 * @param version the version new value.
+		 *
+		 */
+		public void setVersion(String version)
+		{
+			this.version = version;
+		}
+
+
+		/**
+		 * @return default.json
+		 */
+		@Override
+		public String getUniqueId()
+		{
+			return "default.json";
+		}
+
+
+		/**
+		 * @param uniqueId - unique ID the uniqueId to set
+		 */
+		@Override
+		public void setUniqueId(String uniqueId)
+		{
+			// method not used.
+		}
+
+
+		// ---------------------------------------------------------------------
+		// Section: Variables
+		// ---------------------------------------------------------------------
+
+
+		/**
+		 * Holds a list with default challenges.
+		 */
+		@Expose
+		private List<Challenge> challengeList;
+
+		/**
+		 * Holds a list with default levels.
+		 */
+		@Expose
+		private List<ChallengeLevel> challengeLevelList;
+
+		/**
+		 * Holds a variable that stores in which addon version file was made.
+		 */
+		@Expose
+		private String version;
+	}
 }
