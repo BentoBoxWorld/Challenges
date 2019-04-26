@@ -103,6 +103,10 @@ public class EditLevelGUI extends CommonGUI
 
 		panelBuilder.item(44, this.returnButton);
 
+		// Save challenge level every time this gui is build.
+		// It will ensure that changes are stored in database.
+		this.addon.getChallengesManager().saveLevel(this.challengeLevel);
+
 		panelBuilder.build();
 	}
 
@@ -422,14 +426,15 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", "|" + this.challengeLevel.getUnlockMessage()));
 				icon = new ItemStack(Material.WRITABLE_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challengeLevel.getUnlockMessage(),
-						(player, reply) -> {
-							this.challengeLevel.setUnlockMessage(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challengeLevel.getUnlockMessage(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setUnlockMessage(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;
@@ -492,14 +497,15 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", "|" + this.challengeLevel.getRewardText()));
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challengeLevel.getRewardText(),
-						(player, reply) -> {
-							this.challengeLevel.setRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challengeLevel.getRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;

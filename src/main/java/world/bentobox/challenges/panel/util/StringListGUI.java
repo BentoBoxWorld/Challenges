@@ -30,6 +30,12 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class StringListGUI
 {
+	public StringListGUI(User user, String value, int lineLength, BiConsumer<Boolean, List<String>> consumer)
+	{
+		this(user, Collections.singleton(value), lineLength, consumer);
+	}
+
+
 	public StringListGUI(User user, Collection<String> value, int lineLength, BiConsumer<Boolean, List<String>> consumer)
 	{
 		this(user, new ArrayList<>(value), lineLength, consumer);

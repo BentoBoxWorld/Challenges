@@ -7,6 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -115,6 +116,10 @@ public class EditChallengeGUI extends CommonGUI
 		}
 
 		panelBuilder.item(44, this.returnButton);
+
+		// Every time when this GUI is build, save challenge
+		// This will ensure that all main things will be always stored
+		this.addon.getChallengesManager().saveChallenge(this.challenge);
 
 		panelBuilder.build();
 	}
@@ -917,14 +922,14 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challenge.getRewardText(),
-						(player, reply) -> {
-							this.challenge.setRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challenge.getRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -1114,14 +1119,14 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challenge.getRepeatRewardText(),
-						(player, reply) -> {
-							this.challenge.setRepeatRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challenge.getRepeatRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
