@@ -824,27 +824,19 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Long.toString(this.challenge.getRequiredIslandLevel())));
 
-				if (this.addon.isLevelProvided())
-				{
-					icon = new ItemStack(Material.BEACON);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRequiredIslandLevel(value);
-							}
+				icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRequiredIslandLevel(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -857,26 +849,18 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Long.toString(this.challenge.getRequiredIslandLevel())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRequiredMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRequiredMoney(value);
+						}
 
-							this.build();
-						});
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+						this.build();
+					});
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -892,21 +876,13 @@ public class EditChallengeGUI extends CommonGUI
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.LEVER);
-					clickHandler = (panel, user, clickType, slot) -> {
-						this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
 
-						this.build();
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					this.build();
+					return true;
+				};
 
 				glow = this.challenge.isTakeMoney();
 				break;
@@ -1009,27 +985,20 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challenge.getRewardMoney())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRewardMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardMoney(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
+
 
 				glow = false;
 				break;
@@ -1207,31 +1176,23 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challenge.getRepeatMoneyReward())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_NUGGET);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user,
-							this.challenge.getRepeatMoneyReward(),
-							0,
-							lineLength,
-							(status, value) -> {
-								if (status)
-								{
-									this.challenge.setRepeatMoneyReward(value);
-								}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user,
+						this.challenge.getRepeatMoneyReward(),
+						0,
+						lineLength,
+						(status, value) -> {
+							if (status)
+							{
+								this.challenge.setRepeatMoneyReward(value);
+							}
 
-								this.build();
-							});
+							this.build();
+						});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;

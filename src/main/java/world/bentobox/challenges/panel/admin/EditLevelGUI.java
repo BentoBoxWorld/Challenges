@@ -584,27 +584,19 @@ public class EditLevelGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challengeLevel.getRewardMoney())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challengeLevel.setRewardMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setRewardMoney(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;
