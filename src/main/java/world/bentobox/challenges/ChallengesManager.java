@@ -133,7 +133,8 @@ public class ChallengesManager
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
-        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
+        // It is not necessary to load all players in memory.
+//        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
 
 
@@ -150,7 +151,8 @@ public class ChallengesManager
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
-        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
+        // It is not necessary to load all players in memory.
+//        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
 
 
@@ -304,6 +306,28 @@ public class ChallengesManager
     }
 
 
+    /**
+     * This method removes given player from cache data.
+     * @param playerID player ID which cache data must be removed.
+     */
+    public void removeFromCache(UUID playerID)
+    {
+        if (!this.settings.isStoreAsIslandData())
+        {
+            if (this.playerCacheData.containsKey(playerID.toString()))
+            {
+                // save before remove
+                this.savePlayerData(playerID.toString());
+                this.playerCacheData.remove(playerID.toString());
+            }
+        }
+
+        // TODO: It would be necessary to remove also data, if they stores islands.
+        // Unfortunately, I do not know all worlds. Checking everything would be bad. Probably, I could
+        // add extra map that links players with their cached island data?
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Other storing related methods
     // ---------------------------------------------------------------------
@@ -356,17 +380,17 @@ public class ChallengesManager
         // The player is not in the cache
         // Check if the player exists in the database
 
-        if (this.playersDatabase.objectExists(uniqueID.toString()))
+        if (this.playersDatabase.objectExists(uniqueID))
         {
             // Load player from database
-            ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID.toString());
+            ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID);
             // Store in cache
             this.playerCacheData.put(uniqueID, data);
         }
         else
         {
             // Create the player data
-            ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID.toString());
+            ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID);
             this.playersDatabase.saveObject(pd);
             // Add to cache
             this.playerCacheData.put(uniqueID, pd);
