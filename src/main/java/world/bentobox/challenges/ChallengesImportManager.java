@@ -245,9 +245,36 @@ public class ChallengesImportManager
 
         try
         {
+        	// This prefix will be used to all challenges. That is a unique way how to separate challenged for
+			// each game mode.
+			String uniqueIDPrefix = Util.getWorld(world).getName() + "_";
         	DefaultDataHolder defaultChallenges = new DefaultJSONHandler(this.addon).loadObject();
-        	defaultChallenges.getChallengeList().forEach(challenge -> manager.loadChallenge(challenge, false, user, true));
-			defaultChallenges.getLevelList().forEach(level -> manager.loadLevel(level, false, user, true));
+
+        	// All new challenges should get correct ID. So we need to map it to loaded challenges.
+        	defaultChallenges.getChallengeList().parallelStream().forEach(challenge -> {
+        		// Set correct challenge ID
+        		challenge.setUniqueId(uniqueIDPrefix + challenge.getUniqueId());
+				// Set up correct level ID if it is necessary
+        		if (!challenge.getLevel().isEmpty())
+				{
+					challenge.setLevel(uniqueIDPrefix + challenge.getLevel());
+				}
+				// Load challenge in memory
+				manager.loadChallenge(challenge, false, user, user == null);
+			});
+
+			defaultChallenges.getLevelList().parallelStream().forEach(challengeLevel -> {
+				// Set correct level ID
+				challengeLevel.setUniqueId(uniqueIDPrefix + challengeLevel.getUniqueId());
+				// Set correct world name
+				challengeLevel.setWorld(Util.getWorld(world).getName());
+				// Reset names for all challenges.
+				challengeLevel.setChallenges(challengeLevel.getChallenges().stream().
+					map(challenge -> uniqueIDPrefix + challenge).
+					collect(Collectors.toSet()));
+				// Load level in memory
+				manager.loadLevel(challengeLevel, false, user, user == null);
+			});
         }
         catch (Exception e)
         {
@@ -288,12 +315,34 @@ public class ChallengesImportManager
 
 				List<Challenge> challengeList = manager.getAllChallenges(world).
 					stream().
-					map(Challenge::clone).
+					map(challenge -> {
+						// Use clone to avoid any changes in existing challenges.
+						Challenge clone = challenge.clone();
+						// Remove world name from challenge id.
+						clone.setUniqueId(challenge.getUniqueId().replaceFirst(replacementString, ""));
+						// Remove world name from level id.
+						clone.setLevel(challenge.getLevel().replaceFirst(replacementString, ""));
+
+						return clone;
+					}).
 					collect(Collectors.toList());
 
 				List<ChallengeLevel> levelList = manager.getLevels(world).
 					stream().
-					map(ChallengeLevel::clone).
+					map(challengeLevel -> {
+						// Use clone to avoid any changes in existing levels.
+						ChallengeLevel clone = challengeLevel.clone();
+						// Remove world name from level ID.
+						clone.setUniqueId(challengeLevel.getUniqueId().replaceFirst(replacementString, ""));
+						// Remove world name.
+						clone.setWorld("");
+						// Challenges must be reassign, as they also contains world name.
+						clone.setChallenges(challengeLevel.getChallenges().stream().
+							map(challenge -> challenge.replaceFirst(replacementString, "")).
+							collect(Collectors.toSet()));
+
+						return clone;
+					}).
 					collect(Collectors.toList());
 
 				DefaultDataHolder defaultChallenges = new DefaultDataHolder();
