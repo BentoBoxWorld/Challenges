@@ -138,6 +138,23 @@ public class ChallengesManager
 
 
     /**
+     * Reload database. This method keeps cache memory.
+     */
+    public void reload()
+    {
+        this.addon.getLogger().info("Reloading challenges...");
+
+        this.challengeDatabase = new Database<>(addon, Challenge.class);
+        this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
+        this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
+
+        this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
+        this.levelDatabase.loadObjects().forEach(this::loadLevel);
+        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
+    }
+
+
+    /**
      * Load challenge silently. Used when loading.
      *
      * @param challenge Challenge that must be loaded.
@@ -386,7 +403,7 @@ public class ChallengesManager
      * This method saves given challenge object to database.
      * @param challenge object that must be saved
      */
-    private void saveChallenge(Challenge challenge)
+    public void saveChallenge(Challenge challenge)
     {
         this.challengeDatabase.saveObject(challenge);
     }
@@ -405,7 +422,7 @@ public class ChallengesManager
      * This method saves given level into database.
      * @param level object that must be saved
      */
-    private void saveLevel(ChallengeLevel level)
+    public void saveLevel(ChallengeLevel level)
     {
         this.levelDatabase.saveObject(level);
     }
