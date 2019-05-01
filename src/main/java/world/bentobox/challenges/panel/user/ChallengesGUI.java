@@ -73,10 +73,10 @@ public class ChallengesGUI extends CommonGUI
 	public void build()
 	{
 		// Do not open gui if there is no challenges.
-		if (this.challengesManager.getAllChallenges(this.world).isEmpty())
+		if (!this.challengesManager.hasAnyChallengeData(this.world))
 		{
 			this.addon.getLogger().severe("There are no challenges set up!");
-			this.user.sendMessage("general.errors.general");
+			this.user.sendMessage("challenges.errors.no-challenges");
 			return;
 		}
 

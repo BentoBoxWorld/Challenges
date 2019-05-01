@@ -358,6 +358,7 @@ challenges:
         exist-challenges-or-levels: '&cIn your world already exist challenges. Cannot proceed!'
         defaults-file-exist: '&cdefault.json already exists. Use overwrite mode to replace it!'
         defaults-file-error: '&cThere was an error while creating default.json file! Check console!'
+        no-challenges: '&cChallenges are not implemented in current world!'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
