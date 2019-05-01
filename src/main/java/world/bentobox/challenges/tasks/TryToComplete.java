@@ -26,6 +26,7 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -247,6 +248,17 @@ public class TryToComplete
                     }
                 }
             }
+
+            // sends title to player on challenge completion
+            if (this.addon.getChallengesSettings().isShowCompletionTitle())
+            {
+                this.user.getPlayer().sendTitle(
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"), this.challenge),
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"), this.challenge),
+                    10,
+                    this.addon.getChallengesSettings().getTitleShowtime(),
+                    20);
+            }
         }
         else
         {
@@ -322,6 +334,17 @@ public class TryToComplete
                     }
 
                     this.manager.setLevelComplete(this.user, this.world, level);
+
+                    // sends title to player on level completion
+                    if (this.addon.getChallengesSettings().isShowCompletionTitle())
+                    {
+                        this.user.getPlayer().sendTitle(
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
+                            10,
+                            this.addon.getChallengesSettings().getTitleShowtime(),
+                            20);
+                    }
                 }
             }
         }
@@ -979,6 +1002,52 @@ public class TryToComplete
         }
 
         return EMPTY_RESULT;
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Title parsings
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This method pareses input message by replacing all challenge variables in [] with their values.
+     * @param inputMessage inputMessage string
+     * @param challenge Challenge from which these values should be taken
+     * @return new String that replaces [VALUE] with correct value from challenge.
+     */
+    private String parseChallenge(String inputMessage, Challenge challenge)
+    {
+        String outputMessage = inputMessage;
+
+        if (inputMessage.contains("[") && inputMessage.contains("]"))
+        {
+            outputMessage = outputMessage.replace("[friendlyName]", challenge.getFriendlyName());
+            outputMessage = outputMessage.replace("[level]", challenge.getLevel().isEmpty() ? "" : this.manager.getLevel(challenge.getLevel()).getFriendlyName());
+            outputMessage = outputMessage.replace("[rewardText]", challenge.getRewardText());
+        }
+
+        return outputMessage;
+    }
+
+
+    /**
+     * This method pareses input message by replacing all level variables in [] with their values.
+     * @param inputMessage inputMessage string
+     * @param level level from which these values should be taken
+     * @return new String that replaces [VALUE] with correct value from level.
+     */
+    private String parseLevel(String inputMessage, ChallengeLevel level)
+    {
+        String outputMessage = inputMessage;
+
+        if (inputMessage.contains("[") && inputMessage.contains("]"))
+        {
+            outputMessage = outputMessage.replace("[friendlyName]", level.getFriendlyName());
+            outputMessage = outputMessage.replace("[rewardText]", level.getRewardText());
+        }
+
+        return outputMessage;
     }
 
 

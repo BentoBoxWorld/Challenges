@@ -151,6 +151,8 @@ challenges:
                 island-store: 'Store per Island'
                 default-locked-icon: 'Locked Level Icon'
                 input-mode: 'Switch input mode'
+                title-enable: 'Completion title'
+                title-showtime: 'Title Show Time'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -242,6 +244,8 @@ challenges:
                 edit-text-line: '&6 Edit text message!'
                 add-text-line: '&6 Add new text message!'
                 input-mode: 'Switch between chat and anvil input modes.'
+                title-enable: 'Allows to enable/disable title message that will be showed when player complete challenge.'
+                title-showtime: 'Allows to modify how long title message will be visible for player.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -291,6 +295,18 @@ challenges:
             money-reward: '&6Money reward: $[value]'
             reward-items: '&6Reward Items:'
             reward-commands: '&6Reward Commands:'
+    titles:
+#       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
+#       [friendlyName] will be replaced with challenge friendly name.
+#       [level] will be replaced with level friendly name.
+#       [rewardText] will be replaced with challenge reward text.
+        challenge-title: 'Successfully completed'
+        challenge-subtitle: '[friendlyName]'
+#       Title and subtitle my contain variable in [] that will be replaced with proper message from level object.
+#       [friendlyName] will be replaced with level friendly name.
+#       [rewardText] will be replaced with level reward text.
+        level-title: 'Successfully completed'
+        level-subtitle: '[friendlyName]'
     messages:
         admin:
             hit-things: 'Hit things to add them to the list of things required. Right click when done.'
