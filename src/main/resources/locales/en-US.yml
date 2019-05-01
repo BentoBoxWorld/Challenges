@@ -33,6 +33,15 @@ challenges:
             show:
                 description: 'This method prints in chat all challenges that exist in world.'
                 parameters: ''
+            defaults:
+                description: 'This method shows subcommands that allows to import/export default challenges.'
+                parameters: '[command]'
+            defaults-import:
+                description: 'This method allows to import default challenges.'
+                parameters: ''
+            defaults-generate:
+                description: 'This method allows to export existing challenges into default.json file.'
+                parameters: '[overwrite] - allows to overwrite existing file.'
         user:
             description: 'This method opens Challenges GUI.'
             parameters: ''
@@ -299,6 +308,8 @@ challenges:
         load-skipping: '"[value]" already exists - skipping'
         load-overwriting: 'Overwriting "[value]"'
         load-add: 'Adding new object: [value]'
+        defaults-file-overwrite: 'default.json exists. It will be overwritten.'
+        defaults-file-completed: 'defaults.json file is populated with challenges from [world]!'
     errors:
         no-name: '&cMissing challenge name'
         unknown-challenge: '&cUnknown challenge'
@@ -324,6 +335,9 @@ challenges:
         load-error: '&cError: Cannot load [value].'
         no-rank: "&cYou do not have rank to do that."
         cannot-remove-items: '&cSome items cannot be removed from inventory!'
+        exist-challenges-or-levels: '&cIn your world already exist challenges. Cannot proceed!'
+        defaults-file-exist: '&cdefault.json already exists. Use overwrite mode to replace it!'
+        defaults-file-error: '&cThere was an error while creating default.json file! Check console!'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
@@ -333,4 +347,4 @@ protection:
             description: "&5&oThis allows to enable/disable\n&5&orequirement for players to\n&5&obe on their island to\n&5&ocomplete a challenge."
             name: "Challenges Island limitation"
             hint: "No challenges outside island"
-version: 10
+version: 11

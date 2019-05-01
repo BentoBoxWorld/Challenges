@@ -220,8 +220,7 @@ public class ChallengesImportManager
      * @param world Target world.
      * @return <code>true</code> if everything was successful, otherwise <code>false</code>.
      */
-	@SuppressWarnings("unused")
-    private boolean loadDefaultChallenges(User user, World world)
+    public boolean loadDefaultChallenges(User user, World world)
     {
         ChallengesManager manager = this.addon.getChallengesManager();
 
@@ -299,12 +298,44 @@ public class ChallengesImportManager
     /**
      * Create method that can generate default challenge file from existing challenges in given world.
      * This method will create default.json file in Challenges folder.
+	 * @param user User who calls this method.
      * @param world from which challenges must be stored.
+	 * @param overwrite indicates if existing default.json file can be overwritten.
+	 * @return <code>true</code> if everything was successful, otherwise <code>false</code>
      */
-    @SuppressWarnings("unused")
-    private void generateDefaultChallengeFile(World world)
+    public boolean generateDefaultChallengeFile(User user, World world, boolean overwrite)
     {
         File defaultFile = new File(this.addon.getDataFolder(), "default.json");
+
+        if (defaultFile.exists())
+		{
+			if (overwrite)
+			{
+				if (user.isPlayer())
+				{
+					user.sendMessage("challenges.messages.defaults-file-overwrite");
+				}
+				else
+				{
+					this.addon.logWarning("challenges.messages.defaults-file-overwrite");
+				}
+
+				defaultFile.delete();
+			}
+			else
+			{
+				if (user.isPlayer())
+				{
+					user.sendMessage("challenges.errors.defaults-file-exist");
+				}
+				else
+				{
+					this.addon.logWarning("challenges.errors.defaults-file-exist");
+				}
+
+				return false;
+			}
+		}
 
         try
         {
@@ -358,9 +389,28 @@ public class ChallengesImportManager
         }
         catch (IOException e)
         {
-            this.addon.logError("Could not save json file: " + e.getMessage());
-        }
-    }
+			if (user.isPlayer())
+			{
+				user.sendMessage("challenges.errors.defaults-file-error");
+			}
+
+			this.addon.logError("Could not save json file: " + e.getMessage());
+			return false;
+		}
+        finally
+		{
+			if (user.isPlayer())
+			{
+				user.sendMessage("challenges.messages.defaults-file-completed", "[world]", world.getName());
+			}
+			else
+			{
+				this.addon.logWarning("challenges.messages.defaults-file-completed");
+			}
+		}
+
+		return true;
+	}
 
 
     // ---------------------------------------------------------------------
@@ -392,7 +442,7 @@ public class ChallengesImportManager
 			builder.disableHtmlEscaping();
 
 			this.addon = addon;
-			this.gson = builder.create();
+			this.gson = builder.setPrettyPrinting().create();
         }
 
 
