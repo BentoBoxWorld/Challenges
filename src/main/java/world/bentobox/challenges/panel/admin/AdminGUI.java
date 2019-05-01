@@ -56,7 +56,9 @@ public class AdminGUI extends CommonGUI
 		DELETE_CHALLENGE,
 		DELETE_LEVEL,
 		IMPORT_CHALLENGES,
-		EDIT_SETTINGS
+		EDIT_SETTINGS,
+		DEFAULT_IMPORT_CHALLENGES,
+		DEFAULT_EXPORT_CHALLENGES
 	}
 
 
@@ -111,6 +113,9 @@ public class AdminGUI extends CommonGUI
 
 		// Import Challenges
 		panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
+		panelBuilder.item(24, this.createButton(Button.DEFAULT_IMPORT_CHALLENGES));
+		// Not added as I do not think admins should use it. It still will be able via command.
+//		panelBuilder.item(33, this.createButton(Button.DEFAULT_EXPORT_CHALLENGES));
 
 		// Edit Addon Settings
 		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
@@ -363,6 +368,55 @@ public class AdminGUI extends CommonGUI
 					{
 						// Run import command.
 						this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + IMPORT +
+							(this.overwriteMode ? " overwrite" : ""));
+					}
+					return true;
+				};
+				glow = this.overwriteMode;
+
+				break;
+			}
+			case DEFAULT_IMPORT_CHALLENGES:
+			{
+				permissionSuffix = DEFAULT;
+
+				name = this.user.getTranslation("challenges.gui.buttons.admin.default-import");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.default-import");
+				icon = new ItemStack(Material.HOPPER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					if (clickType.isRightClick())
+					{
+						this.overwriteMode = !this.overwriteMode;
+						this.build();
+					}
+					else
+					{
+						// Run import command.
+						this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + IMPORT);
+					}
+					return true;
+				};
+				glow = false;
+
+				break;
+			}
+			case DEFAULT_EXPORT_CHALLENGES:
+			{
+				permissionSuffix = DEFAULT;
+
+				name = this.user.getTranslation("challenges.gui.buttons.admin.default-export");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.default-export");
+				icon = new ItemStack(Material.HOPPER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					if (clickType.isRightClick())
+					{
+						this.overwriteMode = !this.overwriteMode;
+						this.build();
+					}
+					else
+					{
+						// Run import command.
+						this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + GENERATE +
 							(this.overwriteMode ? " overwrite" : ""));
 					}
 					return true;
