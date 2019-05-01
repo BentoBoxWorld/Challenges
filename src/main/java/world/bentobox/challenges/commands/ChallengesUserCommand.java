@@ -40,8 +40,8 @@ public class ChallengesUserCommand extends CompositeCommand
 	{
 		this.setOnlyPlayer(true);
 		this.setPermission("challenges");
-		this.setParametersHelp("challenges.commands.user.parameters");
-		this.setDescription("challenges.commands.user.description");
+		this.setParametersHelp("challenges.commands.user.main.parameters");
+		this.setDescription("challenges.commands.user.main.description");
 	}
 
 

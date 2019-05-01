@@ -43,8 +43,12 @@ challenges:
                 description: 'This method allows to export existing challenges into default.json file.'
                 parameters: '[overwrite] - allows to overwrite existing file.'
         user:
-            description: 'This method opens Challenges GUI.'
-            parameters: ''
+            main:
+                description: 'This method opens Challenges GUI.'
+                parameters: ''
+            complete:
+                description: 'This method allows to complete challenge without GUI.'
+                parameters: '<challenge_id>'
     gui:
         title:
             admin:
