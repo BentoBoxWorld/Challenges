@@ -127,6 +127,13 @@ public class ChallengesManager
     {
         this.challengeCacheData.clear();
         this.levelCacheData.clear();
+
+        if (!this.playerCacheData.isEmpty())
+        {
+            // store player data before cleaning.
+            this.savePlayersData();
+        }
+
         this.playerCacheData.clear();
 
         this.addon.getLogger().info("Loading challenges...");
@@ -143,6 +150,12 @@ public class ChallengesManager
      */
     public void reload()
     {
+        if (!this.playerCacheData.isEmpty())
+        {
+            // store player data before cleaning.
+            this.savePlayersData();
+        }
+
         this.addon.getLogger().info("Reloading challenges...");
 
         this.challengeDatabase = new Database<>(addon, Challenge.class);
