@@ -217,8 +217,21 @@ public class ChallengesPlayerData implements DataObject
 	 */
 	public void setChallengeDone(@NonNull String challengeName)
 	{
-		int times = challengeStatus.getOrDefault(challengeName, 0) + 1;
-		challengeStatus.put(challengeName, times);
+		this.addChallengeDone(challengeName, 1);
+	}
+
+
+	/**
+	 * Mark a challenge as having been completed. Will increment the number of times and
+	 * timestamp
+	 *
+	 * @param challengeName - unique challenge name
+	 * @param times - how many new times should be added
+	 */
+	public void addChallengeDone(@NonNull String challengeName, int times)
+	{
+		int newTimes = challengeStatus.getOrDefault(challengeName, 0) + times;
+		challengeStatus.put(challengeName, newTimes);
 		challengesTimestamp.put(challengeName, System.currentTimeMillis());
 	}
 
