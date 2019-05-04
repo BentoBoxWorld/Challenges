@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.user;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
@@ -350,7 +351,9 @@ public class ChallengesGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
-			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
+			name(challenge.getFriendlyName().isEmpty() ?
+				challenge.getUniqueId() :
+				ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
@@ -474,7 +477,7 @@ public class ChallengesGUI extends CommonGUI
 
 		return new PanelItemBuilder().
 			icon(icon).
-			name(name).
+			name(ChatColor.translateAlternateColorCodes('&', name)).
 			description(description).
 			glow(glow).
 			clickHandler(clickHandler).
