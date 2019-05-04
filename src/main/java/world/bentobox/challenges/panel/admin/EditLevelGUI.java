@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
@@ -275,7 +276,7 @@ public class EditLevelGUI extends CommonGUI
 	private PanelItem createChallengeIcon(Challenge challenge)
 	{
 		return new PanelItemBuilder().
-			name(challenge.getFriendlyName()).
+			name(ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(
 				challenge.getDescription(),
 				this.addon.getChallengesSettings().getLoreLineLength())).

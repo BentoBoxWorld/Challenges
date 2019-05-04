@@ -4,10 +4,7 @@
 package world.bentobox.challenges.tasks;
 
 
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -1027,7 +1024,7 @@ public class TryToComplete
             outputMessage = outputMessage.replace("[rewardText]", challenge.getRewardText());
         }
 
-        return outputMessage;
+        return ChatColor.translateAlternateColorCodes('&', outputMessage);
     }
 
 
@@ -1047,7 +1044,7 @@ public class TryToComplete
             outputMessage = outputMessage.replace("[rewardText]", level.getRewardText());
         }
 
-        return outputMessage;
+        return ChatColor.translateAlternateColorCodes('&', outputMessage);
     }
 
 

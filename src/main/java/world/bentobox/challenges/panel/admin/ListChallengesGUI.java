@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import java.util.List;
@@ -133,7 +134,7 @@ public class ListChallengesGUI extends CommonGUI
 	private PanelItem createChallengeIcon(Challenge challenge)
 	{
 		PanelItemBuilder itemBuilder = new PanelItemBuilder().
-			name(challenge.getFriendlyName()).
+			name(ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			icon(challenge.getIcon()).
