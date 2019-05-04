@@ -20,6 +20,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
 
 
@@ -100,6 +101,10 @@ public abstract class CommonGUI
 	protected static final String CHALLENGES = "challenges";
 
 	protected static final String IMPORT = "import";
+
+	protected static final String DEFAULT = "default";
+
+	protected static final String GENERATE = "generate";
 
 	protected static final String SETTINGS = "settings";
 
@@ -239,7 +244,13 @@ public abstract class CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, description, false, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(description).
+			glow(false).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

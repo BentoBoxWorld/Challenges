@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.user;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
@@ -73,10 +74,10 @@ public class ChallengesGUI extends CommonGUI
 	public void build()
 	{
 		// Do not open gui if there is no challenges.
-		if (this.challengesManager.getAllChallenges(this.world).isEmpty())
+		if (!this.challengesManager.hasAnyChallengeData(this.world))
 		{
 			this.addon.getLogger().severe("There are no challenges set up!");
-			this.user.sendMessage("general.errors.general");
+			this.user.sendMessage("challenges.errors.no-challenges");
 			return;
 		}
 
@@ -349,7 +350,9 @@ public class ChallengesGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
-			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
+			name(challenge.getFriendlyName().isEmpty() ?
+				challenge.getUniqueId() :
+				ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
@@ -438,7 +441,13 @@ public class ChallengesGUI extends CommonGUI
 			glow = false;
 		}
 
-		return new PanelItem(icon, name, description, glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(ChatColor.translateAlternateColorCodes('&', name)).
+			description(description).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

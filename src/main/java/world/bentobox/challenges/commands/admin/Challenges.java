@@ -8,35 +8,44 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.panel.admin.AdminGUI;
 
 
-public class Challenges extends CompositeCommand {
+public class Challenges extends CompositeCommand
+{
 
     /**
      * Admin command for challenges
+     *
      * @param parent
      */
-    public Challenges(ChallengesAddon addon, CompositeCommand parent) {
+    public Challenges(ChallengesAddon addon, CompositeCommand parent)
+    {
         super(addon, parent, "challenges");
     }
 
+
     @Override
-    public void setup() {
+    public void setup()
+    {
         this.setPermission("admin.challenges");
         this.setParametersHelp("challenges.commands.admin.main.parameters");
         this.setDescription("challenges.commands.admin.main.description");
-        // Register sub commands
-        new ImportCommand(getAddon(), this);
-        // new CompleteChallenge(getAddon(), this);
-        new ReloadChallenges(getAddon(), this);
-        new ResetChallenge(getAddon(), this);
-        //new ShowChallenges(getAddon(), this);
-        //new CreateChallenge(getAddon(), this);
 
+        // Register sub commands
+
+        // This method reloads challenges addon
+        new ReloadChallenges(getAddon(), this);
+        // Import ASkyBlock Challenges
+        new ImportCommand(getAddon(), this);
+        // Defaults processing command
+        new DefaultsCommand(this.getAddon(), this);
     }
 
+
     @Override
-    public boolean execute(User user, String label, List<String> args) {
+    public boolean execute(User user, String label, List<String> args)
+    {
         // Open up the admin challenges GUI
-        if (user.isPlayer()) {
+        if (user.isPlayer())
+        {
             new AdminGUI((ChallengesAddon) this.getAddon(),
                 this.getWorld(),
                 user,
@@ -47,5 +56,4 @@ public class Challenges extends CompositeCommand {
         }
         return false;
     }
-
 }

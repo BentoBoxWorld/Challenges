@@ -144,6 +144,17 @@ public class Settings implements DataObject
 	private boolean broadcastMessages = true;
 
 	@ConfigComment("")
+	@ConfigComment("Shows a title screen for player after completion a challenge or level.")
+	@ConfigComment("Message can be edited via language settings.")
+	@ConfigEntry(path = "title.show-title")
+	private boolean showCompletionTitle = true;
+
+	@ConfigComment("")
+	@ConfigComment("Integer that represents how long title will be visible for player.")
+	@ConfigEntry(path = "title.title-showtime")
+	private int titleShowtime = 70;
+
+	@ConfigComment("")
 	@ConfigComment("This list stores GameModes in which Challenges addon should not work.")
 	@ConfigComment("To disable addon it is necessary to write its name in new line that starts with -. Example:")
 	@ConfigComment("disabled-gamemodes:")
@@ -161,7 +172,7 @@ public class Settings implements DataObject
 	 * Configuration version
 	 */
 	@ConfigComment("")
-	private String configVersion = "v2";
+	private String configVersion = "v3";
 
 
 // ---------------------------------------------------------------------
@@ -347,6 +358,48 @@ public class Settings implements DataObject
 	public ItemStack getLockedLevelIcon()
 	{
 		return lockedLevelIcon.clone();
+	}
+
+
+	/**
+	 * This method returns the showCompletionTitle object.
+	 * @return the showCompletionTitle object.
+	 */
+	public boolean isShowCompletionTitle()
+	{
+		return this.showCompletionTitle;
+	}
+
+
+	/**
+	 * This method returns the titleShowtime object.
+	 * @return the titleShowtime object.
+	 */
+	public int getTitleShowtime()
+	{
+		return this.titleShowtime;
+	}
+
+
+	/**
+	 * This method sets the titleShowtime object value.
+	 * @param titleShowtime the titleShowtime object new value.
+	 *
+	 */
+	public void setTitleShowtime(int titleShowtime)
+	{
+		this.titleShowtime = titleShowtime;
+	}
+
+
+	/**
+	 * This method sets the showCompletionTitle object value.
+	 * @param showCompletionTitle the showCompletionTitle object new value.
+	 *
+	 */
+	public void setShowCompletionTitle(boolean showCompletionTitle)
+	{
+		this.showCompletionTitle = showCompletionTitle;
 	}
 
 

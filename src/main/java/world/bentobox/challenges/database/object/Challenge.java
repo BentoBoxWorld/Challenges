@@ -1,12 +1,8 @@
 package world.bentobox.challenges.database.object;
 
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -1024,5 +1020,63 @@ public class Challenge implements DataObject
         {
             return uniqueId.equals(other.uniqueId);
         }
+    }
+
+
+    /**
+     * Clone method that returns clone of current challenge.
+     * @return Challenge that is cloned from current object.
+     */
+    @Override
+    public Challenge clone()
+    {
+        Challenge clone;
+
+        try
+        {
+            clone = (Challenge) super.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            clone = new Challenge();
+
+            clone.setUniqueId(this.uniqueId);
+            clone.setFriendlyName(this.friendlyName);
+            clone.setDeployed(this.deployed);
+            clone.setDescription(new ArrayList<>(this.description));
+            clone.setIcon(this.icon.clone());
+            clone.setOrder(this.order);
+            clone.setChallengeType(ChallengeType.valueOf(this.challengeType.name()));
+            clone.setEnvironment(new HashSet<>(this.environment));
+            clone.setLevel(this.level);
+            clone.setRemoveWhenCompleted(this.removeWhenCompleted);
+            clone.setRequiredPermissions(new HashSet<>(this.requiredPermissions));
+            clone.setRequiredBlocks(new HashMap<>(this.requiredBlocks));
+            clone.setRemoveBlocks(this.removeBlocks);
+            clone.setRequiredEntities(new HashMap<>(this.requiredEntities));
+            clone.setRemoveEntities(this.removeEntities);
+            clone.setRequiredItems(this.requiredItems.stream().map(ItemStack::clone).collect(Collectors.toCollection(() -> new ArrayList<>(this.requiredItems.size()))));
+            clone.setTakeItems(this.takeItems);
+            clone.setRequiredExperience(this.requiredExperience);
+            clone.setTakeExperience(this.takeExperience);
+            clone.setRequiredMoney(this.requiredMoney);
+            clone.setTakeMoney(this.takeMoney);
+            clone.setRequiredIslandLevel(this.requiredIslandLevel);
+            clone.setSearchRadius(this.searchRadius);
+            clone.setRewardText(this.rewardText);
+            clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone).collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
+            clone.setRewardExperience(this.rewardExperience);
+            clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
+            clone.setRepeatable(this.repeatable);
+            clone.setRepeatRewardText(this.repeatRewardText);
+            clone.setMaxTimes(this.maxTimes);
+            clone.setRepeatExperienceReward(this.repeatExperienceReward);
+            clone.setRepeatItemReward(this.repeatItemReward.stream().map(ItemStack::clone).collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
+            clone.setRepeatMoneyReward(this.repeatMoneyReward);
+            clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
+        }
+
+        return clone;
     }
 }

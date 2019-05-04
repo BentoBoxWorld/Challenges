@@ -33,9 +33,22 @@ challenges:
             show:
                 description: 'This method prints in chat all challenges that exist in world.'
                 parameters: ''
+            defaults:
+                description: 'This method shows subcommands that allows to import/export default challenges.'
+                parameters: '[command]'
+            defaults-import:
+                description: 'This method allows to import default challenges.'
+                parameters: ''
+            defaults-generate:
+                description: 'This method allows to export existing challenges into default.json file.'
+                parameters: '[overwrite] - allows to overwrite existing file.'
         user:
-            description: 'This method opens Challenges GUI.'
-            parameters: ''
+            main:
+                description: 'This method opens Challenges GUI.'
+                parameters: ''
+            complete:
+                description: 'This method allows to complete challenge without GUI.'
+                parameters: '<challenge_id>'
     gui:
         title:
             admin:
@@ -68,8 +81,6 @@ challenges:
                 delete-challenge: 'Remove challenge'
                 delete-level: 'Remove level'
                 import: 'Import ASkyblock Challenges'
-                backward: 'Import 0.3.0 Challenges'
-                backward-player: 'Fix 0.3.0 PlayerData'
                 settings: 'Edit Settings'
                 properties: 'Properties'
                 requirements: 'Requirements'
@@ -143,6 +154,11 @@ challenges:
                 history-lifespan: 'History LifeSpan'
                 island-store: 'Store per Island'
                 default-locked-icon: 'Locked Level Icon'
+                input-mode: 'Switch input mode'
+                title-enable: 'Completion title'
+                title-showtime: 'Title Show Time'
+                default-import: 'Import Default Challenges'
+                default-export: 'Export Existing Challenges'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -155,7 +171,7 @@ challenges:
                 increase: 'Increase operation. Clicking on numbers will increase value by selected number.'
                 reduce: 'Reduce operation. Clicking on numbers will reduce value by selected number.'
                 multiply: 'Multiply operation. Clicking on numbers will multiply value by selected number.'
-                import: 'Allows to import ASkyblock Challenges.|On right click it enables/disables overwrite mode.'
+                import: 'Allows to import ASkyblock Challenges.|On right click it enables/disables overwrite mode.|Place Challenges.yml inside ./BentoBox/addons/Challenges folder.'
                 complete: 'Allows to complete challenges for any user.|User will not get reward for completion.'
                 reset: 'Allows to reset completed user challenges.|Right click enables/disables Reset all functionality.'
                 create-challenge: 'Allows to add new Challenge.|By default it will be in free challenges list.'
@@ -164,8 +180,6 @@ challenges:
                 edit-level: 'Allows to edit any Level settings.'
                 delete-challenge: 'Allows remove any Challenge.'
                 delete-level: 'Allows remove any Level.'
-                backward: 'Allows to import challenges from 0.3.0 and below addon version.'
-                backward-player: 'Allows to fix corrupted PlayerData from 0.3.0 version.|&2USE ONLY IF NECESSARY|&2MAY NOT WORK IN ALL SITUATIONS'
                 settings: 'Allows to change addon settings.'
                 properties: 'Allows to change general properties'
                 requirements: 'Allows to manage requirements'
@@ -232,6 +246,14 @@ challenges:
                 island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will NOT convert data on click. PROGRESS WILL BE LOST.'
                 default-locked-icon: 'Allows to change default locked level icon.|This option can be overwritten by each level.'
                 gui-mode: 'Allows to enable/disable single challenges GUI.|&2Requires server restart.'
+                click-to-edit: '&4Click here to edit input.'
+                edit-text-line: '&6 Edit text message!'
+                add-text-line: '&6 Add new text message!'
+                input-mode: 'Switch between chat and anvil input modes.'
+                title-enable: 'Allows to enable/disable title message that will be showed when player complete challenge.'
+                title-showtime: 'Allows to modify how long title message will be visible for player.'
+                default-import: 'Allows to import default challenges.'
+                default-export: 'Allows to export existing challenges into defaults.json file.'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -281,6 +303,18 @@ challenges:
             money-reward: '&6Money reward: $[value]'
             reward-items: '&6Reward Items:'
             reward-commands: '&6Reward Commands:'
+    titles:
+#       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
+#       [friendlyName] will be replaced with challenge friendly name.
+#       [level] will be replaced with level friendly name.
+#       [rewardText] will be replaced with challenge reward text.
+        challenge-title: 'Successfully completed'
+        challenge-subtitle: '[friendlyName]'
+#       Title and subtitle my contain variable in [] that will be replaced with proper message from level object.
+#       [friendlyName] will be replaced with level friendly name.
+#       [rewardText] will be replaced with level reward text.
+        level-title: 'Successfully completed'
+        level-subtitle: '[friendlyName]'
     messages:
         admin:
             hit-things: 'Hit things to add them to the list of things required. Right click when done.'
@@ -298,6 +332,8 @@ challenges:
         load-skipping: '"[value]" already exists - skipping'
         load-overwriting: 'Overwriting "[value]"'
         load-add: 'Adding new object: [value]'
+        defaults-file-overwrite: 'default.json exists. It will be overwritten.'
+        defaults-file-completed: 'defaults.json file is populated with challenges from [world]!'
     errors:
         no-name: '&cMissing challenge name'
         unknown-challenge: '&cUnknown challenge'
@@ -322,6 +358,11 @@ challenges:
         no-load: '&cError: Could not load challenges.yml. [message]'
         load-error: '&cError: Cannot load [value].'
         no-rank: "&cYou do not have rank to do that."
+        cannot-remove-items: '&cSome items cannot be removed from inventory!'
+        exist-challenges-or-levels: '&cIn your world already exist challenges. Cannot proceed!'
+        defaults-file-exist: '&cdefault.json already exists. Use overwrite mode to replace it!'
+        defaults-file-error: '&cThere was an error while creating default.json file! Check console!'
+        no-challenges: '&cChallenges are not implemented in current world!'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
@@ -331,4 +372,4 @@ protection:
             description: "&5&oThis allows to enable/disable\n&5&orequirement for players to\n&5&obe on their island to\n&5&ocomplete a challenge."
             name: "Challenges Island limitation"
             hint: "No challenges outside island"
-version: 9
+version: 11
