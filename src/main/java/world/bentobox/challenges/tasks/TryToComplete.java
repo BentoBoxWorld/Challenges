@@ -234,11 +234,23 @@ public class TryToComplete
 
         this.fullFillRequirements(result);
 
-        // Validation to avoid rewarding if something goes wrong in removing requrements.
+        // Validation to avoid rewarding if something goes wrong in removing requirements.
 
         if (!result.isMeetsRequirements())
         {
-            // TODO: need to return removed things!
+            if (result.removedItems != null)
+            {
+                result.removedItems.forEach((item, amount) ->
+                {
+                    ItemStack returnItem = item.clone();
+                    returnItem.setAmount(amount);
+
+                    this.user.getInventory().addItem(returnItem).forEach((k, v) ->
+                        this.user.getWorld().dropItem(this.user.getLocation(), v));
+                });
+            }
+
+            // Entities and blocks will not be restored.
 
             return result;
         }
@@ -805,16 +817,19 @@ public class TryToComplete
             {
                 if (amountToBeRemoved > 0)
                 {
+                    ItemStack dummy = itemStack.clone();
+                    dummy.setAmount(1);
+
                     // Remove either the full amount or the remaining amount
                     if (itemStack.getAmount() >= amountToBeRemoved)
                     {
                         itemStack.setAmount(itemStack.getAmount() - amountToBeRemoved);
-                        removed.merge(itemStack.clone(), amountToBeRemoved, Integer::sum);
+                        removed.merge(dummy, amountToBeRemoved, Integer::sum);
                         amountToBeRemoved = 0;
                     }
                     else
                     {
-                        removed.merge(itemStack.clone(), itemStack.getAmount(), Integer::sum);
+                        removed.merge(dummy, itemStack.getAmount(), Integer::sum);
                         amountToBeRemoved -= itemStack.getAmount();
                         itemStack.setAmount(0);
                     }
@@ -1410,7 +1425,7 @@ public class TryToComplete
         /**
          * Map that contains removed items and their removed count.
          */
-        private Map<ItemStack, Integer> removedItems;
+        private Map<ItemStack, Integer> removedItems = null;
 
         /**
          * Queue of blocks that contains all blocks with the same type as requiredBlock from
