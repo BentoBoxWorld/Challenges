@@ -15,16 +15,16 @@
 package world.bentobox.challenges.utils;
 
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import java.lang.reflect.Field;
 import java.util.*;
 
-import net.minecraft.server.v1_13_R2.NBTBase;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
-import net.minecraft.server.v1_13_R2.NBTTagList;
+import world.bentobox.bentobox.BentoBox;
 
 
 /**
@@ -191,10 +191,11 @@ public enum HeadLib
 	public ItemStack toItemStack(int amount, String displayName, String... loreLines)
 	{
 		ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount);
+		ItemMeta meta = item.getItemMeta();
 
-		if (displayName != null)
+		// Set Lora and DisplayName
+		if (meta != null && displayName != null)
 		{
-			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', displayName));
 
 			if (loreLines.length != 0)
@@ -207,64 +208,26 @@ public enum HeadLib
 			item.setItemMeta(meta);
 		}
 
-		return this.setSkullOwner(item, this.getSkullOwner());
-	}
-
-
-// ---------------------------------------------------------------------
-// Section: Private inner methods
-// ---------------------------------------------------------------------
-
-
-	/**
-	 * This method returns SkullOwner or create new one if it is not created yet.
-	 * SkullOwner is NBTTagCompound object that contains information about player_head skin.
-	 * @return skullOwner object.
-	 */
-	private Object getSkullOwner()
-	{
-		if (this.skullOwner == null)
+		// Set correct Skull texture
+		if (meta != null && this.textureValue != null && !this.textureValue.isEmpty())
 		{
-			this.skullOwner = this.createOwnerCompound(this.uuid, this.textureValue);
+			GameProfile profile = new GameProfile(UUID.fromString(this.uuid), null);
+			profile.getProperties().put("textures", new Property("textures", this.textureValue));
+
+			try
+			{
+				Field profileField = meta.getClass().getDeclaredField("profile");
+				profileField.setAccessible(true);
+				profileField.set(meta, profile);
+				item.setItemMeta(meta);
+			}
+			catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e)
+			{
+				BentoBox.getInstance().log("Error while creating Skull Icon");
+			}
 		}
 
-		return this.skullOwner;
-	}
-
-
-	/**
-	 * This method creates new NBTTagCompound object that contains UUID and texture link.
-	 * @param id - UUID of user.
-	 * @param textureValue - Encoded texture string.
-	 * @return NBTTagCompound object that contains all necessary information about player_head skin.
-	 */
-	private NBTTagCompound createOwnerCompound(String id, String textureValue)
-	{
-		NBTTagCompound skullOwner = new NBTTagCompound();
-		skullOwner.setString("Id", id);
-		NBTTagCompound properties = new NBTTagCompound();
-		NBTTagList textures = new NBTTagList();
-		NBTTagCompound value = new NBTTagCompound();
-		value.setString("Value", textureValue);
-		textures.add(value);
-		properties.set("textures", textures);
-		skullOwner.set("Properties", properties);
-
-		return skullOwner;
-	}
-
-
-	/**
-	 * This method adds SkullOwner tag to given item.
-	 * @param item Item whom SkullOwner tag must be added.
- 	 * @param compound NBTTagCompound object that contains UUID and texture link.
-	 * @return new copy of given item with SkullOwner tag.
-	 */
-	private ItemStack setSkullOwner(ItemStack item, Object compound)
-	{
-		net.minecraft.server.v1_13_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
-		nmsStack.getOrCreateTag().set("SkullOwner", (NBTBase) compound);
-		return CraftItemStack.asBukkitCopy(nmsStack);
+		return item;
 	}
 
 
