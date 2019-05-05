@@ -102,7 +102,7 @@ public abstract class CommonGUI
 
 	protected static final String IMPORT = "import";
 
-	protected static final String DEFAULT = "default";
+	protected static final String DEFAULT = "defaults";
 
 	protected static final String GENERATE = "generate";
 
