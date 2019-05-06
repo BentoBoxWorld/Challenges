@@ -605,8 +605,22 @@ public class ChallengesManager
      */
     private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID)
     {
+        this.setChallengeComplete(storageDataID, challengeID, 1);
+    }
+
+
+    /**
+     * Sets the challenge with given ID as complete and increments the number of times it has been
+     * completed
+     *
+     * @param storageDataID - playerData ID
+     * @param challengeID - challengeID
+     * @param count - how many times challenge is completed
+     */
+    private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID, int count)
+    {
         this.addPlayerData(storageDataID);
-        this.playerCacheData.get(storageDataID).setChallengeDone(challengeID);
+        this.playerCacheData.get(storageDataID).addChallengeDone(challengeID, count);
         // Save
         this.savePlayerData(storageDataID);
     }
@@ -842,9 +856,9 @@ public class ChallengesManager
      * @param world - World where completion must be called.
      * @param challenge - That must be completed.
      */
-    public void setChallengeComplete(User user, World world, Challenge challenge)
+    public void setChallengeComplete(User user, World world, Challenge challenge, int completionCount)
     {
-        this.setChallengeComplete(user.getUniqueId(), world, challenge);
+        this.setChallengeComplete(user.getUniqueId(), world, challenge, completionCount);
     }
 
 
@@ -854,13 +868,14 @@ public class ChallengesManager
      * @param world - World where completion must be called.
      * @param challenge - That must be completed.
      */
-    public void setChallengeComplete(UUID userID, World world, Challenge challenge)
+    public void setChallengeComplete(UUID userID, World world, Challenge challenge, int completionCount)
     {
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
         this.setChallengeComplete(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
             data("user-id", userID.toString()).
             data("challenge-id", challenge.getUniqueId()).
+            data("completion-count", Integer.toString(completionCount)).
             build());
 
         // Fire event that user completes challenge
@@ -868,7 +883,7 @@ public class ChallengesManager
             new ChallengeCompletedEvent(challenge.getUniqueId(),
                 userID,
                 false,
-                1));
+                completionCount));
     }
 
 

@@ -112,15 +112,14 @@ public class CompleteChallengeCommand extends CompositeCommand
 				});
 
 				break;
-// 			TODO: not implemented YET
-//			case 4:
-//				// Suggest a number of completions.
-//				if (lastString.isEmpty() || lastString.matches("[0-9]*"))
-//				{
-//					returnList.addAll(Util.tabLimit(Collections.singletonList("<number>"), lastString));
-//				}
-//
-//				break;
+			case 4:
+				// Suggest a number of completions.
+				if (lastString.isEmpty() || lastString.matches("[0-9]*"))
+				{
+					returnList.addAll(Util.tabLimit(Collections.singletonList("<number>"), lastString));
+				}
+
+				break;
 			default:
 			{
 				returnList.addAll(Util.tabLimit(Collections.singletonList("help"), lastString));
