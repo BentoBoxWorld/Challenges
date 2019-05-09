@@ -1,11 +1,13 @@
 package world.bentobox.challenges.panel.user;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -349,18 +351,53 @@ public class ChallengesGUI extends CommonGUI
 	{
 		return new PanelItemBuilder().
 			icon(challenge.getIcon()).
-			name(challenge.getFriendlyName().isEmpty() ? challenge.getUniqueId() : challenge.getFriendlyName()).
+			name(challenge.getFriendlyName().isEmpty() ?
+				challenge.getUniqueId() :
+				ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(this.generateChallengeDescription(challenge, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler((panel, user1, clickType, slot) -> {
-				if (TryToComplete.complete(this.addon,
-					this.user,
-					challenge,
-					this.world,
-					this.topLabel,
-					this.permissionPrefix))
+
+				// Add ability to input how many repeats player should do.
+				// Do not open if challenge is not repeatable.
+				if (clickType.isRightClick() && challenge.isRepeatable())
 				{
-				    panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
+					new AnvilGUI(this.addon.getPlugin(),
+						this.user.getPlayer(),
+						"1",
+						(player, reply) -> {
+							try
+							{
+								if (TryToComplete.complete(this.addon,
+									this.user,
+									challenge,
+									this.world,
+									this.topLabel,
+									this.permissionPrefix,
+									Integer.parseInt(reply)))
+								{
+									panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
+								}
+							}
+							catch (Exception e)
+							{
+								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
+							}
+
+							return reply;
+						});
+				}
+				else
+				{
+					if (TryToComplete.complete(this.addon,
+						this.user,
+						challenge,
+						this.world,
+						this.topLabel,
+						this.permissionPrefix))
+					{
+						panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
+					}
 				}
 
 				return true;
@@ -440,7 +477,7 @@ public class ChallengesGUI extends CommonGUI
 
 		return new PanelItemBuilder().
 			icon(icon).
-			name(name).
+			name(ChatColor.translateAlternateColorCodes('&', name)).
 			description(description).
 			glow(glow).
 			clickHandler(clickHandler).

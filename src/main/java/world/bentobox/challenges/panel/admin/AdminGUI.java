@@ -384,16 +384,9 @@ public class AdminGUI extends CommonGUI
 				description = this.user.getTranslation("challenges.gui.descriptions.admin.default-import");
 				icon = new ItemStack(Material.HOPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					if (clickType.isRightClick())
-					{
-						this.overwriteMode = !this.overwriteMode;
-						this.build();
-					}
-					else
-					{
-						// Run import command.
-						this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + IMPORT);
-					}
+					// Run import command.
+					this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + IMPORT);
+
 					return true;
 				};
 				glow = false;

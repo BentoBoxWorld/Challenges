@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.util;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import java.util.*;
@@ -144,7 +145,7 @@ public class SelectChallengeGUI
 
 
 		return new PanelItemBuilder().
-			name(challenge.getFriendlyName()).
+			name(ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(description, this.lineLength)).
 			icon(challenge.getIcon()).
 			clickHandler((panel, user1, clickType, slot) -> {
