@@ -36,13 +36,13 @@
 		<powermock.version>1.7.4</powermock.version>
 		<!-- More visible way how to change dependency versions -->
 		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
-		<bentobox.version>1.4.0</bentobox.version>
+		<bentobox.version>1.5.0-SNAPSHOT</bentobox.version>
 		<level.version>1.4.0</level.version>
 		<vault.version>68f14ec</vault.version>
 		<!-- Revision variable removes warning about dynamic version -->
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
-		<build.version>0.7.0</build.version>
+		<build.version>0.7.5</build.version>
 		<build.number>-LOCAL</build.number>
 	</properties>
 
@@ -95,7 +95,7 @@
 		</repository>
 		<repository>
 			<id>codemc-repo</id>
-			<url>https://repo.codemc.org/repository/maven-releases/</url>
+			<url>https://repo.codemc.org/repository/maven-public/</url>
 		</repository>
 		<!--Vault Repo is down.-->
 		<!--<repository>-->
