@@ -364,6 +364,7 @@ challenges:
         defaults-file-exist: '&cdefault.json already exists. Use overwrite mode to replace it!'
         defaults-file-error: '&cThere was an error while creating default.json file! Check console!'
         no-challenges: '&cChallenges are not implemented in current world!'
+        missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
