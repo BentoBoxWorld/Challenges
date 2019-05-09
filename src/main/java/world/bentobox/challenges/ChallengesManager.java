@@ -127,13 +127,45 @@ public class ChallengesManager
     {
         this.challengeCacheData.clear();
         this.levelCacheData.clear();
+
+        if (!this.playerCacheData.isEmpty())
+        {
+            // store player data before cleaning.
+            this.savePlayersData();
+        }
+
         this.playerCacheData.clear();
 
         this.addon.getLogger().info("Loading challenges...");
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
-        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
+        // It is not necessary to load all players in memory.
+//        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
+    }
+
+
+    /**
+     * Reload database. This method keeps cache memory.
+     */
+    public void reload()
+    {
+        if (!this.playerCacheData.isEmpty())
+        {
+            // store player data before cleaning.
+            this.savePlayersData();
+        }
+
+        this.addon.getLogger().info("Reloading challenges...");
+
+        this.challengeDatabase = new Database<>(addon, Challenge.class);
+        this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
+        this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
+
+        this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
+        this.levelDatabase.loadObjects().forEach(this::loadLevel);
+        // It is not necessary to load all players in memory.
+//        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
 
 
@@ -287,6 +319,28 @@ public class ChallengesManager
     }
 
 
+    /**
+     * This method removes given player from cache data.
+     * @param playerID player ID which cache data must be removed.
+     */
+    public void removeFromCache(UUID playerID)
+    {
+        if (!this.settings.isStoreAsIslandData())
+        {
+            if (this.playerCacheData.containsKey(playerID.toString()))
+            {
+                // save before remove
+                this.savePlayerData(playerID.toString());
+                this.playerCacheData.remove(playerID.toString());
+            }
+        }
+
+        // TODO: It would be necessary to remove also data, if they stores islands.
+        // Unfortunately, I do not know all worlds. Checking everything would be bad. Probably, I could
+        // add extra map that links players with their cached island data?
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Other storing related methods
     // ---------------------------------------------------------------------
@@ -339,17 +393,17 @@ public class ChallengesManager
         // The player is not in the cache
         // Check if the player exists in the database
 
-        if (this.playersDatabase.objectExists(uniqueID.toString()))
+        if (this.playersDatabase.objectExists(uniqueID))
         {
             // Load player from database
-            ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID.toString());
+            ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID);
             // Store in cache
             this.playerCacheData.put(uniqueID, data);
         }
         else
         {
             // Create the player data
-            ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID.toString());
+            ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID);
             this.playersDatabase.saveObject(pd);
             // Add to cache
             this.playerCacheData.put(uniqueID, pd);
@@ -386,7 +440,7 @@ public class ChallengesManager
      * This method saves given challenge object to database.
      * @param challenge object that must be saved
      */
-    private void saveChallenge(Challenge challenge)
+    public void saveChallenge(Challenge challenge)
     {
         this.challengeDatabase.saveObject(challenge);
     }
@@ -405,7 +459,7 @@ public class ChallengesManager
      * This method saves given level into database.
      * @param level object that must be saved
      */
-    private void saveLevel(ChallengeLevel level)
+    public void saveLevel(ChallengeLevel level)
     {
         this.levelDatabase.saveObject(level);
     }
@@ -551,8 +605,22 @@ public class ChallengesManager
      */
     private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID)
     {
+        this.setChallengeComplete(storageDataID, challengeID, 1);
+    }
+
+
+    /**
+     * Sets the challenge with given ID as complete and increments the number of times it has been
+     * completed
+     *
+     * @param storageDataID - playerData ID
+     * @param challengeID - challengeID
+     * @param count - how many times challenge is completed
+     */
+    private void setChallengeComplete(@NonNull String storageDataID, @NonNull String challengeID, int count)
+    {
         this.addPlayerData(storageDataID);
-        this.playerCacheData.get(storageDataID).setChallengeDone(challengeID);
+        this.playerCacheData.get(storageDataID).addChallengeDone(challengeID, count);
         // Save
         this.savePlayerData(storageDataID);
     }
@@ -788,9 +856,9 @@ public class ChallengesManager
      * @param world - World where completion must be called.
      * @param challenge - That must be completed.
      */
-    public void setChallengeComplete(User user, World world, Challenge challenge)
+    public void setChallengeComplete(User user, World world, Challenge challenge, int completionCount)
     {
-        this.setChallengeComplete(user.getUniqueId(), world, challenge);
+        this.setChallengeComplete(user.getUniqueId(), world, challenge, completionCount);
     }
 
 
@@ -800,13 +868,14 @@ public class ChallengesManager
      * @param world - World where completion must be called.
      * @param challenge - That must be completed.
      */
-    public void setChallengeComplete(UUID userID, World world, Challenge challenge)
+    public void setChallengeComplete(UUID userID, World world, Challenge challenge, int completionCount)
     {
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
         this.setChallengeComplete(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
             data("user-id", userID.toString()).
             data("challenge-id", challenge.getUniqueId()).
+            data("completion-count", Integer.toString(completionCount)).
             build());
 
         // Fire event that user completes challenge
@@ -814,7 +883,7 @@ public class ChallengesManager
             new ChallengeCompletedEvent(challenge.getUniqueId(),
                 userID,
                 false,
-                1));
+                completionCount));
     }
 
 
@@ -1036,13 +1105,19 @@ public class ChallengesManager
      * @param world - the world to check
      * @return List of challenge names
      */
-    public List<String> getAllChallengesNames(World world)
+    public List<String> getAllChallengesNames(@NonNull World world)
     {
-        String worldName = Util.getWorld(world).getName();
+        World gameWorld = Util.getWorld(world);
+
+        if (gameWorld == null)
+        {
+            return Collections.emptyList();
+        }
+
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
                 sorted(Comparator.comparing(Challenge::getOrder)).
-                filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
                 map(Challenge::getUniqueId).
                 collect(Collectors.toList());
     }
@@ -1054,12 +1129,18 @@ public class ChallengesManager
      * @param world - the world to check
      * @return List of challenges
      */
-    public List<Challenge> getAllChallenges(World world)
+    public List<Challenge> getAllChallenges(@NonNull World world)
     {
-        String worldName = Util.getWorld(world).getName();
+        World gameWorld = Util.getWorld(world);
+
+        if (gameWorld == null)
+        {
+            return Collections.emptyList();
+        }
+
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
-                filter(challenge -> challenge.getUniqueId().startsWith(worldName)).
+                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
                 sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
@@ -1198,9 +1279,16 @@ public class ChallengesManager
      * @param world for which levels must be searched.
      * @return List with challenges in given world.
      */
-    public List<ChallengeLevel> getLevels(World world)
+    public List<ChallengeLevel> getLevels(@NonNull World world)
     {
-        return this.getLevels(Util.getWorld(world).getName());
+        world = Util.getWorld(world);
+
+        if (world == null)
+        {
+            return Collections.emptyList();
+        }
+
+        return this.getLevels(world.getName());
     }
 
 
@@ -1374,42 +1462,53 @@ public class ChallengesManager
         if (this.levelCacheData.containsKey(challengeLevel.getUniqueId()))
         {
             this.levelCacheData.remove(challengeLevel.getUniqueId());
+
+            // Remove challenge level from challenges object.
+            if (!challengeLevel.getChallenges().isEmpty())
+            {
+                challengeLevel.getChallenges().forEach(challengeID -> {
+                    Challenge challenge = this.getChallenge(challengeID);
+
+                    if (challenge != null)
+                    {
+                        challenge.setLevel(ChallengesManager.FREE);
+                    }
+                });
+            }
+
             this.levelDatabase.deleteObject(challengeLevel);
         }
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Fix world duplication issue.
-// ---------------------------------------------------------------------
+    /**
+     * This method returns if in given world has any stored challenge or level.
+     * @param world World that needs to be checked
+     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
+     */
+    public boolean hasAnyChallengeData(@NonNull World world)
+    {
+        world = Util.getWorld(world);
+
+        if (world == null)
+        {
+            return false;
+        }
+
+        return this.hasAnyChallengeData(world.getName());
+    }
 
 
     /**
-     * This allows to fix player data issue when world name is duplicated.
-     * @deprecated Will be removed in 0.7.0 release.
+     * This method returns if in given world has any stored challenge or level.
+     * @param worldName World name that needs to be checked
+     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
      */
-    @Deprecated
-    public void fixCorruptedPlayerData()
+    public boolean hasAnyChallengeData(@NonNull String worldName)
     {
-        this.playersDatabase.loadObjects().forEach(playerData -> {
-            Map<String, Integer> completed = playerData.getChallengeStatus();
-            Map<String, Long> timeStamps = playerData.getChallengesTimestamp();
-
-            new ArrayList<>(completed.keySet()).forEach(challenge -> {
-                String correctName = challenge.replaceFirst("(\\w+)(?=(\\1))", "");
-                if (!correctName.isEmpty() && !correctName.equals(challenge))
-                {
-                    completed.put(correctName, completed.get(challenge));
-                    timeStamps.put(correctName, timeStamps.get(challenge));
-
-                    completed.remove(challenge);
-                    timeStamps.remove(challenge);
-                    this.addon.log("ChallengeString was modified " + challenge + " was changed to " + correctName);
-                }
-            });
-
-            this.playerCacheData.put(playerData.getUniqueId(), playerData);
-            this.savePlayerData(playerData.getUniqueId());
-        });
+        return this.challengeDatabase.loadObjects().stream().anyMatch(
+            challenge -> challenge.getUniqueId().startsWith(worldName)) ||
+            this.levelDatabase.loadObjects().stream().anyMatch(
+                level -> level.getUniqueId().startsWith(worldName));
     }
 }

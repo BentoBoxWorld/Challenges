@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
@@ -102,6 +103,10 @@ public class EditLevelGUI extends CommonGUI
 		}
 
 		panelBuilder.item(44, this.returnButton);
+
+		// Save challenge level every time this gui is build.
+		// It will ensure that changes are stored in database.
+		this.addon.getChallengesManager().saveLevel(this.challengeLevel);
 
 		panelBuilder.build();
 	}
@@ -253,7 +258,13 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -265,7 +276,7 @@ public class EditLevelGUI extends CommonGUI
 	private PanelItem createChallengeIcon(Challenge challenge)
 	{
 		return new PanelItemBuilder().
-			name(challenge.getFriendlyName()).
+			name(ChatColor.translateAlternateColorCodes('&', challenge.getFriendlyName())).
 			description(GuiUtils.stringSplit(
 				challenge.getDescription(),
 				this.addon.getChallengesSettings().getLoreLineLength())).
@@ -416,14 +427,15 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", "|" + this.challengeLevel.getUnlockMessage()));
 				icon = new ItemStack(Material.WRITABLE_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challengeLevel.getUnlockMessage(),
-						(player, reply) -> {
-							this.challengeLevel.setUnlockMessage(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challengeLevel.getUnlockMessage(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setUnlockMessage(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;
@@ -486,14 +498,15 @@ public class EditLevelGUI extends CommonGUI
 					"[value]", "|" + this.challengeLevel.getRewardText()));
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challengeLevel.getRewardText(),
-						(player, reply) -> {
-							this.challengeLevel.setRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challengeLevel.getRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
+
 					return true;
 				};
 				glow = false;
@@ -572,27 +585,19 @@ public class EditLevelGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challengeLevel.getRewardMoney())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challengeLevel.setRewardMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challengeLevel.getRewardMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challengeLevel.setRewardMoney(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -697,7 +702,15 @@ public class EditLevelGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
+
+
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

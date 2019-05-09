@@ -72,7 +72,13 @@ public class EditSettingsGUI extends CommonGUI
 
 		GuiUtils.fillBorder(panelBuilder);
 
-		panelBuilder.item(19, this.getSettingsButton(Button.RESET_CHALLENGES));
+		panelBuilder.item(10, this.getSettingsButton(Button.ENABLE_TITLE));
+
+		if (this.settings.isShowCompletionTitle())
+		{
+			panelBuilder.item(19, this.getSettingsButton(Button.TITLE_SHOWTIME));
+		}
+
 		panelBuilder.item(28, this.getSettingsButton(Button.BROADCAST));
 
 		panelBuilder.item(20, this.getSettingsButton(Button.GLOW_COMPLETED));
@@ -100,7 +106,8 @@ public class EditSettingsGUI extends CommonGUI
 			panelBuilder.item(33, this.getSettingsButton(Button.PURGE_HISTORY));
 		}
 
-		panelBuilder.item(25, this.getSettingsButton(Button.STORE_MODE));
+		panelBuilder.item(25, this.getSettingsButton(Button.RESET_CHALLENGES));
+		panelBuilder.item(34, this.getSettingsButton(Button.STORE_MODE));
 
 		// Return Button
 		panelBuilder.item(44, this.returnButton);
@@ -449,11 +456,65 @@ public class EditSettingsGUI extends CommonGUI
 				glow = false;
 				break;
 			}
+			case ENABLE_TITLE:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.title-enable"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]",
+					this.settings.isShowCompletionTitle() ?
+						this.user.getTranslation("challenges.gui.descriptions.enabled") :
+						this.user.getTranslation("challenges.gui.descriptions.disabled")));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.title-enable");
+				icon = new ItemStack(Material.SIGN);
+				clickHandler = (panel, user1, clickType, i) -> {
+					this.settings.setShowCompletionTitle(!this.settings.isShowCompletionTitle());
+
+					// Need to rebuild all as new buttons will show up.
+					this.build();
+					return true;
+				};
+				glow = this.settings.isShowCompletionTitle();
+				break;
+			}
+			case TITLE_SHOWTIME:
+			{
+				description = new ArrayList<>(2);
+				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.title-showtime"));
+				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+					"[value]", Integer.toString(this.settings.getTitleShowtime())));
+				name = this.user.getTranslation("challenges.gui.buttons.admin.title-showtime");
+				icon = new ItemStack(Material.CLOCK);
+				clickHandler = (panel, user1, clickType, i) -> {
+					new NumberGUI(this.user,
+						this.settings.getTitleShowtime(),
+						0,
+						this.settings.getLoreLineLength(),
+						(status, value) -> {
+							if (status)
+							{
+								this.settings.setTitleShowtime(value);
+							}
+
+							panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+						});
+
+					return true;
+				};
+				glow = false;
+				break;
+			}
 			default:
 				return new PanelItemBuilder().build();
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.settings.getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.settings.getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -480,7 +541,9 @@ public class EditSettingsGUI extends CommonGUI
 		PURGE_HISTORY, 
 		STORE_MODE, 
 		GLOW_COMPLETED,
-		LOCKED_LEVEL_ICON
+		LOCKED_LEVEL_ICON,
+		ENABLE_TITLE,
+		TITLE_SHOWTIME
 	}
 
 

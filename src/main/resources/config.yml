@@ -100,6 +100,14 @@ reset-challenges: true
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.
 broadcast-messages: true
+title:
+  #
+  # Shows a title screen for player after completion a challenge or level.
+  # Message can be edited via language settings.
+  show-title: true
+  #
+  # Integer that represents how long title will be visible for player.
+  title-showtime: 70
 #
 # This list stores GameModes in which Challenges addon should not work.
 # To disable addon it is necessary to write its name in new line that starts with -. Example:
@@ -109,4 +117,4 @@ disabled-gamemodes: []
 #
 uniqueId: config
 #
-configVersion: v2
+configVersion: v3

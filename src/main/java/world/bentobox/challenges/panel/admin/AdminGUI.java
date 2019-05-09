@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
@@ -55,9 +56,9 @@ public class AdminGUI extends CommonGUI
 		DELETE_CHALLENGE,
 		DELETE_LEVEL,
 		IMPORT_CHALLENGES,
-		BACKWARD_CHALLENGES,
-		BACKWARD_PLAYER_DATA,
-		EDIT_SETTINGS
+		EDIT_SETTINGS,
+		DEFAULT_IMPORT_CHALLENGES,
+		DEFAULT_EXPORT_CHALLENGES
 	}
 
 
@@ -112,8 +113,9 @@ public class AdminGUI extends CommonGUI
 
 		// Import Challenges
 		panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
-		panelBuilder.item(24, this.createButton(Button.BACKWARD_CHALLENGES));
-		panelBuilder.item(33, this.createButton(Button.BACKWARD_PLAYER_DATA));
+		panelBuilder.item(24, this.createButton(Button.DEFAULT_IMPORT_CHALLENGES));
+		// Not added as I do not think admins should use it. It still will be able via command.
+//		panelBuilder.item(33, this.createButton(Button.DEFAULT_EXPORT_CHALLENGES));
 
 		// Edit Addon Settings
 		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
@@ -374,16 +376,16 @@ public class AdminGUI extends CommonGUI
 
 				break;
 			}
-			case BACKWARD_CHALLENGES:
+			case DEFAULT_IMPORT_CHALLENGES:
 			{
-				permissionSuffix = IMPORT;
+				permissionSuffix = DEFAULT;
 
-				name = this.user.getTranslation("challenges.gui.buttons.admin.backward");
-				description = this.user.getTranslation("challenges.gui.descriptions.admin.backward");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.default-import");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.default-import");
 				icon = new ItemStack(Material.HOPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					this.addon.getImportManager().
-						importPreviousChallenges(this.user, this.world, false);
+					// Run import command.
+					this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + IMPORT);
 
 					return true;
 				};
@@ -391,27 +393,28 @@ public class AdminGUI extends CommonGUI
 
 				break;
 			}
-			case BACKWARD_PLAYER_DATA:
+			case DEFAULT_EXPORT_CHALLENGES:
 			{
-				permissionSuffix = IMPORT;
+				permissionSuffix = DEFAULT;
 
-				name = this.user.getTranslation("challenges.gui.buttons.admin.backward-player");
-				description = this.user.getTranslation("challenges.gui.descriptions.admin.backward-player");
+				name = this.user.getTranslation("challenges.gui.buttons.admin.default-export");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.default-export");
 				icon = new ItemStack(Material.HOPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-
-					new ConfirmationGUI(this.user, status -> {
-						if (status)
-						{
-							this.addon.getChallengesManager().fixCorruptedPlayerData();
-						}
-
+					if (clickType.isRightClick())
+					{
+						this.overwriteMode = !this.overwriteMode;
 						this.build();
-					});
-
+					}
+					else
+					{
+						// Run import command.
+						this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + DEFAULT + " " + GENERATE +
+							(this.overwriteMode ? " overwrite" : ""));
+					}
 					return true;
 				};
-				glow = false;
+				glow = this.overwriteMode;
 
 				break;
 			}
@@ -453,6 +456,12 @@ public class AdminGUI extends CommonGUI
 			};
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 }

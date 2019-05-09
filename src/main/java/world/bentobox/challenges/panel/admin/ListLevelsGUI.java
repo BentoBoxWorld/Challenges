@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import java.util.List;
@@ -133,7 +134,7 @@ public class ListLevelsGUI extends CommonGUI
 	private PanelItem createLevelIcon(ChallengeLevel challengeLevel)
 	{
 		PanelItemBuilder itemBuilder = new PanelItemBuilder().
-			name(challengeLevel.getFriendlyName()).
+			name(ChatColor.translateAlternateColorCodes('&', challengeLevel.getFriendlyName())).
 			description(GuiUtils.stringSplit(
 				this.generateLevelDescription(challengeLevel, this.user.getPlayer()),
 				this.addon.getChallengesSettings().getLoreLineLength())).

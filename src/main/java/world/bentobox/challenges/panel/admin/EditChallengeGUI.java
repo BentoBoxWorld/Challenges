@@ -7,10 +7,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
+import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
@@ -114,6 +116,10 @@ public class EditChallengeGUI extends CommonGUI
 		}
 
 		panelBuilder.item(44, this.returnButton);
+
+		// Every time when this GUI is build, save challenge
+		// This will ensure that all main things will be always stored
+		this.addon.getChallengesManager().saveChallenge(this.challenge);
 
 		panelBuilder.build();
 	}
@@ -281,7 +287,13 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength()), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 
@@ -647,8 +659,14 @@ public class EditChallengeGUI extends CommonGUI
 					"[value]", Integer.toString(this.challenge.getSearchRadius())));
 
 				icon = new ItemStack(Material.COBBLESTONE_WALL);
+
+				// Search radius should not be larger then island radius.
+				int maxSearchDistance =
+					this.addon.getPlugin().getIWM().getAddon(this.world).map(gameModeAddon ->
+						gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
+
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, lineLength, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getSearchRadius(), 0, maxSearchDistance, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setSearchRadius(value);
@@ -806,27 +824,19 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Long.toString(this.challenge.getRequiredIslandLevel())));
 
-				if (this.addon.isLevelProvided())
-				{
-					icon = new ItemStack(Material.BEACON);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRequiredIslandLevel(value);
-							}
+				icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, (int) this.challenge.getRequiredIslandLevel(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRequiredIslandLevel(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -839,26 +849,18 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Long.toString(this.challenge.getRequiredIslandLevel())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRequiredMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challenge.getRequiredMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRequiredMoney(value);
+						}
 
-							this.build();
-						});
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+						this.build();
+					});
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -874,21 +876,13 @@ public class EditChallengeGUI extends CommonGUI
 						this.user.getTranslation("challenges.gui.descriptions.enabled") :
 						this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.LEVER);
-					clickHandler = (panel, user, clickType, slot) -> {
-						this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					this.challenge.setTakeMoney(!this.challenge.isTakeMoney());
 
-						this.build();
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					this.build();
+					return true;
+				};
 
 				glow = this.challenge.isTakeMoney();
 				break;
@@ -904,14 +898,14 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challenge.getRewardText(),
-						(player, reply) -> {
-							this.challenge.setRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challenge.getRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -991,27 +985,20 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challenge.getRewardMoney())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_INGOT);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, lineLength, (status, value) -> {
-							if (status)
-							{
-								this.challenge.setRewardMoney(value);
-							}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user, this.challenge.getRewardMoney(), 0, lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRewardMoney(value);
+						}
 
-							this.build();
-						});
+						this.build();
+					});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
+
 
 				glow = false;
 				break;
@@ -1101,14 +1088,14 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.WRITTEN_BOOK);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						this.challenge.getRepeatRewardText(),
-						(player, reply) -> {
-							this.challenge.setRepeatRewardText(reply);
-							this.build();
-							return reply;
-						});
+					new StringListGUI(this.user, this.challenge.getRepeatRewardText(), lineLength, (status, value) -> {
+						if (status)
+						{
+							this.challenge.setRepeatRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						}
+
+						this.build();
+					});
 
 					return true;
 				};
@@ -1189,31 +1176,23 @@ public class EditChallengeGUI extends CommonGUI
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
 					"[value]", Integer.toString(this.challenge.getRepeatMoneyReward())));
 
-				if (this.addon.isEconomyProvided())
-				{
-					icon = new ItemStack(Material.GOLD_NUGGET);
-					clickHandler = (panel, user, clickType, slot) -> {
-						new NumberGUI(this.user,
-							this.challenge.getRepeatMoneyReward(),
-							0,
-							lineLength,
-							(status, value) -> {
-								if (status)
-								{
-									this.challenge.setRepeatMoneyReward(value);
-								}
+				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new NumberGUI(this.user,
+						this.challenge.getRepeatMoneyReward(),
+						0,
+						lineLength,
+						(status, value) -> {
+							if (status)
+							{
+								this.challenge.setRepeatMoneyReward(value);
+							}
 
-								this.build();
-							});
+							this.build();
+						});
 
-						return true;
-					};
-				}
-				else
-				{
-					icon = new ItemStack(Material.BARRIER);
-					clickHandler = null;
-				}
+					return true;
+				};
 
 				glow = false;
 				break;
@@ -1250,7 +1229,13 @@ public class EditChallengeGUI extends CommonGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, lineLength), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, lineLength)).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

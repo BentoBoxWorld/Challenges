@@ -7,7 +7,7 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 ## Where to find
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
-Latest official **Beta Release is 0.6.1**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+Latest official **Beta Release is 0.7.0**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
 
 Or you can try **nightly builds** where you can check and test new features that will be implemented in next release from [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
@@ -18,57 +18,48 @@ If you like this addon but something is missing or is not working as you want, y
 1. Place the addon jar in the addons folder of the BentoBox plugin
 2. Restart the server
 3. The addon will create a data folder and inside the folder will be a config.yml and an example challenges.yml
-4. Edit the config.yml and challenges.yml files how you want. Note that unlike ASkyBlock, the challenges.yml is for *importing only* and faster start.
+4. Edit the config.yml how you want.
 5. Restart the server
-6. To import challenges into GameMode, you must run admin command and attach `challenges import` at the end. Or you can use challenges admin GUI to do the same.
+
+#### Challenges
+
+By default, challenges addon comes without any challenge or level. On first runtime only Admin GUI will be accessible. 
+Admins can create their own challenges or use challenges from ASkyBlock, by importing them via Admin GUI. This requires challenges.yml file in `./plugins/BentoBox/addons/Challenges/` folder.
+There exist also some default challenges, which importing also are available via Admin GUI.
 
 ## Compatibility
 
-- [x] BentoBox - 1.3.0 version
-- [x] BSkyBlock - 1.3.0 version
-- [x] AcidIsland - 1.3.0 version
-- [x] SkyGrid - 1.3.0-SNAPSHOT version
-- [ ] CaveBlock
+- [x] BentoBox - 1.4.0 version
+- [x] BSkyBlock - 1.4.0 version
+- [x] AcidIsland - 1.4.0 version
+- [x] SkyGrid - 1.4.0 version
+- [x] CaveBlock - 1.4.0 version
 
 ## Config.yml
 
 As most of BenotBox addons, config can be edited only when server is stopped. Otherwise all changes will be overwritten by server.
 The config.yml has the following sections:
 
-* Reset Challenges - if this is true, player's challenges will reset when they reset an island or if they are kicked or leave a team. Prevents exploiting the challenges by doing them repeatedly. Default is true
-* Broadcast 1st time challenge completion messages to all players. Change to false if the spam becomes too much. Default is true.
-* Remove non-repeatable challenges from the challenge GUI when complete. Default is false.
-* Add enchanted glow to completed challenges. Default is true
-* Free challenges location - You can decide, either free challenges will be at the top, or at the bottom.
-* Description line length - allows to specify maximal line length in GUI icon descriptions.
-* Challenge Description structure - allows to modify structure of challenge description.
-* Level Description structure - allows to modify structure of Level description.
-* Disabled GameModes - specify Game Modes where challenges will not work.
+* **Commands** - ability to enable */challenges* command. This option change is possible only via configuration and requires server restart.
+		To enable, you should change `single-gui` to `true`.
+* **History** - ability to enable completion history storing in player data object. 
+		To enable, you should change `store-history-data` to `true`.
+		It is possible to change life-span of history data in days. (0 means that data will not be removed)
+* **GUI Settings** - ability to change some options that are visible only in challenges GUI.
+	* Remove non-repeatable challenges from the challenge GUI when complete. Default is false.
+	* Add enchanted glow to completed challenges. Default is true.
+	* Locked level icon is displayed for locked levels.
+	* Free challenges location - You can decide, either free challenges will be at the top, or at the bottom.
+	* Description line length - allows to specify maximal line length in GUI icon descriptions.
+	* Challenge Description structure - allows to modify structure of challenge description.
+    * Level Description structure - allows to modify structure of Level description.
+* **Store mode** - ability to store challenges completion per island or per player.
+		To enable storing challenges data per island change `store-island-data` to `true`. ATTENTION: progress will be lost on this option change.
+* **Reset Challenges** - if this is true, player's challenges will reset when they reset an island or if they are kicked or leave a team. Prevents exploiting the challenges by doing them repeatedly. Default is true
+* **Broadcast** - ability to broadcast 1st time challenge completion messages to all players. Change to false if the spam becomes too much. Default is true.
+* **Title** - ability to enable showing Title screen on first challenge completion or level completion.
+* **Disabled GameModes** - specify Game Modes where challenges will not work.
 
-## Challenges.yml
+## Information
 
-This file is just to facilitate importing of old ASkyBlock or AcidIsland challenges and is not used during the normal operation of the game. it is meant to just enable you to jump start your challenge collection.
-
-This file format is very similar to the ASkyBlock file but not exactly the same because it is designed for 1.13.x servers and higher. If you try to import ASkyBlock challenges, they may or may not completely import, so check for errors in the console. 
-
-Once you have imported challenges, the *real* challenge files are actually in two folders in the BentoBox database folder. One folder is for the challenges and the other is for the challenge levels. They are all defined in .yml files in these locations:
-
-```
-plugins/BentoBox/database/Challenges
-plugins/BentoBox/database/ChallengeLevels
-```
-
-If you edit a file, then you should reload the challenge database by using the admin reload command, e.g. **/bsb challenges reload** or **/acid challenges reload**.
-
-If you want to force an overwrite of challenges via an import, add the **overwrite** option to the end of the import command.
-
-Note that you must import challenges into both BSkyBlock and AcidIsland separately.
-
-
-## Admin commands
-
-There are a few admin commands and more being written. The main challenge admin command is **/bsb challenges** or **/acid challenges**. Use 
-
-* /bsbadmin challenges help : Show help for all the commands
-* /bsbadmin challenges import [overwrite]: import challenges from challenges.yml
-* /bsbadmin challenges reload : reload challenges from the database
+More information can be found in [Wiki Pages](https://github.com/BentoBoxWorld/Challenges/wiki).

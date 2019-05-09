@@ -4,19 +4,21 @@
 package world.bentobox.challenges.tasks;
 
 
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.World;
+
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
+import org.bukkit.util.BoundingBox;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
@@ -182,8 +184,31 @@ public class TryToComplete
         String topLabel,
         String permissionPrefix)
     {
+        return TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 1);
+    }
+
+
+    /**
+     * This static method allows complete challenge and get result about completion.
+     * @param addon - Challenges Addon.
+     * @param user - User who performs challenge.
+     * @param challenge - Challenge that should be completed.
+     * @param world - World where completion may occur.
+     * @param topLabel - Label of the top command.
+     * @param permissionPrefix - Permission prefix for GameMode addon.
+     * @param maxTimes - Integer that represents how many times user wants to complete challenges.
+     * @return true, if challenge is completed, otherwise false.
+     */
+    public static boolean complete(ChallengesAddon addon,
+        User user,
+        Challenge challenge,
+        World world,
+        String topLabel,
+        String permissionPrefix,
+        int maxTimes)
+    {
         return new TryToComplete(addon, user, challenge, world, topLabel, permissionPrefix).
-            build().meetsRequirements;
+            build(maxTimes).meetsRequirements;
     }
 
 
@@ -196,17 +221,41 @@ public class TryToComplete
      * This method checks if challenge can be done, and complete it, if it is possible.
      * @return ChallengeResult object, that contains completion status.
      */
-    public ChallengeResult build()
+    public ChallengeResult build(int maxTimes)
     {
         // Check if can complete challenge
-        ChallengeResult result = this.checkIfCanCompleteChallenge();
+        ChallengeResult result = this.checkIfCanCompleteChallenge(maxTimes);
 
-        if (!result.meetsRequirements)
+        if (!result.isMeetsRequirements())
         {
             return result;
         }
 
-        if (!result.repeat)
+        this.fullFillRequirements(result);
+
+        // Validation to avoid rewarding if something goes wrong in removing requirements.
+
+        if (!result.isMeetsRequirements())
+        {
+            if (result.removedItems != null)
+            {
+                result.removedItems.forEach((item, amount) ->
+                {
+                    ItemStack returnItem = item.clone();
+                    returnItem.setAmount(amount);
+
+                    this.user.getInventory().addItem(returnItem).forEach((k, v) ->
+                        this.user.getWorld().dropItem(this.user.getLocation(), v));
+                });
+            }
+
+            // Entities and blocks will not be restored.
+
+            return result;
+        }
+
+        // If challenge was not completed then reward items for completing it first time.
+        if (!result.wasCompleted())
         {
             // Item rewards
             for (ItemStack reward : this.challenge.getRewardItems())
@@ -229,7 +278,11 @@ public class TryToComplete
             // Run commands
             this.runCommands(this.challenge.getRewardCommands());
 
-            this.user.sendMessage("challenges.messages.you-completed-challenge", "[value]", this.challenge.getFriendlyName());
+            // Send message about first completion only if it is completed only once.
+            if (result.getFactor() == 1)
+            {
+                this.user.sendMessage("challenges.messages.you-completed-challenge", "[value]", this.challenge.getFriendlyName());
+            }
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
@@ -244,41 +297,75 @@ public class TryToComplete
                     }
                 }
             }
+
+            // sends title to player on challenge completion
+            if (this.addon.getChallengesSettings().isShowCompletionTitle())
+            {
+                this.user.getPlayer().sendTitle(
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"), this.challenge),
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"), this.challenge),
+                    10,
+                    this.addon.getChallengesSettings().getTitleShowtime(),
+                    20);
+            }
         }
-        else
+
+        if (result.wasCompleted() || result.getFactor() > 1)
         {
+            int rewardFactor = result.getFactor() - (result.wasCompleted() ? 0 : 1);
+
             // Item Repeat Rewards
             for (ItemStack reward : this.challenge.getRepeatItemReward())
             {
                 // Clone is necessary because otherwise it will chane reward itemstack
                 // amount.
-                this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                    this.user.getWorld().dropItem(this.user.getLocation(), v));
+
+                for (int i = 0; i < rewardFactor; i++)
+                {
+                    this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                        this.user.getWorld().dropItem(this.user.getLocation(), v));
+                }
             }
 
             // Money Repeat Reward
             if (this.addon.isEconomyProvided())
             {
-                this.addon.getEconomyProvider().deposit(this.user, this.challenge.getRepeatMoneyReward());
+                this.addon.getEconomyProvider().deposit(this.user,
+                    this.challenge.getRepeatMoneyReward() * rewardFactor);
             }
 
             // Experience Repeat Reward
-            this.user.getPlayer().giveExp(this.challenge.getRepeatExperienceReward());
+            this.user.getPlayer().giveExp(
+                this.challenge.getRepeatExperienceReward() * rewardFactor);
 
             // Run commands
-            this.runCommands(this.challenge.getRepeatRewardCommands());
+            for (int i = 0; i < rewardFactor; i++)
+            {
+                this.runCommands(this.challenge.getRepeatRewardCommands());
+            }
 
-            this.user.sendMessage("challenges.messages.you-repeated-challenge", "[value]", this.challenge.getFriendlyName());
+            if (result.getFactor() > 1)
+            {
+                this.user.sendMessage("challenges.messages.you-repeated-challenge-multiple",
+                    "[value]", this.challenge.getFriendlyName(),
+                    "[count]", Integer.toString(result.getFactor()));
+            }
+            else
+            {
+                this.user.sendMessage("challenges.messages.you-repeated-challenge", "[value]", this.challenge.getFriendlyName());
+            }
         }
 
         // Mark as complete
-        this.manager.setChallengeComplete(this.user, this.world, this.challenge);
+        this.manager.setChallengeComplete(this.user, this.world, this.challenge, result.getFactor());
 
-        if (!result.repeat)
+        // Check level completion for non-free challenges
+        if (!result.wasCompleted() &&
+            !this.challenge.getLevel().equals(ChallengesManager.FREE))
         {
             ChallengeLevel level = this.manager.getLevel(this.challenge);
 
-            if (!this.manager.isLevelCompleted(this.user, this.world, level))
+            if (level != null && !this.manager.isLevelCompleted(this.user, this.world, level))
             {
                 if (this.manager.validateLevelCompletion(this.user, this.world, level))
                 {
@@ -319,6 +406,17 @@ public class TryToComplete
                     }
 
                     this.manager.setLevelComplete(this.user, this.world, level);
+
+                    // sends title to player on level completion
+                    if (this.addon.getChallengesSettings().isShowCompletionTitle())
+                    {
+                        this.user.getPlayer().sendTitle(
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
+                            10,
+                            this.addon.getChallengesSettings().getTitleShowtime(),
+                            20);
+                    }
                 }
             }
         }
@@ -328,10 +426,76 @@ public class TryToComplete
 
 
     /**
+     * This method full fills all challenge type requirements, that is not full filled yet.
+     * @param result Challenge Results
+     */
+    private void fullFillRequirements(ChallengeResult result)
+    {
+        if (this.challenge.getChallengeType().equals(ChallengeType.ISLAND))
+        {
+            if (result.meetsRequirements &&
+                this.challenge.isRemoveEntities() &&
+                !this.challenge.getRequiredEntities().isEmpty())
+            {
+                this.removeEntities(result.entities, result.getFactor());
+            }
+
+            if (result.meetsRequirements &&
+                this.challenge.isRemoveBlocks() &&
+                !this.challenge.getRequiredBlocks().isEmpty())
+            {
+                this.removeBlocks(result.blocks, result.getFactor());
+            }
+        }
+        else if (this.challenge.getChallengeType().equals(ChallengeType.INVENTORY))
+        {
+
+            // If remove items, then remove them
+            if (this.challenge.isTakeItems())
+            {
+                int sumEverything = result.requiredItems.stream().
+                    mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
+                    sum();
+
+                Map<ItemStack, Integer> removedItems =
+                    this.removeItems(result.requiredItems, result.getFactor());
+
+                int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
+
+                // Something is not removed.
+                if (sumEverything != removedAmount)
+                {
+                    this.user.sendMessage("challenges.errors.cannot-remove-items");
+
+                    result.removedItems = removedItems;
+                    result.meetsRequirements = false;
+                }
+            }
+        }
+        else if (this.challenge.getChallengeType().equals(ChallengeType.OTHER))
+        {
+            if (this.addon.isEconomyProvided() && this.challenge.isTakeMoney())
+            {
+                this.addon.getEconomyProvider().withdraw(this.user, this.challenge.getRequiredMoney());
+            }
+
+            if (this.challenge.isTakeExperience() &&
+                this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
+            {
+                // Cannot take anything from creative game mode.
+                this.user.getPlayer().setTotalExperience(
+                    this.user.getPlayer().getTotalExperience() - this.challenge.getRequiredExperience());
+            }
+        }
+    }
+
+
+    /**
      * Checks if a challenge can be completed or not
      * It returns ChallengeResult.
+     * @param maxTimes - times that user wanted to complete
      */
-    private ChallengeResult checkIfCanCompleteChallenge()
+    private ChallengeResult checkIfCanCompleteChallenge(int maxTimes)
     {
         ChallengeResult result;
 
@@ -399,19 +563,25 @@ public class TryToComplete
         }
         else if (type.equals(ChallengeType.INVENTORY))
         {
-            result = this.checkInventory();
+            result = this.checkInventory(this.getAvailableCompletionTimes(maxTimes));
         }
         else if (type.equals(ChallengeType.ISLAND))
         {
-            result = this.checkSurrounding();
+            result = this.checkSurrounding(this.getAvailableCompletionTimes(maxTimes));
         }
         else if (type.equals(ChallengeType.OTHER))
         {
-            result = this.checkOthers();
+            result = this.checkOthers(this.getAvailableCompletionTimes(maxTimes));
         }
         else
         {
             result = EMPTY_RESULT;
+        }
+
+        // Mark if challenge is completed.
+        if (result.isMeetsRequirements())
+        {
+            result.setCompleted(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
         }
 
         // Everything fails till this point.
@@ -428,6 +598,35 @@ public class TryToComplete
         return this.challenge.getRequiredPermissions().isEmpty() ||
             this.challenge.getRequiredPermissions().stream().allMatch(s -> this.user.hasPermission(s));
     }
+
+
+    /**
+     * This method checks if it is possible to complete maxTimes current challenge by
+     * challenge constraints and already completed times.
+     * @param vantedTimes How many times user wants to complete challenge
+     * @return how many times user is able complete challenge by its constraints.
+     */
+    private int getAvailableCompletionTimes(int vantedTimes)
+    {
+        if (!this.challenge.isRepeatable())
+        {
+            // Challenge is not repeatable
+            vantedTimes = 1;
+        }
+        else if (this.challenge.getMaxTimes() != 0)
+        {
+            // Challenge has limitations
+            long availableTimes = this.challenge.getMaxTimes() - this.manager.getChallengeTimes(this.user, this.world, this.challenge);
+
+            if (availableTimes < vantedTimes)
+            {
+                vantedTimes = (int) availableTimes;
+            }
+        }
+
+        return vantedTimes;
+    }
+
 
     /**
      * This method runs all commands from command list.
@@ -497,112 +696,177 @@ public class TryToComplete
     /**
      * Checks if a inventory challenge can be completed or not
      * It returns ChallengeResult.
+     * @param maxTimes - times that user wanted to complete
      */
-    private ChallengeResult checkInventory()
+    private ChallengeResult checkInventory(int maxTimes)
     {
         // Run through inventory
-        List<ItemStack> required = new ArrayList<>(this.challenge.getRequiredItems());
+        List<ItemStack> requiredItems = new ArrayList<>(this.challenge.getRequiredItems().size());
 
         // Players in creative game mode has got all items. No point to search for them.
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
-            for (ItemStack req : required)
+            // Group all equal items in singe stack, as otherwise it will be too complicated to check if all
+            // items are in players inventory.
+            for (ItemStack item : this.challenge.getRequiredItems())
             {
-                // Check for FIREWORK_ROCKET, ENCHANTED_BOOK, WRITTEN_BOOK, POTION and
-                // FILLED_MAP because these have unique meta when created
-                switch (req.getType())
-                {
-                    case FIREWORK_ROCKET:
-                    case ENCHANTED_BOOK:
-                    case WRITTEN_BOOK:
-                    case FILLED_MAP:
-                        // Get how many items are in the inventory. Item stacks amounts need to be summed
-                        int numInInventory =
-                            Arrays.stream(this.user.getInventory().getContents()).
-                                filter(Objects::nonNull).
-                                filter(i -> i.getType().equals(req.getType())).
-                                mapToInt(ItemStack::getAmount).
-                                sum();
+                boolean isUnique = true;
 
-                        if (numInInventory < req.getAmount())
-                        {
-                            this.user.sendMessage("challenges.errors.not-enough-items",
-                                "[items]",
-                                Util.prettifyText(req.getType().toString()));
-                            return EMPTY_RESULT;
-                        }
-                        break;
-                    default:
-                        // General checking
-                        if (!this.user.getInventory().containsAtLeast(req, req.getAmount()))
-                        {
-                            this.user.sendMessage("challenges.errors.not-enough-items",
-                                "[items]",
-                                Util.prettifyText(req.getType().toString()));
-                            return EMPTY_RESULT;
-                        }
-                        break;
+                int i = 0;
+                final int requiredSize = requiredItems.size();
+
+                while (i < requiredSize && isUnique)
+                {
+                    ItemStack required = requiredItems.get(i);
+
+                    // Merge items which meta can be ignored or is similar to item in required list.
+                    if (this.canIgnoreMeta(item.getType()) && item.getType().equals(required.getType()) ||
+                        required.isSimilar(item))
+                    {
+                        required.setAmount(required.getAmount() + item.getAmount());
+                        isUnique = false;
+                    }
+
+                    i++;
+                }
+
+                if (isUnique)
+                {
+                    // The same issue as in other places. Clone prevents from changing original item.
+                    requiredItems.add(item.clone());
                 }
             }
 
-            // If remove items, then remove them
-
-            if (this.challenge.isTakeItems())
+            // Check if all required items are in players inventory.
+            for (ItemStack required : requiredItems)
             {
-                this.removeItems(required);
+                int numInInventory;
+
+                if (this.canIgnoreMeta(required.getType()))
+                {
+                    numInInventory =
+                        Arrays.stream(this.user.getInventory().getContents()).
+                            filter(Objects::nonNull).
+                            filter(i -> i.getType().equals(required.getType())).
+                            mapToInt(ItemStack::getAmount).
+                            sum();
+                }
+                else
+                {
+                    numInInventory =
+                        Arrays.stream(this.user.getInventory().getContents()).
+                            filter(Objects::nonNull).
+                            filter(i -> i.isSimilar(required)).
+                            mapToInt(ItemStack::getAmount).
+                            sum();
+                }
+
+                if (numInInventory < required.getAmount())
+                {
+                    this.user.sendMessage("challenges.errors.not-enough-items",
+                        "[items]",
+                        Util.prettifyText(required.getType().toString()));
+                    return EMPTY_RESULT;
+                }
+
+                maxTimes = Math.min(maxTimes, numInInventory / required.getAmount());
             }
         }
 
         // Return the result
-        return new ChallengeResult().setMeetsRequirements().setRepeat(
-            this.manager.isChallengeComplete(this.user, this.world, this.challenge));
+        return new ChallengeResult().
+            setMeetsRequirements().
+            setCompleteFactor(maxTimes).
+            setRequiredItems(requiredItems);
     }
 
 
     /**
      * Removes items from a user's inventory
-     * @param required - a list of item stacks to be removed
+     * @param requiredItemList - a list of item stacks to be removed
+     * @param factor - factor for required items.
      */
-    Map<Material, Integer> removeItems(List<ItemStack> required)
+    Map<ItemStack, Integer> removeItems(List<ItemStack> requiredItemList, int factor)
     {
-        Map<Material, Integer> removed = new HashMap<>();
+        Map<ItemStack, Integer> removed = new HashMap<>();
 
-        for (ItemStack req : required)
+        for (ItemStack required : requiredItemList)
         {
-            int amountToBeRemoved = req.getAmount();
-            List<ItemStack> itemsInInv = Arrays.stream(user.getInventory().getContents()).
-                filter(Objects::nonNull).
-                filter(i -> i.getType().equals(req.getType())).
-                collect(Collectors.toList());
+            int amountToBeRemoved = required.getAmount() * factor;
 
-            for (ItemStack i : itemsInInv)
+            List<ItemStack> itemsInInventory;
+
+            if (this.canIgnoreMeta(required.getType()))
+            {
+                // Use collecting method that ignores item meta.
+                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.getType().equals(required.getType())).
+                    collect(Collectors.toList());
+            }
+            else
+            {
+                // Use collecting method that compares item meta.
+                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.isSimilar(required)).
+                    collect(Collectors.toList());
+            }
+
+            for (ItemStack itemStack : itemsInInventory)
             {
                 if (amountToBeRemoved > 0)
                 {
+                    ItemStack dummy = itemStack.clone();
+                    dummy.setAmount(1);
+
                     // Remove either the full amount or the remaining amount
-                    if (i.getAmount() >= amountToBeRemoved)
+                    if (itemStack.getAmount() >= amountToBeRemoved)
                     {
-                        i.setAmount(i.getAmount() - amountToBeRemoved);
-                        removed.merge(i.getType(), amountToBeRemoved, Integer::sum);
+                        itemStack.setAmount(itemStack.getAmount() - amountToBeRemoved);
+                        removed.merge(dummy, amountToBeRemoved, Integer::sum);
                         amountToBeRemoved = 0;
                     }
                     else
                     {
-                        removed.merge(i.getType(), i.getAmount(), Integer::sum);
-                        amountToBeRemoved -= i.getAmount();
-                        i.setAmount(0);
+                        removed.merge(dummy, itemStack.getAmount(), Integer::sum);
+                        amountToBeRemoved -= itemStack.getAmount();
+                        itemStack.setAmount(0);
                     }
                 }
             }
 
             if (amountToBeRemoved > 0)
             {
-                this.addon.logError("Could not remove " + amountToBeRemoved + " of " + req.getType() +
+                this.addon.logError("Could not remove " + amountToBeRemoved + " of " + required.getType() +
                     " from player's inventory!");
             }
         }
 
         return removed;
+    }
+
+
+    /**
+     * This method returns if meta data of these items can be ignored. It means, that items will be searched
+     * and merged by they type instead of using ItemStack#isSimilar(ItemStack) method.
+     *
+     * This limits custom Challenges a lot. It comes from ASkyBlock times, and that is the reason why it is
+     * still here. It would be a great Challenge that could be completed by collecting 4 books, that cannot
+     * be crafted. Unfortunately, this prevents it.
+     * The same happens with firework rockets, enchanted books and filled maps.
+     * In future it should be able to specify, which items meta should be ignored when adding item in required
+     * item list.
+     *
+     * @param material Material that need to be checked.
+     * @return True if material meta can be ignored, otherwise false.
+     */
+    private boolean canIgnoreMeta(Material material)
+    {
+        return material.equals(Material.FIREWORK_ROCKET) ||
+            material.equals(Material.ENCHANTED_BOOK) ||
+            material.equals(Material.WRITTEN_BOOK) ||
+            material.equals(Material.FILLED_MAP);
     }
 
 
@@ -614,45 +878,54 @@ public class TryToComplete
     /**
      * Checks if a island challenge can be completed or not
      * It returns ChallengeResult.
+     * @param factor - times that user wanted to complete
      */
-    private ChallengeResult checkSurrounding()
+    private ChallengeResult checkSurrounding(int factor)
     {
-        ChallengeResult result;
+        // Init location in player position.
+        BoundingBox boundingBox = this.user.getPlayer().getBoundingBox().clone();
 
-        if (!this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
+        // Expand position with search radius.
+        boundingBox.expand(this.challenge.getSearchRadius());
+
+        if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world))
         {
-            // Player is not on island
-            this.user.sendMessage("challenges.errors.not-on-island");
-            result = EMPTY_RESULT;
+            // Players should not be able to complete challenge if they stay near island with required blocks.
+
+            Island island = this.addon.getIslands().getIsland(this.world, this.user);
+
+            if (boundingBox.getMinX() < island.getMinX())
+            {
+                boundingBox.expand(BlockFace.EAST, Math.abs(island.getMinX() - boundingBox.getMinX()));
+            }
+
+            if (boundingBox.getMinZ() < island.getMinZ())
+            {
+                boundingBox.expand(BlockFace.NORTH, Math.abs(island.getMinZ() - boundingBox.getMinZ()));
+            }
+
+            int range = island.getRange();
+
+            int islandMaxX = island.getMinX() + range * 2;
+            int islandMaxZ = island.getMinZ() + range * 2;
+
+            if (boundingBox.getMaxX() > islandMaxX)
+            {
+                boundingBox.expand(BlockFace.WEST, Math.abs(boundingBox.getMaxX() - islandMaxX));
+            }
+
+            if (boundingBox.getMaxZ() > islandMaxZ)
+            {
+                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - islandMaxZ));
+            }
         }
-        else
+
+        ChallengeResult result = this.searchForEntities(this.challenge.getRequiredEntities(), factor, boundingBox);
+
+        if (result.isMeetsRequirements() && !this.challenge.getRequiredBlocks().isEmpty())
         {
-            // Check for items or entities in the area
-
-            result = this.searchForEntities(this.challenge.getRequiredEntities(), this.challenge.getSearchRadius());
-
-            if (result.meetsRequirements && !this.challenge.getRequiredBlocks().isEmpty())
-            {
-                // Search for items only if entities found
-                result = this.searchForBlocks(this.challenge.getRequiredBlocks(), this.challenge.getSearchRadius());
-            }
-
-            if (result.meetsRequirements &&
-                this.challenge.isRemoveEntities() &&
-                !this.challenge.getRequiredEntities().isEmpty())
-            {
-                this.removeEntities();
-            }
-
-            if (result.meetsRequirements &&
-                this.challenge.isRemoveBlocks() &&
-                !this.challenge.getRequiredBlocks().isEmpty())
-            {
-                this.removeBlocks();
-            }
-
-            // Check if challenge is repeated.
-            result.setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
+            // Search for items only if entities found
+            result = this.searchForBlocks(this.challenge.getRequiredBlocks(), result.getFactor(), boundingBox);
         }
 
         return result;
@@ -660,69 +933,173 @@ public class TryToComplete
 
 
     /**
-     * This method search required blocks in given radius from user position.
-     * @param map RequiredBlock Map.
-     * @param searchRadius Search distance
+     * This method search required blocks in given challenge boundingBox.
+     * @param requiredMap RequiredBlock Map.
+     * @param factor - requirement multilayer.
+     * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForBlocks(Map<Material, Integer> map, int searchRadius)
+    private ChallengeResult searchForBlocks(Map<Material, Integer> requiredMap, int factor, BoundingBox boundingBox)
     {
-        Map<Material, Integer> blocks = new EnumMap<>(map);
-
-        for (int x = -searchRadius; x <= searchRadius; x++)
+        if (requiredMap.isEmpty())
         {
-            for (int y = -searchRadius; y <= searchRadius; y++)
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
+        }
+
+        Map<Material, Integer> blocks = new EnumMap<>(requiredMap);
+        Map<Material, Integer> blocksFound = new HashMap<>(requiredMap.size());
+
+        // This queue will contain only blocks whit required type ordered by distance till player.
+        Queue<Block> blockFromWorld = new PriorityQueue<>((o1, o2) -> {
+           if (o1.getType().equals(o2.getType()))
+           {
+               return Double.compare(o1.getLocation().distance(this.user.getLocation()),
+                   o2.getLocation().distance(this.user.getLocation()));
+           }
+           else
+           {
+               return o1.getType().compareTo(o2.getType());
+           }
+        });
+
+        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++)
+        {
+            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++)
             {
-                for (int z = -searchRadius; z <= searchRadius; z++)
+                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++)
                 {
-                    Material mat = this.user.getWorld().getBlockAt(this.user.getLocation().add(new Vector(x, y, z))).getType();
-                    // Remove one
-                    blocks.computeIfPresent(mat, (b, amount) -> amount - 1);
-                    // Remove any that have an amount of 0
-                    blocks.entrySet().removeIf(en -> en.getValue() <= 0);
+                    Block block = this.user.getWorld().getBlockAt(x, y, z);
+
+                    if (requiredMap.containsKey(block.getType()))
+                    {
+                        blockFromWorld.add(block);
+
+                        blocksFound.putIfAbsent(block.getType(), 1);
+                        blocksFound.computeIfPresent(block.getType(), (reqEntity, amount) -> amount + 1);
+
+                        // Remove one
+                        blocks.computeIfPresent(block.getType(), (b, amount) -> amount - 1);
+                        // Remove any that have an amount of 0
+                        blocks.entrySet().removeIf(en -> en.getValue() <= 0);
+
+                        if (blocks.isEmpty() && factor == 1)
+                        {
+                            // Return as soon as it s empty as no point to search more.
+                            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
+                        }
+                    }
                 }
             }
         }
 
         if (blocks.isEmpty())
         {
-            return new ChallengeResult().setMeetsRequirements();
+            if (factor > 1)
+            {
+                // Calculate minimal completion count.
+
+                for (Map.Entry<Material, Integer> entry : blocksFound.entrySet())
+                {
+                    factor = Math.min(factor,
+                        entry.getValue() / requiredMap.get(entry.getKey()));
+                }
+            }
+
+            // kick garbage collector
+            blocksFound.clear();
+
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
         }
 
-        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(searchRadius));
+        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(this.challenge.getSearchRadius()));
 
         blocks.forEach((k, v) -> user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(v),
             "[item]", Util.prettifyText(k.toString())));
+
+
+        // kick garbage collector
+        blocks.clear();
+        blocksFound.clear();
+        requiredMap.clear();
 
         return EMPTY_RESULT;
     }
 
 
     /**
-     * This method search required entities in given radius from user position.
-     * @param map RequiredEntities Map.
-     * @param searchRadius Search distance
+     * This method search required entities in given radius from user position and entity is inside boundingBox.
+     * @param requiredMap RequiredEntities Map.
+     * @param factor - requirements multiplier.
+     * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForEntities(Map<EntityType, Integer> map, int searchRadius)
+    private ChallengeResult searchForEntities(Map<EntityType, Integer> requiredMap,
+        int factor,
+        BoundingBox boundingBox)
     {
-        Map<EntityType, Integer> entities = map.isEmpty() ? new EnumMap<>(EntityType.class) : new EnumMap<>(map);
-
-        this.user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
-            // Look through all the nearby Entities, filtering by type
-            entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
-            entities.entrySet().removeIf(e -> e.getValue() == 0);
-        });
-
-        if (entities.isEmpty())
+        if (requiredMap.isEmpty())
         {
-            return new ChallengeResult().setMeetsRequirements();
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
 
-        entities.forEach((reqEnt, amount) -> this.user.sendMessage("challenges.errors.you-still-need",
+        // Collect all entities that could be removed.
+        Map<EntityType, Integer> entitiesFound = new HashMap<>();
+        Map<EntityType, Integer> minimalRequirements = new EnumMap<>(requiredMap);
+
+        // Create queue that contains all required entities ordered by distance till player.
+        Queue<Entity> entityQueue = new PriorityQueue<>((o1, o2) -> {
+            if (o1.getType().equals(o2.getType()))
+            {
+                return Double.compare(o1.getLocation().distance(this.user.getLocation()),
+                    o2.getLocation().distance(this.user.getLocation()));
+            }
+            else
+            {
+                return o1.getType().compareTo(o2.getType());
+            }
+        });
+
+        this.world.getNearbyEntities(boundingBox).forEach(entity -> {
+            // Check if entity is inside challenge bounding box
+            if (requiredMap.containsKey(entity.getType()))
+            {
+                entitiesFound.putIfAbsent(entity.getType(), 1);
+                entitiesFound.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount + 1);
+
+                // Look through all the nearby Entities, filtering by type
+                minimalRequirements.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
+                minimalRequirements.entrySet().removeIf(e -> e.getValue() == 0);
+            }
+        });
+
+        if (minimalRequirements.isEmpty())
+        {
+            if (factor > 1)
+            {
+                // Calculate minimal completion count.
+
+                for (Map.Entry<EntityType, Integer> entry : entitiesFound.entrySet())
+                {
+                    factor = Math.min(factor,
+                        entry.getValue() / requiredMap.get(entry.getKey()));
+                }
+            }
+
+            // Kick garbage collector
+            entitiesFound.clear();
+
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setEntityQueue(entityQueue);
+        }
+
+        minimalRequirements.forEach((reqEnt, amount) -> this.user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(amount),
             "[item]", Util.prettifyText(reqEnt.toString())));
+
+        // Kick garbage collector
+        entitiesFound.clear();
+        minimalRequirements.clear();
+        entityQueue.clear();
 
         return EMPTY_RESULT;
     }
@@ -730,46 +1107,43 @@ public class TryToComplete
 
     /**
      * This method removes required block and set air instead of it.
+     * @param blockQueue Queue with blocks that could be removed
+     * @param factor requirement factor for each block type.
      */
-    private void removeBlocks()
+    private void removeBlocks(Queue<Block> blockQueue, int factor)
     {
         Map<Material, Integer> blocks = new EnumMap<>(this.challenge.getRequiredBlocks());
-        int searchRadius = this.challenge.getSearchRadius();
 
-        for (int x = -searchRadius; x <= searchRadius; x++)
-        {
-            for (int y = -searchRadius; y <= searchRadius; y++)
+        // Increase required blocks by factor.
+        blocks.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
+
+        blockQueue.forEach(block -> {
+            if (blocks.containsKey(block.getType()))
             {
-                for (int z = -searchRadius; z <= searchRadius; z++)
-                {
-                    Block block = this.user.getWorld().getBlockAt(this.user.getLocation().add(new Vector(x, y, z)));
+                blocks.computeIfPresent(block.getType(), (b, amount) -> amount - 1);
+                blocks.entrySet().removeIf(en -> en.getValue() <= 0);
 
-                    if (blocks.containsKey(block.getType()))
-                    {
-                        blocks.computeIfPresent(block.getType(), (b, amount) -> amount - 1);
-                        blocks.entrySet().removeIf(en -> en.getValue() <= 0);
-
-                        block.setType(Material.AIR);
-                    }
-                }
+                block.setType(Material.AIR);
             }
-        }
+        });
     }
 
 
     /**
      * This method removes required entities.
+     * @param entityQueue Queue with entities that could be removed
+     * @param factor requirement factor for each entity type.
      */
-    private void removeEntities()
+    private void removeEntities(Queue<Entity> entityQueue, int factor)
     {
         Map<EntityType, Integer> entities = this.challenge.getRequiredEntities().isEmpty() ?
             new EnumMap<>(EntityType.class) : new EnumMap<>(this.challenge.getRequiredEntities());
 
-        int searchRadius = this.challenge.getSearchRadius();
+        // Increase required entities by factor.
+        entities.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
 
-        this.user.getPlayer().getNearbyEntities(searchRadius, searchRadius, searchRadius).forEach(entity -> {
-            // Look through all the nearby Entities, filtering by type
-
+        // Go through entity queue and remove entities that are requried.
+        entityQueue.forEach(entity -> {
             if (entities.containsKey(entity.getType()))
             {
                 entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
@@ -788,8 +1162,9 @@ public class TryToComplete
     /**
      * Checks if a other challenge can be completed or not
      * It returns ChallengeResult.
+     * @param factor - times that user wanted to complete
      */
-    private ChallengeResult checkOthers()
+    private ChallengeResult checkOthers(int factor)
     {
     	if (!this.addon.isLevelProvided() && 
 			this.challenge.getRequiredIslandLevel() != 0)
@@ -834,24 +1209,68 @@ public class TryToComplete
         }
         else
         {
-            if (this.addon.isEconomyProvided() && this.challenge.isTakeMoney())
-            {
-                this.addon.getEconomyProvider().withdraw(this.user, this.challenge.getRequiredMoney());
-            }
+        	// calculate factor
 
-            if (this.challenge.isTakeExperience() &&
-                this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
-            {
-                // Cannot take anything from creative game mode.
-                this.user.getPlayer().setTotalExperience(
-                    this.user.getPlayer().getTotalExperience() - this.challenge.getRequiredExperience());
-            }
+			if (this.addon.isEconomyProvided() && this.challenge.isTakeMoney())
+			{
+				factor = Math.min(factor, (int) this.addon.getEconomyProvider().getBalance(this.user) / this.challenge.getRequiredMoney());
+			}
 
-            return new ChallengeResult().setMeetsRequirements().
-                setRepeat(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
+			if (this.challenge.getRequiredExperience() > 0 && this.challenge.isTakeExperience())
+			{
+				factor = Math.min(factor, this.user.getPlayer().getTotalExperience() / this.challenge.getRequiredExperience());
+			}
+
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
 
         return EMPTY_RESULT;
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Title parsings
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This method pareses input message by replacing all challenge variables in [] with their values.
+     * @param inputMessage inputMessage string
+     * @param challenge Challenge from which these values should be taken
+     * @return new String that replaces [VALUE] with correct value from challenge.
+     */
+    private String parseChallenge(String inputMessage, Challenge challenge)
+    {
+        String outputMessage = inputMessage;
+
+        if (inputMessage.contains("[") && inputMessage.contains("]"))
+        {
+            outputMessage = outputMessage.replace("[friendlyName]", challenge.getFriendlyName());
+            outputMessage = outputMessage.replace("[level]", challenge.getLevel().isEmpty() ? "" : this.manager.getLevel(challenge.getLevel()).getFriendlyName());
+            outputMessage = outputMessage.replace("[rewardText]", challenge.getRewardText());
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', outputMessage);
+    }
+
+
+    /**
+     * This method pareses input message by replacing all level variables in [] with their values.
+     * @param inputMessage inputMessage string
+     * @param level level from which these values should be taken
+     * @return new String that replaces [VALUE] with correct value from level.
+     */
+    private String parseLevel(String inputMessage, ChallengeLevel level)
+    {
+        String outputMessage = inputMessage;
+
+        if (inputMessage.contains("[") && inputMessage.contains("]"))
+        {
+            outputMessage = outputMessage.replace("[friendlyName]", level.getFriendlyName());
+            outputMessage = outputMessage.replace("[rewardText]", level.getRewardText());
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', outputMessage);
     }
 
 
@@ -867,12 +1286,9 @@ public class TryToComplete
      */
     private class ChallengeResult
     {
-        private boolean meetsRequirements;
-
-        private boolean repeat;
-
-
         /**
+         * This method sets that challenge meets all requirements at least once.
+         * @return Current object.
          */
         ChallengeResult setMeetsRequirements()
         {
@@ -882,12 +1298,145 @@ public class TryToComplete
 
 
         /**
-         * @param repeat the repeat to set
+         * Method sets that challenge is completed once already
+         * @param completed boolean that indicate that challenge has been already completed.
+         * @return Current object.
          */
-        ChallengeResult setRepeat(boolean repeat)
+        ChallengeResult setCompleted(boolean completed)
         {
-            this.repeat = repeat;
+            this.completed = completed;
             return this;
         }
+
+
+        /**
+         * Method sets how many times challenge can be completed.
+         * @param factor Integer that represents completion count.
+         * @return Current object.
+         */
+        ChallengeResult setCompleteFactor(int factor)
+        {
+            this.factor = factor;
+            return this;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // Section: Requirement memory
+        // ---------------------------------------------------------------------
+
+
+        /**
+         * Method sets requiredItems for inventory challenge.
+         * @param requiredItems items that are required by inventory challenge.
+         * @return Current object.
+         */
+        ChallengeResult setRequiredItems(List<ItemStack> requiredItems)
+        {
+            this.requiredItems = requiredItems;
+            return this;
+        }
+
+
+        /**
+         * Method sets queue that contains all blocks with required material type.
+         * @param blocks queue that contains required materials from world.
+         * @return Current object.
+         */
+        ChallengeResult setBlockQueue(Queue<Block> blocks)
+        {
+            this.blocks = blocks;
+            return this;
+        }
+
+        /**
+         * Method sets queue that contains all entities with required entity type.
+         * @param entities queue that contains required entities from world.
+         * @return Current object.
+         */
+        ChallengeResult setEntityQueue(Queue<Entity> entities)
+        {
+            this.entities = entities;
+            return this;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // Section: Getters
+        // ---------------------------------------------------------------------
+
+
+        /**
+         * Returns value of was completed variable.
+         * @return value of completed variable
+         */
+        boolean wasCompleted()
+        {
+            return this.completed;
+        }
+
+
+        /**
+         * This method returns how many times challenge can be completed.
+         * @return completion count.
+         */
+        int getFactor()
+        {
+            return this.factor;
+        }
+
+
+        /**
+         * This method returns if challenge requirements has been met at least once.
+         * @return value of meets requirements variable.
+         */
+        boolean isMeetsRequirements()
+        {
+            return this.meetsRequirements;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // Section: Variables
+        // ---------------------------------------------------------------------
+
+
+        /**
+         * Boolean that indicate that challenge has already bean completed once before.
+         */
+        private boolean completed;
+
+        /**
+         * Indicates that challenge can be completed.
+         */
+        private boolean meetsRequirements;
+
+        /**
+         * Integer that represents how many times challenge is completed
+         */
+        private int factor;
+
+        /**
+         * List that contains required items for Inventory Challenge
+         * Necessary as it contains grouped items by type or similarity, not by limit 64.
+         */
+        private List<ItemStack> requiredItems;
+
+        /**
+         * Map that contains removed items and their removed count.
+         */
+        private Map<ItemStack, Integer> removedItems = null;
+
+        /**
+         * Queue of blocks that contains all blocks with the same type as requiredBlock from
+         * challenge requirements.
+         */
+        private Queue<Block> blocks;
+
+        /**
+         * Queue of entities that contains all entities with the same type as requiredEntities from
+         * challenge requirements.
+         */
+        private Queue<Entity> entities;
     }
 }

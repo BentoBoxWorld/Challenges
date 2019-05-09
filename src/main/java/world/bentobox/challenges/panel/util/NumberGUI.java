@@ -239,7 +239,13 @@ public class NumberGUI
 				return null;
 		}
 
-		return new PanelItem(icon, name, GuiUtils.stringSplit(description, this.lineLength), glow, clickHandler, false);
+		return new PanelItemBuilder().
+			icon(icon).
+			name(name).
+			description(GuiUtils.stringSplit(description, this.lineLength)).
+			glow(glow).
+			clickHandler(clickHandler).
+			build();
 	}
 
 

@@ -225,10 +225,12 @@ public class ChallengesAddon extends Addon {
     @Override
     public void onReload()
     {
-        if (this.hooked) {
-            this.challengesManager.save();
+        super.onReload();
 
+        if (this.hooked)
+        {
             this.loadSettings();
+            this.challengesManager.reload();
             this.getLogger().info("Challenges addon reloaded.");
         }
     }
