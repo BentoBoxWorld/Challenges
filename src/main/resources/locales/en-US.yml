@@ -12,24 +12,12 @@ challenges:
             main:
                 parameters: ''
                 description: 'Main admin command. Opens GUI.'
-            complete:
-                description: 'Mark challenge complete'
-                parameters: '<player> <unique challenge name>'
-            create:
-                description: 'Opens GUI that allows to create challenge.'
-                parameters: '<unique challenge name>'
-            surrounding:
-                description: 'Create a surrounding challenge.'
-                parameters: '<challenge name>'
             import:
-                description: 'Import challenges from challenges.yml'
-                parameters: '<overwrite>'
+                description: 'Import challenges from challenges.yml|Parameter overwrite means that challenges or levels with the same ID will be overwritten.'
+                parameters: '[overwrite]'
             reload:
-                description: 'Reload challenges from the database'
-                parameters: ''
-            reset:
-                description: 'Reset challenge to 0 times / incomplete'
-                parameters: '<player> <unique challenge name>'
+                description: 'Reload challenges from the database|Parameter hard means that addon will reset connection to database.'
+                parameters: '[hard]'
             show:
                 description: 'This method prints in chat all challenges that exist in world.'
                 parameters: ''
@@ -48,7 +36,7 @@ challenges:
                 parameters: ''
             complete:
                 description: 'This method allows to complete challenge without GUI.'
-                parameters: '<challenge_id>'
+                parameters: '<challenge_id> [count]'
     gui:
         title:
             admin:
@@ -97,7 +85,7 @@ challenges:
                 remove-on-complete: 'Remove after completion'
                 name: 'Friendly Name'
                 required-entities: 'Required Entities'
-                remove-entities: 'Remove Entities'
+                remove-entities: 'Kill Entities'
                 required-blocks: 'Required Blocks'
                 remove-blocks: 'Remove Blocks'
                 search-radius: 'Search Radius'
@@ -244,7 +232,7 @@ challenges:
                 gui-view-mode: 'Allows to set if /challenges GUI should show GameModes or challenges in players world.'
                 history-store: 'Allows to enable/disable challenges history storage.'
                 history-lifespan: 'Allows to modify how many days history data will be saved.|0 means forever.'
-                island-store: 'Allows to enable/disable challenges data string per island. This means that challenges will be the same on whole team, if this is enabled.|Will NOT convert data on click. PROGRESS WILL BE LOST.'
+                island-store: 'Allows to enable/disable challenges data storing per island. This means that challenges will be the same on whole team, if this is enabled.|Will NOT convert data on click. PROGRESS WILL BE LOST.'
                 default-locked-icon: 'Allows to change default locked level icon.|This option can be overwritten by each level.'
                 gui-mode: 'Allows to enable/disable single challenges GUI.|&2Requires server restart.'
                 click-to-edit: '&4Click here to edit input.'
@@ -334,7 +322,7 @@ challenges:
         load-skipping: '"[value]" already exists - skipping'
         load-overwriting: 'Overwriting "[value]"'
         load-add: 'Adding new object: [value]'
-        defaults-file-overwrite: 'default.json exists. It will be overwritten.'
+        defaults-file-overwrite: 'defaults.json exists. It will be overwritten.'
         defaults-file-completed: 'defaults.json file is populated with challenges from [world]!'
     errors:
         no-name: '&cMissing challenge name'
@@ -362,8 +350,8 @@ challenges:
         no-rank: "&cYou do not have rank to do that."
         cannot-remove-items: '&cSome items cannot be removed from inventory!'
         exist-challenges-or-levels: '&cIn your world already exist challenges. Cannot proceed!'
-        defaults-file-exist: '&cdefault.json already exists. Use overwrite mode to replace it!'
-        defaults-file-error: '&cThere was an error while creating default.json file! Check console!'
+        defaults-file-exist: '&cdefaults.json already exists. Use overwrite mode to replace it!'
+        defaults-file-error: '&cThere was an error while creating defaults.json file! Check console!'
         no-challenges: '&cChallenges are not implemented in current world!'
         missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
 protection:
