@@ -1462,6 +1462,20 @@ public class ChallengesManager
         if (this.levelCacheData.containsKey(challengeLevel.getUniqueId()))
         {
             this.levelCacheData.remove(challengeLevel.getUniqueId());
+
+            // Remove challenge level from challenges object.
+            if (!challengeLevel.getChallenges().isEmpty())
+            {
+                challengeLevel.getChallenges().forEach(challengeID -> {
+                    Challenge challenge = this.getChallenge(challengeID);
+
+                    if (challenge != null)
+                    {
+                        challenge.setLevel(ChallengesManager.FREE);
+                    }
+                });
+            }
+
             this.levelDatabase.deleteObject(challengeLevel);
         }
     }

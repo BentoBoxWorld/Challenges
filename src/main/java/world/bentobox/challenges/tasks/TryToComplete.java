@@ -359,12 +359,13 @@ public class TryToComplete
         // Mark as complete
         this.manager.setChallengeComplete(this.user, this.world, this.challenge, result.getFactor());
 
-        // Check level completion.
-        if (!result.wasCompleted())
+        // Check level completion for non-free challenges
+        if (!result.wasCompleted() &&
+            !this.challenge.getLevel().equals(ChallengesManager.FREE))
         {
             ChallengeLevel level = this.manager.getLevel(this.challenge);
 
-            if (!this.manager.isLevelCompleted(this.user, this.world, level))
+            if (level != null && !this.manager.isLevelCompleted(this.user, this.world, level))
             {
                 if (this.manager.validateLevelCompletion(this.user, this.world, level))
                 {

@@ -298,8 +298,19 @@ public abstract class CommonGUI
 			{
 				case 'l':
 				{
-					result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
-						"[level]", manager.getLevel(challenge).getFriendlyName()));
+					ChallengeLevel level = manager.getLevel(challenge);
+
+					if (level == null)
+					{
+						result.add(this.user.getTranslation("challenges.errors.missing-level",
+							"[level]", challenge.getLevel()));
+					}
+					else
+					{
+						result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
+							"[level]", level.getFriendlyName()));
+					}
+
 					break;
 				}
 				case 's':
