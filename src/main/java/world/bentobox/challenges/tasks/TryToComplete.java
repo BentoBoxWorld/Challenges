@@ -1064,6 +1064,8 @@ public class TryToComplete
             // Check if entity is inside challenge bounding box
             if (requiredMap.containsKey(entity.getType()))
             {
+				entityQueue.add(entity);
+
                 entitiesFound.putIfAbsent(entity.getType(), 1);
                 entitiesFound.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount + 1);
 
