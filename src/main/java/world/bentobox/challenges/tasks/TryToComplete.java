@@ -162,7 +162,9 @@ public class TryToComplete
         this.permissionPrefix = permissionPrefix;
         this.user = user;
         this.manager = addon.getChallengesManager();
-        this.challenge = challenge;
+        // To avoid any modifications that may accure to challenges in current completion
+        // just clone it.
+        this.challenge = challenge.clone();
         this.topLabel = topLabel;
     }
 
@@ -1021,7 +1023,7 @@ public class TryToComplete
         // kick garbage collector
         blocks.clear();
         blocksFound.clear();
-        requiredMap.clear();
+        blockFromWorld.clear();
 
         return EMPTY_RESULT;
     }
