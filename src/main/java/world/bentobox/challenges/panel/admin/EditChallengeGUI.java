@@ -604,7 +604,7 @@ public class EditChallengeGUI extends CommonGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.admin.required-blocks");
 
-				description = new ArrayList<>(this.challenge.getRequiredEntities().size() + 1);
+				description = new ArrayList<>(this.challenge.getRequiredBlocks().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-blocks"));
 
 				for (Map.Entry<Material, Integer> entry : this.challenge.getRequiredBlocks().entrySet())
@@ -713,7 +713,7 @@ public class EditChallengeGUI extends CommonGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.admin.required-items");
 
-				description = new ArrayList<>(this.challenge.getRequiredEntities().size() + 1);
+				description = new ArrayList<>(this.challenge.getRequiredItems().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-items"));
 
 				for (ItemStack itemStack : this.challenge.getRequiredItems())
@@ -847,7 +847,7 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(2);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-money"));
 				description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-					"[value]", Long.toString(this.challenge.getRequiredIslandLevel())));
+					"[value]", Long.toString(this.challenge.getRequiredMoney())));
 
 				icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
 				clickHandler = (panel, user, clickType, slot) -> {
