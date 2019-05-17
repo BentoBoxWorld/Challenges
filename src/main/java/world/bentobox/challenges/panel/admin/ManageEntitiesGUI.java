@@ -111,6 +111,7 @@ public class ManageEntitiesGUI extends CommonGUI
 	 */
 	private PanelItem createButton(Button button)
 	{
+		int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 		PanelItemBuilder builder = new PanelItemBuilder();
 
 		switch (button)
@@ -119,14 +120,13 @@ public class ManageEntitiesGUI extends CommonGUI
 				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.add"));
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
-					new SelectEntityGUI(this.user, Collections.emptySet(), this.asEggs, (status, entity) -> {
+					new SelectEntityGUI(this.user, this.requiredEntities.keySet(), this.asEggs, (status, entities) -> {
 						if (status)
 						{
-							if (!this.requiredEntities.containsKey(entity))
-							{
+							entities.forEach(entity -> {
 								this.requiredEntities.put(entity, 1);
 								this.entityList.add(entity);
-							}
+							});
 						}
 
 						this.build();
@@ -136,7 +136,7 @@ public class ManageEntitiesGUI extends CommonGUI
 				break;
 			case REMOVE:
 				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.remove-selected"));
-				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"));
+				builder.description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"), lineLength));
 				builder.icon(Material.LAVA_BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.requiredEntities.keySet().removeAll(this.selectedEntities);
@@ -147,7 +147,7 @@ public class ManageEntitiesGUI extends CommonGUI
 				break;
 			case SWITCH:
 				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.show-eggs"));
-				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.show-eggs"));
+				builder.description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.descriptions.admin.show-eggs"), lineLength));
 				builder.icon(this.asEggs ? Material.EGG : Material.PLAYER_HEAD);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.asEggs = !this.asEggs;

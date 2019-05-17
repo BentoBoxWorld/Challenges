@@ -111,6 +111,7 @@ public class ManageBlocksGUI extends CommonGUI
 	 */
 	private PanelItem createButton(Button button)
 	{
+		int lineLength = this.addon.getChallengesSettings().getLoreLineLength();
 		PanelItemBuilder builder = new PanelItemBuilder();
 
 		switch (button)
@@ -120,11 +121,13 @@ public class ManageBlocksGUI extends CommonGUI
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 
-					new SelectBlocksGUI(this.user, new HashSet<>(this.materialList), (status, material) -> {
+					new SelectBlocksGUI(this.user, new HashSet<>(this.materialList), (status, materials) -> {
 						if (status)
 						{
-							this.materialMap.put(material, 1);
-							this.materialList.add(material);
+							materials.forEach(material -> {
+								this.materialMap.put(material, 1);
+								this.materialList.add(material);
+							});
 						}
 
 						this.build();
@@ -134,7 +137,7 @@ public class ManageBlocksGUI extends CommonGUI
 				break;
 			case REMOVE:
 				builder.name(this.user.getTranslation("challenges.gui.buttons.admin.remove-selected"));
-				builder.description(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"));
+				builder.description(GuiUtils.stringSplit(this.user.getTranslation("challenges.gui.descriptions.admin.remove-selected"), lineLength));
 				builder.icon(Material.LAVA_BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 					this.materialMap.keySet().removeAll(this.selectedMaterials);

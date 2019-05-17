@@ -20,19 +20,20 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectEntityGUI
 {
-	public SelectEntityGUI(User user, BiConsumer<Boolean, EntityType> consumer)
+	public SelectEntityGUI(User user, BiConsumer<Boolean, Set<EntityType>> consumer)
 	{
 		this(user, Collections.emptySet(), true, consumer);
 	}
 
 
-	public SelectEntityGUI(User user, Set<EntityType> excludedEntities, boolean asEggs, BiConsumer<Boolean, EntityType> consumer)
+	public SelectEntityGUI(User user, Set<EntityType> excludedEntities, boolean asEggs, BiConsumer<Boolean, Set<EntityType>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
 		this.asEggs = asEggs;
 
 		this.entities = new ArrayList<>(EntityType.values().length);
+		this.selectedEntities = new HashSet<>(EntityType.values().length);
 
 		for (EntityType entityType : EntityType.values())
 		{
@@ -81,12 +82,29 @@ public class SelectEntityGUI
 			correctPage = pageIndex;
 		}
 
-		panelBuilder.item(4,
+		panelBuilder.item(3,
 			new PanelItemBuilder().
 				icon(Material.RED_STAINED_GLASS_PANE).
 				name(this.user.getTranslation("challenges.gui.buttons.admin.cancel")).
 				clickHandler( (panel, user1, clickType, slot) -> {
 					this.consumer.accept(false, null);
+					return true;
+				}).build());
+
+		List<String> description = new ArrayList<>();
+		if (!this.selectedEntities.isEmpty())
+		{
+			description.add(this.user.getTranslation("challenges.gui.descriptions.admin.selected") + ":");
+			this.selectedEntities.forEach(entity -> description.add(" - " + entity.name()));
+		}
+
+		panelBuilder.item(5,
+			new PanelItemBuilder().
+				icon(Material.GREEN_STAINED_GLASS_PANE).
+				name(this.user.getTranslation("challenges.gui.buttons.admin.accept")).
+				description(description).
+				clickHandler( (panel, user1, clickType, slot) -> {
+					this.consumer.accept(true, this.selectedEntities);
 					return true;
 				}).build());
 
@@ -156,10 +174,25 @@ public class SelectEntityGUI
 		return new PanelItemBuilder().
 			name(WordUtils.capitalize(entity.name().toLowerCase().replace("_", " "))).
 			icon(itemStack).
+			description(this.selectedEntities.contains(entity) ?
+				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			clickHandler((panel, user1, clickType, slot) -> {
-				this.consumer.accept(true, entity);
+				if (clickType.isRightClick())
+				{
+					if (!this.selectedEntities.add(entity))
+					{
+						this.selectedEntities.remove(entity);
+					}
+				}
+				else
+				{
+					this.consumer.accept(true, this.selectedEntities);
+				}
+
 				return true;
-			}).build();
+			}).
+			glow(this.selectedEntities.contains(entity)).
+			build();
 	}
 
 
@@ -171,7 +204,12 @@ public class SelectEntityGUI
 	/**
 	 * This variable stores consumer.
 	 */
-	private BiConsumer<Boolean, EntityType> consumer;
+	private BiConsumer<Boolean, Set<EntityType>> consumer;
+
+	/**
+	 * Set that contains selected entities.
+	 */
+	private Set<EntityType> selectedEntities;
 
 	/**
 	 * User who runs GUI.
