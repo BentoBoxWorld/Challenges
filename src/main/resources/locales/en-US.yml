@@ -353,6 +353,7 @@ challenges:
         defaults-file-exist: '&cdefaults.json already exists. Use overwrite mode to replace it!'
         defaults-file-error: '&cThere was an error while creating defaults.json file! Check console!'
         no-challenges: '&cChallenges are not implemented in current world!'
+        no-challenges-admin: '&cChallenges are not implemented in current world! You should use &5/[label] challenges &cto adding them!'
         missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
 protection:
     flags:
