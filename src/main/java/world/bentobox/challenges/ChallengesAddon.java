@@ -88,6 +88,14 @@ public class ChallengesAddon extends Addon {
 		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
 
 
+    /**
+     * This ir ugly way how to fix comparability issues between 1.13 and 1.14 versions.
+     * @deprecated Should be removed as soon as 1.13 support are dropped down.
+     */
+    @Deprecated
+    public static final Material SIGN_MATERIAL = Bukkit.getBukkitVersion().startsWith("1.13") ? Material.getMaterial("SIGN") : Material.getMaterial("OAK_SIGN");
+
+
 // ---------------------------------------------------------------------
 // Section: Methods
 // ---------------------------------------------------------------------

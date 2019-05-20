@@ -11,6 +11,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -138,7 +139,7 @@ public class SelectBlocksGUI
 
 			panelBuilder.item(18,
 				new PanelItemBuilder().
-					icon(Material.SIGN).
+					icon(ChallengesAddon.SIGN_MATERIAL).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage - 1);
@@ -147,7 +148,7 @@ public class SelectBlocksGUI
 
 			panelBuilder.item(26,
 				new PanelItemBuilder().
-					icon(Material.SIGN).
+					icon(ChallengesAddon.SIGN_MATERIAL).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage + 1);
