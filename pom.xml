@@ -101,6 +101,10 @@
 			<id>codemc-repo</id>
 			<url>https://repo.codemc.org/repository/maven-public/</url>
 		</repository>
+		<repository>
+			<id>codemc-nms</id>
+			<url>https://repo.codemc.org/repository/nms/</url>
+		</repository>
 		<!--Vault Repo is down.-->
 		<!--<repository>-->
 			<!--<id>vault-repo</id>-->
@@ -124,8 +128,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
 			<version>${spigot.version}</version>
 			<scope>provided</scope>
 		</dependency>
