@@ -175,7 +175,7 @@ public class ChallengesManager
      * @param challenge Challenge that must be loaded.
      * @return true if successful
      */
-    private void loadChallenge(Challenge challenge)
+    private void loadChallenge(@NonNull Challenge challenge)
     {
         this.loadChallenge(challenge, true, null, true);
     }
@@ -190,11 +190,17 @@ public class ChallengesManager
      * @param silent - if true, no messages are sent to user
      * @return - true if imported
      */
-    public boolean loadChallenge(Challenge challenge,
+    public boolean loadChallenge(@NonNull Challenge challenge,
             boolean overwrite,
             User user,
             boolean silent)
     {
+        if (challenge == null)
+        {
+            this.addon.logError("Tried to load NULL element from Database. One challenge is broken and will not work.");
+            return false;
+        }
+
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
             if (!overwrite)
@@ -235,7 +241,7 @@ public class ChallengesManager
      *
      * @param level the challenge level
      */
-    private void loadLevel(ChallengeLevel level)
+    private void loadLevel(@NonNull ChallengeLevel level)
     {
         this.loadLevel(level, true, null, true);
     }
@@ -250,8 +256,14 @@ public class ChallengesManager
      * @param silent of type boolean that indicate if message to user must be sent.
      * @return boolean that indicate about load status.
      */
-    public boolean loadLevel(ChallengeLevel level, boolean overwrite, User user, boolean silent)
+    public boolean loadLevel(@NonNull ChallengeLevel level, boolean overwrite, User user, boolean silent)
     {
+        if (level == null)
+        {
+            this.addon.logError("Tried to load NULL element from Database. One level is broken and will not work.");
+            return false;
+        }
+
         if (!this.isValidLevel(level))
         {
             if (user != null)
@@ -306,7 +318,7 @@ public class ChallengesManager
      * This method stores PlayerData into local cache.
      * @param playerData ChallengesPlayerData that must be loaded.
      */
-    private void loadPlayerData(ChallengesPlayerData playerData)
+    private void loadPlayerData(@NonNull ChallengesPlayerData playerData)
     {
         try
         {
@@ -352,7 +364,7 @@ public class ChallengesManager
      * @param level that must be validated
      * @return true ir level is valid, otherwise false.
      */
-    private boolean isValidLevel(ChallengeLevel level)
+    private boolean isValidLevel(@NonNull ChallengeLevel level)
     {
         if (!this.addon.getPlugin().getIWM().inWorld(Bukkit.getWorld(level.getWorld())))
         {
@@ -369,6 +381,7 @@ public class ChallengesManager
                 }
                 else
                 {
+                    this.addon.logError("Cannot find " + uniqueID + " challenge for " + level.getUniqueId());
                     return false;
                 }
             }
@@ -398,7 +411,15 @@ public class ChallengesManager
             // Load player from database
             ChallengesPlayerData data = this.playersDatabase.loadObject(uniqueID);
             // Store in cache
-            this.playerCacheData.put(uniqueID, data);
+
+            if (data != null)
+            {
+                this.playerCacheData.put(uniqueID, data);
+            }
+            else
+            {
+                this.addon.logError("Could not load NULL player data object.");
+            }
         }
         else
         {
@@ -1194,8 +1215,16 @@ public class ChallengesManager
             if (this.challengeDatabase.objectExists(name))
             {
                 Challenge challenge = this.challengeDatabase.loadObject(name);
-                this.challengeCacheData.put(name, challenge);
-                return challenge;
+
+                if (challenge != null)
+                {
+                    this.challengeCacheData.put(name, challenge);
+                    return challenge;
+                }
+                else
+                {
+                    this.addon.logError("Tried to load NULL challenge object!");
+                }
             }
         }
 
@@ -1221,8 +1250,16 @@ public class ChallengesManager
             if (this.challengeDatabase.objectExists(name))
             {
                 Challenge challenge = this.challengeDatabase.loadObject(name);
-                this.challengeCacheData.put(name, challenge);
-                return true;
+
+                if (challenge != null)
+                {
+                    this.challengeCacheData.put(name, challenge);
+                    return true;
+                }
+                else
+                {
+                    this.addon.logError("Tried to load NULL challenge object!");
+                }
             }
         }
 
@@ -1342,8 +1379,16 @@ public class ChallengesManager
             if (this.levelDatabase.objectExists(name))
             {
                 ChallengeLevel level = this.levelDatabase.loadObject(name);
-                this.levelCacheData.put(name, level);
-                return level;
+
+                if (level != null)
+                {
+                    this.levelCacheData.put(name, level);
+                    return level;
+                }
+                else
+                {
+                    this.addon.logError("Tried to load NULL level.");
+                }
             }
         }
 
@@ -1369,8 +1414,16 @@ public class ChallengesManager
             if (this.levelDatabase.objectExists(name))
             {
                 ChallengeLevel level = this.levelDatabase.loadObject(name);
-                this.levelCacheData.put(name, level);
-                return true;
+
+                if (level != null)
+                {
+                    this.levelCacheData.put(name, level);
+                    return true;
+                }
+                else
+                {
+                    this.addon.logError("Tried to load NULL level.");
+                }
             }
         }
 
