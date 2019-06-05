@@ -431,6 +431,60 @@ public class ChallengesManager
         }
     }
 
+    // ---------------------------------------------------------------------
+    // Section: Wipe data
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * This method removes all challenges addon data from Database.
+     */
+    public void wipeDatabase()
+    {
+        this.wipeLevels();
+        this.wipeChallenges();
+        this.wipePlayers();
+    }
+
+
+    /**
+     * This method collects all data from levels database and removes them.
+     * Also clears levels cache data.
+     */
+    private void wipeLevels()
+    {
+        List<ChallengeLevel> levelList = this.levelDatabase.loadObjects();
+
+        levelList.forEach(level -> this.levelDatabase.deleteID(level.getUniqueId()));
+        this.levelCacheData.clear();
+    }
+
+
+    /**
+     * This method collects all data from challenges database and removes them.
+     * Also clears challenges cache data.
+     */
+    private void wipeChallenges()
+    {
+        List<Challenge> challengeList = this.challengeDatabase.loadObjects();
+
+        challengeList.forEach(challenge -> this.challengeDatabase.deleteID(challenge.getUniqueId()));
+        this.challengeCacheData.clear();
+    }
+
+
+    /**
+     * This method collects all data from players database and removes them.
+     * Also clears players cache data.
+     */
+    private void wipePlayers()
+    {
+        List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
+
+        playerDataList.forEach(playerData -> this.playersDatabase.deleteID(playerData.getUniqueId()));
+        this.playerCacheData.clear();
+    }
+
 
     // ---------------------------------------------------------------------
     // Section: Saving methods

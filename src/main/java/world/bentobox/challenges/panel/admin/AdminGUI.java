@@ -58,7 +58,8 @@ public class AdminGUI extends CommonGUI
 		IMPORT_CHALLENGES,
 		EDIT_SETTINGS,
 		DEFAULT_IMPORT_CHALLENGES,
-		DEFAULT_EXPORT_CHALLENGES
+		DEFAULT_EXPORT_CHALLENGES,
+		COMPLETE_WIPE
 	}
 
 
@@ -119,6 +120,9 @@ public class AdminGUI extends CommonGUI
 
 		// Edit Addon Settings
 		panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
+
+		// Button that deletes everything from challenges addon
+		panelBuilder.item(34, this.createButton(Button.COMPLETE_WIPE));
 
 		panelBuilder.item(44, this.returnButton);
 
@@ -432,6 +436,30 @@ public class AdminGUI extends CommonGUI
 						this.topLabel,
 						this.permissionPrefix,
 						this).build();
+
+					return true;
+				};
+				glow = false;
+
+				break;
+			}
+			case COMPLETE_WIPE:
+			{
+				permissionSuffix = WIPE;
+
+				name = this.user.getTranslation("challenges.gui.buttons.admin.complete-wipe");
+				description = this.user.getTranslation("challenges.gui.descriptions.admin.complete-wipe");
+				icon = new ItemStack(Material.TNT);
+				clickHandler = (panel, user, clickType, slot) -> {
+					new ConfirmationGUI(this.user, value -> {
+						if (value)
+						{
+							this.addon.getChallengesManager().wipeDatabase();
+							this.user.sendMessage("challenges.messages.admin.complete-wipe");
+						}
+
+						this.build();
+					});
 
 					return true;
 				};

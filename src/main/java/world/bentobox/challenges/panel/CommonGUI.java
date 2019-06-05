@@ -110,6 +110,8 @@ public abstract class CommonGUI
 
 	protected static final String DELETE = "delete";
 
+	protected static final String WIPE = "wipe";
+
 	protected static final String EDIT = "edit";
 
 	protected static final String ADD = "add";
