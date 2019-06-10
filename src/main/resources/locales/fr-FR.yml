@@ -92,7 +92,7 @@ challenges:
                 search-radius: 'Rayon de recherche'
                 required-permissions: 'Permissions requises'
                 required-items: 'Items requis'
-                remove-items: 'Supprimer des Items'
+                remove-items: 'Supprimer les Items'
                 required-experience: 'Experience requise'
                 remove-experience: 'Supprimer de l''expérience'
                 required-level: 'Niveau d''island requis'
