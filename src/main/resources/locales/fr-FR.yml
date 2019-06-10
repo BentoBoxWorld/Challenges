@@ -3,9 +3,9 @@
 # the one at http://yaml-online-parser.appspot.com                                        #
 ###########################################################################################
 
-### Credits ###
-# Tastybento: maintainer
-# nivcoo: traductor
+meta:
+  authors:
+  - nivcoo
 
 challenges:
     commands:
