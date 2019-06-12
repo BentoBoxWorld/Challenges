@@ -220,6 +220,16 @@ public class ChallengesAddon extends Addon {
             this.registerRequestHandler(new LevelDataRequestHandler(this));
 
             this.registerRequestHandler(new CompletedChallengesRequestHandler(this));
+
+            if (this.settings.getAutoSaveTimer() > 0)
+            {
+                this.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(
+                    this.getPlugin(),
+                    bukkitTask -> ChallengesAddon.this.challengesManager.save(),
+                    this.settings.getAutoSaveTimer() * 60 * 20,
+                    this.settings.getAutoSaveTimer() * 60 * 20
+                );
+            }
         } else {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);

@@ -156,6 +156,12 @@ public class Settings implements ConfigObject
     private int titleShowtime = 70;
 
     @ConfigComment("")
+    @ConfigComment("Long that represents how frequently (in minutes) challenges addon will save data to database.")
+    @ConfigComment("If this is set to 0, saving will not happen.")
+    @ConfigEntry(path = "auto-saver")
+    private long autoSaveTimer = 30;
+
+    @ConfigComment("")
     @ConfigComment("This list stores GameModes in which Challenges addon should not work.")
     @ConfigComment("To disable addon it is necessary to write its name in new line that starts with -. Example:")
     @ConfigComment("disabled-gamemodes:")
@@ -366,6 +372,27 @@ public class Settings implements ConfigObject
     public int getTitleShowtime()
     {
         return this.titleShowtime;
+    }
+
+
+    /**
+     * This method returns the autoSaveTimer object.
+     * @return the autoSaveTimer object.
+     */
+    public long getAutoSaveTimer()
+    {
+        return autoSaveTimer;
+    }
+
+
+    /**
+     * This method sets the autoSaveTimer object value.
+     * @param autoSaveTimer the autoSaveTimer object new value.
+     *
+     */
+    public void setAutoSaveTimer(long autoSaveTimer)
+    {
+        this.autoSaveTimer = autoSaveTimer;
     }
 
 

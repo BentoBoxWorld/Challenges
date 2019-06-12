@@ -109,6 +109,10 @@ title:
   # Integer that represents how long title will be visible for player.
   title-showtime: 70
 #
+# Long that represents how frequently (in minutes) challenges addon will save data to database.
+# If this is set to 0, saving will not happen.
+auto-saver: 30
+#
 # This list stores GameModes in which Challenges addon should not work.
 # To disable addon it is necessary to write its name in new line that starts with -. Example:
 # disabled-gamemodes:
