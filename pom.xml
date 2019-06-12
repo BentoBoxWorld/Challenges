@@ -36,7 +36,7 @@
 		<powermock.version>1.7.4</powermock.version>
 		<!-- More visible way how to change dependency versions -->
 		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
-		<bentobox.version>1.5.0-SNAPSHOT</bentobox.version>
+		<bentobox.version>1.5.0</bentobox.version>
 		<level.version>1.4.0</level.version>
 		<vault.version>68f14ec</vault.version>
 		<!-- Revision variable removes warning about dynamic version -->
@@ -177,6 +177,14 @@
 	</dependencies>
 
 	<build>
+		<!-- By default ${revision} is ${build.version}-SNAPSHOT -->
+		<!-- If GIT_BRANCH variable is set to origin/master, then it will be only ${build.version}. -->
+
+		<!-- By default ${build.number} is -LOCAL. -->
+		<!-- If the BUILD_NUMBER variable is set, then it will be -b[number]. -->
+		<!-- If GIT_BRANCH variable is set to origin/master, then it will be the empty string. -->
+		<finalName>${project.name}-${revision}${build.number}</finalName>
+
 		<defaultGoal>clean package</defaultGoal>
 		<resources>
 			<resource>
