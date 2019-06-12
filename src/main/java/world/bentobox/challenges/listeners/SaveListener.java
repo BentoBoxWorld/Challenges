@@ -23,21 +23,6 @@ public class SaveListener implements Listener
 
 
     /**
-     * This event listener handles world save event.
-     * @param e World Save event.
-     */
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onWorldSave(WorldSaveEvent e)
-    {
-        // Save only for worlds where exist any challenge addon data.
-        if (this.addon.getChallengesManager().hasAnyChallengeData(e.getWorld()))
-        {
-            this.addon.getChallengesManager().save();
-        }
-    }
-
-
-    /**
      * This event listener handles player kick event.
      * If player is kicked, then remove it from player cache data.
      * @param e PlayerKickEvent

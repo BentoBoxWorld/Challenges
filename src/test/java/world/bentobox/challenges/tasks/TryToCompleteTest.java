@@ -56,6 +56,11 @@ public class TryToCompleteTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		Server server = mock(Server.class);
+		PowerMockito.mockStatic(Bukkit.class);
+		when(Bukkit.getServer()).thenReturn(server);
+		when(Bukkit.getBukkitVersion()).thenReturn("1.13.2");
+
 		user = mock(User.class);
 		inv = mock(PlayerInventory.class);
 		when(inv.getContents()).thenReturn(stacks);
@@ -63,16 +68,12 @@ public class TryToCompleteTest {
 		addon = mock(ChallengesAddon.class);
 		required = new ArrayList<>();
 
-		Server server = mock(Server.class);
 		ItemFactory itemFactory = mock(ItemFactory.class);
 		when(server.getItemFactory()).thenReturn(itemFactory);
 
 		// Test will not work with items that has meta data.
 		when(itemFactory.getItemMeta(any())).thenReturn(null);
 		when(itemFactory.equals(null, null)).thenReturn(true);
-
-		PowerMockito.mockStatic(Bukkit.class);
-		when(Bukkit.getServer()).thenReturn(server);
 
 		when(Bukkit.getItemFactory()).thenReturn(itemFactory);
 		when(Bukkit.getLogger()).thenReturn(Logger.getAnonymousLogger());

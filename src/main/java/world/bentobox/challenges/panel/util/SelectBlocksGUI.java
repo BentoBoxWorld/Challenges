@@ -4,16 +4,14 @@ package world.bentobox.challenges.panel.util;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -23,13 +21,13 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class SelectBlocksGUI
 {
-	public SelectBlocksGUI(User user, BiConsumer<Boolean, Material> consumer)
+	public SelectBlocksGUI(User user, BiConsumer<Boolean, Set<Material>> consumer)
 	{
 		this(user, Collections.emptySet(), consumer);
 	}
 
 
-	public SelectBlocksGUI(User user, Set<Material> excludedMaterial, BiConsumer<Boolean, Material> consumer)
+	public SelectBlocksGUI(User user, Set<Material> excludedMaterial, BiConsumer<Boolean, Set<Material>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
@@ -47,6 +45,7 @@ public class SelectBlocksGUI
 		excludedMaterial.add(Material.BARRIER);
 
 		this.elements = new ArrayList<>();
+		this.selectedMaterials = new HashSet<>();
 
 		for (Material material : Material.values())
 		{
@@ -107,12 +106,30 @@ public class SelectBlocksGUI
 			index++;
 		}
 
-		panelBuilder.item(4,
+		panelBuilder.item(3,
 			new PanelItemBuilder().
 				icon(Material.RED_STAINED_GLASS_PANE).
 				name(this.user.getTranslation("challenges.gui.buttons.admin.cancel")).
 				clickHandler( (panel, user1, clickType, slot) -> {
 					this.consumer.accept(false, null);
+					return true;
+				}).build());
+
+
+		List<String> description = new ArrayList<>();
+		if (!this.selectedMaterials.isEmpty())
+		{
+			description.add(this.user.getTranslation("challenges.gui.descriptions.admin.selected") + ":");
+			this.selectedMaterials.forEach(material -> description.add(" - " + material.name()));
+		}
+
+		panelBuilder.item(5,
+			new PanelItemBuilder().
+				icon(Material.GREEN_STAINED_GLASS_PANE).
+				name(this.user.getTranslation("challenges.gui.buttons.admin.accept")).
+				description(description).
+				clickHandler( (panel, user1, clickType, slot) -> {
+					this.consumer.accept(true, this.selectedMaterials);
 					return true;
 				}).build());
 
@@ -122,7 +139,7 @@ public class SelectBlocksGUI
 
 			panelBuilder.item(18,
 				new PanelItemBuilder().
-					icon(Material.SIGN).
+					icon(ChallengesAddon.SIGN_MATERIAL).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage - 1);
@@ -131,7 +148,7 @@ public class SelectBlocksGUI
 
 			panelBuilder.item(26,
 				new PanelItemBuilder().
-					icon(Material.SIGN).
+					icon(ChallengesAddon.SIGN_MATERIAL).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage + 1);
@@ -164,9 +181,22 @@ public class SelectBlocksGUI
 
 		return new PanelItemBuilder().
 			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " "))).
+			description(this.selectedMaterials.contains(material) ?
+				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			icon(itemStack).
 			clickHandler((panel, user1, clickType, slot) -> {
-				this.consumer.accept(true, material);
+				if (clickType.isRightClick())
+				{
+					if (!this.selectedMaterials.add(material))
+					{
+						this.selectedMaterials.remove(material);
+					}
+				}
+				else
+				{
+					this.consumer.accept(true, this.selectedMaterials);
+				}
+
 				return true;
 			}).
 			glow(!itemStack.getType().equals(material)).
@@ -184,9 +214,14 @@ public class SelectBlocksGUI
 	private List<Material> elements;
 
 	/**
+	 * Set that contains selected materials.
+	 */
+	private Set<Material> selectedMaterials;
+
+	/**
 	 * This variable stores consumer.
 	 */
-	private BiConsumer<Boolean, Material> consumer;
+	private BiConsumer<Boolean, Set<Material>> consumer;
 
 	/**
 	 * User who runs GUI.

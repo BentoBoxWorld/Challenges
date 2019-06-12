@@ -148,6 +148,7 @@ challenges:
                 title-showtime: 'Title Show Time'
                 default-import: 'Import Default Challenges'
                 default-export: 'Export Existing Challenges'
+                complete-wipe: 'Wipe Addon Databases'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -243,6 +244,7 @@ challenges:
                 title-showtime: 'Allows to modify how long title message will be visible for player.'
                 default-import: 'Allows to import default challenges.'
                 default-export: 'Allows to export existing challenges into defaults.json file.'
+                complete-wipe: 'Allows to completely clear all challenges addon databases. Includes player data!'
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -309,6 +311,7 @@ challenges:
             hit-things: 'Hit things to add them to the list of things required. Right click when done.'
             you-added: 'You added one [thing] to the challenge'
             challenge-created: '[challenge]&r created!'
+            complete-wipe: '&cHope you have backups, as you just empty all Challenges Addon databases!'
         you-completed-challenge: '&2You completed the [value] &r&2challenge!'
         you-repeated-challenge: '&2You repeated the [value] &r&2challenge!'
         you-repeated-challenge-multiple: '&2You repeated the [value] &r&2challenge [count] times!'
@@ -353,6 +356,7 @@ challenges:
         defaults-file-exist: '&cdefaults.json already exists. Use overwrite mode to replace it!'
         defaults-file-error: '&cThere was an error while creating defaults.json file! Check console!'
         no-challenges: '&cChallenges are not implemented in current world!'
+        no-challenges-admin: '&cChallenges are not implemented in current world! You should use &5/[label] challenges &cto adding them!'
         missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
 protection:
     flags:

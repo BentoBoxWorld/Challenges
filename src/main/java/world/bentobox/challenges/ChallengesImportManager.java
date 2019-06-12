@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,10 +15,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 
-import world.bentobox.bentobox.api.flags.Flag;
-import world.bentobox.bentobox.database.json.adapters.*;
+import world.bentobox.bentobox.database.json.BentoboxTypeAdapterFactory;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.challenges.database.object.ChallengeLevel;
@@ -431,11 +428,7 @@ public class ChallengesImportManager
         {
 			GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().enableComplexMapKeySerialization();
 			// Register adapters
-			builder.registerTypeAdapter(Location.class, new LocationAdapter()) ;
-			builder.registerTypeAdapter(World.class, new WorldAdapter());
-			builder.registerTypeAdapter(Flag.class, new FlagAdapter(addon.getPlugin()));
-			builder.registerTypeAdapter(PotionEffectType.class, new PotionEffectTypeAdapter());
-			builder.registerTypeAdapter(ItemStack.class, new ItemStackTypeAdapter());
+			builder.registerTypeAdapterFactory(new BentoboxTypeAdapterFactory(addon.getPlugin()));
 			// Keep null in the database
 			builder.serializeNulls();
 			// Allow characters like < or > without escaping them

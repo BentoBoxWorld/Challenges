@@ -148,6 +148,7 @@ challenges:
                 title-showtime: 'Virsrakta rādīšanas ilgums'
                 default-import: 'Importēt standarta Uzdevumus'
                 default-export: 'Exportēt esošos Uzdevumus'
+                complete-wipe: 'Iztīrīt datubāzes'
             next: 'Nākošā'
             previous: 'Iepriekšējā'
             return: 'Atgriezties'
@@ -243,6 +244,7 @@ challenges:
                 title-showtime: 'Ļauj mainīt cik ilgi virsraksts spēlētājam būs redzams.'
                 default-import: 'Ļauj ielādēt sākotnējos uzdevumus.'
                 default-export: 'Ļauj eksportēt uzdevumus uz defaults.json failu.'
+                complete-wipe: 'Ļauj pilnībā iztīrīt papildinājuma datubāzes. Ieskaitot spēlētāju datus!'
             current-value: '|&6Šī brīža vērtība: [value].'
             enabled: 'Aktīvs'
             disabled: 'Neaktīvs'
@@ -307,6 +309,7 @@ challenges:
     messages:
         admin:
             challenge-created: '[challenge]&r izveidots!'
+            complete-wipe: '&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko iztīrīji visas šī papildinājuma datubāzes!'
         you-completed-challenge: '&2Tu izpildīji [value] &r&2uzdevumu!'
         you-repeated-challenge: '&2Tu atkārtoji [value] &r&2uzdevumu!'
         you-repeated-challenge-multiple: '&2Tu atkārtoji [value] &r&2uzdevumu [count] reizes!'
@@ -351,6 +354,7 @@ challenges:
         defaults-file-exist: '&cdefaults.json jau eksistē. Lieto overwrite, lai to pārrakstītu!'
         defaults-file-error: '&cRadās kļūda veidojot defaults.json failu! Pārbaudi konsoli!'
         no-challenges: '&cŠajā pasaulē nav izveidoti uzdevumi!'
+        no-challenges-admin: '&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[label] challenges&c, lai tos pievienotu!'
         missing-level: '&cLīmenis [level] nav definēts datubāzē. Tas var radīt problēmas!'
 protection:
     flags:

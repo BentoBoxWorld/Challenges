@@ -88,6 +88,14 @@ public class ChallengesAddon extends Addon {
 		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
 
 
+    /**
+     * This ir ugly way how to fix comparability issues between 1.13 and 1.14 versions.
+     * @deprecated Should be removed as soon as 1.13 support are dropped down.
+     */
+    @Deprecated
+    public static final Material SIGN_MATERIAL = Bukkit.getBukkitVersion().startsWith("1.13") ? Material.getMaterial("SIGN") : Material.getMaterial("OAK_SIGN");
+
+
 // ---------------------------------------------------------------------
 // Section: Methods
 // ---------------------------------------------------------------------
@@ -212,6 +220,16 @@ public class ChallengesAddon extends Addon {
             this.registerRequestHandler(new LevelDataRequestHandler(this));
 
             this.registerRequestHandler(new CompletedChallengesRequestHandler(this));
+
+            if (this.settings.getAutoSaveTimer() > 0)
+            {
+                this.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(
+                    this.getPlugin(),
+                    bukkitTask -> ChallengesAddon.this.challengesManager.save(),
+                    this.settings.getAutoSaveTimer() * 60 * 20,
+                    this.settings.getAutoSaveTimer() * 60 * 20
+                );
+            }
         } else {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);

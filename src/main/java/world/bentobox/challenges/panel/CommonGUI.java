@@ -110,6 +110,8 @@ public abstract class CommonGUI
 
 	protected static final String DELETE = "delete";
 
+	protected static final String WIPE = "wipe";
+
 	protected static final String EDIT = "edit";
 
 	protected static final String ADD = "add";
@@ -216,7 +218,7 @@ public abstract class CommonGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.next");
 				description = Collections.emptyList();
-				icon = new ItemStack(Material.SIGN);
+				icon = new ItemStack(ChallengesAddon.SIGN_MATERIAL);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.pageIndex++;
 					this.build();
@@ -229,7 +231,7 @@ public abstract class CommonGUI
 			{
 				name = this.user.getTranslation("challenges.gui.buttons.previous");
 				description = Collections.emptyList();
-				icon = new ItemStack(Material.SIGN);
+				icon = new ItemStack(ChallengesAddon.SIGN_MATERIAL);
 				clickHandler = (panel, user, clickType, slot) -> {
 					this.pageIndex--;
 					this.build();
