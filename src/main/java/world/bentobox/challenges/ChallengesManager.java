@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import world.bentobox.bentobox.api.events.addon.AddonEvent;
 import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
@@ -959,6 +960,15 @@ public class ChallengesManager
                 userID,
                 false,
                 completionCount));
+        // This exposes these values to plugins via the event
+        Map<String, Object> keyValues = new HashMap<>();
+        keyValues.put("eventName", "ChallengeCompletedEvent");
+        keyValues.put("challengeID", challenge.getUniqueId());
+        keyValues.put("userID", userID);
+        keyValues.put("isAdmin", false);
+        keyValues.put("completionCount", completionCount);
+        addon.getServer().getPluginManager().callEvent(new AddonEvent().builder().addon(addon).keyValues(keyValues).build());        
+        
     }
 
 
@@ -986,6 +996,14 @@ public class ChallengesManager
                 userID,
                 true,
                 1));
+        // This exposes these values to plugins via the event
+        Map<String, Object> keyValues = new HashMap<>();
+        keyValues.put("eventName", "ChallengeCompletedEvent");
+        keyValues.put("challengeID", challenge.getUniqueId());
+        keyValues.put("userID", userID);
+        keyValues.put("isAdmin", true);
+        keyValues.put("completionCount", 1);
+        addon.getServer().getPluginManager().callEvent(new AddonEvent().builder().addon(addon).keyValues(keyValues).build());     
     }
 
 
