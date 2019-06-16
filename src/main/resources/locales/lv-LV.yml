@@ -30,6 +30,9 @@ challenges:
             defaults-generate:
                 description: 'Šī metode izveidos failu defaults.json, kas saturēs šīs pasaules uzdevumus un līmeņus.|Parametrs overwrite ļauj pārrakstīt pāri esošajam failam.'
                 parameters: '[overwrite]'
+            complete:
+                description: 'Šī komanda ļauj pabeigt uzdevumu spēlētājam.'
+                parameters: '<player> <challenge_id>'
         user:
             main:
                 description: 'Šī metode atver Uzdevumu logu.'
@@ -328,6 +331,8 @@ challenges:
         admin:
             challenge-created: '[challenge]&r izveidots!'
             complete-wipe: '&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko iztīrīji visas šī papildinājuma datubāzes!'
+            completed: '&2Tu pabeidzi uzdevumu [name] [player] vietā!'
+            already-completed: '&2Šīs uzdevums jau bija izpildīts!'
         you-completed-challenge: '&2Tu izpildīji [value] &r&2uzdevumu!'
         you-repeated-challenge: '&2Tu atkārtoji [value] &r&2uzdevumu!'
         you-repeated-challenge-multiple: '&2Tu atkārtoji [value] &r&2uzdevumu [count] reizes!'
@@ -374,6 +379,7 @@ challenges:
         no-challenges: '&cŠajā pasaulē nav izveidoti uzdevumi!'
         no-challenges-admin: '&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[label] challenges&c, lai tos pievienotu!'
         missing-level: '&cLīmenis [level] nav definēts datubāzē. Tas var radīt problēmas!'
+        missing-arguments: '&cKomandai trūkst parametri.'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:

@@ -37,6 +37,9 @@ public class Challenges extends CompositeCommand
         new ImportCommand(getAddon(), this);
         // Defaults processing command
         new DefaultsCommand(this.getAddon(), this);
+
+        // Defaults processing command
+        new CompleteCommand(this.getAddon(), this);
     }
 
 

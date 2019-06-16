@@ -30,6 +30,9 @@ challenges:
             defaults-generate:
                 description: 'This method allows to export existing challenges into default.json file.'
                 parameters: '[overwrite] - allows to overwrite existing file.'
+            complete:
+                description: 'This command allows to complete challenge for player without GUI.'
+                parameters: '<player> <challenge_id>'
         user:
             main:
                 description: 'This method opens Challenges GUI.'
@@ -330,6 +333,8 @@ challenges:
             you-added: 'You added one [thing] to the challenge'
             challenge-created: '[challenge]&r created!'
             complete-wipe: '&cHope you have backups, as you just empty all Challenges Addon databases!'
+            completed: '&2You complted challenge [name] for [player]!'
+            already-completed: '&2This challenge was already completed!'
         you-completed-challenge: '&2You completed the [value] &r&2challenge!'
         you-repeated-challenge: '&2You repeated the [value] &r&2challenge!'
         you-repeated-challenge-multiple: '&2You repeated the [value] &r&2challenge [count] times!'
@@ -376,6 +381,7 @@ challenges:
         no-challenges: '&cChallenges are not implemented in current world!'
         no-challenges-admin: '&cChallenges are not implemented in current world! You should use &5/[label] challenges &cto adding them!'
         missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
+        missing-arguments: '&cCommand is missing arguments.'
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
