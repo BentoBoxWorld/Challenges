@@ -209,8 +209,8 @@ public class ChallengesAddon extends Addon {
             this.registerListener(new SaveListener(this));
 
             // Register Flags
-			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_ISLAND_PROTECTION);
-			this.getPlugin().getFlagsManager().registerFlag(CHALLENGES_WORLD_PROTECTION);
+			this.registerFlag(CHALLENGES_ISLAND_PROTECTION);
+			this.registerFlag(CHALLENGES_WORLD_PROTECTION);
 
             // Register Request Handlers
             this.registerRequestHandler(new ChallengeListRequestHandler(this));
