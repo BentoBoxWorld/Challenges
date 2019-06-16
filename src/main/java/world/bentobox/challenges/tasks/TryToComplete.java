@@ -510,6 +510,11 @@ public class TryToComplete
             this.user.sendMessage("challenges.errors.not-deployed");
             result = EMPTY_RESULT;
         }
+        else if (maxTimes < 1)
+        {
+            this.user.sendMessage("challenges.errors.not-valid-integer");
+            result = EMPTY_RESULT;
+        }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
             !this.challenge.getUniqueId().startsWith(Util.getWorld(this.world).getName()))
         {
