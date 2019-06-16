@@ -184,9 +184,12 @@ public class SelectEntityGUI
 					{
 						this.selectedEntities.remove(entity);
 					}
+
+					panel.getInventory().setItem(slot, this.createEntityButton(entity).getItem());
 				}
 				else
 				{
+					this.selectedEntities.add(entity);
 					this.consumer.accept(true, this.selectedEntities);
 				}
 

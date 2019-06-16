@@ -191,9 +191,12 @@ public class SelectBlocksGUI
 					{
 						this.selectedMaterials.remove(material);
 					}
+
+					panel.getInventory().setItem(slot, this.createMaterialButton(material).getItem());
 				}
 				else
 				{
+					this.selectedMaterials.add(material);
 					this.consumer.accept(true, this.selectedMaterials);
 				}
 
