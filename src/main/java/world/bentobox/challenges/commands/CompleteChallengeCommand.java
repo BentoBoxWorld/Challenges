@@ -69,6 +69,8 @@ public class CompleteChallengeCommand extends CompositeCommand
 			String challengeName = Util.getWorld(this.getWorld()).getName() + "_" + args.get(0);
 			Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
 
+			int count = args.size() == 2 ? Integer.valueOf(args.get(1)) : 1;
+
 			if (challenge != null)
 			{
 				return TryToComplete.complete(this.addon,
@@ -76,7 +78,8 @@ public class CompleteChallengeCommand extends CompositeCommand
 					challenge,
 					this.getWorld(),
 					this.getTopLabel(),
-					this.getPermissionPrefix());
+					this.getPermissionPrefix(),
+					count);
 			}
 			else
 			{
