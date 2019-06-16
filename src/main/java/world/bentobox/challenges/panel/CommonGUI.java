@@ -545,7 +545,7 @@ public abstract class CommonGUI
 		{
 			result.add(this.user.getTranslation("challenges.gui.challenge-description.reward-items"));
 
-			for (ItemStack itemStack : rewardItems)
+			Utils.groupEqualItems(rewardItems).forEach(itemStack ->
 			{
 				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
 					"[item]", itemStack.getType().name(),
@@ -562,7 +562,7 @@ public abstract class CommonGUI
 					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
 						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
 				}
-			}
+			});
 		}
 
 		// Add message about reward commands
@@ -778,7 +778,7 @@ public abstract class CommonGUI
 						{
 							result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
 
-							for (ItemStack itemStack : level.getRewardItems())
+							Utils.groupEqualItems(level.getRewardItems()).forEach(itemStack ->
 							{
 								result.add(this.user.getTranslation("challenges.gui.descriptions.item",
 									"[item]", itemStack.getType().name(),
@@ -795,7 +795,7 @@ public abstract class CommonGUI
 									result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
 										"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
 								}
-							}
+							});
 						}
 
 						// Add message about reward commands
