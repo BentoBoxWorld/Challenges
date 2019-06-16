@@ -25,6 +25,7 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -703,48 +704,19 @@ public class TryToComplete
     private ChallengeResult checkInventory(int maxTimes)
     {
         // Run through inventory
-        List<ItemStack> requiredItems = new ArrayList<>(this.challenge.getRequiredItems().size());
+        List<ItemStack> requiredItems;
 
         // Players in creative game mode has got all items. No point to search for them.
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
-            // Group all equal items in singe stack, as otherwise it will be too complicated to check if all
-            // items are in players inventory.
-            for (ItemStack item : this.challenge.getRequiredItems())
-            {
-                boolean isUnique = true;
-
-                int i = 0;
-                final int requiredSize = requiredItems.size();
-
-                while (i < requiredSize && isUnique)
-                {
-                    ItemStack required = requiredItems.get(i);
-
-                    // Merge items which meta can be ignored or is similar to item in required list.
-                    if (this.canIgnoreMeta(item.getType()) && item.getType().equals(required.getType()) ||
-                        required.isSimilar(item))
-                    {
-                        required.setAmount(required.getAmount() + item.getAmount());
-                        isUnique = false;
-                    }
-
-                    i++;
-                }
-
-                if (isUnique)
-                {
-                    // The same issue as in other places. Clone prevents from changing original item.
-                    requiredItems.add(item.clone());
-                }
-            }
+            requiredItems = Utils.groupEqualItems(this.challenge.getRequiredItems());
 
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
             {
                 int numInInventory;
 
-                if (this.canIgnoreMeta(required.getType()))
+                if (Utils.canIgnoreMeta(required.getType()))
                 {
                     numInInventory =
                         Arrays.stream(this.user.getInventory().getContents()).
@@ -774,6 +746,10 @@ public class TryToComplete
                 maxTimes = Math.min(maxTimes, numInInventory / required.getAmount());
             }
         }
+        else
+        {
+            requiredItems = Collections.emptyList();
+        }
 
         // Return the result
         return new ChallengeResult().
@@ -798,7 +774,7 @@ public class TryToComplete
 
             List<ItemStack> itemsInInventory;
 
-            if (this.canIgnoreMeta(required.getType()))
+            if (Utils.canIgnoreMeta(required.getType()))
             {
                 // Use collecting method that ignores item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
@@ -846,29 +822,6 @@ public class TryToComplete
         }
 
         return removed;
-    }
-
-
-    /**
-     * This method returns if meta data of these items can be ignored. It means, that items will be searched
-     * and merged by they type instead of using ItemStack#isSimilar(ItemStack) method.
-     *
-     * This limits custom Challenges a lot. It comes from ASkyBlock times, and that is the reason why it is
-     * still here. It would be a great Challenge that could be completed by collecting 4 books, that cannot
-     * be crafted. Unfortunately, this prevents it.
-     * The same happens with firework rockets, enchanted books and filled maps.
-     * In future it should be able to specify, which items meta should be ignored when adding item in required
-     * item list.
-     *
-     * @param material Material that need to be checked.
-     * @return True if material meta can be ignored, otherwise false.
-     */
-    private boolean canIgnoreMeta(Material material)
-    {
-        return material.equals(Material.FIREWORK_ROCKET) ||
-            material.equals(Material.ENCHANTED_BOOK) ||
-            material.equals(Material.WRITTEN_BOOK) ||
-            material.equals(Material.FILLED_MAP);
     }
 
 

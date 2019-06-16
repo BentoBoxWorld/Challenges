@@ -1,7 +1,6 @@
 package world.bentobox.challenges.panel;
 
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
@@ -20,8 +19,8 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -631,8 +630,7 @@ public abstract class CommonGUI
 		{
 			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
 
-			for (ItemStack itemStack : challenge.getRequiredItems())
-			{
+			Utils.groupEqualItems(challenge.getRequiredItems()).forEach(itemStack -> {
 				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
 					"[item]", itemStack.getType().name(),
 					"[count]", Integer.toString(itemStack.getAmount())));
@@ -646,9 +644,12 @@ public abstract class CommonGUI
 				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
 				{
 					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
+						"[enchant]",
+						entry.getKey().getKey().getKey(),
+						"[level]",
+						Integer.toString(entry.getValue())));
 				}
-			}
+			});
 		}
 
 		if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND) &&
