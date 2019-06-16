@@ -3,10 +3,19 @@ package world.bentobox.challenges.panel;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
+import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.potion.PotionData;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -546,23 +555,7 @@ public abstract class CommonGUI
 			result.add(this.user.getTranslation("challenges.gui.challenge-description.reward-items"));
 
 			Utils.groupEqualItems(rewardItems).forEach(itemStack ->
-			{
-				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
-					"[item]", itemStack.getType().name(),
-					"[count]", Integer.toString(itemStack.getAmount())));
-
-				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-						"[meta]", itemStack.getItemMeta().toString()));
-				}
-
-				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-						"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-				}
-			});
+				result.addAll(this.generateItemStackDescription(itemStack)));
 		}
 
 		// Add message about reward commands
@@ -630,26 +623,8 @@ public abstract class CommonGUI
 		{
 			result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
 
-			Utils.groupEqualItems(challenge.getRequiredItems()).forEach(itemStack -> {
-				result.add(this.user.getTranslation("challenges.gui.descriptions.item",
-					"[item]", itemStack.getType().name(),
-					"[count]", Integer.toString(itemStack.getAmount())));
-
-				if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-						"[meta]", itemStack.getItemMeta().toString()));
-				}
-
-				for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-				{
-					result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-						"[enchant]",
-						entry.getKey().getKey().getKey(),
-						"[level]",
-						Integer.toString(entry.getValue())));
-				}
-			});
+			Utils.groupEqualItems(challenge.getRequiredItems()).forEach(itemStack ->
+				result.addAll(this.generateItemStackDescription(itemStack)));
 		}
 
 		if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND) &&
@@ -779,23 +754,7 @@ public abstract class CommonGUI
 							result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
 
 							Utils.groupEqualItems(level.getRewardItems()).forEach(itemStack ->
-							{
-								result.add(this.user.getTranslation("challenges.gui.descriptions.item",
-									"[item]", itemStack.getType().name(),
-									"[count]", Integer.toString(itemStack.getAmount())));
-
-								if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-								{
-									result.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-										"[meta]", itemStack.getItemMeta().toString()));
-								}
-
-								for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-								{
-									result.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-										"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-								}
-							});
+								result.addAll(this.generateItemStackDescription(itemStack)));
 						}
 
 						// Add message about reward commands
@@ -822,6 +781,137 @@ public abstract class CommonGUI
 		}
 
 		result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
+		return result;
+	}
+
+
+// ---------------------------------------------------------------------
+// Section: ItemStack Description
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * This method generates decsription for given item stack object.
+	 * @param itemStack Object which lore must be generated
+	 * @return List with generated description
+	 */
+	protected List<String> generateItemStackDescription(ItemStack itemStack)
+	{
+		List<String> result = new ArrayList<>();
+
+		result.add(this.user.getTranslation("challenges.gui.item-description.item",
+			"[item]", itemStack.getType().name(),
+			"[count]", Integer.toString(itemStack.getAmount())));
+
+		if (itemStack.hasItemMeta())
+		{
+			ItemMeta meta = itemStack.getItemMeta();
+
+			if (meta.hasDisplayName())
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.item-name",
+					"[name]", meta.getDisplayName()));
+			}
+
+			if (meta.hasLore())
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.item-lore"));
+				result.addAll(meta.getLore());
+			}
+
+			if (meta instanceof BookMeta)
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.book-meta",
+					"[author]", ((BookMeta) meta).getAuthor(),
+					"[title]", ((BookMeta) meta).getTitle()));
+			}
+			else if (meta instanceof EnchantmentStorageMeta)
+			{
+				((EnchantmentStorageMeta) meta).getStoredEnchants().forEach(((enchantment, level) -> {
+					result.add(this.user.getTranslation("challenges.gui.item-description.item-enchant",
+						"[enchant]", enchantment.getKey().getKey(), "[level]", Integer.toString(level)));
+				}));
+			}
+			else if (meta instanceof KnowledgeBookMeta)
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.recipe-count",
+					"[count]", Integer.toString(((KnowledgeBookMeta) meta).getRecipes().size())));
+			}
+			else if (meta instanceof LeatherArmorMeta)
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.armor-color",
+					"[color]", ((LeatherArmorMeta) meta).getColor().toString()));
+			}
+			else if (meta instanceof PotionMeta)
+			{
+				PotionData data = ((PotionMeta) meta).getBasePotionData();
+
+				if (data.isExtended() && data.isUpgraded())
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended-upgraded",
+						"[name]", data.getType().name()));
+				}
+				else if (data.isUpgraded())
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-upgraded",
+						"[name]", data.getType().name()));
+				}
+				else if (data.isExtended())
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended",
+						"[name]", data.getType().name()));
+				}
+				else
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.potion-type",
+						"[name]", data.getType().name()));
+				}
+
+				if (((PotionMeta) meta).hasCustomEffects())
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.custom-effects"));
+
+					((PotionMeta) meta).getCustomEffects().forEach(potionEffect ->
+						result.add(this.user.getTranslation("challenges.gui.item-description.potion-effect",
+							"[effect]", potionEffect.getType().getName(),
+							"[duration]", Integer.toString(potionEffect.getDuration()),
+							"[amplifier]", Integer.toString(potionEffect.getAmplifier()))));
+				}
+			}
+			else if (meta instanceof SkullMeta)
+			{
+				if (((SkullMeta) meta).getOwningPlayer() != null)
+				{
+					result.add(this.user.getTranslation("challenges.gui.item-description.skull-owner",
+						"[owner]", ((SkullMeta) meta).getOwningPlayer().getName()));
+				}
+			}
+			else if (meta instanceof SpawnEggMeta)
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.egg-meta",
+					"[mob]", ((SpawnEggMeta) meta).getSpawnedType().name()));
+			}
+			else if (meta instanceof TropicalFishBucketMeta)
+			{
+				result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
+					"[pattern]", ((TropicalFishBucketMeta) meta).getPattern().name(),
+					"[pattern-color]", ((TropicalFishBucketMeta) meta).getPatternColor().name(),
+					"[body-color]", ((TropicalFishBucketMeta) meta).getBodyColor().name()));
+				// parse ne
+			}
+
+			if (meta.hasEnchants())
+			{
+				itemStack.getEnchantments().forEach((enchantment, level) -> {
+					result.add(this.user.getTranslation("challenges.gui.item-description.item-enchant",
+						"[enchant]",
+						enchantment.getKey().getKey(),
+						"[level]",
+						Integer.toString(level)));
+				});
+			}
+		}
 
 		return result;
 	}

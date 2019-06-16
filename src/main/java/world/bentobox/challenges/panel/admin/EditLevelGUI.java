@@ -24,6 +24,7 @@ import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectChallengeGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -519,24 +520,8 @@ public class EditLevelGUI extends CommonGUI
 				description = new ArrayList<>(this.challengeLevel.getRewardItems().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.reward-items"));
 
-				for (ItemStack itemStack : this.challengeLevel.getRewardItems())
-				{
-					description.add(this.user.getTranslation("challenges.gui.descriptions.item",
-						"[item]", itemStack.getType().name(),
-						"[count]", Integer.toString(itemStack.getAmount())));
-
-					if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-							"[meta]", itemStack.getItemMeta().toString()));
-					}
-
-					for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-							"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-					}
-				}
+				Utils.groupEqualItems(this.challengeLevel.getRewardItems()).forEach(itemStack ->
+					description.addAll(this.generateItemStackDescription(itemStack)));
 
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {

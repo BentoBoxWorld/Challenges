@@ -294,6 +294,24 @@ challenges:
             money-reward: '&6Naudas atlīdzība: $[value]'
             reward-items: '&6Atlīdzības lietas:'
             reward-commands: '&6Atlīdzības komandas:'
+        item-description:
+            item: '- [count] x [item]'
+            item-meta: '  ([meta])'
+            item-enchant: '   - [enchant] [level]'
+            item-name: '  [name]'
+            item-lore: '  Lietas apraksts:'
+            book-meta: '  [title] no [author]'
+            recipe-count: '  [count] receptes'
+            armor-color: '  [color]'
+            potion-type-extended-upgraded: '  Uzlabots un pagarintāts [name]'
+            potion-type-upgraded: '  Uzlabots [name]'
+            potion-type-extended: '  Pagarināts [name]'
+            potion-type: '  [name]'
+            custom-effects: '  Speciālie effekti:'
+            potion-effect: '  [effect] x [amplifier] for [duration]t'
+            skull-owner: '  [owner]'
+            egg-meta: '  [mob]'
+            fish-meta: '  [body-color] ar [pattern-color] [pattern]'
     titles:
 #       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
 #       [friendlyName] will be replaced with challenge friendly name.

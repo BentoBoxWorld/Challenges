@@ -3,7 +3,6 @@ package world.bentobox.challenges.panel.admin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
@@ -22,6 +21,7 @@ import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectEnvironmentGUI;
 import world.bentobox.challenges.panel.util.StringListGUI;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -716,24 +716,8 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(this.challenge.getRequiredItems().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-items"));
 
-				for (ItemStack itemStack : this.challenge.getRequiredItems())
-				{
-					description.add(this.user.getTranslation("challenges.gui.descriptions.item",
-						"[item]", itemStack.getType().name(),
-						"[count]", Integer.toString(itemStack.getAmount())));
-
-					if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-							"[meta]", itemStack.getItemMeta().toString()));
-					}
-
-					for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-							"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-					}
-				}
+				Utils.groupEqualItems(this.challenge.getRequiredItems()).forEach(itemStack ->
+					description.addAll(this.generateItemStackDescription(itemStack)));
 
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
@@ -919,24 +903,8 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(this.challenge.getRewardItems().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.reward-items"));
 
-				for (ItemStack itemStack : this.challenge.getRewardItems())
-				{
-					description.add(this.user.getTranslation("challenges.gui.descriptions.item",
-						"[item]", itemStack.getType().name(),
-						"[count]", Integer.toString(itemStack.getAmount())));
-
-					if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-							"[meta]", itemStack.getItemMeta().toString()));
-					}
-
-					for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-							"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-					}
-				}
+				Utils.groupEqualItems(this.challenge.getRewardItems()).forEach(itemStack ->
+					description.addAll(this.generateItemStackDescription(itemStack)));
 
 				icon = new ItemStack(Material.CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
@@ -1109,24 +1077,8 @@ public class EditChallengeGUI extends CommonGUI
 				description = new ArrayList<>(this.challenge.getRepeatItemReward().size() + 1);
 				description.add(this.user.getTranslation("challenges.gui.descriptions.admin.repeat-reward-items"));
 
-				for (ItemStack itemStack : this.challenge.getRepeatItemReward())
-				{
-					description.add(this.user.getTranslation("challenges.gui.descriptions.item",
-						"[item]", itemStack.getType().name(),
-						"[count]", Integer.toString(itemStack.getAmount())));
-
-					if (itemStack.hasItemMeta() && itemStack.getEnchantments().isEmpty())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-meta",
-							"[meta]", itemStack.getItemMeta().toString()));
-					}
-
-					for (Map.Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet())
-					{
-						description.add(this.user.getTranslation("challenges.gui.descriptions.item-enchant",
-							"[enchant]", entry.getKey().getKey().getKey(), "[level]", Integer.toString(entry.getValue())));
-					}
-				}
+				Utils.groupEqualItems(this.challenge.getRepeatItemReward()).forEach(itemStack ->
+					description.addAll(this.generateItemStackDescription(itemStack)));
 
 				icon = new ItemStack(Material.TRAPPED_CHEST);
 				clickHandler = (panel, user, clickType, slot) -> {
