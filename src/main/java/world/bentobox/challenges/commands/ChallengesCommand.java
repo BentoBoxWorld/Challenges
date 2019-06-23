@@ -46,7 +46,7 @@ public class ChallengesCommand extends CompositeCommand
             if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + ".admin.challenges"))
             {
                 String topLabel = optionalAddon.get().getAdminCommand().orElseGet(this::getParent).getTopLabel();
-                user.sendMessage("challenges.errors.no-challenges-admin", "[label]", topLabel);
+                user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
             }
             else
             {

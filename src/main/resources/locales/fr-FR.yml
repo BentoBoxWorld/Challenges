@@ -357,7 +357,7 @@ challenges:
         defaults-file-exist: '&cdefaults.json existe déja. Utilisez le mode écrasement pour le remplacer !'
         defaults-file-error: '&cIl y a une erreur lors de la création du fichier defaults.json ! Regardez la console !'
         no-challenges: '&cLes challenges ne sont pas actifs dans le monde actuel !'
-        no-challenges-admin: '&cLes Challenges ne sont pas actifs dans le monde actuel ! Vous devez utiliser &5/[label] Challenges &cpour ajouter cela !'
+        no-challenges-admin: '&cLes Challenges ne sont pas actifs dans le monde actuel ! Vous devez utiliser &5/[command] &cpour ajouter cela !'
         missing-level: '&cLe Niveau du Challenge [niveau] n''est pas défini dans la base de données. Il peut y avoir des erreurs !'
 protection:
     flags:

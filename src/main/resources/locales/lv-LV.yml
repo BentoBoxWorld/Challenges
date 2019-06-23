@@ -377,7 +377,7 @@ challenges:
         defaults-file-exist: '&cdefaults.json jau eksistē. Lieto overwrite, lai to pārrakstītu!'
         defaults-file-error: '&cRadās kļūda veidojot defaults.json failu! Pārbaudi konsoli!'
         no-challenges: '&cŠajā pasaulē nav izveidoti uzdevumi!'
-        no-challenges-admin: '&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[label] challenges&c, lai tos pievienotu!'
+        no-challenges-admin: '&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[command]&c, lai tos pievienotu!'
         missing-level: '&cLīmenis [level] nav definēts datubāzē. Tas var radīt problēmas!'
         missing-arguments: '&cKomandai trūkst parametri.'
 protection:
