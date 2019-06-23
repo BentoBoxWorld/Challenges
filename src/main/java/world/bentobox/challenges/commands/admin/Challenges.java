@@ -38,8 +38,11 @@ public class Challenges extends CompositeCommand
         // Defaults processing command
         new DefaultsCommand(this.getAddon(), this);
 
-        // Defaults processing command
+        // Complete challenge command
         new CompleteCommand(this.getAddon(), this);
+
+        // Reset challenge command
+        new ResetCommand(this.getAddon(), this);
     }
 
 

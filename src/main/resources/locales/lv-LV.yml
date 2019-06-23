@@ -33,6 +33,9 @@ challenges:
             complete:
                 description: 'Šī komanda ļauj pabeigt uzdevumu spēlētājam.'
                 parameters: '<player> <challenge_id>'
+            reset:
+                description: 'Šī komanda ļauj atiestatīt uzdevumu spēlētājam. Ja "challenge_id" aizstāj ar "all", tad tiek atiestatīti visi uzdevumi.'
+                parameters: '<player> <challenge_id>'
         user:
             main:
                 description: 'Šī metode atver Uzdevumu logu.'
@@ -333,6 +336,9 @@ challenges:
             complete-wipe: '&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko iztīrīji visas šī papildinājuma datubāzes!'
             completed: '&2Tu pabeidzi uzdevumu [name] [player] vietā!'
             already-completed: '&2Šīs uzdevums jau bija izpildīts!'
+            reset: '&2Tu atiestatīji uzdevumu [name] priekš [player]!'
+            reset-all: '&2Visi [player] uzdevumi ir atiesatīti!'
+            not-completed: '&2Šis uzdevums vēl nav izpildīts!'
         you-completed-challenge: '&2Tu izpildīji [value] &r&2uzdevumu!'
         you-repeated-challenge: '&2Tu atkārtoji [value] &r&2uzdevumu!'
         you-repeated-challenge-multiple: '&2Tu atkārtoji [value] &r&2uzdevumu [count] reizes!'

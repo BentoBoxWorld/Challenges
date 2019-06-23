@@ -28,14 +28,6 @@ public class CompleteCommand extends CompositeCommand
 	{
 		super(addon, cmd, "complete");
 		this.addon = (ChallengesAddon) addon;
-
-		if (this.addon.getChallengesManager().hasAnyChallengeData(this.getWorld()))
-		{
-			// Strip world name from all challenges
-			this.challenges = this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-				map(challenge -> challenge.replaceFirst(Util.getWorld(this.getWorld()).getName() + "_", "")).
-				collect(Collectors.toList());
-		}
 	}
 
 
@@ -176,9 +168,9 @@ public class CompleteCommand extends CompositeCommand
 				break;
 			case 4:
 				// Create suggestions with all challenges that is available for users.
-				this.challenges.forEach(challenge -> {
-					returnList.addAll(Collections.singletonList(challenge));
-				});
+				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
+					map(challenge -> challenge.replaceFirst(Util.getWorld(this.getWorld()).getName() + "_", "")).
+					collect(Collectors.toList()));
 
 				break;
 			default:
@@ -200,9 +192,4 @@ public class CompleteCommand extends CompositeCommand
 	 * Variable that holds challenge addon. Single casting.
 	 */
 	private ChallengesAddon addon;
-
-	/**
-	 * This list contains all challenge IDs without a world name.
-	 */
-	private List<String> challenges;
 }

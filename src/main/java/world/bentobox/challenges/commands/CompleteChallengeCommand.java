@@ -27,14 +27,6 @@ public class CompleteChallengeCommand extends CompositeCommand
 	{
 		super(addon, cmd, "complete");
 		this.addon = (ChallengesAddon) addon;
-
-		if (this.addon.getChallengesManager().hasAnyChallengeData(this.getWorld()))
-		{
-			// Strip world name from all challenges
-			this.challenges = this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-				map(challenge -> challenge.replaceFirst(Util.getWorld(this.getWorld()).getName() + "_", "")).
-				collect(Collectors.toList());
-		}
 	}
 
 
@@ -109,28 +101,27 @@ public class CompleteChallengeCommand extends CompositeCommand
 		{
 			case 3:
 				// Create suggestions with all challenges that is available for users.
-
-				this.challenges.forEach(challenge -> {
-					returnList.addAll(Util.tabLimit(Collections.singletonList(challenge), lastString));
-				});
+				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
+					map(challenge -> challenge.replaceFirst(Util.getWorld(this.getWorld()).getName() + "_", "")).
+					collect(Collectors.toList()));
 
 				break;
 			case 4:
 				// Suggest a number of completions.
 				if (lastString.isEmpty() || lastString.matches("[0-9]*"))
 				{
-					returnList.addAll(Util.tabLimit(Collections.singletonList("<number>"), lastString));
+					returnList.add("<number>");
 				}
 
 				break;
 			default:
 			{
-				returnList.addAll(Util.tabLimit(Collections.singletonList("help"), lastString));
+				returnList.add("help");
 				break;
 			}
 		}
 
-		return Optional.of(returnList);
+		return Optional.of(Util.tabLimit(returnList, lastString));
 	}
 
 
@@ -142,9 +133,4 @@ public class CompleteChallengeCommand extends CompositeCommand
 	 * Variable that holds challenge addon. Single casting.
 	 */
 	private ChallengesAddon addon;
-
-	/**
-	 * This list contains all challenge IDs without a world name.
-	 */
-	private List<String> challenges;
 }

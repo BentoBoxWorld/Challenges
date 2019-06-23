@@ -33,6 +33,9 @@ challenges:
             complete:
                 description: 'This command allows to complete challenge for player without GUI.'
                 parameters: '<player> <challenge_id>'
+            reset:
+                description: 'This command allows to reset challenge for player without GUI. If "challenge_id" is set to "all", then it will reset all challenges.'
+                parameters: '<player> <challenge_id>'
         user:
             main:
                 description: 'This method opens Challenges GUI.'
@@ -333,8 +336,11 @@ challenges:
             you-added: 'You added one [thing] to the challenge'
             challenge-created: '[challenge]&r created!'
             complete-wipe: '&cHope you have backups, as you just empty all Challenges Addon databases!'
-            completed: '&2You complted challenge [name] for [player]!'
+            completed: '&2You completed challenge [name] for [player]!'
             already-completed: '&2This challenge was already completed!'
+            reset: '&2You reset challenge [name] for [player]!'
+            reset-all: '&2All [player] challenges were reset!'
+            not-completed: '&2This challenge is not completed yet!'
         you-completed-challenge: '&2You completed the [value] &r&2challenge!'
         you-repeated-challenge: '&2You repeated the [value] &r&2challenge!'
         you-repeated-challenge-multiple: '&2You repeated the [value] &r&2challenge [count] times!'
