@@ -36,9 +36,10 @@
 		<powermock.version>1.7.4</powermock.version>
 		<!-- More visible way how to change dependency versions -->
 		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
-		<bentobox.version>1.5.0</bentobox.version>
-		<level.version>1.4.0</level.version>
-		<vault.version>68f14ec</vault.version>
+		<bentobox.version>1.5.2</bentobox.version>
+		<level.version>1.5.0</level.version>
+		<vault.version>1.7</vault.version>
+		<anvilgui.version>a07c9b64f7</anvilgui.version>
 		<!-- Revision variable removes warning about dynamic version -->
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
@@ -106,10 +107,10 @@
 			<url>https://repo.codemc.org/repository/nms/</url>
 		</repository>
 		<!--Vault Repo is down.-->
-		<!--<repository>-->
-			<!--<id>vault-repo</id>-->
-			<!--<url>http://nexus.hc.to/content/repositories/pub_releases</url>-->
-		<!--</repository>-->
+		<repository>
+			<id>vault-repo</id>
+			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
@@ -164,15 +165,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.MilkBowl</groupId>
+			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>${vault.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.wesjd</groupId>
-			<artifactId>anvilgui</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
+			<groupId>com.github.BONNe</groupId>
+			<artifactId>AnvilGUI</artifactId>
+			<version>${anvilgui.version}</version>
 		</dependency>
 	</dependencies>
 
