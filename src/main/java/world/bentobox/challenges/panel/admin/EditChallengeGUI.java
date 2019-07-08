@@ -452,7 +452,7 @@ public class EditChallengeGUI extends CommonGUI
 
 				icon = new ItemStack(Material.DROPPER);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new NumberGUI(this.user, this.challenge.getOrder(), -1, 54, lineLength, (status, value) -> {
+					new NumberGUI(this.user, this.challenge.getOrder(), -1, 9999, lineLength, (status, value) -> {
 						if (status)
 						{
 							this.challenge.setOrder(value);
