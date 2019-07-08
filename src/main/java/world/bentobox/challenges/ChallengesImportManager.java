@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -236,8 +237,13 @@ public class ChallengesImportManager
             return false;
         }
 
+        // default configuration should be removed.
+		// user made configuration should not!.
+        boolean removeAtEnd =
+			!Files.exists(Paths.get(this.addon.getDataFolder().getPath() + "/default.json"));
+
         // Safe json configuration to Challenges folder.
-        this.addon.saveResource("default.json", true);
+		this.addon.saveResource("default.json", false);
 
         try
         {
@@ -280,8 +286,11 @@ public class ChallengesImportManager
 
         this.addon.getChallengesManager().save();
 
-        // Remove default.yml file from resources to avoid interacting with it.
-        new File(this.addon.getDataFolder(), "default.json").delete();
+        if (removeAtEnd)
+		{
+			// Remove default.yml file from resources to avoid interacting with it.
+			new File(this.addon.getDataFolder(), "default.json").delete();
+		}
 
         return true;
     }
