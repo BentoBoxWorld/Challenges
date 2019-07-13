@@ -39,7 +39,7 @@
 		<bentobox.version>1.5.2</bentobox.version>
 		<level.version>1.5.0</level.version>
 		<vault.version>1.7</vault.version>
-		<anvilgui.version>a07c9b64f7</anvilgui.version>
+		<anvilgui.version>1.2.2-SNAPSHOT</anvilgui.version>
 		<!-- Revision variable removes warning about dynamic version -->
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
@@ -171,8 +171,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.BONNe</groupId>
-			<artifactId>AnvilGUI</artifactId>
+			<groupId>net.wesjd</groupId>
+			<artifactId>anvilgui</artifactId>
 			<version>${anvilgui.version}</version>
 		</dependency>
 	</dependencies>
