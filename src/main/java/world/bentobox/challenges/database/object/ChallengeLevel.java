@@ -426,6 +426,20 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 
 
     /**
+     * This method match if given worldName relates to current level. It is detected
+     * via level uniqueId, as it always must start with world name.
+     * This method is created to avoid issues with capital letters in world names in 1.14
+     * @param worldName Name that must be checked.
+     * @return {@code true} if current level relates to given world name, otherwise
+     * {@code false}.
+     */
+    public boolean matchWorld(String worldName)
+    {
+        return this.uniqueId.regionMatches(true, 0, worldName, 0, worldName.length());
+    }
+
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -494,7 +508,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
         }
         else
         {
-            return uniqueId.equals(other.uniqueId);
+            return uniqueId.equalsIgnoreCase(other.uniqueId);
         }
     }
 

@@ -53,20 +53,20 @@ public class ChallengesPlayerData implements DataObject
 	 * completed
 	 */
 	@Expose
-	private Map<String, Integer> challengeStatus = new HashMap<>();
+	private Map<String, Integer> challengeStatus = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	/**
 	 * Map of challenges completion time where key is challenges unique id and value is
 	 * timestamp when challenge was completed last time.
 	 */
 	@Expose
-	private Map<String, Long> challengesTimestamp = new HashMap<>();
+	private Map<String, Long> challengesTimestamp = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	/**
 	 * Set of Strings that contains all challenge levels that are completed.
 	 */
 	@Expose
-	private Set<String> levelsDone = new HashSet<>();
+	private Set<String> levelsDone = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
 	/**
 	 * Stores history about challenge completion.
@@ -203,9 +203,9 @@ public class ChallengesPlayerData implements DataObject
 	 */
 	public void reset(@NonNull String worldName)
 	{
-		challengeStatus.keySet().removeIf(n -> n.startsWith(worldName));
-		challengesTimestamp.keySet().removeIf(n -> n.startsWith(worldName));
-		levelsDone.removeIf(n -> n.startsWith(worldName));
+		challengeStatus.keySet().removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
+		challengesTimestamp.keySet().removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
+		levelsDone.removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
 	}
 
 
@@ -345,7 +345,7 @@ public class ChallengesPlayerData implements DataObject
 		}
 		else
 		{
-			return uniqueId.equals(other.uniqueId);
+			return uniqueId.equalsIgnoreCase(other.uniqueId);
 		}
 	}
 }

@@ -107,82 +107,11 @@ public class ChallengesManager
         this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
 
         // Init all cache objects.
-        this.challengeCacheData = new HashMap<>();
-        this.levelCacheData = new HashMap<>();
-        this.playerCacheData = new HashMap<>();
+        this.challengeCacheData = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        this.levelCacheData = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        this.playerCacheData = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
         this.load();
-
-        // TODO: Remove this code after some time, as this is just a protective code against invalid world names.
-        if (Bukkit.getBukkitVersion().startsWith("1.14"))
-        {
-            Set<Challenge> updatedChallenges = new HashSet<>();
-
-            this.challengeCacheData.values().forEach(challengeObject -> {
-                if (challengeObject.getUniqueId().matches(".*[A-Z]+.*"))
-                {
-                    challengeObject.setUniqueId(challengeObject.getUniqueId().toLowerCase());
-                    challengeObject.setLevel(challengeObject.getLevel().toLowerCase());
-
-                    updatedChallenges.add(challengeObject);
-
-                    this.addon.logWarning("Challenge addon fixed your data for Challenge " +
-                        challengeObject.getUniqueId() +
-                        ". 1.14 does not allow to use capital letters in world names.");
-                }
-            });
-
-            Set<ChallengeLevel> updatedLevels = new HashSet<>();
-
-            this.levelCacheData.values().forEach(levelObject -> {
-                if (levelObject.getUniqueId().matches(".*[A-Z]+.*"))
-                {
-                    levelObject.setUniqueId(levelObject.getUniqueId().toLowerCase());
-                    levelObject.setWorld(levelObject.getWorld().toLowerCase());
-
-                    Set<String> correctNames = levelObject.getChallenges().stream().
-                        map(String::toLowerCase).
-                        collect(Collectors.toSet());
-
-                    levelObject.setChallenges(correctNames);
-
-                    updatedLevels.add(levelObject);
-
-                    this.addon.logWarning("Challenge addon fixed your data for Challenge Level " +
-                        levelObject.getUniqueId() +
-                        ". 1.14 does not allow to use capital letters in world names.");
-                }
-            });
-
-            // As at least one challenge or level was corrupted we must update all player data objects!
-            if (!updatedLevels.isEmpty() || !updatedChallenges.isEmpty())
-            {
-                List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
-
-                playerDataList.forEach(challengesPlayerData -> {
-
-                    Map<String, Integer> fixedChallengeStatus = new HashMap<>();
-                    challengesPlayerData.getChallengeStatus().forEach((challenge, count) ->
-                        fixedChallengeStatus.put(challenge.toLowerCase(), count));
-                    challengesPlayerData.setChallengeStatus(fixedChallengeStatus);
-
-                    Map<String, Long> fixedChallengeTimestamp = new HashMap<>();
-                    challengesPlayerData.getChallengesTimestamp().forEach((challenge, count) ->
-                        fixedChallengeTimestamp.put(challenge.toLowerCase(), count));
-                    challengesPlayerData.setChallengesTimestamp(fixedChallengeTimestamp);
-
-                    Set<String> fixedLevelsDone = new HashSet<>();
-                    challengesPlayerData.getLevelsDone().forEach(level -> fixedLevelsDone.add(level.toLowerCase()));
-                    challengesPlayerData.setLevelsDone(fixedLevelsDone);
-
-                    this.playersDatabase.saveObject(challengesPlayerData);
-
-                    this.addon.logWarning("Challenge addon fixed your data for PlayerData " +
-                            challengesPlayerData.getUniqueId() +
-                            ". 1.14 does not allow to use capital letters in world names.");
-                });
-            }
-        }
     }
 
 
@@ -1263,7 +1192,7 @@ public class ChallengesManager
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
                 sorted(Comparator.comparing(Challenge::getOrder)).
-                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
+                filter(challenge -> challenge.matchWorld(gameWorld.getName())).
                 map(Challenge::getUniqueId).
                 collect(Collectors.toList());
     }
@@ -1286,7 +1215,7 @@ public class ChallengesManager
 
         // TODO: Probably need to check also database.
         return this.challengeCacheData.values().stream().
-                filter(challenge -> challenge.getUniqueId().startsWith(gameWorld.getName())).
+                filter(challenge -> challenge.matchWorld(gameWorld.getName())).
                 sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
@@ -1464,7 +1393,7 @@ public class ChallengesManager
         // TODO: Probably need to check also database.
         return this.levelCacheData.values().stream().
                 sorted(ChallengeLevel::compareTo).
-                filter(challenge -> challenge.getUniqueId().startsWith(world)).
+                filter(level -> level.matchWorld(world)).
                 collect(Collectors.toList());
     }
 
@@ -1685,8 +1614,8 @@ public class ChallengesManager
     public boolean hasAnyChallengeData(@NonNull String worldName)
     {
         return this.challengeDatabase.loadObjects().stream().anyMatch(
-            challenge -> challenge.getUniqueId().startsWith(worldName)) ||
+            challenge -> challenge.matchWorld(worldName)) ||
             this.levelDatabase.loadObjects().stream().anyMatch(
-                level -> level.getUniqueId().startsWith(worldName));
+                level -> level.matchWorld(worldName));
     }
 }

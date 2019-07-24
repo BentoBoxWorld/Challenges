@@ -979,6 +979,20 @@ public class Challenge implements DataObject
 
 
     /**
+     * This method match if given worldName relates to current challenge. It is detected
+     * via challenge uniqueId, as it always must start with world name.
+     * This method is created to avoid issues with capital letters in world names in 1.14
+     * @param worldName Name that must be checked.
+     * @return {@code true} if current challenge relates to given world name, otherwise
+     * {@code false}.
+     */
+    public boolean matchWorld(String worldName)
+    {
+        return this.uniqueId.regionMatches(true, 0, worldName, 0, worldName.length());
+    }
+
+
+    /**
      * @see java.lang.Object#hashCode()
      * @return int
      */
@@ -1018,7 +1032,7 @@ public class Challenge implements DataObject
         }
         else
         {
-            return uniqueId.equals(other.uniqueId);
+            return uniqueId.equalsIgnoreCase(other.uniqueId);
         }
     }
 
