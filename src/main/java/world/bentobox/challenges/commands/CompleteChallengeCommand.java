@@ -102,7 +102,7 @@ public class CompleteChallengeCommand extends CompositeCommand
 			case 3:
 				// Create suggestions with all challenges that is available for users.
 				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-					map(challenge -> challenge.replaceFirst(Util.getWorld(this.getWorld()).getName() + "_", "")).
+					map(challenge -> challenge.substring(Util.getWorld(this.getWorld()).getName().length() + 1)).
 					collect(Collectors.toList()));
 
 				break;
