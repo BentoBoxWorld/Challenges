@@ -25,6 +25,7 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -82,7 +83,7 @@ public class ChallengesImportManager
             for (String level : lvs) {
                 ChallengeLevel challengeLevel = new ChallengeLevel();
                 challengeLevel.setFriendlyName(level);
-                challengeLevel.setUniqueId(Util.getWorld(world).getName() + "_" + level);
+                challengeLevel.setUniqueId(Utils.getGameMode(world) + "_" + level);
                 challengeLevel.setOrder(order++);
                 challengeLevel.setWorld(Util.getWorld(world).getName());
                 challengeLevel.setWaiverAmount(chal.getInt("challenges.waiveramount"));
@@ -115,7 +116,7 @@ public class ChallengesImportManager
 
         for (String challenge : chals.getKeys(false)) {
             Challenge newChallenge = new Challenge();
-            newChallenge.setUniqueId(Util.getWorld(world).getName() + "_" + challenge);
+            newChallenge.setUniqueId(Utils.getGameMode(world) + "_" + challenge);
             newChallenge.setDeployed(true);
             ConfigurationSection details = chals.getConfigurationSection(challenge);
             newChallenge.setFriendlyName(details.getString("friendlyname", challenge));
@@ -249,7 +250,7 @@ public class ChallengesImportManager
         {
         	// This prefix will be used to all challenges. That is a unique way how to separate challenged for
 			// each game mode.
-			String uniqueIDPrefix = Util.getWorld(world).getName() + "_";
+			String uniqueIDPrefix = Utils.getGameMode(world) + "_";
         	DefaultDataHolder defaultChallenges = new DefaultJSONHandler(this.addon).loadObject();
 
         	// All new challenges should get correct ID. So we need to map it to loaded challenges.
@@ -347,7 +348,7 @@ public class ChallengesImportManager
         {
             if (defaultFile.createNewFile())
             {
-                String replacementString = Util.getWorld(world).getName() + "_";
+                String replacementString = Utils.getGameMode(world) + "_";
                 ChallengesManager manager = this.addon.getChallengesManager();
 
 				List<Challenge> challengeList = manager.getAllChallenges(world).
