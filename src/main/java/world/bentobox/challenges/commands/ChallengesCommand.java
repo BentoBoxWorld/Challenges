@@ -43,7 +43,7 @@ public class ChallengesCommand extends CompositeCommand
             this.getAddon().getLogger().severe("There are no challenges set up in " + this.getWorld() + "!");
 
             // Show admin better explanation.
-            if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + ".admin.challenges"))
+            if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + "admin.challenges"))
             {
                 String topLabel = optionalAddon.get().getAdminCommand().orElseGet(this::getParent).getTopLabel();
                 user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
@@ -74,10 +74,10 @@ public class ChallengesCommand extends CompositeCommand
         if (user.isPlayer())
         {
             new ChallengesGUI((ChallengesAddon) this.getAddon(),
-                this.getWorld(),
-                user,
-                this.getTopLabel(),
-                this.getPermissionPrefix()).build();
+                    this.getWorld(),
+                    user,
+                    this.getTopLabel(),
+                    this.getPermissionPrefix()).build();
             return true;
         }
         // Show help
