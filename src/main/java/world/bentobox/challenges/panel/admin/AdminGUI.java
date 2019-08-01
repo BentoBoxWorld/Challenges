@@ -5,7 +5,10 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Optional;
+
 import net.wesjd.anvilgui.AnvilGUI;
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -15,6 +18,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -208,7 +212,7 @@ public class AdminGUI extends CommonGUI
 						this.user.getPlayer(),
 						"unique_id",
 						(player, reply) -> {
-							String newName = Util.getWorld(this.world).getName() + "_" + reply;
+							String newName = Utils.getGameMode(this.world) + "_" + reply;
 
 							if (!this.addon.getChallengesManager().containsChallenge(newName))
 							{
@@ -244,7 +248,7 @@ public class AdminGUI extends CommonGUI
 						this.user.getPlayer(),
 						"unique_id",
 						(player, reply) -> {
-							String newName = Util.getWorld(this.world).getName() + "_" + reply;
+							String newName = Utils.getGameMode(this.world) + "_" + reply;
 
 							if (!this.addon.getChallengesManager().containsLevel(newName))
 							{

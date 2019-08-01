@@ -979,16 +979,18 @@ public class Challenge implements DataObject
 
 
     /**
-     * This method match if given worldName relates to current challenge. It is detected
-     * via challenge uniqueId, as it always must start with world name.
+     * This method match if given gameMode relates to current challenge. It is detected
+     * via challenge uniqueId, as it always must start with gameMode name.
      * This method is created to avoid issues with capital letters in world names in 1.14
-     * @param worldName Name that must be checked.
-     * @return {@code true} if current challenge relates to given world name, otherwise
+     * and readjust to store GameMode name instead of world name.
+     * @param gameMode Name that must be checked.
+     * @return {@code true} if current challenge relates to given gameMode name, otherwise
      * {@code false}.
      */
-    public boolean matchWorld(String worldName)
+    public boolean matchGameMode(String gameMode)
     {
-        return this.uniqueId.regionMatches(true, 0, worldName, 0, worldName.length());
+        return gameMode != null &&
+            this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
     }
 
 

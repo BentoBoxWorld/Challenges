@@ -2,9 +2,12 @@ package world.bentobox.challenges.utils;
 
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
+
+import world.bentobox.bentobox.BentoBox;
 
 
 /**
@@ -77,5 +80,19 @@ public class Utils
 			material.equals(Material.ENCHANTED_BOOK) ||
 			material.equals(Material.WRITTEN_BOOK) ||
 			material.equals(Material.FILLED_MAP);
+	}
+
+
+	/**
+	 * This method transforms given World into GameMode name. If world is not a GameMode
+	 * world then it returns null.
+	 * @param world World which gameMode name must be found out.
+	 * @return GameMode name or null.
+	 */
+	public static String getGameMode(World world)
+	{
+		return BentoBox.getInstance().getIWM().getAddon(world).
+			map(gameModeAddon -> gameModeAddon.getDescription().getName()).
+			orElse(null);
 	}
 }

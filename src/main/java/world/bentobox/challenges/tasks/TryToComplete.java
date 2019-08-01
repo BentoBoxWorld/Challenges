@@ -516,7 +516,7 @@ public class TryToComplete
             result = EMPTY_RESULT;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
-            !this.challenge.matchWorld(Util.getWorld(this.world).getName()))
+            !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
         {
             this.user.sendMessage("general.errors.wrong-world");
             result = EMPTY_RESULT;

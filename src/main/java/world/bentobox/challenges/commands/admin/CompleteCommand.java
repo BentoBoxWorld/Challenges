@@ -11,7 +11,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
-import world.bentobox.challenges.tasks.TryToComplete;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -92,7 +92,7 @@ public class CompleteCommand extends CompositeCommand
 			}
 
 			// Add world name back at the start
-			String challengeName = Util.getWorld(this.getWorld()).getName() + "_" + args.get(1);
+			String challengeName = Utils.getGameMode(this.getWorld()) + "_" + args.get(1);
 			Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
 
 			if (challenge != null)
@@ -169,7 +169,7 @@ public class CompleteCommand extends CompositeCommand
 			case 4:
 				// Create suggestions with all challenges that is available for users.
 				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-					map(challenge -> challenge.substring(Util.getWorld(this.getWorld()).getName().length() + 1)).
+					map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
 					collect(Collectors.toList()));
 
 				break;

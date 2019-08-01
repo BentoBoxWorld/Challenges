@@ -197,15 +197,15 @@ public class ChallengesPlayerData implements DataObject
 
 
 	/**
-	 * Resets all challenges and levels in world for this player
+	 * Resets all challenges and levels in GameMode for this player
 	 *
-	 * @param worldName world which challenges must be reset.
+	 * @param gameMode GameMode which challenges must be reset.
 	 */
-	public void reset(@NonNull String worldName)
+	public void reset(@NonNull String gameMode)
 	{
-		challengeStatus.keySet().removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
-		challengesTimestamp.keySet().removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
-		levelsDone.removeIf(n -> n.regionMatches(true, 0, worldName, 0, worldName.length()));
+		challengeStatus.keySet().removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
+		challengesTimestamp.keySet().removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
+		levelsDone.removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
 	}
 
 

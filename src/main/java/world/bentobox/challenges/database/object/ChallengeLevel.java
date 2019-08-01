@@ -426,16 +426,19 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 
 
     /**
-     * This method match if given worldName relates to current level. It is detected
-     * via level uniqueId, as it always must start with world name.
-     * This method is created to avoid issues with capital letters in world names in 1.14
-     * @param worldName Name that must be checked.
-     * @return {@code true} if current level relates to given world name, otherwise
+     * This method match if given gameMode relates to current level. It is detected
+     * via level uniqueId, as it always must start with gameMode name.
+     *
+     * This method is created to avoid issues with capital letters in world names in 1.14.
+     * It is reused for GameMode storage change.
+     * @param gameMode Name that must be checked.
+     * @return {@code true} if current level relates to given gameMode name, otherwise
      * {@code false}.
      */
-    public boolean matchWorld(String worldName)
+    public boolean matchGameMode(String gameMode)
     {
-        return this.uniqueId.regionMatches(true, 0, worldName, 0, worldName.length());
+        return gameMode != null &&
+            this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
     }
 
 
