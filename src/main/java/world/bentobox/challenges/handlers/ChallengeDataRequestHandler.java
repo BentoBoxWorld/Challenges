@@ -17,27 +17,27 @@ import world.bentobox.challenges.database.object.Challenge;
 public class ChallengeDataRequestHandler extends AddonRequestHandler
 {
 
-	/**
-	 * Constructor creates a new ChallengesDataRequestHandler instance.
-	 *
-	 * @param addon of type ChallengesAddon
-	 */
-	public ChallengeDataRequestHandler(ChallengesAddon addon)
-	{
-		super("challenge-data");
-		this.addon = addon;
-	}
+    /**
+     * Constructor creates a new ChallengesDataRequestHandler instance.
+     *
+     * @param addon of type ChallengesAddon
+     */
+    public ChallengeDataRequestHandler(ChallengesAddon addon)
+    {
+        super("challenge-data");
+        this.addon = addon;
+    }
 
 
-	/**
-	 * @param metaData Required meta data.
-	 * @return Map that returns information about challenges
-	 * @see AddonRequestHandler#handle(Map<String, Object>)
-	 */
-	@Override
-	public Object handle(Map<String, Object> metaData)
-	{
-		/*
+    /* (non-Javadoc)
+     * @param metaData Required meta data.
+     * @return Map that returns information about challenges
+     * @see world.bentobox.bentobox.api.addons.request.AddonRequestHandler#handle(java.util.Map)
+     */
+    @Override
+    public Object handle(Map<String, Object> metaData)
+    {
+        /*
             What we need in the metaData:
 				0. "challenge-name" -> String
             What we will return:
@@ -56,51 +56,51 @@ public class ChallengeDataRequestHandler extends AddonRequestHandler
 			 		- maxTimes: Integer object that represents how many times challenge can be completed.
          */
 
-		if (metaData == null ||
-			metaData.isEmpty() ||
-			metaData.get("challenge-name") == null ||
-			!(metaData.get("challenge-name") instanceof String))
-		{
-			return Collections.emptyMap();
-		}
+        if (metaData == null ||
+                metaData.isEmpty() ||
+                metaData.get("challenge-name") == null ||
+                !(metaData.get("challenge-name") instanceof String))
+        {
+            return Collections.emptyMap();
+        }
 
-		Challenge challenge = this.addon.getChallengesManager().getChallenge((String) metaData.get("challenge-name"));
+        Challenge challenge = this.addon.getChallengesManager().getChallenge((String) metaData.get("challenge-name"));
 
-		Map<String, Object> challengeDataMap;
+        Map<String, Object> challengeDataMap;
 
-		if (challenge == null)
-		{
-			challengeDataMap = Collections.emptyMap();
-		}
-		else
-		{
-			challengeDataMap = new HashMap<>();
+        if (challenge == null)
+        {
+            challengeDataMap = Collections.emptyMap();
+        }
+        else
+        {
+            challengeDataMap = new HashMap<>();
 
-			challengeDataMap.put("uniqueId", challenge.getUniqueId());
-			challengeDataMap.put("name", challenge.getFriendlyName());
-			challengeDataMap.put("icon", challenge.getIcon());
-			challengeDataMap.put("levelId", challenge.getLevel());
-			challengeDataMap.put("order", challenge.getOrder());
-			challengeDataMap.put("deployed", challenge.isDeployed());
-			challengeDataMap.put("description", challenge.getDescription());
-			challengeDataMap.put("type", challenge.getChallengeType().toString());
+            challengeDataMap.put("uniqueId", challenge.getUniqueId());
+            challengeDataMap.put("name", challenge.getFriendlyName());
+            challengeDataMap.put("icon", challenge.getIcon());
+            challengeDataMap.put("levelId", challenge.getLevel());
+            challengeDataMap.put("order", challenge.getOrder());
+            challengeDataMap.put("deployed", challenge.isDeployed());
+            challengeDataMap.put("description", challenge.getDescription());
+            challengeDataMap.put("type", challenge.getChallengeType().toString());
 
-			challengeDataMap.put("repeatable", challenge.isRepeatable());
-			challengeDataMap.put("maxTimes", challenge.isRepeatable() ? challenge.getMaxTimes() : 1);
+            challengeDataMap.put("repeatable", challenge.isRepeatable());
+            challengeDataMap.put("maxTimes", challenge.isRepeatable() ? challenge.getMaxTimes() : 1);
 
-		}
+        }
 
-		return challengeDataMap;
-	}
-
-
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+        return challengeDataMap;
+    }
 
 
-	/**
-	 * Variable stores challenges addon.
-	 */
-	private ChallengesAddon addon;
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * Variable stores challenges addon.
+     */
+    private ChallengesAddon addon;
 }

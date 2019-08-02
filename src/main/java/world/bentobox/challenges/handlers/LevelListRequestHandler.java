@@ -15,53 +15,53 @@ import world.bentobox.challenges.ChallengesAddon;
 public class LevelListRequestHandler extends AddonRequestHandler
 {
 
-	/**
-	 * Constructor creates a new CompletedChallengesRequestHandler instance.
-	 *
-	 * @param addon of type ChallengesAddon
-	 */
-	public LevelListRequestHandler(ChallengesAddon addon)
-	{
-		super("level-list");
-		this.addon = addon;
-	}
+    /**
+     * Constructor creates a new CompletedChallengesRequestHandler instance.
+     *
+     * @param addon of type ChallengesAddon
+     */
+    public LevelListRequestHandler(ChallengesAddon addon)
+    {
+        super("level-list");
+        this.addon = addon;
+    }
 
 
-	/**
-	 * @param metaData Required meta data.
-	 * @return List of strings that contains levels in given world
-	 * @see AddonRequestHandler#handle(Map <String, Object>)
-	 */
-	@Override
-	public Object handle(Map<String, Object> metaData)
-	{
-		/*
+    /* (non-Javadoc)
+     * @see world.bentobox.bentobox.api.addons.request.AddonRequestHandler#handle(java.util.Map)
+     * @param metaData Required meta data.
+     * @return List of strings that contains levels in given world
+     */
+    @Override
+    public Object handle(Map<String, Object> metaData)
+    {
+        /*
             What we need in the metaData:
 				0. "world-name" -> String
             What we will return:
 				- List of levels in given world.
          */
 
-		if (metaData == null ||
-			metaData.isEmpty() ||
-			metaData.get("world-name") == null ||
-			!(metaData.get("world-name") instanceof String) ||
-			Bukkit.getWorld((String) metaData.get("world-name")) == null)
-		{
-			return Collections.emptyList();
-		}
+        if (metaData == null ||
+                metaData.isEmpty() ||
+                metaData.get("world-name") == null ||
+                !(metaData.get("world-name") instanceof String) ||
+                Bukkit.getWorld((String) metaData.get("world-name")) == null)
+        {
+            return Collections.emptyList();
+        }
 
-		return this.addon.getChallengesManager().getLevels(Bukkit.getWorld((String) metaData.get("world-name")));
-	}
-
-
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+        return this.addon.getChallengesManager().getLevels(Bukkit.getWorld((String) metaData.get("world-name")));
+    }
 
 
-	/**
-	 * Variable stores challenges addon.
-	 */
-	private ChallengesAddon addon;
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * Variable stores challenges addon.
+     */
+    private ChallengesAddon addon;
 }
