@@ -43,6 +43,10 @@ public class Challenges extends CompositeCommand
 
         // Reset challenge command
         new ResetCommand(this.getAddon(), this);
+
+        new ShowChallenges(this.getAddon(), this);
+
+        new MigrateCommand(this.getAddon(), this);
     }
 
 

@@ -36,6 +36,9 @@ challenges:
             reset:
                 description: 'This command allows to reset challenge for player without GUI. If "challenge_id" is set to "all", then it will reset all challenges.'
                 parameters: '<player> <challenge_id>'
+            migrate:
+                description: 'This method allows to migrate challenges data that refers to current game mode world to new 0.8.0 storage format.'
+                parameters: ''
         user:
             main:
                 description: 'This method opens Challenges GUI.'
@@ -341,6 +344,10 @@ challenges:
             reset: '&2You reset challenge [name] for [player]!'
             reset-all: '&2All [player] challenges were reset!'
             not-completed: '&2This challenge is not completed yet!'
+
+            migrate-start: '&2Start migrating challenges addon data.'
+            migrate-end: '&2Challenges addon data is updated to new format.'
+            migrate-not: '&2All data is valid.'
         you-completed-challenge: '&2You completed the [value] &r&2challenge!'
         you-repeated-challenge: '&2You repeated the [value] &r&2challenge!'
         you-repeated-challenge-multiple: '&2You repeated the [value] &r&2challenge [count] times!'

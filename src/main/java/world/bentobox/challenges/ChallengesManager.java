@@ -23,6 +23,7 @@ import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
 import world.bentobox.challenges.events.LevelCompletedEvent;
 import world.bentobox.challenges.utils.LevelStatus;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -148,6 +149,7 @@ public class ChallengesManager
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
+
         // It is not necessary to load all players in memory.
 //        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
@@ -491,6 +493,180 @@ public class ChallengesManager
 
         playerDataList.forEach(playerData -> this.playersDatabase.deleteID(playerData.getUniqueId()));
         this.playerCacheData.clear();
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Wipe data
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * This method migrated all challenges addon data from worldName to addonID formant.
+     */
+    public void migrateDatabase(User user, World world)
+    {
+        world = Util.getWorld(world);
+
+        if (user.isPlayer())
+        {
+            user.sendMessage("challenges.messages.admin.migrate-start");
+        }
+        else
+        {
+            this.addon.log("Starting migration to new data format.");
+        }
+
+        boolean challenges = this.migrateChallenges(world);
+        boolean levels = this.migrateLevels(world);
+
+        if (challenges || levels)
+        {
+            this.migratePlayers(world);
+
+            if (user.isPlayer())
+            {
+                user.sendMessage("challenges.messages.admin.migrate-end");
+            }
+            else
+            {
+                this.addon.log("Migration to new data format completed.");
+            }
+        }
+        else
+        {
+            if (user.isPlayer())
+            {
+                user.sendMessage("challenges.messages.admin.migrate-not");
+            }
+            else
+            {
+                this.addon.log("All data is valid. Migration is not necessary.");
+            }
+        }
+    }
+
+
+    /**
+     * This method collects all data from levels database and migrates them.
+     */
+    private boolean migrateLevels(World world)
+    {
+        String addonName = Utils.getGameMode(world);
+
+        if (addonName == null || addonName.equalsIgnoreCase(world.getName()))
+        {
+            return false;
+        }
+
+        boolean updated = false;
+        List<ChallengeLevel> levelList = this.levelDatabase.loadObjects();
+        for (ChallengeLevel level : levelList)
+        {
+            if (level.getUniqueId().regionMatches(true, 0, world.getName() + "_", 0, world.getName().length() + 1))
+            {
+                this.levelDatabase.deleteID(level.getUniqueId());
+                this.levelCacheData.remove(level.getUniqueId());
+
+                level.setUniqueId(
+                    addonName + level.getUniqueId().substring(world.getName().length()));
+
+                Set<String> challengesID = new HashSet<>(level.getChallenges());
+                level.getChallenges().clear();
+
+                challengesID.forEach(challenge ->
+                    level.getChallenges().add(addonName + challenge.substring(world.getName().length())));
+
+                this.levelDatabase.saveObject(level);
+                this.levelCacheData.put(level.getUniqueId(), level);
+
+                updated = true;
+            }
+        }
+
+        return updated;
+    }
+
+
+    /**
+     * This method collects all data from challenges database and migrates them.
+     */
+    private boolean migrateChallenges(World world)
+    {
+        String addonName = Utils.getGameMode(world);
+
+        if (addonName == null || addonName.equalsIgnoreCase(world.getName()))
+        {
+            return false;
+        }
+
+        boolean updated = false;
+
+        List<Challenge> challengeList = this.challengeDatabase.loadObjects();
+
+        for (Challenge challenge : challengeList)
+        {
+            if (challenge.getUniqueId().regionMatches(true, 0, world.getName() + "_", 0, world.getName().length() + 1))
+            {
+                this.challengeDatabase.deleteID(challenge.getUniqueId());
+                this.challengeCacheData.remove(challenge.getUniqueId());
+
+                challenge.setUniqueId(addonName + challenge.getUniqueId().substring(world.getName().length()));
+                updated = true;
+
+                this.challengeDatabase.saveObject(challenge);
+                this.challengeCacheData.put(challenge.getUniqueId(), challenge);
+            }
+        }
+
+        return updated;
+    }
+
+
+    /**
+     * This method collects all data from players database and migrates them.
+     */
+    private void migratePlayers(World world)
+    {
+        String addonName = Utils.getGameMode(world);
+
+        if (addonName == null || addonName.equalsIgnoreCase(world.getName()))
+        {
+            return;
+        }
+
+        List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
+
+        playerDataList.forEach(playerData -> {
+            Set<String> levelsDone = new TreeSet<>(playerData.getLevelsDone());
+            levelsDone.forEach(level -> {
+                if (level.regionMatches(true, 0, world.getName() + "_", 0, world.getName().length() + 1))
+                {
+                    playerData.getLevelsDone().remove(level);
+                    playerData.getLevelsDone().add(addonName + level.substring(world.getName().length()));
+                }
+            });
+
+            Map<String, Integer> challengeStatus = new TreeMap<>(playerData.getChallengeStatus());
+            challengeStatus.forEach((challenge, count) -> {
+                if (challenge.regionMatches(true, 0, world.getName() + "_", 0, world.getName().length() + 1))
+                {
+                    playerData.getChallengeStatus().remove(challenge);
+                    playerData.getChallengeStatus().put(addonName + challenge.substring(world.getName().length()), count);
+                }
+            });
+
+            Map<String, Long> challengeTimestamp = new TreeMap<>(playerData.getChallengesTimestamp());
+            challengeTimestamp.forEach((challenge, timestamp) -> {
+                if (challenge.regionMatches(true, 0, world.getName() + "_", 0, world.getName().length() + 1))
+                {
+                    playerData.getChallengesTimestamp().remove(challenge);
+                    playerData.getChallengesTimestamp().put(addonName + challenge.substring(world.getName().length()), timestamp);
+                }
+            });
+
+            this.playersDatabase.saveObject(playerData);
+        });
     }
 
 

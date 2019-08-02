@@ -1,6 +1,7 @@
 package world.bentobox.challenges.commands.admin;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.addons.Addon;
@@ -28,8 +29,19 @@ public class ShowChallenges extends CompositeCommand {
 
     @Override
     public boolean execute(User user, String label, List<String> args) {
-        ((ChallengesAddon)getAddon()).getChallengesManager().getAllChallengesNames(this.getWorld()).forEach(user::sendRawMessage);
+        if (user.isPlayer())
+        {
+            ((ChallengesAddon) getAddon()).getChallengesManager().
+                getAllChallengesNames(this.getWorld()).forEach(user::sendRawMessage);
+        }
+        else
+        {
+            ((ChallengesAddon) getAddon()).getChallengesManager().
+                getAllChallengesNames(this.getWorld()).forEach(c -> this.getAddon().log(c));
+        }
+
         return true;
+
     }
 
 }
