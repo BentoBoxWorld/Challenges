@@ -23,178 +23,186 @@ import world.bentobox.challenges.utils.GuiUtils;
  */
 public class ListLevelsGUI extends CommonGUI
 {
-// ---------------------------------------------------------------------
-// Section: Constructor
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Constructor
+    // ---------------------------------------------------------------------
 
 
-	/**
-	 * {@inheritDoc}
-	 * @param mode - mode that indicate what should do icon clicking.
-	 */
-	public ListLevelsGUI(ChallengesAddon addon,
-		World world,
-		User user,
-		Mode mode,
-		String topLabel,
-		String permissionPrefix)
-	{
-		this(addon, world, user, mode, topLabel, permissionPrefix, null);
-	}
+    /**
+     * @param addon Addon where panel operates.
+     * @param world World from which panel was created.
+     * @param user User who created panel.
+     * @param topLabel Command top label which creates panel (f.e. island or ai)
+     * @param permissionPrefix Command permission prefix (f.e. bskyblock.)
+     * @param mode - mode that indicate what should do icon clicking.
+     */
+    public ListLevelsGUI(ChallengesAddon addon,
+            World world,
+            User user,
+            Mode mode,
+            String topLabel,
+            String permissionPrefix)
+    {
+        this(addon, world, user, mode, topLabel, permissionPrefix, null);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 * @param mode - mode that indicate what should do icon clicking.
-	 */
-	public ListLevelsGUI(ChallengesAddon addon,
-		World world,
-		User user,
-		Mode mode,
-		String topLabel,
-		String permissionPrefix,
-		CommonGUI parentGUI)
-	{
-		super(addon, world, user, topLabel, permissionPrefix, parentGUI);
-		this.currentMode = mode;
-	}
+    /**
+     * @param addon Addon where panel operates.
+     * @param world World from which panel was created.
+     * @param user User who created panel.
+     * @param topLabel Command top label which creates panel (f.e. island or ai)
+     * @param permissionPrefix Command permission prefix (f.e. bskyblock.)
+     * @param mode - mode that indicate what should do icon clicking.
+     */
+    public ListLevelsGUI(ChallengesAddon addon,
+            World world,
+            User user,
+            Mode mode,
+            String topLabel,
+            String permissionPrefix,
+            CommonGUI parentGUI)
+    {
+        super(addon, world, user, topLabel, permissionPrefix, parentGUI);
+        this.currentMode = mode;
+    }
 
 
-// ---------------------------------------------------------------------
-// Section: Methods
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Methods
+    // ---------------------------------------------------------------------
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void build()
-	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-			this.user.getTranslation("challenges.gui.title.admin.choose-level-title"));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void build()
+    {
+        PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
+                this.user.getTranslation("challenges.gui.title.admin.choose-level-title"));
 
-		if (this.currentMode.equals(Mode.DELETE))
-		{
-			GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
-		}
-		else
-		{
-			GuiUtils.fillBorder(panelBuilder);
-		}
+        if (this.currentMode.equals(Mode.DELETE))
+        {
+            GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
+        }
+        else
+        {
+            GuiUtils.fillBorder(panelBuilder);
+        }
 
-		List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world);
+        List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world);
 
-		final int MAX_ELEMENTS = 21;
+        final int MAX_ELEMENTS = 21;
 
-		if (this.pageIndex < 0)
-		{
-			this.pageIndex = levelList.size() / MAX_ELEMENTS;
-		}
-		else if (this.pageIndex > (levelList.size() / MAX_ELEMENTS))
-		{
-			this.pageIndex = 0;
-		}
+        if (this.pageIndex < 0)
+        {
+            this.pageIndex = levelList.size() / MAX_ELEMENTS;
+        }
+        else if (this.pageIndex > (levelList.size() / MAX_ELEMENTS))
+        {
+            this.pageIndex = 0;
+        }
 
-		int levelIndex = MAX_ELEMENTS * this.pageIndex;
+        int levelIndex = MAX_ELEMENTS * this.pageIndex;
 
-		// I want first row to be only for navigation and return button.
-		int index = 10;
+        // I want first row to be only for navigation and return button.
+        int index = 10;
 
-		while (levelIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-			levelIndex < levelList.size() &&
-			index < 36)
-		{
-			if (!panelBuilder.slotOccupied(index))
-			{
-				panelBuilder.item(index, this.createLevelIcon(levelList.get(levelIndex++)));
-			}
+        while (levelIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
+                levelIndex < levelList.size() &&
+                index < 36)
+        {
+            if (!panelBuilder.slotOccupied(index))
+            {
+                panelBuilder.item(index, this.createLevelIcon(levelList.get(levelIndex++)));
+            }
 
-			index++;
-		}
+            index++;
+        }
 
-		// Navigation buttons only if necessary
-		if (levelList.size() > MAX_ELEMENTS)
-		{
-			panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
-			panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
-		}
+        // Navigation buttons only if necessary
+        if (levelList.size() > MAX_ELEMENTS)
+        {
+            panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+            panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
+        }
 
-		panelBuilder.item(44, this.returnButton);
+        panelBuilder.item(44, this.returnButton);
 
-		panelBuilder.build();
-	}
-
-
-	/**
-	 * This method creates button for given level
-	 * @param challengeLevel Level which button must be created.
-	 * @return Level button.
-	 */
-	private PanelItem createLevelIcon(ChallengeLevel challengeLevel)
-	{
-		PanelItemBuilder itemBuilder = new PanelItemBuilder().
-			name(ChatColor.translateAlternateColorCodes('&', challengeLevel.getFriendlyName())).
-			description(GuiUtils.stringSplit(
-				this.generateLevelDescription(challengeLevel, this.user.getPlayer()),
-				this.addon.getChallengesSettings().getLoreLineLength())).
-			icon(challengeLevel.getIcon()).
-			glow(false);
-
-		if (this.currentMode.equals(Mode.EDIT))
-		{
-			itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-				new EditLevelGUI(this.addon,
-					this.world,
-					this.user,
-					challengeLevel,
-					this.topLabel,
-					this.permissionPrefix,
-					this).build();
-				return true;
-			});
-		}
-		else if (this.currentMode.equals(Mode.DELETE))
-		{
-			itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-				new ConfirmationGUI(this.user, value -> {
-					if (value)
-					{
-						this.addon.getChallengesManager().
-							deleteChallengeLevel(challengeLevel);
-					}
-
-					this.build();
-				});
-				return true;
-			});
-		}
-
-		return itemBuilder.build();
-	}
+        panelBuilder.build();
+    }
 
 
-// ---------------------------------------------------------------------
-// Section: Enums
-// ---------------------------------------------------------------------
+    /**
+     * This method creates button for given level
+     * @param challengeLevel Level which button must be created.
+     * @return Level button.
+     */
+    private PanelItem createLevelIcon(ChallengeLevel challengeLevel)
+    {
+        PanelItemBuilder itemBuilder = new PanelItemBuilder().
+                name(ChatColor.translateAlternateColorCodes('&', challengeLevel.getFriendlyName())).
+                description(GuiUtils.stringSplit(
+                        this.generateLevelDescription(challengeLevel, this.user.getPlayer()),
+                        this.addon.getChallengesSettings().getLoreLineLength())).
+                icon(challengeLevel.getIcon()).
+                glow(false);
+
+        if (this.currentMode.equals(Mode.EDIT))
+        {
+            itemBuilder.clickHandler((panel, user1, clickType, i) -> {
+                new EditLevelGUI(this.addon,
+                        this.world,
+                        this.user,
+                        challengeLevel,
+                        this.topLabel,
+                        this.permissionPrefix,
+                        this).build();
+                return true;
+            });
+        }
+        else if (this.currentMode.equals(Mode.DELETE))
+        {
+            itemBuilder.clickHandler((panel, user1, clickType, i) -> {
+                new ConfirmationGUI(this.user, value -> {
+                    if (value)
+                    {
+                        this.addon.getChallengesManager().
+                        deleteChallengeLevel(challengeLevel);
+                    }
+
+                    this.build();
+                });
+                return true;
+            });
+        }
+
+        return itemBuilder.build();
+    }
 
 
-	/**
-	 * Mode in which gui icons should processed.
-	 */
-	public enum Mode
-	{
-		EDIT,
-		DELETE
-	}
+    // ---------------------------------------------------------------------
+    // Section: Enums
+    // ---------------------------------------------------------------------
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+    /**
+     * Mode in which gui icons should processed.
+     */
+    public enum Mode
+    {
+        EDIT,
+        DELETE
+    }
 
-	/**
-	 * Current mode in which icons will act.
-	 */
-	private Mode currentMode;
+
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
+
+    /**
+     * Current mode in which icons will act.
+     */
+    private Mode currentMode;
 }
