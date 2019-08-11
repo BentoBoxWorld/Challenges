@@ -29,7 +29,7 @@ public class Utils
 		// items are in players inventory.
 		for (ItemStack item : requiredItems)
 		{
-			boolean isUnique = true;
+			boolean isUnique = item != null;
 
 			int i = 0;
 			final int requiredSize = returnItems.size();
@@ -49,7 +49,7 @@ public class Utils
 				i++;
 			}
 
-			if (isUnique)
+			if (isUnique && item != null)
 			{
 				// The same issue as in other places. Clone prevents from changing original item.
 				returnItems.add(item.clone());
