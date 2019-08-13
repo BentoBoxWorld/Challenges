@@ -3,13 +3,13 @@ package world.bentobox.challenges.events;
 
 import java.util.UUID;
 
-import world.bentobox.bentobox.api.events.PremadeEvent;
+import world.bentobox.bentobox.api.events.BentoBoxEvent;
 
 
 /**
  * This event is fired when single challenge is reset by admin.
  */
-public class ChallengeResetEvent extends PremadeEvent
+public class ChallengeResetEvent extends BentoBoxEvent
 {
 	/**
 	 * Constructor creates a new ChallengeResetEvent instance.

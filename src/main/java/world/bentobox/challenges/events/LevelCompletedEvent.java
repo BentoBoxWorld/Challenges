@@ -3,13 +3,13 @@ package world.bentobox.challenges.events;
 
 import java.util.UUID;
 
-import world.bentobox.bentobox.api.events.PremadeEvent;
+import world.bentobox.bentobox.api.events.BentoBoxEvent;
 
 
 /**
  * This event is fired when challenge level is completed.
  */
-public class LevelCompletedEvent extends PremadeEvent
+public class LevelCompletedEvent extends BentoBoxEvent
 {
 
 	/**
