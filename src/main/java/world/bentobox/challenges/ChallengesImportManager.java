@@ -160,8 +160,12 @@ public class ChallengesImportManager
             newChallenge.setRewardItems(parseItems(details.getString("itemReward", "")));
             newChallenge.setRepeatItemReward(parseItems(details.getString("repeatItemReward", "")));
             // Save
-            this.addon.getChallengesManager().addChallengeToLevel(newChallenge,
-                addon.getChallengesManager().getLevel(Util.getWorld(world).getName() + "_" + details.getString("level", "")));
+			if (!details.getString("level", "").isEmpty())
+			{
+				this.addon.getChallengesManager().addChallengeToLevel(newChallenge,
+					addon.getChallengesManager().getLevel(
+						Utils.getGameMode(world) + "_" + details.getString("level", "")));
+			}
 
             if (addon.getChallengesManager().loadChallenge(newChallenge, overwrite, user, false)) {
                 size++;
