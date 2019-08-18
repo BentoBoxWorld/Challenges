@@ -735,7 +735,7 @@ public abstract class CommonGUI
                     {
                         result.add(this.user
                                 .getTranslation("challenges.gui.level-description.experience-reward",
-                                        "[value]", Integer.toString(level.getWaiverAmount())));
+                                        "[value]", Integer.toString(level.getRewardExperience())));
                     }
 
                     if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
