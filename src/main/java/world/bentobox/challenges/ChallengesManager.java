@@ -612,6 +612,7 @@ public class ChallengesManager
                 this.challengeCacheData.remove(challenge.getUniqueId());
 
                 challenge.setUniqueId(addonName + challenge.getUniqueId().substring(world.getName().length()));
+                challenge.setLevel(addonName + challenge.getLevel().substring(world.getName().length()));
                 updated = true;
 
                 this.challengeDatabase.saveObject(challenge);
