@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -17,6 +16,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.Settings;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
+import world.bentobox.challenges.panel.util.SelectBlocksGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -240,14 +240,16 @@ public class EditSettingsGUI extends CommonGUI
             name = this.user.getTranslation("challenges.gui.buttons.admin.level-lore");
             icon = new ItemStack(Material.MAP);
             clickHandler = (panel, user1, clickType, i) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.settings.getLevelLoreMessage(),
-                        (player, reply) -> {
-                            this.settings.setLevelLoreMessage(reply);
-                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
-                            return reply;
-                        });
+
+                // TODO: AnvilGUI is out. Need to implement better GUI for editing this.
+//                new AnvilGUI(this.addon.getPlugin(),
+//                        this.user.getPlayer(),
+//                        this.settings.getLevelLoreMessage(),
+//                        (player, reply) -> {
+//                            this.settings.setLevelLoreMessage(reply);
+//                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+//                            return reply;
+//                        });
 
                 return true;
             };
@@ -263,14 +265,16 @@ public class EditSettingsGUI extends CommonGUI
             name = this.user.getTranslation("challenges.gui.buttons.admin.challenge-lore");
             icon = new ItemStack(Material.PAPER);
             clickHandler = (panel, user1, clickType, i) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.settings.getChallengeLoreMessage(),
-                        (player, reply) -> {
-                            this.settings.setChallengeLoreMessage(reply);
-                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
-                            return reply;
-                        });
+                // TODO: AnvilGUI is out. Need to implement better GUI for editing this.
+
+//                new AnvilGUI(this.addon.getPlugin(),
+//                        this.user.getPlayer(),
+//                        this.settings.getChallengeLoreMessage(),
+//                        (player, reply) -> {
+//                            this.settings.setChallengeLoreMessage(reply);
+//                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+//                            return reply;
+//                        });
 
                 return true;
             };
@@ -441,24 +445,16 @@ public class EditSettingsGUI extends CommonGUI
             name = this.user.getTranslation("challenges.gui.buttons.admin.default-locked-icon");
             icon = this.settings.getLockedLevelIcon();
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.settings.getLockedLevelIcon().getType().name(),
-                        (player, reply) -> {
-                            Material material = Material.getMaterial(reply);
 
-                            if (material != null)
-                            {
-                                this.settings.setLockedLevelIcon(new ItemStack(material));
-                                this.build();
-                            }
-                            else
-                            {
-                                this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
-                            }
+                new SelectBlocksGUI(this.user, true, (status, materials) -> {
+                    if (status)
+                    {
+                        materials.forEach(material ->
+                            this.settings.setLockedLevelIcon(new ItemStack(material)));
+                    }
 
-                            return reply;
-                        });
+                    this.build();
+                });
 
                 return true;
             };

@@ -2,12 +2,10 @@ package world.bentobox.challenges.panel.user;
 
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -360,34 +358,35 @@ public class ChallengesGUI extends CommonGUI
 
 				// Add ability to input how many repeats player should do.
 				// Do not open if challenge is not repeatable.
-				if (clickType.isRightClick() && challenge.isRepeatable())
-				{
-					new AnvilGUI(this.addon.getPlugin(),
-						this.user.getPlayer(),
-						"1",
-						(player, reply) -> {
-							try
-							{
-								if (TryToComplete.complete(this.addon,
-									this.user,
-									challenge,
-									this.world,
-									this.topLabel,
-									this.permissionPrefix,
-									Integer.parseInt(reply)))
-								{
-									panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
-								}
-							}
-							catch (Exception e)
-							{
-								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
-							}
-
-							return reply;
-						});
-				}
-				else
+				// TODO: AnvilGUI is removed. Need to use different input mode.
+//				if (clickType.isRightClick() && challenge.isRepeatable())
+//				{
+//					new AnvilGUI(this.addon.getPlugin(),
+//						this.user.getPlayer(),
+//						"1",
+//						(player, reply) -> {
+//							try
+//							{
+//								if (TryToComplete.complete(this.addon,
+//									this.user,
+//									challenge,
+//									this.world,
+//									this.topLabel,
+//									this.permissionPrefix,
+//									Integer.parseInt(reply)))
+//								{
+//									panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
+//								}
+//							}
+//							catch (Exception e)
+//							{
+//								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
+//							}
+//
+//							return reply;
+//						});
+//				}
+//				else
 				{
 					if (TryToComplete.complete(this.addon,
 						this.user,

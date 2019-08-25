@@ -315,6 +315,16 @@ challenges:
             skull-owner: '  [owner]'
             egg-meta: '  [mob]'
             fish-meta: '  [body-color] with [pattern-color] [pattern]'
+
+        questions:
+            prefix: "&2[SERVER]: "
+
+            admin:
+                number: "Write a number in chat and press enter to accept it and press enter."
+                unique-id: "Write object unique name and press enter."
+                challenge-name: "Write in chat display name for current challenge."
+                level-name: "Write in chat display name for current level."
+
     titles:
 #       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
 #       [friendlyName] will be replaced with challenge friendly name.

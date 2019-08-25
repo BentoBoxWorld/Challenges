@@ -15,7 +15,6 @@ import java.util.function.Consumer;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -77,8 +76,6 @@ public class StringListGUI
 		panelBuilder.item(4, this.getButton(Button.ADD));
 		panelBuilder.item(5, this.getButton(Button.REMOVE));
 		panelBuilder.item(6, this.getButton(Button.CLEAR));
-
-		panelBuilder.item(8, this.getButton(Button.MODE));
 
 		panelBuilder.item(44, this.getButton(Button.CANCEL));
 
@@ -154,23 +151,8 @@ public class StringListGUI
 				icon = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 
-					if (this.useAnvil)
-					{
-						new AnvilGUI(BentoBox.getInstance(),
-							this.user.getPlayer(),
-							" ",
-							(player, reply) -> {
-								this.value.add(reply);
-								this.build();
-								return reply;
-							});
-					}
-					else
-					{
-						this.startConversion(value ->
-								this.value.add(value),
-							this.user.getTranslation("challenges.gui.descriptions.admin.add-text-line"));
-					}
+					this.getStringInput(value -> this.value.add(value),
+						this.user.getTranslation("challenges.gui.descriptions.admin.add-text-line"));
 
 					return true;
 				};
@@ -201,18 +183,6 @@ public class StringListGUI
 				};
 				break;
 			}
-			case MODE:
-			{
-				name = this.user.getTranslation("challenges.gui.buttons.admin.input-mode");
-				description = Collections.singletonList(this.user.getTranslation("challenges.gui.descriptions.admin.input-mode"));
-				icon = this.useAnvil ? new ItemStack(Material.ANVIL) : new ItemStack(Material.MAP);
-				clickHandler = (panel, user, clickType, slot) -> {
-					this.useAnvil = !this.useAnvil;
-					panel.getInventory().setItem(slot, this.getButton(button).getItem());
-					return true;
-				};
-				break;
-			}
 			default:
 				return null;
 		}
@@ -239,27 +209,13 @@ public class StringListGUI
 			icon(Material.PAPER).
 			clickHandler((panel, user1, clickType, i) -> {
 
-				if (this.useAnvil)
-				{
-					new AnvilGUI(BentoBox.getInstance(),
-						this.user.getPlayer(),
-						element,
-						(player, reply) -> {
-							this.value.set(stringIndex, reply);
-							this.build();
-							return reply;
-						});
-				}
-				else
-				{
-					this.startConversion(
-						value -> this.value.set(stringIndex, value),
-						this.user.getTranslation("challenges.gui.descriptions.admin.edit-text-line"),
-						element);
-				}
+				this.getStringInput(
+					value -> this.value.set(stringIndex, value),
+					this.user.getTranslation("challenges.gui.descriptions.admin.edit-text-line"),
+					element);
 
-			return true;
-		}).build();
+				return true;
+			}).build();
 	}
 
 
@@ -269,9 +225,9 @@ public class StringListGUI
 	 * @param consumer Consumer that accepts player output text.
 	 * @param question Message that will be displayed in chat when player triggers conversion.
 	 */
-	private void startConversion(Consumer<String> consumer, @NonNull String question)
+	private void getStringInput(Consumer<String> consumer, @NonNull String question)
 	{
-		this.startConversion(consumer, question, null);
+		this.getStringInput(consumer, question, null);
 	}
 
 
@@ -282,7 +238,7 @@ public class StringListGUI
 	 * @param question Message that will be displayed in chat when player triggers conversion.
 	 * @param message Message that will be set in player text field when clicked on question.
 	 */
-	private void startConversion(Consumer<String> consumer, @NonNull String question, @Nullable String message)
+	private void getStringInput(Consumer<String> consumer, @NonNull String question, @Nullable String message)
 	{
 		final User user = this.user;
 
@@ -328,6 +284,7 @@ public class StringListGUI
 					}
 				}).
 				withLocalEcho(false).
+				withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
 				buildConversation(user.getPlayer());
 
 		conversation.begin();
@@ -349,8 +306,7 @@ public class StringListGUI
 		REMOVE,
 		CANCEL,
 		CLEAR,
-		SAVE,
-		MODE
+		SAVE
 	}
 
 
@@ -368,11 +324,6 @@ public class StringListGUI
 	 * User who runs GUI.
 	 */
 	private User user;
-
-	/**
-	 * Boolean that indicate if editing should happen in anvil.
-	 */
-	private boolean useAnvil;
 
 	/**
 	 * Current value.

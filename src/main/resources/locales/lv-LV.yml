@@ -318,6 +318,15 @@ challenges:
             skull-owner: '  [owner]'
             egg-meta: '  [mob]'
             fish-meta: '  [body-color] ar [pattern-color] [pattern]'
+
+        questions:
+            prefix: "&2[SERVERIS]: "
+
+            admin:
+                number: "Ieraksti nummuru sarakstē."
+                unique-id: "Ieraksti objekta unikālo nosaukumu sarakstē."
+                challenge-name: "Ieraksti uzdevuma nosaukumu sarakstē."
+                level-name: "Ieraksti uzdevuma līmeņa nosaukumu sarakstē."
     titles:
 #       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
 #       [friendlyName] will be replaced with challenge friendly name.

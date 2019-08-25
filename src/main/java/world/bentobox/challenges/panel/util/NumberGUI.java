@@ -2,11 +2,12 @@ package world.bentobox.challenges.panel.util;
 
 
 import org.bukkit.Material;
+import org.bukkit.conversations.*;
 import org.bukkit.inventory.ItemStack;
-import java.util.Collections;
+import org.eclipse.jdt.annotation.NonNull;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -140,34 +141,12 @@ public class NumberGUI
 				description = this.user.getTranslation("challenges.gui.descriptions.admin.input");
 				icon = new ItemStack(Material.ANVIL);
 				clickHandler = (panel, user, clickType, slot) -> {
-					new AnvilGUI(BentoBox.getInstance(),
-						this.user.getPlayer(),
-						Integer.toString(this.value),
-						(player, reply) -> {
-							try
-							{
-								this.value = Integer.parseInt(reply);
 
-								if (this.value > this.maxValue || this.value < this.minValue)
-								{
-									this.user.sendMessage("challenges.errors.not-valid-integer",
-										"[value]", reply,
-										"[min]", Integer.toString(this.minValue),
-										"[max]", Integer.toString(this.maxValue));
-								}
-								else
-								{
-									this.build();
-								}
-							}
-							catch (Exception e)
-							{
-								reply = Integer.toString(this.value);
-								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
-							}
-
-							return reply;
-						});
+					this.getNumberInput(number -> {
+						this.value = number.intValue();
+						this.build();
+						},
+						this.user.getTranslation("challenges.gui.questions.admin.number"));
 
 					return true;
 				};
@@ -365,6 +344,120 @@ public class NumberGUI
 		}
 
 		return itemBuilder.build();
+	}
+
+
+// ---------------------------------------------------------------------
+// Section: Conversation
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * This method will close opened gui and writes inputText in chat. After players answers on
+	 * inputText in chat, message will trigger consumer and gui will reopen.
+	 * @param consumer Consumer that accepts player output text.
+	 * @param question Message that will be displayed in chat when player triggers conversion.
+	 */
+	private void getNumberInput(Consumer<Number> consumer, @NonNull String question)
+	{
+		final User user = this.user;
+
+		Conversation conversation =
+			new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
+				new NumericPrompt()
+				{
+					/**
+					 * Override this method to perform some action
+					 * with the user's integer response.
+					 *
+					 * @param context Context information about the
+					 * conversation.
+					 * @param input The user's response as a {@link
+					 * Number}.
+					 * @return The next {@link Prompt} in the prompt
+					 * graph.
+					 */
+					@Override
+					protected Prompt acceptValidatedInput(ConversationContext context, Number input)
+					{
+						// Add answer to consumer.
+						consumer.accept(input);
+						// Reopen GUI
+						NumberGUI.this.build();
+						// End conversation
+						return Prompt.END_OF_CONVERSATION;
+					}
+
+
+					/**
+					 * Override this method to do further validation on the numeric player
+					 * input after the input has been determined to actually be a number.
+					 *
+					 * @param context Context information about the conversation.
+					 * @param input The number the player provided.
+					 * @return The validity of the player's input.
+					 */
+					protected boolean isNumberValid(ConversationContext context, Number input)
+					{
+						return input.intValue() >= NumberGUI.this.minValue &&
+							input.intValue() <= NumberGUI.this.maxValue;
+					}
+
+
+					/**
+					 * Optionally override this method to display an additional message if the
+					 * user enters an invalid number.
+					 *
+					 * @param context Context information about the conversation.
+					 * @param invalidInput The invalid input provided by the user.
+					 * @return A message explaining how to correct the input.
+					 */
+					@Override
+					protected String getInputNotNumericText(ConversationContext context,
+						String invalidInput)
+					{
+						return NumberGUI.this.user.getTranslation("challenges.errors.not-a-integer", "[value]", invalidInput);
+					}
+
+
+					/**
+					 * Optionally override this method to display an additional message if the
+					 * user enters an invalid numeric input.
+					 *
+					 * @param context Context information about the conversation.
+					 * @param invalidInput The invalid input provided by the user.
+					 * @return A message explaining how to correct the input.
+					 */
+					@Override
+					protected String getFailedValidationText(ConversationContext context,
+						Number invalidInput)
+					{
+						return NumberGUI.this.user.getTranslation("challenges.errors.not-valid-integer",
+							"[value]", invalidInput.toString(),
+							"[min]", Integer.toString(NumberGUI.this.minValue),
+							"[max]", Integer.toString(NumberGUI.this.maxValue));
+					}
+
+
+					/**
+					 * @see Prompt#getPromptText(ConversationContext)
+					 */
+					@Override
+					public String getPromptText(ConversationContext conversationContext)
+					{
+						// Close input GUI.
+						user.closeInventory();
+
+						// There are no editable message. Just return question.
+						return question;
+					}
+				}).
+				withLocalEcho(false).
+				withPrefix(context ->
+					NumberGUI.this.user.getTranslation("challenges.gui.questions.prefix")).
+				buildConversation(user.getPlayer());
+
+		conversation.begin();
 	}
 
 

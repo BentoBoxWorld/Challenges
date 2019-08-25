@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -23,10 +22,7 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.panel.CommonGUI;
-import world.bentobox.challenges.panel.util.ItemSwitchGUI;
-import world.bentobox.challenges.panel.util.NumberGUI;
-import world.bentobox.challenges.panel.util.SelectChallengeGUI;
-import world.bentobox.challenges.panel.util.StringListGUI;
+import world.bentobox.challenges.panel.util.*;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
@@ -337,14 +333,14 @@ public class EditLevelGUI extends CommonGUI
                     "[value]", this.challengeLevel.getFriendlyName()));
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.challengeLevel.getFriendlyName(),
-                        (player, reply) -> {
-                            this.challengeLevel.setFriendlyName(reply);
-                            this.build();
-                            return reply;
-                        });
+
+                this.getFriendlyName(reply -> {
+                    this.challengeLevel.setFriendlyName(reply);
+                    this.build();
+                    },
+                    this.user.getTranslation("challenges.gui.questions.admin.level-name"),
+                    this.challengeLevel.getFriendlyName()
+                );
 
                 return true;
             };
@@ -358,24 +354,16 @@ public class EditLevelGUI extends CommonGUI
                     "challenges.gui.descriptions.admin.icon-level"));
             icon = this.challengeLevel.getIcon();
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.challengeLevel.getIcon().getType().name(),
-                        (player, reply) -> {
-                            Material material = Material.getMaterial(reply);
 
-                            if (material != null)
-                            {
-                                this.challengeLevel.setIcon(new ItemStack(material));
-                                this.build();
-                            }
-                            else
-                            {
-                                this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
-                            }
+                new SelectBlocksGUI(this.user, true, (status, materials) -> {
+                    if (status)
+                    {
+                        materials.forEach(material ->
+                            this.challengeLevel.setIcon(new ItemStack(material)));
+                    }
 
-                            return reply;
-                        });
+                    this.build();
+                });
 
                 return true;
             };
@@ -400,31 +388,15 @@ public class EditLevelGUI extends CommonGUI
             }
 
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        isNull ? "NULL" : icon.getType().name(),
-                                (player, reply) -> {
-                                    if (reply.equals("NULL"))
-                                    {
-                                        this.challengeLevel.setLockedIcon(null);
-                                        this.build();
-                                        return reply;
-                                    }
+                new SelectBlocksGUI(this.user, true, (status, materials) -> {
+                    if (status)
+                    {
+                        materials.forEach(material ->
+                            this.challengeLevel.setLockedIcon(new ItemStack(material)));
+                    }
 
-                                    Material material = Material.getMaterial(reply);
-
-                                    if (material != null)
-                                    {
-                                        this.challengeLevel.setLockedIcon(new ItemStack(material));
-                                        this.build();
-                                    }
-                                    else
-                                    {
-                                        this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
-                                    }
-
-                                    return reply;
-                                });
+                    this.build();
+                });
 
                 return true;
             };

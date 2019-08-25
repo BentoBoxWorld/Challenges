@@ -283,6 +283,15 @@ challenges:
             money-reward: '&6Recompensa de dinero: $[value]'
             reward-items: '&6Artículos de recompensa:'
             reward-commands: '&6Comandos de recompensa:'
+
+        questions:
+            prefix: "&2[SERVER]: "
+
+            admin:
+                number: "Write a number in chat and press enter to accept it and press enter."
+                unique-id: "Write object unique name and press enter."
+                challenge-name: "Write in chat display name for current challenge."
+                level-name: "Write in chat display name for current level."
     messages:
         admin:
             hit-things: 'Golpea cosas para agregarlas a la lista de cosas requeridas. Haga click derecho cuando haya terminado.'

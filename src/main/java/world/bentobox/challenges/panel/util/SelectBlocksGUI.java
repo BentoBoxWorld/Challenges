@@ -23,14 +23,20 @@ public class SelectBlocksGUI
 {
 	public SelectBlocksGUI(User user, BiConsumer<Boolean, Set<Material>> consumer)
 	{
-		this(user, Collections.emptySet(), consumer);
+		this(user, false, new HashSet<>(), consumer);
+	}
+
+	public SelectBlocksGUI(User user, boolean singleSelect, BiConsumer<Boolean, Set<Material>> consumer)
+	{
+		this(user, singleSelect, new HashSet<>(), consumer);
 	}
 
 
-	public SelectBlocksGUI(User user, Set<Material> excludedMaterial, BiConsumer<Boolean, Set<Material>> consumer)
+	public SelectBlocksGUI(User user, boolean singleSelect, Set<Material> excludedMaterial, BiConsumer<Boolean, Set<Material>> consumer)
 	{
 		this.consumer = consumer;
 		this.user = user;
+		this.singleSelect = singleSelect;
 
 		// Current GUI cannot display air blocks. It crashes with null-pointer
 		excludedMaterial.add(Material.AIR);
@@ -185,7 +191,7 @@ public class SelectBlocksGUI
 				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			icon(itemStack).
 			clickHandler((panel, user1, clickType, slot) -> {
-				if (clickType.isRightClick())
+				if (!this.singleSelect && clickType.isRightClick())
 				{
 					if (!this.selectedMaterials.add(material))
 					{
@@ -230,4 +236,9 @@ public class SelectBlocksGUI
 	 * User who runs GUI.
 	 */
 	private User user;
+
+	/**
+	 * This indicate that return set must contain only single item.
+	 */
+	private boolean singleSelect;
 }

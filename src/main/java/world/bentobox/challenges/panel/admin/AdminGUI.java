@@ -3,13 +3,19 @@ package world.bentobox.challenges.panel.admin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.conversations.*;
 import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
 
-import net.wesjd.anvilgui.AnvilGUI;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
@@ -208,29 +214,24 @@ public class AdminGUI extends CommonGUI
             description = this.user.getTranslation("challenges.gui.descriptions.admin.create-challenge");
             icon = new ItemStack(Material.BOOK);
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        "unique_id",
-                        (player, reply) -> {
-                            String newName = Utils.getGameMode(this.world) + "_" + reply;
 
-                            if (!this.addon.getChallengesManager().containsChallenge(newName))
-                            {
-                                new EditChallengeGUI(this.addon,
-                                        this.world,
-                                        this.user,
-                                        this.addon.getChallengesManager().createChallenge(newName),
-                                        this.topLabel,
-                                        this.permissionPrefix,
-                                        this).build();
-                            }
-                            else
-                            {
-                                this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
-                            }
+                this.getNewUniqueID(challenge -> {
+                        String newName = Utils.getGameMode(this.world) + "_" + challenge;
 
-                            return reply;
-                        });
+                        new EditChallengeGUI(this.addon,
+                            this.world,
+                            this.user,
+                            this.addon.getChallengesManager().createChallenge(newName),
+                            this.topLabel,
+                            this.permissionPrefix,
+                            this).build();
+                    },
+                    input -> {
+                        String newName = Utils.getGameMode(this.world) + "_" + input;
+                        return !this.addon.getChallengesManager().containsChallenge(newName);
+                    },
+                    this.user.getTranslation("challenges.question.admin.unique-id")
+                );
 
                 return true;
             };
@@ -244,29 +245,24 @@ public class AdminGUI extends CommonGUI
             description = this.user.getTranslation("challenges.gui.descriptions.admin.create-level");
             icon = new ItemStack(Material.BOOK);
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        "unique_id",
-                        (player, reply) -> {
-                            String newName = Utils.getGameMode(this.world) + "_" + reply;
 
-                            if (!this.addon.getChallengesManager().containsLevel(newName))
-                            {
-                                new EditLevelGUI(this.addon,
-                                        this.world,
-                                        this.user,
-                                        this.addon.getChallengesManager().createLevel(newName, this.world),
-                                        this.topLabel,
-                                        this.permissionPrefix,
-                                        this).build();
-                            }
-                            else
-                            {
-                                this.user.sendMessage("challenges.errors.unique-id", "[id]", reply);
-                            }
+                this.getNewUniqueID(level -> {
+                        String newName = Utils.getGameMode(this.world) + "_" + level;
 
-                            return reply;
-                        });
+                        new EditLevelGUI(this.addon,
+                            this.world,
+                            this.user,
+                            this.addon.getChallengesManager().createLevel(newName, this.world),
+                            this.topLabel,
+                            this.permissionPrefix,
+                            this).build();
+                    },
+                    input -> {
+                        String newName = Utils.getGameMode(this.world) + "_" + input;
+                        return !this.addon.getChallengesManager().containsLevel(newName);
+                    },
+                    this.user.getTranslation("challenges.question.admin.unique-id")
+                );
 
                 return true;
             };
@@ -495,5 +491,112 @@ public class AdminGUI extends CommonGUI
                 glow(glow).
                 clickHandler(clickHandler).
                 build();
+    }
+    
+
+// ---------------------------------------------------------------------
+// Section: Conversation
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This method will close opened gui and writes inputText in chat. After players answers on
+     * inputText in chat, message will trigger consumer and gui will reopen.
+     * @param consumer Consumer that accepts player output text.
+     * @param question Message that will be displayed in chat when player triggers conversion.
+     */
+    private void getNewUniqueID(Consumer<String> consumer,
+        Function<String, Boolean> stringValidation,
+        @NonNull String question)
+    {
+        final User user = this.user;
+
+        Conversation conversation =
+            new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
+                new ValidatingPrompt()
+                {
+
+                    /**
+                     * Gets the text to display to the user when
+                     * this prompt is first presented.
+                     *
+                     * @param context Context information about the
+                     * conversation.
+                     * @return The text to display.
+                     */
+                    @Override
+                    public String getPromptText(ConversationContext context)
+                    {
+                        // Close input GUI.
+                        user.closeInventory();
+
+                        // There are no editable message. Just return question.
+                        return question;
+                    }
+
+
+                    /**
+                     * Override this method to check the validity of
+                     * the player's input.
+                     *
+                     * @param context Context information about the
+                     * conversation.
+                     * @param input The player's raw console input.
+                     * @return True or false depending on the
+                     * validity of the input.
+                     */
+                    @Override
+                    protected boolean isInputValid(ConversationContext context, String input)
+                    {
+                        return stringValidation.apply(input);
+                    }
+
+
+                    /**
+                     * Optionally override this method to
+                     * display an additional message if the
+                     * user enters an invalid input.
+                     *
+                     * @param context Context information
+                     * about the conversation.
+                     * @param invalidInput The invalid input
+                     * provided by the user.
+                     * @return A message explaining how to
+                     * correct the input.
+                     */
+                    @Override
+                    protected String getFailedValidationText(ConversationContext context,
+                        String invalidInput)
+                    {
+                        return user.getTranslation("challenges.errors.unique-id", "[id]", invalidInput);
+                    }
+
+
+                    /**
+                     * Override this method to accept and processes
+                     * the validated input from the user. Using the
+                     * input, the next Prompt in the prompt graph
+                     * should be returned.
+                     *
+                     * @param context Context information about the
+                     * conversation.
+                     * @param input The validated input text from
+                     * the user.
+                     * @return The next Prompt in the prompt graph.
+                     */
+                    @Override
+                    protected Prompt acceptValidatedInput(ConversationContext context, String input)
+                    {
+                        // Add answer to consumer.
+                        consumer.accept(input);
+                        // End conversation
+                        return Prompt.END_OF_CONVERSATION;
+                    }
+                }).
+                withLocalEcho(false).
+                withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
+                buildConversation(user.getPlayer());
+
+        conversation.begin();
     }
 }

@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import net.wesjd.anvilgui.AnvilGUI;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -16,10 +15,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
-import world.bentobox.challenges.panel.util.ItemSwitchGUI;
-import world.bentobox.challenges.panel.util.NumberGUI;
-import world.bentobox.challenges.panel.util.SelectEnvironmentGUI;
-import world.bentobox.challenges.panel.util.StringListGUI;
+import world.bentobox.challenges.panel.util.*;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
@@ -406,24 +402,16 @@ public class EditChallengeGUI extends CommonGUI
                     "challenges.gui.descriptions.admin.icon-challenge"));
             icon = this.challenge.getIcon();
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.challenge.getIcon().getType().name(),
-                        (player, reply) -> {
-                            Material material = Material.getMaterial(reply);
 
-                            if (material != null)
-                            {
-                                this.challenge.setIcon(new ItemStack(material));
-                                this.build();
-                            }
-                            else
-                            {
-                                this.user.sendMessage("challenges.errors.wrong-icon", "[value]", reply);
-                            }
+                new SelectBlocksGUI(this.user, true, (status, materials) -> {
+                    if (status)
+                    {
+                        materials.forEach(material ->
+                            this.challenge.setIcon(new ItemStack(material)));
+                    }
 
-                            return reply;
-                        });
+                    this.build();
+                });
 
                 return true;
             };
@@ -543,14 +531,14 @@ public class EditChallengeGUI extends CommonGUI
 
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
-                new AnvilGUI(this.addon.getPlugin(),
-                        this.user.getPlayer(),
-                        this.challenge.getFriendlyName(),
-                        (player, reply) -> {
-                            this.challenge.setFriendlyName(reply);
-                            this.build();
-                            return reply;
-                        });
+
+                this.getFriendlyName(reply -> {
+                        this.challenge.setFriendlyName(reply);
+                        this.build();
+                    },
+                    this.user.getTranslation("challenges.gui.questions.admin.challenge-name"),
+                    this.challenge.getFriendlyName()
+                );
 
                 return true;
             };

@@ -36,10 +36,9 @@
 		<powermock.version>1.7.4</powermock.version>
 		<!-- More visible way how to change dependency versions -->
 		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
-		<bentobox.version>1.6.0-SNAPSHOT</bentobox.version>
+		<bentobox.version>1.6.0</bentobox.version>
 		<level.version>1.5.0</level.version>
 		<vault.version>1.7</vault.version>
-		<anvilgui.version>1.2.2-SNAPSHOT</anvilgui.version>
 		<!-- Revision variable removes warning about dynamic version -->
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
@@ -115,10 +114,6 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
-		<repository>
-			<id>wesjd-repo</id>
-			<url>https://nexus.wesjd.net/repository/thirdparty/</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -169,11 +164,6 @@
 			<artifactId>VaultAPI</artifactId>
 			<version>${vault.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wesjd</groupId>
-			<artifactId>anvilgui</artifactId>
-			<version>${anvilgui.version}</version>
 		</dependency>
 	</dependencies>
 
