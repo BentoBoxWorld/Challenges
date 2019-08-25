@@ -121,7 +121,7 @@ public class ManageBlocksGUI extends CommonGUI
 				builder.icon(Material.BUCKET);
 				builder.clickHandler((panel, user1, clickType, slot) -> {
 
-					new SelectBlocksGUI(this.user, new HashSet<>(this.materialList), (status, materials) -> {
+					new SelectBlocksGUI(this.user, false, new HashSet<>(this.materialList), (status, materials) -> {
 						if (status)
 						{
 							materials.forEach(material -> {
