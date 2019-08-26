@@ -85,7 +85,7 @@ public class CompleteCommand extends CompositeCommand
 				}
 				else
 				{
-					this.addon.logError("Unknonw player name " + args.get(0));
+					this.addon.logError("Unknown player name " + args.get(0));
 				}
 
 				return false;

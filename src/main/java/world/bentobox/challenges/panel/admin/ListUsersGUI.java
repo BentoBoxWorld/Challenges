@@ -157,7 +157,7 @@ public class ListUsersGUI extends CommonGUI
             index++;
         }
 
-        // Add button that allows to toogle different player lists.
+        // Add button that allows to toggle different player lists.
         panelBuilder.item( 4, this.createToggleButton());
 
         // Navigation buttons only if necessary

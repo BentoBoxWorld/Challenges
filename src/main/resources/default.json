@@ -273,7 +273,7 @@
       "friendlyName": "Cobble Stone Exchange",
       "deployed": true,
       "description": [
-        "Exchange cobble to some useful materials"
+        "Exchange cobble stone to some useful materials"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: COBBLESTONE\n",
       "order": 1,
@@ -1398,7 +1398,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 20,
-      "rewardText": "Some diaond and elytra for your efforts.",
+      "rewardText": "Some diamonds and elytra for your efforts.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: DIAMOND_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: ELYTRA\n"
@@ -2245,7 +2245,7 @@
     },
     {
       "uniqueId": "competent",
-      "friendlyName": "Compenent Island",
+      "friendlyName": "Competent Island",
       "deployed": true,
       "description": [
         "Reach 20th level of island."
@@ -2431,7 +2431,7 @@
       "friendlyName": "Hostile Zoo",
       "deployed": true,
       "description": [
-        "Create hostime mob zoo"
+        "Create hostile mob zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: IRON_BARS\n",
       "order": 6,
@@ -2486,8 +2486,8 @@
       "repeatRewardCommands": []
     },
     {
-      "uniqueId": "cheff",
-      "friendlyName": "Cheff",
+      "uniqueId": "chef",
+      "friendlyName": "Chef",
       "deployed": true,
       "description": [
         "Show your ability to cook all types of food"
@@ -2551,7 +2551,7 @@
       "friendlyName": "Zoo Maker",
       "deployed": true,
       "description": [
-        "Create a peacefull mob zoo"
+        "Create a peaceful mob zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: GLASS_PANE\n",
       "order": 7,
@@ -2787,8 +2787,8 @@
       "world": "",
       "order": 2,
       "waiverAmount": 2,
-      "unlockMessage": "Congratulations - you unlocked the &dComponent level!",
-      "rewardText": "Small reward for completing all Component challenges.",
+      "unlockMessage": "Congratulations - you unlocked the &dCompetent level!",
+      "rewardText": "Small reward for completing all Competent challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: DIRT\n  amount: 16\n"
       ],
