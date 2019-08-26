@@ -33,8 +33,7 @@ public class Challenges extends CompositeCommand
 
         // This method reloads challenges addon
         new ReloadChallenges(getAddon(), this);
-        // Import ASkyBlock Challenges
-        new ImportCommand(getAddon(), this);
+
         // Defaults processing command
         new DefaultsCommand(this.getAddon(), this);
 

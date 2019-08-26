@@ -15,7 +15,6 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
@@ -61,7 +60,6 @@ public class AdminGUI extends CommonGUI
         EDIT_LEVEL,
         DELETE_CHALLENGE,
         DELETE_LEVEL,
-        IMPORT_CHALLENGES,
         EDIT_SETTINGS,
         DEFAULT_IMPORT_CHALLENGES,
         DEFAULT_EXPORT_CHALLENGES,
@@ -123,8 +121,7 @@ public class AdminGUI extends CommonGUI
 
 
         // Import Challenges
-        panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
-        panelBuilder.item(24, this.createButton(Button.DEFAULT_IMPORT_CHALLENGES));
+        panelBuilder.item(15, this.createButton(Button.DEFAULT_IMPORT_CHALLENGES));
         // Not added as I do not think admins should use it. It still will be able via command.
         //		panelBuilder.item(33, this.createButton(Button.DEFAULT_EXPORT_CHALLENGES));
 
@@ -352,31 +349,6 @@ public class AdminGUI extends CommonGUI
                 return true;
             };
             glow = false;
-
-            break;
-        }
-        case IMPORT_CHALLENGES:
-        {
-            permissionSuffix = IMPORT;
-
-            name = this.user.getTranslation("challenges.gui.buttons.admin.import");
-            description = this.user.getTranslation("challenges.gui.descriptions.admin.import");
-            icon = new ItemStack(Material.HOPPER);
-            clickHandler = (panel, user, clickType, slot) -> {
-                if (clickType.isRightClick())
-                {
-                    this.overwriteMode = !this.overwriteMode;
-                    this.build();
-                }
-                else
-                {
-                    // Run import command.
-                    this.user.performCommand(this.topLabel + " " + CHALLENGES + " " + IMPORT +
-                            (this.overwriteMode ? " overwrite" : ""));
-                }
-                return true;
-            };
-            glow = this.overwriteMode;
 
             break;
         }
