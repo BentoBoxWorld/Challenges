@@ -83,7 +83,7 @@ public class ChallengesImportManager
         	DefaultDataHolder defaultChallenges = new DefaultJSONHandler(this.addon).loadObject();
 
         	// All new challenges should get correct ID. So we need to map it to loaded challenges.
-        	defaultChallenges.getChallengeList().parallelStream().forEach(challenge -> {
+        	defaultChallenges.getChallengeList().forEach(challenge -> {
         		// Set correct challenge ID
         		challenge.setUniqueId(uniqueIDPrefix + challenge.getUniqueId());
 				// Set up correct level ID if it is necessary
@@ -95,7 +95,7 @@ public class ChallengesImportManager
 				manager.loadChallenge(challenge, false, user, user == null);
 			});
 
-			defaultChallenges.getLevelList().parallelStream().forEach(challengeLevel -> {
+			defaultChallenges.getLevelList().forEach(challengeLevel -> {
 				// Set correct level ID
 				challengeLevel.setUniqueId(uniqueIDPrefix + challengeLevel.getUniqueId());
 				// Set correct world name
