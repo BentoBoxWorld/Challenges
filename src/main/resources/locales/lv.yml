@@ -1,408 +1,464 @@
-###########################################################################################
-# This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
-# the one at http://yaml-online-parser.appspot.com                                        #
-###########################################################################################
-
-meta:
-    authors:
-        - BONNe
-
+---
 challenges:
-    commands:
-        admin:
-            main:
-                parameters: ''
-                description: 'Administratora komanda, kura atver izvēlnes logu.'
-            import:
-                description: 'Šī metode importē Uzdevumus no challenges.yml faila.|Parametrs [overwrite] nozīmē, ka esošie uzdevumi vai līmeņi ar tādu pašu ID tiks pārrakstīti.'
-                parameters: '[overwrite]'
-            reload:
-                description: 'Šī metode pārlādē Challenges papildinājumu.|Parametrs [hard] nozīmē, ka tiks pārlādēts arī savienojums ar datubāzi.'
-                parameters: '[hard]'
-            show:
-                description: 'Šī komanda izvada visus uzdevumu nosaukumus sarakstē.'
-                parameters: ''
-            defaults:
-                description: 'Šī komanda izvada apakškomandas, kas pārvalda sākotnējos uzdevumus/līmeņus.'
-                parameters: '[komanda]'
-            defaults-import:
-                description: 'Šī metode ļauj uzstādīt sākotnējos uzdevumus un to līmeņus.'
-                parameters: ''
-            defaults-generate:
-                description: 'Šī metode izveidos failu defaults.json, kas saturēs šīs pasaules uzdevumus un līmeņus.|Parametrs overwrite ļauj pārrakstīt pāri esošajam failam.'
-                parameters: '[overwrite]'
-            complete:
-                description: 'Šī komanda ļauj pabeigt uzdevumu spēlētājam.'
-                parameters: '<player> <challenge_id>'
-            reset:
-                description: 'Šī komanda ļauj atiestatīt uzdevumu spēlētājam. Ja "challenge_id" aizstāj ar "all", tad tiek atiestatīti visi uzdevumi.'
-                parameters: '<player> <challenge_id>'
-        user:
-            main:
-                description: 'Šī metode atver Uzdevumu logu.'
-                parameters: ''
-            complete:
-                description: 'Šī metode ļauj izpildīt uzdevumus neatverot Uzdevumu logu.|Beigās pierakstot skaitli, kas lielāks par 0 ļauj izpildīt uzdevumus vairākas reizes.'
-                parameters: '<uzdevuma id> [reižu skaits]'
-    gui:
-        title:
-            admin:
-                gui-title: '&aUzdevumu administrēšana'
-                edit-challenge-title: '&aLabot Uzdevumu'
-                edit-level-title: '&aLabot Līmeni'
-                settings-title: '&aLabot Iestatījumus'
-                choose-challenge-title: '&aIzvēlēties Uzdevumu'
-                choose-level-title: '&aIzvēlēties Līmeni'
-                choose-user-title: '&aIzvēlēties Spēlētāju'
-                manage-blocks: '&aPārvaldīt Blokus'
-                manage-entities: '&aPārvaldīt Radības'
-                confirm-title: '&aApstiprināt'
-                manage-items: '&aPārvaldīt Lietas'
-                manage-numbers: '&aSkaitļu Panelis'
-                select-block: '&aIzvēlēties Bloku'
-                select-challenge: '&aIzvēlēties Uzdevumu'
-                select-entity: '&aIzvēlēties Radību'
-                toggle-environment: '&aPārvaldīt Vidi'
-                edit-text-fields: '&aLabot Teksta Laukus'
-            challenges: '&aUzdevumi'
-            game-modes: '&aIzvēlēties Spēles Režīmu'
-        buttons:
-            admin:
-                complete: 'Pabeigt uzdevumu spēlētājam'
-                reset: 'Noņemt uzdevuma izpildi spēlētājam'
-                create-challenge: 'Izveidot jaunu uzdevumu'
-                create-level: 'Izveidot jaunu līmeni'
-                edit-challenge: 'Labot uzdevumu'
-                edit-level: 'Labot līmeni'
-                delete-challenge: 'Izmest uzdevumu'
-                delete-level: 'Izmest līmeni'
-                import: 'Importēt ASkyblock Uzdevumus'
-                settings: 'Pārvaldīt Iestatījumus'
-                properties: 'Rekvizīti'
-                requirements: 'Prasības'
-                rewards: 'Atlīdzības'
-                challenges: 'Uzdevumi'
-                type: 'Uzdevuma Tips'
-                deployment: 'Pieejams'
-                icon: 'Ikona'
-                locked-icon: 'Aizvērtā ikona'
-                description: 'Apraksts'
-                order: 'Secība'
-                environment: 'Vide'
-                remove-on-complete: 'Noņemt pēc izpildes'
-                name: 'Nosaukums'
-                required-entities: 'Nepieciešamās radības'
-                remove-entities: 'Nogalināt radības'
-                required-blocks: 'Nepieciešamie bloki'
-                remove-blocks: 'Iznīcināt blokus'
-                search-radius: 'Meklēšanas distnace'
-                required-permissions: 'Nepieciešamās atļaujas'
-                required-items: 'Nepieciešamie priekšmeti'
-                remove-items: 'Noņemt priekšmetus'
-                required-experience: 'Nepieciešamā pieredze'
-                remove-experience: 'Noņemt pieredzi'
-                required-level: 'Nepieciešamais salas līmenis'
-                required-money: 'Nepieciešamā nauda'
-                remove-money: 'Noņemt naudu'
-                reward-text: 'Atlīdzības ziņa'
-                reward-items: 'Atlīdzības priekšmeti'
-                reward-experience: 'Atlīdzības pieredze'
-                reward-money: 'Atlīdzības nauda'
-                reward-commands: 'Atlīdzības komandas'
-                repeatable: 'Atkārtojamība'
-                repeat-count: 'Maksimālais skaits'
-                repeat-reward-text: 'Atkārtotās atlīdzības ziņa'
-                repeat-reward-items: 'Atkārtotās atlīdzības priekšmeti'
-                repeat-reward-experience: 'Atkārtotās atlīdzības pieredze'
-                repeat-reward-money: 'Atkārtotās atlīdzības nauda'
-                repeat-reward-commands: 'Atkārtotās atlīdzības komandas'
-                waiver-amount: 'Neizpildāmo skaits'
-                add-challenge: 'Pievienot Uzdevumu'
-                remove-challenge: 'Noņemt Uzdevumu'
-                reset-on-new: 'Iztīrīt veidojot jaunu salu'
-                broadcast: 'Paziņot par izpildi'
-                remove-completed: 'Noņemt pēc izpildes'
-                glow: 'Mirdzēt pēc izpildes'
-                free-at-top: 'Brīvie uzdevumi augšā'
-                line-length: 'Apraksta līnijas garums'
-                toggle-user-list: 'Spēlētāju saraksts'
-                remove-selected: 'Noņemt iezīmētos'
-                add: 'Pievienot'
-                show-eggs: 'Pārslēgt attēlošanas režīmu'
-                accept: 'Apstiprināt'
-                decline: 'Noraidīt'
-                save: 'Saglabāt'
-                cancel: 'Pārtraukt'
-                input: 'Ievads'
-                value: 'Vērtība'
-                set: '='
-                increase: '+'
-                reduce: '-'
-                multiply: '*'
-                clear: 'Notīrīt'
-                remove-empty: 'Noņemt tukšos'
-                number: '[number]'
-                level-lore: 'Līmeņa Apraksts'
-                challenge-lore: 'Uzdevuma Apraksts'
-                gui-view-mode: 'Rādīt visus spēles režīmus'
-                gui-mode: 'Rādīt esošās pasaules uzdevumus'
-                history-store: 'Uzdevumu Vēsture'
-                history-lifespan: 'Vēstures Dzīvesilgums'
-                island-store: 'Kopīgi salas uzdevumi'
-                default-locked-icon: 'Slēgta līmeņa ikona'
-                input-mode: 'Pārslēgt ievades metodi'
-                title-enable: 'Izpildes virsraksts'
-                title-showtime: 'Virsrakta rādīšanas ilgums'
-                default-import: 'Importēt standarta Uzdevumus'
-                default-export: 'Exportēt esošos Uzdevumus'
-                complete-wipe: 'Iztīrīt datubāzes'
-            next: 'Nākošā'
-            previous: 'Iepriekšējā'
-            return: 'Atgriezties'
-        descriptions:
-            admin:
-                save: 'Saglabāt un atgriezties iepriekšējā izvēlnē.'
-                cancel: 'Atgriezties iepriekšējā izvēlnē. &cDati netiks saglabāti.'
-                input: 'Atvērt teksta lauka ievadi.'
-                set: 'Uzstādīšanas operācija.'
-                increase: 'Saskaitīšanas operācija.'
-                reduce: 'Atņemšanas operācija.'
-                multiply: 'Reizināšanas operācija.'
-                import: 'Ļauj importēt ASkyblock Uzdevumus.|Ar labo peles klikšķi tas ļauj pārslēgt pārrakstīšanas modi.|Nepieciešams Challenges.yml fails ./BentoBox/addons/Challenges mapītē.'
-                complete: 'Ļauj pabeigt uzdevumus jebkuram spēlētājam.|Spēlētājs nedabūs izpildes atlīdzības.'
-                reset: 'Ļauj noņemt uzdevumu izpildi spēlētājam.|Ar labo peles klikšķi tas ļauj pārslēgdz iespēju nodzēst visus izpildes datus.'
-                create-challenge: 'Ļauj izveidot jaunu Uzdevumu.'
-                create-level: 'Ļauj izveidot jaunu Līmeni.'
-                edit-challenge: 'Ļauj labot Uzdevuma opcijas.'
-                edit-level: 'Ļauj labot Līmeņa opcijas.'
-                delete-challenge: 'Ļauj izdzēst Uzdevumu.'
-                delete-level: 'Ļauj izdzēst Līmeni.'
-                settings: 'Ļauj labot Papildinājuma iestatījumus.'
-                properties: 'Ļauj labot rekvizītus.'
-                requirements: 'Ļauj labot prasības'
-                rewards: 'Ļauj pārvaldīt atlīdzības'
-                challenges: 'Ļauj pārvaldīt Līmeņa uzdevumus (pievienot / noņemt).'
-                deployment: 'Ļauj nobloķēt uzdevuma izpildi.|Uzdevumu nevarēs izpildīt, ja opcija nav aktīva.'
-                icon-challenge: 'Uzdevuma ikona, kas parādīsies lietotāja izvēlnē.'
-                icon-level: 'Līmeņa ikona, kas parādīsies lietotāja izvēlnē.'
-                locked-icon: 'Neatklāta (neatvērta) Līmeņa ikona, kas parādīsies lietotāja izvēlnē.'
-                description: 'Ļauj labot aprakstu.'
-                order: 'Ļauj labot secību.'
-                environment: 'Ļauj izvēlēties, kurās vidēs Uzdevumu var pildīt.'
-                type: 'Ļauj uzstādīt Uzdevuma tipu. Katram tipam ir savādākas prasības.'
-                remove-on-complete: 'Šīs opcijas ieslēgšana nozīmē, ka Uzdevumu nerādīs lietotāja logos, ja tas ir izpildīts.'
-                name-challenge: 'Ļauj labot Uzdevuma nosaukumu.'
-                name-level: 'Ļauj labot Līmeņa nosaukumu.'
-                required-entities: 'Ļauj pārvaldīt nepieciešamās radības.|Radības:|'
-                remove-entities: 'Ļauj noņemt (nogalināt) radības pēc Uzdevuma izpildes.'
-                required-blocks: 'Ļauj pārvaldīt nepieciešamos blokus.|Bloki:|'
-                remove-blocks: 'Ļauj noņemt (aizstāt ar gaisu) blokus pēc Uzdevuma izpildes.'
-                search-radius: 'Distance no spēlētāja, kādā prasītie bloki un radības tiks meklētas.'
-                required-permissions: 'Nepieciešamās atļaujas, lai izpildītu Uzdevumu.|Atļaujas:'
-                required-items: 'Nepieciešamās lietas spēlētāja inventārā.|Lietas:'
-                remove-items: 'Ļauj izņemt lietas no spēlētāja inventāra pēc Uzdevuma izpildes.'
-                required-experience: 'Ļauj nodefinēt nepieciešamo spēlētāja pieredzes daudzumu, lai izpildītu uzdevumu.'
-                remove-experience: 'Ļauj noņemt pieprasīto pieredzes daudzumu pēc Uzdevuma izpildes.'
-                required-level: 'Ļauj definēt nepieciešamo salas līmeni Uzdevuma izpildei.|&cNepieciešams Levels papildinājums.'
-                required-money: 'Ļauj definēt nepieciešamo naudas daudzumu spēlētāja kontā.|&cNepieciešams Vault un ekonomikas papildinājumi.'
-                remove-money: 'Ļauj noņemt naudu no spēlētāja konta pēc Uzdevuma izpildes.|&cNepieciešams Vault un ekonomikas papildinājumi.'
-                reward-text: 'Ļauj mainīt ziņu, kas parādīsies spēlētājam pēc Uzdevuma izpildes.'
-                reward-items: 'Ļauj pārvaldīt lietas, kuras iegūs spēlētājs pēc Uzdevuma izpildes.|Lietas:'
-                reward-experience: 'Ļauj mainīt pieredzi, ko iegūs spēlētājs pēc Uzdevuma izpildes.'
-                reward-money: 'Ļauj mainīt naudas daudzumu, ko iegūs spēlētājs pēc Uzdevuma izpildes.|&cNepieciešams Vault un ekonomikas papildinājumi.'
-                reward-commands: 'Ļauj definēt komandas, kuras tiks izpildītas pēc Uzdevuma izpildes.|&c***Pievienojot "[SELF]" sākumā nozīmē, ka komandu izpildīs spēlētājs, piemēram. "/kill"|&c***Teksts "[player]" tiks pārtaisīts par izpildītāja lietotājvārdu, piemēram "/kill [player]" tiks pārveidots par "/kill BONNe1704"|Komandas:'
-                repeatable: 'Ļauj definēt vai uzdevumu var pildīt atkārtoti.'
-                repeat-count: 'Ļauj definēt cik reizes uzdevumu var pildīt atkārtoti. Cipars 0 nozīmē, ka uzdevumu var pildīt neierobežotu daudzumu reižu.'
-                repeat-reward-text: 'Ļauj definēt ziņu, kuru rādīs spēlētājam pēc atkārtotas Uzdevuma izpldes.'
-                repeat-reward-items: 'Ļauj pārvaldīt atkārtotas izpildes atlīdzības lietas.|Lietas:'
-                repeat-reward-experience: 'Ļauj mainīt atkārtotas izpildes atlīdzības pieredzes daudzmumu.'
-                repeat-reward-money: 'Ļauj definēt atkārtotas izpildes naudas atlīdzības lielumu.|&cNepieciešams Vault un ekonomikas papildinājumi.'
-                repeat-reward-commands: 'Ļauj definēt komandas, kuras tiks izpildītas pēc Uzdevuma atkārtotas izpildes.|&c***Pievienojot "[SELF]" sākumā nozīmē, ka komandu izpildīs spēlētājs, piemēram. "/kill"|&c***Teksts "[player]" tiks pārtaisīts par izpildītāja lietotājvārdu, piemēram "/kill [player]" tiks pārveidots par "/kill BONNe1704"|Komandas:'
-                waiver-amount: 'Ļauj definēt cik daudz uzdevumi var tikt atstāti neizpildīti, lai atvērtu nākošo līmeni.'
-                reward-text-level: 'Ļauj definēt ziņu, kas tiks nosūtīta spēlētājiem pēc Līmeņa izpildes.'
-                add-challenge: 'Ļauj pievienot jebkuru Uzdevumu šim Līmenim.'
-                remove-challenge: 'Ļauj noņemt Uzdevumu no šī Līmeņa.'
-                reset-on-new: 'Ļauj pārslēgt opciju, kas notīra spēlētāja izpildītos Uzdevumus un Līmeņus, ja tas atsāk no sākuma, pamet vai tiek izmests no salas.'
-                broadcast: 'Ļauj ieslēgt/izslēgt paziņojumu visiem tiešsaitē esošajiem spēlētājiem, ka spēlētājs izpildījis Uzdevumu vai Līmeni pirmo reizi.'
-                remove-completed: 'Ļauj ieslēgt/izslēgt opciju, kas paslēps visus izpildītos uzdevumus, kurus vairs nevar atkārtot.'
-                glow: 'Ļauj ieslēgt/izslēgt opciju, kas liks mirdzēt izpildītajiem Uzdevumiem/Līmeņiem.'
-                free-at-top: 'Ļauj definēt kurā rindā būs brīvie uzdevumi (bez līmeņa). Pirmā vai pēdējā rinda.'
-                line-length: 'Ļauj definēt cik simbolus gara rindiņa būs redzama lietu aprakstos.'
-                toggle-user-list: 'Ļauj pārslēgt spēlētāju saraksta režīmu.'
-                mode-online: 'Spēlētāji, kas ir tiešsaitē.'
-                mode-in-world: 'Spēlētāji, kas ir spēles režīma pasaulē.'
-                mode-with-island: 'Spēlētāji, kam ir sala šajā režīmā.'
-                selected: 'Iezīmēts'
-                remove-selected: 'Dzēst iezīmētos elementus.|Iezīmēt elementus var ar labo peles klikšķi.'
-                show-eggs: 'Ļauj pārslēgt radību attainošanas režīmu no olām uz galvu ikonām.'
-                level-lore: 'Ļauj definēt kādus elementus rādīs Līmeņu aprakstos.'
-                challenge-lore: 'Ļauj definēt kādus elementus rādīs Uzdevumu aprakstos.'
-                gui-view-mode: 'Ļauj definēt vai /challenges logs rādīs visus spēles režīmus vai uzdevumus no spēlētāja pasaules.'
-                history-store: 'Ļauj ieslēgt/izslēgt uzdevumu izpildes vēstures saglabāšanu.'
-                history-lifespan: 'Ļauj mainīt cik pēdējās dienas dati tiks glabāti.|0 nozīmē, ka dati netiks dzēsti.'
-                island-store: 'Ļauj mainīt datu saglabāšanas režīmu. Dati var tikt glabāti katrai salai, vai katram spēlētājam.|&cMAINOT REŽĪMUS DATI NETIKS PĀRVEIDOTI.'
-                default-locked-icon: 'Ļauj mainīt neatklāto līmeņu ikonu.|Katrs līmenis šo opciju var pārrakstīt.'
-                gui-mode: 'Ļauj ieslēgt/izslēgt vienas komandas opciju. Komandu var mainīt konfigurācijas failā.|&2Nepieciešama servera restartēšana.'
-                click-to-edit: '&4Uzspied šeit, lai labotu.'
-                edit-text-line: '&6 Labo teksta ziņu'
-                add-text-line: '&6 Pievieno jaunu teksta ziņu!'
-                input-mode: 'Pārslēgties starp sarakstes un lakts ievades veidu.'
-                title-enable: 'Ļauj ieslēgt/izlēgt virsraksta parādīšanos pēc pirmās Uzdevuma/Līmeņa izpildes.'
-                title-showtime: 'Ļauj mainīt cik ilgi virsraksts spēlētājam būs redzams.'
-                default-import: 'Ļauj ielādēt sākotnējos uzdevumus.'
-                default-export: 'Ļauj eksportēt uzdevumus uz defaults.json failu.'
-                complete-wipe: 'Ļauj pilnībā iztīrīt papildinājuma datubāzes. Ieskaitot spēlētāju datus!'
-            current-value: '|&6Šī brīža vērtība: [value].'
-            enabled: 'Aktīvs'
-            disabled: 'Neaktīvs'
-            type:
-                island: '- Teritorijas tips:| (ļauj definēt nepieciešamos blokus vai monstrus ap spēlētāju)'
-                inventory: '- Inventora tips:| (ļauj definēt nepieciešamās lietas spēlētāja inventorā)'
-                other: '- Citi tips:| (ļauj definēt cita veida uzdevumus)'
-            the-end: '- Beigas'
-            nether: '- Elle'
-            normal: '- Virszeme'
-            entity: '- [entity] : [count]'
-            block: '- [block] : [count]'
-            permission: '- [permission]'
-            item: '- [count] x [item]'
-            item-meta: '  ([meta])'
-            item-enchant: '   - [enchant] [level]'
-            command: '- [command]'
-            level-unlocked: 'Uzspied, lai redzētu [level] uzdevumus!'
-            level-locked: 'Jāpabeidz vēl [count] uzdevumus no [level] līmeņa, lai atklātu šo līmeni!'
-        challenge-description:
-            level: '&FLīmenis: [level]'
-            completed: '&BIzpildīts'
-            completed-times-of: 'Izpildīts [donetimes] no [maxtimes] reizēm'
-            maxed-reached: 'Izpildīts [donetimes] no [maxtimes] reizēm'
-            completed-times: 'Izpildīts [donetimes] reizes'
-            warning-items-take: '&cVisas pieprasītas lietas tiks izņemtas no tava inventāra!'
-            objects-close-by: '&cVisiem nepieciešamajiem blokie, un radībām nepieciešams būt tuvu tev un uz tavas salas!'
-            warning-entities-kill: '&cVisas pieprasītās radības tiks noņemtas (nogalinātas) pēc Uzdevuma izpildes!'
-            warning-blocks-remove: '&cVisi nepieciešamie bloki tiks noņemti (aizstāti ar gaisu) pēc Uzdevuma izpildes!'
-            not-repeatable: '&cŠis Uzdevums nav atkārtojams!'
-            experience-reward: '&6Pieredzes atlīdzība: [value]'
-            money-reward: '&6Naudas atlīdzība: $[value]'
-            required-experience: '&6Nepieciešamā pieredze: [value]'
-            required-money: '&6Nepieciešamā nauda: $[value]'
-            required-island-level: '&6Nepieciešamais salas līmenis: [value]'
-            environment: 'Nepieciešamā pasaule:'
-            reward-items: '&6Atlīdzības lietas:'
-            reward-commands: '&6Atlīdzības komandas:'
-            required-items: 'Nepieciešamās lietas:'
-            required-entities: 'Nepieciešamās radības:'
-            required-blocks: 'Nepieciešamās bloki:'
-        level-description:
-            completed: '&BIzpildīts'
-            completed-challenges-of: '&3Tu esi izpildījis [number] no [max] uzdevumiem šajā līmenī.'
-            waver-amount: '&6Tu vari izlaist [value] uzdevumus, lai atvērtu nākošo līmeni.'
-            experience-reward: '&6Pieredzes atlīdzība: [value]'
-            money-reward: '&6Naudas atlīdzība: $[value]'
-            reward-items: '&6Atlīdzības lietas:'
-            reward-commands: '&6Atlīdzības komandas:'
-        item-description:
-            item: '- [count] x [item]'
-            item-meta: '  ([meta])'
-            item-enchant: '   - [enchant] [level]'
-            item-name: '  [name]'
-            item-lore: '  Lietas apraksts:'
-            book-meta: '  [title] no [author]'
-            recipe-count: '  [count] receptes'
-            armor-color: '  [color]'
-            potion-type-extended-upgraded: '  Uzlabots un pagarintāts [name]'
-            potion-type-upgraded: '  Uzlabots [name]'
-            potion-type-extended: '  Pagarināts [name]'
-            potion-type: '  [name]'
-            custom-effects: '  Speciālie effekti:'
-            potion-effect: '  [effect] x [amplifier] for [duration]t'
-            skull-owner: '  [owner]'
-            egg-meta: '  [mob]'
-            fish-meta: '  [body-color] ar [pattern-color] [pattern]'
-
-        questions:
-            prefix: "&2[SERVERIS]: "
-
-            admin:
-                number: "Ieraksti nummuru sarakstē."
-                unique-id: "Ieraksti objekta unikālo nosaukumu sarakstē."
-                challenge-name: "Ieraksti uzdevuma nosaukumu sarakstē."
-                level-name: "Ieraksti uzdevuma līmeņa nosaukumu sarakstē."
-    titles:
-#       Title and subtitle my contain variable in [] that will be replaced with proper message from challenge object.
-#       [friendlyName] will be replaced with challenge friendly name.
-#       [level] will be replaced with level friendly name.
-#       [rewardText] will be replaced with challenge reward text.
-        challenge-title: 'Veiksmīgi izpildīts uzdevums'
-        challenge-subtitle: '[friendlyName]'
-#       Title and subtitle my contain variable in [] that will be replaced with proper message from level object.
-#       [friendlyName] will be replaced with level friendly name.
-#       [rewardText] will be replaced with level reward text.
-        level-title: 'Veiksmīgi pabeigts līmenis'
-        level-subtitle: '[friendlyName]'
-    messages:
-        admin:
-            challenge-created: '[challenge]&r izveidots!'
-            complete-wipe: '&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko iztīrīji visas šī papildinājuma datubāzes!'
-            completed: '&2Tu pabeidzi uzdevumu [name] [player] vietā!'
-            already-completed: '&2Šīs uzdevums jau bija izpildīts!'
-            reset: '&2Tu atiestatīji uzdevumu [name] priekš [player]!'
-            reset-all: '&2Visi [player] uzdevumi ir atiesatīti!'
-            not-completed: '&2Šis uzdevums vēl nav izpildīts!'
-        you-completed-challenge: '&2Tu izpildīji [value] &r&2uzdevumu!'
-        you-repeated-challenge: '&2Tu atkārtoji [value] &r&2uzdevumu!'
-        you-repeated-challenge-multiple: '&2Tu atkārtoji [value] &r&2uzdevumu [count] reizes!'
-        you-completed-level: '&2Tu izpildīji [value] &r&2līmeni!'
-        name-has-completed-challenge: '&5[name] izpildīja [value] &r&5uzdevumu!'
-        name-has-completed-level: '&5[name] izpildīja visus uzdevumus no [value] &r&5līmeņa!'
-        import-levels: 'Sāk importēt līmeņus'
-        import-challenges: 'Sāk importēt uzdevumus'
-        no-levels: '&cUzmanību, nav definēti līmeņi iekš challenges.yml faila'
-        import-number: 'Importēti [number] uzdevumi'
-        load-skipping: '"[value]" jau ekistē - izlaiž'
-        load-overwriting: 'Pārraksta "[value]"'
-        load-add: 'Pievieno jaunu: [value]'
-        defaults-file-overwrite: 'defaults.json jau existē. Tas tiek pārrakstīts.'
-        defaults-file-completed: 'defaults.json failā ir sarakstīti uzdevumi un līmeņi no [world]!'
-    errors:
-        no-name: '&cTrūkst Uzdevuma nosaukums'
-        unknown-challenge: '&cNezināms uzdevums'
-        unique-id: '&cUnikālais ID "[id]" nav derīgs.'
-        wrong-icon: '&cDotais materiāls "[value]" neeksistē vai arī nevar tikt izmantots kā ikona.'
-        not-valid-integer: '&cDotais cipars "[value]" nav derīgs!|Skaitlim jābūt no [min] līdz [max].'
-        not-a-integer: '&c"[value]" nav skaitlis!'
-        not-deployed: '&cUzdevums nav ieslēgts! Tā izpilde ir bloķēta.'
-        not-on-island: '&cTev nepieciešams būt uz savas salas, lai izpildītu uzdevumu!'
-        challenge-level-not-available: '&cŠī uzdevuma līmenis nav atklāts. Tu nevari to pildīt.'
-        not-repeatable: '&cŠis uzdevums nav atkārtojams!'
-        wrong-environment: '&cTu neesi pareizajā pasaulē!'
-        not-enough-items: '&cTev nav pietiekoši daudz [items], lai pabeigtu šo uzdevumu!'
-        not-close-enough: '&c[number] bloku rādiusā ap tevi nav nepieciešamais bloku daudzums.'
-        you-still-need: '&cTev vēl nepieciešams [amount] x [item]'
-        missing-addon: '&cNevar izpildīt uzdevumu. Serverī nav uzstādīti nepieciešamie papildinājumi.'
-        incorrect: '&cNevar izpildīt uzdevumu. Prasības nav korektas.'
-        not-enough-money: '&cNepietiek naudas. Tavā kontā vajag būt [value] vienībām, lai izpildītu Uzdevumu.'
-        not-enough-experience: '&cNepietiek pieredzes. Tev jābūt [value] pieredzei, lai izpildītu Uzdevumu.'
-        island-level: '&cSalas līmenim ir nepieciešams būt lielākam par [number]!'
-        import-no-file: '&cNevarēja atrast challenges.yml failu, no kura importēt!'
-        no-load: '&cKļūda: Nevarēja ielādēt challenges.yml. [message]'
-        load-error: '&cKļūda: Nevarēja ielādēt [value].'
-        no-rank: "&cTev nav nepieciešamais rangs, lai šo darītu."
-        cannot-remove-items: '&cDažas lietas nevarēja izņemt no inventāra!'
-        exist-challenges-or-levels: '&cŠajā pasaulē jau eksistē Uzdevumi. Nevar turpināt!'
-        defaults-file-exist: '&cdefaults.json jau eksistē. Lieto overwrite, lai to pārrakstītu!'
-        defaults-file-error: '&cRadās kļūda veidojot defaults.json failu! Pārbaudi konsoli!'
-        no-challenges: '&cŠajā pasaulē nav izveidoti uzdevumi!'
-        no-challenges-admin: '&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[command]&c, lai tos pievienotu!'
-        missing-level: '&cLīmenis [level] nav definēts datubāzē. Tas var radīt problēmas!'
-        missing-arguments: '&cKomandai trūkst parametri.'
+  commands:
+    admin:
+      complete:
+        description: Šī komanda ļauj pabeigt uzdevumu spēlētājam.
+        parameters: "<player> <challenge_id>"
+      defaults:
+        description: Šī komanda izvada apakškomandas, kas pārvalda sākotnējos uzdevumus/līmeņus.
+        parameters: "[komanda]"
+      defaults-generate:
+        description: Šī metode izveidos failu defaults.json, kas saturēs šīs pasaules
+          uzdevumus un līmeņus.|Parametrs overwrite ļauj pārrakstīt pāri esošajam
+          failam.
+        parameters: "[overwrite]"
+      defaults-import:
+        description: Šī metode ļauj uzstādīt sākotnējos uzdevumus un to līmeņus.
+      import:
+        description: Šī metode importē Uzdevumus no challenges.yml faila.|Parametrs
+          [overwrite] nozīmē, ka esošie uzdevumi vai līmeņi ar tādu pašu ID tiks pārrakstīti.
+        parameters: "[overwrite]"
+      main:
+        description: Administratora komanda, kura atver izvēlnes logu.
+      reload:
+        description: Šī metode pārlādē Challenges papildinājumu.|Parametrs [hard]
+          nozīmē, ka tiks pārlādēts arī savienojums ar datubāzi.
+        parameters: "[hard]"
+      reset:
+        description: Šī komanda ļauj atiestatīt uzdevumu spēlētājam. Ja "challenge_id"
+          aizstāj ar "all", tad tiek atiestatīti visi uzdevumi.
+        parameters: "<player> <challenge_id>"
+      show:
+        description: Šī komanda izvada visus uzdevumu nosaukumus sarakstē.
+      migrate:
+        description: Šī metode ļauj migrēt saglabātos datus uz jauno formātu no versijas
+          0.7.5 uz 0.8.0.
+    user:
+      complete:
+        description: Šī metode ļauj izpildīt uzdevumus neatverot Uzdevumu logu.|Beigās
+          pierakstot skaitli, kas lielāks par 0 ļauj izpildīt uzdevumus vairākas reizes.
+        parameters: "<uzdevuma id> [reižu skaits]"
+      main:
+        description: Šī metode atver Uzdevumu logu.
+  errors:
+    cannot-remove-items: "&cDažas lietas nevarēja izņemt no inventāra!"
+    challenge-level-not-available: "&cŠī uzdevuma līmenis nav atklāts. Tu nevari to
+      pildīt."
+    defaults-file-error: "&cRadās kļūda veidojot defaults.json failu! Pārbaudi konsoli!"
+    defaults-file-exist: "&cdefaults.json jau eksistē. Lieto overwrite, lai to pārrakstītu!"
+    exist-challenges-or-levels: "&cŠajā pasaulē jau eksistē Uzdevumi. Nevar turpināt!"
+    import-no-file: "&cNevarēja atrast challenges.yml failu, no kura importēt!"
+    incorrect: "&cNevar izpildīt uzdevumu. Prasības nav korektas."
+    island-level: "&cSalas līmenim ir nepieciešams būt lielākam par [number]!"
+    load-error: "&cKļūda: Nevarēja ielādēt [value]."
+    missing-addon: "&cNevar izpildīt uzdevumu. Serverī nav uzstādīti nepieciešamie
+      papildinājumi."
+    missing-arguments: "&cKomandai trūkst parametri."
+    missing-level: "&cLīmenis [level] nav definēts datubāzē. Tas var radīt problēmas!"
+    no-challenges: "&cŠajā pasaulē nav izveidoti uzdevumi!"
+    no-challenges-admin: "&cŠajā pasaulē nav izveidoti uzdevumi! Izmanot komandu &5/[command]&c,
+      lai tos pievienotu!"
+    no-load: "&cKļūda: Nevarēja ielādēt challenges.yml. [message]"
+    no-name: "&cTrūkst Uzdevuma nosaukums"
+    no-rank: "&cTev nav nepieciešamais rangs, lai šo darītu."
+    not-a-integer: '&c"[value]" nav skaitlis!'
+    not-close-enough: "&c[number] bloku rādiusā ap tevi nav nepieciešamais bloku daudzums."
+    not-deployed: "&cUzdevums nav ieslēgts! Tā izpilde ir bloķēta."
+    not-enough-experience: "&cNepietiek pieredzes. Tev jābūt [value] pieredzei, lai
+      izpildītu Uzdevumu."
+    not-enough-items: "&cTev nav pietiekoši daudz [items], lai pabeigtu šo uzdevumu!"
+    not-enough-money: "&cNepietiek naudas. Tavā kontā vajag būt [value] vienībām,
+      lai izpildītu Uzdevumu."
+    not-on-island: "&cTev nepieciešams būt uz savas salas, lai izpildītu uzdevumu!"
+    not-repeatable: "&cŠis uzdevums nav atkārtojams!"
+    not-valid-integer: '&cDotais cipars "[value]" nav derīgs!|Skaitlim jābūt no [min]
+      līdz [max].'
+    unique-id: '&cUnikālais ID "[id]" nav derīgs.'
+    unknown-challenge: "&cNezināms uzdevums"
+    wrong-environment: "&cTu neesi pareizajā pasaulē!"
+    wrong-icon: '&cDotais materiāls "[value]" neeksistē vai arī nevar tikt izmantots
+      kā ikona.'
+    you-still-need: "&cTev vēl nepieciešams [amount] x [item]"
+  gui:
+    buttons:
+      admin:
+        accept: Apstiprināt
+        add: Pievienot
+        add-challenge: Pievienot Uzdevumu
+        broadcast: Paziņot par izpildi
+        cancel: Pārtraukt
+        challenge-lore: Uzdevuma Apraksts
+        challenges: Uzdevumi
+        clear: Notīrīt
+        complete: Pabeigt uzdevumu spēlētājam
+        complete-wipe: Iztīrīt datubāzes
+        create-challenge: Izveidot jaunu uzdevumu
+        create-level: Izveidot jaunu līmeni
+        decline: Noraidīt
+        default-export: Exportēt esošos Uzdevumus
+        default-import: Importēt standarta Uzdevumus
+        default-locked-icon: Slēgta līmeņa ikona
+        delete-challenge: Izmest uzdevumu
+        delete-level: Izmest līmeni
+        deployment: Pieejams
+        description: Apraksts
+        edit-challenge: Labot uzdevumu
+        edit-level: Labot līmeni
+        environment: Vide
+        free-at-top: Brīvie uzdevumi augšā
+        glow: Mirdzēt pēc izpildes
+        gui-mode: Rādīt esošās pasaules uzdevumus
+        gui-view-mode: Rādīt visus spēles režīmus
+        history-lifespan: Vēstures Dzīvesilgums
+        history-store: Uzdevumu Vēsture
+        icon: Ikona
+        import: Importēt ASkyblock Uzdevumus
+        increase: "+"
+        input: Ievads
+        input-mode: Pārslēgt ievades metodi
+        island-store: Kopīgi salas uzdevumi
+        level-lore: Līmeņa Apraksts
+        line-length: Apraksta līnijas garums
+        locked-icon: Aizvērtā ikona
+        multiply: "*"
+        name: Nosaukums
+        number: "[number]"
+        order: Secība
+        properties: Rekvizīti
+        reduce: "-"
+        remove-blocks: Iznīcināt blokus
+        remove-challenge: Noņemt Uzdevumu
+        remove-completed: Noņemt pēc izpildes
+        remove-empty: Noņemt tukšos
+        remove-entities: Nogalināt radības
+        remove-experience: Noņemt pieredzi
+        remove-items: Noņemt priekšmetus
+        remove-money: Noņemt naudu
+        remove-on-complete: Noņemt pēc izpildes
+        remove-selected: Noņemt iezīmētos
+        repeatable: Atkārtojamība
+        repeat-count: Maksimālais skaits
+        repeat-reward-commands: Atkārtotās atlīdzības komandas
+        repeat-reward-experience: Atkārtotās atlīdzības pieredze
+        repeat-reward-items: Atkārtotās atlīdzības priekšmeti
+        repeat-reward-money: Atkārtotās atlīdzības nauda
+        repeat-reward-text: Atkārtotās atlīdzības ziņa
+        required-blocks: Nepieciešamie bloki
+        required-entities: Nepieciešamās radības
+        required-experience: Nepieciešamā pieredze
+        required-items: Nepieciešamie priekšmeti
+        required-level: Nepieciešamais salas līmenis
+        required-money: Nepieciešamā nauda
+        required-permissions: Nepieciešamās atļaujas
+        requirements: Prasības
+        reset: Noņemt uzdevuma izpildi spēlētājam
+        reset-on-new: Iztīrīt veidojot jaunu salu
+        reward-commands: Atlīdzības komandas
+        reward-experience: Atlīdzības pieredze
+        reward-items: Atlīdzības priekšmeti
+        reward-money: Atlīdzības nauda
+        rewards: Atlīdzības
+        reward-text: Atlīdzības ziņa
+        save: Saglabāt
+        search-radius: Meklēšanas distnace
+        set: "="
+        settings: Pārvaldīt Iestatījumus
+        show-eggs: Pārslēgt attēlošanas režīmu
+        title-enable: Izpildes virsraksts
+        title-showtime: Virsrakta rādīšanas ilgums
+        toggle-user-list: Spēlētāju saraksts
+        type: Uzdevuma Tips
+        value: Vērtība
+        waiver-amount: Neizpildāmo skaits
+      next: Nākošā
+      previous: Iepriekšējā
+      return: Atgriezties
+    challenge-description:
+      completed: "&BIzpildīts"
+      completed-times: Izpildīts [donetimes] reizes
+      completed-times-of: Izpildīts [donetimes] no [maxtimes] reizēm
+      environment: 'Nepieciešamā pasaule:'
+      experience-reward: "&6Pieredzes atlīdzība: [value]"
+      level: "&FLīmenis: [level]"
+      maxed-reached: Izpildīts [donetimes] no [maxtimes] reizēm
+      money-reward: "&6Naudas atlīdzība: $[value]"
+      not-repeatable: "&cŠis Uzdevums nav atkārtojams!"
+      objects-close-by: "&cVisiem nepieciešamajiem blokie, un radībām nepieciešams
+        būt tuvu tev un uz tavas salas!"
+      required-blocks: 'Nepieciešamās bloki:'
+      required-entities: 'Nepieciešamās radības:'
+      required-experience: "&6Nepieciešamā pieredze: [value]"
+      required-island-level: "&6Nepieciešamais salas līmenis: [value]"
+      required-items: 'Nepieciešamās lietas:'
+      required-money: "&6Nepieciešamā nauda: $[value]"
+      reward-commands: "&6Atlīdzības komandas:"
+      reward-items: "&6Atlīdzības lietas:"
+      warning-blocks-remove: "&cVisi nepieciešamie bloki tiks noņemti (aizstāti ar
+        gaisu) pēc Uzdevuma izpildes!"
+      warning-entities-kill: "&cVisas pieprasītās radības tiks noņemtas (nogalinātas)
+        pēc Uzdevuma izpildes!"
+      warning-items-take: "&cVisas pieprasītas lietas tiks izņemtas no tava inventāra!"
+    descriptions:
+      admin:
+        add-challenge: Ļauj pievienot jebkuru Uzdevumu šim Līmenim.
+        add-text-line: "&6 Pievieno jaunu teksta ziņu!"
+        broadcast: Ļauj ieslēgt/izslēgt paziņojumu visiem tiešsaitē esošajiem spēlētājiem,
+          ka spēlētājs izpildījis Uzdevumu vai Līmeni pirmo reizi.
+        cancel: Atgriezties iepriekšējā izvēlnē. &cDati netiks saglabāti.
+        challenge-lore: Ļauj definēt kādus elementus rādīs Uzdevumu aprakstos.
+        challenges: Ļauj pārvaldīt Līmeņa uzdevumus (pievienot / noņemt).
+        click-to-edit: "&4Uzspied šeit, lai labotu."
+        complete: Ļauj pabeigt uzdevumus jebkuram spēlētājam.|Spēlētājs nedabūs izpildes
+          atlīdzības.
+        complete-wipe: Ļauj pilnībā iztīrīt papildinājuma datubāzes. Ieskaitot spēlētāju
+          datus!
+        create-challenge: Ļauj izveidot jaunu Uzdevumu.
+        create-level: Ļauj izveidot jaunu Līmeni.
+        default-export: Ļauj eksportēt uzdevumus uz defaults.json failu.
+        default-import: Ļauj ielādēt sākotnējos uzdevumus.
+        default-locked-icon: Ļauj mainīt neatklāto līmeņu ikonu.|Katrs līmenis šo
+          opciju var pārrakstīt.
+        delete-challenge: Ļauj izdzēst Uzdevumu.
+        delete-level: Ļauj izdzēst Līmeni.
+        deployment: Ļauj nobloķēt uzdevuma izpildi.|Uzdevumu nevarēs izpildīt, ja
+          opcija nav aktīva.
+        description: Ļauj labot aprakstu.
+        edit-challenge: Ļauj labot Uzdevuma opcijas.
+        edit-level: Ļauj labot Līmeņa opcijas.
+        edit-text-line: "&6 Labo teksta ziņu"
+        environment: Ļauj izvēlēties, kurās vidēs Uzdevumu var pildīt.
+        free-at-top: Ļauj definēt kurā rindā būs brīvie uzdevumi (bez līmeņa). Pirmā
+          vai pēdējā rinda.
+        glow: Ļauj ieslēgt/izslēgt opciju, kas liks mirdzēt izpildītajiem Uzdevumiem/Līmeņiem.
+        gui-mode: Ļauj ieslēgt/izslēgt vienas komandas opciju. Komandu var mainīt
+          konfigurācijas failā.|&2Nepieciešama servera restartēšana.
+        gui-view-mode: Ļauj definēt vai /challenges logs rādīs visus spēles režīmus
+          vai uzdevumus no spēlētāja pasaules.
+        history-lifespan: Ļauj mainīt cik pēdējās dienas dati tiks glabāti.|0 nozīmē,
+          ka dati netiks dzēsti.
+        history-store: Ļauj ieslēgt/izslēgt uzdevumu izpildes vēstures saglabāšanu.
+        icon-challenge: Uzdevuma ikona, kas parādīsies lietotāja izvēlnē.
+        icon-level: Līmeņa ikona, kas parādīsies lietotāja izvēlnē.
+        import: Ļauj importēt ASkyblock Uzdevumus.|Ar labo peles klikšķi tas ļauj
+          pārslēgt pārrakstīšanas modi.|Nepieciešams Challenges.yml fails ./BentoBox/addons/Challenges
+          mapītē.
+        increase: Saskaitīšanas operācija.
+        input: Atvērt teksta lauka ievadi.
+        input-mode: Pārslēgties starp sarakstes un lakts ievades veidu.
+        island-store: Ļauj mainīt datu saglabāšanas režīmu. Dati var tikt glabāti
+          katrai salai, vai katram spēlētājam.|&cMAINOT REŽĪMUS DATI NETIKS PĀRVEIDOTI.
+        level-lore: Ļauj definēt kādus elementus rādīs Līmeņu aprakstos.
+        line-length: Ļauj definēt cik simbolus gara rindiņa būs redzama lietu aprakstos.
+        locked-icon: Neatklāta (neatvērta) Līmeņa ikona, kas parādīsies lietotāja
+          izvēlnē.
+        mode-in-world: Spēlētāji, kas ir spēles režīma pasaulē.
+        mode-online: Spēlētāji, kas ir tiešsaitē.
+        mode-with-island: Spēlētāji, kam ir sala šajā režīmā.
+        multiply: Reizināšanas operācija.
+        name-challenge: Ļauj labot Uzdevuma nosaukumu.
+        name-level: Ļauj labot Līmeņa nosaukumu.
+        order: Ļauj labot secību.
+        properties: Ļauj labot rekvizītus.
+        reduce: Atņemšanas operācija.
+        remove-blocks: Ļauj noņemt (aizstāt ar gaisu) blokus pēc Uzdevuma izpildes.
+        remove-challenge: Ļauj noņemt Uzdevumu no šī Līmeņa.
+        remove-completed: Ļauj ieslēgt/izslēgt opciju, kas paslēps visus izpildītos
+          uzdevumus, kurus vairs nevar atkārtot.
+        remove-entities: Ļauj noņemt (nogalināt) radības pēc Uzdevuma izpildes.
+        remove-experience: Ļauj noņemt pieprasīto pieredzes daudzumu pēc Uzdevuma
+          izpildes.
+        remove-items: Ļauj izņemt lietas no spēlētāja inventāra pēc Uzdevuma izpildes.
+        remove-money: Ļauj noņemt naudu no spēlētāja konta pēc Uzdevuma izpildes.|&cNepieciešams
+          Vault un ekonomikas papildinājumi.
+        remove-on-complete: Šīs opcijas ieslēgšana nozīmē, ka Uzdevumu nerādīs lietotāja
+          logos, ja tas ir izpildīts.
+        remove-selected: Dzēst iezīmētos elementus.|Iezīmēt elementus var ar labo
+          peles klikšķi.
+        repeatable: Ļauj definēt vai uzdevumu var pildīt atkārtoti.
+        repeat-count: Ļauj definēt cik reizes uzdevumu var pildīt atkārtoti. Cipars
+          0 nozīmē, ka uzdevumu var pildīt neierobežotu daudzumu reižu.
+        repeat-reward-commands: 'Ļauj definēt komandas, kuras tiks izpildītas pēc
+          Uzdevuma atkārtotas izpildes.|&c***Pievienojot "[SELF]" sākumā nozīmē, ka
+          komandu izpildīs spēlētājs, piemēram. "/kill"|&c***Teksts "[player]" tiks
+          pārtaisīts par izpildītāja lietotājvārdu, piemēram "/kill [player]" tiks
+          pārveidots par "/kill BONNe1704"|Komandas:'
+        repeat-reward-experience: Ļauj mainīt atkārtotas izpildes atlīdzības pieredzes
+          daudzmumu.
+        repeat-reward-items: 'Ļauj pārvaldīt atkārtotas izpildes atlīdzības lietas.|Lietas:'
+        repeat-reward-money: Ļauj definēt atkārtotas izpildes naudas atlīdzības lielumu.|&cNepieciešams
+          Vault un ekonomikas papildinājumi.
+        repeat-reward-text: Ļauj definēt ziņu, kuru rādīs spēlētājam pēc atkārtotas
+          Uzdevuma izpldes.
+        required-blocks: Ļauj pārvaldīt nepieciešamos blokus.|Bloki:|
+        required-entities: Ļauj pārvaldīt nepieciešamās radības.|Radības:|
+        required-experience: Ļauj nodefinēt nepieciešamo spēlētāja pieredzes daudzumu,
+          lai izpildītu uzdevumu.
+        required-items: 'Nepieciešamās lietas spēlētāja inventārā.|Lietas:'
+        required-level: Ļauj definēt nepieciešamo salas līmeni Uzdevuma izpildei.|&cNepieciešams
+          Levels papildinājums.
+        required-money: Ļauj definēt nepieciešamo naudas daudzumu spēlētāja kontā.|&cNepieciešams
+          Vault un ekonomikas papildinājumi.
+        required-permissions: 'Nepieciešamās atļaujas, lai izpildītu Uzdevumu.|Atļaujas:'
+        requirements: Ļauj labot prasības
+        reset: Ļauj noņemt uzdevumu izpildi spēlētājam.|Ar labo peles klikšķi tas
+          ļauj pārslēgdz iespēju nodzēst visus izpildes datus.
+        reset-on-new: Ļauj pārslēgt opciju, kas notīra spēlētāja izpildītos Uzdevumus
+          un Līmeņus, ja tas atsāk no sākuma, pamet vai tiek izmests no salas.
+        reward-commands: 'Ļauj definēt komandas, kuras tiks izpildītas pēc Uzdevuma
+          izpildes.|&c***Pievienojot "[SELF]" sākumā nozīmē, ka komandu izpildīs spēlētājs,
+          piemēram. "/kill"|&c***Teksts "[player]" tiks pārtaisīts par izpildītāja
+          lietotājvārdu, piemēram "/kill [player]" tiks pārveidots par "/kill BONNe1704"|Komandas:'
+        reward-experience: Ļauj mainīt pieredzi, ko iegūs spēlētājs pēc Uzdevuma izpildes.
+        reward-items: 'Ļauj pārvaldīt lietas, kuras iegūs spēlētājs pēc Uzdevuma izpildes.|Lietas:'
+        reward-money: Ļauj mainīt naudas daudzumu, ko iegūs spēlētājs pēc Uzdevuma
+          izpildes.|&cNepieciešams Vault un ekonomikas papildinājumi.
+        rewards: Ļauj pārvaldīt atlīdzības
+        reward-text: Ļauj mainīt ziņu, kas parādīsies spēlētājam pēc Uzdevuma izpildes.
+        reward-text-level: Ļauj definēt ziņu, kas tiks nosūtīta spēlētājiem pēc Līmeņa
+          izpildes.
+        save: Saglabāt un atgriezties iepriekšējā izvēlnē.
+        search-radius: Distance no spēlētāja, kādā prasītie bloki un radības tiks
+          meklētas.
+        selected: Iezīmēts
+        set: Uzstādīšanas operācija.
+        settings: Ļauj labot Papildinājuma iestatījumus.
+        show-eggs: Ļauj pārslēgt radību attainošanas režīmu no olām uz galvu ikonām.
+        title-enable: Ļauj ieslēgt/izlēgt virsraksta parādīšanos pēc pirmās Uzdevuma/Līmeņa
+          izpildes.
+        title-showtime: Ļauj mainīt cik ilgi virsraksts spēlētājam būs redzams.
+        toggle-user-list: Ļauj pārslēgt spēlētāju saraksta režīmu.
+        type: Ļauj uzstādīt Uzdevuma tipu. Katram tipam ir savādākas prasības.
+        waiver-amount: Ļauj definēt cik daudz uzdevumi var tikt atstāti neizpildīti,
+          lai atvērtu nākošo līmeni.
+      block: "- [block] : [count]"
+      command: "- [command]"
+      current-value: "|&6Šī brīža vērtība: [value]."
+      disabled: Neaktīvs
+      enabled: Aktīvs
+      entity: "- [entity] : [count]"
+      item: "- [count] x [item]"
+      item-enchant: "   - [enchant] [level]"
+      item-meta: "  ([meta])"
+      level-locked: Jāpabeidz vēl [count] uzdevumus no [level] līmeņa, lai atklātu
+        šo līmeni!
+      level-unlocked: Uzspied, lai redzētu [level] uzdevumus!
+      nether: "- Elle"
+      normal: "- Virszeme"
+      permission: "- [permission]"
+      the-end: "- Beigas"
+      type:
+        inventory: "- Inventora tips:| (ļauj definēt nepieciešamās lietas spēlētāja
+          inventorā)"
+        island: "- Teritorijas tips:| (ļauj definēt nepieciešamos blokus vai monstrus
+          ap spēlētāju)"
+        other: "- Citi tips:| (ļauj definēt cita veida uzdevumus)"
+    item-description:
+      armor-color: "  [color]"
+      book-meta: "  [title] no [author]"
+      custom-effects: "  Speciālie effekti:"
+      egg-meta: "  [mob]"
+      fish-meta: "  [body-color] ar [pattern-color] [pattern]"
+      item: "- [count] x [item]"
+      item-enchant: "   - [enchant] [level]"
+      item-lore: "  Lietas apraksts:"
+      item-meta: "  ([meta])"
+      item-name: "  [name]"
+      potion-effect: "  [effect] x [amplifier] for [duration]t"
+      potion-type: "  [name]"
+      potion-type-extended: "  Pagarināts [name]"
+      potion-type-extended-upgraded: "  Uzlabots un pagarintāts [name]"
+      potion-type-upgraded: "  Uzlabots [name]"
+      recipe-count: "  [count] receptes"
+      skull-owner: "  [owner]"
+    level-description:
+      completed: "&BIzpildīts"
+      completed-challenges-of: "&3Tu esi izpildījis [number] no [max] uzdevumiem šajā
+        līmenī."
+      experience-reward: "&6Pieredzes atlīdzība: [value]"
+      money-reward: "&6Naudas atlīdzība: $[value]"
+      reward-commands: "&6Atlīdzības komandas:"
+      reward-items: "&6Atlīdzības lietas:"
+      waver-amount: "&6Tu vari izlaist [value] uzdevumus, lai atvērtu nākošo līmeni."
+    questions:
+      admin:
+        challenge-name: Ieraksti uzdevuma nosaukumu sarakstē.
+        level-name: Ieraksti uzdevuma līmeņa nosaukumu sarakstē.
+        number: Ieraksti nummuru sarakstē.
+        unique-id: Ieraksti objekta unikālo nosaukumu sarakstē.
+      prefix: "&2[SERVERIS]: "
+    title:
+      admin:
+        choose-challenge-title: "&aIzvēlēties Uzdevumu"
+        choose-level-title: "&aIzvēlēties Līmeni"
+        choose-user-title: "&aIzvēlēties Spēlētāju"
+        confirm-title: "&aApstiprināt"
+        edit-challenge-title: "&aLabot Uzdevumu"
+        edit-level-title: "&aLabot Līmeni"
+        edit-text-fields: "&aLabot Teksta Laukus"
+        gui-title: "&aUzdevumu administrēšana"
+        manage-blocks: "&aPārvaldīt Blokus"
+        manage-entities: "&aPārvaldīt Radības"
+        manage-items: "&aPārvaldīt Lietas"
+        manage-numbers: "&aSkaitļu Panelis"
+        select-block: "&aIzvēlēties Bloku"
+        select-challenge: "&aIzvēlēties Uzdevumu"
+        select-entity: "&aIzvēlēties Radību"
+        settings-title: "&aLabot Iestatījumus"
+        toggle-environment: "&aPārvaldīt Vidi"
+      challenges: "&aUzdevumi"
+      game-modes: "&aIzvēlēties Spēles Režīmu"
+  messages:
+    admin:
+      already-completed: "&2Šīs uzdevums jau bija izpildīts!"
+      challenge-created: "[challenge]&r izveidots!"
+      completed: "&2Tu pabeidzi uzdevumu [name] [player] vietā!"
+      complete-wipe: "&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko
+        iztīrīji visas šī papildinājuma datubāzes!"
+      not-completed: "&2Šis uzdevums vēl nav izpildīts!"
+      reset: "&2Tu atiestatīji uzdevumu [name] priekš [player]!"
+      reset-all: "&2Visi [player] uzdevumi ir atiesatīti!"
+      you-added: Tu uzdevumam pievienoji [thing]
+      migrate-start: "&2Uzsāk uzdevumu papildinājuma migrāciju uz jauno formātu."
+      migrate-end: "&2Uzdevumu papildinājums veiksmīgi migrēts uz jauno formātu.\n"
+      migrate-not: "&2Visi dati ir korekti."
+      hit-things: Nospiediet lietas, lai pievienotu tās nepieciešamo lietu sarakstam.
+        Kad izdarīts, noklikšķiniet ar peles labo pogu.
+    defaults-file-completed: defaults.json failā ir sarakstīti uzdevumi un līmeņi
+      no [world]!
+    defaults-file-overwrite: defaults.json jau existē. Tas tiek pārrakstīts.
+    import-challenges: Sāk importēt uzdevumus
+    import-levels: Sāk importēt līmeņus
+    import-number: Importēti [number] uzdevumi
+    load-add: 'Pievieno jaunu: [value]'
+    load-overwriting: Pārraksta "[value]"
+    load-skipping: '"[value]" jau ekistē - izlaiž'
+    name-has-completed-challenge: "&5[name] izpildīja [value] &r&5uzdevumu!"
+    name-has-completed-level: "&5[name] izpildīja visus uzdevumus no [value] &r&5līmeņa!"
+    no-levels: "&cUzmanību, nav definēti līmeņi iekš challenges.yml faila"
+    you-completed-challenge: "&2Tu izpildīji [value] &r&2uzdevumu!"
+    you-completed-level: "&2Tu izpildīji [value] &r&2līmeni!"
+    you-repeated-challenge: "&2Tu atkārtoji [value] &r&2uzdevumu!"
+    you-repeated-challenge-multiple: "&2Tu atkārtoji [value] &r&2uzdevumu [count]
+      reizes!"
+  titles:
+    challenge-subtitle: "[friendlyName]"
+    challenge-title: Veiksmīgi izpildīts uzdevums
+    level-subtitle: "[friendlyName]"
+    level-title: Veiksmīgi pabeigts līmenis
+meta:
+  authors:
+  - BONNe
 protection:
-    flags:
-        CHALLENGES_ISLAND_PROTECTION:
-            description: "&5&oPārslēdz kurš var|&5&opildīt uzdevumus"
-            name: "Uzdevumu izpildes aizsardzība"
-        CHALLENGES_WORLD_PROTECTION:
-            description: "&5&oĻauj pārslēgt vai|&5&ospēlētājam ir nepieciešams\n&5&obūt uz salais,\n&5&olai pildītu uzdevumus."
-            name: "Uzdevumu salas ierobežosāna"
-            hint: "Uzdevumus nevar pildīt ārpus salas"
+  flags:
+    CHALLENGES_ISLAND_PROTECTION:
+      description: "&5&oPārslēdz kurš var|&5&opildīt uzdevumus"
+      name: Uzdevumu izpildes aizsardzība
+    CHALLENGES_WORLD_PROTECTION:
+      description: |-
+        &5&oĻauj pārslēgt vai|&5&ospēlētājam ir nepieciešams
+        &5&obūt uz salais,
+        &5&olai pildītu uzdevumus.
+      hint: Uzdevumus nevar pildīt ārpus salas
+      name: Uzdevumu salas ierobežosāna
 version: 11
