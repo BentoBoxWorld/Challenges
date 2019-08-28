@@ -422,6 +422,8 @@ challenges:
       migrate-start: "&2Uzsāk uzdevumu papildinājuma migrāciju uz jauno formātu."
       migrate-end: "&2Uzdevumu papildinājums veiksmīgi migrēts uz jauno formātu.\n"
       migrate-not: "&2Visi dati ir korekti."
+      hit-things: Nospiediet lietas, lai pievienotu tās nepieciešamo lietu sarakstam.
+        Kad izdarīts, noklikšķiniet ar peles labo pogu.
     defaults-file-completed: defaults.json failā ir sarakstīti uzdevumi un līmeņi
       no [world]!
     defaults-file-overwrite: defaults.json jau existē. Tas tiek pārrakstīts.
