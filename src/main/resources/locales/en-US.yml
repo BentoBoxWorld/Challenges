@@ -67,8 +67,10 @@ challenges:
                 select-entity: '&aSelect Entity'
                 toggle-environment: '&aToggle Environment'
                 edit-text-fields: '&aEdit Text Fields'
-            challenges: '&aChallenges'
-            game-modes: '&aChoose GameMode'
+            challenges: '&6Challenges'
+            game-modes: '&6Choose GameMode'
+
+            multiple-complete: '&6How many times?'
         buttons:
             admin:
                 complete: 'Complete user challenge'
@@ -162,6 +164,10 @@ challenges:
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
+
+            value: "Complete"
+            increase: "Increase"
+            reduce: "Reduce"
         descriptions:
             admin:
                 save: 'Save and return to previous GUI.'
@@ -274,6 +280,9 @@ challenges:
             command: '- [command]'
             level-unlocked: 'Click to see [level] challenges!'
             level-locked: 'Complete [count] more [level] challenges to unlock this level!'
+
+            increase-by: "&aIncrease completion count by [value]"
+            reduce-by: "&cReduce completion count by [value]"
         challenge-description:
             level: '&FLevel: [level]'
             completed: '&BCompleted'
@@ -406,6 +415,7 @@ challenges:
         no-challenges-admin: '&cChallenges are not implemented in current world! You should use &5/[command] &cto adding them!'
         missing-level: '&cChallenge Level [level] is not defined in database. It may case some errors!'
         missing-arguments: '&cCommand is missing arguments.'
+        no-multiple-permission: "&cYou do not have permission to complete challenge multiple times at once."
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:
