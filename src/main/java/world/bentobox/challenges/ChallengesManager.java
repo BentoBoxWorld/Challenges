@@ -1154,7 +1154,7 @@ public class ChallengesManager
     public void setChallengeComplete(UUID userID, World world, Challenge challenge, int completionCount)
     {
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
-        this.setChallengeComplete(storageID, challenge.getUniqueId());
+        this.setChallengeComplete(storageID, challenge.getUniqueId(), completionCount);
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
             data("user-id", userID.toString()).
             data("challenge-id", challenge.getUniqueId()).
