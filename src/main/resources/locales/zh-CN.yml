@@ -4,7 +4,8 @@
 ###########################################################################################
 
 ### Credits ###
-# Tastybento: maintainer
+meta:
+    authors: []
 
 challenges:
     commands:
