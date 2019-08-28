@@ -8,8 +8,12 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
 Latest official **Beta Release is 0.7.5**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+But it will work with BentoBox 1.5.0 only.
 
-Or you can try **nightly builds** where you can check and test new features that will be implemented in next release from [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
+Latest development build will work with **BentoBox 1.7.0-SNAPSHOT**, as it contains new functionality, that is not in 1.6 release.
+**Nightly builds** are available in [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
+
+Be aware that 0.8.0-SNAPSHOT stores data differently than it is in 0.7.5 and below. It will be necessary to migrate data via command "/[gamemode_admin] challenges migrate".
 
 If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.bentobox.world)
 
@@ -30,11 +34,11 @@ There exist also some default challenges, which importing also are available via
 
 ## Compatibility
 
-- [x] BentoBox - 1.5.0 version
-- [x] BSkyBlock - 1.5.0 version
-- [x] AcidIsland - 1.5.0 version
-- [x] SkyGrid - 1.5.0 version
-- [x] CaveBlock - 1.5.0 version
+- [x] BentoBox - 1.7.0-SNAPSHOT version
+- [x] BSkyBlock - 1.6.0 version
+- [x] AcidIsland - 1.6.0 version
+- [x] SkyGrid - 1.6.0 version
+- [x] CaveBlock - 1.6.0 version
 
 ## Config.yml
 

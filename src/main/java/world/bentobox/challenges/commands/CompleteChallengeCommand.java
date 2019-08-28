@@ -62,10 +62,19 @@ public class CompleteChallengeCommand extends CompositeCommand
 			String challengeName = Utils.getGameMode(this.getWorld()) + "_" + args.get(0);
 			Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
 
-			int count = args.size() == 2 ? Integer.valueOf(args.get(1)) : 1;
-
 			if (challenge != null)
 			{
+				int count = args.size() == 2 ? Integer.valueOf(args.get(1)) : 1;
+
+				boolean canMultipleTimes =
+					user.hasPermission(this.getPermission() + ".multiple");
+
+				if (!canMultipleTimes && count > 1)
+				{
+					user.sendMessage("challenges.error.no-multiple-permission");
+					count = 1;
+				}
+
 				return TryToComplete.complete(this.addon,
 					user,
 					challenge,

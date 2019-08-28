@@ -1487,7 +1487,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "These saplings will help you to get more trees",
+      "rewardText": "Some redstone will always be handy!",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: REDSTONE\n  amount: 27\n"
       ],
@@ -1495,7 +1495,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "These saplings will help you to get more trees",
+      "repeatRewardText": "Some redstone will always be handy!",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -2046,7 +2046,7 @@
       "friendlyName": "Grinder",
       "deployed": true,
       "description": [
-        "Use your mobfarm to collest mob drops"
+        "Use your mobfarm to collect mob drops"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: BONE\n",
       "order": 4,
@@ -2872,7 +2872,7 @@
         "alchemist",
         "netherkiller",
         "goldage",
-        "cheff",
+        "chef",
         "advanced",
         "dj",
         "icefarmer",
@@ -2912,5 +2912,5 @@
       ]
     }
   ],
-  "version": "0.7.0-SNAPSHOT-LOCAL"
+  "version": "${version}${build.number}"
 }

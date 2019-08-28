@@ -358,35 +358,26 @@ public class ChallengesGUI extends CommonGUI
 
 				// Add ability to input how many repeats player should do.
 				// Do not open if challenge is not repeatable.
-				// TODO: AnvilGUI is removed. Need to use different input mode.
-//				if (clickType.isRightClick() && challenge.isRepeatable())
-//				{
-//					new AnvilGUI(this.addon.getPlugin(),
-//						this.user.getPlayer(),
-//						"1",
-//						(player, reply) -> {
-//							try
-//							{
-//								if (TryToComplete.complete(this.addon,
-//									this.user,
-//									challenge,
-//									this.world,
-//									this.topLabel,
-//									this.permissionPrefix,
-//									Integer.parseInt(reply)))
-//								{
-//									panel.getInventory().setItem(slot, this.getChallengeButton(challenge).getItem());
-//								}
-//							}
-//							catch (Exception e)
-//							{
-//								this.user.sendMessage("challenges.errors.not-a-integer", "[value]", reply);
-//							}
-//
-//							return reply;
-//						});
-//				}
-//				else
+
+				if (clickType.isRightClick() &&
+					challenge.isRepeatable() &&
+					this.user.hasPermission(this.permissionPrefix + "complete.multiple"))
+				{
+					new MultipleGUI(this.user,
+						this.addon.getChallengesSettings().getLoreLineLength(),
+						value -> {
+							TryToComplete.complete(this.addon,
+								this.user,
+								challenge,
+								this.world,
+								this.topLabel,
+								this.permissionPrefix,
+								value);
+
+							this.build();
+						});
+				}
+				else
 				{
 					if (TryToComplete.complete(this.addon,
 						this.user,
