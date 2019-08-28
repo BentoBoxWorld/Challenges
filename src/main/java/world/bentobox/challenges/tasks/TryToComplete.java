@@ -523,7 +523,7 @@ public class TryToComplete
         }
         // Player is not on island
         else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
-            !this.addon.getIslands().userIsOnIsland(this.user.getWorld(), this.user))
+            !this.addon.getIslands().locationIsOnIsland(this.user.getPlayer(), this.user.getLocation()))
         {
             this.user.sendMessage("challenges.errors.not-on-island");
             result = EMPTY_RESULT;
@@ -845,8 +845,16 @@ public class TryToComplete
         // Init location in player position.
         BoundingBox boundingBox = this.user.getPlayer().getBoundingBox().clone();
 
-        // Expand position with search radius.
-        boundingBox.expand(this.challenge.getSearchRadius());
+        // Expand position with search radius. Unless someone sets search radius larger than island
+        // range. In this situation use island range.
+        int distance = this.addon.getPlugin().getIWM().getIslandDistance(this.world);
+
+        if (this.challenge.getSearchRadius() < distance + 1)
+        {
+            distance = this.challenge.getSearchRadius();
+        }
+
+        boundingBox.expand(distance);
 
         if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world))
         {
@@ -866,17 +874,28 @@ public class TryToComplete
 
             int range = island.getRange();
 
-            int islandMaxX = island.getMinX() + range * 2;
-            int islandMaxZ = island.getMinZ() + range * 2;
-
-            if (boundingBox.getMaxX() > islandMaxX)
+            if (boundingBox.getMaxX() > island.getMaxX())
             {
-                boundingBox.expand(BlockFace.WEST, Math.abs(boundingBox.getMaxX() - islandMaxX));
+                boundingBox.expand(BlockFace.WEST, Math.abs(boundingBox.getMaxX() - island.getMaxX()));
             }
 
-            if (boundingBox.getMaxZ() > islandMaxZ)
+            if (boundingBox.getMaxZ() > island.getMinZ())
             {
-                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - islandMaxZ));
+                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - island.getMinZ()));
+            }
+
+            // Protection code. Do not allow to select too large region for completing challenge.
+            if (boundingBox.getWidthX() > distance * 2 + 3 ||
+                boundingBox.getWidthZ() > distance * 2 + 3 ||
+                boundingBox.getHeight() > distance * 2 + 3)
+            {
+                this.addon.logError("BoundingBox is larger than SearchRadius. " +
+                    " | Search Distance: " + this.challenge.getSearchRadius() +
+                    " | Location: " + this.user.getLocation().toString() +
+                    " | Center: " + island.getCenter().toString() +
+                    " | Range: " + range);
+
+                return EMPTY_RESULT;
             }
         }
 
