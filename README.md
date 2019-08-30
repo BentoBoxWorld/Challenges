@@ -21,9 +21,8 @@ If you like this addon but something is missing or is not working as you want, y
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
 2. Restart the server
-3. The addon will create a data folder and inside the folder will be a config.yml and an example challenges.yml
-4. Edit the config.yml how you want.
-5. Restart the server
+3. Edit the config.yml how you want.
+4. Restart the server
 
 #### Challenges
 
