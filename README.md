@@ -28,9 +28,7 @@ If you like this addon but something is missing or is not working as you want, y
 #### Challenges
 
 By default, challenges addon comes without any challenge or level. On first runtime only Admin GUI will be accessible. 
-Admins can create their own challenges or use challenges from ASkyBlock, by importing them via Admin GUI. This requires challenges.yml file in `./plugins/BentoBox/addons/Challenges/` folder.
-
-There exist also some default challenges, which importing also are available via Admin GUI. Default challenges contains 5 levels and 57 challenges.
+Admins can create their own challenges or import some default challenges, which importing also are available via Admin GUI. Default challenges contains 5 levels and 57 challenges.
 
 ## Compatibility
 
