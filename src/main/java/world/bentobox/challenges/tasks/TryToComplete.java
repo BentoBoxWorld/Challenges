@@ -879,9 +879,9 @@ public class TryToComplete
                 boundingBox.expand(BlockFace.WEST, Math.abs(boundingBox.getMaxX() - island.getMaxX()));
             }
 
-            if (boundingBox.getMaxZ() > island.getMinZ())
+            if (boundingBox.getMaxZ() > island.getMaxZ())
             {
-                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - island.getMinZ()));
+                boundingBox.expand(BlockFace.SOUTH, Math.abs(boundingBox.getMaxZ() - island.getMaxZ()));
             }
 
             // Protection code. Do not allow to select too large region for completing challenge.
@@ -890,6 +890,7 @@ public class TryToComplete
                 boundingBox.getHeight() > distance * 2 + 3)
             {
                 this.addon.logError("BoundingBox is larger than SearchRadius. " +
+                    " | BoundingBox: " + boundingBox.toString() +
                     " | Search Distance: " + this.challenge.getSearchRadius() +
                     " | Location: " + this.user.getLocation().toString() +
                     " | Center: " + island.getCenter().toString() +
