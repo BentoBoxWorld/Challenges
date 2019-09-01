@@ -15,6 +15,7 @@ import world.bentobox.bentobox.database.Database;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.util.Util;
+import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;

@@ -1,4 +1,4 @@
-package world.bentobox.challenges;
+package world.bentobox.challenges.config;
 
 
 import java.util.HashSet;

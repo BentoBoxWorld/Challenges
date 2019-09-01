@@ -17,6 +17,7 @@ import world.bentobox.challenges.commands.ChallengesCommand;
 import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
+import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.handlers.*;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;

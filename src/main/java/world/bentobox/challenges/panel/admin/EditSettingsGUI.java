@@ -13,7 +13,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.Settings;
+import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectBlocksGUI;

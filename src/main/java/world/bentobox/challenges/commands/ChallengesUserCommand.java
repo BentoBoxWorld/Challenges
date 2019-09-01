@@ -7,7 +7,7 @@ import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.Settings;
+import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.panel.GameModesGUI;
 
 
