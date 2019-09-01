@@ -12,6 +12,8 @@ import world.bentobox.bentobox.api.configuration.ConfigEntry;
 import world.bentobox.bentobox.api.configuration.ConfigObject;
 import world.bentobox.bentobox.api.configuration.StoreAt;
 
+import world.bentobox.challenges.config.SettingsUtils.GuiMode;
+
 
 @StoreAt(filename="config.yml", path="addons/Challenges")
 @ConfigComment("Challenges [version] Configuration")
@@ -591,26 +593,5 @@ public class Settings implements ConfigObject
     public void setLifeSpan(int lifeSpan)
     {
         this.lifeSpan = lifeSpan;
-    }
-
-
-    // ---------------------------------------------------------------------
-    // Section: Enums
-    // ---------------------------------------------------------------------
-
-
-    /**
-     * This enum holds all possible values for Gui Opening for users.
-     */
-    public enum GuiMode
-    {
-        /**
-         * Opens user GUI with list of all GameModes.
-         */
-        GAMEMODE_LIST,
-        /**
-         * Opens user GUI with challenges in given world.
-         */
-        CURRENT_WORLD
     }
 }

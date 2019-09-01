@@ -6,8 +6,9 @@ import java.util.List;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.config.Settings;
+import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.panel.GameModesGUI;
 
 
@@ -59,7 +60,7 @@ public class ChallengesUserCommand extends CompositeCommand
 				user.performCommand(compositeCommand.getTopLabel() + " challenges"));
 			return true;
 		}
-		else if (this.addon.getChallengesSettings().getUserGuiMode() == Settings.GuiMode.CURRENT_WORLD)
+		else if (this.addon.getChallengesSettings().getUserGuiMode() == GuiMode.CURRENT_WORLD)
 		{
 			// Find GameMode and run command
 			for (GameModeAddon addon : this.gameModeAddons)
@@ -73,7 +74,7 @@ public class ChallengesUserCommand extends CompositeCommand
 				}
 			}
 		}
-		else if (this.addon.getChallengesSettings().getUserGuiMode() == Settings.GuiMode.GAMEMODE_LIST)
+		else if (this.addon.getChallengesSettings().getUserGuiMode() == GuiMode.GAMEMODE_LIST)
 		{
 			new GameModesGUI(this.addon,
 				this.getWorld(),

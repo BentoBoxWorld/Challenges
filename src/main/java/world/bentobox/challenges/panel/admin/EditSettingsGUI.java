@@ -14,6 +14,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.Settings;
+import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectBlocksGUI;
@@ -327,26 +328,26 @@ public class EditSettingsGUI extends CommonGUI
             description.add(this.user.getTranslation("challenges.gui.descriptions.admin.gui-view-mode"));
             description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
-                    this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST) ?
+                    this.settings.getUserGuiMode().equals(GuiMode.GAMEMODE_LIST) ?
                             this.user.getTranslation("challenges.gui.descriptions.enabled") :
                                 this.user.getTranslation("challenges.gui.descriptions.disabled")));
             name = this.user.getTranslation("challenges.gui.buttons.admin.gui-view-mode");
             icon = new ItemStack(Material.STONE_BUTTON);
             clickHandler = (panel, user1, clickType, i) -> {
 
-                if (this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST))
+                if (this.settings.getUserGuiMode().equals(GuiMode.GAMEMODE_LIST))
                 {
-                    this.settings.setUserGuiMode(Settings.GuiMode.CURRENT_WORLD);
+                    this.settings.setUserGuiMode(GuiMode.CURRENT_WORLD);
                 }
                 else
                 {
-                    this.settings.setUserGuiMode(Settings.GuiMode.GAMEMODE_LIST);
+                    this.settings.setUserGuiMode(GuiMode.GAMEMODE_LIST);
                 }
 
                 panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
                 return true;
             };
-            glow = this.settings.getUserGuiMode().equals(Settings.GuiMode.GAMEMODE_LIST);
+            glow = this.settings.getUserGuiMode().equals(GuiMode.GAMEMODE_LIST);
             break;
         }
         case GAMEMODE_GUI:
