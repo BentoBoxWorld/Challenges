@@ -6,8 +6,10 @@ challenges:
         description: メイン管理コマンド。 GUIを開きます。
       import:
         description: challenge.yml |パラメータの上書きからチャレンジをインポートすると、同じIDを持つチャレンジまたはレベルが上書きされます。
+        parameters: "[overwrite]"
       reload:
         description: データベースからチャレンジをリロードする|パラメータハードは、アドオンがデータベースへの接続をリセットすることを意味します。
+        parameters: "[hard]"
       show:
         description: この方法は、世界に存在するすべての課題をチャットで出力します。
       defaults:
@@ -17,6 +19,7 @@ challenges:
         description: この方法では、デフォルトのチャレンジをインポートできます。
       defaults-generate:
         description: この方法では、既存のチャレンジをdefault.jsonファイルにエクスポートできます。
+        parameters: "[overwrite]-既存のファイルを上書きできます。"
       complete:
         description: このコマンドにより、GUIなしでプレーヤーのチャレンジを完了できます。
         parameters: "<player> <challenge_id>"
@@ -40,6 +43,18 @@ challenges:
         manage-entities: エンティティの管理
         manage-items: アイテムの管理
         manage-numbers: 番号パッド
+        gui-title: "＆aチャレンジ管理者"
+        edit-level-title: "＆aレベルを編集"
+        choose-challenge-title: "＆aチャレンジを選択"
+        choose-level-title: "＆aレベルを選択"
+        choose-user-title: "＆aプレイヤーを選択"
+        confirm-title: "＆a確認"
+        select-block: "＆aブロックを選択"
+        select-challenge: "＆aチャレンジを選択"
+        select-entity: "＆aエンティティを選択"
+        toggle-environment: "＆a環境を変える"
+        edit-text-fields: "＆aテキストフィールドの編集"
+        library-title: "&Aダウンロード可能なライブラリ"
       challenges: "＆6チャレンジ"
       game-modes: "＆6ゲームモードを選択"
       multiple-complete: "＆6何回？"
@@ -232,6 +247,15 @@ challenges:
         library: 利用可能なすべての公開チャレンジライブラリを表示するGUIを開きます。
         library-lang: "＆aLanguage：[lang]"
         library-gamemode: "＆a [gamemode]のプライマリ"
+        reward-commands: 初回完了後に呼び出される報酬コマンドを定義できます。| ***開始時に「[SELF]」を追加すると、コマンドはプレイヤーによって実行されることを意味します、例えば
+          "/ kill" | *** String "[player]"はプレイヤー名に置き換えられ、fe"/ kill [player] "は" /
+          kill BONNe1704 "に変換されます|コマンド：
+        repeat-reward-commands: チャレンジの繰り返し完了後に呼び出されるリワードコマンドを定義できます。| 開始時に「[SELF]」を追加すると、コマンドはプレイヤーによって実行されます。
+          |コマンド：
+        mode-in-world: 世界のゲームモードいるプレイヤー。
+        mode-with-island: ゲームモードに島があるプレイヤー。
+        library-author: "＆e [author]"
+        library-version: "＆9Made on Challenges [version]"
       enabled: アクティブ
       disabled: 無効
       type:
@@ -244,6 +268,15 @@ challenges:
       level-locked: このレベルのロックを解除するには、[count]個以上の[level]チャレンジを完了してください！
       increase-by: "＆a [値]だけ完了カウントを増やす"
       reduce-by: "＆c完了カウントを[値]ずつ減らす"
+      current-value: "|＆6現在の値：[value]。"
+      entity: "-[エンティティ]：[count]"
+      block: "-[ブロック]：[count]"
+      permission: "-[permission]"
+      item: "-[count] x [item]"
+      item-meta: "（[meta]）"
+      item-enchant: "-[enchant] [level]"
+      command: "-[command]"
+      level-unlocked: クリックして[level]の課題をご覧ください！
     challenge-description:
       completed-times-of: "[maxtimes]のうち[donetimes]を完了しました"
       maxed-reached: "[maxtimes]のうち[donetimes]を完了しました"
@@ -260,23 +293,50 @@ challenges:
       required-items: 必要なアイテム：
       required-entities: 必要なエンティティ：
       required-blocks: 必要なブロック：
+      level: "＆Fレベル：[level]"
+      completed: "＆B完了しました"
+      completed-times: 完了[donetimes]
+      experience-reward: "＆6Exp報酬：[value]"
+      money-reward: "＆6お金の報酬：$ [value]"
+      required-island-level: "＆6必要な島レベル：[level]"
     level-description:
       reward-items: "＆6報酬アイテム："
       reward-commands: "＆6報酬コマンド："
+      completed: "＆B完了しました"
+      completed-challenges-of: "＆3このレベルで[max]の[number]のチャレンジを完了しました。"
+      waver-amount: "＆6次のレベルのロックを解除するために[value]チャレンジをスキップできます。"
+      experience-reward: "＆6Exp報酬：[value]"
+      money-reward: "＆6お金の報酬：$ [value]"
     item-description:
       item-lore: アイテム伝承：
       recipe-count: "[count]レシピ"
       potion-type-upgraded: "[name]をアップグレードしました"
       custom-effects: カスタム効果：
+      item: "-[count] x [item]"
+      item-meta: "（[meta]）"
+      item-enchant: "-[enchant] [level]"
+      item-name: "[name]"
+      book-meta: "[author]による[title]"
+      armor-color: "[color]"
+      potion-type-extended-upgraded: 拡張およびアップグレードされた[name]
+      potion-type-extended: 拡張[name]
+      potion-type: "[name]"
+      potion-effect: "[effect] x [amplifier] [duration] t"
+      skull-owner: "[owner]"
+      egg-meta: "[mob]"
+      fish-meta: "[body-color] と [pattern-color] [pattern]"
     questions:
       admin:
         number: チャットで番号を入力し、Enterキーを押して受け入れてEnterキーを押します。
         unique-id: オブジェクトの一意の名前を書き、Enterキーを押します。
         challenge-name: 現在のチャレンジのチャット表示名を入力します。
         level-name: 現在のレベルのチャット表示名を入力します。
+      prefix: "＆2 [SERVER]："
   titles:
     challenge-title: 正常に完了しました
     level-title: 正常に完了しました
+    challenge-subtitle: "[friendlyName]"
+    level-subtitle: "[friendlyName]"
   messages:
     admin:
       hit-things: 必要なもののリストにそれらを追加するには、物事をヒットします。完了したら右クリックします。
@@ -289,12 +349,24 @@ challenges:
       migrate-start: "＆2チャレンジアドオンデータの移行を開始します。"
       migrate-not: "＆2すべてのデータが有効です。"
       start-downloading: "＆5チャレンジライブラリのダウンロードとインポートを開始しています。"
+      challenge-created: "[challenge]＆rが作成されました！"
+      reset-all: "＆2 [player]のチャレンジはすべてリセットされました！"
+      migrate-end: "＆2チャレンジアドオンデータが新しい形式に更新されます。"
     import-levels: レベルのインポートを開始
     import-challenges: チャレンジのインポートを開始
     no-levels: 警告：challenge.ymlで定義されたレベルはありません
     import-number: インポートされた[number]個のチャレンジ
     defaults-file-overwrite: defaults.jsonが存在します。上書きされます。
     defaults-file-completed: defaults.jsonファイルには、[world]からのチャレンジが入力されています！
+    you-completed-challenge: "＆2 [value]&r&2チャレンジを完了しました！"
+    you-repeated-challenge: "＆2 [value]&r&2チャレンジを繰り返しました！"
+    you-repeated-challenge-multiple: "＆2 [value]&r&2チャレンジ [count]回繰り返しました！"
+    you-completed-level: "＆2 [value]&r&2レベルを完了しました！"
+    name-has-completed-challenge: "＆5 [name]は[value]＆r＆5チャレンジ を完了しました！"
+    name-has-completed-level: "＆5 [name]は[value]＆r＆5レベルを完了しました！"
+    load-skipping: "「[value]」は既に存在します-スキップします"
+    load-overwriting: "「[value]」を上書き"
+    load-add: 新しいオブジェクトの追加：[value]
   errors:
     no-name: "＆cチャレンジ名がありません"
     unknown-challenge: "＆c不明なチャレンジ"
@@ -312,11 +384,37 @@ challenges:
     defaults-file-exist: "＆cdefaults.jsonはすでに存在します。上書きモードを使用して置き換えてください！"
     defaults-file-error: "＆c defaults.jsonファイルの作成中にエラーが発生しました！コンソールを確認してください！"
     no-multiple-permission: "＆cチャレンジを一度に複数回完了する権限がありません。"
+    unique-id: "＆c一意のID「[id]」は無効です。"
+    wrong-icon: "＆cマテリアル「[value]」は無効であり、アイコンとして使用できません。"
+    not-valid-integer: "＆cG整数 [value]」は無効です！|値は[min]から[max]の間でなければなりません。"
+    not-a-integer: "＆c値 [value]」は整数ではありません！"
+    not-deployed: "＆cチャレンジはデプロイされていません！"
+    not-enough-items: "＆cこのチャレンジを完了するのに十分な[items]がありません！"
+    not-enough-money: "＆cチャレンジを完了するには、アカウントに[value]が必要です。"
+    not-enough-experience: "＆cチャレンジを完了するには、[value] EXPが必要です。"
+    island-level: "＆cこのチャレンジを完了するには、島はレベル[number]でなければなりません！"
+    no-load: "＆cError：challenges.ymlを読み込めませんでした。 [message]"
+    load-error: "＆cエラー：[value]をロードできません。"
+    exist-challenges-or-levels: "＆c世界にはすでに課題が存在します。続行できません！"
+    no-challenges: "＆cチャレンジは現在の世界では実装されていません！"
+    no-challenges-admin: "＆cチャレンジは現在の世界では実装されていません！それらを追加するには＆5 / [command]＆cを使用する必要があります。"
+    missing-level: "＆cチャレンジレベル[level]はデータベースで定義されていません。エラーが発生する可能性があります"
+    missing-arguments: "＆cコマンドに引数がありません。"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
       name: 課題の保護
+      description: |-
+        ＆5＆o誰がチャレンジを完了
+         ＆5＆oできるかを切り替えます
     CHALLENGES_WORLD_PROTECTION:
       name: チャレンジアイランドの制限
       hint: 島の外での挑戦はありません
+      description: |-
+        ＆5＆oチャレンジを完了するには、
+         ＆5＆プレイヤーが島にいる
+         ＆5＆o必要があります。
 version: 11
+meta:
+  authors:
+  - tastybento
