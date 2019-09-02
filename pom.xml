@@ -165,6 +165,12 @@
 			<version>${vault.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- Shaded APIs -->
+		<dependency>
+			<groupId>com.github.TheBusyBiscuit</groupId>
+			<artifactId>GitHubWebAPI4Java</artifactId>
+			<version>d5f5e0bbd8</version>
+		</dependency>
 	</dependencies>
 
 	<build>
