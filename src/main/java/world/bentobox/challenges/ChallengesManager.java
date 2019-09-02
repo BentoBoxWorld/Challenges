@@ -989,7 +989,8 @@ public class ChallengesManager
             ChallengeLevel previousLevel = levelIndex < 1 ? null : challengeLevelList.get(levelIndex - 1);
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - level.getWaiverAmount());
+                (previousLevel.getChallenges().size() - level.getWaiverAmount()) -
+                    (int) previousLevel.getChallenges().stream().filter(playerData::isChallengeDone).count();
 
             // As level already contains unique ids of challenges, just iterate through them.
             int doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
