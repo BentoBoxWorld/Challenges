@@ -67,6 +67,8 @@ challenges:
                 select-entity: '&aSelect Entity'
                 toggle-environment: '&aToggle Environment'
                 edit-text-fields: '&aEdit Text Fields'
+
+                library-title: '&aDownloadable Libraries'
             challenges: '&6Challenges'
             game-modes: '&6Choose GameMode'
 
@@ -161,6 +163,8 @@ challenges:
                 default-import: 'Import Default Challenges'
                 default-export: 'Export Existing Challenges'
                 complete-wipe: 'Wipe Addon Databases'
+
+                library: 'Web Library'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -261,6 +265,14 @@ challenges:
                 default-import: 'Allows to import default challenges.'
                 default-export: 'Allows to export existing challenges into defaults.json file.'
                 complete-wipe: 'Allows to completely clear all challenges addon databases. Includes player data!'
+
+                library: 'Opens GUI that shows all available public Challenges Libraries.'
+
+                library-author: 'by &e[author]'
+                library-version: '&9Made on Challenges [version]'
+                library-lang: '&aLanguage: [lang]'
+                library-gamemode: '&aPrimary for [gamemode]'
+
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'
@@ -368,6 +380,8 @@ challenges:
             migrate-start: '&2Start migrating challenges addon data.'
             migrate-end: '&2Challenges addon data is updated to new format.'
             migrate-not: '&2All data is valid.'
+
+            start-downloading: '&5Starting to download and import Challenges Library.'
         you-completed-challenge: '&2You completed the [value] &r&2challenge!'
         you-repeated-challenge: '&2You repeated the [value] &r&2challenge!'
         you-repeated-challenge-multiple: '&2You repeated the [value] &r&2challenge [count] times!'

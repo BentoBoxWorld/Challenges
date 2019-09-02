@@ -63,7 +63,8 @@ public class AdminGUI extends CommonGUI
         EDIT_SETTINGS,
         DEFAULT_IMPORT_CHALLENGES,
         DEFAULT_EXPORT_CHALLENGES,
-        COMPLETE_WIPE
+        COMPLETE_WIPE,
+        LIBRARY
     }
 
 
@@ -122,6 +123,8 @@ public class AdminGUI extends CommonGUI
 
         // Import Challenges
         panelBuilder.item(15, this.createButton(Button.DEFAULT_IMPORT_CHALLENGES));
+        panelBuilder.item(24, this.createButton(Button.LIBRARY));
+
         // Not added as I do not think admins should use it. It still will be able via command.
         //		panelBuilder.item(33, this.createButton(Button.DEFAULT_EXPORT_CHALLENGES));
 
@@ -433,6 +436,21 @@ public class AdminGUI extends CommonGUI
                     this.build();
                 });
 
+                return true;
+            };
+            glow = false;
+
+            break;
+        }
+        case LIBRARY:
+        {
+            permissionSuffix = DOWNLOAD;
+
+            name = this.user.getTranslation("challenges.gui.buttons.admin.library");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.library");
+            icon = new ItemStack(Material.COBWEB);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ListLibraryGUI.open(this);
                 return true;
             };
             glow = false;

@@ -126,6 +126,77 @@ public class ChallengesImportManager
     }
 
 
+	/**
+	 * This method loads downloaded challenges into memory.
+	 * @param user User who calls downloaded challenge loading
+	 * @param world Target world.
+	 * @param downloadString String that need to be loaded via DefaultDataHolder.
+	 * @return <code>true</code> if everything was successful, otherwise <code>false</code>.
+	 */
+	public boolean loadDownloadedChallenges(User user, World world, String downloadString)
+	{
+		ChallengesManager manager = this.addon.getChallengesManager();
+
+		// If exist any challenge or level that is bound to current world, then do not load default challenges.
+		if (manager.hasAnyChallengeData(world.getName()))
+		{
+			if (user.isPlayer())
+			{
+				user.sendMessage("challenges.errors.exist-challenges-or-levels");
+			}
+			else
+			{
+				this.addon.logWarning("challenges.errors.exist-challenges-or-levels");
+			}
+
+			return false;
+		}
+
+		try
+		{
+			// This prefix will be used to all challenges. That is a unique way how to separate challenged for
+			// each game mode.
+			String uniqueIDPrefix = Utils.getGameMode(world) + "_";
+			DefaultDataHolder downloadedChallenges = new DefaultJSONHandler(this.addon).loadWebObject(downloadString);
+
+			// All new challenges should get correct ID. So we need to map it to loaded challenges.
+			downloadedChallenges.getChallengeList().forEach(challenge -> {
+				// Set correct challenge ID
+				challenge.setUniqueId(uniqueIDPrefix + challenge.getUniqueId());
+				// Set up correct level ID if it is necessary
+				if (!challenge.getLevel().isEmpty())
+				{
+					challenge.setLevel(uniqueIDPrefix + challenge.getLevel());
+				}
+				// Load challenge in memory
+				manager.loadChallenge(challenge, false, user, user == null);
+			});
+
+			downloadedChallenges.getLevelList().forEach(challengeLevel -> {
+				// Set correct level ID
+				challengeLevel.setUniqueId(uniqueIDPrefix + challengeLevel.getUniqueId());
+				// Set correct world name
+				challengeLevel.setWorld(Util.getWorld(world).getName());
+				// Reset names for all challenges.
+				challengeLevel.setChallenges(challengeLevel.getChallenges().stream().
+					map(challenge -> uniqueIDPrefix + challenge).
+					collect(Collectors.toSet()));
+				// Load level in memory
+				manager.loadLevel(challengeLevel, false, user, user == null);
+			});
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+
+		this.addon.getChallengesManager().save();
+
+		return true;
+	}
+
+
 // ---------------------------------------------------------------------
 // Section: Default generation
 // ---------------------------------------------------------------------
@@ -317,6 +388,16 @@ public class ChallengesImportManager
 
 
 			return this.gson.fromJson(builder.toString(), DefaultDataHolder.class);
+		}
+
+
+		/**
+		 * This method creates and adds to list all objects from default.json file.
+		 * @return List of all objects from default.json that is with T instance.
+		 */
+		DefaultDataHolder loadWebObject(String downloadedObject)
+		{
+			return this.gson.fromJson(downloadedObject, DefaultDataHolder.class);
 		}
 
 

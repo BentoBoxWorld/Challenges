@@ -21,6 +21,7 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.handlers.*;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
+import world.bentobox.challenges.web.WebManager;
 import world.bentobox.level.Level;
 
 
@@ -38,6 +39,11 @@ public class ChallengesAddon extends Addon {
     private ChallengesManager challengesManager;
 
     private ChallengesImportManager importManager;
+
+    /**
+     * This class manages web content loading.
+     */
+    private WebManager webManager;
 
     private Settings settings;
 
@@ -137,6 +143,9 @@ public class ChallengesAddon extends Addon {
         this.challengesManager = new ChallengesManager(this);
         // Challenge import setup
         this.importManager = new ChallengesImportManager(this);
+
+        // Web content loading
+        this.webManager = new WebManager(this);
 
         List<GameModeAddon> hookedGameModes = new ArrayList<>();
 
@@ -312,6 +321,14 @@ public class ChallengesAddon extends Addon {
      */
     public ChallengesImportManager getImportManager() {
         return this.importManager;
+    }
+
+
+    /**
+     * @return the webManager
+     */
+    public WebManager getWebManager() {
+        return this.webManager;
     }
 
 

@@ -53,7 +53,7 @@ public abstract class CommonGUI
     /**
      * This variable stores parent gui.
      */
-    private CommonGUI parentGUI;
+    protected CommonGUI parentGUI;
 
     /**
      * Variable stores Challenges addon.
@@ -136,6 +136,7 @@ public abstract class CommonGUI
 
     protected static final String COMPLETE = "complete";
 
+    protected static final String DOWNLOAD = "download";
 
     // ---------------------------------------------------------------------
     // Section: Constructors
@@ -202,6 +203,40 @@ public abstract class CommonGUI
                     this.parentGUI.build();
                     return true;
                 }).build();
+    }
+
+
+    /**
+     * Default constructor that inits panels with minimal requirements.
+     * @param parentGUI Parent panel for current panel.
+     */
+    public CommonGUI(CommonGUI parentGUI)
+    {
+        this.addon = parentGUI.addon;
+        this.world = parentGUI.world;
+        this.user = parentGUI.user;
+
+        this.topLabel = parentGUI.topLabel;
+        this.permissionPrefix = parentGUI.permissionPrefix;
+
+        this.parentGUI = parentGUI;
+
+        this.pageIndex = 0;
+
+        this.returnButton = new PanelItemBuilder().
+            name(this.user.getTranslation("challenges.gui.buttons.return")).
+            icon(Material.OAK_DOOR).
+            clickHandler((panel, user1, clickType, i) -> {
+
+                if (this.parentGUI == null)
+                {
+                    this.user.closeInventory();
+                    return true;
+                }
+
+                this.parentGUI.build();
+                return true;
+            }).build();
     }
 
 
