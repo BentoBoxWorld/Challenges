@@ -415,7 +415,16 @@ public class EditLevelGUI extends CommonGUI
                 new StringListGUI(this.user, this.challengeLevel.getUnlockMessage(), lineLength, (status, value) -> {
                     if (status)
                     {
-                        this.challengeLevel.setUnlockMessage(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+                    	String singleLineMessage = value.stream().
+							map(s -> s + "|").
+							collect(Collectors.joining());
+
+                    	if (singleLineMessage.endsWith("|"))
+						{
+							singleLineMessage = singleLineMessage.substring(0, singleLineMessage.length() - 1);
+						}
+
+						this.challengeLevel.setUnlockMessage(singleLineMessage);
                     }
 
                     this.build();
@@ -486,7 +495,16 @@ public class EditLevelGUI extends CommonGUI
                 new StringListGUI(this.user, this.challengeLevel.getRewardText(), lineLength, (status, value) -> {
                     if (status)
                     {
-                        this.challengeLevel.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+						String singleLineMessage = value.stream().
+							map(s -> s + "|").
+							collect(Collectors.joining());
+
+						if (singleLineMessage.endsWith("|"))
+						{
+							singleLineMessage = singleLineMessage.substring(0, singleLineMessage.length() - 1);
+						}
+
+						this.challengeLevel.setRewardText(singleLineMessage);
                     }
 
                     this.build();

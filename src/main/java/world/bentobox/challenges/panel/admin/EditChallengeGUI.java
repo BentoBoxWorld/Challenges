@@ -881,7 +881,16 @@ public class EditChallengeGUI extends CommonGUI
                 new StringListGUI(this.user, this.challenge.getRewardText(), lineLength, (status, value) -> {
                     if (status)
                     {
-                        this.challenge.setRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+                        String singleLineMessage = value.stream().
+                            map(s -> s + "|").
+                            collect(Collectors.joining());
+
+                        if (singleLineMessage.endsWith("|"))
+                        {
+                            singleLineMessage = singleLineMessage.substring(0, singleLineMessage.length() - 1);
+                        }
+
+                        this.challenge.setRewardText(singleLineMessage);
                     }
 
                     this.build();
@@ -1055,7 +1064,16 @@ public class EditChallengeGUI extends CommonGUI
                 new StringListGUI(this.user, this.challenge.getRepeatRewardText(), lineLength, (status, value) -> {
                     if (status)
                     {
-                        this.challenge.setRepeatRewardText(value.stream().map(s -> s + "|").collect(Collectors.joining()));
+                        String singleLineMessage = value.stream().
+                            map(s -> s + "|").
+                            collect(Collectors.joining());
+
+                        if (singleLineMessage.endsWith("|"))
+                        {
+                            singleLineMessage = singleLineMessage.substring(0, singleLineMessage.length() - 1);
+                        }
+
+                        this.challenge.setRepeatRewardText(singleLineMessage);
                     }
 
                     this.build();
