@@ -165,12 +165,6 @@
 			<version>${vault.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Shaded APIs -->
-		<dependency>
-			<groupId>com.github.TheBusyBiscuit</groupId>
-			<artifactId>GitHubWebAPI4Java</artifactId>
-			<version>d5f5e0bbd8</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -265,12 +259,6 @@
 				<version>3.2.1</version>
 				<configuration>
 					<minimizeJar>true</minimizeJar>
-					<relocations>
-						<relocation>
-							<pattern>io.github.TheBusyBiscuit.GitHubWebAPI4Java</pattern>
-							<shadedPattern>world.bentobox.bentobox.api.github</shadedPattern>
-						</relocation>
-					</relocations>
 				</configuration>
 				<executions>
 					<execution>

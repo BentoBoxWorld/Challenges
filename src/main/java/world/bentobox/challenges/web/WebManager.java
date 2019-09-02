@@ -7,8 +7,6 @@ import org.bukkit.World;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import io.github.TheBusyBiscuit.GitHubWebAPI4Java.GitHubWebAPI;
-import io.github.TheBusyBiscuit.GitHubWebAPI4Java.objects.repositories.GitHubRepository;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
@@ -40,7 +38,7 @@ public class WebManager
 				// If below 0, it means we shouldn't run this as a repeating task.
 				this.plugin.getServer().getScheduler().runTaskLaterAsynchronously(this.plugin,
 					() -> this.requestCatalogGitHubData(true),
-					20L);
+					600L);
 			}
 			else
 			{
@@ -48,7 +46,7 @@ public class WebManager
 				connectionInterval = Math.max(connectionInterval, 60 * 20 * 60L);
 				this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin,
 					() -> this.requestCatalogGitHubData(true),
-					20L,
+					600L,
 					connectionInterval);
 			}
 		}
@@ -61,21 +59,21 @@ public class WebManager
 	 */
 	public void requestCatalogGitHubData(boolean clearCache)
 	{
-		this.plugin.getWebManager().getGitHub().ifPresent(gh ->
+		this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
 		{
 			if (this.plugin.getSettings().isLogGithubDownloadData())
 			{
 				this.plugin.log("Downloading data from GitHub...");
 			}
 
-			GitHubRepository repo = new GitHubRepository(gh, "BentoBoxWorld/weblink");
-
 			String catalogContent = "";
 
 			// Downloading the data
 			try
 			{
-				catalogContent = repo.getContent("challenges/catalog.json").getContent().replaceAll("\\n", "");
+				catalogContent = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
+					getContent("challenges/catalog.json").
+					getContent().replaceAll("\\n", "");
 			}
 			catch (IllegalAccessException e)
 			{
@@ -125,26 +123,22 @@ public class WebManager
 	 * @param entry Entry that contains information about requested object.
 	 * @return {@code true} if request was successful, {@code false} otherwise.
 	 */
-	public boolean requestEntryGitHubData(User user, World world, LibraryEntry entry)
+	public void requestEntryGitHubData(User user, World world, LibraryEntry entry)
 	{
-		Optional<GitHubWebAPI> gitAPI = this.plugin.getWebManager().getGitHub();
-
-		if (gitAPI.isPresent())
+		this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
 		{
 			if (this.plugin.getSettings().isLogGithubDownloadData())
 			{
 				this.plugin.log("Downloading data from GitHub...");
 			}
 
-			GitHubRepository repo = new GitHubRepository(gitAPI.get(), "BentoBoxWorld/weblink");
-
 			String challengeLibrary = "";
 
 			// Downloading the data
 			try
 			{
-
-				challengeLibrary = repo.getContent("challenges/library/" + entry.getRepository() + ".json").
+				challengeLibrary = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
+					getContent("challenges/library/" + entry.getRepository() + ".json").
 					getContent().
 					replaceAll("\\n", "");
 			}
@@ -177,11 +171,8 @@ public class WebManager
 			if (!challengeLibrary.isEmpty())
 			{
 				this.addon.getImportManager().loadDownloadedChallenges(user, world, challengeLibrary);
-				return true;
 			}
-		}
-
-		return false;
+		});
 	}
 
 
