@@ -335,7 +335,7 @@ public class EditLoreGUI extends CommonGUI
 		return new PanelItemBuilder().
 			name(name).
 			icon(icon).
-			description(description).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler(clickHandler).
 			glow(false).
 			build();
@@ -408,7 +408,7 @@ public class EditLoreGUI extends CommonGUI
 		return new PanelItemBuilder().
 			name(name).
 			icon(icon).
-			description(description).
+			description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
 			clickHandler(clickHandler).
 			glow(false).
 			build();
