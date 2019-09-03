@@ -236,21 +236,11 @@ public class EditSettingsGUI extends CommonGUI
         {
             description = new ArrayList<>(2);
             description.add(this.user.getTranslation("challenges.gui.descriptions.admin.level-lore"));
-            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                    "[value]", this.settings.getLevelLoreMessage()));
             name = this.user.getTranslation("challenges.gui.buttons.admin.level-lore");
             icon = new ItemStack(Material.MAP);
             clickHandler = (panel, user1, clickType, i) -> {
 
-                // TODO: AnvilGUI is out. Need to implement better GUI for editing this.
-//                new AnvilGUI(this.addon.getPlugin(),
-//                        this.user.getPlayer(),
-//                        this.settings.getLevelLoreMessage(),
-//                        (player, reply) -> {
-//                            this.settings.setLevelLoreMessage(reply);
-//                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
-//                            return reply;
-//                        });
+                EditLoreGUI.open(this, EditLoreGUI.LoreType.LEVELS);
 
                 return true;
             };
@@ -261,21 +251,11 @@ public class EditSettingsGUI extends CommonGUI
         {
             description = new ArrayList<>(2);
             description.add(this.user.getTranslation("challenges.gui.descriptions.admin.challenge-lore"));
-            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                    "[value]", this.settings.getChallengeLoreMessage()));
             name = this.user.getTranslation("challenges.gui.buttons.admin.challenge-lore");
             icon = new ItemStack(Material.PAPER);
             clickHandler = (panel, user1, clickType, i) -> {
-                // TODO: AnvilGUI is out. Need to implement better GUI for editing this.
 
-//                new AnvilGUI(this.addon.getPlugin(),
-//                        this.user.getPlayer(),
-//                        this.settings.getChallengeLoreMessage(),
-//                        (player, reply) -> {
-//                            this.settings.setChallengeLoreMessage(reply);
-//                            panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
-//                            return reply;
-//                        });
+                EditLoreGUI.open(this, EditLoreGUI.LoreType.CHALLENGES);
 
                 return true;
             };

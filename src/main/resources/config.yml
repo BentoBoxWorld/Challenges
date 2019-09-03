@@ -62,32 +62,55 @@ gui-settings:
   # one object from challenge description. If letter is not used, then its represented part
   # will not be in description. If use any letter that is not recognized, then it will be
   # ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.
-  # List of letters and their meaning:
-  #  - L - Level String: '*.level'
-  #  - S - Status String: '*.completed'
-  #  - T - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'
-  #  - D - Description String: defined in challenge object - challenge.description
-  #  - W - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'
-  #  - E - Environment String: defined in challenge object - challenge.environment
-  #  - Q - Requirement String: '*.required-level', '*.required-money', '*.required-experience'
-  #  - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
-  # By adding 'i' after Q or R (requirements and rewards) will display list of items, blocks
-  # and entities that are defined in challenge and can be customized under 'challenges.gui.description.*'
-  challenge-lore-message: LSTDEQiWRi
+  # List of values and their meaning:
+  #  - LEVEL - Level String: '*.level'
+  #  - STATUS - Status String: '*.completed'
+  #  - COUNT - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'
+  #  - DESCRIPTION - Description String: defined in challenge object - challenge.description
+  #  - WARNINGS - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'
+  #  - ENVIRONMENT - Environment String: defined in challenge object - challenge.environment
+  #  - REQUIREMENTS - Requirement String: '*.required-level', '*.required-money', '*.required-experience' and items, blocks or entities
+  #  - REWARD_TEXT - Reward String: message that is defined in challenge.rewardTest and challenge.repeatRewardText
+  #  - REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
+  #  - REWARD_ITEMS - Reward Items: List of items that will be rewarded.
+  #  - REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.
+  # Requirement and reward items, blocks and entities that are defined in challenge and can be customized under 'challenges.gui.item-description.*'
+  challenge-lore:
+    - LEVEL
+    - STATUS
+    - COUNT
+    - DESCRIPTION
+    - WARNINGS
+    - ENVIRONMENT
+    - REQUIREMENTS
+    - REWARD_TEXT
+    - REWARD_OTHER
+    - REWARD_ITEMS
+    - REWARD_COMMANDS
   #
   # This string allows to change element order in Level description. Each letter represents
   # one object from level description. If letter is not used, then its represented part
   # will not be in description. If use any letter that is not recognized, then it will be
   # ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.
-  # List of letters and their meaning:
-  #  - S - Status String: '*.completed'
-  #  - T - Count of completed challenges String: '*.completed-challenges-of'
-  #  - D - Description String: defined in level object - challengeLevel.unlockMessage
-  #  - A - WaiverAmount String: '*.waver-amount'
-  #  - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
-  # By adding 'i' after R (rewards) will display list of items that are defined in challenge
-  # and can be customized under 'challenges.gui.description.*'
-  level-lore-message: STDARi
+  # List of values and their meaning:
+  #  - LEVEL_STATUS - Status String: '*.completed'
+  #  - CHALLENGE_COUNT - Count of completed challenges String: '*.completed-challenges-of'
+  #  - UNLOCK_MESSAGE - Description String: defined in level object - challengeLevel.unlockMessage
+  #  - WAIVER_AMOUNT - WaiverAmount String: '*.waver-amount'
+  #  - LEVEL_REWARD_TEXT - Reward String: message that is defined in challengeLevel.rewardText.
+  #  - LEVEL_REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward'
+  #  - LEVEL_REWARD_ITEMS - Reward Items: List of items that will be rewarded.
+  #  - LEVEL_REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.
+  # Reward items that are defined in challenge level and can be customized under 'challenges.gui.item-description.*'
+  level-lore:
+    - LEVEL_STATUS
+    - CHALLENGE_COUNT
+    - UNLOCK_MESSAGE
+    - WAIVER_AMOUNT
+    - LEVEL_REWARD_TEXT
+    - LEVEL_REWARD_OTHER
+    - LEVEL_REWARD_ITEMS
+    - LEVEL_REWARD_COMMANDS
 #
 # This indicate if challenges data will be stored per island (true) or per player (false).
 store-island-data: false

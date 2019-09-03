@@ -336,186 +336,210 @@ public abstract class CommonGUI
         // Some values to avoid overchecking.
         ChallengesManager manager = this.addon.getChallengesManager();
 
-        final boolean isCompletedOnce = manager.isChallengeComplete(user.getUniqueId(), world, challenge);
+        final boolean isCompletedOnce =
+            manager.isChallengeComplete(user.getUniqueId(), world, challenge);
         final long doneTimes = challenge.isRepeatable() ?
-                manager.getChallengeTimes(this.user, this.world, challenge) :
-                    isCompletedOnce ? 0 : 1;
-                boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
-                        challenge.getMaxTimes() > 0 && doneTimes >= challenge.getMaxTimes();
+            manager.getChallengeTimes(this.user, this.world, challenge) : isCompletedOnce ? 0 : 1;
 
-                        // Used to know if blocks, entities, items should be added after requirements and rewards.
-                        char prevChar = ' ';
+        boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
+            challenge.getMaxTimes() > 0 &&
+            doneTimes >= challenge.getMaxTimes();
 
-                        for (char c : this.addon.getChallengesSettings().getChallengeLoreMessage().toLowerCase().toCharArray())
+        this.addon.getChallengesSettings().getChallengeLoreMessage().forEach(messagePart -> {
+            switch (messagePart)
+            {
+                case LEVEL:
+                {
+                    ChallengeLevel level = manager.getLevel(challenge);
+
+                    if (level == null)
+                    {
+                        result.add(this.user.getTranslation("challenges.errors.missing-level",
+                            "[level]", challenge.getLevel()));
+                    }
+                    else
+                    {
+                        result.add(this.user
+                            .getTranslation("challenges.gui.challenge-description.level",
+                                "[level]", level.getFriendlyName()));
+                    }
+                    break;
+                }
+                case STATUS:
+                {
+                    if (isCompletedOnce)
+                    {
+                        result.add(this.user
+                            .getTranslation("challenges.gui.challenge-description.completed"));
+                    }
+                    break;
+                }
+                case COUNT:
+                {
+                    if (challenge.isRepeatable())
+                    {
+                        if (challenge.getMaxTimes() > 0)
                         {
-                            switch (c)
+                            if (isCompletedAll)
                             {
-                            case 'l':
+                                result.add(this.user.getTranslation(
+                                    "challenges.gui.challenge-description.maxed-reached",
+                                    "[donetimes]",
+                                    String.valueOf(doneTimes),
+                                    "[maxtimes]",
+                                    String.valueOf(challenge.getMaxTimes())));
+                            }
+                            else
                             {
-                                ChallengeLevel level = manager.getLevel(challenge);
+                                result.add(this.user.getTranslation(
+                                    "challenges.gui.challenge-description.completed-times-of",
+                                    "[donetimes]",
+                                    String.valueOf(doneTimes),
+                                    "[maxtimes]",
+                                    String.valueOf(challenge.getMaxTimes())));
+                            }
+                        }
+                        else
+                        {
+                            result.add(this.user.getTranslation(
+                                "challenges.gui.challenge-description.completed-times",
+                                "[donetimes]",
+                                String.valueOf(doneTimes)));
+                        }
+                    }
+                    break;
+                }
+                case DESCRIPTION:
+                {
+                    result.addAll(challenge.getDescription());
+                    break;
+                }
+                case WARNINGS:
+                {
+                    if (!isCompletedAll)
+                    {
+                        if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
+                        {
+                            if (challenge.isTakeItems())
+                            {
+                                result.add(this.user.getTranslation(
+                                    "challenges.gui.challenge-description.warning-items-take"));
+                            }
+                        }
+                        else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
+                        {
+                            result.add(this.user.getTranslation(
+                                "challenges.gui.challenge-description.objects-close-by"));
 
-                                if (level == null)
-                                {
-                                    result.add(this.user.getTranslation("challenges.errors.missing-level",
-                                            "[level]", challenge.getLevel()));
-                                }
-                                else
-                                {
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.level",
-                                            "[level]", level.getFriendlyName()));
-                                }
-
-                                break;
-                            }
-                            case 's':
+                            if (challenge.isRemoveEntities() &&
+                                !challenge.getRequiredEntities().isEmpty())
                             {
-                                if (isCompletedOnce)
-                                {
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.completed"));
-                                }
-                                break;
-                            }
-                            case 't':
-                            {
-                                if (challenge.isRepeatable())
-                                {
-                                    if (challenge.getMaxTimes() > 0)
-                                    {
-                                        if (isCompletedAll)
-                                        {
-                                            result.add(this.user.getTranslation("challenges.gui.challenge-description.maxed-reached",
-                                                    "[donetimes]", String.valueOf(doneTimes),
-                                                    "[maxtimes]", String.valueOf(challenge.getMaxTimes())));
-                                        }
-                                        else
-                                        {
-                                            result.add(this.user.getTranslation(
-                                                    "challenges.gui.challenge-description.completed-times-of",
-                                                    "[donetimes]", String.valueOf(doneTimes),
-                                                    "[maxtimes]", String.valueOf(challenge.getMaxTimes())));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        result.add(this.user.getTranslation("challenges.gui.challenge-description.completed-times",
-                                                "[donetimes]", String.valueOf(doneTimes)));
-                                    }
-                                }
-                                break;
-                            }
-                            case 'd':
-                            {
-                                if (!isCompletedAll)
-                                {
-                                    result.addAll(challenge.getDescription());
-                                }
-                                break;
-                            }
-                            case 'w':
-                            {
-                                if (!isCompletedAll)
-                                {
-                                    if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
-                                    {
-                                        if (challenge.isTakeItems())
-                                        {
-                                            result.add(this.user.getTranslation(
-                                                    "challenges.gui.challenge-description.warning-items-take"));
-                                        }
-                                    }
-                                    else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
-                                    {
-                                        result.add(this.user.getTranslation("challenges.gui.challenge-description.objects-close-by"));
-
-                                        if (challenge.isRemoveEntities() && !challenge.getRequiredEntities().isEmpty())
-                                        {
-                                            result.add(this.user.getTranslation(
-                                                    "challenges.gui.challenge-description.warning-entities-kill"));
-                                        }
-
-                                        if (challenge.isRemoveBlocks() && !challenge.getRequiredBlocks().isEmpty())
-                                        {
-                                            result.add(this.user.getTranslation(
-                                                    "challenges.gui.challenge-description.warning-blocks-remove"));
-                                        }
-                                    }
-                                }
-                                break;
-                            }
-                            case 'e':
-                            {
-                                // Display only if there are limited environments
-
-                                if (!isCompletedAll &&
-                                        !challenge.getEnvironment().isEmpty() &&
-                                        challenge.getEnvironment().size() != 3)
-                                {
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.environment"));
-
-                                    if (challenge.getEnvironment().contains(World.Environment.NORMAL))
-                                    {
-                                        result.add(this.user.getTranslation("challenges.gui.descriptions.normal"));
-                                    }
-
-                                    if (challenge.getEnvironment().contains(World.Environment.NETHER))
-                                    {
-                                        result.add(this.user.getTranslation("challenges.gui.descriptions.nether"));
-                                    }
-
-                                    if (challenge.getEnvironment().contains(World.Environment.THE_END))
-                                    {
-                                        result.add(this.user.getTranslation("challenges.gui.descriptions.the-end"));
-                                    }
-                                }
-                                break;
-                            }
-                            case 'q':
-                            {
-                                if (!isCompletedAll && challenge.getChallengeType() == Challenge.ChallengeType.OTHER)
-                                {
-                                    result.addAll(this.getChallengeRequirements(challenge));
-                                }
-                                break;
-                            }
-                            case 'r':
-                            {
-                                if (isCompletedAll)
-                                {
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
-                                }
-                                else
-                                {
-                                    result.addAll(this.getChallengeRewards(challenge, isCompletedOnce));
-                                }
-                                break;
-                            }
-                            case 'i':
-                            {
-                                if (!isCompletedAll)
-                                {
-                                    if (prevChar == 'q' && challenge.getChallengeType() != Challenge.ChallengeType.OTHER)
-                                    {
-                                        result.addAll(this.getChallengeRequiredItems(challenge));
-                                    }
-                                    else if (prevChar == 'r')
-                                    {
-                                        result.addAll(this.getChallengeRewardItems(challenge, isCompletedOnce, user));
-                                    }
-                                }
-                                break;
-                            }
-                            default:
-                            {
-                                break;
-                            }
+                                result.add(this.user.getTranslation(
+                                    "challenges.gui.challenge-description.warning-entities-kill"));
                             }
 
-                            prevChar = c;
+                            if (challenge.isRemoveBlocks() &&
+                                !challenge.getRequiredBlocks().isEmpty())
+                            {
+                                result.add(this.user.getTranslation(
+                                    "challenges.gui.challenge-description.warning-blocks-remove"));
+                            }
+                        }
+                    }
+                    break;
+                }
+                case ENVIRONMENT:
+                {
+                    // Display only if there are limited environments
+
+                    if (!isCompletedAll &&
+                        !challenge.getEnvironment().isEmpty() &&
+                        challenge.getEnvironment().size() != 3)
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.challenge-description.environment"));
+
+                        if (challenge.getEnvironment().contains(World.Environment.NORMAL))
+                        {
+                            result.add(this.user.getTranslation("challenges.gui.descriptions.normal"));
                         }
 
-                        result.replaceAll(x -> x.replace("[label]", this.topLabel));
+                        if (challenge.getEnvironment().contains(World.Environment.NETHER))
+                        {
+                            result.add(this.user.getTranslation("challenges.gui.descriptions.nether"));
+                        }
 
-                        return result;
+                        if (challenge.getEnvironment().contains(World.Environment.THE_END))
+                        {
+                            result.add(this.user.getTranslation("challenges.gui.descriptions.the-end"));
+                        }
+                    }
+                    break;
+                }
+                case REQUIREMENTS:
+                {
+                    if (!isCompletedAll)
+                    {
+                        if (challenge.getChallengeType() == Challenge.ChallengeType.OTHER)
+                        {
+                            result.addAll(this.getChallengeRequirements(challenge));
+                        }
+                        else
+                        {
+                            result.addAll(this.getChallengeRequiredItems(challenge));
+                        }
+                    }
+
+                    break;
+                }
+                case REWARD_TEXT:
+                {
+                    if (isCompletedAll)
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
+                    }
+                    else
+                    {
+                        if (isCompletedOnce)
+                        {
+                            result.add(challenge.getRepeatRewardText());
+                        }
+                        else
+                        {
+                            result.add(challenge.getRewardText());
+                        }
+                    }
+                    break;
+                }
+                case REWARD_OTHER:
+                {
+                    if (!isCompletedAll)
+                    {
+                        result.addAll(this.getChallengeRewardOthers(challenge, isCompletedOnce));
+                    }
+                    break;
+                }
+                case REWARD_ITEMS:
+                {
+                    if (!isCompletedAll)
+                    {
+                        result.addAll(this.getChallengeRewardItems(challenge, isCompletedOnce));
+                    }
+                    break;
+                }
+                case REWARD_COMMANDS:
+                {
+                    if (!isCompletedAll)
+                    {
+                        result.addAll(this.getChallengeRewardCommands(challenge, isCompletedOnce, user));
+                    }
+                    break;
+                }
+            }
+        });
+
+        result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
+        return result;
     }
 
 
@@ -525,30 +549,24 @@ public abstract class CommonGUI
      * @param isCompletedOnce indicate if must use repeat rewards
      * @return list of strings that contains rewards message.
      */
-    private List<String> getChallengeRewards(Challenge challenge, boolean isCompletedOnce)
+    private List<String> getChallengeRewardOthers(Challenge challenge, boolean isCompletedOnce)
     {
-        String rewardText;
         double rewardMoney;
         int rewardExperience;
 
 
         if (!isCompletedOnce)
         {
-            rewardText = challenge.getRewardText();
             rewardMoney = challenge.getRewardMoney();
             rewardExperience = challenge.getRewardExperience();
         }
         else
         {
-            rewardText = challenge.getRepeatRewardText();
             rewardMoney = challenge.getRepeatMoneyReward();
             rewardExperience = challenge.getRepeatExperienceReward();
         }
 
         List<String> result = new ArrayList<>();
-
-        // Add reward text
-        result.add(rewardText);
 
         // Add message about reward XP
         if (rewardExperience > 0)
@@ -569,28 +587,24 @@ public abstract class CommonGUI
 
 
     /**
-     * This method returns list of strings that contains reward items and commands from given challenge.
+     * This method returns list of strings that contains reward items from given challenge.
      * @param challenge Challenge which reward items and commands must be returned.
      * @param isCompletedOnce Boolean that indicate if must use repeat rewards.
-     * @param user Target user for command string.
      * @return List of strings that contains message from challenges.
      */
-    private List<String> getChallengeRewardItems(Challenge challenge, boolean isCompletedOnce, Player user)
+    private List<String> getChallengeRewardItems(Challenge challenge, boolean isCompletedOnce)
     {
         List<String> result = new ArrayList<>();
 
         List<ItemStack> rewardItems;
-        List<String> rewardCommands;
 
-        if (!isCompletedOnce)
+        if (isCompletedOnce)
         {
-            rewardItems = challenge.getRewardItems();
-            rewardCommands = challenge.getRewardCommands();
+            rewardItems = challenge.getRepeatItemReward();
         }
         else
         {
-            rewardItems = challenge.getRepeatItemReward();
-            rewardCommands = challenge.getRepeatRewardCommands();
+            rewardItems = challenge.getRewardItems();
         }
 
         // Add message about reward items
@@ -602,6 +616,32 @@ public abstract class CommonGUI
             result.addAll(this.generateItemStackDescription(itemStack)));
         }
 
+        return result;
+    }
+
+
+    /**
+     * This method returns list of strings that contains reward commands from given challenge.
+     * @param challenge Challenge which reward items and commands must be returned.
+     * @param isCompletedOnce Boolean that indicate if must use repeat rewards.
+     * @param user Target user for command string.
+     * @return List of strings that contains message from challenges.
+     */
+    private List<String> getChallengeRewardCommands(Challenge challenge, boolean isCompletedOnce, Player user)
+    {
+        List<String> result = new ArrayList<>();
+
+        List<String> rewardCommands;
+
+        if (isCompletedOnce)
+        {
+            rewardCommands = challenge.getRepeatRewardCommands();
+        }
+        else
+        {
+            rewardCommands = challenge.getRewardCommands();
+        }
+
         // Add message about reward commands
         if (!rewardCommands.isEmpty())
         {
@@ -610,7 +650,7 @@ public abstract class CommonGUI
             for (String command : rewardCommands)
             {
                 result.add(this.user.getTranslation("challenges.gui.descriptions.command",
-                        "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
+                    "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
             }
         }
 
@@ -723,106 +763,109 @@ public abstract class CommonGUI
         ChallengesManager manager = this.addon.getChallengesManager();
         LevelStatus status = manager.getChallengeLevelStatus(user.getUniqueId(), this.world, level);
 
-        // Used to know if blocks, entities, items should be added after requirements and rewards.
-        char prevChar = ' ';
+        // Check if unlock message should appear.
+        boolean hasCompletedOne = status.isComplete() || status.isUnlocked() &&
+            level.getChallenges().stream().anyMatch(challenge ->
+                this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge));
 
-        for (char c : this.addon.getChallengesSettings().getLevelLoreMessage().toLowerCase().toCharArray())
-        {
-            switch (c)
+        this.addon.getChallengesSettings().getLevelLoreMessage().forEach(messagePart -> {
+            switch (messagePart)
             {
-            case 's':
-            {
-                if (status.isComplete())
+                case LEVEL_STATUS:
                 {
-                    result.add(this.user.getTranslation("challenges.gui.level-description.completed"));
+                    if (status.isComplete())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.level-description.completed"));
+                    }
+                    break;
                 }
-                break;
-            }
-            case 't':
-            {
-                if (!status.isComplete())
+                case CHALLENGE_COUNT:
                 {
-                    int doneChallengeCount = (int) level.getChallenges().stream().
+                    if (!status.isComplete() && status.isUnlocked())
+                    {
+                        int doneChallengeCount = (int) level.getChallenges().stream().
                             filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge)).
                             count();
 
-                    result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",
+                        result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",
                             "[number]", Integer.toString(doneChallengeCount),
                             "[max]", Integer.toString(level.getChallenges().size())));
-                }
-                break;
-            }
-            case 'd':
-            {
-                if (!status.isUnlocked())
-                {
-                    result.add(level.getUnlockMessage());
-                }
-                break;
-            }
-            case 'a':
-            {
-                if (!status.isUnlocked() && !status.isComplete())
-                {
-                    result.add(this.user.getTranslation("challenges.gui.level-description.waver-amount",
-                            "[value]", Integer.toString(level.getWaiverAmount())));
-                }
-                break;
-            }
-            case 'r':
-            {
-                if (status.isUnlocked() && !status.isComplete())
-                {
-                    if (level.getRewardExperience() > 0)
-                    {
-                        result.add(this.user
-                                .getTranslation("challenges.gui.level-description.experience-reward",
-                                        "[value]", Integer.toString(level.getRewardExperience())));
                     }
 
-                    if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.level-description.money-reward",
-                                "[value]", Integer.toString(level.getRewardMoney())));
-                    }
+                    break;
                 }
-                break;
-            }
-            case 'i':
-            {
-                if (status.isUnlocked() && !status.isComplete() && prevChar == 'r')
+                case UNLOCK_MESSAGE:
                 {
-                    // Add message about reward items
-                    if (!level.getRewardItems().isEmpty())
+                    if (!hasCompletedOne)
+                    {
+                        result.add(level.getUnlockMessage());
+                    }
+
+                    break;
+                }
+                case WAIVER_AMOUNT:
+                {
+                    if (status.isUnlocked() && !status.isComplete())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.level-description.waver-amount",
+                            "[value]", Integer.toString(level.getWaiverAmount())));
+                    }
+
+                    break;
+                }
+                case LEVEL_REWARD_TEXT:
+                {
+                    if (status.isUnlocked() && !status.isComplete())
+                    {
+                        result.add(level.getRewardText());
+                    }
+                    break;
+                }
+                case LEVEL_REWARD_OTHER:
+                {
+                    if (status.isUnlocked() && !status.isComplete())
+                    {
+                        if (level.getRewardExperience() > 0)
+                        {
+                            result.add(this.user.getTranslation("challenges.gui.level-description.experience-reward",
+                                    "[value]", Integer.toString(level.getRewardExperience())));
+                        }
+
+                        if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
+                        {
+                            result.add(this.user.getTranslation("challenges.gui.level-description.money-reward",
+                                "[value]", Integer.toString(level.getRewardMoney())));
+                        }
+                    }
+                    break;
+                }
+                case LEVEL_REWARD_ITEMS:
+                {
+                    if (status.isUnlocked() && !status.isComplete() && !level.getRewardItems().isEmpty())
                     {
                         result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
 
                         Utils.groupEqualItems(level.getRewardItems()).forEach(itemStack ->
-                        result.addAll(this.generateItemStackDescription(itemStack)));
+                            result.addAll(this.generateItemStackDescription(itemStack)));
                     }
-
-                    // Add message about reward commands
-                    if (!level.getRewardCommands().isEmpty())
+                    break;
+                }
+                case LEVEL_REWARD_COMMANDS:
+                {
+                    if (status.isUnlocked() && !status.isComplete() && !level.getRewardCommands().isEmpty())
                     {
                         result.add(this.user.getTranslation("challenges.gui.level-description.reward-commands"));
 
                         for (String command : level.getRewardCommands())
                         {
                             result.add(this.user.getTranslation("challenges.gui.descriptions.command",
-                                    "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
+                                "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
                         }
                     }
+                    break;
                 }
-                break;
             }
-            default:
-            {
-                break;
-            }
-            }
-
-            prevChar = c;
-        }
+        });
 
         result.replaceAll(x -> x.replace("[label]", this.topLabel));
 
@@ -836,7 +879,7 @@ public abstract class CommonGUI
 
 
     /**
-     * This method generates decsription for given item stack object.
+     * This method generates description for given item stack object.
      * @param itemStack Object which lore must be generated
      * @return List with generated description
      */

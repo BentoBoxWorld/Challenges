@@ -273,6 +273,28 @@ challenges:
                 library-lang: '&aLanguage: [lang]'
                 library-gamemode: '&aPrimary for [gamemode]'
 
+                lore:
+                  level: "Level string. | Represents translation 'challenges.gui.challenge-description.level'."
+                  status: "Status string. | Represents translation 'challenges.gui.challenge-description.completed'."
+                  count: "Completion count string. | Represents translation for 'challenges.gui.challenge-description.completed-times',  'challenges.gui.challenge-description.completed-times-of' and 'challenges.gui.challenge-description.maxed-reached'."
+                  description: "Description string. | Defined in challenges object - challenge.description."
+                  warnings: "Warning string. | Represents translation for: | 'challenges.gui.challenge-description.warning-items-take' | 'challenges.gui.challenge-description.objects-close-by' | 'challenges.gui.challenge-description.warning-entities-kill' | 'challenges.gui.challenge-description.warning-blocks-remove'."
+                  environment: "Environment string. | Defined in challenges object - challenge.environment."
+                  requirements: "Requirement string. | Represents translation for: | 'challenges.gui.challenge-description.required-level' | 'challenges.gui.challenge-description.required-money' | 'challenges.gui.challenge-description.required-experience' |  and challenge.requiredItems, challenge.requiredBlocks or challenge.requiredEntities."
+                  reward_text: "Reward string. | Defined in challenge.rewardText and challenge.repeatRewardText"
+                  reward_other: "Reward other String. | Represents translation for: | 'challenges.gui.challenge-description.experience-reward' | 'challenges.gui.challenge-description.money-reward' | 'challenges.gui.challenge-description.not-repeatable'."
+                  reward_items: "Reward Items. | List of items that will be rewarded defined in challenge.rewardItems and challenge.repeatRewardItems."
+                  reward_commands: "Reward Commands. | List of commands that will be rewarded defined in challenge.rewardCommands and challenge.repeatRewardCommands."
+
+                  level_status: "Status string. | Represents translation 'challenges.gui.level-description.completed'."
+                  challenge_count: "Completed challenge count string. | Represents translation for 'challenges.gui.level-description.completed-challenges-of'"
+                  unlock_message: "Unlock message string. | Defined in challenges Level object - challengeLevel.unlockMessage."
+                  waiver_amount: "Shippable challenge count to unlock next level string. | Represents translation for 'challenges.gui.level-description.waver-amount'"
+                  level_reward_text: "Reward string. | Defined in challengeLevel.rewardText"
+                  level_reward_other: "Reward other String. | Represents translation for: | 'challenges.gui.level-description.experience-reward' | 'challenges.gui.level-description.money-reward'."
+                  level_reward_items: "Reward Items. | List of items that will be rewarded defined in challengeLevel.rewardItems."
+                  level_reward_commands: "Reward Commands. | List of commands that will be rewarded defined in challengeLevel.rewardCommands."
+
             current-value: '|&6Current value: [value].'
             enabled: 'Active'
             disabled: 'Disabled'

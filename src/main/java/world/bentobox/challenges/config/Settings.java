@@ -1,7 +1,9 @@
 package world.bentobox.challenges.config;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -12,7 +14,12 @@ import world.bentobox.bentobox.api.configuration.ConfigEntry;
 import world.bentobox.bentobox.api.configuration.ConfigObject;
 import world.bentobox.bentobox.api.configuration.StoreAt;
 
+import world.bentobox.bentobox.database.objects.adapters.Adapter;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
+import world.bentobox.challenges.config.SettingsUtils.ChallengeLore;
+import world.bentobox.challenges.config.SettingsUtils.LevelLore;
+import world.bentobox.challenges.database.object.adapters.ChallengeLoreAdapter;
+import world.bentobox.challenges.database.object.adapters.LevelLoreAdapter;
 
 
 @StoreAt(filename="config.yml", path="addons/Challenges")
@@ -98,35 +105,41 @@ public class Settings implements ConfigObject
     @ConfigComment("one object from challenge description. If letter is not used, then its represented part")
     @ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
     @ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.")
-    @ConfigComment("List of letters and their meaning: ")
-    @ConfigComment(" - L - Level String: '*.level'")
-    @ConfigComment(" - S - Status String: '*.completed'")
-    @ConfigComment(" - T - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'")
-    @ConfigComment(" - D - Description String: defined in challenge object - challenge.description")
-    @ConfigComment(" - W - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'")
-    @ConfigComment(" - E - Environment String: defined in challenge object - challenge.environment")
-    @ConfigComment(" - Q - Requirement String: '*.required-level', '*.required-money', '*.required-experience'")
-    @ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
-    @ConfigComment("By adding 'i' after Q or R (requirements and rewards) will display list of items, blocks")
-    @ConfigComment("and entities that are defined in challenge and can be customized under 'challenges.gui.description.*'")
-    @ConfigEntry(path = "gui-settings.challenge-lore-message")
-    private String challengeLoreMessage = "LSTDEQiWRi";
+    @ConfigComment("List of values and their meaning: ")
+    @ConfigComment(" - LEVEL - Level String: '*.level'")
+    @ConfigComment(" - STATUS - Status String: '*.completed'")
+    @ConfigComment(" - COUNT - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'")
+    @ConfigComment(" - DESCRIPTION - Description String: defined in challenge object - challenge.description")
+    @ConfigComment(" - WARNINGS - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'")
+    @ConfigComment(" - ENVIRONMENT - Environment String: defined in challenge object - challenge.environment")
+    @ConfigComment(" - REQUIREMENTS - Requirement String: '*.required-level', '*.required-money', '*.required-experience' and items, blocks or entities")
+    @ConfigComment(" - REWARD_TEXT - Reward String: message that is defined in challenge.rewardTest and challenge.repeatRewardText")
+    @ConfigComment(" - REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
+    @ConfigComment(" - REWARD_ITEMS - Reward Items: List of items that will be rewarded.")
+    @ConfigComment(" - REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.")
+    @ConfigComment("Requirement and reward items, blocks and entities that are defined in challenge and can be customized under 'challenges.gui.item-description.*'")
+    @ConfigEntry(path = "gui-settings.challenge-lore")
+    @Adapter(ChallengeLoreAdapter.class)
+    private List<ChallengeLore> challengeLoreMessage = new ArrayList<>();
 
     @ConfigComment("")
     @ConfigComment("This string allows to change element order in Level description. Each letter represents")
     @ConfigComment("one object from level description. If letter is not used, then its represented part")
     @ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
     @ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.")
-    @ConfigComment("List of letters and their meaning: ")
-    @ConfigComment(" - S - Status String: '*.completed'")
-    @ConfigComment(" - T - Count of completed challenges String: '*.completed-challenges-of'")
-    @ConfigComment(" - D - Description String: defined in level object - challengeLevel.unlockMessage")
-    @ConfigComment(" - A - WaiverAmount String: '*.waver-amount'")
-    @ConfigComment(" - R - Reward String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
-    @ConfigComment("By adding 'i' after R (rewards) will display list of items that are defined in challenge")
-    @ConfigComment("and can be customized under 'challenges.gui.description.*'")
-    @ConfigEntry(path = "gui-settings.level-lore-message")
-    private String levelLoreMessage = "STDARi";
+    @ConfigComment("List of values and their meaning: ")
+    @ConfigComment(" - LEVEL_STATUS - Status String: '*.completed'")
+    @ConfigComment(" - CHALLENGE_COUNT - Count of completed challenges String: '*.completed-challenges-of'")
+    @ConfigComment(" - UNLOCK_MESSAGE - Description String: defined in level object - challengeLevel.unlockMessage")
+    @ConfigComment(" - WAIVER_AMOUNT - WaiverAmount String: '*.waver-amount'")
+    @ConfigComment(" - LEVEL_REWARD_TEXT - Reward String: message that is defined in challengeLevel.rewardText.")
+    @ConfigComment(" - LEVEL_REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward'")
+    @ConfigComment(" - LEVEL_REWARD_ITEMS - Reward Items: List of items that will be rewarded.")
+    @ConfigComment(" - LEVEL_REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.")
+    @ConfigComment("Reward items that are defined in challenge level and can be customized under 'challenges.gui.item-description.*'")
+    @ConfigEntry(path = "gui-settings.level-lore")
+    @Adapter(LevelLoreAdapter.class)
+    private List<LevelLore> levelLoreMessage = new ArrayList<>();
 
     @ConfigComment("")
     @ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
@@ -187,7 +200,7 @@ public class Settings implements ConfigObject
      * This method returns the challengeLoreMessage object.
      * @return the challengeLoreMessage object.
      */
-    public String getChallengeLoreMessage()
+    public List<ChallengeLore> getChallengeLoreMessage()
     {
         return challengeLoreMessage;
     }
@@ -271,7 +284,7 @@ public class Settings implements ConfigObject
      * This method returns the levelLoreMessage object.
      * @return the levelLoreMessage object.
      */
-    public String getLevelLoreMessage()
+    public List<LevelLore> getLevelLoreMessage()
     {
         return levelLoreMessage;
     }
@@ -455,7 +468,7 @@ public class Settings implements ConfigObject
      * This method sets the challengeLoreMessage object value.
      * @param challengeLoreMessage the challengeLoreMessage object new value.
      */
-    public void setChallengeLoreMessage(String challengeLoreMessage)
+    public void setChallengeLoreMessage(List<ChallengeLore> challengeLoreMessage)
     {
         this.challengeLoreMessage = challengeLoreMessage;
     }
@@ -465,7 +478,7 @@ public class Settings implements ConfigObject
      * This method sets the levelLoreMessage object value.
      * @param levelLoreMessage the levelLoreMessage object new value.
      */
-    public void setLevelLoreMessage(String levelLoreMessage)
+    public void setLevelLoreMessage(List<LevelLore> levelLoreMessage)
     {
         this.levelLoreMessage = levelLoreMessage;
     }
