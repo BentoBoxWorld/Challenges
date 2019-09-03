@@ -69,6 +69,10 @@ challenges:
                 edit-text-fields: '&aEdit Text Fields'
 
                 library-title: '&aDownloadable Libraries'
+
+                lore-add: '&aAdd Lore Element'
+                lore-remove: '&aRemove Lore Element'
+                lore-edit: '&aEdit Lore'
             challenges: '&6Challenges'
             game-modes: '&6Choose GameMode'
 
