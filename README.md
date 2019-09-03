@@ -17,6 +17,12 @@ Be aware that 0.8.0-SNAPSHOT stores data differently than it is in 0.7.5 and bel
 
 If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.bentobox.world)
 
+## Translations
+
+As most of BentoBox projects, Challenges Addon is translatable in any language. Everyone can contribute, and translate some parts of the addon in their language via [GitLocalize](https://gitlocalize.com/repo/2896).
+If your language is not in the list, please contact to developers via Discord and it will be added there.
+Unfortunately, default challenges come only in English translation. But with version 0.8.0 there will be access to different challenges libraries, where everyone could share their challenges with their translations. More information will come soon.
+
 ## How to use
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
