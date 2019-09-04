@@ -182,7 +182,7 @@ public class WebManager
 
 
 	/**
-	 * This method returns all library entries that are downlaoded.
+	 * This method returns all library entries that are downloaded.
 	 * @return existing Library entries.
 	 */
 	public List<LibraryEntry> getLibraryEntries()
