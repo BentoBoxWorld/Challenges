@@ -45,7 +45,7 @@ Admins can create their own challenges or import some default challenges, which 
 
 ## Config.yml
 
-As most of BenotBox addons, config can be edited only when server is stopped. Otherwise all changes will be overwritten by server.
+As most of BentoBox addons, config can be edited only when server is stopped. Otherwise all changes will be overwritten by server.
 The config.yml has the following sections:
 
 * **Commands** - ability to enable */challenges* command. This option change is possible only via configuration and requires server restart.
