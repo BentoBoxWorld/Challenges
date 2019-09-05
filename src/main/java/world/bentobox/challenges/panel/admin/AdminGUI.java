@@ -46,6 +46,11 @@ public class AdminGUI extends CommonGUI
      */
     private boolean resetAllMode;
 
+	/**
+	 * This indicate if wipe button should clear all data, or only challenges.
+	 */
+	private boolean wipeAll;
+
 
     // ---------------------------------------------------------------------
     // Section: Enums
@@ -154,7 +159,15 @@ public class AdminGUI extends CommonGUI
         panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
 
         // Button that deletes everything from challenges addon
-        panelBuilder.item(34, this.createButton(Button.CHALLENGE_WIPE));
+
+		if (this.wipeAll)
+		{
+			panelBuilder.item(34, this.createButton(Button.COMPLETE_WIPE));
+		}
+		else
+		{
+			panelBuilder.item(34, this.createButton(Button.CHALLENGE_WIPE));
+		}
 
         panelBuilder.item(44, this.returnButton);
 
@@ -451,11 +464,11 @@ public class AdminGUI extends CommonGUI
 
                 if (clickType.isRightClick())
                 {
-                    panel.getInventory().setItem(slot, this.createButton(Button.CHALLENGE_WIPE).getItem());
-                }
+                	this.wipeAll = false;
+					this.build();
+				}
                 else
                 {
-
                     new ConfirmationGUI(this.user, value -> {
                         if (value)
                         {
@@ -484,7 +497,8 @@ public class AdminGUI extends CommonGUI
 
                 if (clickType.isRightClick())
                 {
-                    panel.getInventory().setItem(slot, this.createButton(Button.COMPLETE_WIPE).getItem());
+                	this.wipeAll = true;
+                    this.build();
                 }
                 else
                 {
