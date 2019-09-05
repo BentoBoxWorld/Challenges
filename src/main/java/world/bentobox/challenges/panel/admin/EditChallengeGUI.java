@@ -358,12 +358,16 @@ public class EditChallengeGUI extends CommonGUI
                 if (clickType.isRightClick())
                 {
                     this.challenge.setChallengeType(
-                            this.getPreviousType(this.challenge.getChallengeType()));
+                        Utils.getPreviousValue(
+                            Challenge.ChallengeType.values(),
+                            this.challenge.getChallengeType()));
                 }
                 else
                 {
                     this.challenge.setChallengeType(
-                            this.getNextType(this.challenge.getChallengeType()));
+                        Utils.getNextValue(
+                            Challenge.ChallengeType.values(),
+                            this.challenge.getChallengeType()));
                 }
 
                 this.build();
@@ -1202,62 +1206,6 @@ public class EditChallengeGUI extends CommonGUI
                 glow(glow).
                 clickHandler(clickHandler).
                 build();
-    }
-
-
-    /**
-     * This method returns next challenge type from given.
-     * @param type Given challenge type.
-     * @return Next Challenge Type.
-     */
-    private Challenge.ChallengeType getNextType(Challenge.ChallengeType type)
-    {
-        Challenge.ChallengeType[] values = Challenge.ChallengeType.values();
-
-        for (int i = 0; i < values.length; i++)
-        {
-            if (values[i].equals(type))
-            {
-                if (i + 1 == values.length)
-                {
-                    return values[0];
-                }
-                else
-                {
-                    return values[i + 1];
-                }
-            }
-        }
-
-        return type;
-    }
-
-
-    /**
-     * This method returns previous challenge type from given.
-     * @param type Given challenge type.
-     * @return Previous Challenge Type.
-     */
-    private Challenge.ChallengeType getPreviousType(Challenge.ChallengeType type)
-    {
-        Challenge.ChallengeType[] values = Challenge.ChallengeType.values();
-
-        for (int i = 0; i < values.length; i++)
-        {
-            if (values[i].equals(type))
-            {
-                if (i > 0)
-                {
-                    return values[i - 1];
-                }
-                else
-                {
-                    return values[values.length - 1];
-                }
-            }
-        }
-
-        return type;
     }
 
 
