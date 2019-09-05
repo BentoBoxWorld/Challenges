@@ -182,7 +182,7 @@ public class WebManager
 
 
 	/**
-	 * This method returns all library entries that are downlaoded.
+	 * This method returns all library entries that are downloaded.
 	 * @return existing Library entries.
 	 */
 	public List<LibraryEntry> getLibraryEntries()
@@ -191,6 +191,16 @@ public class WebManager
 		entries.sort(Comparator.comparingInt(LibraryEntry::getSlot));
 
 		return entries;
+	}
+
+
+	/**
+	 * This static method returns if GitHub data downloader is enabled or not.
+	 * @return {@code true} if data downloader is enabled, {@code false} - otherwise.
+	 */
+	public static boolean isEnabled()
+	{
+		return BentoBox.getInstance().getWebManager().getGitHub().isPresent();
 	}
 
 

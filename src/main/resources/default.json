@@ -5,7 +5,7 @@
       "friendlyName": "Potato farm",
       "deployed": true,
       "description": [
-        "Create simple potato farm"
+        "Create a simple potato farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: POTATO\n",
       "order": 1,
@@ -94,7 +94,7 @@
       "friendlyName": "Villager Breeder",
       "deployed": true,
       "description": [
-        "Start to create slave army."
+        "Start to create a slave army."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: EMERALD_BLOCK\n",
       "order": 1,
@@ -138,7 +138,7 @@
       "friendlyName": "Beetroot farm",
       "deployed": true,
       "description": [
-        "Create simple beetroot farm"
+        "Create a simple beetroot farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: BEETROOT\n",
       "order": 1,
@@ -181,7 +181,7 @@
       "friendlyName": "Slime farm",
       "deployed": true,
       "description": [
-        "Create slime farm to get some slime blocks"
+        "Create a slime farm to get some slime blocks"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: SLIME_BLOCK\n",
       "order": 1,
@@ -204,7 +204,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "Get some nether quartz ore and extra mending book",
+      "rewardText": "Get some nether quartz ore and an extra mending book",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: ENCHANTED_BOOK\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: NETHER_QUARTZ_ORE\n  amount: 16\n"
@@ -362,7 +362,7 @@
       "friendlyName": "Carrot farm",
       "deployed": true,
       "description": [
-        "Create simple Carrot farm"
+        "Create a simple carrot farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: CARROT\n",
       "order": 1,
@@ -441,7 +441,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "There are never too much diamonds",
+      "rewardText": "There are never too many diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: DIAMOND_ORE\n  amount: 4\n"
       ],
@@ -463,7 +463,7 @@
       "friendlyName": "Pumpkin farm",
       "deployed": true,
       "description": [
-        "Create simple Pumpkin farm"
+        "Create a simple Pumpkin farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: PUMPKIN\n",
       "order": 2,
@@ -506,7 +506,7 @@
       "friendlyName": "Cactus farm",
       "deployed": true,
       "description": [
-        "Create simple Cactus farm"
+        "Create a simple cactus farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: CACTUS\n",
       "order": 2,
@@ -549,7 +549,7 @@
       "friendlyName": "Egg Collector",
       "deployed": true,
       "description": [
-        "Create Chicken farm and collect their eggs."
+        "Create a chicken farm and collect their eggs."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: EGG\n",
       "order": 2,
@@ -594,7 +594,7 @@
       "friendlyName": "Tree farm",
       "deployed": true,
       "description": [
-        "Create simple tree farm"
+        "Create a simple tree farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: OAK_SAPLING\n",
       "order": 2,
@@ -682,7 +682,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Diamond and some emeralds for your disks",
+      "repeatRewardText": "A diamond and some emeralds for your disks",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -698,7 +698,7 @@
       "friendlyName": "Sugarcane farm",
       "deployed": true,
       "description": [
-        "Create simple sugarcane farm"
+        "Create a simple sugarcane farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: SUGAR_CANE\n",
       "order": 2,
@@ -721,7 +721,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "This sand will allow to increase your farm size.",
+      "rewardText": "This sand will help you to increase your farm size.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: SAND\n  amount: 16\n"
       ],
@@ -741,7 +741,7 @@
       "friendlyName": "Animal farm",
       "deployed": true,
       "description": [
-        "Create grass field and wait for animals to spawn."
+        "Create a grass field and wait for animals to spawn."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: GRASS_BLOCK\n",
       "order": 2,
@@ -790,7 +790,7 @@
       "friendlyName": "Mushroom farm",
       "deployed": true,
       "description": [
-        "Create simple mushroom farm"
+        "Create a simple mushroom farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: BROWN_MUSHROOM\n",
       "order": 2,
@@ -1002,7 +1002,7 @@
       "friendlyName": "Melon farm",
       "deployed": true,
       "description": [
-        "Create simple Melon farm"
+        "Create a simple Melon farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: MELON\n",
       "order": 2,
@@ -1045,7 +1045,7 @@
       "friendlyName": "Mob farm",
       "deployed": true,
       "description": [
-        "Create dark place and spawn some hostile mobs."
+        "Create a dark place and spawn some hostile mobs."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: STONE\n",
       "order": 2,
@@ -1398,7 +1398,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 20,
-      "rewardText": "Some diamonds and elytra for your efforts.",
+      "rewardText": "Some diamonds and an elytra for your efforts.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: DIAMOND_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: ELYTRA\n"
@@ -1692,7 +1692,7 @@
       "friendlyName": "Diamond Age",
       "deployed": true,
       "description": [
-        "Craft Diamond Tools and Armor"
+        "Craft diamond tools and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: DIAMOND\n",
       "order": 4,
@@ -1745,7 +1745,7 @@
       "friendlyName": "Gold Age",
       "deployed": true,
       "description": [
-        "Craft Gold Tools and Armor"
+        "Craft gold tools and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: GOLD_INGOT\n",
       "order": 4,
@@ -1881,7 +1881,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "Exchange your terracotta to shulker box",
+      "rewardText": "Exchange your terracotta to a shulker box",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: SHULKER_BOX\n"
       ],
@@ -1889,7 +1889,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your terracotta to shulker shell",
+      "repeatRewardText": "Exchange your terracotta to a shulker shell",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1903,7 +1903,7 @@
       "friendlyName": "Iron Age",
       "deployed": true,
       "description": [
-        "Craft Iron Tools and Armor"
+        "Craft iron tools and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: IRON_INGOT\n",
       "order": 4,
@@ -1956,7 +1956,7 @@
       "friendlyName": "Cracked stone bricks",
       "deployed": true,
       "description": [
-        "Smelt some bricks to get cracked briks."
+        "Smelt some bricks to get cracked stone bricks."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: CRACKED_STONE_BRICKS\n",
       "order": 4,
@@ -2001,7 +2001,7 @@
       "friendlyName": "Logs Exchange",
       "deployed": true,
       "description": [
-        "Cut trees and collect some logs"
+        "Fell trees and collect some logs"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: OAK_LOG\n",
       "order": 4,
@@ -2074,7 +2074,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "Exchaning drops will provide some useful materials.",
+      "rewardText": "Exchanging drops will provide some useful materials.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: REDSTONE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: IRON_ORE\n  amount: 5\n",
@@ -2136,7 +2136,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 0,
       "searchRadius": 10,
-      "rewardText": "Exchange your glass to shulker box",
+      "rewardText": "Exchange your glass to a shulker box",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: SHULKER_BOX\n"
       ],
@@ -2144,7 +2144,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your glass to shulker shell",
+      "repeatRewardText": "Exchange your glass to a shulker shell",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -2269,7 +2269,7 @@
       "takeMoney": false,
       "requiredIslandLevel": 20,
       "searchRadius": 10,
-      "rewardText": "Now you can create nether portal",
+      "rewardText": "Now you can create a nether portal",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: OBSIDIAN\n  amount: 10\n"
       ],
@@ -2289,7 +2289,7 @@
       "friendlyName": "Beaconator",
       "deployed": true,
       "description": [
-        "Create beacon with iron base"
+        "Create a beacon with iron base"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: BEACON\n",
       "order": 6,
@@ -2611,7 +2611,7 @@
       "friendlyName": "Water Zoo",
       "deployed": true,
       "description": [
-        "Create water animal zoo"
+        "Create a water animal zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1631\n  type: BLUE_STAINED_GLASS_PANE\n",
       "order": 7,

@@ -3,7 +3,11 @@ package world.bentobox.challenges.panel.admin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.conversations.*;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
+import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
 
@@ -20,6 +24,7 @@ import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
+import world.bentobox.challenges.web.WebManager;
 
 
 /**
@@ -448,9 +453,23 @@ public class AdminGUI extends CommonGUI
 
             name = this.user.getTranslation("challenges.gui.buttons.admin.library");
             description = this.user.getTranslation("challenges.gui.descriptions.admin.library");
-            icon = new ItemStack(Material.COBWEB);
+
+            if (WebManager.isEnabled())
+            {
+                icon = new ItemStack(Material.COBWEB);
+            }
+            else
+            {
+                description += "|" + this.user.getTranslation("challenges.gui.descriptions.admin.download-disabled");
+                icon = new ItemStack(Material.STRUCTURE_VOID);
+            }
+
             clickHandler = (panel, user, clickType, slot) -> {
-                ListLibraryGUI.open(this);
+                if (WebManager.isEnabled())
+                {
+                    ListLibraryGUI.open(this);
+                }
+
                 return true;
             };
             glow = false;

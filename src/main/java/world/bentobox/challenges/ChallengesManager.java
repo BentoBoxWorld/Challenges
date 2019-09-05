@@ -95,6 +95,45 @@ public class ChallengesManager
 
 
     // ---------------------------------------------------------------------
+    // Section: Comparators
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * This comparator orders challenges by their level, order and name.
+     */
+    private final Comparator<Challenge> challengeComparator = (o1, o2) -> {
+        if (o1.getLevel().equals(o2.getLevel()))
+        {
+            if (o1.getOrder() == o2.getOrder())
+            {
+                // If orders are equal, sort by unique Id
+                return o1.getUniqueId().compareToIgnoreCase(o2.getUniqueId());
+            }
+            else
+            {
+                // If levels are equal, sort them by order numbers.
+                return Integer.compare(o1.getOrder(), o2.getOrder());
+            }
+        }
+        else
+        {
+            if (o1.getLevel().isEmpty() || o2.getLevel().isEmpty())
+            {
+                // If exist free level challenge, then it should be at the start.
+                return Boolean.compare(o2.getLevel().isEmpty(), o1.getLevel().isEmpty());
+            }
+            else
+            {
+                // Sort by challenges level order numbers
+                return Integer.compare(this.getLevel(o1.getLevel()).getOrder(),
+                    this.getLevel(o2.getLevel()).getOrder());
+            }
+        }
+    };
+
+
+    // ---------------------------------------------------------------------
     // Section: Constructor
     // ---------------------------------------------------------------------
 
@@ -1385,7 +1424,7 @@ public class ChallengesManager
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
             this.challengeCacheData.values().stream().
-                sorted(Comparator.comparing(Challenge::getOrder)).
+                sorted(this.challengeComparator).
                 filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
                 map(Challenge::getUniqueId).
                 collect(Collectors.toList())).
@@ -1403,7 +1442,7 @@ public class ChallengesManager
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
             this.challengeCacheData.values().stream().
-                sorted(Comparator.comparing(Challenge::getOrder)).
+                sorted(this.challengeComparator).
                 filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
                 collect(Collectors.toList())).
             orElse(Collections.emptyList());

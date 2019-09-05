@@ -169,6 +169,7 @@ challenges:
                 complete-wipe: 'Wipe Addon Databases'
 
                 library: 'Web Library'
+                download: 'Download Libraries'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -276,6 +277,9 @@ challenges:
                 library-version: '&9Made on Challenges [version]'
                 library-lang: '&aLanguage: [lang]'
                 library-gamemode: '&aPrimary for [gamemode]'
+
+                download: 'Allows manually update available challenges libraries. |Right click to enable cache clearing.'
+                download-disabled: 'GitHub data downloader is disabled in BentoBox. Without it, you cannot use Libraries!'
 
                 lore:
                   level: "Level string. | Represents translation 'challenges.gui.challenge-description.level'."

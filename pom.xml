@@ -259,6 +259,12 @@
 				<version>3.2.1</version>
 				<configuration>
 					<minimizeJar>true</minimizeJar>
+					<relocations>
+						<relocation>
+							<pattern>io.github.TheBusyBiscuit.GitHubWebAPI4Java</pattern>
+							<shadedPattern>world.bentobox.bentobox.api.github</shadedPattern>
+						</relocation>
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>

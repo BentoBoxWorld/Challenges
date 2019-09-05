@@ -2,6 +2,7 @@ package world.bentobox.challenges.panel.admin;
 
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,9 +116,55 @@ public class ListLibraryGUI extends CommonGUI
             panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
         }
 
+        panelBuilder.item(4, this.createDownloadNow());
         panelBuilder.item(44, this.returnButton);
 
         panelBuilder.build();
+    }
+
+
+    /**
+     * This creates download now button, that can skip waiting for automatic request.
+     * @return PanelItem button that allows to manually download libraries.
+     */
+    private PanelItem createDownloadNow()
+    {
+        List<String> description = new ArrayList<>(2);
+        description.add(this.user.getTranslation("challenges.gui.descriptions.admin.download"));
+        description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+            "[value]",
+            this.clearCache ?
+                this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                this.user.getTranslation("challenges.gui.descriptions.disabled")));
+
+        PanelItemBuilder itemBuilder = new PanelItemBuilder().
+            name(this.user.getTranslation("challenges.gui.buttons.admin.download")).
+            description(GuiUtils.stringSplit(description, this.addon.getChallengesSettings().getLoreLineLength())).
+            icon(Material.HOPPER).
+            glow(this.clearCache);
+
+        itemBuilder.clickHandler((panel, user1, clickType, slot) ->
+        {
+            if (clickType.isRightClick())
+            {
+                this.clearCache = !this.clearCache;
+                panel.getInventory().setItem(slot, this.createDownloadNow().getItem());
+            }
+            else
+            {
+                this.addon.getWebManager().requestCatalogGitHubData(false);
+
+                // add some delay to rebuilding gui.
+                this.addon.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(
+                    this.addon.getPlugin(),
+                    this::build,
+                    100L);
+            }
+
+            return true;
+        });
+
+        return itemBuilder.build();
     }
 
 
@@ -199,6 +246,10 @@ public class ListLibraryGUI extends CommonGUI
 // Section: Instance Variables
 // ---------------------------------------------------------------------
 
+    /**
+     * Indicates if download now button should trigger cache clearing.
+     */
+    private boolean clearCache;
 
     /**
      * This variable will protect against spam-click.
