@@ -15,10 +15,12 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
+import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
 import world.bentobox.challenges.panel.util.SelectBlocksGUI;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -90,8 +92,9 @@ public class EditSettingsGUI extends CommonGUI
 
         panelBuilder.item(28, this.getSettingsButton(Button.BROADCAST));
 
-        panelBuilder.item(20, this.getSettingsButton(Button.GLOW_COMPLETED));
-        panelBuilder.item(29, this.getSettingsButton(Button.REMOVE_COMPLETED));
+        panelBuilder.item(11, this.getSettingsButton(Button.GLOW_COMPLETED));
+        panelBuilder.item(20, this.getSettingsButton(Button.REMOVE_COMPLETED));
+        panelBuilder.item(29, this.getSettingsButton(Button.VISIBILITY_MODE));
 
         panelBuilder.item(21, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
         panelBuilder.item(30, this.getSettingsButton(Button.FREE_AT_TOP));
@@ -490,6 +493,61 @@ public class EditSettingsGUI extends CommonGUI
             glow = false;
             break;
         }
+        case VISIBILITY_MODE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.visibility-mode");
+
+            List<String> values = new ArrayList<>(5);
+            values.add(this.user.getTranslation("challenges.gui.descriptions.admin.visibility-mode"));
+
+            values.add((this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE) ? "&2" : "&c") +
+                this.user.getTranslation("challenges.gui.descriptions.visibility.visible"));
+            values.add((this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN) ? "&2" : "&c") +
+                this.user.getTranslation("challenges.gui.descriptions.visibility.hidden"));
+            values.add((this.settings.getVisibilityMode().equals(VisibilityMode.TOGGLEABLE) ? "&2" : "&c") +
+                this.user.getTranslation("challenges.gui.descriptions.visibility.toggleable"));
+
+            values.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                "[value]",this.settings.getVisibilityMode().name()));
+
+            description = values;
+
+            if (this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE))
+            {
+                icon = new ItemStack(Material.OAK_PLANKS);
+            }
+            else if (this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN))
+            {
+                icon = new ItemStack(Material.OAK_SLAB);
+            }
+            else
+            {
+                icon = new ItemStack(Material.OAK_BUTTON);
+            }
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (clickType.isRightClick())
+                {
+                    this.settings.setVisibilityMode(
+                        Utils.getPreviousValue(VisibilityMode.values(),
+                            this.settings.getVisibilityMode()));
+                }
+                else
+                {
+                    this.settings.setVisibilityMode(
+                        Utils.getNextValue(VisibilityMode.values(),
+                            this.settings.getVisibilityMode()));
+                }
+
+                // Rebuild just this icon
+                panel.getInventory().setItem(slot,
+                    this.getSettingsButton(button).getItem());
+
+                return true;
+            };
+            glow = false;
+            break;
+        }
         default:
             return new PanelItemBuilder().build();
         }
@@ -529,7 +587,12 @@ public class EditSettingsGUI extends CommonGUI
         GLOW_COMPLETED,
         LOCKED_LEVEL_ICON,
         ENABLE_TITLE,
-        TITLE_SHOWTIME
+        TITLE_SHOWTIME,
+
+        /**
+         * This allows to switch between different challenges visibility modes.
+         */
+        VISIBILITY_MODE
     }
 
 

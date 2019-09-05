@@ -29,6 +29,27 @@ public class SettingsUtils
 
 
 	/**
+	 * This enum holds all possible values for displaying challenges. It allows to
+	 * enable/disable displaying un-deployed challenges.
+	 */
+	public enum VisibilityMode
+	{
+		/**
+		 * Show all challenges regardless of their deployment status.
+		 */
+		VISIBLE,
+		/**
+		 * Hide all undeployed challenges in User GUI.
+		 */
+		HIDDEN,
+		/**
+		 * Allows users to switch them on/off in GUI.
+		 */
+		TOGGLEABLE
+	}
+
+
+	/**
 	 * This enum holds all possible values for Challenge Lore Message.
 	 */
 	public enum ChallengeLore

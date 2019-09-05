@@ -12,6 +12,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.tasks.TryToComplete;
@@ -151,6 +152,12 @@ public class ChallengesGUI extends CommonGUI
 				this.challengesManager.isChallengeComplete(this.user, this.world, challenge));
 		}
 
+		// Remove all undeployed challenges if VisibilityMode is set to Hidden.
+		if (this.addon.getChallengesSettings().getVisibilityMode().equals(VisibilityMode.HIDDEN))
+		{
+			freeChallenges.removeIf(challenge -> !challenge.isDeployed());
+		}
+
 		final int freeChallengesCount = freeChallenges.size();
 
 		if (freeChallengesCount > 18)
@@ -219,6 +226,12 @@ public class ChallengesGUI extends CommonGUI
 			{
 				challenges.removeIf(challenge -> !challenge.isRepeatable() &&
 					this.challengesManager.isChallengeComplete(this.user, this.world, challenge));
+			}
+
+			// Remove all undeployed challenges if VisibilityMode is set to Hidden.
+			if (this.addon.getChallengesSettings().getVisibilityMode().equals(VisibilityMode.HIDDEN))
+			{
+				challenges.removeIf(challenge -> !challenge.isDeployed());
 			}
 
 			final int challengesCount = challenges.size();

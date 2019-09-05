@@ -43,6 +43,14 @@ gui-settings:
   # Add enchanted glow to completed challenges
   add-completed-glow: true
   #
+  # This variable allows to choose which Challenges users can see in Challenges GUI.
+  # Valid values are:
+  #     'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.
+  #     'HIDDEN' - shows only deployed challenges.
+  #     'TOGGLEABLE' - there will be button in GUI that allows users to switch from ALL modes.
+  # TOGGLEABLE - Currently not implemented.
+  undeployed-view-mode: VISIBLE
+  #
   # This allows to change default locked level icon. This option may be
   # overwritten by each challenge level. If challenge level has specified
   # their locked level icon, then it will be used, instead of this one.

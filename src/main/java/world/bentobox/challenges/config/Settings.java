@@ -18,6 +18,7 @@ import world.bentobox.bentobox.database.objects.adapters.Adapter;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.config.SettingsUtils.ChallengeLore;
 import world.bentobox.challenges.config.SettingsUtils.LevelLore;
+import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.adapters.ChallengeLoreAdapter;
 import world.bentobox.challenges.database.object.adapters.LevelLoreAdapter;
 
@@ -81,6 +82,16 @@ public class Settings implements ConfigObject
     @ConfigComment("Add enchanted glow to completed challenges")
     @ConfigEntry(path = "gui-settings.add-completed-glow")
     private boolean addCompletedGlow = true;
+
+    @ConfigComment("")
+    @ConfigComment("This variable allows to choose which Challenges users can see in Challenges GUI.")
+    @ConfigComment("Valid values are:")
+    @ConfigComment("    'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.")
+    @ConfigComment("    'HIDDEN' - shows only deployed challenges.")
+    @ConfigComment("    'TOGGLEABLE' - there will be button in GUI that allows users to switch from ALL modes.")
+    @ConfigComment("TOGGLEABLE - Currently not implemented.")
+    @ConfigEntry(path = "gui-settings.undeployed-view-mode")
+    private VisibilityMode visibilityMode = VisibilityMode.VISIBLE;
 
     @ConfigComment("")
     @ConfigComment("This allows to change default locked level icon. This option may be")
@@ -191,9 +202,9 @@ public class Settings implements ConfigObject
     private String configVersion = "v3";
 
 
-    // ---------------------------------------------------------------------
-    // Section: Methods
-    // ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// Section: Getters
+// ---------------------------------------------------------------------
 
 
     /**
@@ -398,6 +409,21 @@ public class Settings implements ConfigObject
     {
         return autoSaveTimer;
     }
+
+
+    /**
+     * This method returns the visibilityMode value.
+     * @return the value of visibilityMode.
+     */
+    public VisibilityMode getVisibilityMode()
+    {
+        return this.visibilityMode;
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Setters
+// ---------------------------------------------------------------------
 
 
     /**
@@ -606,5 +632,16 @@ public class Settings implements ConfigObject
     public void setLifeSpan(int lifeSpan)
     {
         this.lifeSpan = lifeSpan;
+    }
+
+
+    /**
+     * This method sets the visibilityMode value.
+     * @param visibilityMode the visibilityMode new value.
+     *
+     */
+    public void setVisibilityMode(VisibilityMode visibilityMode)
+    {
+        this.visibilityMode = visibilityMode;
     }
 }
