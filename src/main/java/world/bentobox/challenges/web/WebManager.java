@@ -194,6 +194,16 @@ public class WebManager
 	}
 
 
+	/**
+	 * This static method returns if GitHub data downloader is enabled or not.
+	 * @return {@code true} if data downloader is enabled, {@code false} - otherwise.
+	 */
+	public static boolean isEnabled()
+	{
+		return BentoBox.getInstance().getWebManager().getGitHub().isPresent();
+	}
+
+
 // ---------------------------------------------------------------------
 // Section: Variables
 // ---------------------------------------------------------------------
