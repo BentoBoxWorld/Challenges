@@ -488,12 +488,17 @@ public class ChallengesManager
 
     /**
      * This method removes all challenges addon data from Database.
+     * @param complete Remove also user data.
      */
-    public void wipeDatabase()
+    public void wipeDatabase(boolean complete)
     {
         this.wipeLevels();
         this.wipeChallenges();
-        this.wipePlayers();
+
+        if (complete)
+        {
+            this.wipePlayers();
+        }
     }
 
 
@@ -527,7 +532,7 @@ public class ChallengesManager
      * This method collects all data from players database and removes them.
      * Also clears players cache data.
      */
-    private void wipePlayers()
+    public void wipePlayers()
     {
         List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
 

@@ -167,6 +167,8 @@ challenges:
                 default-import: 'Import Default Challenges'
                 default-export: 'Export Existing Challenges'
                 complete-wipe: 'Wipe Addon Databases'
+                challenge-wipe: 'Wipe Challenges Database'
+                players-wipe: 'Wipe User Database'
 
                 library: 'Web Library'
                 download: 'Download Libraries'
@@ -270,6 +272,9 @@ challenges:
                 default-import: 'Allows to import default challenges.'
                 default-export: 'Allows to export existing challenges into defaults.json file.'
                 complete-wipe: 'Allows to completely clear all challenges addon databases. Includes player data!'
+
+                challenge-wipe: 'Allows to completely clear challenges and their level databases!'
+                players-wipe: 'Allows to completely clear player database!'
 
                 library: 'Opens GUI that shows all available public Challenges Libraries.'
 
@@ -401,6 +406,10 @@ challenges:
             you-added: 'You added one [thing] to the challenge'
             challenge-created: '[challenge]&r created!'
             complete-wipe: '&cHope you have backups, as you just empty all Challenges Addon databases!'
+
+            challenge-wipe: '&cHope you have backups, as you just empty Challenges and their levels from databases!'
+            players-wipe: '&cHope you have backups, as you just empty player completed challenges from databases!'
+
             completed: '&2You completed challenge [name] for [player]!'
             already-completed: '&2This challenge was already completed!'
             reset: '&2You reset challenge [name] for [player]!'

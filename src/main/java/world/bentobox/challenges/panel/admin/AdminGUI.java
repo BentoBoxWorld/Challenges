@@ -68,7 +68,21 @@ public class AdminGUI extends CommonGUI
         EDIT_SETTINGS,
         DEFAULT_IMPORT_CHALLENGES,
         DEFAULT_EXPORT_CHALLENGES,
+        /**
+         * Allows to remove whole database
+         */
         COMPLETE_WIPE,
+        /**
+         * Allows to remove only challenges and levels
+         */
+        CHALLENGE_WIPE,
+        /**
+         * Allows to remove only players data
+         */
+        USER_WIPE,
+        /**
+         * Allows to access Web Library
+         */
         LIBRARY
     }
 
@@ -113,6 +127,9 @@ public class AdminGUI extends CommonGUI
         panelBuilder.item(10, this.createButton(Button.COMPLETE_USER_CHALLENGES));
         panelBuilder.item(19, this.createButton(Button.RESET_USER_CHALLENGES));
 
+        // Add All Player Data removal.
+        panelBuilder.item(28, this.createButton(Button.USER_WIPE));
+
         // Add Challenges
         panelBuilder.item(12, this.createButton(Button.ADD_CHALLENGE));
         panelBuilder.item(13, this.createButton(Button.ADD_LEVEL));
@@ -137,7 +154,7 @@ public class AdminGUI extends CommonGUI
         panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
 
         // Button that deletes everything from challenges addon
-        panelBuilder.item(34, this.createButton(Button.COMPLETE_WIPE));
+        panelBuilder.item(34, this.createButton(Button.CHALLENGE_WIPE));
 
         panelBuilder.item(44, this.returnButton);
 
@@ -431,11 +448,77 @@ public class AdminGUI extends CommonGUI
             description = this.user.getTranslation("challenges.gui.descriptions.admin.complete-wipe");
             icon = new ItemStack(Material.TNT);
             clickHandler = (panel, user, clickType, slot) -> {
+
+                if (clickType.isRightClick())
+                {
+                    panel.getInventory().setItem(slot, this.createButton(Button.CHALLENGE_WIPE).getItem());
+                }
+                else
+                {
+
+                    new ConfirmationGUI(this.user, value -> {
+                        if (value)
+                        {
+                            this.addon.getChallengesManager().wipeDatabase(false);
+                            this.user.sendMessage("challenges.messages.admin.complete-wipe");
+                        }
+
+                        this.build();
+                    });
+                }
+
+                return true;
+            };
+            glow = true;
+
+            break;
+        }
+        case CHALLENGE_WIPE:
+        {
+            permissionSuffix = WIPE;
+
+            name = this.user.getTranslation("challenges.gui.buttons.admin.challenge-wipe");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.challenge-wipe");
+            icon = new ItemStack(Material.TNT);
+            clickHandler = (panel, user, clickType, slot) -> {
+
+                if (clickType.isRightClick())
+                {
+                    panel.getInventory().setItem(slot, this.createButton(Button.COMPLETE_WIPE).getItem());
+                }
+                else
+                {
+                    new ConfirmationGUI(this.user, value -> {
+                        if (value)
+                        {
+                            this.addon.getChallengesManager().wipeDatabase(false);
+                            this.user.sendMessage("challenges.messages.admin.challenge-wipe");
+                        }
+
+                        this.build();
+                    });
+                }
+
+                return true;
+            };
+            glow = false;
+
+            break;
+        }
+        case USER_WIPE:
+        {
+            permissionSuffix = WIPE;
+
+            name = this.user.getTranslation("challenges.gui.buttons.admin.players-wipe");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.players-wipe");
+            icon = new ItemStack(Material.TNT);
+            clickHandler = (panel, user, clickType, slot) -> {
+
                 new ConfirmationGUI(this.user, value -> {
                     if (value)
                     {
-                        this.addon.getChallengesManager().wipeDatabase();
-                        this.user.sendMessage("challenges.messages.admin.complete-wipe");
+                        this.addon.getChallengesManager().wipePlayers();
+                        this.user.sendMessage("challenges.messages.admin.players-wipe");
                     }
 
                     this.build();
