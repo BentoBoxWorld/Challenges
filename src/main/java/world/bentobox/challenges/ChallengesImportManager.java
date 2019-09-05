@@ -331,7 +331,7 @@ public class ChallengesImportManager
 	private final class DefaultJSONHandler
     {
 		/**
-		 * This constructor inits JSON builder that will be used to parese challenges.
+		 * This constructor inits JSON builder that will be used to parse challenges.
 		 * @param addon Challenges Adddon
 		 */
 		DefaultJSONHandler(ChallengesAddon addon)
