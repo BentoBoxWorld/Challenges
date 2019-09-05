@@ -159,6 +159,10 @@ challenges:
         type: チャレンジタイプ
         value: 値
         waiver-amount: 権利放棄額
+        download: ライブラリをダウンロードする
+        challenge-wipe: ワイプチャレンジデータベース
+        players-wipe: ユーザーデータベースのワイプ
+        visibility-mode: チャレンジ表示モード
       increase: 増加する
       next: 次
       previous: 前
@@ -300,6 +304,25 @@ challenges:
             | 「challenges.gui.challenge-description.money-reward」 | 「challenges.gui.challenge-description.not-repeatable」。
           level_reward_other: 他の文字列に報酬を与えます。 |次の翻訳を表します| 「challenges.gui.level-description.experience-reward」
             | 「challenges.gui.level-description.money-reward」。
+          level: レベル文字列。 |翻訳「challenges.gui.challenge-description.level」を表します。
+          status: ステータス文字列。 |翻訳「challenges.gui.challenge-description.completed」を表します。
+          count: 完了カウント文字列。 | 「challenges.gui.challenge-description.completed-times」、「challenges.gui.challenge-description.completed-times-of」、および「challenges.gui.challenge-description.maxed-reached」の翻訳を表します。
+          environment: 環境ストリング。 |チャレンジオブジェクトで定義されている-challenge.environment。
+          reward_text: 報酬の文字列。 | challenge.rewardTextおよびchallenge.repeatRewardTextで定義されています
+          reward_items: 報酬アイテム。 | challenge.rewardItemsおよびchallenge.repeatRewardItemsで定義された報酬が与えられるアイテムのリスト。
+          reward_commands: 報酬コマンド。 | challenge.rewardCommandsおよびchallenge.repeatRewardCommandsで定義されている、報われるコマンドのリスト。
+          level_status: ステータス文字列。 |翻訳「challenges.gui.level-description.completed」を表します。
+          challenge_count: 完成したチャレンジカウント文字列。 | 「challenges.gui.level-description.completed-challenges-of」の翻訳を表します
+          unlock_message: メッセージ文字列のロックを解除します。 |チャレンジレベルオブジェクト-challengeLevel.unlockMessageで定義されています。
+          waiver_amount: 次のレベルの文字列のロックを解除する出荷可能なチャレンジカウント。 | 「challenges.gui.level-description.waver-amount」の翻訳を表します
+          level_reward_text: 報酬の文字列。 | challengeLevel.rewardTextで定義
+          level_reward_items: 報酬アイテム。 | challengeLevel.rewardItemsで定義されている、報酬を受け取るアイテムのリスト。
+          level_reward_commands: 報酬コマンド。 | challengeLevel.rewardCommandsで定義されている、報奨されるコマンドのリスト。
+        download: 利用可能なチャレンジライブラリを手動で更新できます。 |右クリックしてキャッシュのクリアを有効にします。
+        download-disabled: GitHubデータダウンローダーはBentoBoxで無効になっています。それなしでは、ライブラリを使用できません！
+        challenge-wipe: 課題とそのレベルのデータベースを完全にクリアできます！
+        players-wipe: プレイヤーデータベースを完全にクリアできます！
+        visibility-mode: 未デプロイのチャレンジを表示するかどうかを切り替えることができます。
       block: "-[ブロック]：[count]"
       command: "-[command]"
       current-value: "|＆6現在の値：[value]。"
@@ -321,6 +344,10 @@ challenges:
         inventory: "-在庫タイプ：| （プレイヤーのインベントリにアイテムを要求できます）"
         island: "-島のタイプ：| （プレイヤーの周りにブロックまたはモブを要求することができます）"
         other: "-その他のタイプ：| （他のプラグイン/アドオンからのものを要求することができます）"
+      visibility:
+        visible: すべての課題は誰にでも見える
+        hidden: 展開されたチャレンジのみが表示されます。
+        toggleable: 未デプロイのチャレンジを表示するかどうかを切り替えることができます
     item-description:
       armor-color: "[color]"
       book-meta: "[author]による[title]"
@@ -376,6 +403,7 @@ challenges:
         toggle-environment: "＆a環境を変える"
         lore-remove: "&aロア要素の削除"
         lore-edit: "＆aロアを編集する"
+        lore-add: "＆aロア要素の追加"
       challenges: "＆6チャレンジ"
       game-modes: "＆6ゲームモードを選択"
       multiple-complete: "＆6何回？"
@@ -394,6 +422,8 @@ challenges:
       reset-all: "＆2 [player]のチャレンジはすべてリセットされました！"
       start-downloading: "＆5チャレンジライブラリのダウンロードとインポートを開始しています。"
       you-added: チャレンジに1つの[もの]を追加しました
+      challenge-wipe: データベースからチャレンジとそのレベルを空にするだけなので、バックアップがあることを期待してください！
+      players-wipe: 空のプレーヤーがデータベースからのチャレンジを完了したので、バックアップがあることを期待してください！
     defaults-file-completed: defaults.jsonファイルには、[world]からのチャレンジが入力されています！
     defaults-file-overwrite: defaults.jsonが存在します。上書きされます。
     import-challenges: チャレンジのインポートを開始
