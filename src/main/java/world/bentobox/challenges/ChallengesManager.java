@@ -3,7 +3,19 @@ package world.bentobox.challenges;
 
 import org.eclipse.jdt.annotation.NonNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -190,6 +202,9 @@ public class ChallengesManager
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
 
+        // this validate challenge levels
+        this.validateChallenges();
+
         // It is not necessary to load all players in memory.
 //        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
@@ -214,6 +229,8 @@ public class ChallengesManager
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
+
+        this.validateChallenges();
         // It is not necessary to load all players in memory.
 //        this.playersDatabase.loadObjects().forEach(this::loadPlayerData);
     }
@@ -241,13 +258,14 @@ public class ChallengesManager
      * @return - true if imported
      */
     public boolean loadChallenge(@NonNull Challenge challenge,
-            boolean overwrite,
-            User user,
-            boolean silent)
+        boolean overwrite,
+        User user,
+        boolean silent)
     {
         if (challenge == null)
         {
-            this.addon.logError("Tried to load NULL element from Database. One challenge is broken and will not work.");
+            this.addon.logError(
+                "Tried to load NULL element from Database. One challenge is broken and will not work.");
             return false;
         }
 
@@ -258,7 +276,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-skipping",
-                            "[value]", challenge.getFriendlyName());
+                        "[value]", challenge.getFriendlyName());
                 }
 
                 return false;
@@ -268,7 +286,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-overwriting",
-                            "[value]", challenge.getFriendlyName());
+                        "[value]", challenge.getFriendlyName());
                 }
             }
         }
@@ -277,7 +295,7 @@ public class ChallengesManager
             if (!silent)
             {
                 user.sendMessage("challenges.messages.load-add",
-                        "[value]", challenge.getFriendlyName());
+                    "[value]", challenge.getFriendlyName());
             }
         }
 
@@ -298,19 +316,24 @@ public class ChallengesManager
 
 
     /**
-     * This method loads given level into local cache. It provides functionality to
-     * overwrite local value with new one, and send message to given user.
+     * This method loads given level into local cache. It provides functionality to overwrite local
+     * value with new one, and send message to given user.
+     *
      * @param level of type ChallengeLevel that must be loaded in local cache.
      * @param overwrite of type boolean that indicate if local element must be overwritten.
      * @param user of type User who will receive messages.
      * @param silent of type boolean that indicate if message to user must be sent.
      * @return boolean that indicate about load status.
      */
-    public boolean loadLevel(@NonNull ChallengeLevel level, boolean overwrite, User user, boolean silent)
+    public boolean loadLevel(@NonNull ChallengeLevel level,
+        boolean overwrite,
+        User user,
+        boolean silent)
     {
         if (level == null)
         {
-            this.addon.logError("Tried to load NULL element from Database. One level is broken and will not work.");
+            this.addon.logError(
+                "Tried to load NULL element from Database. One level is broken and will not work.");
             return false;
         }
 
@@ -323,7 +346,8 @@ public class ChallengesManager
             }
             else
             {
-                this.addon.logError("Challenge Level '" + level.getUniqueId() + "' is not valid and skipped");
+                this.addon.logError(
+                    "Challenge Level '" + level.getUniqueId() + "' is not valid and skipped");
             }
 
             return false;
@@ -336,7 +360,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-skipping",
-                            "[value]", level.getFriendlyName());
+                        "[value]", level.getFriendlyName());
                 }
 
                 return false;
@@ -346,7 +370,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-overwriting",
-                            "[value]", level.getFriendlyName());
+                        "[value]", level.getFriendlyName());
                 }
             }
         }
@@ -355,7 +379,7 @@ public class ChallengesManager
             if (!silent)
             {
                 user.sendMessage("challenges.messages.load-add",
-                        "[value]", level.getFriendlyName());
+                    "[value]", level.getFriendlyName());
             }
         }
 
@@ -366,6 +390,7 @@ public class ChallengesManager
 
     /**
      * This method stores PlayerData into local cache.
+     *
      * @param playerData ChallengesPlayerData that must be loaded.
      */
     private void loadPlayerData(@NonNull ChallengesPlayerData playerData)
@@ -383,6 +408,7 @@ public class ChallengesManager
 
     /**
      * This method removes given player from cache data.
+     *
      * @param playerID player ID which cache data must be removed.
      */
     public void removeFromCache(UUID playerID)
@@ -406,6 +432,43 @@ public class ChallengesManager
     // ---------------------------------------------------------------------
     // Section: Other storing related methods
     // ---------------------------------------------------------------------
+
+
+    /**
+     * This method iterates through all challenges that is loaded from database and removes levels
+     * that are not found.
+     */
+    private void validateChallenges()
+    {
+        this.challengeCacheData.values().forEach(challenge -> {
+            if (!this.isValidChallenge(challenge))
+            {
+                // If challenge's level is not found, then set it as free challenge.
+                challenge.setLevel(FREE);
+                this.addon.logWarning("Challenge's " + challenge.getUniqueId() + " level was not found in database. " +
+                    "To avoid any errors with missing level, challenge were added to FREE level!");
+            }
+        });
+    }
+
+
+    /**
+     * This method checks if given challenge's level exists in local cache or database.
+     * @param challenge that must be validated
+     * @return true ir challenge's level exists, otherwise false.
+     */
+    private boolean isValidChallenge(@NonNull Challenge challenge)
+    {
+        if (challenge.getLevel().equals(FREE) || this.getLevel(challenge.getLevel()) != null)
+        {
+            return true;
+        }
+        else
+        {
+            this.addon.logError("Cannot find " + challenge.getUniqueId() + " challenge's level " + challenge.getLevel() + " in database.");
+            return false;
+        }
+    }
 
 
     /**
@@ -657,7 +720,12 @@ public class ChallengesManager
                 this.challengeCacheData.remove(challenge.getUniqueId());
 
                 challenge.setUniqueId(addonName + challenge.getUniqueId().substring(world.getName().length()));
-                challenge.setLevel(addonName + challenge.getLevel().substring(world.getName().length()));
+
+                if (!challenge.getLevel().equals(FREE))
+                {
+                    challenge.setLevel(addonName + challenge.getLevel().substring(world.getName().length()));
+                }
+
                 updated = true;
 
                 this.challengeDatabase.saveObject(challenge);
@@ -995,11 +1063,11 @@ public class ChallengesManager
             doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
 
             result.add(new LevelStatus(
-                    level,
-                    previousLevel,
-                    challengesToDo,
-                    level.getChallenges().size() == doneChallengeCount,
-                    challengesToDo <= 0));
+                level,
+                previousLevel,
+                challengesToDo,
+                level.getChallenges().size() == doneChallengeCount,
+                challengesToDo <= 0));
 
             previousLevel = level;
         }
@@ -1317,8 +1385,22 @@ public class ChallengesManager
      */
     public long getChallengeTimes(User user, World world, Challenge challenge)
     {
+        return this.getChallengeTimes(user, world, challenge.getUniqueId());
+    }
+
+
+    /**
+     * Checks if a challenge is complete or not
+     *
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challenge - Challenge that must be checked.
+     * @return - true if completed
+     */
+    public long getChallengeTimes(User user, World world, String challenge)
+    {
         world = Util.getWorld(world);
-        return this.getChallengeTimes(this.getDataUniqueID(user, world), challenge.getUniqueId());
+        return this.getChallengeTimes(this.getDataUniqueID(user, world), challenge);
     }
 
 
@@ -1429,8 +1511,8 @@ public class ChallengesManager
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
             this.challengeCacheData.values().stream().
-                sorted(this.challengeComparator).
                 filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+                sorted(this.challengeComparator).
                 map(Challenge::getUniqueId).
                 collect(Collectors.toList())).
             orElse(Collections.emptyList());
@@ -1447,8 +1529,8 @@ public class ChallengesManager
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
             this.challengeCacheData.values().stream().
-                sorted(this.challengeComparator).
                 filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+                sorted(this.challengeComparator).
                 collect(Collectors.toList())).
             orElse(Collections.emptyList());
     }
@@ -1459,13 +1541,16 @@ public class ChallengesManager
      * @param world World in which challenges must be searched.
      * @return List with free challenges in given world.
      */
-    public List<Challenge> getFreeChallenges(World world)
+    public List<Challenge> getFreeChallenges(@NonNull World world)
     {
         // Free Challenges hides under FREE level.
-        return this.getAllChallenges(world).stream().
-                filter(challenge -> challenge.getLevel().equals(FREE)).
+        return this.islandWorldManager.getAddon(world).map(gameMode ->
+            this.challengeCacheData.values().stream().
+                filter(challenge -> challenge.getLevel().equals(FREE) &&
+                    challenge.matchGameMode(gameMode.getDescription().getName())).
                 sorted(Comparator.comparing(Challenge::getOrder)).
-                collect(Collectors.toList());
+                collect(Collectors.toList())).
+            orElse(Collections.emptyList());
     }
 
 
@@ -1477,10 +1562,10 @@ public class ChallengesManager
     public List<Challenge> getLevelChallenges(ChallengeLevel level)
     {
         return level.getChallenges().stream().
-                map(this::getChallenge).
-                filter(Objects::nonNull).
-                sorted(Comparator.comparing(Challenge::getOrder)).
-                collect(Collectors.toList());
+            map(this::getChallenge).
+            filter(Objects::nonNull).
+            sorted(Comparator.comparing(Challenge::getOrder)).
+            collect(Collectors.toList());
     }
 
 
@@ -1620,9 +1705,9 @@ public class ChallengesManager
     {
         // TODO: Probably need to check also database.
         return this.levelCacheData.values().stream().
-                sorted(ChallengeLevel::compareTo).
-                filter(level -> level.matchGameMode(gameMode)).
-                collect(Collectors.toList());
+            sorted(ChallengeLevel::compareTo).
+            filter(level -> level.matchGameMode(gameMode)).
+            collect(Collectors.toList());
     }
 
 
