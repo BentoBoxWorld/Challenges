@@ -445,8 +445,8 @@ public class ChallengesManager
             {
                 // If challenge's level is not found, then set it as free challenge.
                 challenge.setLevel(FREE);
-                this.addon.logWarning("Challenge's " + challenge.getUniqueId() + " level was not found in database. " +
-                    "To avoid any errors with missing level, challenge were added to FREE level!");
+                this.addon.logWarning("Challenge's " + challenge.getUniqueId() + " level was not found in the database. " +
+                    "To avoid any errors with missing level, challenge was added to the FREE level!");
             }
         });
     }
@@ -1674,6 +1674,9 @@ public class ChallengesManager
         {
             this.challengeCacheData.remove(challenge.getUniqueId());
             this.challengeDatabase.deleteObject(challenge);
+
+            this.addon.getPlugin().getPlaceholdersManager().
+                unregisterPlaceholder("challenges_challenge_repetition_count_" + challenge.getUniqueId());
         }
     }
 
@@ -1897,6 +1900,9 @@ public class ChallengesManager
             }
 
             this.levelDatabase.deleteObject(challengeLevel);
+
+            this.addon.getPlugin().getPlaceholdersManager().
+                unregisterPlaceholder("challenges_completed_challenge_count_per_level_" + challengeLevel.getUniqueId());
         }
     }
 
