@@ -7,9 +7,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -297,7 +298,8 @@ public class ChallengesImportManager
 				defaultChallenges.setLevelList(levelList);
 				defaultChallenges.setVersion(this.addon.getDescription().getVersion());
 
-				BufferedWriter writer = new BufferedWriter(new FileWriter(defaultFile, false));
+				BufferedWriter writer = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(defaultFile), StandardCharsets.UTF_8));
 				writer.write(Objects.requireNonNull(
 					new DefaultJSONHandler(this.addon).toJsonString(defaultChallenges)));
 				writer.close();
