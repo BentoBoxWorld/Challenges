@@ -139,7 +139,7 @@ public class ChallengesAddon extends Addon {
         {
             this.logError("BentoBox database is not compatible with Challenges Addon.");
             this.logError("Please use JSON based database type.");
-            this.setState(State.DISABLED);
+            this.setState(State.INCOMPATIBLE);
             return;
         }
 
