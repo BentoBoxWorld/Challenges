@@ -31,6 +31,10 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
+import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
+import world.bentobox.challenges.database.object.requirements.OtherRequirements;
+import world.bentobox.challenges.database.object.requirements.Requirements;
 import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
@@ -727,6 +731,49 @@ public class ChallengesManager
                 }
 
                 updated = true;
+
+                this.challengeDatabase.saveObject(challenge);
+                this.challengeCacheData.put(challenge.getUniqueId(), challenge);
+            }
+
+            // Migrate Requirements.
+            if (challenge.getRequirements() == null)
+            {
+                switch (challenge.getChallengeType())
+                {
+                    case INVENTORY:
+                        InventoryRequirements inventoryRequirements = new InventoryRequirements();
+                        inventoryRequirements.setRequiredItems(challenge.getRequiredItems());
+                        inventoryRequirements.setTakeItems(challenge.isTakeItems());
+
+                        inventoryRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
+                        challenge.setRequirements(inventoryRequirements);
+                        break;
+                    case ISLAND:
+                        IslandRequirements islandRequirements = new IslandRequirements();
+                        islandRequirements.setRemoveBlocks(challenge.isRemoveBlocks());
+                        islandRequirements.setRemoveEntities(challenge.isRemoveEntities());
+                        islandRequirements.setRequiredBlocks(challenge.getRequiredBlocks());
+                        islandRequirements.setRequiredEntities(challenge.getRequiredEntities());
+                        islandRequirements.setSearchRadius(challenge.getSearchRadius());
+
+                        islandRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
+                        challenge.setRequirements(islandRequirements);
+                        break;
+                    case OTHER:
+                        OtherRequirements otherRequirements = new OtherRequirements();
+                        otherRequirements.setRequiredExperience(challenge.getRequiredExperience());
+                        otherRequirements.setRequiredIslandLevel(challenge.getRequiredIslandLevel());
+                        otherRequirements.setRequiredMoney(challenge.getRequiredMoney());
+                        otherRequirements.setTakeExperience(challenge.isTakeExperience());
+                        otherRequirements.setTakeMoney(challenge.isTakeMoney());
+
+                        otherRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
+                        challenge.setRequirements(otherRequirements);
+                        break;
+                }
+
+                // This save should not involve any upgrades in other parts.
 
                 this.challengeDatabase.saveObject(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
@@ -1642,14 +1689,17 @@ public class ChallengesManager
     /**
      * This method creates and returns new challenge with given uniqueID.
      * @param uniqueID - new ID for challenge.
+     * @param requirements - requirements object, as it is not changeable anymore.
      * @return Challenge that is currently created.
      */
-    public Challenge createChallenge(String uniqueID)
+    public Challenge createChallenge(String uniqueID, Challenge.ChallengeType type, Requirements requirements)
     {
         if (!this.containsChallenge(uniqueID))
         {
             Challenge challenge = new Challenge();
             challenge.setUniqueId(uniqueID);
+            challenge.setRequirements(requirements);
+            challenge.setChallengeType(type);
 
             this.saveChallenge(challenge);
             this.loadChallenge(challenge);

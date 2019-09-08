@@ -11,6 +11,7 @@ import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.flags.Flag;
+import world.bentobox.bentobox.database.DatabaseSetup.DatabaseType;
 import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.bentobox.managers.RanksManager;
 import world.bentobox.challenges.commands.ChallengesCommand;
@@ -18,7 +19,11 @@ import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
 import world.bentobox.challenges.config.Settings;
-import world.bentobox.challenges.handlers.*;
+import world.bentobox.challenges.handlers.ChallengeDataRequestHandler;
+import world.bentobox.challenges.handlers.ChallengeListRequestHandler;
+import world.bentobox.challenges.handlers.CompletedChallengesRequestHandler;
+import world.bentobox.challenges.handlers.LevelDataRequestHandler;
+import world.bentobox.challenges.handlers.LevelListRequestHandler;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
 import world.bentobox.challenges.web.WebManager;
@@ -127,7 +132,7 @@ public class ChallengesAddon extends Addon {
     public void onEnable() {
         // Check if it is enabled - it might be loaded, but not enabled.
         if (this.getPlugin() == null || !this.getPlugin().isEnabled()) {
-            Bukkit.getLogger().severe("BentoBox is not available or disabled!");
+            this.logError("BentoBox is not available or disabled!");
             this.setState(State.DISABLED);
             return;
         }
@@ -135,7 +140,15 @@ public class ChallengesAddon extends Addon {
         // Check if addon is not disabled before.
         if (this.getState().equals(State.DISABLED))
         {
-            Bukkit.getLogger().severe("Challenges Addon is not available or disabled!");
+            this.logError("Challenges Addon is not available or disabled!");
+            return;
+        }
+
+        if (this.isInCompatibleDatabase())
+        {
+            this.logError("BentoBox database is not compatible with Challenges Addon.");
+            this.logError("Please use JSON based database type.");
+            this.setState(State.DISABLED);
             return;
         }
 
@@ -291,6 +304,16 @@ public class ChallengesAddon extends Addon {
             this.logError("Challenges settings could not load! Addon disabled.");
             this.setState(State.DISABLED);
         }
+    }
+
+
+    /**
+     * This method checks if database is compatible with Challenges addon.
+     * @return {@code true} if database type is YAML, {@code false} - otherwise.
+     */
+    private boolean isInCompatibleDatabase()
+    {
+        return this.getPlugin().getSettings().getDatabaseType().equals(DatabaseType.YAML);
     }
 
 

@@ -36,6 +36,9 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
+import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.utils.Utils;
 
@@ -420,7 +423,7 @@ public abstract class CommonGUI
                     {
                         if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
                         {
-                            if (challenge.isTakeItems())
+                            if (challenge.<InventoryRequirements>getRequirements().isTakeItems())
                             {
                                 result.add(this.user.getTranslation(
                                     "challenges.gui.challenge-description.warning-items-take"));
@@ -431,15 +434,15 @@ public abstract class CommonGUI
                             result.add(this.user.getTranslation(
                                 "challenges.gui.challenge-description.objects-close-by"));
 
-                            if (challenge.isRemoveEntities() &&
-                                !challenge.getRequiredEntities().isEmpty())
+                            IslandRequirements requirements = challenge.getRequirements();
+
+                            if (requirements.isRemoveEntities() && !requirements.getRequiredEntities().isEmpty())
                             {
                                 result.add(this.user.getTranslation(
                                     "challenges.gui.challenge-description.warning-entities-kill"));
                             }
 
-                            if (challenge.isRemoveBlocks() &&
-                                !challenge.getRequiredBlocks().isEmpty())
+                            if (requirements.isRemoveBlocks() && !requirements.getRequiredBlocks().isEmpty())
                             {
                                 result.add(this.user.getTranslation(
                                     "challenges.gui.challenge-description.warning-blocks-remove"));
@@ -479,13 +482,17 @@ public abstract class CommonGUI
                 {
                     if (!isCompletedAll)
                     {
-                        if (challenge.getChallengeType() == Challenge.ChallengeType.OTHER)
+                        switch (challenge.getChallengeType())
                         {
-                            result.addAll(this.getChallengeRequirements(challenge));
-                        }
-                        else
-                        {
-                            result.addAll(this.getChallengeRequiredItems(challenge));
+                            case INVENTORY:
+                                result.addAll(this.getInventoryRequirements(challenge.getRequirements()));
+                                break;
+                            case ISLAND:
+                                result.addAll(this.getIslandRequirements(challenge.getRequirements()));
+                                break;
+                            case OTHER:
+                                result.addAll(this.getOtherRequirements(challenge.getRequirements()));
+                                break;
                         }
                     }
 
@@ -659,33 +666,55 @@ public abstract class CommonGUI
 
 
     /**
-     * This method returns list of strings that contains basic information about challenge requirements.
-     * @param challenge which requirements message must be created.
+     * This method returns list of strings that contains basic information about requirements.
+     * @param requirements which requirements message must be created.
      * @return list of strings that contains requirements message.
      */
-    private List<String> getChallengeRequirements(Challenge challenge)
+    private List<String> getOtherRequirements(OtherRequirements requirements)
     {
         List<String> result = new ArrayList<>();
 
         // Add message about required exp
-        if (challenge.getRequiredExperience() > 0)
+        if (requirements.getRequiredExperience() > 0)
         {
             result.add(this.user.getTranslation("challenges.gui.challenge-description.required-experience",
-                    "[value]", Integer.toString(challenge.getRequiredExperience())));
+                    "[value]", Integer.toString(requirements.getRequiredExperience())));
         }
 
         // Add message about required money
-        if (this.addon.isEconomyProvided() && challenge.getRequiredMoney() > 0)
+        if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() > 0)
         {
             result.add(this.user.getTranslation("challenges.gui.challenge-description.required-money",
-                    "[value]", Integer.toString(challenge.getRequiredMoney())));
+                    "[value]", Double.toString(requirements.getRequiredMoney())));
         }
 
         // Add message about required island level
-        if (this.addon.isLevelProvided() && challenge.getRequiredIslandLevel() > 0)
+        if (this.addon.isLevelProvided() && requirements.getRequiredIslandLevel() > 0)
         {
             result.add(this.user.getTranslation("challenges.gui.challenge-description.required-island-level",
-                    "[value]", Long.toString(challenge.getRequiredIslandLevel())));
+                    "[value]", Long.toString(requirements.getRequiredIslandLevel())));
+        }
+
+        return result;
+    }
+
+
+    /**
+     * This method returns list of strings that contains basic information about requirements.
+     * @param requirements which requirements message must be created.
+     * @return list of strings that contains requirements message.
+     */
+    private List<String> getInventoryRequirements(InventoryRequirements requirements)
+    {
+        List<String> result = new ArrayList<>();
+
+        // Add message about required items
+        if (!requirements.getRequiredItems().isEmpty())
+        {
+            result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
+
+            Utils.groupEqualItems(requirements.getRequiredItems()).forEach(itemStack ->
+                result.addAll(this.generateItemStackDescription(itemStack)));
         }
 
         return result;
@@ -697,22 +726,11 @@ public abstract class CommonGUI
      * @param challenge Challenge which requirement items, entities and blocks must be returned.
      * @return List of strings that contains message from challenges.
      */
-    private List<String> getChallengeRequiredItems(Challenge challenge)
+    private List<String> getIslandRequirements(IslandRequirements challenge)
     {
         List<String> result = new ArrayList<>();
 
-        // Add message about required items
-        if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY) &&
-                !challenge.getRequiredItems().isEmpty())
-        {
-            result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
-
-            Utils.groupEqualItems(challenge.getRequiredItems()).forEach(itemStack ->
-            result.addAll(this.generateItemStackDescription(itemStack)));
-        }
-
-        if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND) &&
-                (!challenge.getRequiredBlocks().isEmpty() || !challenge.getRequiredEntities().isEmpty()))
+        if (!challenge.getRequiredBlocks().isEmpty() || !challenge.getRequiredEntities().isEmpty())
         {
             // Add required blocks
             if (!challenge.getRequiredBlocks().isEmpty())

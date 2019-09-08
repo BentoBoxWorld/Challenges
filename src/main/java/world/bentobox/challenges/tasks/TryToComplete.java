@@ -25,6 +25,9 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
+import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -436,25 +439,26 @@ public class TryToComplete
     {
         if (this.challenge.getChallengeType().equals(ChallengeType.ISLAND))
         {
+            IslandRequirements requirements = this.challenge.getRequirements();
+
             if (result.meetsRequirements &&
-                this.challenge.isRemoveEntities() &&
-                !this.challenge.getRequiredEntities().isEmpty())
+                requirements.isRemoveEntities() &&
+                !requirements.getRequiredEntities().isEmpty())
             {
                 this.removeEntities(result.entities, result.getFactor());
             }
 
             if (result.meetsRequirements &&
-                this.challenge.isRemoveBlocks() &&
-                !this.challenge.getRequiredBlocks().isEmpty())
+                requirements.isRemoveBlocks() &&
+                !requirements.getRequiredBlocks().isEmpty())
             {
                 this.removeBlocks(result.blocks, result.getFactor());
             }
         }
         else if (this.challenge.getChallengeType().equals(ChallengeType.INVENTORY))
         {
-
             // If remove items, then remove them
-            if (this.challenge.isTakeItems())
+            if (this.getInventoryRequirements().isTakeItems())
             {
                 int sumEverything = result.requiredItems.stream().
                     mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
@@ -477,17 +481,19 @@ public class TryToComplete
         }
         else if (this.challenge.getChallengeType().equals(ChallengeType.OTHER))
         {
-            if (this.addon.isEconomyProvided() && this.challenge.isTakeMoney())
+            OtherRequirements requirements = this.challenge.getRequirements();
+
+            if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
             {
-                this.addon.getEconomyProvider().withdraw(this.user, this.challenge.getRequiredMoney());
+                this.addon.getEconomyProvider().withdraw(this.user, requirements.getRequiredMoney());
             }
 
-            if (this.challenge.isTakeExperience() &&
+            if (requirements.isTakeExperience() &&
                 this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
             {
                 // Cannot take anything from creative game mode.
                 this.user.getPlayer().setTotalExperience(
-                    this.user.getPlayer().getTotalExperience() - this.challenge.getRequiredExperience());
+                    this.user.getPlayer().getTotalExperience() - requirements.getRequiredExperience());
             }
         }
     }
@@ -603,8 +609,8 @@ public class TryToComplete
      */
     private boolean checkPermissions()
     {
-        return this.challenge.getRequiredPermissions().isEmpty() ||
-            this.challenge.getRequiredPermissions().stream().allMatch(s -> this.user.hasPermission(s));
+        return this.challenge.getRequirements().getRequiredPermissions().isEmpty() ||
+            this.challenge.getRequirements().getRequiredPermissions().stream().allMatch(s -> this.user.hasPermission(s));
     }
 
 
@@ -714,7 +720,7 @@ public class TryToComplete
         // Players in creative game mode has got all items. No point to search for them.
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
-            requiredItems = Utils.groupEqualItems(this.challenge.getRequiredItems());
+            requiredItems = Utils.groupEqualItems(this.getInventoryRequirements().getRequiredItems());
 
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
@@ -849,9 +855,11 @@ public class TryToComplete
         // range. In this situation use island range.
         int distance = this.addon.getPlugin().getIWM().getIslandDistance(this.world);
 
-        if (this.challenge.getSearchRadius() < distance + 1)
+        IslandRequirements requirements = this.challenge.getRequirements();
+
+        if (requirements.getSearchRadius() < distance + 1)
         {
-            distance = this.challenge.getSearchRadius();
+            distance = requirements.getSearchRadius();
         }
 
         boundingBox.expand(distance);
@@ -891,7 +899,7 @@ public class TryToComplete
             {
                 this.addon.logError("BoundingBox is larger than SearchRadius. " +
                     " | BoundingBox: " + boundingBox.toString() +
-                    " | Search Distance: " + this.challenge.getSearchRadius() +
+                    " | Search Distance: " + requirements.getSearchRadius() +
                     " | Location: " + this.user.getLocation().toString() +
                     " | Center: " + island.getCenter().toString() +
                     " | Range: " + range);
@@ -900,12 +908,12 @@ public class TryToComplete
             }
         }
 
-        ChallengeResult result = this.searchForEntities(this.challenge.getRequiredEntities(), factor, boundingBox);
+        ChallengeResult result = this.searchForEntities(requirements.getRequiredEntities(), factor, boundingBox);
 
-        if (result.isMeetsRequirements() && !this.challenge.getRequiredBlocks().isEmpty())
+        if (result.isMeetsRequirements() && !requirements.getRequiredBlocks().isEmpty())
         {
             // Search for items only if entities found
-            result = this.searchForBlocks(this.challenge.getRequiredBlocks(), result.getFactor(), boundingBox);
+            result = this.searchForBlocks(requirements.getRequiredBlocks(), result.getFactor(), boundingBox);
         }
 
         return result;
@@ -991,7 +999,9 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
         }
 
-        this.user.sendMessage("challenges.errors.not-close-enough", "[number]", String.valueOf(this.challenge.getSearchRadius()));
+        this.user.sendMessage("challenges.errors.not-close-enough",
+            "[number]",
+            String.valueOf(this.getIslandRequirements().getSearchRadius()));
 
         blocks.forEach((k, v) -> user.sendMessage("challenges.errors.you-still-need",
             "[amount]", String.valueOf(v),
@@ -1094,7 +1104,7 @@ public class TryToComplete
      */
     private void removeBlocks(Queue<Block> blockQueue, int factor)
     {
-        Map<Material, Integer> blocks = new EnumMap<>(this.challenge.getRequiredBlocks());
+        Map<Material, Integer> blocks = new EnumMap<>(this.getIslandRequirements().getRequiredBlocks());
 
         // Increase required blocks by factor.
         blocks.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
@@ -1118,8 +1128,8 @@ public class TryToComplete
      */
     private void removeEntities(Queue<Entity> entityQueue, int factor)
     {
-        Map<EntityType, Integer> entities = this.challenge.getRequiredEntities().isEmpty() ?
-            new EnumMap<>(EntityType.class) : new EnumMap<>(this.challenge.getRequiredEntities());
+        Map<EntityType, Integer> entities = this.getIslandRequirements().getRequiredEntities().isEmpty() ?
+            new EnumMap<>(EntityType.class) : new EnumMap<>(this.getIslandRequirements().getRequiredEntities());
 
         // Increase required entities by factor.
         entities.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
@@ -1148,59 +1158,61 @@ public class TryToComplete
      */
     private ChallengeResult checkOthers(int factor)
     {
-    	if (!this.addon.isLevelProvided() && 
-			this.challenge.getRequiredIslandLevel() != 0)
+        OtherRequirements requirements = this.getOtherRequirements();
+
+    	if (!this.addon.isLevelProvided() &&
+            requirements.getRequiredIslandLevel() != 0)
 		{
 			this.user.sendMessage("challenges.errors.missing-addon");
 		}
-    	else if (!this.addon.isEconomyProvided() && 
-			this.challenge.getRequiredMoney() != 0)
+    	else if (!this.addon.isEconomyProvided() &&
+            requirements.getRequiredMoney() != 0)
 		{
 			this.user.sendMessage("challenges.errors.missing-addon");
 		}
-		else if (this.addon.isEconomyProvided() && this.challenge.getRequiredMoney() < 0)
+		else if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() < 0)
 		{
 			this.user.sendMessage("challenges.errors.incorrect");
 		}
     	else if (this.addon.isEconomyProvided() && 
-			!this.addon.getEconomyProvider().has(this.user, this.challenge.getRequiredMoney()))
+			!this.addon.getEconomyProvider().has(this.user, requirements.getRequiredMoney()))
         {
             this.user.sendMessage("challenges.errors.not-enough-money",
                 "[value]",
-                Integer.toString(this.challenge.getRequiredMoney()));
+                Double.toString(requirements.getRequiredMoney()));
         }
-		else if (this.challenge.getRequiredExperience() < 0)
+		else if (requirements.getRequiredExperience() < 0)
 		{
 			this.user.sendMessage("challenges.errors.incorrect");
 		}
-        else if (this.user.getPlayer().getTotalExperience() < this.challenge.getRequiredExperience() &&
+        else if (this.user.getPlayer().getTotalExperience() < requirements.getRequiredExperience() &&
             this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
             // Players in creative gamemode has infinite amount of EXP.
 
             this.user.sendMessage("challenges.errors.not-enough-experience",
                 "[value]",
-                Integer.toString(this.challenge.getRequiredExperience()));
+                Integer.toString(requirements.getRequiredExperience()));
         }
         else if (this.addon.isLevelProvided() && 
-			this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < this.challenge.getRequiredIslandLevel())
+			this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < requirements.getRequiredIslandLevel())
         {
             this.user.sendMessage("challenges.errors.island-level",
                 TextVariables.NUMBER,
-                String.valueOf(this.challenge.getRequiredIslandLevel()));
+                String.valueOf(requirements.getRequiredIslandLevel()));
         }
         else
         {
         	// calculate factor
 
-			if (this.addon.isEconomyProvided() && this.challenge.isTakeMoney())
+			if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
 			{
-				factor = Math.min(factor, (int) this.addon.getEconomyProvider().getBalance(this.user) / this.challenge.getRequiredMoney());
+				factor = Math.min(factor, (int) (this.addon.getEconomyProvider().getBalance(this.user) / requirements.getRequiredMoney()));
 			}
 
-			if (this.challenge.getRequiredExperience() > 0 && this.challenge.isTakeExperience())
+			if (requirements.getRequiredExperience() > 0 && requirements.isTakeExperience())
 			{
-				factor = Math.min(factor, this.user.getPlayer().getTotalExperience() / this.challenge.getRequiredExperience());
+				factor = Math.min(factor, this.user.getPlayer().getTotalExperience() / requirements.getRequiredExperience());
 			}
 
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
@@ -1253,6 +1265,41 @@ public class TryToComplete
         }
 
         return ChatColor.translateAlternateColorCodes('&', outputMessage);
+    }
+
+
+// ---------------------------------------------------------------------
+// Section: Simple getter methods
+// ---------------------------------------------------------------------
+
+
+    /**
+     * This is simple cast method. Easier access to IslandRequirements.
+     * @return Island Requirements
+     */
+    private IslandRequirements getIslandRequirements()
+    {
+        return this.challenge.getRequirements();
+    }
+
+
+    /**
+     * This is simple cast method. Easier access to InventoryRequirements.
+     * @return Inventory Requirements
+     */
+    private InventoryRequirements getInventoryRequirements()
+    {
+        return this.challenge.getRequirements();
+    }
+
+
+    /**
+     * This is simple cast method. Easier access to OtherRequirements.
+     * @return Other Requirements
+     */
+    private OtherRequirements getOtherRequirements()
+    {
+        return this.challenge.getRequirements();
     }
 
 

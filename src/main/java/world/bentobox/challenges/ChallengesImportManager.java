@@ -3,10 +3,19 @@ package world.bentobox.challenges;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bukkit.World;
@@ -28,7 +37,7 @@ import world.bentobox.challenges.utils.Utils;
 public class ChallengesImportManager
 {
     /**
-     * Import challenges from challenges.yml
+     * Import challenges from default.json
      * @param challengesAddon
      */
     public ChallengesImportManager(ChallengesAddon challengesAddon)
@@ -328,7 +337,7 @@ public class ChallengesImportManager
     /**
      * This Class allows to load default challenges and their levels as objects much easier.
      */
-	private final class DefaultJSONHandler
+	private static final class DefaultJSONHandler
     {
 		/**
 		 * This constructor inits JSON builder that will be used to parse challenges.
@@ -375,19 +384,24 @@ public class ChallengesImportManager
 		{
 			File defaultFile = new File(this.addon.getDataFolder(), "default.json");
 
-			StringBuilder builder = new StringBuilder();
-
-			try
+			try (InputStreamReader reader = new InputStreamReader(new FileInputStream(defaultFile), StandardCharsets.UTF_8))
 			{
-				Files.readAllLines(defaultFile.toPath()).forEach(builder::append);
+				DefaultDataHolder object = this.gson.fromJson(reader, DefaultDataHolder.class);
+
+				reader.close(); // NOSONAR Required to keep OS file handlers low and not rely on GC
+
+				return object;
 			}
-			catch (IOException e)
+			catch (FileNotFoundException e)
 			{
-				e.printStackTrace();
+				this.addon.logError("Could not load file '" + defaultFile.getName() + "': File not found.");
+			}
+			catch (Exception e)
+			{
+				this.addon.logError("Could not load objects " + defaultFile.getName() + " " + e.getMessage());
 			}
 
-
-			return this.gson.fromJson(builder.toString(), DefaultDataHolder.class);
+			return null;
 		}
 
 
@@ -422,7 +436,7 @@ public class ChallengesImportManager
 	 * This is simple object that will allow to store all current challenges and levels
 	 * in single file.
 	 */
-	private final class DefaultDataHolder implements DataObject
+	private static final class DefaultDataHolder implements DataObject
 	{
 		/**
 		 * Default constructor. Creates object with empty lists.
@@ -439,7 +453,7 @@ public class ChallengesImportManager
 		 * This method returns stored challenge list.
 		 * @return list that contains default challenges.
 		 */
-		public List<Challenge> getChallengeList()
+		List<Challenge> getChallengeList()
 		{
 			return challengeList;
 		}
@@ -449,7 +463,7 @@ public class ChallengesImportManager
 		 * This method sets given list as default challenge list.
 		 * @param challengeList new default challenge list.
 		 */
-		public void setChallengeList(List<Challenge> challengeList)
+		void setChallengeList(List<Challenge> challengeList)
 		{
 			this.challengeList = challengeList;
 		}
@@ -459,7 +473,7 @@ public class ChallengesImportManager
 		 * This method returns list of default challenge levels.
 		 * @return List that contains default challenge levels.
 		 */
-		public List<ChallengeLevel> getLevelList()
+		List<ChallengeLevel> getLevelList()
 		{
 			return challengeLevelList;
 		}
@@ -469,7 +483,7 @@ public class ChallengesImportManager
 		 * This method sets given list as default challenge level list.
 		 * @param levelList new default challenge level list.
 		 */
-		public void setLevelList(List<ChallengeLevel> levelList)
+		void setLevelList(List<ChallengeLevel> levelList)
 		{
 			this.challengeLevelList = levelList;
 		}

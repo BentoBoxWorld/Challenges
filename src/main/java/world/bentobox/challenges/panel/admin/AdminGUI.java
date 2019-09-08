@@ -21,6 +21,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
+import world.bentobox.challenges.panel.util.ChallengeTypeGUI;
 import world.bentobox.challenges.panel.util.ConfirmationGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
@@ -251,21 +252,25 @@ public class AdminGUI extends CommonGUI
             clickHandler = (panel, user, clickType, slot) -> {
 
                 this.getNewUniqueID(challenge -> {
-                        String newName = Utils.getGameMode(this.world) + "_" + challenge;
+                    String newName = Utils.getGameMode(this.world) + "_" + challenge;
 
-                        new EditChallengeGUI(this.addon,
-                            this.world,
-                            this.user,
-                            this.addon.getChallengesManager().createChallenge(newName),
-                            this.topLabel,
-                            this.permissionPrefix,
-                            this).build();
+                    ChallengeTypeGUI.open(user,
+                        this.addon.getChallengesSettings().getLoreLineLength(),
+                        (type, requirements) -> {
+                            new EditChallengeGUI(this.addon,
+                                this.world,
+                                this.user,
+                                this.addon.getChallengesManager().createChallenge(newName, type, requirements),
+                                this.topLabel,
+                                this.permissionPrefix,
+                                this).build();
+                        });
                     },
                     input -> {
                         String newName = Utils.getGameMode(this.world) + "_" + input;
                         return !this.addon.getChallengesManager().containsChallenge(newName);
                     },
-                    this.user.getTranslation("challenges.question.admin.unique-id")
+                    this.user.getTranslation("challenges.gui.questions.admin.unique-id")
                 );
 
                 return true;
@@ -296,7 +301,7 @@ public class AdminGUI extends CommonGUI
                         String newName = Utils.getGameMode(this.world) + "_" + input;
                         return !this.addon.getChallengesManager().containsLevel(newName);
                     },
-                    this.user.getTranslation("challenges.question.admin.unique-id")
+                    this.user.getTranslation("challenges.gui.questions.admin.unique-id")
                 );
 
                 return true;
