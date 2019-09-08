@@ -273,7 +273,7 @@ public abstract class CommonGUI
         {
             name = this.user.getTranslation("challenges.gui.buttons.next");
             description = Collections.emptyList();
-            icon = new ItemStack(ChallengesAddon.SIGN_MATERIAL);
+            icon = new ItemStack(Material.OAK_SIGN);
             clickHandler = (panel, user, clickType, slot) -> {
                 this.pageIndex++;
                 this.build();
@@ -286,7 +286,7 @@ public abstract class CommonGUI
         {
             name = this.user.getTranslation("challenges.gui.buttons.previous");
             description = Collections.emptyList();
-            icon = new ItemStack(ChallengesAddon.SIGN_MATERIAL);
+            icon = new ItemStack(Material.OAK_SIGN);
             clickHandler = (panel, user, clickType, slot) -> {
                 this.pageIndex--;
                 this.build();

@@ -2,6 +2,7 @@ package world.bentobox.challenges.panel.user;
 
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import java.util.List;
@@ -167,7 +168,7 @@ public class ChallengesGUI extends CommonGUI
 			if (this.freeChallengeIndex > 0)
 			{
 				panelBuilder.item(index++, new PanelItemBuilder().
-					icon(ChallengesAddon.SIGN_MATERIAL).
+					icon(Material.OAK_SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex--;
@@ -191,7 +192,7 @@ public class ChallengesGUI extends CommonGUI
 			else if (currentIndex < freeChallengesCount)
 			{
 				panelBuilder.item(index, new PanelItemBuilder().
-					icon(ChallengesAddon.SIGN_MATERIAL).
+					icon(Material.OAK_SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex++;
@@ -243,7 +244,7 @@ public class ChallengesGUI extends CommonGUI
 				if (this.pageIndex > 0)
 				{
 					panelBuilder.item(index++, new PanelItemBuilder().
-						icon(ChallengesAddon.SIGN_MATERIAL).
+						icon(Material.OAK_SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.previous")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex--;
@@ -267,7 +268,7 @@ public class ChallengesGUI extends CommonGUI
 				else if (currentIndex < challengesCount)
 				{
 					panelBuilder.item(index, new PanelItemBuilder().
-						icon(ChallengesAddon.SIGN_MATERIAL).
+						icon(Material.OAK_SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.next")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex++;
@@ -304,7 +305,7 @@ public class ChallengesGUI extends CommonGUI
 			if (this.levelIndex > 0)
 			{
 				panelBuilder.item(index++, new PanelItemBuilder().
-					icon(ChallengesAddon.SIGN_MATERIAL).
+					icon(Material.OAK_SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex--;
@@ -328,7 +329,7 @@ public class ChallengesGUI extends CommonGUI
 			else if (currentIndex < levelCounts)
 			{
 				panelBuilder.item(index, new PanelItemBuilder().
-					icon(ChallengesAddon.SIGN_MATERIAL).
+					icon(Material.OAK_SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex++;
