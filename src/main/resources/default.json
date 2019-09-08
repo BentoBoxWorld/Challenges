@@ -2447,7 +2447,7 @@
       "repeatRewardCommands": []
     },
     {
-      "uniqueId": "netherkiller",
+      "uniqueId": "waterzoo",
       "friendlyName": "Water Zoo",
       "deployed": true,
       "description": [
@@ -2460,7 +2460,7 @@
         "NORMAL"
       ],
       "removeWhenCompleted": false,
-      "level": "elite",
+      "level": "advanced",
       "requirements": {
         "class": "IslandRequirements",
         "parameters": {
@@ -2663,7 +2663,7 @@
       ],
       "challenges": [
         "zoomaker",
-        "netherkiller",
+        "waterzoo",
         "alchemist",
         "goldage",
         "advanced",
