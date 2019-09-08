@@ -10,7 +10,7 @@ Currently Challenges Addon is in **Beta stage**, so it may or may not contain bu
 Latest official **Beta Release is 0.7.5**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
 But it will work with BentoBox 1.5.0 only.
 
-Latest development build will work with **BentoBox 1.7.0-SNAPSHOT**, as it contains new functionality, that is not in 1.6 release.
+Latest development build will work with **BentoBox 1.7.0**, as it contains new functionality, that is not in 1.6 release.
 **Nightly builds** are available in [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
 Be aware that 0.8.0-SNAPSHOT stores data differently than it is in 0.7.5 and below. It will be necessary to migrate data via command "/[gamemode_admin] challenges migrate".
@@ -37,7 +37,7 @@ Admins can create their own challenges or import some default challenges, which 
 
 ## Compatibility
 
-- [x] BentoBox - 1.7.0-SNAPSHOT version
+- [x] BentoBox - 1.7.0 version
 - [x] BSkyBlock - 1.6.0 version
 - [x] AcidIsland - 1.6.0 version
 - [x] SkyGrid - 1.6.0 version
