@@ -76,7 +76,7 @@ public class SelectChallengeGUI
 
 			panelBuilder.item(18,
 				new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage - 1);
@@ -85,7 +85,7 @@ public class SelectChallengeGUI
 
 			panelBuilder.item(26,
 				new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.build(correctPage + 1);

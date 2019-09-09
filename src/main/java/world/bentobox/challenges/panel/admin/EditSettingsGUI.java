@@ -455,7 +455,7 @@ public class EditSettingsGUI extends CommonGUI
                             this.user.getTranslation("challenges.gui.descriptions.enabled") :
                                 this.user.getTranslation("challenges.gui.descriptions.disabled")));
             name = this.user.getTranslation("challenges.gui.buttons.admin.title-enable");
-            icon = new ItemStack(Material.OAK_SIGN);
+            icon = new ItemStack(Material.SIGN);
             clickHandler = (panel, user1, clickType, i) -> {
                 this.settings.setShowCompletionTitle(!this.settings.isShowCompletionTitle());
 

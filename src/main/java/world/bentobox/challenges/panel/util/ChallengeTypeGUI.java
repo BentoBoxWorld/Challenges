@@ -64,12 +64,12 @@ public class ChallengeTypeGUI
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().
 			user(this.user).
-			type(Panel.Type.HOPPER).
+//			type(Panel.Type.HOPPER).
 			name(this.user.getTranslation("challenges.gui.title.admin.type-select"));
 
-		panelBuilder.item(0, this.getButton(Challenge.ChallengeType.INVENTORY));
-		panelBuilder.item(1, this.getButton(Challenge.ChallengeType.ISLAND));
-		panelBuilder.item(2, this.getButton(Challenge.ChallengeType.OTHER));
+		panelBuilder.item(3, this.getButton(Challenge.ChallengeType.INVENTORY));
+		panelBuilder.item(4, this.getButton(Challenge.ChallengeType.ISLAND));
+		panelBuilder.item(5, this.getButton(Challenge.ChallengeType.OTHER));
 
 		panelBuilder.build();
 	}

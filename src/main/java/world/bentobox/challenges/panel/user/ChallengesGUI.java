@@ -168,7 +168,7 @@ public class ChallengesGUI extends CommonGUI
 			if (this.freeChallengeIndex > 0)
 			{
 				panelBuilder.item(index++, new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex--;
@@ -192,7 +192,7 @@ public class ChallengesGUI extends CommonGUI
 			else if (currentIndex < freeChallengesCount)
 			{
 				panelBuilder.item(index, new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.freeChallengeIndex++;
@@ -244,7 +244,7 @@ public class ChallengesGUI extends CommonGUI
 				if (this.pageIndex > 0)
 				{
 					panelBuilder.item(index++, new PanelItemBuilder().
-						icon(Material.OAK_SIGN).
+						icon(Material.SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.previous")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex--;
@@ -268,7 +268,7 @@ public class ChallengesGUI extends CommonGUI
 				else if (currentIndex < challengesCount)
 				{
 					panelBuilder.item(index, new PanelItemBuilder().
-						icon(Material.OAK_SIGN).
+						icon(Material.SIGN).
 						name(this.user.getTranslation("challenges.gui.buttons.next")).
 						clickHandler((panel, user1, clickType, slot) -> {
 							this.pageIndex++;
@@ -305,7 +305,7 @@ public class ChallengesGUI extends CommonGUI
 			if (this.levelIndex > 0)
 			{
 				panelBuilder.item(index++, new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.previous")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex--;
@@ -329,7 +329,7 @@ public class ChallengesGUI extends CommonGUI
 			else if (currentIndex < levelCounts)
 			{
 				panelBuilder.item(index, new PanelItemBuilder().
-					icon(Material.OAK_SIGN).
+					icon(Material.SIGN).
 					name(this.user.getTranslation("challenges.gui.buttons.next")).
 					clickHandler((panel, user1, clickType, slot) -> {
 						this.levelIndex++;

@@ -42,18 +42,18 @@ public class MultipleGUI
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().
 			user(this.user).
-			type(Panel.Type.HOPPER).
+//			type(Panel.Type.HOPPER).
 			name(this.user.getTranslation("challenges.gui.title.multiple-complete"));
 
-		panelBuilder.item(2, this.getButton(Button.VALUE));
+		panelBuilder.item(4, this.getButton(Button.VALUE));
 
 		// Reduce
-		panelBuilder.item(0, this.getButton(Button.REDUCE_LOT));
-		panelBuilder.item(1, this.getButton(Button.REDUCE));
+		panelBuilder.item(2, this.getButton(Button.REDUCE_LOT));
+		panelBuilder.item(3, this.getButton(Button.REDUCE));
 
 		// Increase
-		panelBuilder.item(3, this.getButton(Button.INCREASE));
-		panelBuilder.item(4, this.getButton(Button.INCREASE_LOT));
+		panelBuilder.item(5, this.getButton(Button.INCREASE));
+		panelBuilder.item(6, this.getButton(Button.INCREASE_LOT));
 
 		panelBuilder.build();
 	}
