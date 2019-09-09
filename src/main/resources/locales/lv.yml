@@ -21,6 +21,9 @@ challenges:
         parameters: "[overwrite]"
       main:
         description: Administratora komanda, kura atver izvēlnes logu.
+      migrate:
+        description: Šī metode ļauj migrēt saglabātos datus uz jauno formātu no versijas
+          0.7.5 uz 0.8.0.
       reload:
         description: Šī metode pārlādē Challenges papildinājumu.|Parametrs [hard]
           nozīmē, ka tiks pārlādēts arī savienojums ar datubāzi.
@@ -31,9 +34,6 @@ challenges:
         parameters: "<player> <challenge_id>"
       show:
         description: Šī komanda izvada visus uzdevumu nosaukumus sarakstē.
-      migrate:
-        description: Šī metode ļauj migrēt saglabātos datus uz jauno formātu no versijas
-          0.7.5 uz 0.8.0.
     user:
       complete:
         description: Šī metode ļauj izpildīt uzdevumus neatverot Uzdevumu logu.|Beigās
@@ -80,6 +80,7 @@ challenges:
     wrong-icon: '&cDotais materiāls "[value]" neeksistē vai arī nevar tikt izmantots
       kā ikona.'
     you-still-need: "&cTev vēl nepieciešams [amount] x [item]"
+    no-multiple-permission: "&cTev nav atļaujas pildīt uzdevumu vairākas reizes vienlaicīgi."
   gui:
     buttons:
       admin:
@@ -168,12 +169,23 @@ challenges:
         title-enable: Izpildes virsraksts
         title-showtime: Virsrakta rādīšanas ilgums
         toggle-user-list: Spēlētāju saraksts
-        type: Uzdevuma Tips
         value: Vērtība
         waiver-amount: Neizpildāmo skaits
+        library: Interneta Bibliotēka
+        download: Lejupielādēt Bibliotēkas
+        challenge-wipe: Notīrīt Uzdevumu Datubāzi
+        players-wipe: Notīrīt Lietotāju Datubāzi
+        visibility-mode: Uzdevumu Redzamības mode
+        type:
+          island: "&6Salas tips"
+          inventory: "&6Inventāra tips"
+          other: "&6Cita veida tips"
       next: Nākošā
       previous: Iepriekšējā
       return: Atgriezties
+      value: Pabeigt
+      increase: Palielināt
+      reduce: Samazināt
     challenge-description:
       completed: "&BIzpildīts"
       completed-times: Izpildīts [donetimes] reizes
@@ -328,9 +340,55 @@ challenges:
           izpildes.
         title-showtime: Ļauj mainīt cik ilgi virsraksts spēlētājam būs redzams.
         toggle-user-list: Ļauj pārslēgt spēlētāju saraksta režīmu.
-        type: Ļauj uzstādīt Uzdevuma tipu. Katram tipam ir savādākas prasības.
         waiver-amount: Ļauj definēt cik daudz uzdevumi var tikt atstāti neizpildīti,
           lai atvērtu nākošo līmeni.
+        library: Atver izvēlni, kurā ir saraksts ar publiski pieejamajām Uzdevumu
+          Bibliotēkām
+        library-author: veidoja &e[author]
+        library-version: "&9Veidots ar Challenges-[version] versiju"
+        library-lang: "&aValoda: [lang]"
+        library-gamemode: "&aPrimāri priekš [gamemode]"
+        lore:
+          level: Līmeņa rindas. | Definētas iekš 'challenges.gui.challenge-description.level'.
+          status: Statusa rindas. |Definētas iekš  'challenges.gui.challenge-description.completed'.
+          count: Pabeigtības rindas. | Definētas iekš 'challenges.gui.challenge-description.completed-times',  'challenges.gui.challenge-description.completed-times-of'
+            un 'challenges.gui.challenge-description.maxed-reached'.
+          description: Apraksta rindas. | Definētas iekš challenges objekta- challenge.description.
+          warnings: 'Brīdinājumu rindas. | Definētas iekš: | ''challenges.gui.challenge-description.warning-items-take''
+            | ''challenges.gui.challenge-description.objects-close-by'' | ''challenges.gui.challenge-description.warning-entities-kill''
+            | ''challenges.gui.challenge-description.warning-blocks-remove''.'
+          environment: Apkārtnes rindas. | Definētas iekš challenges objektā- challenge.environment.
+          requirements: 'Prasību rinas. | Definēts iekš: | ''challenges.gui.challenge-description.required-level''
+            | ''challenges.gui.challenge-description.required-money'' | ''challenges.gui.challenge-description.required-experience''
+            |  and challenge.requiredItems, challenge.requiredBlocks vai challenge.requiredEntities.'
+          reward_text: Atlīdzības rindas. |Definētas iekš challenge.rewardText un
+            challenge.repeatRewardText
+          reward_other: 'Citas atlīdzību rinas. | Definēti iekš : | ''challenges.gui.challenge-description.experience-reward''
+            | ''challenges.gui.challenge-description.money-reward'' | ''challenges.gui.challenge-description.not-repeatable''.'
+          reward_items: Atlīdzības priekšmeti. | Definēti iekš challenge.rewardItems
+            un challenge.repeatRewardItems.
+          reward_commands: Atlīdzības komandas. | Definētas iekš challenge.rewardCommands
+            un challenge.repeatRewardCommands.
+          level_status: Statusa rindas. | Definēts iekš 'challenges.gui.level-description.completed'.
+          challenge_count: Pabeigto uzdevumu skaits. | Definēts iekš 'challenges.gui.level-description.completed-challenges-of'
+          unlock_message: Atvēršanas rindas. | Definēts iekš - challengeLevel.unlockMessage.
+          waiver_amount: Nepieciešamo uzdevumu skaits, kas nepieceišams līmeņa atvēršanai.
+            | Representē rindas 'challenges.gui.level-description.waver-amount'
+          level_reward_text: Atlīdzības teksts. | Definēts iekš challengeLevel.rewardText
+          level_reward_other: 'Atlīdzības rindiņas. | Representē rinas: | ''challenges.gui.level-description.experience-reward''
+            | ''challenges.gui.level-description.money-reward''.'
+          level_reward_items: |-
+            Atlīdzības priekšmeti. | Saraksts ar priekšmetiem, kas definētas iekš
+             challengeLevel.rewardItems.
+          level_reward_commands: Atlīdzības komandas. | Saraksts ar komandām, kas
+            ir definētas iekš challengeLevel.rewardCommands.
+        download: Ļauj pašrocīgi lejupielādēt uzdevumu bibliotēkas. |Labais klikšķis
+          pārslēdz lokālās atmiņas dzēšanu.
+        download-disabled: GitHub datu lejupielāde ir izslēgta iekš BentoBox. Bez
+          tā nav iespējams lietot bibliotēkas!
+        challenge-wipe: Ļauj pilnībā notīrīt uzdevumu un to līmeņu datus!
+        players-wipe: Ļauj pilnībā notīrīt spēlētāju datus!
+        visibility-mode: Ļauj pārslēgt vai neizlaistie uzdevumi ir redzami, vai nē
       block: "- [block] : [count]"
       command: "- [command]"
       current-value: "|&6Šī brīža vērtība: [value]."
@@ -347,12 +405,16 @@ challenges:
       normal: "- Virszeme"
       permission: "- [permission]"
       the-end: "- Beigas"
+      increase-by: "&aPalielināt pabeigšanas skaitu par [value]"
+      reduce-by: "&cSamazināt pabeigšanas skaitu par [value]"
+      visibility:
+        visible: Spēlētāji redz visus uzdevumus
+        hidden: Spēlētāji redz tikai izlaistos uzdevumus
+        toggleable: Ļauj lietotājiem pārslēgt kādus uzdevumus viņi redzēs
       type:
-        inventory: "- Inventora tips:| (ļauj definēt nepieciešamās lietas spēlētāja
-          inventorā)"
-        island: "- Teritorijas tips:| (ļauj definēt nepieciešamos blokus vai monstrus
-          ap spēlētāju)"
-        other: "- Citi tips:| (ļauj definēt cita veida uzdevumus)"
+        island: "&aļauj definēt nepieciešamos blokus un radības apkārt spēlētājam"
+        inventory: "&aļauj definēt nepieciešamos priekšmetus spēlētāja invertārā"
+        other: "&aļauj definēt citas nepieciešamās lietas no citiem papildinājumiem"
     item-description:
       armor-color: "  [color]"
       book-meta: "  [title] no [author]"
@@ -406,8 +468,14 @@ challenges:
         select-entity: "&aIzvēlēties Radību"
         settings-title: "&aLabot Iestatījumus"
         toggle-environment: "&aPārvaldīt Vidi"
-      challenges: "&aUzdevumi"
-      game-modes: "&aIzvēlēties Spēles Režīmu"
+        library-title: "&aLejupielādējamās bibliotēkas"
+        lore-add: "&aPievienot apraksta elementu"
+        lore-remove: "&aNoņemt apraksta elementu"
+        lore-edit: "&aLabot aprakstu"
+        type-select: "&aIzvēlies uzdevumu tipu"
+      challenges: "&6Uzdevumi"
+      game-modes: "&6Izvēlies spēles režīmu"
+      multiple-complete: "&6Cik daudz reizes?"
   messages:
     admin:
       already-completed: "&2Šīs uzdevums jau bija izpildīts!"
@@ -415,15 +483,20 @@ challenges:
       completed: "&2Tu pabeidzi uzdevumu [name] [player] vietā!"
       complete-wipe: "&cCerams, ka tev ir saglabātas rezerves kopijas, jo tu tikko
         iztīrīji visas šī papildinājuma datubāzes!"
+      hit-things: Nospiediet lietas, lai pievienotu tās nepieciešamo lietu sarakstam.
+        Kad izdarīts, noklikšķiniet ar peles labo pogu.
+      migrate-end: "&2Uzdevumu papildinājums veiksmīgi migrēts uz jauno formātu.\n"
+      migrate-not: "&2Visi dati ir korekti."
+      migrate-start: "&2Uzsāk uzdevumu papildinājuma migrāciju uz jauno formātu."
       not-completed: "&2Šis uzdevums vēl nav izpildīts!"
       reset: "&2Tu atiestatīji uzdevumu [name] priekš [player]!"
       reset-all: "&2Visi [player] uzdevumi ir atiesatīti!"
       you-added: Tu uzdevumam pievienoji [thing]
-      migrate-start: "&2Uzsāk uzdevumu papildinājuma migrāciju uz jauno formātu."
-      migrate-end: "&2Uzdevumu papildinājums veiksmīgi migrēts uz jauno formātu.\n"
-      migrate-not: "&2Visi dati ir korekti."
-      hit-things: Nospiediet lietas, lai pievienotu tās nepieciešamo lietu sarakstam.
-        Kad izdarīts, noklikšķiniet ar peles labo pogu.
+      start-downloading: "&5Uzsāk Uzdevumu bibliotēkas lejupielādēšanu un uzstādīšanu."
+      challenge-wipe: "&cCerams, ka tev ir rezerves kopijas, jo uzdevumi un to līmeņi
+        ir dzēsti!"
+      players-wipe: "&cCerams, ka tev ir rezerves kopijas, jo papildinājuma datubāzes
+        ir pilnībā notīrītas!"
     defaults-file-completed: defaults.json failā ir sarakstīti uzdevumi un līmeņi
       no [world]!
     defaults-file-overwrite: defaults.json jau existē. Tas tiek pārrakstīts.
