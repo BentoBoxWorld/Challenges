@@ -34,6 +34,7 @@ Unfortunately, default challenges come only in English translation. But with ver
 
 By default, challenges addon comes without any challenge or level. On first runtime only Admin GUI will be accessible. 
 Admins can create their own challenges or import some default challenges, which importing also are available via Admin GUI. Default challenges contains 5 levels and 57 challenges.
+There exist also Web Library, where users can download public challenges. It is accessible with Admin GUI by clicking on Web icon.
 
 ## Compatibility
 
