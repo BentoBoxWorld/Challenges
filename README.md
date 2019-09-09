@@ -13,7 +13,7 @@ But it will work with BentoBox 1.6.x and BentoBox 1.7.x.
 Latest development builds will be based on **Minecraft 1.14.4** and **BentoBox 1.8.0**.
 **Nightly builds** are available in [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
 
-Be aware that 0.8.0 stores data differently than it is in 0.7.5 and below. It will be necessary to migrate data via command "/[gamemode_admin] challenges migrate".
+Be aware that 0.8.0 stores data differently than it is in 0.7.5 and below. It will be necessary to migrate data via command `/[gamemode_admin] challenges migrate`.
 
 If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.bentobox.world)
 
