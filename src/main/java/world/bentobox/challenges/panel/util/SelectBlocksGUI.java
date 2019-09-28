@@ -28,7 +28,36 @@ public class SelectBlocksGUI
 
 	public SelectBlocksGUI(User user, boolean singleSelect, BiConsumer<Boolean, Set<Material>> consumer)
 	{
-		this(user, singleSelect, new HashSet<>(), consumer);
+		this.consumer = consumer;
+		this.user = user;
+		this.singleSelect = singleSelect;
+
+		// Current GUI cannot display air blocks. It crashes with null-pointer
+		Set<Material> excludedMaterial = new HashSet<>();
+
+		excludedMaterial.add(Material.AIR);
+		excludedMaterial.add(Material.CAVE_AIR);
+		excludedMaterial.add(Material.VOID_AIR);
+
+		// Piston head and moving piston is not necessary. useless.
+		excludedMaterial.add(Material.PISTON_HEAD);
+		excludedMaterial.add(Material.MOVING_PISTON);
+
+		// Barrier cannot be accessible to user.
+		excludedMaterial.add(Material.BARRIER);
+
+		this.elements = new ArrayList<>();
+		this.selectedMaterials = new HashSet<>();
+
+		for (Material material : Material.values())
+		{
+			if (!material.isLegacy() && !excludedMaterial.contains(material))
+			{
+				this.elements.add(material);
+			}
+		}
+
+		this.build(0);
 	}
 
 
