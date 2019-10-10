@@ -1,12 +1,11 @@
 package world.bentobox.challenges.commands.admin;
 
 import java.util.List;
-import java.util.logging.Level;
 
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 
 public class ShowChallenges extends CompositeCommand {
 

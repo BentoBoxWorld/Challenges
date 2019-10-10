@@ -1,8 +1,5 @@
 package world.bentobox.challenges;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,12 +18,16 @@ import java.util.stream.Collectors;
 
 import org.bukkit.World;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
+import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.json.BentoboxTypeAdapterFactory;
 import world.bentobox.bentobox.database.objects.DataObject;
-import world.bentobox.challenges.database.object.ChallengeLevel;
-import world.bentobox.challenges.database.object.Challenge;
-import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
+import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.utils.Utils;
 
 
