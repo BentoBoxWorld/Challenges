@@ -1,6 +1,9 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -10,9 +13,6 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;

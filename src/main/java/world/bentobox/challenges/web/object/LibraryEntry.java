@@ -1,10 +1,11 @@
 package world.bentobox.challenges.web.object;
 
 
-import com.google.gson.JsonObject;
 import org.bukkit.Material;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
+
+import com.google.gson.JsonObject;
 
 
 /**

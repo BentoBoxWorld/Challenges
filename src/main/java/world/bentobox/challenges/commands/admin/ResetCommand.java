@@ -1,7 +1,11 @@
 package world.bentobox.challenges.commands.admin;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.addons.Addon;

@@ -7,12 +7,9 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
-import org.eclipse.jdt.annotation.NonNull;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+
+import com.google.gson.annotations.Expose;
 
 
 /**

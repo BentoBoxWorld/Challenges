@@ -1,10 +1,10 @@
 
 package world.bentobox.challenges.panel.user;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import java.util.function.Consumer;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;

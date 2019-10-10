@@ -1,8 +1,6 @@
 package world.bentobox.challenges;
 
 
-import org.eclipse.jdt.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,6 +18,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.eclipse.jdt.annotation.NonNull;
 
 import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
