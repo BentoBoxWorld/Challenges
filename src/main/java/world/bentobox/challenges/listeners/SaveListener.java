@@ -6,7 +6,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.WorldSaveEvent;
 
 import world.bentobox.challenges.ChallengesAddon;
 

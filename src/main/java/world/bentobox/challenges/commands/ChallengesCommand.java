@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import world.bentobox.bentobox.api.addons.GameModeAddon;
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.ChallengesGUI;
 
 

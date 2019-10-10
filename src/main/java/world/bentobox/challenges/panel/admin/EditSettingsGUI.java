@@ -128,7 +128,6 @@ public class EditSettingsGUI extends CommonGUI
     }
 
 
-    @SuppressWarnings("deprecation")
     private PanelItem getSettingsButton(Button button)
     {
         ItemStack icon;
@@ -434,7 +433,7 @@ public class EditSettingsGUI extends CommonGUI
                     if (status)
                     {
                         materials.forEach(material ->
-                            this.settings.setLockedLevelIcon(new ItemStack(material)));
+                        this.settings.setLockedLevelIcon(new ItemStack(material)));
                     }
 
                     this.build();
@@ -501,14 +500,14 @@ public class EditSettingsGUI extends CommonGUI
             values.add(this.user.getTranslation("challenges.gui.descriptions.admin.visibility-mode"));
 
             values.add((this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE) ? "&2" : "&c") +
-                this.user.getTranslation("challenges.gui.descriptions.visibility.visible"));
+                    this.user.getTranslation("challenges.gui.descriptions.visibility.visible"));
             values.add((this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN) ? "&2" : "&c") +
-                this.user.getTranslation("challenges.gui.descriptions.visibility.hidden"));
+                    this.user.getTranslation("challenges.gui.descriptions.visibility.hidden"));
             values.add((this.settings.getVisibilityMode().equals(VisibilityMode.TOGGLEABLE) ? "&2" : "&c") +
-                this.user.getTranslation("challenges.gui.descriptions.visibility.toggleable"));
+                    this.user.getTranslation("challenges.gui.descriptions.visibility.toggleable"));
 
             values.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                "[value]",this.settings.getVisibilityMode().name()));
+                    "[value]",this.settings.getVisibilityMode().name()));
 
             description = values;
 
@@ -529,19 +528,19 @@ public class EditSettingsGUI extends CommonGUI
                 if (clickType.isRightClick())
                 {
                     this.settings.setVisibilityMode(
-                        Utils.getPreviousValue(VisibilityMode.values(),
-                            this.settings.getVisibilityMode()));
+                            Utils.getPreviousValue(VisibilityMode.values(),
+                                    this.settings.getVisibilityMode()));
                 }
                 else
                 {
                     this.settings.setVisibilityMode(
-                        Utils.getNextValue(VisibilityMode.values(),
-                            this.settings.getVisibilityMode()));
+                            Utils.getNextValue(VisibilityMode.values(),
+                                    this.settings.getVisibilityMode()));
                 }
 
                 // Rebuild just this icon
                 panel.getInventory().setItem(slot,
-                    this.getSettingsButton(button).getItem());
+                        this.getSettingsButton(button).getItem());
 
                 return true;
             };

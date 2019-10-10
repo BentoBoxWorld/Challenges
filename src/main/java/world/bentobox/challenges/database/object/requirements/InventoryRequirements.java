@@ -7,12 +7,14 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
-import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.annotations.Expose;
 
 
 /**

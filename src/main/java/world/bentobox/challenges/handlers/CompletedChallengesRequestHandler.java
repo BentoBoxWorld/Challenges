@@ -1,10 +1,13 @@
 package world.bentobox.challenges.handlers;
 
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import java.util.*;
-import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;

@@ -1,11 +1,12 @@
 package world.bentobox.challenges.utils;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
-import java.util.List;
 
 import world.bentobox.bentobox.BentoBox;
 

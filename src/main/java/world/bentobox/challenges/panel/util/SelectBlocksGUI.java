@@ -1,17 +1,20 @@
 package world.bentobox.challenges.panel.util;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
+
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
-import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.utils.GuiUtils;
 
 

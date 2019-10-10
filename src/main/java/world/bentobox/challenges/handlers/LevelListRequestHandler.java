@@ -1,9 +1,10 @@
 package world.bentobox.challenges.handlers;
 
 
-import org.bukkit.Bukkit;
 import java.util.Collections;
 import java.util.Map;
+
+import org.bukkit.Bukkit;
 
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;

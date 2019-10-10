@@ -1,7 +1,9 @@
 package world.bentobox.challenges.tasks;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,8 +26,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 
 /**
  * @author tastybento
