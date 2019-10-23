@@ -1,6 +1,3 @@
-/**
- * 
- */
 package world.bentobox.challenges;
 
 import static org.mockito.Matchers.any;
