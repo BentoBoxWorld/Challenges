@@ -14,10 +14,14 @@ challenges:
                 parameters: ''
                 description: 'Main admin command. Opens GUI.'
             import:
-                description: 'Import challenges from challenges.yml | Parameter overwrite means that challenges or levels with the same ID will be overwritten.'
+                description: |-
+                    Import challenges from challenges.yml
+                    Parameter overwrite means that challenges or levels with the same ID will be overwritten.
                 parameters: '[overwrite]'
             reload:
-                description: 'Reload challenges from the database | Parameter hard means that addon will reset the connection to the database.'
+                description: |-
+                    Reload challenges from the database
+                    Parameter hard means that addon will reset the connection to the database.
                 parameters: '[hard]'
             show:
                 description: 'Prints all challenges in the chat which exist in this world.'
@@ -195,10 +199,19 @@ challenges:
                 increase: 'Increase operation. Clicking on the numbers will increase the value by the selected number.'
                 reduce: 'Reduce operation. Clicking on the numbers will reduce the value by the selected number.'
                 multiply: 'Multiply operation. Clicking on the numbers will multiply the value by the selected number.'
-                import: 'Import ASkyblock challenges. | On right click it enables/disables overwrite mode. | Place challenges.yml inside the ./BentoBox/addons/Challenges folder.'
-                complete: 'Complete challenges for any user. | The user will not get any reward for completion.'
-                reset: 'Reset completed user challenges. | Right click enables/disables Reset all functionality.'
-                create-challenge: 'Add new challenge. | Will be in free challenges list by default.'
+                import: |-
+                    Import ASkyblock challenges.
+                    On right click it enables/disables overwrite mode.
+                    Place challenges.yml inside the ./BentoBox/addons/Challenges folder.
+                complete: |-
+                    Complete challenges for any user.
+                    The user will not get any reward for completion.
+                reset: |-
+                    Reset completed user challenges.
+                    Right click enables/disables Reset all functionality.
+                create-challenge: |-
+                    Add new challenge.
+                    Will be in free challenges list by default.
                 create-level: 'Add new Level.'
                 edit-challenge: 'Edit Challenge settings.'
                 edit-level: 'Edit Level settings.'
@@ -219,31 +232,61 @@ challenges:
                 remove-on-complete: 'Remove a challenge from a player"s GUI after it is completed.'
                 name-challenge: 'Change challenge display name.'
                 name-level: 'Change level display name.'
-                required-entities: 'Add/edit/remove required entities. |E ntities:|'
+                required-entities: |-
+                    Add/edit/remove required entities.
+                    Entities:
                 remove-entities: 'Remove (kill) entities on challenge completion.'
-                required-blocks: 'Add/edit/remove required blocks. | Blocks:|'
+                required-blocks: |-
+                    Add/edit/remove required blocks.
+                    Blocks:
                 remove-blocks: 'Remove (replace with air) blocks on challenge completion.'
                 search-radius: "Radius around player's location where required entities and blocks will be searched."
-                required-permissions: 'Required permissions a for player to be able to complete this challenge. | Permission:'
-                required-items: 'Required items in player"s inventory. | Items:'
+                required-permissions: |-
+                    Required permissions a for player to be able to complete this challenge.
+                    Permission:
+                required-items: |-
+                    Required items in player"s inventory.
+                     Items:
                 remove-items: 'Remove items from player"s inventory after challenge completion.'
                 required-experience: 'Define required experience for a user to complete the challenge.'
                 remove-experience: 'Remove required experience.'
-                required-level: 'Define the required island level for this challenge. | &cRequires Level addon.'
-                required-money: 'Define the required money in player"s account. |&cRequires Vault and an Economy plugin.'
-                remove-money: 'Remove required money from player"s account.| &cRequires Vault and an Economy plugin.'
+                required-level: |-
+                    Define the required island level for this challenge.
+                    &cRequires Level addon.'
+                required-money: |-
+                    Define the required money in player"s account.
+                    &cRequires Vault and an Economy plugin.'
+                remove-money: |-
+                    Remove required money from player"s account.
+                    &cRequires Vault and an Economy plugin.'
                 reward-text: 'Change message that will be sent to player after challenges completion.'
-                reward-items: 'Change first time completion reward items.| Items:'
+                reward-items: |-
+                    Change first time completion reward items.
+                    Items:
                 reward-experience: 'Change first time completion reward experience.'
-                reward-money: 'Change first time completion reward money.| &cRequires Vault and Economy plugin.'
-                reward-commands: 'Define reward commands that will be called after first time completion.| ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"|***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"|Commands:'
+                reward-money: |-
+                    Change first time completion reward money.
+                    &cRequires Vault and Economy plugin.
+                reward-commands: |-
+                    Define reward commands that will be called after first time completion.
+                    ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
+                    ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
+                    Commands:
                 repeatable: 'Define if challenge is repeatable or not.'
                 repeat-count: 'Define maximal repeat count. If the value is set 0, there are no limitations.'
                 repeat-reward-text: 'Change message that will be sent to the player after challenge repeated completion.'
-                repeat-reward-items: 'Change repeated completion reward items.| Items:'
+                repeat-reward-items: |-
+                    Change repeated completion reward items.
+                    Items:
                 repeat-reward-experience: 'Change repeated completion reward experience.'
-                repeat-reward-money: 'Change repeated completion reward money.| &cRequires Vault and an Economy plugin.'
-                repeat-reward-commands: 'Define reward commands that will be executed after challenge repeated completion.| ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"|***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"|Commands:'
+                repeat-reward-money: |-
+                    Change repeated completion reward money.
+                    &cRequires Vault and an Economy plugin.
+                repeat-reward-commands: |-
+                    Define reward commands that will be executed after challenge repeated completion.
+                    ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
+                    ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
+                    Commands:
                 waiver-amount: 'Set the amount of challenges a player can leave out to unlock the next level.'
                 reward-text-level: 'Change the message that will be sent to the player after completing all challenges in a level.'
                 add-challenge: 'Add an existing challenge to the current level.'
@@ -259,17 +302,26 @@ challenges:
                 mode-in-world: 'Players in a GameMode world.'
                 mode-with-island: 'Players that have an island in a GameMode world.'
                 selected: 'Selected'
-                remove-selected: 'Remove selected elements. | Select elements with the right mouse button.'
+                remove-selected: |-
+                    Remove selected elements.
+                    Select elements with the right mouse button.
                 show-eggs: 'Switch entity view between Egg mode or Head mode.'
                 level-lore: 'Modify which level description elements should be visible.'
                 challenge-lore: 'Modify which challenge description elements should be visible.'
                 gui-view-mode: "Set if /challenges GUI should show GameModes or challenges in player's world."
                 history-store: 'Enable/disable challenges history storage.'
-                history-lifespan: 'Modify how many days history data should be stored. | 0 means forever.'
-                island-store: 'Enable/disable challenges data storing per island. This means that challenges will be the same for the whole team if this is enabled.|Will NOT convert data on click. PROGRESS WILL BE LOST.'
-                default-locked-icon: 'Change default locked level icon. | This option can be overwritten by each level.'
-                gui-mode: 'Enable/disable single challenges GUI. | &2Requires a server restart.'
-
+                history-lifespan: |-
+                    Modify how many days history data should be stored.
+                    0 means forever.
+                island-store: |-
+                    Enable/disable challenges data storing per island. This means that challenges will be the same for the whole team if this is enabled.
+                    &cWill NOT convert data on click. PROGRESS WILL BE LOST.'
+                default-locked-icon: |-
+                    Change default locked level icon.
+                    This option can be overwritten by each level.'
+                gui-mode: |-
+                    Enable/disable single challenges GUI.
+                    &2Requires a server restart.'
                 visibility-mode: 'Show/hide undeployed challenges.'
 
                 click-to-edit: '&4Click here to edit input.'
@@ -292,32 +344,88 @@ challenges:
                 library-lang: '&aLanguage: [lang]'
                 library-gamemode: '&aPrimary for [gamemode]'
 
-                download: 'Manually update available challenges libraries. | Right click to enable cache clearing.'
+                download: |-
+                    Manually update available challenges libraries.
+                    Right click to enable cache clearing.'
                 download-disabled: 'GitHub data downloader is disabled in BentoBox. Without it, you cannot use Libraries!'
 
                 lore:
-                  level: "Level string. | Represents translation 'challenges.gui.challenge-description.level'."
-                  status: "Status string. | Represents translation 'challenges.gui.challenge-description.completed'."
-                  count: "Completion count string. | Represents translation for 'challenges.gui.challenge-description.completed-times',  'challenges.gui.challenge-description.completed-times-of' and 'challenges.gui.challenge-description.maxed-reached'."
-                  description: "Description string. | Defined in challenges object - challenge.description."
-                  warnings: "Warning string. | Represents translation for: | 'challenges.gui.challenge-description.warning-items-take' | 'challenges.gui.challenge-description.objects-close-by' | 'challenges.gui.challenge-description.warning-entities-kill' | 'challenges.gui.challenge-description.warning-blocks-remove'."
-                  environment: "Environment string. | Defined in challenges object - challenge.environment."
-                  requirements: "Requirement string. | Represents translation for: | 'challenges.gui.challenge-description.required-level' | 'challenges.gui.challenge-description.required-money' | 'challenges.gui.challenge-description.required-experience' |  and challenge.requiredItems, challenge.requiredBlocks or challenge.requiredEntities."
-                  reward_text: "Reward string. | Defined in challenge.rewardText and challenge.repeatRewardText"
-                  reward_other: "Reward other string. | Represents translation for: | 'challenges.gui.challenge-description.experience-reward' | 'challenges.gui.challenge-description.money-reward' | 'challenges.gui.challenge-description.not-repeatable'."
-                  reward_items: "Reward items. | List of items that will be rewarded defined in challenge.rewardItems and challenge.repeatRewardItems."
-                  reward_commands: "Reward commands. | List of commands that will be rewarded defined in challenge.rewardCommands and challenge.repeatRewardCommands."
-
-                  level_status: "Status string. | Represents translation 'challenges.gui.level-description.completed'."
-                  challenge_count: "Completed challenge count string. | Represents translation for 'challenges.gui.level-description.completed-challenges-of'"
-                  unlock_message: "Unlock message string. | Defined in challenges Level object - challengeLevel.unlockMessage."
-                  waiver_amount: "Shippable challenge count to unlock next level string. | Represents translation for 'challenges.gui.level-description.waver-amount'"
-                  level_reward_text: "Reward string. | Defined in challengeLevel.rewardText"
-                  level_reward_other: "Reward other string. | Represents translation for: | 'challenges.gui.level-description.experience-reward' | 'challenges.gui.level-description.money-reward'."
-                  level_reward_items: "Reward items. | List of items that will be rewarded defined in challengeLevel.rewardItems."
-                  level_reward_commands: "Reward commands. | List of commands that will be rewarded defined in challengeLevel.rewardCommands."
-
-            current-value: '|&6Current value: [value].'
+                  level: |-
+                    Level string.
+                    Represents translation challenges.gui.challenge-description.level
+                  status: |-
+                    Status string.
+                    Represents translation challenges.gui.challenge-description.completed
+                  count: |-
+                    Completion count string.
+                    Represents translation for challenges.gui.challenge-description.completed-times
+                    challenges.gui.challenge-description.completed-times-of
+                    and challenges.gui.challenge-description.maxed-reached
+                  description: |-
+                    Description string.
+                    Defined in challenges object - challenge.description.
+                  warnings: |-
+                    Warning string.
+                    Represents translation for:
+                    challenges.gui.challenge-description.warning-items-take
+                    challenges.gui.challenge-description.objects-close-by
+                    challenges.gui.challenge-description.warning-entities-kill
+                    challenges.gui.challenge-description.warning-blocks-remove
+                  environment: |-
+                    Environment string.
+                    Defined in challenges object - challenge.environment.
+                  requirements: |-
+                    Requirement string.
+                    Represents translation for:
+                    challenges.gui.challenge-description.required-level
+                    challenges.gui.challenge-description.required-money
+                    challenges.gui.challenge-description.required-experience
+                    challenge.requiredItems'
+                    challenge.requiredBlocks'
+                    or challenge.requiredEntities.
+                  reward_text: |-
+                    Reward string.
+                    Defined in challenge.rewardText and challenge.repeatRewardText
+                  reward_other: |-
+                   Reward other string.
+                   Represents translation for:
+                   challenges.gui.challenge-description.experience-reward
+                   challenges.gui.challenge-description.money-reward
+                   challenges.gui.challenge-description.not-repeatable
+                  reward_items: |-
+                    Reward items.
+                    List of items that will be rewarded defined in challenge.rewardItems and challenge.repeatRewardItems.
+                  reward_commands: |-
+                    Reward commands.
+                    List of commands that will be rewarded defined in challenge.rewardCommands and challenge.repeatRewardCommands.
+                  level_status: |-
+                    Status string.
+                    Represents translation challenges.gui.level-description.completed
+                  challenge_count: |-
+                    Completed challenge count string.
+                    Represents translation for challenges.gui.level-description.completed-challenges-of
+                  unlock_message: |-
+                    Unlock message string.
+                    Defined in challenges Level object - challengeLevel.unlockMessage
+                  waiver_amount: |-
+                    Shippable challenge count to unlock next level string.
+                    Represents translation for challenges.gui.level-description.waver-amount
+                  level_reward_text: |-
+                    Reward string.
+                    Defined in challengeLevel.rewardText
+                  level_reward_other: |-
+                    Reward other string.
+                    Represents translation for:
+                    challenges.gui.level-description.experience-reward
+                    challenges.gui.level-description.money-reward
+                  level_reward_items: |-
+                    Reward items.
+                    List of items that will be rewarded defined in challengeLevel.rewardItems
+                  level_reward_commands: |-
+                    Reward commands.
+                    List of commands that will be rewarded defined in challengeLevel.rewardCommands
+            current-value: |-
+                &6Current value: [value].
             enabled: 'Active'
             disabled: 'Disabled'
             type:
@@ -456,7 +564,9 @@ challenges:
         unknown-challenge: '&cUnknown challenge'
         unique-id: '&cUniqueID "[id]" is not valid.'
         wrong-icon: '&cGiven material "[value]" is not valid and cannot be used as icon.'
-        not-valid-integer: '&cGiven integer "[value]" is not valid! | Value should be between [min] and [max].'
+        not-valid-integer: |-
+            &cGiven integer "[value]" is not valid!
+            Value should be between [min] and [max].
         not-a-integer: '&cGiven value "[value]" is not an integer!'
         not-deployed: '&cChallenge is not deployed!'
         not-on-island: '&cYou must be on your island to do that!'
