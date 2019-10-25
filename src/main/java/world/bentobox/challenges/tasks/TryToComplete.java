@@ -349,7 +349,7 @@ public class TryToComplete
             if (this.addon.isEconomyProvided())
             {
                 this.addon.getEconomyProvider().deposit(this.user,
-                    this.challenge.getRepeatMoneyReward() * rewardFactor);
+                    (double)this.challenge.getRepeatMoneyReward() * rewardFactor);
             }
 
             // Experience Repeat Reward

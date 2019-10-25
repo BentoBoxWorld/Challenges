@@ -265,13 +265,6 @@ public class ChallengesManager
         User user,
         boolean silent)
     {
-        if (challenge == null)
-        {
-            this.addon.logError(
-                "Tried to load NULL element from Database. One challenge is broken and will not work.");
-            return false;
-        }
-
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
             if (!overwrite)
@@ -333,13 +326,6 @@ public class ChallengesManager
         User user,
         boolean silent)
     {
-        if (level == null)
-        {
-            this.addon.logError(
-                "Tried to load NULL element from Database. One level is broken and will not work.");
-            return false;
-        }
-
         if (!this.isValidLevel(level))
         {
             if (user != null)

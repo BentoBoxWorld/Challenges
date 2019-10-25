@@ -88,7 +88,7 @@ public class ChallengesAddon extends Addon {
 	 * This flag allows to complete challenges in any part of the world. It will not limit
 	 * player to their island. Useful for skygrid without protection flags.
 	 */
-	public static Flag CHALLENGES_WORLD_PROTECTION =
+	public static final Flag CHALLENGES_WORLD_PROTECTION =
 		new Flag.Builder("CHALLENGES_WORLD_PROTECTION", Material.GRASS_BLOCK).type(Flag.Type.WORLD_SETTING).defaultSetting(true).build();
 
 	/**
@@ -96,7 +96,7 @@ public class ChallengesAddon extends Addon {
 	 * that only Island owner can complete challenge.
 	 * By default it is set to Visitor.
 	 */
-	public static Flag CHALLENGES_ISLAND_PROTECTION =
+	public static final Flag CHALLENGES_ISLAND_PROTECTION =
 		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
 
 

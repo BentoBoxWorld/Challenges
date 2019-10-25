@@ -2,6 +2,7 @@ package world.bentobox.challenges.commands;
 
 import java.util.List;
 
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
@@ -39,7 +40,9 @@ public class ChallengesCommand extends CompositeCommand
             // Show admin better explanation.
             if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + "admin.challenges"))
             {
-                String topLabel = getIWM().getAddon(this.getWorld()).get().getAdminCommand().orElseGet(this::getParent).getTopLabel();
+                String topLabel = getIWM().getAddon(this.getWorld())
+                        .map(GameModeAddon::getAdminCommand)
+                        .map(optionalAdminCommand -> optionalAdminCommand.map(ac -> ac.getTopLabel()).orElse(this.getTopLabel())).orElse(this.getTopLabel());
                 user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
             }
             else
