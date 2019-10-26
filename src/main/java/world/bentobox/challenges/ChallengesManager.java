@@ -43,7 +43,7 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class manges challenges. It allows access to all data that is stored to database.
+ * This class manages challenges. It allows access to all data that is stored to database.
  * It also provides information about challenge level status for each user.
  */
 public class ChallengesManager
@@ -200,7 +200,7 @@ public class ChallengesManager
 
         this.playerCacheData.clear();
 
-        this.addon.getLogger().info("Loading challenges...");
+        this.addon.log("Loading challenges...");
 
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
@@ -1615,20 +1615,26 @@ public class ChallengesManager
         }
         else
         {
+            System.out.println("Checking database");
             // check database.
             if (this.challengeDatabase.objectExists(name))
             {
+                System.out.println("Exists");
                 Challenge challenge = this.challengeDatabase.loadObject(name);
 
                 if (challenge != null)
                 {
+                    System.out.println("Loaded!");
                     this.challengeCacheData.put(name, challenge);
                     return challenge;
                 }
                 else
                 {
+                    System.out.println("Error");
                     this.addon.logError("Tried to load NULL challenge object!");
                 }
+            } else {
+                System.out.println("Not exists");
             }
         }
 
@@ -1644,30 +1650,7 @@ public class ChallengesManager
      */
     public boolean containsChallenge(String name)
     {
-        if (this.challengeCacheData.containsKey(name))
-        {
-            return true;
-        }
-        else
-        {
-            // check database.
-            if (this.challengeDatabase.objectExists(name))
-            {
-                Challenge challenge = this.challengeDatabase.loadObject(name);
-
-                if (challenge != null)
-                {
-                    this.challengeCacheData.put(name, challenge);
-                    return true;
-                }
-                else
-                {
-                    this.addon.logError("Tried to load NULL challenge object!");
-                }
-            }
-        }
-
-        return false;
+        return getChallenge(name) != null;
     }
 
 
