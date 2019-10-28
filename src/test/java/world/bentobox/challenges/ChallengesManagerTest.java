@@ -1,12 +1,13 @@
 package world.bentobox.challenges;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -22,8 +23,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -33,6 +37,8 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,30 +50,42 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.api.addons.AddonDescription;
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.DatabaseSetup.DatabaseType;
 import world.bentobox.bentobox.managers.IslandWorldManager;
+import world.bentobox.bentobox.managers.PlaceholdersManager;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.events.ChallengeCompletedEvent;
+import world.bentobox.challenges.events.ChallengeResetAllEvent;
+import world.bentobox.challenges.events.ChallengeResetEvent;
+import world.bentobox.challenges.events.LevelCompletedEvent;
+import world.bentobox.challenges.utils.LevelStatus;
 
 /**
  * @author tastybento
  *
  */
+@SuppressWarnings("deprecation")
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class})
+@PrepareForTest({Bukkit.class, BentoBox.class, Util.class})
 public class ChallengesManagerTest {
 
+    // Constants
+    private static final String GAME_MODE_NAME = "BSkyBlock";
+
+    // Mocks
     @Mock
     private ChallengesAddon addon;
     @Mock
     private Settings settings;
     @Mock
     private IslandWorldManager iwm;
-
-    private ChallengesManager cm;
-    private File database;
     @Mock
     private Server server;
     @Mock
@@ -76,30 +94,50 @@ public class ChallengesManagerTest {
     private ItemFactory itemFactory;
     @Mock
     private User user;
-    private String uuid;
     @Mock
     private World world;
+    @Mock
+    private GameModeAddon gameModeAddon;
+    @Mock
+    private PlaceholdersManager plhm;
+
+    // Variable fields
+    private ChallengesManager cm;
+    private File database;
+    private String uuid;
+    private Challenge challenge;
+    private @NonNull ChallengeLevel level;
+    private UUID playerID = UUID.randomUUID();
+    private String cName;
+    private String levelName;
 
     /**
      * @throws java.lang.Exception
      */
-    @SuppressWarnings("deprecation")
     @Before
     public void setUp() throws Exception {
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
         when(addon.getPlugin()).thenReturn(plugin);
+
+        // IWM
         when(plugin.getIWM()).thenReturn(iwm);
         when(iwm.inWorld(any(World.class))).thenReturn(true);
 
-        // Settings for Database        
+        // Placeholders
+        when(plugin.getPlaceholdersManager()).thenReturn(plhm);
+
+        // Settings for Database
         world.bentobox.bentobox.Settings s = mock(world.bentobox.bentobox.Settings.class);
         when(plugin.getSettings()).thenReturn(s);
         when(s.getDatabaseType()).thenReturn(DatabaseType.JSON);
 
-        // Settings
+        // Addon Settings
         when(addon.getChallengesSettings()).thenReturn(settings);
+        when(settings.isStoreHistory()).thenReturn(true);
+        when(settings.getLifeSpan()).thenReturn(10);
+
         // Database
         database = new File("database");
         tearDown();
@@ -117,6 +155,37 @@ public class ChallengesManagerTest {
         when(unsafe.getDataVersion()).thenReturn(777);
         when(Bukkit.getUnsafe()).thenReturn(unsafe);
 
+        // Challenge
+        challenge = new Challenge();
+        uuid = UUID.randomUUID().toString();
+        challenge.setUniqueId(GAME_MODE_NAME + "_" + uuid);
+        challenge.setFriendlyName("name");
+        challenge.setLevel(GAME_MODE_NAME + "_novice");
+        challenge.setDescription(Collections.singletonList("A description"));
+
+        // Challenge Level
+        level = new ChallengeLevel();
+        levelName = GAME_MODE_NAME + "_novice";
+        level.setUniqueId(levelName);
+        level.setFriendlyName("Novice");
+
+        // User
+        when(user.getUniqueId()).thenReturn(playerID);
+
+        // Util
+        PowerMockito.mockStatic(Util.class);
+        when(Util.getWorld(any())).thenReturn(world);
+
+        // Addon
+        AddonDescription desc = new AddonDescription.Builder("main", GAME_MODE_NAME, "1.0").build();
+        when(gameModeAddon.getDescription()).thenReturn(desc);
+        Optional<GameModeAddon> opAddon = Optional.of(gameModeAddon);
+        when(iwm.getAddon(any())).thenReturn(opAddon);
+
+        // Challenge name
+        cName = GAME_MODE_NAME + "_" + uuid;
+
+        // Class under test
         cm = new ChallengesManager(addon);
     }
 
@@ -127,53 +196,139 @@ public class ChallengesManagerTest {
     public void tearDown() throws Exception {
         // Clean up JSON database
         // Clean up file system
+        if (database.exists()) {
+            Files.walk(database.toPath())
+            .sorted(Comparator.reverseOrder())
+            .map(Path::toFile)
+            .forEach(File::delete);
+        }
 
-            if (database.exists()) {
-                Files.walk(database.toPath())
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
-            }
-        
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#load()}.
+     * @throws InterruptedException
      */
     @Test
-    public void testLoad() {
+    public void testLoad() throws InterruptedException {
         verify(addon).log("Loading challenges...");
         verify(addon, never()).logError(anyString());
         this.testSaveLevel();
         this.testSaveChallenge();
         cm.load();
-       verify(addon, times(2)).log("Loading challenges...");
+        verify(addon, times(2)).log("Loading challenges...");
         verify(addon, never()).logError(anyString());
-        assertTrue(cm.containsChallenge(uuid));
+        assertTrue(cm.containsChallenge(cName));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#reload()}.
+     * @throws InterruptedException
      */
     @Test
-    public void testReload() {
-        fail("Not yet implemented");
+    public void testReload() throws InterruptedException {
+        cm.reload();
+        verify(addon).log("Reloading challenges...");
+        this.testSaveLevel();
+        this.testSaveChallenge();
+        cm.reload();
+        verify(addon, times(2)).log("Reloading challenges...");
+        verify(addon, never()).logError(anyString());
+        assertTrue(cm.containsChallenge(cName));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
-    public void testLoadChallenge() {
-        fail("Not yet implemented");
+    public void testLoadChallengeNoOverwriteSilent() {
+        // load once
+        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        // load twice - no overwrite
+        assertFalse(cm.loadChallenge(challenge, false, user, true));
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadChallengeNoOverwriteNotSilent() {
+        // load once
+        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        // load twice - no overwrite, not silent
+        assertFalse(cm.loadChallenge(challenge, false, user, false));
+        verify(user).sendMessage("challenges.messages.load-skipping", "[value]", "name");
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadChallengeOverwriteSilent() {
+        // load once
+        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        // overwrite
+        assertTrue(cm.loadChallenge(challenge, true, user, true));
+        verify(user, never()).sendMessage(anyString(), anyString(), anyString());
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadChallengeOverwriteNotSilent() {
+        // load once
+        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        // overwrite not silent
+        assertTrue(cm.loadChallenge(challenge, true, user, false));
+        verify(user).sendMessage("challenges.messages.load-overwriting", "[value]", "name");
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
-    public void testLoadLevel() {
-        fail("Not yet implemented");
+    public void testLoadLevelNoOverwriteSilent() {
+        // load once
+        assertTrue(cm.loadLevel(level, false, user, true));
+        // load twice - no overwrite
+        assertFalse(cm.loadLevel(level, false, user, true));
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadLevelNoOverwriteNotSilent() {
+        // load once
+        assertTrue(cm.loadLevel(level, false, user, true));
+        // load twice - no overwrite, not silent
+        assertFalse(cm.loadLevel(level, false, user, false));
+        verify(user).sendMessage("challenges.messages.load-skipping", "[value]", "Novice");
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadLevelOverwriteSilent() {
+        // load once
+        assertTrue(cm.loadLevel(level, false, user, true));
+        // overwrite
+        assertTrue(cm.loadLevel(level, true, user, true));
+        verify(user, never()).sendMessage(anyString(), anyString(), anyString());
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     */
+    @Test
+    public void testLoadLevelOverwriteNotSilent() {
+        // load once
+        assertTrue(cm.loadLevel(level, false, user, true));
+        // overwrite not silent
+        assertTrue(cm.loadLevel(level, true, user, false));
+        verify(user).sendMessage("challenges.messages.load-overwriting", "[value]", "Novice");
     }
 
     /**
@@ -181,23 +336,62 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testRemoveFromCache() {
-        fail("Not yet implemented");
+        cm.removeFromCache(playerID);
+        verify(settings).isStoreAsIslandData();
+        // TODO there should be a test where isStoreAsIslandData returns true
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#wipeDatabase(boolean)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testWipeDatabase() {
-        fail("Not yet implemented");
+    public void testWipeDatabase() throws InterruptedException {
+        // Create some database
+        this.testLoad();
+
+        // Verify file exists
+        File chDir = new File(database, "Challenge");
+        File check = new File(chDir, cName + ".json");
+        assertTrue(check.exists());
+
+        File lvDir = new File(database, "ChallengeLevel");
+        File checkLv = new File(lvDir, levelName + ".json");
+        assertTrue(checkLv.exists());
+
+        cm.setChallengeComplete(user, world, challenge, 20);
+        //cm.save();
+        File plData = new File(database, "ChallengesPlayerData");
+        File checkPd = new File(plData, playerID.toString() + ".json");
+        assertTrue(checkPd.exists());
+
+        // Wipe it
+        cm.wipeDatabase(false);
+
+        // Verify
+        assertFalse(check.exists());
+        assertFalse(checkLv.exists());
+        assertTrue(checkPd.exists());
+
+        cm.wipeDatabase(true);
+        assertFalse(checkPd.exists());
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#wipePlayers()}.
+     * @throws InterruptedException
      */
     @Test
-    public void testWipePlayers() {
-        fail("Not yet implemented");
+    public void testWipePlayers() throws InterruptedException {
+        this.testLoad();
+        cm.setChallengeComplete(user, world, challenge, 20);
+        cm.save();
+        File plData = new File(database, "ChallengesPlayerData");
+        Arrays.stream(plData.listFiles()).map(f -> f.getName()).forEach(System.out::println);
+        File checkLv = new File(plData, playerID.toString() + ".json");
+        assertTrue(checkLv.exists());
+        cm.wipePlayers();
+        assertFalse(checkLv.exists());
     }
 
     /**
@@ -205,7 +399,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testMigrateDatabase() {
-        fail("Not yet implemented");
+        cm.migrateDatabase(user, world);
     }
 
     /**
@@ -213,24 +407,21 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testSave() {
-        fail("Not yet implemented");
+        cm.save();
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#saveChallenge(world.bentobox.challenges.database.object.Challenge)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testSaveChallenge() {
-        Challenge challenge = new Challenge();
-        uuid = UUID.randomUUID().toString();
-        challenge.setUniqueId(uuid);
-        challenge.setFriendlyName("name");
-        challenge.setLevel("novice");
-        challenge.setDescription(Collections.singletonList("A description"));
+    public void testSaveChallenge() throws InterruptedException {
+        // Async - may not happen quickly
         cm.saveChallenge(challenge);
+        Thread.sleep(500);
         File chDir = new File(database, "Challenge");
         assertTrue(chDir.exists());
-        File check = new File(chDir, uuid + ".json");
+        File check = new File(chDir, cName + ".json");
         assertTrue(check.exists());
         // Remove icon becauseit has mockito meta in it
         removeLine(check);
@@ -253,10 +444,8 @@ public class ChallengesManagerTest {
                 }
             }
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -264,18 +453,17 @@ public class ChallengesManagerTest {
     }
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#saveLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testSaveLevel() {
-        ChallengeLevel level = new ChallengeLevel();
-        level.setUniqueId("novice");
-        level.setFriendlyName("name");
+    public void testSaveLevel() throws InterruptedException {
         cm.saveLevel(level);
+        Thread.sleep(500);
         File chDir = new File(database, "ChallengeLevel");
         assertTrue(chDir.exists());
-        File check = new File(chDir, "novice.json");
+        File check = new File(chDir, GAME_MODE_NAME + "_novice.json");
         assertTrue(check.exists());
-     // Remove icon becauseit has mockito meta in it
+        // Remove icon becauseit has mockito meta in it
         removeLine(check);
     }
 
@@ -284,7 +472,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testIsChallengeCompleteUserWorldChallenge() {
-        fail("Not yet implemented");
+        assertFalse(cm.isChallengeComplete(user, world, challenge));
     }
 
     /**
@@ -292,7 +480,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testIsChallengeCompleteUUIDWorldChallenge() {
-        fail("Not yet implemented");
+        assertFalse(cm.isChallengeComplete(playerID, world, challenge));
     }
 
     /**
@@ -300,7 +488,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testIsChallengeCompleteUUIDWorldString() {
-        fail("Not yet implemented");
+        assertFalse(cm.isChallengeComplete(playerID, world, "Novice"));
     }
 
     /**
@@ -308,7 +496,9 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testSetChallengeCompleteUserWorldChallengeInt() {
-        fail("Not yet implemented");
+        cm.setChallengeComplete(user, world, challenge, 3);
+        assertTrue(cm.isChallengeComplete(user, world, challenge));
+        verify(pim).callEvent(any(ChallengeCompletedEvent.class));
     }
 
     /**
@@ -316,7 +506,9 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testSetChallengeCompleteUUIDWorldChallengeInt() {
-        fail("Not yet implemented");
+        cm.setChallengeComplete(playerID, world, challenge, 3);
+        assertTrue(cm.isChallengeComplete(playerID, world, challenge));
+        verify(pim).callEvent(any(ChallengeCompletedEvent.class));
     }
 
     /**
@@ -324,7 +516,10 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testSetChallengeCompleteUUIDWorldChallengeUUID() {
-        fail("Not yet implemented");
+        UUID adminID = UUID.randomUUID();
+        cm.setChallengeComplete(playerID, world, challenge, adminID);
+        assertTrue(cm.isChallengeComplete(playerID, world, challenge));
+        verify(pim).callEvent(any(ChallengeCompletedEvent.class));
     }
 
     /**
@@ -332,7 +527,11 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testResetChallenge() {
-        fail("Not yet implemented");
+        cm.setChallengeComplete(user, world, challenge, 3);
+        assertTrue(cm.isChallengeComplete(user, world, challenge));
+        cm.resetChallenge(playerID, world, challenge, playerID);
+        assertFalse(cm.isChallengeComplete(user, world, challenge));
+        verify(pim).callEvent(any(ChallengeResetEvent.class));
     }
 
     /**
@@ -340,7 +539,11 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testResetAllChallengesUserWorld() {
-        fail("Not yet implemented");
+        cm.setChallengeComplete(user, world, challenge, 3);
+        assertTrue(cm.isChallengeComplete(user, world, challenge));
+        cm.resetAllChallenges(user, world);
+        assertFalse(cm.isChallengeComplete(user, world, challenge));
+        verify(pim).callEvent(any(ChallengeResetAllEvent.class));
     }
 
     /**
@@ -348,7 +551,11 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testResetAllChallengesUUIDWorldUUID() {
-        fail("Not yet implemented");
+        cm.setChallengeComplete(user, world, challenge, 3);
+        assertTrue(cm.isChallengeComplete(user, world, challenge));
+        cm.resetAllChallenges(playerID, world, playerID);
+        assertFalse(cm.isChallengeComplete(user, world, challenge));
+        verify(pim).callEvent(any(ChallengeResetAllEvent.class));
     }
 
     /**
@@ -356,7 +563,9 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetChallengeTimesUserWorldChallenge() {
-        fail("Not yet implemented");
+        assertEquals(0L, cm.getChallengeTimes(user, world, challenge));
+        cm.setChallengeComplete(user, world, challenge, 6);
+        assertEquals(6L, cm.getChallengeTimes(user, world, challenge));
     }
 
     /**
@@ -364,7 +573,9 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetChallengeTimesUserWorldString() {
-        fail("Not yet implemented");
+        assertEquals(0L, cm.getChallengeTimes(user, world, cName));
+        cm.setChallengeComplete(user, world, challenge, 6);
+        assertEquals(6L, cm.getChallengeTimes(user, world, cName));
     }
 
     /**
@@ -372,7 +583,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testIsLevelCompleted() {
-        fail("Not yet implemented");
+        assertFalse(cm.isLevelCompleted(user, world, level));
     }
 
     /**
@@ -380,7 +591,9 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testIsLevelUnlocked() {
-        fail("Not yet implemented");
+        assertFalse(cm.isLevelUnlocked(user, world, level));
+        this.testLoadLevelNoOverwriteSilent();
+        assertTrue(cm.isLevelUnlocked(user, world, level));
     }
 
     /**
@@ -388,7 +601,10 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testSetLevelComplete() {
-        fail("Not yet implemented");
+        assertFalse(cm.isLevelCompleted(user, world, level));
+        cm.setLevelComplete(user, world, level);
+        assertTrue(cm.isLevelCompleted(user, world, level));
+        verify(pim).callEvent(any(LevelCompletedEvent.class));
     }
 
     /**
@@ -396,7 +612,7 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testValidateLevelCompletion() {
-        fail("Not yet implemented");
+        assertTrue(cm.validateLevelCompletion(user, world, level));
     }
 
     /**
@@ -404,7 +620,14 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetChallengeLevelStatus() {
-        fail("Not yet implemented");
+        this.testLoadLevelNoOverwriteSilent();
+        LevelStatus cls = cm.getChallengeLevelStatus(playerID, world, level);
+        assertTrue(cls.getNumberOfChallengesStillToDo() == 0);
+        assertEquals(level, cls.getLevel());
+        assertTrue(cls.isComplete());
+        assertTrue(cls.isUnlocked());
+        assertEquals("BSkyBlock_novice", cls.getLevel().getUniqueId());
+
     }
 
     /**
@@ -412,7 +635,15 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetAllChallengeLevelStatus() {
-        fail("Not yet implemented");
+        this.testLoadLevelNoOverwriteSilent();
+        List<LevelStatus> list = cm.getAllChallengeLevelStatus(user, world);
+        assertTrue(list.size() == 1);
+        LevelStatus cls = list.get(0);
+        assertTrue(cls.getNumberOfChallengesStillToDo() == 0);
+        assertEquals(level, cls.getLevel());
+        assertTrue(cls.isComplete());
+        assertTrue(cls.isUnlocked());
+        assertEquals("BSkyBlock_novice", cls.getLevel().getUniqueId());
     }
 
     /**
@@ -420,7 +651,12 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetAllChallengesNames() {
-        fail("Not yet implemented");
+        assertTrue(cm.getAllChallengesNames(world).isEmpty());
+        cm.saveChallenge(challenge);
+        cm.loadChallenge(challenge, false, user, true);
+        List<String> list = cm.getAllChallengesNames(world);
+        assertFalse(list.isEmpty());
+        assertEquals(cName, list.get(0));
     }
 
     /**
@@ -428,7 +664,12 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetAllChallenges() {
-        fail("Not yet implemented");
+        assertTrue(cm.getAllChallenges(world).isEmpty());
+        cm.saveChallenge(challenge);
+        cm.loadChallenge(challenge, false, user, true);
+        List<Challenge> list = cm.getAllChallenges(world);
+        assertFalse(list.isEmpty());
+        assertEquals(challenge, list.get(0));
     }
 
     /**
@@ -436,26 +677,50 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetFreeChallenges() {
-        fail("Not yet implemented");
+        // Empty
+        assertTrue(cm.getFreeChallenges(world).isEmpty());
+        // One normal
+        cm.saveChallenge(challenge);
+        cm.loadChallenge(challenge, false, user, true);
+        assertTrue(cm.getFreeChallenges(world).isEmpty());
+        // One free
+        challenge.setLevel("");
+        cm.saveChallenge(challenge);
+        cm.loadChallenge(challenge, false, user, true);
+        List<Challenge> list = cm.getFreeChallenges(world);
+        assertFalse(list.isEmpty());
+        assertEquals(challenge, list.get(0));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#getLevelChallenges(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testGetLevelChallenges() {
-        fail("Not yet implemented");
+    public void testGetLevelChallenges() throws InterruptedException {
+        assertTrue(cm.getLevelChallenges(level).isEmpty());
+        // make some challenges
+        this.testSaveLevel();
+        this.testSaveChallenge();
+        level.setChallenges(Collections.singleton(challenge.getUniqueId()));
+        // Test again
+        List<Challenge> list = cm.getLevelChallenges(level);
+        assertFalse(list.isEmpty());
+        assertEquals(challenge, list.get(0));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#getChallenge(java.lang.String)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testGetChallenge() {
-        assertNull(cm.getChallenge("name"));
+    public void testGetChallenge() throws InterruptedException {
+        assertNull(cm.getChallenge(cName));
         this.testSaveLevel();
         this.testSaveChallenge();
-        assertNotNull(cm.getChallenge(uuid));
+        Challenge ch = cm.getChallenge(cName);
+        assertNotNull(ch);
+        assertEquals(cName, ch.getUniqueId());
     }
 
     /**
@@ -471,15 +736,27 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testCreateChallenge() {
-        fail("Not yet implemented");
+        @Nullable
+        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, null);
+        assertEquals(ChallengeType.ISLAND, ch.getChallengeType());
+        assertEquals("newChal", ch.getUniqueId());
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#deleteChallenge(world.bentobox.challenges.database.object.Challenge)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testDeleteChallenge() {
-        fail("Not yet implemented");
+    public void testDeleteChallenge() throws InterruptedException {
+        this.testSaveLevel();
+        this.testSaveChallenge();
+        Challenge ch = cm.getChallenge(cName);
+        assertNotNull(ch);
+        assertEquals(cName, ch.getUniqueId());
+        cm.deleteChallenge(challenge);
+        ch = cm.getChallenge(cName);
+        assertNull(ch);
+        verify(plhm).unregisterPlaceholder(eq("challenges_challenge_repetition_count_" + cName));
     }
 
     /**
@@ -487,7 +764,10 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetLevels() {
-        fail("Not yet implemented");
+        this.testGetLevelString();
+        List<ChallengeLevel> lvs = cm.getLevels(world);
+        assertFalse(lvs.isEmpty());
+        assertEquals(level, lvs.get(0));
     }
 
     /**
@@ -495,7 +775,8 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetLevelChallenge() {
-        fail("Not yet implemented");
+        this.testGetLevelString();
+        assertEquals(level, cm.getLevel(challenge));
     }
 
     /**
@@ -503,7 +784,10 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testGetLevelString() {
-        fail("Not yet implemented");
+        assertNull(cm.getLevel("dss"));
+        cm.saveLevel(level);
+        cm.loadLevel(level, false, user, true);
+        assertEquals(level, cm.getLevel(levelName));
     }
 
     /**
@@ -511,23 +795,33 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testContainsLevel() {
-        fail("Not yet implemented");
+        this.testGetLevelString();
+        assertFalse(cm.containsLevel("sdsd"));
+        assertTrue(cm.containsLevel(levelName));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#addChallengeToLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testAddChallengeToLevel() {
-        fail("Not yet implemented");
+    public void testAddChallengeToLevel() throws InterruptedException {
+        this.testLoad();
+        cm.deleteChallenge(challenge);
+        assertFalse(cm.containsChallenge(cName));
+        cm.addChallengeToLevel(challenge, level);
+        assertEquals(level, cm.getLevel(challenge));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#removeChallengeFromLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testRemoveChallengeFromLevel() {
-        fail("Not yet implemented");
+    public void testRemoveChallengeFromLevel() throws InterruptedException {
+        this.testAddChallengeToLevel();
+        cm.removeChallengeFromLevel(challenge, level);
+        assertFalse(cm.containsChallenge(cName));
     }
 
     /**
@@ -535,31 +829,44 @@ public class ChallengesManagerTest {
      */
     @Test
     public void testCreateLevel() {
-        fail("Not yet implemented");
+        @Nullable
+        ChallengeLevel cl = cm.createLevel("Expert", world);
+        assertEquals("Expert", cl.getUniqueId());
+        assertEquals(world.getName(), cl.getWorld());
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#deleteChallengeLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testDeleteChallengeLevel() {
-        fail("Not yet implemented");
+    public void testDeleteChallengeLevel() throws InterruptedException {
+        this.testAddChallengeToLevel();
+        assertTrue(cm.containsLevel(levelName));
+        cm.deleteChallengeLevel(level);
+        assertFalse(cm.containsLevel(levelName));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#hasAnyChallengeData(org.bukkit.World)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testHasAnyChallengeDataWorld() {
-        fail("Not yet implemented");
+    public void testHasAnyChallengeDataWorld() throws InterruptedException {
+        assertFalse(cm.hasAnyChallengeData(world));
+        this.testLoad();
+        assertTrue(cm.hasAnyChallengeData(world));
     }
 
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#hasAnyChallengeData(java.lang.String)}.
+     * @throws InterruptedException
      */
     @Test
-    public void testHasAnyChallengeDataString() {
-        fail("Not yet implemented");
+    public void testHasAnyChallengeDataString() throws InterruptedException {
+        assertFalse(cm.hasAnyChallengeData("BSkyBlock"));
+        this.testLoad();
+        assertTrue(cm.hasAnyChallengeData("BSkyBlock"));
     }
 
 }
