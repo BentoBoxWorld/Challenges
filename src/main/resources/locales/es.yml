@@ -12,6 +12,9 @@ challenges:
         parameters: "<challenge name>"
       import:
         parameters: "[overwrite]"
+        description: |-
+          Importar desafíos desde challenge.yml
+          La sobrescritura de parámetros significa que se sobrescribirán los desafíos o niveles con la misma ID.
       defaults-generate:
         parameters: "[overwrite] - permite sobrescribir el archivo existente."
         description: Exportar los desafíos existentes al archivo default.json.
@@ -31,10 +34,17 @@ challenges:
         parameters: "[hard]"
       defaults:
         parameters: "[command]"
+        description: Muestra subcomandos para importar / exportar los desafíos predeterminados.
+      migrate:
+        description: Migrar los datos actuales de los desafíos del mundo del juego
+          al formato de almacenamiento 0.8.0.
+      show:
+        description: Imprime todos los desafíos en el chat que existen en este mundo.
     user:
       description: Este método abre el GUI de los desafíos.
       complete:
         parameters: "<challenge_id> [count]"
+        description: Completa el desafío.
       main:
         description: Abrir GUI de Desafíos.
   errors:
@@ -154,9 +164,42 @@ challenges:
         complete-wipe: Limpiar bases de datos de addon
         challenge-wipe: Limpiar base de datos de desafíos
         players-wipe: Limpiar base de datos del usuario
+        title-enable: Título de finalización
+        library: Biblioteca web
+        download: Descargar bibliotecas
+        import: Importar desafíos ASkyblock
+        settings: Editar configuración
+        name: Nombre amigable
+        required-entities: Entidades requeridas
+        remove-entities: Matar entidades
+        required-blocks: Bloques requeridos
+        remove-blocks: Eliminar bloques
+        search-radius: Radio de búsqueda
+        required-permissions: Permisos requeridos
+        waiver-amount: Cantidad de exención
+        add-challenge: Añadir desafío
+        remove-challenge: Eliminar desafío
+        reset-on-new: Restablecer en nueva isla
+        broadcast: Difusión completada
+        visibility-mode: Modo de visibilidad de desafío
+        toggle-user-list: Lista de usuarios
+        remove-selected: Eliminar selección
+        show-eggs: Cambiar modo de vista
+        level-lore: Descripción del nivel
+        challenge-lore: Descripción del desafío
+        gui-view-mode: Mostrar todos los modos de juego
+        history-store: Desafíos de la historia
+        island-store: Almacenar por isla
+        default-locked-icon: Icono de nivel bloqueado
+        title-showtime: Tiempo de presentación del título
+        default-import: Importar desafíos predeterminados
+        default-export: Exportar desafíos existentes
       next: Siguiente
       previous: Anterior
       return: Volver
+      value: Completar
+      increase: Incrementar
+      reduce: Reducir
     challenge-description:
       completed-times: Completado [donetimes]
       completed-times-of: Completado [donetimes] de [maxtimes]
@@ -376,6 +419,62 @@ challenges:
           level_reward_commands: |-
             Comandos de recompensa.
             Lista de comandos que serán recompensados definidos en challengeLevel.rewardCommands
+        download-disabled: El descargador de datos de GitHub está deshabilitado en
+          BentoBox. ¡Sin él, no puedes usar Bibliotecas!
+        create-level: Añadir nuevo nivel.
+        edit-level: Editar configuración de nivel.
+        delete-challenge: Eliminar un desafío.
+        delete-level: Eliminar un nivel.
+        settings: Cambiar ajustes.
+        properties: Cambiar propiedades generales
+        requirements: Administrar requisitos
+        rewards: Administrar recompensas
+        order: Cambiar número de orden.
+        environment: Cambiar el entorno del desafío.
+        search-radius: Radio alrededor de la ubicación del jugador donde se buscarán
+          las entidades y los bloques necesarios.
+        history-store: Habilitar / deshabilitar el almacenamiento del historial de
+          desafíos.
+        default-import: Importar desafíos predeterminados.
+        save: Guardar y volver a la GUI anterior.
+        set: Establecer operación. Al hacer clic en los números cambiará el valor
+          al número seleccionado.
+        increase: Aumentar la operación. Al hacer clic en los números, aumentará el
+          valor en el número seleccionado.
+        reduce: Reduce la operación. Al hacer clic en los números se reducirá el valor
+          en el número seleccionado.
+        multiply: Multiplicar la operación. Al hacer clic en los números, se multiplicará
+          el valor por el número seleccionado.
+        locked-icon: Icono que se mostrará en los paneles de la GUI si el nivel está
+          bloqueado.
+        repeat-count: Definir recuento de repetición máxima. Si el valor se establece
+          en 0, no hay limitaciones.
+        waiver-amount: Establece la cantidad de desafíos que un jugador puede dejar
+          fuera para desbloquear el siguiente nivel.
+        reward-text-level: Cambia el mensaje que se enviará al jugador después de
+          completar todos los desafíos en un nivel.
+        mode-online: Jugadores que están actualmente en línea.
+        mode-in-world: Jugadores en un mundo GameMode.
+        mode-with-island: Jugadores que tienen una isla en un mundo GameMode.
+        visibility-mode: Mostrar / ocultar desafíos no implementados.
+        reset: |-
+          Restablecer desafíos de usuario completados.
+          El clic derecho habilita / deshabilita Restablecer toda la funcionalidad.
+        create-challenge: |-
+          Agrega un nuevo desafío.
+          Estará en la lista de desafíos gratuitos de forma predeterminada.
+        required-entities: |-
+          Agregar / editar / eliminar entidades requeridas.
+          Entidades:
+        required-blocks: |-
+          Agregar / editar / eliminar bloques necesarios.
+          Bloques:
+        required-permissions: |-
+          Permisos requeridos a para que el jugador pueda completar este desafío.
+          Permiso:
+        remove-selected: |-
+          Eliminar elementos seleccionados.
+          Seleccione elementos con el botón derecho del mouse.
       block: "- [block] : [count]"
       command: "- [command]"
       disabled: Desactivado
@@ -398,6 +497,10 @@ challenges:
         other: "&arequiere cosas de otros plugins/addons"
         inventory: "&aRequiere items en el inventario del jugador"
       current-value: "&6Valor actual: [value]."
+      visibility:
+        hidden: Solo los desafíos desplegados son visibles.
+        visible: Todos los desafíos son visibles para todos
+        toggleable: Alternar si se deben mostrar desafíos no implementados
     level-description:
       reward-commands: "&6Comandos de recompensa:"
       experience-reward: "&6Recompensa de EXP: [value]"
@@ -414,6 +517,7 @@ challenges:
         number: Escribie un número en el chat y presiona Entrar.
         challenge-name: Escribe en el chat el nombre para el desafío actual.
         level-name: Escribe en el chat el nombre para el nivel actual.
+        unique-id: Escriba el nombre único del objeto y presione Entrar.
     title:
       admin:
         choose-challenge-title: "&aElegir desafío"
@@ -456,6 +560,9 @@ challenges:
       potion-type-extended: "[name] extendido"
       potion-effect: "[effect] x [amplifier] por [duration]t"
       fish-meta: "[body-color] con [patter-color] [pattern]"
+      item-meta: "([meta])"
+      armor-color: "[color]"
+      custom-effects: 'Efectos personalizados:'
   messages:
     import-challenges: Empezar a importar desafios
     import-levels: Empezar a importar niveles
@@ -481,6 +588,8 @@ challenges:
         todas las bases de datos del addon de Desafíos!"
       players-wipe: "¡Espero que tengas copias de seguridad, porque acabas de borrar
         todos los desafíos completados por el jugador!"
+      challenge-wipe: "¡Espero que tengas copias de seguridad, porque acabas de borrar
+        todos los desafíos y sus niveles!"
     you-completed-challenge: "&2¡Has completado el desafío [value]!"
     you-repeated-challenge: "&2¡Has repetido el desafío [value]!"
     you-repeated-challenge-multiple: "&2¡Has repetido el &r&2desafío [value] [count]
@@ -495,9 +604,11 @@ challenges:
   titles:
     challenge-subtitle: "[friendlyName]"
     level-subtitle: "[friendlyName]"
+    challenge-title: Completado con éxito
+    level-title: Completado con éxito
 meta:
   authors:
-  - SrAcosta
+  - BONNe
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
