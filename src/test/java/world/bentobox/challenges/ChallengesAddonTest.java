@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -14,12 +15,14 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +32,10 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.UnsafeValues;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.eclipse.jdt.annotation.NonNull;
@@ -186,6 +192,13 @@ public class ChallengesAddonTest {
         // Bukkit
         PowerMockito.mockStatic(Bukkit.class);       
         when(Bukkit.getScheduler()).thenReturn(scheduler);
+        ItemMeta meta = mock(ItemMeta.class);
+        ItemFactory itemFactory = mock(ItemFactory.class);
+        when(itemFactory.getItemMeta(any())).thenReturn(meta);
+        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
+        UnsafeValues unsafe = mock(UnsafeValues.class);
+        when(unsafe.getDataVersion()).thenReturn(777);
+        when(Bukkit.getUnsafe()).thenReturn(unsafe);
         
 
     }
@@ -197,9 +210,19 @@ public class ChallengesAddonTest {
     public void tearDown() throws Exception {
         new File("addon.jar").delete();
         new File("config.yml").delete();
-        new File("addons/Challenges","config.yml").delete();
-        new File("addons/Challenges").delete();
-        new File("addons").delete();
+        deleteAll(new File("addons"));
+        deleteAll(new File("database"));
+        
+    }
+
+    private void deleteAll(File file) throws IOException {
+        if (file.exists()) {
+            Files.walk(file.toPath())
+            .sorted(Comparator.reverseOrder())
+            .map(Path::toFile)
+            .forEach(File::delete);
+        }
+        
     }
 
     /**
@@ -289,6 +312,22 @@ public class ChallengesAddonTest {
     public void testOnReloadNotHooked() {
         addon.onReload();
         verify(plugin, never()).log(anyString());
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onDisable()}.
+     */
+    @Test
+    public void testOnDisable() {
+        this.testOnEnableHooked();
+        addon.onDisable();
+
+        // Verify database saved exists
+        File chDir = new File("database", "Challenge");
+        assertTrue(chDir.exists());
+        File lvDir = new File("database", "ChallengeLevel");
+        assertTrue(lvDir.exists());
+        
     }
 
     /**
