@@ -387,7 +387,6 @@ public class ChallengesManagerTest {
         cm.setChallengeComplete(user, world, challenge, 20);
         cm.save();
         File plData = new File(database, "ChallengesPlayerData");
-        Arrays.stream(plData.listFiles()).map(f -> f.getName()).forEach(System.out::println);
         File checkLv = new File(plData, playerID.toString() + ".json");
         assertTrue(checkLv.exists());
         cm.wipePlayers();
