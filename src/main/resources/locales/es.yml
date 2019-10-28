@@ -28,6 +28,9 @@ challenges:
         description: |-
           Recargar desafíos desde la base de datos
           El parámetro hard significa que el addon restablecerá la conexión a la base de datos.
+        parameters: "[hard]"
+      defaults:
+        parameters: "[command]"
     user:
       description: Este método abre el GUI de los desafíos.
       complete:
@@ -447,6 +450,12 @@ challenges:
       potion-type: "[name]"
       skull-owner: "[owner]"
       egg-meta: "[mob]"
+      book-meta: "[title] por [author]"
+      recipe-count: "[count] recetas"
+      potion-type-extended-upgraded: Extendido y actualizado [name]
+      potion-type-extended: "[name] extendido"
+      potion-effect: "[effect] x [amplifier] por [duration]t"
+      fish-meta: "[body-color] con [patter-color] [pattern]"
   messages:
     import-challenges: Empezar a importar desafios
     import-levels: Empezar a importar niveles
