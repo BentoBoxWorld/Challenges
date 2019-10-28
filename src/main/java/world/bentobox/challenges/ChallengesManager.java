@@ -108,6 +108,11 @@ public class ChallengesManager
      * String for free Challenge Level.
      */
     public static final String FREE = "";
+    public static final String VALUE = "[value]";
+    public static final String USER_ID = "user-id";
+    public static final String CHALLENGE_ID = "challenge-id";
+    public static final String ADMIN_ID = "admin-id";
+    public static final String RESET = "RESET";
 
 
     // ---------------------------------------------------------------------
@@ -265,7 +270,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-skipping",
-                            "[value]", challenge.getFriendlyName());
+                            VALUE, challenge.getFriendlyName());
                 }
 
                 return false;
@@ -275,7 +280,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-overwriting",
-                            "[value]", challenge.getFriendlyName());
+                            VALUE, challenge.getFriendlyName());
                 }
             }
         }
@@ -284,7 +289,7 @@ public class ChallengesManager
             if (!silent)
             {
                 user.sendMessage("challenges.messages.load-add",
-                        "[value]", challenge.getFriendlyName());
+                        VALUE, challenge.getFriendlyName());
             }
         }
 
@@ -324,7 +329,7 @@ public class ChallengesManager
             if (user != null)
             {
                 user.sendMessage("challenges.errors.load-error",
-                        "[value]", level.getFriendlyName());
+                        VALUE, level.getFriendlyName());
             }
             else
             {
@@ -342,7 +347,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-skipping",
-                            "[value]", level.getFriendlyName());
+                            VALUE, level.getFriendlyName());
                 }
 
                 return false;
@@ -352,7 +357,7 @@ public class ChallengesManager
                 if (!silent)
                 {
                     user.sendMessage("challenges.messages.load-overwriting",
-                            "[value]", level.getFriendlyName());
+                            VALUE, level.getFriendlyName());
                 }
             }
         }
@@ -361,7 +366,7 @@ public class ChallengesManager
             if (!silent)
             {
                 user.sendMessage("challenges.messages.load-add",
-                        "[value]", level.getFriendlyName());
+                        VALUE, level.getFriendlyName());
             }
         }
 
@@ -395,14 +400,11 @@ public class ChallengesManager
      */
     public void removeFromCache(UUID playerID)
     {
-        if (!this.settings.isStoreAsIslandData())
+        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
         {
-            if (this.playerCacheData.containsKey(playerID.toString()))
-            {
-                // save before remove
-                this.savePlayerData(playerID.toString());
-                this.playerCacheData.remove(playerID.toString());
-            }
+            // save before remove
+            this.savePlayerData(playerID.toString());
+            this.playerCacheData.remove(playerID.toString());
         }
 
         // TODO: It would be necessary to remove also data, if they stores islands.
@@ -1273,8 +1275,8 @@ public class ChallengesManager
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
         this.setChallengeComplete(storageID, challenge.getUniqueId(), completionCount);
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
-                data("user-id", userID.toString()).
-                data("challenge-id", challenge.getUniqueId()).
+                data(USER_ID, userID.toString()).
+                data(CHALLENGE_ID, challenge.getUniqueId()).
                 data("completion-count", Integer.toString(completionCount)).
                 build());
 
@@ -1300,9 +1302,9 @@ public class ChallengesManager
 
         this.setChallengeComplete(storageID, challenge.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE").
-                data("user-id", userID.toString()).
-                data("challenge-id", challenge.getUniqueId()).
-                data("admin-id", adminID == null ? "OP" : adminID.toString()).
+                data(USER_ID, userID.toString()).
+                data(CHALLENGE_ID, challenge.getUniqueId()).
+                data(ADMIN_ID, adminID == null ? "OP" : adminID.toString()).
                 build());
 
         // Fire event that admin completes user challenge
@@ -1325,10 +1327,10 @@ public class ChallengesManager
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
 
         this.resetChallenge(storageID, challenge.getUniqueId());
-        this.addLogEntry(storageID, new LogEntry.Builder("RESET").
-                data("user-id", userID.toString()).
-                data("challenge-id", challenge.getUniqueId()).
-                data("admin-id", adminID == null ? "RESET" : adminID.toString()).
+        this.addLogEntry(storageID, new LogEntry.Builder(RESET).
+                data(USER_ID, userID.toString()).
+                data(CHALLENGE_ID, challenge.getUniqueId()).
+                data(ADMIN_ID, adminID == null ? RESET : adminID.toString()).
                 build());
 
         // Fire event that admin resets user challenge
@@ -1336,7 +1338,7 @@ public class ChallengesManager
                 new ChallengeResetEvent(challenge.getUniqueId(),
                         userID,
                         true,
-                        "RESET"));
+                        RESET));
     }
 
 
@@ -1364,8 +1366,8 @@ public class ChallengesManager
         this.islandWorldManager.getAddon(world).ifPresent(gameMode -> {
             this.resetAllChallenges(storageID, gameMode.getDescription().getName());
             this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
-                    data("user-id", userID.toString()).
-                    data("admin-id", adminID == null ? "ISLAND_RESET" : adminID.toString()).
+                    data(USER_ID, userID.toString()).
+                    data(ADMIN_ID, adminID == null ? "ISLAND_RESET" : adminID.toString()).
                     build());
 
             // Fire event that admin resets user challenge
@@ -1453,7 +1455,7 @@ public class ChallengesManager
 
         this.setLevelComplete(storageID, level.getUniqueId());
         this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
-                data("user-id", user.getUniqueId().toString()).
+                data(USER_ID, user.getUniqueId().toString()).
                 data("level", level.getUniqueId()).build());
 
         // Fire event that user completes level
