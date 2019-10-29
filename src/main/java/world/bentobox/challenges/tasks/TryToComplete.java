@@ -1,6 +1,3 @@
-/**
- *
- */
 package world.bentobox.challenges.tasks;
 
 
@@ -16,6 +13,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -178,7 +176,7 @@ public class TryToComplete
         this.permissionPrefix = permissionPrefix;
         this.user = user;
         this.manager = addon.getChallengesManager();
-        // To avoid any modifications that may accure to challenges in current completion
+        // To avoid any modifications that may occur to challenges in current completion
         // just clone it.
         this.challenge = challenge.clone();
         this.topLabel = topLabel;
@@ -239,7 +237,7 @@ public class TryToComplete
      * This method checks if challenge can be done, and complete it, if it is possible.
      * @return ChallengeResult object, that contains completion status.
      */
-    public ChallengeResult build(int maxTimes)
+    ChallengeResult build(int maxTimes)
     {
         // Check if can complete challenge
         ChallengeResult result = this.checkIfCanCompleteChallenge(maxTimes);
@@ -304,7 +302,7 @@ public class TryToComplete
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
-                for (Player player : this.addon.getServer().getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
                     // Only other players should see message.
                     if (!player.getUniqueId().equals(this.user.getUniqueId()))
@@ -521,7 +519,6 @@ public class TryToComplete
         ChallengeResult result;
 
         ChallengeType type = this.challenge.getChallengeType();
-
         // Check the world
         if (!this.challenge.isDeployed())
         {
@@ -609,7 +606,6 @@ public class TryToComplete
         {
             result.setCompleted(this.manager.isChallengeComplete(this.user, this.world, this.challenge));
         }
-
         // Everything fails till this point.
         return result;
     }
@@ -1316,7 +1312,7 @@ public class TryToComplete
 
 
 // ---------------------------------------------------------------------
-// Section: Private classes
+// Section: Result classes
 // ---------------------------------------------------------------------
 
 
@@ -1325,7 +1321,7 @@ public class TryToComplete
      *
      * @author tastybento
      */
-    private class ChallengeResult
+    class ChallengeResult
     {
         /**
          * This method sets that challenge meets all requirements at least once.
