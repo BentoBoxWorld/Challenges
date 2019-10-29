@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -25,10 +26,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.BoundingBox;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
@@ -62,6 +66,7 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.tasks.TryToComplete.ChallengeResult;
 import world.bentobox.challenges.utils.Utils;
 
@@ -113,6 +118,8 @@ public class TryToCompleteTest {
     @Mock
     private @Nullable PlayerInventory inv;
     private ItemStack[] contents = {};
+    @Mock
+    private BoundingBox bb;
 
     /**
      * @throws java.lang.Exception
@@ -121,6 +128,7 @@ public class TryToCompleteTest {
     public void setUp() throws Exception {
         // Set up plugin
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
+        when(addon.getPlugin()).thenReturn(plugin);
         // World
         when(user.getWorld()).thenReturn(world);
         when(world.getEnvironment()).thenReturn(Environment.NORMAL);
@@ -152,6 +160,7 @@ public class TryToCompleteTest {
         challenge.setRepeatable(true);
         challenge.setMaxTimes(10);
         InventoryRequirements req = new InventoryRequirements();
+        
         challenge.setRequirements(req);      
         // Util
         PowerMockito.mockStatic(Util.class);
@@ -163,15 +172,23 @@ public class TryToCompleteTest {
         when(plugin.getIWM()).thenReturn(iwm);
         Optional<GameModeAddon> optionalGameMode = Optional.of(gameMode);
         when(iwm.getAddon(any())).thenReturn(optionalGameMode);
+        when(iwm.getIslandDistance(any())).thenReturn(400);
 
         // Island Manager
         when(addon.getIslands()).thenReturn(im);
         Optional<Island> opIsland = Optional.of(island);
         when(im.getIslandAt(any())).thenReturn(opIsland);
+        when(im.getIsland(any(), any(User.class))).thenReturn(island);
         // Player is on island
         when(im.locationIsOnIsland(any(), any())).thenReturn(true);
         // Island flags - everything is allowed by default
         when(island.isAllowed(any(), any())).thenReturn(true);
+        // Island
+        
+        @Nullable
+        Location loc = mock(Location.class);
+        when(loc.toString()).thenReturn("center");
+        when(island.getCenter()).thenReturn(loc);
 
         // Challenges Manager
         when(addon.getChallengesManager()).thenReturn(cm);
@@ -185,9 +202,15 @@ public class TryToCompleteTest {
         when(user.getPlayer()).thenReturn(player);
         when(user.getTranslation(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
         when(user.getName()).thenReturn("tastybento");
-        when(user.getLocation()).thenReturn(mock(Location.class));
+        @Nullable
+        Location userLoc = mock(Location.class);
+        when(userLoc.toString()).thenReturn("location");
+        when(user.getLocation()).thenReturn(userLoc);
         when(user.getInventory()).thenReturn(inv);
         when(inv.getContents()).thenReturn(contents);
+        when(player.getBoundingBox()).thenReturn(bb);
+        when(bb.clone()).thenReturn(bb);
+        when(bb.toString()).thenReturn("BoundingBox");
         // Locales
         User.setPlugin(plugin);
         LocalesManager lm = mock(LocalesManager.class);
@@ -224,8 +247,8 @@ public class TryToCompleteTest {
         when(mySettings.getWorldFlags()).thenReturn(map);
         when(iwm.getWorldSettings(any())).thenReturn(mySettings);
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
-        
-        // ItemFsaxtory
+                
+        // ItemFactory
         ItemFactory itemFactory = mock(ItemFactory.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
         
@@ -433,7 +456,7 @@ public class TryToCompleteTest {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         // Sufficient emerald blocks
         verify(user, never()).sendMessage("challenges.errors.not-enough-items", "[items]", "Emerald Block");
-        // Not enough apples
+        // Not enough books
         verify(user).sendMessage("challenges.errors.not-enough-items", "[items]", "Enchanted Book");
     }
     
@@ -443,6 +466,123 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
         when(player.getGameMode()).thenReturn(GameMode.CREATIVE);
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandBBTooLarge() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        // Trigger big bounding box error
+        when(bb.getWidthX()).thenReturn(50000D);
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(addon).logError("BoundingBox is larger than SearchRadius.  | BoundingBox: BoundingBox | Search Distance: 1 | Location: location | Center: center | Range: 0");
+        verify(bb).expand(1);
+        
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccessNoEntities() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailEntities() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        Map<EntityType, Integer> requiredEntities = Collections.singletonMap(EntityType.GHAST, 3);
+        req.setRequiredEntities(requiredEntities);
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
+        
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        requiredEntities.put(EntityType.GHAST, 3);
+        requiredEntities.put(EntityType.CHICKEN, 5);
+        requiredEntities.put(EntityType.PUFFERFISH, 1);
+        req.setRequiredEntities(requiredEntities);
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        requiredEntities.put(EntityType.GHAST, 3);
+        requiredEntities.put(EntityType.CHICKEN, 5);
+        requiredEntities.put(EntityType.PUFFERFISH, 1);
+        req.setRequiredEntities(requiredEntities);
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        Entity ent = mock(Entity.class);
+        when(ent.getType()).thenReturn(EntityType.PUFFERFISH);
+        Location loc = mock(Location.class);
+        when(ent.getLocation()).thenReturn(loc);
+        List<Entity> list = Collections.singletonList(ent);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
+        verify(user, never()).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        
+    }
+    
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        requiredEntities.put(EntityType.PUFFERFISH, 1);
+        req.setRequiredEntities(requiredEntities);
+        req.setSearchRadius(1);
+        challenge.setRequirements(req); 
+        Entity ent = mock(Entity.class);
+        when(ent.getType()).thenReturn(EntityType.PUFFERFISH);
+        Location loc = mock(Location.class);
+        when(ent.getLocation()).thenReturn(loc);
+        List<Entity> list = Collections.singletonList(ent);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
     }

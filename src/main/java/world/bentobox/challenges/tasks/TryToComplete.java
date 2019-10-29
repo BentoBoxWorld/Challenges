@@ -877,6 +877,11 @@ public class TryToComplete
             // Players should not be able to complete challenge if they stay near island with required blocks.
 
             Island island = this.addon.getIslands().getIsland(this.world, this.user);
+            
+            if (island == null) {
+                // Just in case. Should never hit because there is a check if the player is on this island further up
+                return EMPTY_RESULT;
+            }
 
             if (boundingBox.getMinX() < island.getMinX())
             {
