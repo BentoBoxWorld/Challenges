@@ -26,7 +26,7 @@ public class Utils
 	{
 		List<ItemStack> returnItems = new ArrayList<>(requiredItems.size());
 
-		// Group all equal items in singe stack, as otherwise it will be too complicated to check if all
+		// Group all equal items in single stack, as otherwise it will be too complicated to check if all
 		// items are in players inventory.
 		for (ItemStack item : requiredItems)
 		{

@@ -126,7 +126,6 @@ public class WebManager
 	 * @param user User who inits request.
 	 * @param world Target world where challenges should be loaded.
 	 * @param entry Entry that contains information about requested object.
-	 * @return {@code true} if request was successful, {@code false} otherwise.
 	 */
 	public void requestEntryGitHubData(User user, World world, LibraryEntry entry)
 	{

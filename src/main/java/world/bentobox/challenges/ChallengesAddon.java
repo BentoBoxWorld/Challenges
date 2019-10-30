@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import world.bentobox.bentobox.api.addons.Addon;
@@ -88,7 +89,7 @@ public class ChallengesAddon extends Addon {
 	 * This flag allows to complete challenges in any part of the world. It will not limit
 	 * player to their island. Useful for skygrid without protection flags.
 	 */
-	public static Flag CHALLENGES_WORLD_PROTECTION =
+	public static final Flag CHALLENGES_WORLD_PROTECTION =
 		new Flag.Builder("CHALLENGES_WORLD_PROTECTION", Material.GRASS_BLOCK).type(Flag.Type.WORLD_SETTING).defaultSetting(true).build();
 
 	/**
@@ -96,7 +97,7 @@ public class ChallengesAddon extends Addon {
 	 * that only Island owner can complete challenge.
 	 * By default it is set to Visitor.
 	 */
-	public static Flag CHALLENGES_ISLAND_PROTECTION =
+	public static final Flag CHALLENGES_ISLAND_PROTECTION =
 		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
 
 
@@ -155,7 +156,11 @@ public class ChallengesAddon extends Addon {
         List<GameModeAddon> hookedGameModes = new ArrayList<>();
 
         this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
-        	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
+        	if (!this.settings
+        	        .getDisabledGameModes()
+        	        .contains(gameModeAddon
+        	                .getDescription()
+        	                .getName()))
 			{
 				if (gameModeAddon.getPlayerCommand().isPresent())
 				{
@@ -238,7 +243,7 @@ public class ChallengesAddon extends Addon {
 
             if (this.settings.getAutoSaveTimer() > 0)
             {
-                this.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(
+                Bukkit.getScheduler().runTaskTimerAsynchronously(
                     this.getPlugin(),
                     bukkitTask -> ChallengesAddon.this.challengesManager.save(),
                     this.settings.getAutoSaveTimer() * 60 * 20,
@@ -264,7 +269,7 @@ public class ChallengesAddon extends Addon {
         {
             this.loadSettings();
             this.challengesManager.reload();
-            this.getLogger().info("Challenges addon reloaded.");
+            this.log("Challenges addon reloaded.");
         }
     }
 
