@@ -1669,11 +1669,22 @@ public class ChallengesManager
     {
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
+            // First remove challenge from its owner level.
+
+            if (!challenge.getLevel().equals(FREE))
+            {
+                ChallengeLevel level = this.getLevel(challenge.getLevel());
+
+                if (level != null)
+                {
+                    this.removeChallengeFromLevel(challenge, level);
+                }
+            }
+
+            // Afterwards remove challenge from the database.
+
             this.challengeCacheData.remove(challenge.getUniqueId());
             this.challengeDatabase.deleteObject(challenge);
-
-            this.addon.getPlugin().getPlaceholdersManager().
-            unregisterPlaceholder("challenges_challenge_repetition_count_" + challenge.getUniqueId());
         }
     }
 
