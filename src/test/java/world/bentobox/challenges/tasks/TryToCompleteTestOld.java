@@ -36,198 +36,207 @@ import world.bentobox.challenges.ChallengesAddon;
 @PrepareForTest({ Bukkit.class})
 public class TryToCompleteTestOld {
 
-	private User user;
-	ItemStack[] stacks = { new ItemStack(Material.PAPER, 32),
-		new ItemStack(Material.ACACIA_BOAT),
-		null,
-		null,
-		new ItemStack(Material.CACTUS, 32),
-		new ItemStack(Material.CACTUS, 32),
-		new ItemStack(Material.CACTUS, 32),
-		new ItemStack(Material.BRICK_STAIRS, 64),
-		new ItemStack(Material.BRICK_STAIRS, 64),
-		new ItemStack(Material.BRICK_STAIRS, 5),
-		new ItemStack(Material.GOLD_BLOCK, 32)
-	};
-	List<ItemStack> required;
-	private ChallengesAddon addon;
-	private PlayerInventory inv;
+    private User user;
+    ItemStack[] stacks = { new ItemStack(Material.PAPER, 32),
+            new ItemStack(Material.ACACIA_BOAT),
+            null,
+            null,
+            new ItemStack(Material.CACTUS, 32),
+            new ItemStack(Material.CACTUS, 32),
+            new ItemStack(Material.CACTUS, 32),
+            new ItemStack(Material.BRICK_STAIRS, 64),
+            new ItemStack(Material.BRICK_STAIRS, 64),
+            new ItemStack(Material.BRICK_STAIRS, 5),
+            new ItemStack(Material.GOLD_BLOCK, 32)
+    };
+    List<ItemStack> required;
+    private ChallengesAddon addon;
+    private PlayerInventory inv;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		Server server = mock(Server.class);
-		PowerMockito.mockStatic(Bukkit.class);
-		when(Bukkit.getServer()).thenReturn(server);
-		when(Bukkit.getBukkitVersion()).thenReturn("1.13.2");
+    /**
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() throws Exception {
+        Server server = mock(Server.class);
+        PowerMockito.mockStatic(Bukkit.class);
+        when(Bukkit.getServer()).thenReturn(server);
+        when(Bukkit.getBukkitVersion()).thenReturn("1.13.2");
 
-		user = mock(User.class);
-		inv = mock(PlayerInventory.class);
-		when(inv.getContents()).thenReturn(stacks);
-		when(user.getInventory()).thenReturn(inv);
-		addon = mock(ChallengesAddon.class);
-		required = new ArrayList<>();
+        user = mock(User.class);
+        inv = mock(PlayerInventory.class);
+        when(inv.getContents()).thenReturn(stacks);
+        when(user.getInventory()).thenReturn(inv);
+        addon = mock(ChallengesAddon.class);
+        required = new ArrayList<>();
 
-		ItemFactory itemFactory = mock(ItemFactory.class);
-		when(server.getItemFactory()).thenReturn(itemFactory);
+        ItemFactory itemFactory = mock(ItemFactory.class);
+        when(server.getItemFactory()).thenReturn(itemFactory);
 
-		// Test will not work with items that has meta data.
-		when(itemFactory.getItemMeta(any())).thenReturn(null);
-		when(itemFactory.equals(null, null)).thenReturn(true);
+        // Test will not work with items that has meta data.
+        when(itemFactory.getItemMeta(any())).thenReturn(null);
+        when(itemFactory.equals(null, null)).thenReturn(true);
 
-		when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-		when(Bukkit.getLogger()).thenReturn(Logger.getAnonymousLogger());
-	}
+        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
+        when(Bukkit.getLogger()).thenReturn(Logger.getAnonymousLogger());
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsSuccess() {
-		Material requiredMaterial = Material.PAPER;
-		int requiredQuantity = 21;
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsSuccess() {
+        Material requiredMaterial = Material.PAPER;
+        int requiredQuantity = 21;
 
-		this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
-		TryToComplete x = new TryToComplete(this.addon);
-		x.user(this.user);
-		Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
+        this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
+        TryToComplete x = new TryToComplete(this.addon);
+        x.user(this.user);
+        Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
 
-		assertEquals((int) removed.getOrDefault(new ItemStack(requiredMaterial, 1), 0), requiredQuantity);
-	}
+        assertEquals((int) removed.getOrDefault(new ItemStack(requiredMaterial, 1), 0), requiredQuantity);
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsMax() {
-		Material requiredMaterial = Material.PAPER;
-		int requiredQuantity = 50;
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsMax() {
+        Material requiredMaterial = Material.PAPER;
+        int requiredQuantity = 50;
 
-		this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
-		TryToComplete x = new TryToComplete(this.addon);
-		x.user(this.user);
-		Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
+        this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
+        TryToComplete x = new TryToComplete(this.addon);
+        x.user(this.user);
+        Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
 
-		assertNotEquals((int) removed.getOrDefault(new ItemStack(requiredMaterial, 1), 0), requiredQuantity);
-	}
+        assertNotEquals((int) removed.getOrDefault(new ItemStack(requiredMaterial, 1), 0), requiredQuantity);
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsZero() {
-		Material requiredMaterial = Material.PAPER;
-		int requiredQuantity = 0;
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsZero() {
+        Material requiredMaterial = Material.PAPER;
+        int requiredQuantity = 0;
 
-		this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
-		TryToComplete x = new TryToComplete(this.addon);
-		x.user(this.user);
-		Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
+        this.required.add(new ItemStack(requiredMaterial, requiredQuantity));
+        TryToComplete x = new TryToComplete(this.addon);
+        x.user(this.user);
+        Map<ItemStack, Integer> removed = x.removeItems(this.required, 1);
 
-		assertTrue(removed.isEmpty());
-	}
+        assertTrue(removed.isEmpty());
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsSuccessMultiple() {
-		required.add(new ItemStack(Material.PAPER, 11));
-		required.add(new ItemStack(Material.PAPER, 5));
-		required.add(new ItemStack(Material.PAPER, 5));
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 1);
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsSuccessMultiple() {
+        required.add(new ItemStack(Material.PAPER, 11));
+        required.add(new ItemStack(Material.PAPER, 5));
+        required.add(new ItemStack(Material.PAPER, 5));
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 1);
 
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.PAPER, 1), 0), 21);
-	}
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.PAPER, 1), 0), 21);
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsSuccessMultipleOther() {
-		required.add(new ItemStack(Material.CACTUS, 5));
-		required.add(new ItemStack(Material.PAPER, 11));
-		required.add(new ItemStack(Material.PAPER, 5));
-		required.add(new ItemStack(Material.PAPER, 5));
-		required.add(new ItemStack(Material.CACTUS, 5));
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 1);
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsSuccessMultipleOther() {
+        required.add(new ItemStack(Material.CACTUS, 5));
+        required.add(new ItemStack(Material.PAPER, 11));
+        required.add(new ItemStack(Material.PAPER, 5));
+        required.add(new ItemStack(Material.PAPER, 5));
+        required.add(new ItemStack(Material.CACTUS, 5));
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 1);
 
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.PAPER, 1), 0), 21);
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.CACTUS, 1), 0), 10);
-	}
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.PAPER, 1), 0), 21);
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.CACTUS, 1), 0), 10);
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsMultipleOtherFail() {
-		required.add(new ItemStack(Material.ACACIA_FENCE, 5));
-		required.add(new ItemStack(Material.ARROW, 11));
-		required.add(new ItemStack(Material.STONE, 5));
-		required.add(new ItemStack(Material.BAKED_POTATO, 5));
-		required.add(new ItemStack(Material.GHAST_SPAWN_EGG, 5));
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 1);
-		assertTrue(removed.isEmpty());
-	}
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsMultipleOtherFail() {
+        required.add(new ItemStack(Material.ACACIA_FENCE, 5));
+        required.add(new ItemStack(Material.ARROW, 11));
+        required.add(new ItemStack(Material.STONE, 5));
+        required.add(new ItemStack(Material.BAKED_POTATO, 5));
+        required.add(new ItemStack(Material.GHAST_SPAWN_EGG, 5));
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 1);
+        assertTrue(removed.isEmpty());
+    }
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRemoveItemsFail() {
-		ItemStack input = new ItemStack(Material.GOLD_BLOCK, 55);
-		required.add(input);
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 1);
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRemoveItemsFail() {
+        ItemStack input = new ItemStack(Material.GOLD_BLOCK, 55);
+        required.add(input);
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 1);
 
-		// It will remove 32, but not any more
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.GOLD_BLOCK, 1), 0), 32);
+        // It will remove 32, but not any more
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.GOLD_BLOCK, 1), 0), 32);
 
-		// An error will be thrown
-		Mockito.verify(addon, Mockito.times(1)).logError(Mockito.anyString());
-	}
-
-
-
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testRequireTwoStacks() {
-		required.add(new ItemStack(Material.BRICK_STAIRS, 64));
-		required.add(new ItemStack(Material.BRICK_STAIRS, 64));
-
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 1);
-
-		// It should remove both stacks
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.BRICK_STAIRS, 1), 0), 128);
-	}
+        // An error will be thrown
+        Mockito.verify(addon, Mockito.times(1)).logError(Mockito.anyString());
+    }
 
 
-	/**
-	 * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
-	 */
-	@Test
-	public void testFactorStacks() {
-		required.add(new ItemStack(Material.BRICK_STAIRS, 32));
 
-		TryToComplete x = new TryToComplete(addon);
-		x.user(user);
-		Map<ItemStack, Integer> removed = x.removeItems(required, 4);
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testRequireTwoStacks() {
+        required.add(new ItemStack(Material.BRICK_STAIRS, 64));
+        required.add(new ItemStack(Material.BRICK_STAIRS, 64));
 
-		// It should remove both stacks
-		assertEquals((int) removed.getOrDefault(new ItemStack(Material.BRICK_STAIRS, 1), 0), 128);
-	}
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 1);
+
+        // It should remove both stacks
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.BRICK_STAIRS, 1), 0), 128);
+    }
+
+
+    /**
+     * Test method for {@link TryToComplete#removeItems(java.util.List, int)}.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testFactorStacks() {
+        required.add(new ItemStack(Material.BRICK_STAIRS, 32));
+
+        TryToComplete x = new TryToComplete(addon);
+        x.user(user);
+        Map<ItemStack, Integer> removed = x.removeItems(required, 4);
+
+        // It should remove both stacks
+        assertEquals((int) removed.getOrDefault(new ItemStack(Material.BRICK_STAIRS, 1), 0), 128);
+    }
 }
 

@@ -72,6 +72,7 @@ import world.bentobox.bentobox.managers.IslandsManager;
  * @author tastybento
  *
  */
+@SuppressWarnings("deprecation")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Bukkit.class, BentoBox.class, User.class, Config.class })
 public class ChallengesAddonTest {
@@ -179,7 +180,7 @@ public class ChallengesAddonTest {
         when(gameMode.getPlayerCommand()).thenReturn(opCmd);
         // Admin command
         when(gameMode.getAdminCommand()).thenReturn(opCmd);
-        
+
         // Flags manager
         when(plugin.getFlagsManager()).thenReturn(fm);
         when(fm.getFlags()).thenReturn(Collections.emptyList());
@@ -188,9 +189,9 @@ public class ChallengesAddonTest {
         when(plugin.getSettings()).thenReturn(settings);
         DatabaseType value = DatabaseType.JSON;
         when(settings.getDatabaseType()).thenReturn(value);
-        
+
         // Bukkit
-        PowerMockito.mockStatic(Bukkit.class);       
+        PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getScheduler()).thenReturn(scheduler);
         ItemMeta meta = mock(ItemMeta.class);
         ItemFactory itemFactory = mock(ItemFactory.class);
@@ -199,7 +200,7 @@ public class ChallengesAddonTest {
         UnsafeValues unsafe = mock(UnsafeValues.class);
         when(unsafe.getDataVersion()).thenReturn(777);
         when(Bukkit.getUnsafe()).thenReturn(unsafe);
-        
+
 
     }
 
@@ -212,7 +213,7 @@ public class ChallengesAddonTest {
         new File("config.yml").delete();
         deleteAll(new File("addons"));
         deleteAll(new File("database"));
-        
+
     }
 
     private void deleteAll(File file) throws IOException {
@@ -222,7 +223,7 @@ public class ChallengesAddonTest {
             .map(Path::toFile)
             .forEach(File::delete);
         }
-        
+
     }
 
     /**
@@ -235,7 +236,7 @@ public class ChallengesAddonTest {
         File check = new File("addons/Challenges","config.yml");
         assertTrue(check.exists());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
      */
@@ -246,18 +247,18 @@ public class ChallengesAddonTest {
         verify(plugin).logError("[challenges] BentoBox is not available or disabled!");
         assertEquals(Addon.State.DISABLED, addon.getState());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
      */
     @Test
-    public void testOnEnableDisabledAddon() {        
+    public void testOnEnableDisabledAddon() {
         when(plugin.isEnabled()).thenReturn(true);
         addon.setState(State.DISABLED);
         addon.onEnable();
         verify(plugin).logError("[challenges] Challenges Addon is not available or disabled!");
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
      */
@@ -273,7 +274,7 @@ public class ChallengesAddonTest {
         verify(plugin).logError("[challenges] Please use JSON based database type.");
         assertEquals(State.INCOMPATIBLE, addon.getState());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
      */
@@ -287,9 +288,9 @@ public class ChallengesAddonTest {
         verify(plugin).logWarning("[challenges] Economy plugin not found so money options will not work!");
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin, never()).logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
-        
+
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
      */
@@ -302,7 +303,7 @@ public class ChallengesAddonTest {
         addon.onEnable();
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin).logError("[challenges] Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
-        
+
     }
 
     /**
@@ -313,7 +314,7 @@ public class ChallengesAddonTest {
         addon.onReload();
         verify(plugin, never()).log(anyString());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesAddon#onDisable()}.
      */
@@ -327,7 +328,7 @@ public class ChallengesAddonTest {
         assertTrue(chDir.exists());
         File lvDir = new File("database", "ChallengeLevel");
         assertTrue(lvDir.exists());
-        
+
     }
 
     /**
@@ -376,7 +377,7 @@ public class ChallengesAddonTest {
         assertNull(addon.getChallengesSettings());
         addon.onLoad();
         assertNotNull(addon.getChallengesSettings());
-        
+
     }
 
     /**

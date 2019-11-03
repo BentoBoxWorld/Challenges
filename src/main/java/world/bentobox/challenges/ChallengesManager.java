@@ -379,6 +379,8 @@ public class ChallengesManager
      * This method stores PlayerData into local cache.
      *
      * @param playerData ChallengesPlayerData that must be loaded.
+     *
+     * TODO: Remove this unused method?
      */
     private void loadPlayerData(@NonNull ChallengesPlayerData playerData)
     {
@@ -683,6 +685,7 @@ public class ChallengesManager
     /**
      * This method collects all data from challenges database and migrates them.
      */
+    @SuppressWarnings("deprecation")
     private boolean migrateChallenges(World world)
     {
         String addonName = Utils.getGameMode(world);
