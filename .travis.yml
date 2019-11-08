@@ -3,18 +3,20 @@ sudo: false
 addons:
     sonarcloud:
         organization: "bentobox-world"
-        token:
-            secure: $SONAR_TOKEN
-        branches:
-            - develop
-            - master
+
 jdk:
     - openjdk8
+    - openjdk11
+    
+matrix:
+  allow_failures:
+    - jdk: openjdk11
         
 script:
     #- sonar-scanner
-    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package -P sonar sonar:sonar -B
+    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=BentoBoxWorld_Challenges
     #- echo "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}"
+    
 cache:
     directories:
         - '$HOME/.m2/repository'
