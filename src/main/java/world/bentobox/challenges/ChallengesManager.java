@@ -1528,12 +1528,12 @@ public class ChallengesManager
     public List<String> getAllChallengesNames(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-        this.challengeCacheData.values().stream().
-        filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
-        sorted(this.challengeComparator).
-        map(Challenge::getUniqueId).
-        collect(Collectors.toList())).
-                orElse(Collections.emptyList());
+            this.challengeCacheData.values().stream().
+                filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+                sorted(this.challengeComparator).
+                map(Challenge::getUniqueId).
+                collect(Collectors.toList())).
+            orElse(Collections.emptyList());
     }
 
 
@@ -1705,8 +1705,8 @@ public class ChallengesManager
     public List<ChallengeLevel> getLevels(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-        this.getLevels(gameMode.getDescription().getName())).
-                orElse(Collections.emptyList());
+            this.getLevels(gameMode.getDescription().getName())).
+            orElse(Collections.emptyList());
     }
 
 
@@ -1719,9 +1719,26 @@ public class ChallengesManager
     {
         // TODO: Probably need to check also database.
         return this.levelCacheData.values().stream().
+            sorted(ChallengeLevel::compareTo).
+            filter(level -> level.matchGameMode(gameMode)).
+            collect(Collectors.toList());
+    }
+
+
+    /**
+     * This method returns list of challenge levels in given gameMode.
+     * @param world for which levels must be searched.
+     * @return List with challengeLevel uniqueIds in given world.
+     */
+    public List<String> getLevelNames(@NonNull World world)
+    {
+        return this.islandWorldManager.getAddon(world).map(gameMode ->
+            this.levelCacheData.values().stream().
                 sorted(ChallengeLevel::compareTo).
-                filter(level -> level.matchGameMode(gameMode)).
-                collect(Collectors.toList());
+                filter(level -> level.matchGameMode(gameMode.getDescription().getName())).
+                map(ChallengeLevel::getUniqueId).
+                collect(Collectors.toList())).
+            orElse(Collections.emptyList());
     }
 
 

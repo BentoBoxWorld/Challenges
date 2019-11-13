@@ -52,7 +52,8 @@ public class LevelListRequestHandler extends AddonRequestHandler
             return Collections.emptyList();
         }
 
-        return this.addon.getChallengesManager().getLevels(Bukkit.getWorld((String) metaData.get("world-name")));
+        return this.addon.getChallengesManager().getLevelNames(
+            Bukkit.getWorld((String) metaData.get("world-name")));
     }
 
 
