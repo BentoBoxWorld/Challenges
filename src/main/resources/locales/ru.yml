@@ -1,0 +1,6 @@
+---
+challenges:
+  commands:
+    admin:
+      main:
+        description: Основная команда администратора. Открывает GUI.
