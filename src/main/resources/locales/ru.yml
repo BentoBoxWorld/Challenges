@@ -492,6 +492,9 @@ challenges:
       potion-type: "[name]"
       skull-owner: "[owner]"
       egg-meta: "[mob]"
+      item-lore: 'уздечка:'
+      book-meta: "[title] [author]"
+      recipe-count: "[count] рецептов"
     questions:
       prefix: "&2[СЕРВЕР]:"
       admin:
