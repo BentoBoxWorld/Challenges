@@ -161,6 +161,11 @@ challenges:
         complete-wipe: Очистит базу данных аддона
         challenge-wipe: Очистит базу данных челленджей
         players-wipe: Очистит базу данных игроков
+        set: "="
+        increase: "+"
+        reduce: "-"
+        multiply: "*"
+        number: "[number]"
       next: Следующая
       previous: Предыдущая
       return: Назад
@@ -409,6 +414,7 @@ challenges:
           level_reward_commands: |-
             Команды в виде награды.
             Список команды которые будут выполнены в виде награды, определены в  challengeLevel.rewardCommands
+        library-author: автор &e[автор]
       enabled: Включено
       disabled: Отключено
       the-end: "- Край"
@@ -430,6 +436,11 @@ challenges:
         other: "&aтребовать предметы  от других плагинов/аддонов"
         inventory: "&aтребовать предметы в инвентаре игрока"
       current-value: "&6Текущее значение: [value]."
+      block: "- [block] : [count]"
+      item: "- [count] x [item]"
+      item-meta: "([meta])"
+      item-enchant: "- [enchant] [level]"
+      command: "- [command]"
     challenge-description:
       completed-times-of: Завершено [donetimes] из [maxtimes]
       maxed-reached: Завершено [donetimes] из [maxtimes]
@@ -474,6 +485,13 @@ challenges:
       custom-effects: 'Индивидуальные эффекты:'
       potion-effect: "[effect] x [amplifier] для [duration]t"
       fish-meta: "[body-color] с [pattern-color] [pattern]"
+      item-meta: "([meta])"
+      item-enchant: "- [enchant] [level]"
+      item-name: "[name]"
+      armor-color: "[color]"
+      potion-type: "[name]"
+      skull-owner: "[owner]"
+      egg-meta: "[mob]"
     questions:
       prefix: "&2[СЕРВЕР]:"
       admin:
@@ -485,6 +503,7 @@ challenges:
     challenge-title: Успешно завершено
     challenge-subtitle: "[friendlyName]"
     level-title: Успешно завершено
+    level-subtitle: "[friendlyName]"
   messages:
     admin:
       you-added: Вы добавили один [thing] в челлендж
@@ -585,3 +604,7 @@ protection:
         &5&oтребование к игрокам
         &5&oбыть на их острове, чтобы
         &5&oвыполнить челлендж.
+version: 11
+meta:
+  authors:
+  - BONNe
