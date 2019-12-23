@@ -4,3 +4,11 @@ challenges:
     admin:
       main:
         description: Основная команда администратора. Открывает GUI.
+      import:
+        parameters: "[overwrite]"
+      reload:
+        parameters: "[hard]"
+      defaults:
+        parameters: "[command]"
+      defaults-generate:
+        parameters: "[overwrite] - позволяет перезаписать существующий файл."
