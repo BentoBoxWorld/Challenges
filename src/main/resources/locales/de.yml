@@ -15,26 +15,32 @@ challenges:
           Welt gibt.
       defaults:
         description: Zeigt Unterbefehle zum Importieren/Exportieren der Standardherausforderungen.
+        parameters: "[command]"
       defaults-import:
         description: Importiert die Standardherausforderungen.
       complete:
         description: Eine Herausforderung für einen Spieler abschließen.
+        parameters: "<player> <challenge_id>"
       reset:
         description: Eine Herausforderung für einen Spieler zurücksetzen. Wenn "challenge_id"
           auf "all" gesetzt ist, werden alle Herausforderungen zurückgesetzt.
+        parameters: "<player> <challenge_id>"
       import:
         description: |-
           Herausforderungen aus der challenges.yml importieren
           Parameter überschreiben bedeutet, dass Herausforderungen oder Level mit der gleichen ID überschrieben werden.
+        parameters: "[overwrite]"
       reload:
         description: |-
           Herausforderungen aus der Datenbank neu laden
           Parameter hard bedeutet, dass Addon die Verbindung zur Datenbank zurücksetzen wird.
+        parameters: "[hard]"
     user:
       main:
         description: Herausforderungen GUI öffnen.
       complete:
         description: Herausforderung abschließen.
+        parameters: "<challenge_id> [count]"
   gui:
     title:
       admin:
