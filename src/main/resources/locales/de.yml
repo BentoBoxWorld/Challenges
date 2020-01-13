@@ -148,6 +148,25 @@ challenges:
         complete-wipe: Addon-Datenbanken löschen
         challenge-wipe: Herausforderungen Datenbank löschen
         players-wipe: Benutzerdatenbank löschen
+        delete-challenge: Herausforderung entfernen
+        properties: Eigenschaften
+        challenges: Herausforderungen
+        description: Beschreibung
+        environment: Umgebung
+        remove-on-complete: Nach Fertigstellung entfernen
+        required-money: Benötigtes Geld
+        remove-money: Geld entfernen
+        reward-text: Belohnungsnachricht
+        repeatable: Wiederholbar
+        free-at-top: Freie Herausforderungen zuerst
+        add: Hinzufügen
+        accept: Akzeptieren
+        decline: Ablehnen
+        save: speichern
+        value: Wert
+        remove-empty: Leer entfernen
+        input-mode: Eingabemodus wechseln
+        title-enable: Fertigstellungstitel
       next: Nächste Seite
       previous: Vorherige Seite
       return: Zurück
@@ -410,6 +429,7 @@ challenges:
           level_reward_commands: |-
             Belohnungsbefehle.
             Liste der Befehle, die zu Belohnungen führen, festgelegt in challengeLevel.rewardCommands
+        selected: Ausgewählt
       the-end: "- End"
       nether: "- Nether"
       normal: "- Oberwelt"
@@ -435,6 +455,8 @@ challenges:
         other: "&aErfordert Dinge von anderen Plugins/Addons"
         inventory: "&aErforderliche Items im Inventar des Spielers"
       current-value: "&6Aktueller Wert: [value]."
+      enabled: Aktiv
+      disabled: Deaktiviert
     challenge-description:
       completed-times-of: "[donetimes] erledigt aus [maxtimes]"
       maxed-reached: "[donetimes] erledigt aus [maxtimes]"
@@ -458,6 +480,9 @@ challenges:
       completed: "&bAbgeschlossen"
       warning-items-take: "&cAlle erforderlichen Items werden aus deinem Inventar
         genommen, wenn du diese Herausforderung abschließt!"
+      environment: 'Erforderliche Umgebungen:'
+      required-entities: 'Erforderliche Einheiten:'
+      required-blocks: 'Erforderliche Blöcke:'
     level-description:
       experience-reward: "&6Exp Belohnung: [value]"
       money-reward: "&6Geldbelohnung: $[value]"
@@ -497,6 +522,8 @@ challenges:
   titles:
     challenge-subtitle: "[friendlyName]"
     level-subtitle: "[friendlyName]"
+    challenge-title: Erfolgreich abgeschlossen
+    level-title: Erfolgreich abgeschlossen
   messages:
     admin:
       you-added: Du hast der Herausforderung eine [thing] hinzugefügt
@@ -593,6 +620,8 @@ protection:
     CHALLENGES_WORLD_PROTECTION:
       description: "&5&oAktivieren/Deaktivieren von \n&5&oAnforderung für Spieler,\n&5&oauf
         ihrer Insel zu sein, um \n&5&oeine Herausforderung abzuschließen."
+      name: Herausforderungen Inselbegrenzung
+      hint: Keine Herausforderungen außerhalb der Insel
 version: 11
 meta:
   authors:
