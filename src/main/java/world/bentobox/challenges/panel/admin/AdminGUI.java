@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -252,7 +253,7 @@ public class AdminGUI extends CommonGUI
             clickHandler = (panel, user, clickType, slot) -> {
 
                 this.getNewUniqueID(challenge -> {
-                    String newName = Utils.getGameMode(this.world) + "_" + challenge;
+                    String uniqueId = Utils.getGameMode(this.world) + "_" + challenge;
 
                     ChallengeTypeGUI.open(user,
                         this.addon.getChallengesSettings().getLoreLineLength(),
@@ -260,15 +261,15 @@ public class AdminGUI extends CommonGUI
                             new EditChallengeGUI(this.addon,
                                 this.world,
                                 this.user,
-                                this.addon.getChallengesManager().createChallenge(newName, type, requirements),
+                                this.addon.getChallengesManager().createChallenge(uniqueId, type, requirements),
                                 this.topLabel,
                                 this.permissionPrefix,
                                 this).build();
                         });
                     },
                     input -> {
-                        String newName = Utils.getGameMode(this.world) + "_" + input;
-                        return !this.addon.getChallengesManager().containsChallenge(newName);
+                        String uniqueId = Utils.getGameMode(this.world) + "_" + input;
+                        return !this.addon.getChallengesManager().containsChallenge(uniqueId);
                     },
                     this.user.getTranslation("challenges.gui.questions.admin.unique-id")
                 );
@@ -659,7 +660,7 @@ public class AdminGUI extends CommonGUI
                     @Override
                     protected boolean isInputValid(ConversationContext context, String input)
                     {
-                        return stringValidation.apply(input);
+                        return stringValidation.apply(sanitizeInput(input));
                     }
 
 
@@ -679,7 +680,7 @@ public class AdminGUI extends CommonGUI
                     protected String getFailedValidationText(ConversationContext context,
                         String invalidInput)
                     {
-                        return user.getTranslation("challenges.errors.unique-id", "[id]", invalidInput);
+                        return user.getTranslation("challenges.errors.unique-id", "[id]", sanitizeInput(invalidInput));
                     }
 
 
@@ -699,7 +700,7 @@ public class AdminGUI extends CommonGUI
                     protected Prompt acceptValidatedInput(ConversationContext context, String input)
                     {
                         // Add answer to consumer.
-                        consumer.accept(input);
+                        consumer.accept(sanitizeInput(input));
                         // End conversation
                         return Prompt.END_OF_CONVERSATION;
                     }
@@ -710,4 +711,14 @@ public class AdminGUI extends CommonGUI
 
         conversation.begin();
     }
+
+	/**
+	 * Sanitizes the provided input.
+	 * It replaces spaces and hyphens with underscores and lowercases the input.
+	 * @param input input to sanitize
+	 * @return sanitized input
+	 */
+	private String sanitizeInput(String input) {
+		return input.toLowerCase(Locale.ENGLISH).replace(" ", "_").replace("-", "_");
+	}
 }
