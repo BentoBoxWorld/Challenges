@@ -131,6 +131,7 @@ public class TryToCompleteTest {
         when(addon.getPlugin()).thenReturn(plugin);
         // World
         when(user.getWorld()).thenReturn(world);
+        when(world.getName()).thenReturn("world");
         when(world.getEnvironment()).thenReturn(Environment.NORMAL);
 
         // Addons manager
@@ -585,6 +586,34 @@ public class TryToCompleteTest {
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+    }
+
+    /**
+     * Test method for {@link world.bentobox.challenges.tasks.TryToComplete#complete(world.bentobox.challenges.ChallengesAddon, world.bentobox.bentobox.api.user.User, world.bentobox.challenges.database.object.Challenge, org.bukkit.World, java.lang.String, java.lang.String)}.
+     */
+    @Test
+    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandPlayerInOtherEnvironment() {
+        challenge.setEnvironment(Collections.singleton(Environment.NETHER));
+        World netherWorld = mock(World.class);
+        when(user.getWorld()).thenReturn(netherWorld);
+        when(netherWorld.getName()).thenReturn("world_nether");
+        when(netherWorld.getEnvironment()).thenReturn(Environment.NETHER);
+        challenge.setChallengeType(ChallengeType.ISLAND);
+        IslandRequirements req = new IslandRequirements();
+        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        requiredEntities.put(EntityType.PUFFERFISH, 1);
+        req.setRequiredEntities(requiredEntities);
+        req.setSearchRadius(1);
+        challenge.setRequirements(req);
+        Entity ent = mock(Entity.class);
+        when(ent.getType()).thenReturn(EntityType.PUFFERFISH);
+        Location loc = mock(Location.class);
+        when(ent.getLocation()).thenReturn(loc);
+        List<Entity> list = Collections.singletonList(ent);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
+        when(netherWorld.getNearbyEntities(any(BoundingBox.class))).thenReturn(Collections.emptyList());
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
     }
 
     /**

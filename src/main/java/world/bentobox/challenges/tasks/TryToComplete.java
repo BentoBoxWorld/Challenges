@@ -1061,7 +1061,7 @@ public class TryToComplete
             }
         });
 
-        this.world.getNearbyEntities(boundingBox).forEach(entity -> {
+        user.getWorld().getNearbyEntities(boundingBox).forEach(entity -> {
             // Check if entity is inside challenge bounding box
             if (requiredMap.containsKey(entity.getType()))
             {
