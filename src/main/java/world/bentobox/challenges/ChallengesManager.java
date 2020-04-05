@@ -1507,7 +1507,7 @@ public class ChallengesManager
     public List<LevelStatus> getAllChallengeLevelStatus(User user, World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-        this.getAllChallengeLevelStatus(
+            this.getAllChallengeLevelStatus(
                 this.getDataUniqueID(user, Util.getWorld(world)),
                 gameMode.getDescription().getName())).
                 orElse(Collections.emptyList());
@@ -1546,11 +1546,11 @@ public class ChallengesManager
     public List<Challenge> getAllChallenges(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-        this.challengeCacheData.values().stream().
-        filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
-        sorted(this.challengeComparator).
-        collect(Collectors.toList())).
-                orElse(Collections.emptyList());
+            this.challengeCacheData.values().stream().
+                filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+                sorted(this.challengeComparator).
+                collect(Collectors.toList())).
+            orElse(Collections.emptyList());
     }
 
 
@@ -1689,6 +1689,45 @@ public class ChallengesManager
             this.challengeCacheData.remove(challenge.getUniqueId());
             this.challengeDatabase.deleteObject(challenge);
         }
+    }
+
+
+    /**
+     * This method returns number of challenges in given world.
+     * @param world World where challenge count must be returned.
+     * @return Number of challenges in given world.
+     */
+    public int getChallengeCount(World world)
+    {
+        return this.getAllChallenges(world).size();
+    }
+
+
+    /**
+     * This method returns number of completed challenges in given world.
+     * @param user User which completed challenge count must be returned.
+     * @param world World where challenge count must be returned.
+     * @return Number of completed challenges by given user in given world.
+     */
+    public long getCompletedChallengeCount(User user, World world)
+    {
+        return this.getAllChallenges(world).stream().
+            filter(challenge -> this.getChallengeTimes(user, world, challenge) > 0).
+            count();
+    }
+
+
+    /**
+     * This method returns total number of all completion times for all challenges in given world.
+     * @param user User which total completion count must be returned.
+     * @param world World where challenge count must be returned.
+     * @return Sum of completion count for all challenges by given user in given world.
+     */
+    public long getTotalChallengeCompletionCount(User user, World world)
+    {
+        return this.getAllChallenges(world).stream().
+            mapToLong(challenge -> this.getChallengeTimes(user, world, challenge)).
+            sum();
     }
 
 
@@ -1961,5 +2000,44 @@ public class ChallengesManager
                 challenge -> challenge.matchGameMode(gameMode)) ||
                 this.levelDatabase.loadObjects().stream().anyMatch(
                         level -> level.matchGameMode(gameMode));
+    }
+
+
+    /**
+     * This method returns number of levels in given world.
+     * @param world World where level count must be returned.
+     * @return Number of levels in given world.
+     */
+    public int getLevelCount(World world)
+    {
+        return this.getLevels(world).size();
+    }
+
+
+    /**
+     * This method returns number of completed levels in given world.
+     * @param user User which completed level count must be returned.
+     * @param world World where level count must be returned.
+     * @return Number of completed levels by given user in given world.
+     */
+    public long getCompletedLevelCount(User user, World world)
+    {
+        return this.getAllChallengeLevelStatus(user, world).stream().
+            filter(LevelStatus::isComplete).
+            count();
+    }
+
+
+    /**
+     * This method returns number of unlocked levels in given world.
+     * @param user User which unlocked level count must be returned.
+     * @param world World where level count must be returned.
+     * @return Number of unlocked levels by given user in given world.
+     */
+    public long getUnlockedLevelCount(User user, World world)
+    {
+        return this.getAllChallengeLevelStatus(user, world).stream().
+            filter(LevelStatus::isUnlocked).
+            count();
     }
 }
