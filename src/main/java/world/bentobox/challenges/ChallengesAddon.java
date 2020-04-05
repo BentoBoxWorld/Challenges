@@ -27,6 +27,7 @@ import world.bentobox.challenges.handlers.LevelDataRequestHandler;
 import world.bentobox.challenges.handlers.LevelListRequestHandler;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
+import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.web.WebManager;
 import world.bentobox.level.Level;
 
@@ -178,6 +179,11 @@ public class ChallengesAddon extends Addon {
 
 				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
 				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
+
+                getPlugin().getPlaceholdersManager().registerPlaceholder(this, gameModeAddon.getDescription().getName().toLowerCase() + "_challenge_complete_count", user -> String.valueOf(getChallengesManager().getAllChallengeLevelStatus(user, user.getWorld()).stream().filter(LevelStatus::isComplete).count()));
+                getPlugin().getPlaceholdersManager().registerPlaceholder(this, gameModeAddon.getDescription().getName().toLowerCase() + "_challenge_uncomplete_count", user -> String.valueOf(getChallengesManager().getAllChallengeLevelStatus(user, user.getWorld()).stream().filter(levelStatus -> !levelStatus.isComplete()).count()));
+                getPlugin().getPlaceholdersManager().registerPlaceholder(this, gameModeAddon.getDescription().getName().toLowerCase() + "_chalenge_lock_count", user -> String.valueOf(getChallengesManager().getAllChallengeLevelStatus(user, user.getWorld()).stream().filter(levelStatus -> !levelStatus.isUnlocked()).count()));
+                getPlugin().getPlaceholdersManager().registerPlaceholder(this, gameModeAddon.getDescription().getName().toLowerCase() + "_challenge_unlock_count", user -> String.valueOf(getChallengesManager().getAllChallengeLevelStatus(user, user.getWorld()).stream().filter(LevelStatus::isUnlocked).count()));
 			}
 		});
 
