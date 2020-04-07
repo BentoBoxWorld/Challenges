@@ -67,6 +67,7 @@ import world.bentobox.bentobox.managers.CommandsManager;
 import world.bentobox.bentobox.managers.FlagsManager;
 import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
+import world.bentobox.bentobox.managers.PlaceholdersManager;
 
 /**
  * @author tastybento
@@ -97,6 +98,8 @@ public class ChallengesAddonTest {
     private AddonsManager am;
     @Mock
     private BukkitScheduler scheduler;
+    @Mock
+    private PlaceholdersManager phm;
 
     /**
      * @throws java.lang.Exception
@@ -110,6 +113,9 @@ public class ChallengesAddonTest {
         // Command manager
         CommandsManager cm = mock(CommandsManager.class);
         when(plugin.getCommandsManager()).thenReturn(cm);
+        
+        // Placeholders manager
+        when(plugin.getPlaceholdersManager()).thenReturn(phm);
 
         // Player
         Player p = mock(Player.class);
