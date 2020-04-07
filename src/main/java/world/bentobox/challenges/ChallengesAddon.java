@@ -21,6 +21,7 @@ import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
 import world.bentobox.challenges.config.Settings;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.handlers.ChallengeDataRequestHandler;
 import world.bentobox.challenges.handlers.ChallengeListRequestHandler;
 import world.bentobox.challenges.handlers.CompletedChallengesRequestHandler;
@@ -361,6 +362,22 @@ public class ChallengesAddon extends Addon {
             gameMode + "_challenge_locked_level_count",
             user -> String.valueOf(this.challengesManager.getLevelCount(world) -
                 this.challengesManager.getUnlockedLevelCount(user, world)));
+
+        // Latest challenge level name placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_latest_level_name",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getFriendlyName() : "";
+            });
+
+        // Latest challenge level id placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_latest_level_id",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getUniqueId() : "";
+            });
     }
 
 

@@ -1514,6 +1514,27 @@ public class ChallengesManager
     }
 
 
+    /**
+     * This method returns latest ChallengeLevel object that is unlocked.
+     * @param user user who latest unlocked level must be returned.
+     * @param world World where level operates.
+     * @return ChallengeLevel for latest unlocked level.
+     */
+    @Nullable
+    public ChallengeLevel getLatestUnlockedLevel(User user, World world)
+    {
+        LevelStatus lastStatus = null;
+
+        for (Iterator<LevelStatus> statusIterator = this.getAllChallengeLevelStatus(user, world).iterator();
+            statusIterator.hasNext() && (lastStatus == null || !lastStatus.isUnlocked());)
+        {
+            lastStatus = statusIterator.next();
+        }
+
+        return lastStatus != null ? lastStatus.getLevel() : null;
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Challenges related methods
     // ---------------------------------------------------------------------
