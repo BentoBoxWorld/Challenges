@@ -57,3 +57,13 @@ permissions:
   skygrid.admin.challenges:
     description: Access challenge admin commands
     default: op
+    
+  aoneblock.challenges:
+    description: Let the player use the '/aoneblock challenges' command
+    default: true
+  aoneblock.challenges.multiple:
+    description: Let the player complete challenge multiple times
+    default: true
+  aoneblock.admin.challenges:
+    description: Access challenge admin commands
+    default: op
