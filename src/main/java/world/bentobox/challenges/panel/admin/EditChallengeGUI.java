@@ -500,7 +500,11 @@ public class EditChallengeGUI extends CommonGUI
                 clickHandler = (panel, user, clickType, slot) -> {
 
                     this.getFriendlyName(reply -> {
-                            this.challenge.setFriendlyName(reply);
+                            if (reply != null)
+                            {
+                                this.challenge.setFriendlyName(reply);
+                            }
+
                             this.build();
                         },
                         this.user.getTranslation("challenges.gui.questions.admin.challenge-name"),

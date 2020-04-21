@@ -338,9 +338,13 @@ public class EditLevelGUI extends CommonGUI
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
 
-                this.getFriendlyName(reply -> {
-                    this.challengeLevel.setFriendlyName(reply);
-                    this.build();
+                this.getFriendlyName(reply ->
+                    {
+                        if (reply != null)
+                        {
+                            this.challengeLevel.setFriendlyName(reply);
+                        }
+                        this.build();
                     },
                     this.user.getTranslation("challenges.gui.questions.admin.level-name"),
                     this.challengeLevel.getFriendlyName()

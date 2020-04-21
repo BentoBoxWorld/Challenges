@@ -1,10 +1,7 @@
 package world.bentobox.challenges.utils;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -423,5 +420,17 @@ public class GuiUtils
 		List<String> newList = new ArrayList<>(stringList.size());
 		stringList.stream().map(string -> GuiUtils.stringSplit(string, warpLength)).forEach(newList::addAll);
 		return newList;
+	}
+
+
+	/**
+	 * Sanitizes the provided input.
+	 * It replaces spaces and hyphens with underscores and lower cases the input.
+	 * @param input input to sanitize
+	 * @return sanitized input
+	 */
+	public static String sanitizeInput(String input)
+	{
+		return input.toLowerCase(Locale.ENGLISH).replace(" ", "_").replace("-", "_");
 	}
 }

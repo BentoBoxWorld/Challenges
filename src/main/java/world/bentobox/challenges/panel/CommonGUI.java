@@ -1082,6 +1082,10 @@ public abstract class CommonGUI
                     }
                 }).
                 withLocalEcho(false).
+                // On cancel conversation will be closed.
+                withEscapeSequence("cancel").
+                // Use null value in consumer to detect if user has abandoned conversation.
+                addConversationAbandonedListener(abandonedEvent -> consumer.accept(null)).
                 withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
                 buildConversation(user.getPlayer());
 
