@@ -9,7 +9,11 @@ import java.util.function.Consumer;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.conversations.*;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
+import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -1078,6 +1082,10 @@ public abstract class CommonGUI
                     }
                 }).
                 withLocalEcho(false).
+                // On cancel conversation will be closed.
+                withEscapeSequence("cancel").
+                // Use null value in consumer to detect if user has abandoned conversation.
+                addConversationAbandonedListener(abandonedEvent -> consumer.accept(null)).
                 withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
                 buildConversation(user.getPlayer());
 

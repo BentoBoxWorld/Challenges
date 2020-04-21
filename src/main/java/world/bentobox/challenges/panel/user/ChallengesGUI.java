@@ -1,11 +1,12 @@
 package world.bentobox.challenges.panel.user;
 
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import java.util.List;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -77,7 +78,7 @@ public class ChallengesGUI extends CommonGUI
 		// Do not open gui if there is no challenges.
 		if (!this.challengesManager.hasAnyChallengeData(this.world))
 		{
-			this.addon.getLogger().severe("There are no challenges set up!");
+			this.addon.logError("There are no challenges set up!");
 			this.user.sendMessage("challenges.errors.no-challenges");
 			return;
 		}

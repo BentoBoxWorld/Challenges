@@ -1,18 +1,15 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.ValidatingPrompt;
-import org.bukkit.inventory.ItemStack;
-import org.eclipse.jdt.annotation.NonNull;
-
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.conversations.*;
+import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -251,24 +248,31 @@ public class AdminGUI extends CommonGUI
             icon = new ItemStack(Material.BOOK);
             clickHandler = (panel, user, clickType, slot) -> {
 
-                this.getNewUniqueID(challenge -> {
-                    String newName = Utils.getGameMode(this.world) + "_" + challenge;
+                this.getNewUniqueID(challenge ->
+                    {
+                        if (challenge == null)
+                        {
+                            // Build Admin Gui if input is null.
+                            this.build();
+                        }
+                        else
+                        {
+                            String uniqueId = Utils.getGameMode(this.world) + "_" + challenge;
 
-                    ChallengeTypeGUI.open(user,
-                        this.addon.getChallengesSettings().getLoreLineLength(),
-                        (type, requirements) -> {
-                            new EditChallengeGUI(this.addon,
-                                this.world,
-                                this.user,
-                                this.addon.getChallengesManager().createChallenge(newName, type, requirements),
-                                this.topLabel,
-                                this.permissionPrefix,
-                                this).build();
-                        });
+                            ChallengeTypeGUI.open(user,
+                                this.addon.getChallengesSettings().getLoreLineLength(),
+                                (type, requirements) -> new EditChallengeGUI(this.addon,
+                                    this.world,
+                                    this.user,
+                                    this.addon.getChallengesManager().createChallenge(uniqueId, type, requirements),
+                                    this.topLabel,
+                                    this.permissionPrefix,
+                                    this).build());
+                        }
                     },
                     input -> {
-                        String newName = Utils.getGameMode(this.world) + "_" + input;
-                        return !this.addon.getChallengesManager().containsChallenge(newName);
+                        String uniqueId = Utils.getGameMode(this.world) + "_" + input;
+                        return !this.addon.getChallengesManager().containsChallenge(uniqueId);
                     },
                     this.user.getTranslation("challenges.gui.questions.admin.unique-id")
                 );
@@ -286,16 +290,25 @@ public class AdminGUI extends CommonGUI
             icon = new ItemStack(Material.BOOK);
             clickHandler = (panel, user, clickType, slot) -> {
 
-                this.getNewUniqueID(level -> {
-                        String newName = Utils.getGameMode(this.world) + "_" + level;
+                this.getNewUniqueID(level ->
+                    {
+                        if (level == null)
+                        {
+                            // Build Admin Gui if input is null.
+                            this.build();
+                        }
+                        else
+                        {
+                            String newName = Utils.getGameMode(this.world) + "_" + level;
 
-                        new EditLevelGUI(this.addon,
-                            this.world,
-                            this.user,
-                            this.addon.getChallengesManager().createLevel(newName, this.world),
-                            this.topLabel,
-                            this.permissionPrefix,
-                            this).build();
+                            new EditLevelGUI(this.addon,
+                                this.world,
+                                this.user,
+                                this.addon.getChallengesManager().createLevel(newName, this.world),
+                                this.topLabel,
+                                this.permissionPrefix,
+                                this).build();
+                        }
                     },
                     input -> {
                         String newName = Utils.getGameMode(this.world) + "_" + input;
@@ -659,7 +672,7 @@ public class AdminGUI extends CommonGUI
                     @Override
                     protected boolean isInputValid(ConversationContext context, String input)
                     {
-                        return stringValidation.apply(input);
+                        return stringValidation.apply(GuiUtils.sanitizeInput(input));
                     }
 
 
@@ -679,7 +692,7 @@ public class AdminGUI extends CommonGUI
                     protected String getFailedValidationText(ConversationContext context,
                         String invalidInput)
                     {
-                        return user.getTranslation("challenges.errors.unique-id", "[id]", invalidInput);
+                        return user.getTranslation("challenges.errors.unique-id", "[id]", GuiUtils.sanitizeInput(invalidInput));
                     }
 
 
@@ -699,11 +712,15 @@ public class AdminGUI extends CommonGUI
                     protected Prompt acceptValidatedInput(ConversationContext context, String input)
                     {
                         // Add answer to consumer.
-                        consumer.accept(input);
+                        consumer.accept(GuiUtils.sanitizeInput(input));
                         // End conversation
                         return Prompt.END_OF_CONVERSATION;
                     }
                 }).
+                // On cancel conversation will be closed.
+                withEscapeSequence("cancel").
+                // Use null value in consumer to detect if user has abandoned conversation.
+                addConversationAbandonedListener(abandonedEvent -> consumer.accept(null)).
                 withLocalEcho(false).
                 withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
                 buildConversation(user.getPlayer());

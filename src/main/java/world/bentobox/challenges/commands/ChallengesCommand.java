@@ -1,12 +1,11 @@
 package world.bentobox.challenges.commands;
 
 import java.util.List;
-import java.util.Optional;
 
 import world.bentobox.bentobox.api.addons.GameModeAddon;
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.ChallengesGUI;
 
 
@@ -27,10 +26,7 @@ public class ChallengesCommand extends CompositeCommand
     @Override
     public boolean canExecute(User user, String label, List<String> args)
     {
-        Optional<GameModeAddon> optionalAddon = this.getAddon().getPlugin().getIWM().getAddon(this.getWorld());
-
-        if (!optionalAddon.isPresent())
-        {
+        if (!getIWM().inWorld(getWorld())) {
             // Not a GameMode world.
             user.sendMessage("general.errors.wrong-world");
             return false;
@@ -39,13 +35,14 @@ public class ChallengesCommand extends CompositeCommand
         if (!((ChallengesAddon) this.getAddon()).getChallengesManager().hasAnyChallengeData(this.getWorld()))
         {
             // Do not open gui if there is no challenges.
-
-            this.getAddon().getLogger().severe("There are no challenges set up in " + this.getWorld() + "!");
+            this.getAddon().logError("There are no challenges set up in " + this.getWorld() + "!");
 
             // Show admin better explanation.
             if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + "admin.challenges"))
             {
-                String topLabel = optionalAddon.get().getAdminCommand().orElseGet(this::getParent).getTopLabel();
+                String topLabel = getIWM().getAddon(this.getWorld())
+                        .map(GameModeAddon::getAdminCommand)
+                        .map(optionalAdminCommand -> optionalAdminCommand.map(ac -> ac.getTopLabel()).orElse(this.getTopLabel())).orElse(this.getTopLabel());
                 user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
             }
             else
@@ -56,7 +53,7 @@ public class ChallengesCommand extends CompositeCommand
             return false;
         }
 
-        if (this.getPlugin().getIslands().getIsland(this.getWorld(), user.getUniqueId()) == null)
+        if (this.getIslands().getIsland(this.getWorld(), user) == null)
         {
             // Do not open gui if there is no island for this player.
             user.sendMessage("general.errors.no-island");

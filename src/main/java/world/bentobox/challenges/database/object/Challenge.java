@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
@@ -717,7 +718,7 @@ public class Challenge implements DataObject
      * This method sets the level value.
      * @param level the level new value.
      */
-    public void setLevel(String level)
+    public void setLevel(@NonNull String level)
     {
         this.level = level;
     }
@@ -1050,7 +1051,7 @@ public class Challenge implements DataObject
     public boolean matchGameMode(String gameMode)
     {
         return gameMode != null &&
-            this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
+                this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
     }
 
 
@@ -1129,7 +1130,7 @@ public class Challenge implements DataObject
             clone.setRequirements(this.requirements.clone());
             clone.setRewardText(this.rewardText);
             clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone).
-                collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
+                    collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
             clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
@@ -1138,7 +1139,7 @@ public class Challenge implements DataObject
             clone.setMaxTimes(this.maxTimes);
             clone.setRepeatExperienceReward(this.repeatExperienceReward);
             clone.setRepeatItemReward(this.repeatItemReward.stream().map(ItemStack::clone).
-                collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
+                    collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
             clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
         }

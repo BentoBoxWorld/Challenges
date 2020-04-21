@@ -1,11 +1,12 @@
 package world.bentobox.challenges.utils;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import java.util.ArrayList;
-import java.util.List;
 
 import world.bentobox.bentobox.BentoBox;
 
@@ -25,7 +26,7 @@ public class Utils
 	{
 		List<ItemStack> returnItems = new ArrayList<>(requiredItems.size());
 
-		// Group all equal items in singe stack, as otherwise it will be too complicated to check if all
+		// Group all equal items in single stack, as otherwise it will be too complicated to check if all
 		// items are in players inventory.
 		for (ItemStack item : requiredItems)
 		{

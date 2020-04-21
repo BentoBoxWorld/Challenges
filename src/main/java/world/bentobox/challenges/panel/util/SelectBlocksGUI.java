@@ -1,17 +1,20 @@
 package world.bentobox.challenges.panel.util;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
+
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
-import java.util.function.BiConsumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -28,7 +31,36 @@ public class SelectBlocksGUI
 
 	public SelectBlocksGUI(User user, boolean singleSelect, BiConsumer<Boolean, Set<Material>> consumer)
 	{
-		this(user, singleSelect, new HashSet<>(), consumer);
+		this.consumer = consumer;
+		this.user = user;
+		this.singleSelect = singleSelect;
+
+		// Current GUI cannot display air blocks. It crashes with null-pointer
+		Set<Material> excludedMaterial = new HashSet<>();
+
+		excludedMaterial.add(Material.AIR);
+		excludedMaterial.add(Material.CAVE_AIR);
+		excludedMaterial.add(Material.VOID_AIR);
+
+		// Piston head and moving piston is not necessary. useless.
+		excludedMaterial.add(Material.PISTON_HEAD);
+		excludedMaterial.add(Material.MOVING_PISTON);
+
+		// Barrier cannot be accessible to user.
+		excludedMaterial.add(Material.BARRIER);
+
+		this.elements = new ArrayList<>();
+		this.selectedMaterials = new HashSet<>();
+
+		for (Material material : Material.values())
+		{
+			if (!material.isLegacy() && !excludedMaterial.contains(material))
+			{
+				this.elements.add(material);
+			}
+		}
+
+		this.build(0);
 	}
 
 

@@ -1,11 +1,11 @@
 package world.bentobox.challenges.panel;
 
 
-import org.bukkit.Material;
-import org.bukkit.World;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;

@@ -7,13 +7,15 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+
+import com.google.gson.annotations.Expose;
 
 
 /**

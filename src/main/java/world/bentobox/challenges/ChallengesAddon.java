@@ -1,10 +1,13 @@
 package world.bentobox.challenges;
 
 
-import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
@@ -18,6 +21,7 @@ import world.bentobox.challenges.commands.ChallengesUserCommand;
 import world.bentobox.challenges.commands.admin.Challenges;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
 import world.bentobox.challenges.config.Settings;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.handlers.ChallengeDataRequestHandler;
 import world.bentobox.challenges.handlers.ChallengeListRequestHandler;
 import world.bentobox.challenges.handlers.CompletedChallengesRequestHandler;
@@ -87,7 +91,7 @@ public class ChallengesAddon extends Addon {
 	 * This flag allows to complete challenges in any part of the world. It will not limit
 	 * player to their island. Useful for skygrid without protection flags.
 	 */
-	public static Flag CHALLENGES_WORLD_PROTECTION =
+	public static final Flag CHALLENGES_WORLD_PROTECTION =
 		new Flag.Builder("CHALLENGES_WORLD_PROTECTION", Material.GRASS_BLOCK).type(Flag.Type.WORLD_SETTING).defaultSetting(true).build();
 
 	/**
@@ -95,7 +99,7 @@ public class ChallengesAddon extends Addon {
 	 * that only Island owner can complete challenge.
 	 * By default it is set to Visitor.
 	 */
-	public static Flag CHALLENGES_ISLAND_PROTECTION =
+	public static final Flag CHALLENGES_ISLAND_PROTECTION =
 		new Flag.Builder("CHALLENGES_ISLAND_PROTECTION", Material.COMMAND_BLOCK).defaultRank(RanksManager.VISITOR_RANK).build();
 
 
@@ -154,7 +158,8 @@ public class ChallengesAddon extends Addon {
         List<GameModeAddon> hookedGameModes = new ArrayList<>();
 
         this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
-        	if (!this.settings.getDisabledGameModes().contains(gameModeAddon.getDescription().getName()))
+        	if (!this.settings.getDisabledGameModes().contains(
+        	    gameModeAddon.getDescription().getName()))
 			{
 				if (gameModeAddon.getPlayerCommand().isPresent())
 				{
@@ -172,6 +177,8 @@ public class ChallengesAddon extends Addon {
 
 				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
 				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
+
+				this.registerPlaceholders(gameModeAddon);
 			}
 		});
 
@@ -237,7 +244,7 @@ public class ChallengesAddon extends Addon {
 
             if (this.settings.getAutoSaveTimer() > 0)
             {
-                this.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(
+                Bukkit.getScheduler().runTaskTimerAsynchronously(
                     this.getPlugin(),
                     bukkitTask -> ChallengesAddon.this.challengesManager.save(),
                     this.settings.getAutoSaveTimer() * 60 * 20,
@@ -263,7 +270,7 @@ public class ChallengesAddon extends Addon {
         {
             this.loadSettings();
             this.challengesManager.reload();
-            this.getLogger().info("Challenges addon reloaded.");
+            this.log("Challenges addon reloaded.");
         }
     }
 
@@ -305,6 +312,72 @@ public class ChallengesAddon extends Addon {
     private boolean isInCompatibleDatabase()
     {
         return this.getPlugin().getSettings().getDatabaseType().equals(DatabaseType.YAML);
+    }
+
+
+    /**
+     * This method registers placeholders into GameMode addon.
+     * @param gameModeAddon GameMode addon where placeholders must be hooked in.
+     */
+    private void registerPlaceholders(GameModeAddon gameModeAddon)
+    {
+        final String gameMode = gameModeAddon.getDescription().getName().toLowerCase();
+        final World world = gameModeAddon.getOverWorld();
+
+        // Number of completions for all challenges placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_total_completion_count",
+            user -> String.valueOf(this.challengesManager.getTotalChallengeCompletionCount(user, world)));
+
+        // Completed challenge count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_completed_count",
+            user -> String.valueOf(this.challengesManager.getCompletedChallengeCount(user, world)));
+
+        // Uncompleted challenge count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_uncompleted_count",
+            user -> String.valueOf(this.challengesManager.getChallengeCount(world) -
+                this.challengesManager.getCompletedChallengeCount(user, world)));
+
+        // Completed challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_completed_level_count",
+            user -> String.valueOf(this.challengesManager.getCompletedLevelCount(user, world)));
+
+        // Uncompleted challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_uncompleted_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getCompletedLevelCount(user, world)));
+
+        // Unlocked challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_unlocked_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getUnlockedLevelCount(user, world)));
+
+        // Locked challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_locked_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getUnlockedLevelCount(user, world)));
+
+        // Latest challenge level name placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_latest_level_name",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getFriendlyName() : "";
+            });
+
+        // Latest challenge level id placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
+            gameMode + "_challenge_latest_level_id",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getUniqueId() : "";
+            });
     }
 
 

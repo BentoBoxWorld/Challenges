@@ -1,11 +1,12 @@
 package world.bentobox.challenges.panel.util;
 
 
-import org.bukkit.Material;
-import org.bukkit.World;
 import java.util.Collections;
 import java.util.Set;
 import java.util.function.BiConsumer;
+
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;

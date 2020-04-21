@@ -1,16 +1,17 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -499,7 +500,11 @@ public class EditChallengeGUI extends CommonGUI
                 clickHandler = (panel, user, clickType, slot) -> {
 
                     this.getFriendlyName(reply -> {
-                            this.challenge.setFriendlyName(reply);
+                            if (reply != null)
+                            {
+                                this.challenge.setFriendlyName(reply);
+                            }
+
                             this.build();
                         },
                         this.user.getTranslation("challenges.gui.questions.admin.challenge-name"),

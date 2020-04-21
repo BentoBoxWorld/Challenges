@@ -7,10 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.bentobox.api.events.island.IslandEvent;
 import world.bentobox.bentobox.api.events.island.IslandEvent.Reason;
+import world.bentobox.challenges.ChallengesAddon;
 
 /**
  * Resets challenges when the island is reset

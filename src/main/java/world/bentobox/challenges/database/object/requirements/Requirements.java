@@ -7,9 +7,10 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.google.gson.annotations.Expose;
 
 
 /**

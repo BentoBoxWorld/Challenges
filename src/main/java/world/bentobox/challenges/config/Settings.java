@@ -13,10 +13,9 @@ import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.api.configuration.ConfigEntry;
 import world.bentobox.bentobox.api.configuration.ConfigObject;
 import world.bentobox.bentobox.api.configuration.StoreAt;
-
 import world.bentobox.bentobox.database.objects.adapters.Adapter;
-import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.config.SettingsUtils.ChallengeLore;
+import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.config.SettingsUtils.LevelLore;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.adapters.ChallengeLoreAdapter;

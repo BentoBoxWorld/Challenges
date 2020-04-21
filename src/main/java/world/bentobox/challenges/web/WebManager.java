@@ -1,11 +1,16 @@
 package world.bentobox.challenges.web;
 
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Comparator;
+import java.util.List;
+
+import org.bukkit.World;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.bukkit.World;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
@@ -121,7 +126,6 @@ public class WebManager
 	 * @param user User who inits request.
 	 * @param world Target world where challenges should be loaded.
 	 * @param entry Entry that contains information about requested object.
-	 * @return {@code true} if request was successful, {@code false} otherwise.
 	 */
 	public void requestEntryGitHubData(User user, World world, LibraryEntry entry)
 	{

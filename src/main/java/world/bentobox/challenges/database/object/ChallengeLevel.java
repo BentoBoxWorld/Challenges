@@ -1,14 +1,16 @@
 package world.bentobox.challenges.database.object;
 
 
-import com.google.gson.annotations.Expose;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.annotations.Expose;
 
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;

@@ -1,9 +1,10 @@
 package world.bentobox.challenges.handlers;
 
 
-import org.bukkit.Bukkit;
 import java.util.Collections;
 import java.util.Map;
+
+import org.bukkit.Bukkit;
 
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
@@ -51,7 +52,8 @@ public class LevelListRequestHandler extends AddonRequestHandler
             return Collections.emptyList();
         }
 
-        return this.addon.getChallengesManager().getLevels(Bukkit.getWorld((String) metaData.get("world-name")));
+        return this.addon.getChallengesManager().getLevelNames(
+            Bukkit.getWorld((String) metaData.get("world-name")));
     }
 
 

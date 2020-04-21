@@ -6,7 +6,6 @@ import java.util.List;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
-
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.panel.GameModesGUI;

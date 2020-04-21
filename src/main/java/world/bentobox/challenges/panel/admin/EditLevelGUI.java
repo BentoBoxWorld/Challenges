@@ -22,7 +22,11 @@ import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.panel.CommonGUI;
-import world.bentobox.challenges.panel.util.*;
+import world.bentobox.challenges.panel.util.ItemSwitchGUI;
+import world.bentobox.challenges.panel.util.NumberGUI;
+import world.bentobox.challenges.panel.util.SelectBlocksGUI;
+import world.bentobox.challenges.panel.util.SelectChallengeGUI;
+import world.bentobox.challenges.panel.util.StringListGUI;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
@@ -334,9 +338,13 @@ public class EditLevelGUI extends CommonGUI
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
 
-                this.getFriendlyName(reply -> {
-                    this.challengeLevel.setFriendlyName(reply);
-                    this.build();
+                this.getFriendlyName(reply ->
+                    {
+                        if (reply != null)
+                        {
+                            this.challengeLevel.setFriendlyName(reply);
+                        }
+                        this.build();
                     },
                     this.user.getTranslation("challenges.gui.questions.admin.level-name"),
                     this.challengeLevel.getFriendlyName()

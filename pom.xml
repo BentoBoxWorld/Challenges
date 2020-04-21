@@ -33,7 +33,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<powermock.version>1.7.4</powermock.version>
+		<powermock.version>2.0.2</powermock.version>
 		<!-- More visible way how to change dependency versions -->
 		<spigot.version>1.14.4-R0.1-SNAPSHOT</spigot.version>
 		<bentobox.version>1.7.0</bentobox.version>
@@ -42,7 +42,7 @@
 		<!-- Revision variable removes warning about dynamic version -->
 		<revision>${build.version}-SNAPSHOT</revision>
 		<!-- This allows to change between versions and snapshots. -->
-		<build.version>0.8.0</build.version>
+		<build.version>0.8.1</build.version>
 		<build.number>-LOCAL</build.number>
 	</properties>
 
@@ -56,7 +56,7 @@
 			</activation>
 			<properties>
 				<!-- Override only if necessary -->
-        <build.number>-#${env.BUILD_NUMBER}</build.number>
+				<build.number>-b${env.BUILD_NUMBER}</build.number>
 				<!-- GIT_BRANCH -->
 			</properties>
 		</profile>
@@ -129,24 +129,25 @@
 			<version>${spigot.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- Mockito (Unit testing) -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>world.bentobox</groupId>
 			<artifactId>bentobox</artifactId>

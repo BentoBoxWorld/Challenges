@@ -143,7 +143,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Change your logs for some clay",
+      "rewardText": "Exchange your logs for some clay",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CLAY\n  amount: 4\n"
       ],
@@ -151,7 +151,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Change your logs for some clay balls",
+      "repeatRewardText": "Exchange your logs for some clay balls",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -586,7 +586,7 @@
       "friendlyName": "Pumpkin collector",
       "deployed": true,
       "description": [
-        "Grow and collect some pumpkin"
+        "Grow and collect some pumpkins"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PUMPKIN\n",
       "order": 3,
@@ -622,7 +622,7 @@
       "repeatRewardCommands": []
     },
     {
-      "uniqueId": "chisedmaker",
+      "uniqueId": "chiseledmaker",
       "friendlyName": "Chiseled stone bricks crafter",
       "deployed": true,
       "description": [
@@ -663,7 +663,7 @@
     },
     {
       "uniqueId": "crackedmaker",
-      "friendlyName": "Cracked stone bricks",
+      "friendlyName": "Cracked stone bricks crafter",
       "deployed": true,
       "description": [
         "Smelt some bricks to get cracked stone bricks."
@@ -895,7 +895,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Iron for tools crafting and some cats.",
+      "rewardText": "Iron to craft some tools and a couple of cats.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OCELOT_SPAWN_EGG\n  amount: 2\n"
@@ -961,7 +961,7 @@
       "friendlyName": "Visit nether",
       "deployed": true,
       "description": [
-        "Nether is a horrible place, but it has some useful stuff."
+        "The nether is a horrible place, but it has some useful materials."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: NETHERRACK\n",
       "order": 3,
@@ -1064,7 +1064,6 @@
           "requiredPermissions": []
         }
       },
-
       "rewardText": "Some prismarine shards and sea pickles",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PRISMARINE_SHARD\n  amount: 16\n",
@@ -1174,7 +1173,7 @@
       "friendlyName": "Iron Farm",
       "deployed": true,
       "description": [
-        "Use your villagers to produce free iron golems."
+        "Use your villagers to spawn free iron golems."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_BLOCK\n",
       "order": 1,
@@ -1302,7 +1301,7 @@
       "friendlyName": "Villager Breeder",
       "deployed": true,
       "description": [
-        "Start to create a slave army."
+        "Start to create a villager army."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EMERALD_BLOCK\n",
       "order": 1,
@@ -1605,7 +1604,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your iron stuff to some diamond",
+      "rewardText": "Exchange your iron stuff to some diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 4\n"
       ],
@@ -1627,7 +1626,7 @@
       "friendlyName": "Trader",
       "deployed": true,
       "description": [
-        "Use your slaves to get some gems"
+        "Use your villagers to get some gems"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EMERALD\n",
       "order": 4,
@@ -1645,7 +1644,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your emeralds to some diamond",
+      "rewardText": "Exchange your emeralds to some diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 4\n"
       ],
@@ -2564,7 +2563,7 @@
         "mushroomfarm",
         "melonfarm",
         "melonmaker",
-        "chisedmaker",
+        "chiseledmaker",
         "crackedmaker",
         "treefarm",
         "cobblegenerator",

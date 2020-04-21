@@ -1,17 +1,22 @@
 package world.bentobox.challenges.panel.util;
 
 
-import org.bukkit.Material;
-import org.bukkit.conversations.*;
-import org.bukkit.inventory.ItemStack;
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import org.bukkit.Material;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
+import org.bukkit.conversations.StringPrompt;
+import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -151,7 +156,15 @@ public class StringListGUI
 				icon = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
 				clickHandler = (panel, user, clickType, slot) -> {
 
-					this.getStringInput(value -> this.value.add(value),
+					this.getStringInput(value -> {
+							if (value != null)
+							{
+								this.value.add(value);
+							}
+
+							// Reopen GUI.
+							this.build();
+						},
 						this.user.getTranslation("challenges.gui.descriptions.admin.add-text-line"));
 
 					return true;
@@ -210,7 +223,15 @@ public class StringListGUI
 			clickHandler((panel, user1, clickType, i) -> {
 
 				this.getStringInput(
-					value -> this.value.set(stringIndex, value),
+					value -> {
+						if (value != null)
+						{
+							this.value.set(stringIndex, value);
+						}
+
+						// Reopen GUI
+						this.build();
+					},
 					this.user.getTranslation("challenges.gui.descriptions.admin.edit-text-line"),
 					element);
 
@@ -277,12 +298,14 @@ public class StringListGUI
 					{
 						// Add answer to consumer.
 						consumer.accept(answer);
-						// Reopen GUI
-						StringListGUI.this.build();
 						// End conversation
 						return Prompt.END_OF_CONVERSATION;
 					}
 				}).
+				// On cancel conversation will be closed.
+				withEscapeSequence("cancel").
+				// Use null value in consumer to detect if user has abandoned conversation.
+				addConversationAbandonedListener(abandonedEvent -> consumer.accept(null)).
 				withLocalEcho(false).
 				withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
 				buildConversation(user.getPlayer());
