@@ -305,7 +305,13 @@ public class StringListGUI
 				// On cancel conversation will be closed.
 				withEscapeSequence("cancel").
 				// Use null value in consumer to detect if user has abandoned conversation.
-				addConversationAbandonedListener(abandonedEvent -> consumer.accept(null)).
+				addConversationAbandonedListener(abandonedEvent ->
+				{
+					if (!abandonedEvent.gracefulExit())
+					{
+						consumer.accept(null);
+					}
+				}).
 				withLocalEcho(false).
 				withPrefix(context -> user.getTranslation("challenges.gui.questions.prefix")).
 				buildConversation(user.getPlayer());
