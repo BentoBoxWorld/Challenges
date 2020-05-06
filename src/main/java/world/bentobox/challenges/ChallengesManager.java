@@ -1526,7 +1526,7 @@ public class ChallengesManager
         LevelStatus lastStatus = null;
 
         for (Iterator<LevelStatus> statusIterator = this.getAllChallengeLevelStatus(user, world).iterator();
-            statusIterator.hasNext() && (lastStatus == null || !lastStatus.isUnlocked());)
+            statusIterator.hasNext() && (lastStatus == null || lastStatus.isUnlocked());)
         {
             lastStatus = statusIterator.next();
         }
