@@ -179,6 +179,9 @@ public class ChallengesAddon extends Addon {
 				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
 
 				this.registerPlaceholders(gameModeAddon);
+
+				// TODO: this is old placeholders. Remove when backward compatibility ends.
+                this.registerPlaceholdersOld(gameModeAddon);
 			}
 		});
 
@@ -320,6 +323,75 @@ public class ChallengesAddon extends Addon {
      * @param gameModeAddon GameMode addon where placeholders must be hooked in.
      */
     private void registerPlaceholders(GameModeAddon gameModeAddon)
+    {
+        final String addonName = this.getDescription().getName().toLowerCase();
+        final World world = gameModeAddon.getOverWorld();
+
+        // Number of completions for all challenges placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_total_completion_count",
+            user -> String.valueOf(this.challengesManager.getTotalChallengeCompletionCount(user, world)));
+
+        // Completed challenge count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_completed_count",
+            user -> String.valueOf(this.challengesManager.getCompletedChallengeCount(user, world)));
+
+        // Uncompleted challenge count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_uncompleted_count",
+            user -> String.valueOf(this.challengesManager.getChallengeCount(world) -
+                this.challengesManager.getCompletedChallengeCount(user, world)));
+
+        // Completed challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_completed_level_count",
+            user -> String.valueOf(this.challengesManager.getCompletedLevelCount(user, world)));
+
+        // Uncompleted challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_uncompleted_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getCompletedLevelCount(user, world)));
+
+        // Unlocked challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_unlocked_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getUnlockedLevelCount(user, world)));
+
+        // Locked challenge level count placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_locked_level_count",
+            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
+                this.challengesManager.getUnlockedLevelCount(user, world)));
+
+        // Latest challenge level name placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_latest_level_name",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getFriendlyName() : "";
+            });
+
+        // Latest challenge level id placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_latest_level_id",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return level != null ? level.getUniqueId() : "";
+            });
+    }
+
+
+    /**
+     * This method registers placeholders into GameMode addon.
+     * @param gameModeAddon GameMode addon where placeholders must be hooked in.
+     * @since 0.8.1
+     * @deprecated remove after 0.9.0
+     */
+    @Deprecated
+    private void registerPlaceholdersOld(GameModeAddon gameModeAddon)
     {
         final String gameMode = gameModeAddon.getDescription().getName().toLowerCase();
         final World world = gameModeAddon.getOverWorld();
