@@ -1531,7 +1531,7 @@ public class ChallengesManager
             lastStatus = statusIterator.next();
         }
 
-        return lastStatus != null ? lastStatus.getLevel() : null;
+        return lastStatus != null ? lastStatus.getPreviousLevel() : null;
     }
 
 
