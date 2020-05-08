@@ -206,11 +206,15 @@ public class ChallengesManager
         }
 
         this.playerCacheData.clear();
-        loadAndValidate();
+        this.loadAndValidate();
     }
 
 
-    private void loadAndValidate() {
+    /**
+     * This method loads and validates all challenges and levels.
+     */
+    private void loadAndValidate()
+    {
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
         // this validate challenge levels
@@ -233,7 +237,7 @@ public class ChallengesManager
         //this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
         //this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
 
-        loadAndValidate();
+        this.loadAndValidate();
     }
 
 
@@ -263,6 +267,18 @@ public class ChallengesManager
             User user,
             boolean silent)
     {
+        // This may happen if database somehow failed to load challenge and return
+        // null as input.
+        if (challenge == null)
+        {
+            if (!silent)
+            {
+                user.sendMessage("load-error", "[value]", "NULL");
+            }
+
+            return false;
+        }
+
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
             if (!overwrite)
@@ -324,6 +340,18 @@ public class ChallengesManager
             User user,
             boolean silent)
     {
+        // This may happen if database somehow failed to load challenge and return
+        // null as input.
+        if (level == null)
+        {
+            if (!silent)
+            {
+                user.sendMessage("load-error", "[value]", "NULL");
+            }
+
+            return false;
+        }
+
         if (!this.isValidLevel(level))
         {
             if (user != null)
@@ -474,11 +502,8 @@ public class ChallengesManager
         {
             if (!this.challengeCacheData.containsKey(uniqueID))
             {
-                if (this.challengeDatabase.objectExists(uniqueID))
-                {
-                    this.loadChallenge(this.challengeDatabase.loadObject(uniqueID));
-                }
-                else
+                if (!this.challengeDatabase.objectExists(uniqueID) ||
+                    !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), false, null, true))
                 {
                     this.addon.logError("Cannot find " + uniqueID + " challenge for " + level.getUniqueId());
                     return false;
@@ -824,8 +849,11 @@ public class ChallengesManager
      */
     public void save()
     {
-        this.saveChallenges();
-        this.saveLevels();
+        // Challenges and Levels are saved on modifications only to avoid issues with
+        // NULL's in data after interrupting server while in saving stage.
+        // this.saveChallenges();
+        // this.saveLevels();
+
         this.savePlayersData();
     }
 
@@ -835,7 +863,7 @@ public class ChallengesManager
      */
     private void saveChallenges()
     {
-        this.challengeCacheData.values().forEach(this.challengeDatabase::saveObject);
+        this.challengeCacheData.values().forEach(this::saveChallenge);
     }
 
 
@@ -845,7 +873,7 @@ public class ChallengesManager
      */
     public void saveChallenge(Challenge challenge)
     {
-        this.challengeDatabase.saveObject(challenge);
+        this.challengeDatabase.saveObjectAsync(challenge);
     }
 
 
@@ -854,7 +882,7 @@ public class ChallengesManager
      */
     private void saveLevels()
     {
-        this.levelCacheData.values().forEach(this.levelDatabase::saveObject);
+        this.levelCacheData.values().forEach(this::saveLevel);
     }
 
 
@@ -864,7 +892,7 @@ public class ChallengesManager
      */
     public void saveLevel(ChallengeLevel level)
     {
-        this.levelDatabase.saveObject(level);
+        this.levelDatabase.saveObjectAsync(level);
     }
 
 
@@ -873,7 +901,7 @@ public class ChallengesManager
      */
     private void savePlayersData()
     {
-        this.playerCacheData.values().forEach(this.playersDatabase::saveObject);
+        this.playerCacheData.values().forEach(this.playersDatabase::saveObjectAsync);
     }
 
 
@@ -902,7 +930,7 @@ public class ChallengesManager
                 }
             }
 
-            this.playersDatabase.saveObject(cachedData);
+            this.playersDatabase.saveObjectAsync(cachedData);
         }
     }
 
