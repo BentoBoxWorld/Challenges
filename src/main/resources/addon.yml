@@ -1,6 +1,7 @@
 name: Challenges
 main: world.bentobox.challenges.ChallengesAddon
 version: ${version}${build.number}
+api-version: 1.13.1
 repository: 'BentoBoxWorld/Challenges'
 metrics: true
 
