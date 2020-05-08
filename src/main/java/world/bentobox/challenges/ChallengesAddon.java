@@ -286,7 +286,14 @@ public class ChallengesAddon extends Addon {
         if (this.hooked) {
             this.challengesManager.save();
         }
+    }
 
+
+    /**
+     * This method saves addon settings into file.
+     */
+    public void saveSettings()
+    {
         if (this.settings != null)
         {
             new Config<>(this, Settings.class).saveConfigObject(this.settings);
