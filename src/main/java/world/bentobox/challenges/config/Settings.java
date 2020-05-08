@@ -1,7 +1,7 @@
 package world.bentobox.challenges.config;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,14 +34,14 @@ public class Settings implements ConfigObject
     @ConfigComment("Allows to define common challenges command that will open User GUI")
     @ConfigComment("with all GameMode selection or Challenges from user world.")
     @ConfigComment("This will not affect /{gamemode_user} challenges command.")
-    @ConfigEntry(path = "commands.user", needsReset = true)
+    @ConfigEntry(path = "commands.user", needsRestart = true)
     private String userCommand = "challenges c";
 
     @ConfigComment("")
     @ConfigComment("Allows to define common challenges command that will open Admin GUI")
     @ConfigComment("with all GameMode selection.")
     @ConfigComment("This will not affect /{gamemode_admin} challenges command.")
-    @ConfigEntry(path = "commands.admin", needsReset = true)
+    @ConfigEntry(path = "commands.admin", needsRestart = true)
     private String adminCommand = "challengesadmin chadmin";
 
     @ConfigComment("")
@@ -49,7 +49,7 @@ public class Settings implements ConfigObject
     @ConfigComment("all GameModes. For admins it will open selection with all GameModes")
     @ConfigComment("(unless there is one), but for users it will open GUI that corresponds")
     @ConfigComment("to their world (unless it is specified other way in Admin GUI).")
-    @ConfigEntry(path = "commands.single-gui", needsReset = true)
+    @ConfigEntry(path = "commands.single-gui", needsRestart = true)
     private boolean useCommonGUI = false;
 
     @ConfigComment("")
@@ -130,7 +130,7 @@ public class Settings implements ConfigObject
     @ConfigComment("Requirement and reward items, blocks and entities that are defined in challenge and can be customized under 'challenges.gui.item-description.*'")
     @ConfigEntry(path = "gui-settings.challenge-lore")
     @Adapter(ChallengeLoreAdapter.class)
-    private List<ChallengeLore> challengeLoreMessage = new ArrayList<>();
+    private List<ChallengeLore> challengeLoreMessage = Arrays.asList(ChallengeLore.values());
 
     @ConfigComment("")
     @ConfigComment("This string allows to change element order in Level description. Each letter represents")
@@ -149,7 +149,7 @@ public class Settings implements ConfigObject
     @ConfigComment("Reward items that are defined in challenge level and can be customized under 'challenges.gui.item-description.*'")
     @ConfigEntry(path = "gui-settings.level-lore")
     @Adapter(LevelLoreAdapter.class)
-    private List<LevelLore> levelLoreMessage = new ArrayList<>();
+    private List<LevelLore> levelLoreMessage = Arrays.asList(LevelLore.values());
 
     @ConfigComment("")
     @ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
