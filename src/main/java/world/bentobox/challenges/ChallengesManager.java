@@ -861,7 +861,7 @@ public class ChallengesManager
     /**
      * This method saves all challenges to database.
      */
-    private void saveChallenges()
+    public void saveChallenges()
     {
         this.challengeCacheData.values().forEach(this::saveChallenge);
     }
@@ -880,7 +880,7 @@ public class ChallengesManager
     /**
      * This method saves all levels to database.
      */
-    private void saveLevels()
+    public void saveLevels()
     {
         this.levelCacheData.values().forEach(this::saveLevel);
     }
