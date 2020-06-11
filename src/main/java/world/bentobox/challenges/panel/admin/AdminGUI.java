@@ -1,13 +1,16 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.conversations.*;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
+import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
 
@@ -44,10 +47,10 @@ public class AdminGUI extends CommonGUI
      */
     private boolean resetAllMode;
 
-	/**
-	 * This indicate if wipe button should clear all data, or only challenges.
-	 */
-	private boolean wipeAll;
+    /**
+     * This indicate if wipe button should clear all data, or only challenges.
+     */
+    private boolean wipeAll;
 
 
     // ---------------------------------------------------------------------
@@ -158,14 +161,14 @@ public class AdminGUI extends CommonGUI
 
         // Button that deletes everything from challenges addon
 
-		if (this.wipeAll)
-		{
-			panelBuilder.item(34, this.createButton(Button.COMPLETE_WIPE));
-		}
-		else
-		{
-			panelBuilder.item(34, this.createButton(Button.CHALLENGE_WIPE));
-		}
+        if (this.wipeAll)
+        {
+            panelBuilder.item(34, this.createButton(Button.COMPLETE_WIPE));
+        }
+        else
+        {
+            panelBuilder.item(34, this.createButton(Button.CHALLENGE_WIPE));
+        }
 
         panelBuilder.item(44, this.returnButton);
 
@@ -249,33 +252,33 @@ public class AdminGUI extends CommonGUI
             clickHandler = (panel, user, clickType, slot) -> {
 
                 this.getNewUniqueID(challenge ->
+                {
+                    if (challenge == null)
                     {
-                        if (challenge == null)
-                        {
-                            // Build Admin Gui if input is null.
-                            this.build();
-                        }
-                        else
-                        {
-                            String uniqueId = Utils.getGameMode(this.world) + "_" + challenge;
+                        // Build Admin Gui if input is null.
+                        this.build();
+                    }
+                    else
+                    {
+                        String uniqueId = Utils.getGameMode(this.world) + "_" + challenge;
 
-                            ChallengeTypeGUI.open(user,
+                        ChallengeTypeGUI.open(user,
                                 this.addon.getChallengesSettings().getLoreLineLength(),
                                 (type, requirements) -> new EditChallengeGUI(this.addon,
-                                    this.world,
-                                    this.user,
-                                    this.addon.getChallengesManager().createChallenge(uniqueId, type, requirements),
-                                    this.topLabel,
-                                    this.permissionPrefix,
-                                    this).build());
-                        }
-                    },
-                    input -> {
-                        String uniqueId = Utils.getGameMode(this.world) + "_" + input;
-                        return !this.addon.getChallengesManager().containsChallenge(uniqueId);
-                    },
-                    this.user.getTranslation("challenges.gui.questions.admin.unique-id")
-                );
+                                        this.world,
+                                        this.user,
+                                        this.addon.getChallengesManager().createChallenge(uniqueId, type, requirements),
+                                        this.topLabel,
+                                        this.permissionPrefix,
+                                        this).build());
+                    }
+                },
+                input -> {
+                    String uniqueId = Utils.getGameMode(this.world) + "_" + input;
+                    return !this.addon.getChallengesManager().containsChallenge(uniqueId);
+                },
+                this.user.getTranslation("challenges.gui.questions.admin.unique-id")
+                        );
 
                 return true;
             };
@@ -291,31 +294,31 @@ public class AdminGUI extends CommonGUI
             clickHandler = (panel, user, clickType, slot) -> {
 
                 this.getNewUniqueID(level ->
+                {
+                    if (level == null)
                     {
-                        if (level == null)
-                        {
-                            // Build Admin Gui if input is null.
-                            this.build();
-                        }
-                        else
-                        {
-                            String newName = Utils.getGameMode(this.world) + "_" + level;
+                        // Build Admin Gui if input is null.
+                        this.build();
+                    }
+                    else
+                    {
+                        String newName = Utils.getGameMode(this.world) + "_" + level;
 
-                            new EditLevelGUI(this.addon,
+                        new EditLevelGUI(this.addon,
                                 this.world,
                                 this.user,
                                 this.addon.getChallengesManager().createLevel(newName, this.world),
                                 this.topLabel,
                                 this.permissionPrefix,
                                 this).build();
-                        }
-                    },
-                    input -> {
-                        String newName = Utils.getGameMode(this.world) + "_" + input;
-                        return !this.addon.getChallengesManager().containsLevel(newName);
-                    },
-                    this.user.getTranslation("challenges.gui.questions.admin.unique-id")
-                );
+                    }
+                },
+                input -> {
+                    String newName = Utils.getGameMode(this.world) + "_" + input;
+                    return !this.addon.getChallengesManager().containsLevel(newName);
+                },
+                this.user.getTranslation("challenges.gui.questions.admin.unique-id")
+                        );
 
                 return true;
             };
@@ -482,9 +485,9 @@ public class AdminGUI extends CommonGUI
 
                 if (clickType.isRightClick())
                 {
-                	this.wipeAll = false;
-					this.build();
-				}
+                    this.wipeAll = false;
+                    this.build();
+                }
                 else
                 {
                     new ConfirmationGUI(this.user, value -> {
@@ -515,7 +518,7 @@ public class AdminGUI extends CommonGUI
 
                 if (clickType.isRightClick())
                 {
-                	this.wipeAll = true;
+                    this.wipeAll = true;
                     this.build();
                 }
                 else
@@ -616,11 +619,11 @@ public class AdminGUI extends CommonGUI
                 clickHandler(clickHandler).
                 build();
     }
-    
 
-// ---------------------------------------------------------------------
-// Section: Conversation
-// ---------------------------------------------------------------------
+
+    // ---------------------------------------------------------------------
+    // Section: Conversation
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -630,93 +633,93 @@ public class AdminGUI extends CommonGUI
      * @param question Message that will be displayed in chat when player triggers conversion.
      */
     private void getNewUniqueID(Consumer<String> consumer,
-        Function<String, Boolean> stringValidation,
-        @NonNull String question)
+            Function<String, Boolean> stringValidation,
+            @NonNull String question)
     {
         final User user = this.user;
 
         Conversation conversation =
-            new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
-                new ValidatingPrompt()
-                {
+                new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
+                        new ValidatingPrompt()
+                        {
 
-                    /**
-                     * Gets the text to display to the user when
-                     * this prompt is first presented.
-                     *
-                     * @param context Context information about the
-                     * conversation.
-                     * @return The text to display.
-                     */
-                    @Override
-                    public String getPromptText(ConversationContext context)
-                    {
-                        // Close input GUI.
-                        user.closeInventory();
+                            /**
+                             * Gets the text to display to the user when
+                             * this prompt is first presented.
+                             *
+                             * @param context Context information about the
+                             * conversation.
+                             * @return The text to display.
+                             */
+                            @Override
+                            public String getPromptText(ConversationContext context)
+                            {
+                                // Close input GUI.
+                                user.closeInventory();
 
-                        // There are no editable message. Just return question.
-                        return question;
-                    }
-
-
-                    /**
-                     * Override this method to check the validity of
-                     * the player's input.
-                     *
-                     * @param context Context information about the
-                     * conversation.
-                     * @param input The player's raw console input.
-                     * @return True or false depending on the
-                     * validity of the input.
-                     */
-                    @Override
-                    protected boolean isInputValid(ConversationContext context, String input)
-                    {
-                        return stringValidation.apply(GuiUtils.sanitizeInput(input));
-                    }
+                                // There are no editable message. Just return question.
+                                return question;
+                            }
 
 
-                    /**
-                     * Optionally override this method to
-                     * display an additional message if the
-                     * user enters an invalid input.
-                     *
-                     * @param context Context information
-                     * about the conversation.
-                     * @param invalidInput The invalid input
-                     * provided by the user.
-                     * @return A message explaining how to
-                     * correct the input.
-                     */
-                    @Override
-                    protected String getFailedValidationText(ConversationContext context,
-                        String invalidInput)
-                    {
-                        return user.getTranslation("challenges.errors.unique-id", "[id]", GuiUtils.sanitizeInput(invalidInput));
-                    }
+                            /**
+                             * Override this method to check the validity of
+                             * the player's input.
+                             *
+                             * @param context Context information about the
+                             * conversation.
+                             * @param input The player's raw console input.
+                             * @return True or false depending on the
+                             * validity of the input.
+                             */
+                            @Override
+                            protected boolean isInputValid(ConversationContext context, String input)
+                            {
+                                return stringValidation.apply(GuiUtils.sanitizeInput(input));
+                            }
 
 
-                    /**
-                     * Override this method to accept and processes
-                     * the validated input from the user. Using the
-                     * input, the next Prompt in the prompt graph
-                     * should be returned.
-                     *
-                     * @param context Context information about the
-                     * conversation.
-                     * @param input The validated input text from
-                     * the user.
-                     * @return The next Prompt in the prompt graph.
-                     */
-                    @Override
-                    protected Prompt acceptValidatedInput(ConversationContext context, String input)
-                    {
-                        // Add answer to consumer.
-                        consumer.accept(GuiUtils.sanitizeInput(input));
-                        // End conversation
-                        return Prompt.END_OF_CONVERSATION;
-                    }
-                }).
+                            /**
+                             * Optionally override this method to
+                             * display an additional message if the
+                             * user enters an invalid input.
+                             *
+                             * @param context Context information
+                             * about the conversation.
+                             * @param invalidInput The invalid input
+                             * provided by the user.
+                             * @return A message explaining how to
+                             * correct the input.
+                             */
+                            @Override
+                            protected String getFailedValidationText(ConversationContext context,
+                                    String invalidInput)
+                            {
+                                return user.getTranslation("challenges.errors.unique-id", "[id]", GuiUtils.sanitizeInput(invalidInput));
+                            }
+
+
+                            /**
+                             * Override this method to accept and processes
+                             * the validated input from the user. Using the
+                             * input, the next Prompt in the prompt graph
+                             * should be returned.
+                             *
+                             * @param context Context information about the
+                             * conversation.
+                             * @param input The validated input text from
+                             * the user.
+                             * @return The next Prompt in the prompt graph.
+                             */
+                            @Override
+                            protected Prompt acceptValidatedInput(ConversationContext context, String input)
+                            {
+                                // Add answer to consumer.
+                                consumer.accept(GuiUtils.sanitizeInput(input));
+                                // End conversation
+                                return Prompt.END_OF_CONVERSATION;
+                            }
+                        }).
                 // On cancel conversation will be closed.
                 withEscapeSequence("cancel").
                 // Use null value in consumer to detect if user has abandoned conversation.

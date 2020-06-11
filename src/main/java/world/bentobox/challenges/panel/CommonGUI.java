@@ -263,7 +263,6 @@ public abstract class CommonGUI
      * @param button Button that must be returned.
      * @return PanelItem with requested functionality.
      */
-    @SuppressWarnings("deprecation")
     protected PanelItem getButton(CommonButtons button)
     {
         ItemStack icon;

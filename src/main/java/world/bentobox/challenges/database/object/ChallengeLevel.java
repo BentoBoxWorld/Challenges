@@ -14,6 +14,7 @@ import com.google.gson.annotations.Expose;
 
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.bentobox.database.objects.Table;
 import world.bentobox.challenges.ChallengesManager;
 
 /**
@@ -21,6 +22,7 @@ import world.bentobox.challenges.ChallengesManager;
  * @author tastybento
  *
  */
+@Table(name = "ChallengeLevel")
 public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 {
     /**
@@ -31,9 +33,9 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
 
     @ConfigComment("")
     @ConfigComment("Level name")
@@ -114,9 +116,9 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     private Set<String> challenges = new HashSet<>();
 
 
-// ---------------------------------------------------------------------
-// Section: Getters
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Getters
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -261,9 +263,9 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Setters
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Setters
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -422,9 +424,9 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Other methods
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Other methods
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -440,7 +442,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public boolean matchGameMode(String gameMode)
     {
         return gameMode != null &&
-            this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
+                this.uniqueId.regionMatches(true, 0, gameMode, 0, gameMode.length());
     }
 
 

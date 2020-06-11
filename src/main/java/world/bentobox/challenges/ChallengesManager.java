@@ -402,27 +402,6 @@ public class ChallengesManager
         return true;
     }
 
-
-    /**
-     * This method stores PlayerData into local cache.
-     *
-     * @param playerData ChallengesPlayerData that must be loaded.
-     *
-     * TODO: Remove this unused method?
-     */
-    private void loadPlayerData(@NonNull ChallengesPlayerData playerData)
-    {
-        try
-        {
-            this.playerCacheData.put(playerData.getUniqueId(), playerData);
-        }
-        catch (Exception e)
-        {
-            this.addon.getLogger().severe("UUID for player in challenge data file is invalid!");
-        }
-    }
-
-
     /**
      * This method removes given player from cache data.
      *
@@ -503,7 +482,7 @@ public class ChallengesManager
             if (!this.challengeCacheData.containsKey(uniqueID))
             {
                 if (!this.challengeDatabase.objectExists(uniqueID) ||
-                    !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), false, null, true))
+                        !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), false, null, true))
                 {
                     this.addon.logError("Cannot find " + uniqueID + " challenge for " + level.getUniqueId());
                     return false;
@@ -549,7 +528,7 @@ public class ChallengesManager
         {
             // Create the player data
             ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID);
-            this.playersDatabase.saveObject(pd);
+            this.playersDatabase.saveObjectAsync(pd);
             // Add to cache
             this.playerCacheData.put(uniqueID, pd);
         }
@@ -696,7 +675,7 @@ public class ChallengesManager
                 challengesID.forEach(challenge ->
                 level.getChallenges().add(addonName + challenge.substring(world.getName().length())));
 
-                this.levelDatabase.saveObject(level);
+                this.levelDatabase.saveObjectAsync(level);
                 this.levelCacheData.put(level.getUniqueId(), level);
 
                 updated = true;
@@ -740,7 +719,7 @@ public class ChallengesManager
 
                 updated = true;
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
 
@@ -783,7 +762,7 @@ public class ChallengesManager
 
                 // This save should not involve any upgrades in other parts.
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
         }
@@ -834,7 +813,7 @@ public class ChallengesManager
                 }
             });
 
-            this.playersDatabase.saveObject(playerData);
+            this.playersDatabase.saveObjectAsync(playerData);
         });
     }
 
@@ -1535,7 +1514,7 @@ public class ChallengesManager
     public List<LevelStatus> getAllChallengeLevelStatus(User user, World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-            this.getAllChallengeLevelStatus(
+        this.getAllChallengeLevelStatus(
                 this.getDataUniqueID(user, Util.getWorld(world)),
                 gameMode.getDescription().getName())).
                 orElse(Collections.emptyList());
@@ -1554,7 +1533,7 @@ public class ChallengesManager
         LevelStatus lastStatus = null;
 
         for (Iterator<LevelStatus> statusIterator = this.getAllChallengeLevelStatus(user, world).iterator();
-            statusIterator.hasNext() && (lastStatus == null || lastStatus.isUnlocked());)
+                statusIterator.hasNext() && (lastStatus == null || lastStatus.isUnlocked());)
         {
             lastStatus = statusIterator.next();
         }
@@ -1577,12 +1556,12 @@ public class ChallengesManager
     public List<String> getAllChallengesNames(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-            this.challengeCacheData.values().stream().
-                filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
-                sorted(this.challengeComparator).
-                map(Challenge::getUniqueId).
-                collect(Collectors.toList())).
-            orElse(Collections.emptyList());
+        this.challengeCacheData.values().stream().
+        filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+        sorted(this.challengeComparator).
+        map(Challenge::getUniqueId).
+        collect(Collectors.toList())).
+                orElse(Collections.emptyList());
     }
 
 
@@ -1595,11 +1574,11 @@ public class ChallengesManager
     public List<Challenge> getAllChallenges(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-            this.challengeCacheData.values().stream().
-                filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
-                sorted(this.challengeComparator).
-                collect(Collectors.toList())).
-            orElse(Collections.emptyList());
+        this.challengeCacheData.values().stream().
+        filter(challenge -> challenge.matchGameMode(gameMode.getDescription().getName())).
+        sorted(this.challengeComparator).
+        collect(Collectors.toList())).
+                orElse(Collections.emptyList());
     }
 
 
@@ -1761,8 +1740,8 @@ public class ChallengesManager
     public long getCompletedChallengeCount(User user, World world)
     {
         return this.getAllChallenges(world).stream().
-            filter(challenge -> this.getChallengeTimes(user, world, challenge) > 0).
-            count();
+                filter(challenge -> this.getChallengeTimes(user, world, challenge) > 0).
+                count();
     }
 
 
@@ -1775,8 +1754,8 @@ public class ChallengesManager
     public long getTotalChallengeCompletionCount(User user, World world)
     {
         return this.getAllChallenges(world).stream().
-            mapToLong(challenge -> this.getChallengeTimes(user, world, challenge)).
-            sum();
+                mapToLong(challenge -> this.getChallengeTimes(user, world, challenge)).
+                sum();
     }
 
 
@@ -1793,8 +1772,8 @@ public class ChallengesManager
     public List<ChallengeLevel> getLevels(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-            this.getLevels(gameMode.getDescription().getName())).
-            orElse(Collections.emptyList());
+        this.getLevels(gameMode.getDescription().getName())).
+                orElse(Collections.emptyList());
     }
 
 
@@ -1807,9 +1786,9 @@ public class ChallengesManager
     {
         // TODO: Probably need to check also database.
         return this.levelCacheData.values().stream().
-            sorted(ChallengeLevel::compareTo).
-            filter(level -> level.matchGameMode(gameMode)).
-            collect(Collectors.toList());
+                sorted(ChallengeLevel::compareTo).
+                filter(level -> level.matchGameMode(gameMode)).
+                collect(Collectors.toList());
     }
 
 
@@ -1821,12 +1800,12 @@ public class ChallengesManager
     public List<String> getLevelNames(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-            this.levelCacheData.values().stream().
-                sorted(ChallengeLevel::compareTo).
-                filter(level -> level.matchGameMode(gameMode.getDescription().getName())).
-                map(ChallengeLevel::getUniqueId).
-                collect(Collectors.toList())).
-            orElse(Collections.emptyList());
+        this.levelCacheData.values().stream().
+        sorted(ChallengeLevel::compareTo).
+        filter(level -> level.matchGameMode(gameMode.getDescription().getName())).
+        map(ChallengeLevel::getUniqueId).
+        collect(Collectors.toList())).
+                orElse(Collections.emptyList());
     }
 
 
@@ -2072,8 +2051,8 @@ public class ChallengesManager
     public long getCompletedLevelCount(User user, World world)
     {
         return this.getAllChallengeLevelStatus(user, world).stream().
-            filter(LevelStatus::isComplete).
-            count();
+                filter(LevelStatus::isComplete).
+                count();
     }
 
 
@@ -2086,7 +2065,7 @@ public class ChallengesManager
     public long getUnlockedLevelCount(User user, World world)
     {
         return this.getAllChallengeLevelStatus(user, world).stream().
-            filter(LevelStatus::isUnlocked).
-            count();
+                filter(LevelStatus::isUnlocked).
+                count();
     }
 }
