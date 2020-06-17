@@ -1107,6 +1107,7 @@ public class ChallengesManager
         // The first level is always unlocked and previous for it is null.
         ChallengeLevel previousLevel = null;
         int doneChallengeCount = 0;
+        boolean previousUnlocked = true;
 
         // For each challenge level, check how many the storageDataID has done
         for (ChallengeLevel level : challengeLevelList)
@@ -1116,20 +1117,25 @@ public class ChallengesManager
             // remove waiver amount to get count of challenges that still necessary to do.
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - doneChallengeCount - level.getWaiverAmount());
+                (previousLevel.getChallenges().size() - doneChallengeCount - previousLevel.getWaiverAmount());
 
             // As level already contains unique ids of challenges, just iterate through them.
             doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+
+            // Mark if level is unlocked
+            boolean unlocked = previousUnlocked && challengesToDo <= 0;
 
             result.add(new LevelStatus(
                     level,
                     previousLevel,
                     challengesToDo,
                     level.getChallenges().size() == doneChallengeCount,
-                    challengesToDo <= 0));
+                    unlocked));
 
             previousLevel = level;
+            previousUnlocked = unlocked;
         }
+
         return result;
     }
 
@@ -1160,7 +1166,7 @@ public class ChallengesManager
             ChallengeLevel previousLevel = levelIndex < 1 ? null : challengeLevelList.get(levelIndex - 1);
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - level.getWaiverAmount()) -
+                (previousLevel.getChallenges().size() - previousLevel.getWaiverAmount()) -
                 (int) previousLevel.getChallenges().stream().filter(playerData::isChallengeDone).count();
 
             // As level already contains unique ids of challenges, just iterate through them.
