@@ -1786,6 +1786,21 @@ public class ChallengesManager
     }
 
 
+    /**
+     * This method returns completed challenge count in given level.
+     * @param user User which should be checked
+     * @param world World where challenges are operating
+     * @param level Level which challenges must be checked.
+     * @return Number of completed challenges in given level.
+     */
+    public long getLevelCompletedChallengeCount(User user, World world, ChallengeLevel level)
+    {
+        return this.getLevelChallenges(level).stream().
+            filter(challenge -> this.getChallengeTimes(user, world, challenge) > 0).
+            count();
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Level related methods
     // ---------------------------------------------------------------------

@@ -388,6 +388,24 @@ public class ChallengesAddon extends Addon {
                 ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
                 return level != null ? level.getUniqueId() : "";
             });
+
+        // Completed challenge count in latest level
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_latest_level_completed_count",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return String.valueOf(level != null ?
+                    this.challengesManager.getLevelCompletedChallengeCount(user, world, level) : 0);
+            });
+
+        // Uncompleted challenge count in latest level
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_latest_level_uncompleted_count",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+                return String.valueOf(level != null ?
+                    level.getChallenges().size() - this.challengesManager.getLevelCompletedChallengeCount(user, world, level) : 0);
+            });
     }
 
 
