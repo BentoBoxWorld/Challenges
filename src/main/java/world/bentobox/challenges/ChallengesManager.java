@@ -549,7 +549,7 @@ public class ChallengesManager
         {
             // Create the player data
             ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID);
-            this.playersDatabase.saveObject(pd);
+            this.playersDatabase.saveObjectAsync(pd);
             // Add to cache
             this.playerCacheData.put(uniqueID, pd);
         }
@@ -696,7 +696,7 @@ public class ChallengesManager
                 challengesID.forEach(challenge ->
                 level.getChallenges().add(addonName + challenge.substring(world.getName().length())));
 
-                this.levelDatabase.saveObject(level);
+                this.levelDatabase.saveObjectAsync(level);
                 this.levelCacheData.put(level.getUniqueId(), level);
 
                 updated = true;
@@ -740,7 +740,7 @@ public class ChallengesManager
 
                 updated = true;
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
 
@@ -783,7 +783,7 @@ public class ChallengesManager
 
                 // This save should not involve any upgrades in other parts.
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
         }
@@ -834,7 +834,7 @@ public class ChallengesManager
                 }
             });
 
-            this.playersDatabase.saveObject(playerData);
+            this.playersDatabase.saveObjectAsync(playerData);
         });
     }
 

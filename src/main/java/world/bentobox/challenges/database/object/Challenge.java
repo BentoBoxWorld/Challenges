@@ -19,6 +19,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 
 import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.bentobox.database.objects.Table;
+import world.bentobox.challenges.database.object.adapters.EntityCompatibilityAdapter;
 import world.bentobox.challenges.database.object.adapters.RequirementsAdapter;
 import world.bentobox.challenges.database.object.requirements.Requirements;
 
@@ -28,6 +30,7 @@ import world.bentobox.challenges.database.object.requirements.Requirements;
  * @author tastybento
  *
  */
+@Table(name = "Challenge")
 public class Challenge implements DataObject
 {
     /**
@@ -156,6 +159,7 @@ public class Challenge implements DataObject
 
     @Deprecated
     @Expose
+    @JsonAdapter(EntityCompatibilityAdapter.class)
     private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
 
     @Deprecated
