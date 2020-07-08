@@ -430,12 +430,15 @@ public class ChallengesManager
      */
     public void removeFromCache(UUID playerID)
     {
-        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
-        {
-            // save before remove
-            this.savePlayerData(playerID.toString());
-            this.playerCacheData.remove(playerID.toString());
-        }
+// Remove due possible issues with saving... (#246)
+//        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
+//        {
+//            // save before remove
+//            this.savePlayerData(playerID.toString());
+//            this.playerCacheData.remove(playerID.toString());
+//        }
+
+        this.savePlayerData(playerID.toString());
 
         // TODO: It would be necessary to remove also data, if they stores islands.
         // Unfortunately, I do not know all worlds. Checking everything would be bad. Probably, I could
