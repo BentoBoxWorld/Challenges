@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.scheduler.BukkitTask;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -118,7 +119,7 @@ public class ListLibraryGUI extends CommonGUI
         }
 
         panelBuilder.item(4, this.createDownloadNow());
-        panelBuilder.item(44, this.returnButton);
+        panelBuilder.item(44, this.createReturnButton());
 
         panelBuilder.build();
     }
@@ -153,10 +154,16 @@ public class ListLibraryGUI extends CommonGUI
             }
             else
             {
-                this.addon.getWebManager().requestCatalogGitHubData(false);
+                this.addon.getWebManager().requestCatalogGitHubData(this.clearCache);
+
+                // Fix multiclick issue.
+                if (this.updateTask != null)
+                {
+                    this.updateTask.cancel();
+                }
 
                 // add some delay to rebuilding gui.
-                this.addon.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(
+                this.updateTask = this.addon.getPlugin().getServer().getScheduler().runTaskLater(
                     this.addon.getPlugin(),
                     this::build,
                     100L);
@@ -166,6 +173,33 @@ public class ListLibraryGUI extends CommonGUI
         });
 
         return itemBuilder.build();
+    }
+
+
+    /**
+     * This creates return button, that allows to exist or return to parent gui,
+     * @return PanelItem for return button.
+     */
+    private PanelItem createReturnButton()
+    {
+        return new PanelItemBuilder().
+            name(this.user.getTranslation("challenges.gui.buttons.return")).
+            icon(Material.OAK_DOOR).
+            clickHandler((panel, user1, clickType, i) -> {
+                if (this.updateTask != null)
+                {
+                    this.updateTask.cancel();
+                }
+
+                if (this.parentGUI == null)
+                {
+                    this.user.closeInventory();
+                    return true;
+                }
+
+                this.parentGUI.build();
+                return true;
+            }).build();
     }
 
 
@@ -199,10 +233,20 @@ public class ListLibraryGUI extends CommonGUI
 
                 if (this.parentGUI != null)
                 {
+                    if (this.updateTask != null)
+                    {
+                        this.updateTask.cancel();
+                    }
+
                     this.parentGUI.build();
                 }
                 else
                 {
+                    if (this.updateTask != null)
+                    {
+                        this.updateTask.cancel();
+                    }
+
                     this.user.closeInventory();
                 }
             }
@@ -251,6 +295,11 @@ public class ListLibraryGUI extends CommonGUI
      * Indicates if download now button should trigger cache clearing.
      */
     private boolean clearCache;
+
+    /**
+     * Stores update task that is triggered.
+     */
+    private BukkitTask updateTask = null;
 
     /**
      * This variable will protect against spam-click.
