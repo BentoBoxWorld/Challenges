@@ -118,6 +118,7 @@ public class ChallengesManagerTest {
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
         when(addon.getPlugin()).thenReturn(plugin);
+        User.setPlugin(plugin);
 
         // IWM
         when(plugin.getIWM()).thenReturn(iwm);

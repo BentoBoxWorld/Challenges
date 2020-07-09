@@ -167,6 +167,7 @@ public class TryToCompleteTest {
         PowerMockito.mockStatic(Util.class);
         when(Util.getWorld(any())).thenReturn(world);
         when(Util.prettifyText(anyString())).thenCallRealMethod();
+        when(Util.stripSpaceAfterColorCodes(anyString())).thenCallRealMethod();
 
         // Island World Manager
         IslandWorldManager iwm = mock(IslandWorldManager.class);
@@ -252,7 +253,6 @@ public class TryToCompleteTest {
         // ItemFactory
         ItemFactory itemFactory = mock(ItemFactory.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-
     }
 
     /**

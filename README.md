@@ -7,13 +7,11 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode.
 ## Where to find
 
 Currently Challenges Addon is in **Beta stage**, so it may or may not contain bugs... a lot of bugs. Also it means, that some features are not working or implemented. 
-Latest official **Beta Release is 0.8.1**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
-But it will work with BentoBox 1.6.x and BentoBox 1.7.x.
+Latest official **Beta Release is 0.8.3**, and you can download it from [Release tab](https://github.com/BentoBoxWorld/Challenges/releases)
+But it will work with BentoBox 1.14.
 
-Latest development builds will be based on **Minecraft 1.14.4** and **BentoBox 1.8.0**.
+Latest development builds will be based on **Minecraft 1.16.1** and **BentoBox 1.14.0**.
 **Nightly builds** are available in [Jenkins Server](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/lastStableBuild/).
-
-Be aware that 0.8.0 stores data differently than it is in 0.7.5 and below. It will be necessary to migrate data via command `/[gamemode_admin] challenges migrate`.
 
 If you like this addon but something is missing or is not working as you want, you can always submit an [Issue request](https://github.com/BentoBoxWorld/Challenges/issues) or get a support in Discord [BentoBox ![icon](https://avatars2.githubusercontent.com/u/41555324?s=15&v=4)](https://discord.bentobox.world)
 
@@ -38,7 +36,7 @@ There exist also Web Library, where users can download public challenges. It is 
 
 ## Compatibility
 
-- [x] BentoBox - 1.6.x and 1.7.x versions
+- [x] BentoBox - 1.14 versions
 - [x] BSkyBlock
 - [x] AcidIsland
 - [x] SkyGrid 
@@ -46,4 +44,4 @@ There exist also Web Library, where users can download public challenges. It is 
 
 ## Information
 
-More information can be found in [Wiki Pages](https://github.com/BentoBoxWorld/Challenges/wiki).
+More information can be found in [Wiki Pages](https://docs.bentobox.world/addons/Challenges/).

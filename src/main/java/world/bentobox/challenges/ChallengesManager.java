@@ -206,11 +206,15 @@ public class ChallengesManager
         }
 
         this.playerCacheData.clear();
-        loadAndValidate();
+        this.loadAndValidate();
     }
 
 
-    private void loadAndValidate() {
+    /**
+     * This method loads and validates all challenges and levels.
+     */
+    private void loadAndValidate()
+    {
         this.challengeDatabase.loadObjects().forEach(this::loadChallenge);
         this.levelDatabase.loadObjects().forEach(this::loadLevel);
         // this validate challenge levels
@@ -233,7 +237,7 @@ public class ChallengesManager
         //this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
         //this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
 
-        loadAndValidate();
+        this.loadAndValidate();
     }
 
 
@@ -263,6 +267,18 @@ public class ChallengesManager
             User user,
             boolean silent)
     {
+        // This may happen if database somehow failed to load challenge and return
+        // null as input.
+        if (challenge == null)
+        {
+            if (!silent)
+            {
+                user.sendMessage("load-error", "[value]", "NULL");
+            }
+
+            return false;
+        }
+
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
             if (!overwrite)
@@ -324,6 +340,18 @@ public class ChallengesManager
             User user,
             boolean silent)
     {
+        // This may happen if database somehow failed to load challenge and return
+        // null as input.
+        if (level == null)
+        {
+            if (!silent)
+            {
+                user.sendMessage("load-error", "[value]", "NULL");
+            }
+
+            return false;
+        }
+
         if (!this.isValidLevel(level))
         {
             if (user != null)
@@ -402,12 +430,15 @@ public class ChallengesManager
      */
     public void removeFromCache(UUID playerID)
     {
-        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
-        {
-            // save before remove
-            this.savePlayerData(playerID.toString());
-            this.playerCacheData.remove(playerID.toString());
-        }
+// Remove due possible issues with saving... (#246)
+//        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
+//        {
+//            // save before remove
+//            this.savePlayerData(playerID.toString());
+//            this.playerCacheData.remove(playerID.toString());
+//        }
+
+        this.savePlayerData(playerID.toString());
 
         // TODO: It would be necessary to remove also data, if they stores islands.
         // Unfortunately, I do not know all worlds. Checking everything would be bad. Probably, I could
@@ -474,11 +505,8 @@ public class ChallengesManager
         {
             if (!this.challengeCacheData.containsKey(uniqueID))
             {
-                if (this.challengeDatabase.objectExists(uniqueID))
-                {
-                    this.loadChallenge(this.challengeDatabase.loadObject(uniqueID));
-                }
-                else
+                if (!this.challengeDatabase.objectExists(uniqueID) ||
+                    !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), false, null, true))
                 {
                     this.addon.logError("Cannot find " + uniqueID + " challenge for " + level.getUniqueId());
                     return false;
@@ -524,7 +552,7 @@ public class ChallengesManager
         {
             // Create the player data
             ChallengesPlayerData pd = new ChallengesPlayerData(uniqueID);
-            this.playersDatabase.saveObject(pd);
+            this.playersDatabase.saveObjectAsync(pd);
             // Add to cache
             this.playerCacheData.put(uniqueID, pd);
         }
@@ -671,7 +699,7 @@ public class ChallengesManager
                 challengesID.forEach(challenge ->
                 level.getChallenges().add(addonName + challenge.substring(world.getName().length())));
 
-                this.levelDatabase.saveObject(level);
+                this.levelDatabase.saveObjectAsync(level);
                 this.levelCacheData.put(level.getUniqueId(), level);
 
                 updated = true;
@@ -715,7 +743,7 @@ public class ChallengesManager
 
                 updated = true;
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
 
@@ -758,7 +786,7 @@ public class ChallengesManager
 
                 // This save should not involve any upgrades in other parts.
 
-                this.challengeDatabase.saveObject(challenge);
+                this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
             }
         }
@@ -809,7 +837,7 @@ public class ChallengesManager
                 }
             });
 
-            this.playersDatabase.saveObject(playerData);
+            this.playersDatabase.saveObjectAsync(playerData);
         });
     }
 
@@ -824,8 +852,11 @@ public class ChallengesManager
      */
     public void save()
     {
-        this.saveChallenges();
-        this.saveLevels();
+        // Challenges and Levels are saved on modifications only to avoid issues with
+        // NULL's in data after interrupting server while in saving stage.
+        // this.saveChallenges();
+        // this.saveLevels();
+
         this.savePlayersData();
     }
 
@@ -833,9 +864,9 @@ public class ChallengesManager
     /**
      * This method saves all challenges to database.
      */
-    private void saveChallenges()
+    public void saveChallenges()
     {
-        this.challengeCacheData.values().forEach(this.challengeDatabase::saveObject);
+        this.challengeCacheData.values().forEach(this::saveChallenge);
     }
 
 
@@ -845,16 +876,16 @@ public class ChallengesManager
      */
     public void saveChallenge(Challenge challenge)
     {
-        this.challengeDatabase.saveObject(challenge);
+        this.challengeDatabase.saveObjectAsync(challenge);
     }
 
 
     /**
      * This method saves all levels to database.
      */
-    private void saveLevels()
+    public void saveLevels()
     {
-        this.levelCacheData.values().forEach(this.levelDatabase::saveObject);
+        this.levelCacheData.values().forEach(this::saveLevel);
     }
 
 
@@ -864,7 +895,7 @@ public class ChallengesManager
      */
     public void saveLevel(ChallengeLevel level)
     {
-        this.levelDatabase.saveObject(level);
+        this.levelDatabase.saveObjectAsync(level);
     }
 
 
@@ -873,7 +904,7 @@ public class ChallengesManager
      */
     private void savePlayersData()
     {
-        this.playerCacheData.values().forEach(this.playersDatabase::saveObject);
+        this.playerCacheData.values().forEach(this.playersDatabase::saveObjectAsync);
     }
 
 
@@ -902,7 +933,7 @@ public class ChallengesManager
                 }
             }
 
-            this.playersDatabase.saveObject(cachedData);
+            this.playersDatabase.saveObjectAsync(cachedData);
         }
     }
 
@@ -1053,7 +1084,20 @@ public class ChallengesManager
     private void resetAllChallenges(@NonNull String storageDataID, @NonNull String gameMode)
     {
         this.addPlayerData(storageDataID);
-        this.playerCacheData.get(storageDataID).reset(gameMode);
+
+        if (this.playerCacheData.containsKey(storageDataID))
+        {
+            // There may be a rare situation when player data cannot be loaded. Just avoid
+            // error.
+            this.playerCacheData.get(storageDataID).reset(gameMode);
+        }
+        else
+        {
+            // If object cannot be loaded remove it completely.
+            this.playersDatabase.deleteID(storageDataID);
+            this.addon.logError("Database object was not loaded. It is removed completely. Object Id: " + storageDataID);
+        }
+
         // Save
         this.savePlayerData(storageDataID);
     }
@@ -1079,6 +1123,7 @@ public class ChallengesManager
         // The first level is always unlocked and previous for it is null.
         ChallengeLevel previousLevel = null;
         int doneChallengeCount = 0;
+        boolean previousUnlocked = true;
 
         // For each challenge level, check how many the storageDataID has done
         for (ChallengeLevel level : challengeLevelList)
@@ -1088,20 +1133,25 @@ public class ChallengesManager
             // remove waiver amount to get count of challenges that still necessary to do.
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - doneChallengeCount - level.getWaiverAmount());
+                (previousLevel.getChallenges().size() - doneChallengeCount - previousLevel.getWaiverAmount());
 
             // As level already contains unique ids of challenges, just iterate through them.
             doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+
+            // Mark if level is unlocked
+            boolean unlocked = previousUnlocked && challengesToDo <= 0;
 
             result.add(new LevelStatus(
                     level,
                     previousLevel,
                     challengesToDo,
                     level.getChallenges().size() == doneChallengeCount,
-                    challengesToDo <= 0));
+                    unlocked));
 
             previousLevel = level;
+            previousUnlocked = unlocked;
         }
+
         return result;
     }
 
@@ -1132,7 +1182,7 @@ public class ChallengesManager
             ChallengeLevel previousLevel = levelIndex < 1 ? null : challengeLevelList.get(levelIndex - 1);
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - level.getWaiverAmount()) -
+                (previousLevel.getChallenges().size() - previousLevel.getWaiverAmount()) -
                 (int) previousLevel.getChallenges().stream().filter(playerData::isChallengeDone).count();
 
             // As level already contains unique ids of challenges, just iterate through them.
@@ -1362,7 +1412,7 @@ public class ChallengesManager
      * @param world - World where challenges must be reset.
      * @param adminID - admin iD
      */
-    public void resetAllChallenges(UUID userID, World world, UUID adminID)
+    public void resetAllChallenges(@NonNull UUID userID, World world, @Nullable UUID adminID)
     {
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
 
@@ -1526,12 +1576,12 @@ public class ChallengesManager
         LevelStatus lastStatus = null;
 
         for (Iterator<LevelStatus> statusIterator = this.getAllChallengeLevelStatus(user, world).iterator();
-            statusIterator.hasNext() && (lastStatus == null || !lastStatus.isUnlocked());)
+            statusIterator.hasNext() && (lastStatus == null || lastStatus.isUnlocked());)
         {
             lastStatus = statusIterator.next();
         }
 
-        return lastStatus != null ? lastStatus.getLevel() : null;
+        return lastStatus != null ? lastStatus.getPreviousLevel() : null;
     }
 
 
@@ -1749,6 +1799,21 @@ public class ChallengesManager
         return this.getAllChallenges(world).stream().
             mapToLong(challenge -> this.getChallengeTimes(user, world, challenge)).
             sum();
+    }
+
+
+    /**
+     * This method returns completed challenge count in given level.
+     * @param user User which should be checked
+     * @param world World where challenges are operating
+     * @param level Level which challenges must be checked.
+     * @return Number of completed challenges in given level.
+     */
+    public long getLevelCompletedChallengeCount(User user, World world, ChallengeLevel level)
+    {
+        return this.getLevelChallenges(level).stream().
+            filter(challenge -> this.getChallengeTimes(user, world, challenge) > 0).
+            count();
     }
 
 

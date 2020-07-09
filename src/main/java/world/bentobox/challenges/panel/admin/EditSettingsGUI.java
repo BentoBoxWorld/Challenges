@@ -124,6 +124,10 @@ public class EditSettingsGUI extends CommonGUI
         // Return Button
         panelBuilder.item(44, this.returnButton);
 
+        // Save Settings every time this GUI is created. It will avoid issues with
+        // Overwritten setting after server stop.
+        this.addon.saveSettings();
+
         panelBuilder.build();
     }
 

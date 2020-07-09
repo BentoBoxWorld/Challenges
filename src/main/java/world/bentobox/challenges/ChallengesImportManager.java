@@ -126,7 +126,8 @@ public class ChallengesImportManager
             return false;
         }
 
-        this.addon.getChallengesManager().save();
+        this.addon.getChallengesManager().saveChallenges();
+        this.addon.getChallengesManager().saveLevels();
 
         if (removeAtEnd)
         {
@@ -203,7 +204,8 @@ public class ChallengesImportManager
             return false;
         }
 
-        this.addon.getChallengesManager().save();
+        this.addon.getChallengesManager().saveChallenges();
+        this.addon.getChallengesManager().saveLevels();
 
         return true;
     }

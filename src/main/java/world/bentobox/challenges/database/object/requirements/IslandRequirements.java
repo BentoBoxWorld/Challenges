@@ -16,6 +16,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
+
+import world.bentobox.challenges.database.object.adapters.EntityCompatibilityAdapter;
 
 
 /**
@@ -193,6 +196,7 @@ public class IslandRequirements extends Requirements
 	 * Map that contains which entities and how many is necessary around player to complete challenge.
 	 */
 	@Expose
+	@JsonAdapter(EntityCompatibilityAdapter.class)
 	private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
 
 	/**

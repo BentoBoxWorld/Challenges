@@ -14,6 +14,7 @@ import com.google.gson.annotations.Expose;
 
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
+import world.bentobox.bentobox.database.objects.Table;
 import world.bentobox.challenges.ChallengesManager;
 
 /**
@@ -21,6 +22,7 @@ import world.bentobox.challenges.ChallengesManager;
  * @author tastybento
  *
  */
+@Table(name = "ChallengeLevel")
 public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 {
     /**

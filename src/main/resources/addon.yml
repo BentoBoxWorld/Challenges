@@ -1,6 +1,7 @@
 name: Challenges
 main: world.bentobox.challenges.ChallengesAddon
 version: ${version}${build.number}
+api-version: 1.14
 repository: 'BentoBoxWorld/Challenges'
 metrics: true
 
@@ -18,52 +19,12 @@ permissions:
     description: Let the player use the '/challenges' command
     default: true
 
-  bskyblock.challenges:
+  '[gamemode].challenges':
     description: Let the player use the '/island challenges' command
     default: true
-  bskyblock.challenges.multiple:
+  '[gamemode].challenges.multiple':
     description: Let the player complete challenge multiple times
     default: true
-  bskyblock.admin.challenges:
+  '[gamemode].admin.challenges':
     description: Access challenge admin commands 
-    default: op
-
-  acidisland.challenges:
-    description: Let the player use the '/ai challenges' command
-    default: true
-  acidisland.challenges.multiple:
-    description: Let the player complete challenge multiple times
-    default: true
-  acidisland.admin.challenges:
-    description: Access challenge admin commands 
-    default: op
-
-  caveblock.challenges:
-    description: Let the player use the '/cave challenges' command
-    default: true
-  caveblock.challenges.multiple:
-    description: Let the player complete challenge multiple times
-    default: true
-  caveblock.admin.challenges:
-    description: Access challenge admin commands
-    default: op
-
-  skygrid.challenges:
-    description: Let the player use the '/skygrid challenges' command
-    default: true
-  skygrid.challenges.multiple:
-    description: Let the player complete challenge multiple times
-    default: true
-  skygrid.admin.challenges:
-    description: Access challenge admin commands
-    default: op
-    
-  aoneblock.challenges:
-    description: Let the player use the '/aoneblock challenges' command
-    default: true
-  aoneblock.challenges.multiple:
-    description: Let the player complete challenge multiple times
-    default: true
-  aoneblock.admin.challenges:
-    description: Access challenge admin commands
     default: op
