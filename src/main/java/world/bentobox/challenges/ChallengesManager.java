@@ -1084,7 +1084,20 @@ public class ChallengesManager
     private void resetAllChallenges(@NonNull String storageDataID, @NonNull String gameMode)
     {
         this.addPlayerData(storageDataID);
-        this.playerCacheData.get(storageDataID).reset(gameMode);
+
+        if (this.playerCacheData.containsKey(storageDataID))
+        {
+            // There may be a rare situation when player data cannot be loaded. Just avoid
+            // error.
+            this.playerCacheData.get(storageDataID).reset(gameMode);
+        }
+        else
+        {
+            // If object cannot be loaded remove it completely.
+            this.playersDatabase.deleteID(storageDataID);
+            this.addon.logError("Database object was not loaded. It is removed completely. Object Id: " + storageDataID);
+        }
+
         // Save
         this.savePlayerData(storageDataID);
     }
@@ -1399,7 +1412,7 @@ public class ChallengesManager
      * @param world - World where challenges must be reset.
      * @param adminID - admin iD
      */
-    public void resetAllChallenges(UUID userID, World world, UUID adminID)
+    public void resetAllChallenges(@NonNull UUID userID, World world, @Nullable UUID adminID)
     {
         String storageID = this.getDataUniqueID(userID, Util.getWorld(world));
 
