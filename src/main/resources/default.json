@@ -1196,7 +1196,8 @@
       },
       "rewardText": "Some handy mending books and redstone ore",
       "rewardItems": [
-        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 2\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: REDSTONE_ORE\n  amount: 16\n"
       ],
       "rewardExperience": 50,
@@ -1282,7 +1283,8 @@
       },
       "rewardText": "Some mending books and lapis ore",
       "rewardItems": [
-        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 2\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: LAPIS_ORE\n  amount: 16\n"
       ],
       "rewardExperience": 50,
