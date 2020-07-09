@@ -114,9 +114,6 @@ public class GuiUtils
 
 		switch (entity)
 		{
-			case PIG_ZOMBIE:
-				itemStack = new ItemStack(Material.ZOMBIE_PIGMAN_SPAWN_EGG);
-				break;
 			case ENDER_DRAGON:
 				itemStack = new ItemStack(Material.DRAGON_EGG);
 				break;
@@ -151,6 +148,12 @@ public class GuiUtils
 				}
 
 				break;
+		}
+
+		if (entity.name().equals("PIG_ZOMBIE"))
+		{
+			// If pig zombie exist, then pigman spawn egg exists too.
+			itemStack = new ItemStack(Material.getMaterial("ZOMBIE_PIGMAN_SPAWN_EGG"));
 		}
 
 		itemStack.setAmount(amount);
