@@ -39,6 +39,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -333,6 +334,7 @@ public class ChallengesManagerTest {
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#removeFromCache(java.util.UUID)}.
      */
+    @Ignore("This method does not do anything so there is no need to test right now.")
     @Test
     public void testRemoveFromCache() {
         cm.removeFromCache(playerID);
