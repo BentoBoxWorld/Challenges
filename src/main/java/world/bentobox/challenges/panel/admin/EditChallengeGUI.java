@@ -17,6 +17,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
@@ -117,15 +118,15 @@ public class EditChallengeGUI extends CommonGUI
         {
             switch (this.challenge.getChallengeType())
             {
-                case INVENTORY:
-                    this.buildInventoryRequirementsPanel(panelBuilder);
-                    break;
-                case ISLAND:
-                    this.buildIslandRequirementsPanel(panelBuilder);
-                    break;
-                case OTHER:
-                    this.buildOtherRequirementsPanel(panelBuilder);
-                    break;
+            case INVENTORY:
+                this.buildInventoryRequirementsPanel(panelBuilder);
+                break;
+            case ISLAND:
+                this.buildIslandRequirementsPanel(panelBuilder);
+                break;
+            case OTHER:
+                this.buildOtherRequirementsPanel(panelBuilder);
+                break;
             }
         }
         else if (this.currentMenuType.equals(MenuType.REWARDS))
@@ -258,50 +259,50 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (menuType)
         {
-            case PROPERTIES:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.properties");
-                description = this.user.getTranslation("challenges.gui.descriptions.admin.properties");
-                icon = new ItemStack(Material.CRAFTING_TABLE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.PROPERTIES;
-                    this.build();
+        case PROPERTIES:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.properties");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.properties");
+            icon = new ItemStack(Material.CRAFTING_TABLE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.PROPERTIES;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.PROPERTIES);
-                break;
-            }
-            case REQUIREMENTS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.requirements");
-                description = this.user.getTranslation("challenges.gui.descriptions.admin.requirements");
-                icon = new ItemStack(Material.HOPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.REQUIREMENTS;
-                    this.build();
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.PROPERTIES);
+            break;
+        }
+        case REQUIREMENTS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.requirements");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.requirements");
+            icon = new ItemStack(Material.HOPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.REQUIREMENTS;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.REQUIREMENTS);
-                break;
-            }
-            case REWARDS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.rewards");
-                description = this.user.getTranslation("challenges.gui.descriptions.admin.rewards");
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.REWARDS;
-                    this.build();
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.REQUIREMENTS);
+            break;
+        }
+        case REWARDS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.rewards");
+            description = this.user.getTranslation("challenges.gui.descriptions.admin.rewards");
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.REWARDS;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.REWARDS);
-                break;
-            }
-            default:
-                return null;
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.REWARDS);
+            break;
+        }
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
@@ -329,59 +330,59 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case DEPLOYED:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.deployment");
+        case DEPLOYED:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.deployment");
 
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.deployment"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.deployment"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     this.challenge.isDeployed() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.challenge.setDeployed(!this.challenge.isDeployed());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setDeployed(!this.challenge.isDeployed());
+
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isDeployed();
+            break;
+        }
+        case ICON:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.icon");
+            description = Collections.singletonList(this.user.getTranslation(
+                    "challenges.gui.descriptions.admin.icon-challenge"));
+            icon = this.challenge.getIcon();
+            clickHandler = (panel, user, clickType, slot) -> {
+
+                new SelectBlocksGUI(this.user, true, (status, materials) -> {
+                    if (status)
+                    {
+                        materials.forEach(material ->
+                        this.challenge.setIcon(new ItemStack(material)));
+                    }
 
                     this.build();
-                    return true;
-                };
-                glow = this.challenge.isDeployed();
-                break;
-            }
-            case ICON:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.icon");
-                description = Collections.singletonList(this.user.getTranslation(
-                    "challenges.gui.descriptions.admin.icon-challenge"));
-                icon = this.challenge.getIcon();
-                clickHandler = (panel, user, clickType, slot) -> {
+                });
 
-                    new SelectBlocksGUI(this.user, true, (status, materials) -> {
-                        if (status)
-                        {
-                            materials.forEach(material ->
-                                this.challenge.setIcon(new ItemStack(material)));
-                        }
-
-                        this.build();
-                    });
-
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case DESCRIPTION:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.description");
-                description = Collections.singletonList(
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case DESCRIPTION:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.description");
+            description = Collections.singletonList(
                     this.user.getTranslation("challenges.gui.descriptions.admin.description"));
-                icon = new ItemStack(Material.WRITTEN_BOOK);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.WRITTEN_BOOK);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getDescription(),
                         this.lineLength,
                         (status, value) -> {
@@ -393,22 +394,22 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case ORDER:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.order");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.order"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case ORDER:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.order");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.order"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]", Integer.toString(this.challenge.getOrder())));
 
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getOrder(),
                         -1,
                         9999,
@@ -422,28 +423,28 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case ENVIRONMENT:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.environment");
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case ENVIRONMENT:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.environment");
 
-                description = new ArrayList<>(4);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.environment"));
+            description = new ArrayList<>(4);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.environment"));
 
-                description.add((this.challenge.getEnvironment().contains(World.Environment.NORMAL) ? "&2" : "&c") +
+            description.add((this.challenge.getEnvironment().contains(World.Environment.NORMAL) ? "&2" : "&c") +
                     this.user.getTranslation("challenges.gui.descriptions.normal"));
-                description.add((this.challenge.getEnvironment().contains(World.Environment.NETHER) ? "&2" : "&c") +
+            description.add((this.challenge.getEnvironment().contains(World.Environment.NETHER) ? "&2" : "&c") +
                     this.user.getTranslation("challenges.gui.descriptions.nether"));
-                description.add((this.challenge.getEnvironment().contains(World.Environment.THE_END) ? "&2" : "&c") +
+            description.add((this.challenge.getEnvironment().contains(World.Environment.THE_END) ? "&2" : "&c") +
                     this.user.getTranslation("challenges.gui.descriptions.the-end"));
 
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new SelectEnvironmentGUI(this.user,
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new SelectEnvironmentGUI(this.user,
                         this.challenge.getEnvironment(),
                         (status, value) -> {
                             if (status)
@@ -454,71 +455,71 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REMOVE_ON_COMPLETE:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-on-complete");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-on-complete"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REMOVE_ON_COMPLETE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-on-complete");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-on-complete"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     this.challenge.isRemoveWhenCompleted() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                if (this.challenge.isRemoveWhenCompleted())
-                {
-                    icon = new ItemStack(Material.LAVA_BUCKET);
-                }
-                else
-                {
-                    icon = new ItemStack(Material.BUCKET);
-                }
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.challenge.setRemoveWhenCompleted(!this.challenge.isRemoveWhenCompleted());
-                    this.build();
-
-                    return true;
-                };
-                glow = this.challenge.isRemoveWhenCompleted();
-                break;
-            }
-            case NAME:
+            if (this.challenge.isRemoveWhenCompleted())
             {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.name");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.name-challenge"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                icon = new ItemStack(Material.LAVA_BUCKET);
+            }
+            else
+            {
+                icon = new ItemStack(Material.BUCKET);
+            }
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setRemoveWhenCompleted(!this.challenge.isRemoveWhenCompleted());
+                this.build();
+
+                return true;
+            };
+            glow = this.challenge.isRemoveWhenCompleted();
+            break;
+        }
+        case NAME:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.name");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.name-challenge"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]", this.challenge.getFriendlyName()));
 
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
 
-                    this.getFriendlyName(reply -> {
-                            if (reply != null)
-                            {
-                                this.challenge.setFriendlyName(reply);
-                            }
+                this.getFriendlyName(reply -> {
+                    if (reply != null)
+                    {
+                        this.challenge.setFriendlyName(reply);
+                    }
 
-                            this.build();
-                        },
+                    this.build();
+                },
                         this.user.getTranslation("challenges.gui.questions.admin.challenge-name"),
                         this.challenge.getFriendlyName()
-                    );
+                        );
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
+                return true;
+            };
+            glow = false;
+            break;
+        }
 
-            default:
-                return null;
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
@@ -546,21 +547,21 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case REQUIRED_PERMISSIONS:
+        case REQUIRED_PERMISSIONS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-permissions");
+            description = new ArrayList<>(this.challenge.getRequirements().getRequiredPermissions().size() + 1);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-permissions"));
+
+            for (String permission : this.challenge.getRequirements().getRequiredPermissions())
             {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-permissions");
-                description = new ArrayList<>(this.challenge.getRequirements().getRequiredPermissions().size() + 1);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-permissions"));
-
-                for (String permission : this.challenge.getRequirements().getRequiredPermissions())
-                {
-                    description.add(this.user.getTranslation("challenges.gui.descriptions.permission",
+                description.add(this.user.getTranslation("challenges.gui.descriptions.permission",
                         "[permission]", permission));
-                }
+            }
 
-                icon = new ItemStack(Material.REDSTONE_LAMP);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.REDSTONE_LAMP);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getRequirements().getRequiredPermissions(),
                         lineLength,
                         (status, value) -> {
@@ -572,47 +573,47 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
+                return true;
+            };
+            glow = false;
+            break;
+        }
 
-            case REQUIRED_ENTITIES:
-            case REMOVE_ENTITIES:
-            case REQUIRED_BLOCKS:
-            case REMOVE_BLOCKS:
-            case SEARCH_RADIUS:
-            {
-                return this.createIslandRequirementButton(button);
-            }
+        case REQUIRED_ENTITIES:
+        case REMOVE_ENTITIES:
+        case REQUIRED_BLOCKS:
+        case REMOVE_BLOCKS:
+        case SEARCH_RADIUS:
+        {
+            return this.createIslandRequirementButton(button);
+        }
 
-            case REQUIRED_ITEMS:
-            case REMOVE_ITEMS:
-            {
-                return this.createInventoryRequirementButton(button);
-            }
+        case REQUIRED_ITEMS:
+        case REMOVE_ITEMS:
+        {
+            return this.createInventoryRequirementButton(button);
+        }
 
-            case REQUIRED_EXPERIENCE:
-            case REMOVE_EXPERIENCE:
-            case REQUIRED_LEVEL:
-            case REQUIRED_MONEY:
-            case REMOVE_MONEY:
-            {
-                return this.createOtherRequirementButton(button);
-            }
+        case REQUIRED_EXPERIENCE:
+        case REMOVE_EXPERIENCE:
+        case REQUIRED_LEVEL:
+        case REQUIRED_MONEY:
+        case REMOVE_MONEY:
+        {
+            return this.createOtherRequirementButton(button);
+        }
 
-            default:
-                return null;
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(GuiUtils.stringSplit(description, this.lineLength)).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(GuiUtils.stringSplit(description, this.lineLength)).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -633,23 +634,23 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case REQUIRED_ENTITIES:
+        case REQUIRED_ENTITIES:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-entities");
+
+            description = new ArrayList<>(requirements.getRequiredEntities().size() + 1);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-entities"));
+
+            for (Map.Entry<EntityType, Integer> entry : requirements.getRequiredEntities().entrySet())
             {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-entities");
-
-                description = new ArrayList<>(requirements.getRequiredEntities().size() + 1);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-entities"));
-
-                for (Map.Entry<EntityType, Integer> entry : requirements.getRequiredEntities().entrySet())
-                {
-                    description.add(this.user.getTranslation("challenges.gui.descriptions.entity",
-                        "[entity]", entry.getKey().name(),
+                description.add(this.user.getTranslation("challenges.gui.descriptions.entity",
+                        "[entity]", Util.prettifyText(entry.getKey().name()),
                         "[count]", Integer.toString(entry.getValue())));
-                }
+            }
 
-                icon = new ItemStack(Material.CREEPER_HEAD);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new ManageEntitiesGUI(this.addon,
+            icon = new ItemStack(Material.CREEPER_HEAD);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new ManageEntitiesGUI(this.addon,
                         this.world,
                         this.user,
                         requirements.getRequiredEntities(),
@@ -657,49 +658,49 @@ public class EditChallengeGUI extends CommonGUI
                         this.permissionPrefix,
                         this).build();
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REMOVE_ENTITIES:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-entities");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-entities"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REMOVE_ENTITIES:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-entities");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-entities"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     requirements.isRemoveEntities() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setRemoveEntities(!requirements.isRemoveEntities());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setRemoveEntities(!requirements.isRemoveEntities());
 
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isRemoveEntities();
-                break;
-            }
-            case REQUIRED_BLOCKS:
+                this.build();
+                return true;
+            };
+            glow = requirements.isRemoveEntities();
+            break;
+        }
+        case REQUIRED_BLOCKS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-blocks");
+
+            description = new ArrayList<>(requirements.getRequiredBlocks().size() + 1);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-blocks"));
+
+            for (Map.Entry<Material, Integer> entry : requirements.getRequiredBlocks().entrySet())
             {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-blocks");
-
-                description = new ArrayList<>(requirements.getRequiredBlocks().size() + 1);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-blocks"));
-
-                for (Map.Entry<Material, Integer> entry : requirements.getRequiredBlocks().entrySet())
-                {
-                    description.add(this.user.getTranslation("challenges.gui.descriptions.block",
+                description.add(this.user.getTranslation("challenges.gui.descriptions.block",
                         "[block]", entry.getKey().name(),
                         "[count]", Integer.toString(entry.getValue())));
-                }
+            }
 
-                icon = new ItemStack(Material.STONE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new ManageBlocksGUI(this.addon,
+            icon = new ItemStack(Material.STONE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new ManageBlocksGUI(this.addon,
                         this.world,
                         this.user,
                         requirements.getRequiredBlocks(),
@@ -707,51 +708,51 @@ public class EditChallengeGUI extends CommonGUI
                         this.permissionPrefix,
                         this).build();
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REMOVE_BLOCKS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-blocks");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-blocks"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REMOVE_BLOCKS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-blocks");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-blocks"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     requirements.isRemoveBlocks() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setRemoveBlocks(!requirements.isRemoveBlocks());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setRemoveBlocks(!requirements.isRemoveBlocks());
 
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isRemoveBlocks();
-                break;
-            }
-            case SEARCH_RADIUS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.search-radius");
-                description = new ArrayList<>(2);
-                description.add(this.user
+                this.build();
+                return true;
+            };
+            glow = requirements.isRemoveBlocks();
+            break;
+        }
+        case SEARCH_RADIUS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.search-radius");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.search-radius"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(requirements.getSearchRadius())));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(requirements.getSearchRadius())));
 
-                icon = new ItemStack(Material.COBBLESTONE_WALL);
+            icon = new ItemStack(Material.COBBLESTONE_WALL);
 
-                // Search radius should not be larger then island radius.
-                int maxSearchDistance =
+            // Search radius should not be larger then island radius.
+            int maxSearchDistance =
                     this.addon.getPlugin().getIWM().getAddon(this.world).map(gameModeAddon ->
-                        gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
+                    gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
 
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         requirements.getSearchRadius(),
                         0,
                         maxSearchDistance,
@@ -765,22 +766,22 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            default:
-                return null;
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(GuiUtils.stringSplit(description, this.lineLength)).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(GuiUtils.stringSplit(description, this.lineLength)).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -801,19 +802,19 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case REQUIRED_ITEMS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-items");
+        case REQUIRED_ITEMS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-items");
 
-                description = new ArrayList<>(requirements.getRequiredItems().size() + 1);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-items"));
+            description = new ArrayList<>(requirements.getRequiredItems().size() + 1);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-items"));
 
-                Utils.groupEqualItems(requirements.getRequiredItems()).forEach(itemStack ->
-                    description.addAll(this.generateItemStackDescription(itemStack)));
+            Utils.groupEqualItems(requirements.getRequiredItems()).forEach(itemStack ->
+            description.addAll(this.generateItemStackDescription(itemStack)));
 
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new ItemSwitchGUI(this.user,
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new ItemSwitchGUI(this.user,
                         requirements.getRequiredItems(),
                         this.lineLength,
                         (status, value) -> {
@@ -825,43 +826,43 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REMOVE_ITEMS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-items");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-items"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REMOVE_ITEMS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-items");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-items"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     requirements.isTakeItems() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeItems(!requirements.isTakeItems());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeItems(!requirements.isTakeItems());
 
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isTakeItems();
-                break;
-            }
-            default:
-                return null;
+                this.build();
+                return true;
+            };
+            glow = requirements.isTakeItems();
+            break;
+        }
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(GuiUtils.stringSplit(description, this.lineLength)).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(GuiUtils.stringSplit(description, this.lineLength)).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -882,17 +883,17 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case REQUIRED_EXPERIENCE:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-experience");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-experience"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+        case REQUIRED_EXPERIENCE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-experience");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-experience"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]", Integer.toString(requirements.getRequiredExperience())));
 
-                icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         requirements.getRequiredExperience(),
                         0,
                         this.lineLength,
@@ -904,43 +905,43 @@ public class EditChallengeGUI extends CommonGUI
 
                             this.build();
                         });
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REMOVE_EXPERIENCE:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-experience");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-experience"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REMOVE_EXPERIENCE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-experience");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-experience"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     requirements.isTakeExperience() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeExperience(!requirements.isTakeExperience());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeExperience(!requirements.isTakeExperience());
 
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isTakeExperience();
-                break;
-            }
-            case REQUIRED_LEVEL:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-level");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-level"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                this.build();
+                return true;
+            };
+            glow = requirements.isTakeExperience();
+            break;
+        }
+        case REQUIRED_LEVEL:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-level");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-level"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]", Long.toString(requirements.getRequiredIslandLevel())));
 
-                icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         (int) requirements.getRequiredIslandLevel(),
                         lineLength,
                         (status, value) -> {
@@ -952,23 +953,23 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
+                return true;
+            };
 
-                glow = false;
-                break;
-            }
-            case REQUIRED_MONEY:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.required-money");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-money"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+            glow = false;
+            break;
+        }
+        case REQUIRED_MONEY:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.required-money");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-money"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]", Double.toString(requirements.getRequiredMoney())));
 
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         (int) requirements.getRequiredMoney(),
                         0,
                         lineLength,
@@ -980,45 +981,45 @@ public class EditChallengeGUI extends CommonGUI
 
                             this.build();
                         });
-                    return true;
-                };
+                return true;
+            };
 
-                glow = false;
-                break;
-            }
-            case REMOVE_MONEY:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-money");
-                description = new ArrayList<>(2);
-                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-money"));
-                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+            glow = false;
+            break;
+        }
+        case REMOVE_MONEY:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.remove-money");
+            description = new ArrayList<>(2);
+            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-money"));
+            description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
                     "[value]",
                     requirements.isTakeMoney() ?
-                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                            this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeMoney(!requirements.isTakeMoney());
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeMoney(!requirements.isTakeMoney());
 
-                    this.build();
-                    return true;
-                };
+                this.build();
+                return true;
+            };
 
-                glow = requirements.isTakeMoney();
-                break;
-            }
-            default:
-                return null;
+            glow = requirements.isTakeMoney();
+            break;
+        }
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(GuiUtils.stringSplit(description, this.lineLength)).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(GuiUtils.stringSplit(description, this.lineLength)).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -1037,32 +1038,32 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-            case REWARD_TEXT:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.reward-text");
-                description = new ArrayList<>(2);
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.admin.reward-text"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", "|" + this.challenge.getRewardText()));
+        case REWARD_TEXT:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.reward-text");
+            description = new ArrayList<>(2);
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.admin.reward-text"));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", "|" + this.challenge.getRewardText()));
 
-                icon = new ItemStack(Material.WRITTEN_BOOK);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.WRITTEN_BOOK);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getRewardText(),
                         lineLength,
                         (status, value) -> {
                             if (status)
                             {
                                 String singleLineMessage = value.stream().
-                                    map(s -> s + "|").
-                                    collect(Collectors.joining());
+                                        map(s -> s + "|").
+                                        collect(Collectors.joining());
 
                                 if (singleLineMessage.endsWith("|"))
                                 {
                                     singleLineMessage = singleLineMessage
-                                        .substring(0, singleLineMessage.length() - 1);
+                                            .substring(0, singleLineMessage.length() - 1);
                                 }
 
                                 this.challenge.setRewardText(singleLineMessage);
@@ -1071,25 +1072,25 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REWARD_ITEM:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.reward-items");
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REWARD_ITEM:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.reward-items");
 
-                description = new ArrayList<>(this.challenge.getRewardItems().size() + 1);
-                description.add(this.user
+            description = new ArrayList<>(this.challenge.getRewardItems().size() + 1);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.reward-items"));
 
-                Utils.groupEqualItems(this.challenge.getRewardItems()).forEach(itemStack ->
-                    description.addAll(this.generateItemStackDescription(itemStack)));
+            Utils.groupEqualItems(this.challenge.getRewardItems()).forEach(itemStack ->
+            description.addAll(this.generateItemStackDescription(itemStack)));
 
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new ItemSwitchGUI(this.user,
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new ItemSwitchGUI(this.user,
                         this.challenge.getRewardItems(),
                         lineLength,
                         (status, value) -> {
@@ -1101,23 +1102,23 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REWARD_EXPERIENCE:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.reward-experience");
-                description = new ArrayList<>(2);
-                description.add(this.user
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REWARD_EXPERIENCE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.reward-experience");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.reward-experience"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(this.challenge.getRewardExperience())));
-                icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(this.challenge.getRewardExperience())));
+            icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getRewardExperience(),
                         0,
                         lineLength,
@@ -1130,25 +1131,25 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REWARD_MONEY:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.reward-money");
-                description = new ArrayList<>(2);
-                description.add(this.user
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REWARD_MONEY:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.reward-money");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.reward-money"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(this.challenge.getRewardMoney())));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(this.challenge.getRewardMoney())));
 
-                icon = new ItemStack(
+            icon = new ItemStack(
                     this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getRewardMoney(),
                         0,
                         lineLength,
@@ -1161,29 +1162,29 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
+                return true;
+            };
 
 
-                glow = false;
-                break;
-            }
-            case REWARD_COMMANDS:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.reward-commands");
-                description = new ArrayList<>(this.challenge.getRewardCommands().size() + 1);
-                description.add(this.user
+            glow = false;
+            break;
+        }
+        case REWARD_COMMANDS:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.reward-commands");
+            description = new ArrayList<>(this.challenge.getRewardCommands().size() + 1);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.reward-commands"));
 
-                for (String command : this.challenge.getRewardCommands())
-                {
-                    description.add(this.user.getTranslation("challenges.gui.descriptions.command",
+            for (String command : this.challenge.getRewardCommands())
+            {
+                description.add(this.user.getTranslation("challenges.gui.descriptions.command",
                         "[command]", command));
-                }
+            }
 
-                icon = new ItemStack(Material.COMMAND_BLOCK);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.COMMAND_BLOCK);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getRewardCommands(),
                         lineLength,
                         (status, value) -> {
@@ -1195,48 +1196,48 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
+                return true;
+            };
+            glow = false;
+            break;
+        }
 
-            case REPEATABLE:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.repeatable");
-                description = new ArrayList<>(2);
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.admin.repeatable"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]",
-                        this.challenge.isRepeatable() ?
+        case REPEATABLE:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.repeatable");
+            description = new ArrayList<>(2);
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.admin.repeatable"));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]",
+                    this.challenge.isRepeatable() ?
                             this.user.getTranslation("challenges.gui.descriptions.enabled") :
-                            this.user.getTranslation("challenges.gui.descriptions.disabled")));
+                                this.user.getTranslation("challenges.gui.descriptions.disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.challenge.setRepeatable(!this.challenge.isRepeatable());
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setRepeatable(!this.challenge.isRepeatable());
 
-                    this.build();
-                    return true;
-                };
-                glow = this.challenge.isRepeatable();
-                break;
-            }
-            case REPEAT_COUNT:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-count");
-                description = new ArrayList<>(2);
-                description.add(this.user
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isRepeatable();
+            break;
+        }
+        case REPEAT_COUNT:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-count");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-count"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(this.challenge.getMaxTimes())));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(this.challenge.getMaxTimes())));
 
-                icon = new ItemStack(Material.COBBLESTONE_WALL);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(Material.COBBLESTONE_WALL);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getMaxTimes(),
                         0,
                         lineLength,
@@ -1249,38 +1250,38 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
+                return true;
+            };
+            glow = false;
+            break;
+        }
 
-            case REPEAT_REWARD_TEXT:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-text");
-                description = new ArrayList<>(2);
-                description.add(this.user
+        case REPEAT_REWARD_TEXT:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-text");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-reward-text"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", "|" + this.challenge.getRepeatRewardText()));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", "|" + this.challenge.getRepeatRewardText()));
 
-                icon = new ItemStack(Material.WRITTEN_BOOK);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.WRITTEN_BOOK);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getRepeatRewardText(),
                         lineLength,
                         (status, value) -> {
                             if (status)
                             {
                                 String singleLineMessage = value.stream().
-                                    map(s -> s + "|").
-                                    collect(Collectors.joining());
+                                        map(s -> s + "|").
+                                        collect(Collectors.joining());
 
                                 if (singleLineMessage.endsWith("|"))
                                 {
                                     singleLineMessage = singleLineMessage
-                                        .substring(0, singleLineMessage.length() - 1);
+                                            .substring(0, singleLineMessage.length() - 1);
                                 }
 
                                 this.challenge.setRepeatRewardText(singleLineMessage);
@@ -1289,25 +1290,25 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REPEAT_REWARD_ITEM:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-items");
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REPEAT_REWARD_ITEM:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-items");
 
-                description = new ArrayList<>(this.challenge.getRepeatItemReward().size() + 1);
-                description.add(this.user
+            description = new ArrayList<>(this.challenge.getRepeatItemReward().size() + 1);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-reward-items"));
 
-                Utils.groupEqualItems(this.challenge.getRepeatItemReward()).forEach(itemStack ->
-                    description.addAll(this.generateItemStackDescription(itemStack)));
+            Utils.groupEqualItems(this.challenge.getRepeatItemReward()).forEach(itemStack ->
+            description.addAll(this.generateItemStackDescription(itemStack)));
 
-                icon = new ItemStack(Material.TRAPPED_CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new ItemSwitchGUI(this.user,
+            icon = new ItemStack(Material.TRAPPED_CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new ItemSwitchGUI(this.user,
                         this.challenge.getRepeatItemReward(),
                         lineLength,
                         (status, value) -> {
@@ -1319,25 +1320,25 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REPEAT_REWARD_EXPERIENCE:
-            {
-                name = this.user
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REPEAT_REWARD_EXPERIENCE:
+        {
+            name = this.user
                     .getTranslation("challenges.gui.buttons.admin.repeat-reward-experience");
-                description = new ArrayList<>(2);
-                description.add(this.user
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-reward-experience"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(this.challenge.getRepeatExperienceReward())));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(this.challenge.getRepeatExperienceReward())));
 
-                icon = new ItemStack(Material.GLASS_BOTTLE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            icon = new ItemStack(Material.GLASS_BOTTLE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getRepeatExperienceReward(),
                         0,
                         lineLength,
@@ -1350,25 +1351,25 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            case REPEAT_REWARD_MONEY:
-            {
-                name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-money");
-                description = new ArrayList<>(2);
-                description.add(this.user
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        case REPEAT_REWARD_MONEY:
+        {
+            name = this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-money");
+            description = new ArrayList<>(2);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-reward-money"));
-                description
-                    .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
-                        "[value]", Integer.toString(this.challenge.getRepeatMoneyReward())));
+            description
+            .add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(this.challenge.getRepeatMoneyReward())));
 
-                icon = new ItemStack(
+            icon = new ItemStack(
                     this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new NumberGUI(this.user,
+            clickHandler = (panel, user, clickType, slot) -> {
+                new NumberGUI(this.user,
                         this.challenge.getRepeatMoneyReward(),
                         0,
                         lineLength,
@@ -1381,29 +1382,29 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
+                return true;
+            };
 
-                glow = false;
-                break;
-            }
-            case REPEAT_REWARD_COMMANDS:
-            {
-                name =
+            glow = false;
+            break;
+        }
+        case REPEAT_REWARD_COMMANDS:
+        {
+            name =
                     this.user.getTranslation("challenges.gui.buttons.admin.repeat-reward-commands");
-                description = new ArrayList<>(this.challenge.getRepeatRewardCommands().size() + 1);
-                description.add(this.user
+            description = new ArrayList<>(this.challenge.getRepeatRewardCommands().size() + 1);
+            description.add(this.user
                     .getTranslation("challenges.gui.descriptions.admin.repeat-reward-commands"));
 
-                for (String command : this.challenge.getRepeatRewardCommands())
-                {
-                    description.add(this.user.getTranslation("challenges.gui.descriptions.command",
+            for (String command : this.challenge.getRepeatRewardCommands())
+            {
+                description.add(this.user.getTranslation("challenges.gui.descriptions.command",
                         "[command]", command));
-                }
+            }
 
-                icon = new ItemStack(Material.COMMAND_BLOCK);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    new StringListGUI(this.user,
+            icon = new ItemStack(Material.COMMAND_BLOCK);
+            clickHandler = (panel, user, clickType, slot) -> {
+                new StringListGUI(this.user,
                         this.challenge.getRepeatRewardCommands(),
                         lineLength,
                         (status, value) -> {
@@ -1415,22 +1416,22 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-                break;
-            }
-            default:
-                return null;
+                return true;
+            };
+            glow = false;
+            break;
+        }
+        default:
+            return null;
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(GuiUtils.stringSplit(description, this.lineLength)).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(GuiUtils.stringSplit(description, this.lineLength)).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 

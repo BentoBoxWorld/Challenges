@@ -36,6 +36,7 @@ import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
@@ -231,19 +232,19 @@ public abstract class CommonGUI
         this.pageIndex = 0;
 
         this.returnButton = new PanelItemBuilder().
-            name(this.user.getTranslation("challenges.gui.buttons.return")).
-            icon(Material.OAK_DOOR).
-            clickHandler((panel, user1, clickType, i) -> {
+                name(this.user.getTranslation("challenges.gui.buttons.return")).
+                icon(Material.OAK_DOOR).
+                clickHandler((panel, user1, clickType, i) -> {
 
-                if (this.parentGUI == null)
-                {
-                    this.user.closeInventory();
+                    if (this.parentGUI == null)
+                    {
+                        this.user.closeInventory();
+                        return true;
+                    }
+
+                    this.parentGUI.build();
                     return true;
-                }
-
-                this.parentGUI.build();
-                return true;
-            }).build();
+                }).build();
     }
 
 
@@ -263,7 +264,6 @@ public abstract class CommonGUI
      * @param button Button that must be returned.
      * @return PanelItem with requested functionality.
      */
-    @SuppressWarnings("deprecation")
     protected PanelItem getButton(CommonButtons button)
     {
         ItemStack icon;
@@ -344,213 +344,215 @@ public abstract class CommonGUI
         ChallengesManager manager = this.addon.getChallengesManager();
 
         final boolean isCompletedOnce =
-            manager.isChallengeComplete(user.getUniqueId(), world, challenge);
+                manager.isChallengeComplete(user.getUniqueId(), world, challenge);
         final long doneTimes = challenge.isRepeatable() ?
-            manager.getChallengeTimes(this.user, this.world, challenge) : isCompletedOnce ? 0 : 1;
+                manager.getChallengeTimes(this.user, this.world, challenge) : isCompletedOnce ? 0 : 1;
 
-        boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
-            challenge.getMaxTimes() > 0 &&
-            doneTimes >= challenge.getMaxTimes();
+                boolean isCompletedAll = isCompletedOnce && challenge.isRepeatable() &&
+                        challenge.getMaxTimes() > 0 &&
+                        doneTimes >= challenge.getMaxTimes();
 
-        this.addon.getChallengesSettings().getChallengeLoreMessage().forEach(messagePart -> {
-            switch (messagePart)
-            {
-                case LEVEL:
-                {
-                    ChallengeLevel level = manager.getLevel(challenge);
-
-                    if (level == null)
-                    {
-                        result.add(this.user.getTranslation("challenges.errors.missing-level",
-                            "[level]", challenge.getLevel()));
-                    }
-                    else
-                    {
-                        result.add(this.user
-                            .getTranslation("challenges.gui.challenge-description.level",
-                                "[level]", level.getFriendlyName()));
-                    }
-                    break;
-                }
-                case STATUS:
-                {
-                    if (isCompletedOnce)
-                    {
-                        result.add(this.user
-                            .getTranslation("challenges.gui.challenge-description.completed"));
-                    }
-                    break;
-                }
-                case COUNT:
-                {
-                    if (challenge.isRepeatable())
-                    {
-                        if (challenge.getMaxTimes() > 0)
-                        {
-                            if (isCompletedAll)
+                        this.addon.getChallengesSettings().getChallengeLoreMessage().forEach(messagePart -> {
+                            switch (messagePart)
                             {
-                                result.add(this.user.getTranslation(
-                                    "challenges.gui.challenge-description.maxed-reached",
-                                    "[donetimes]",
-                                    String.valueOf(doneTimes),
-                                    "[maxtimes]",
-                                    String.valueOf(challenge.getMaxTimes())));
-                            }
-                            else
+                            case LEVEL:
                             {
-                                result.add(this.user.getTranslation(
-                                    "challenges.gui.challenge-description.completed-times-of",
-                                    "[donetimes]",
-                                    String.valueOf(doneTimes),
-                                    "[maxtimes]",
-                                    String.valueOf(challenge.getMaxTimes())));
-                            }
-                        }
-                        else
-                        {
-                            result.add(this.user.getTranslation(
-                                "challenges.gui.challenge-description.completed-times",
-                                "[donetimes]",
-                                String.valueOf(doneTimes)));
-                        }
-                    }
-                    break;
-                }
-                case DESCRIPTION:
-                {
-                    result.addAll(challenge.getDescription());
-                    break;
-                }
-                case WARNINGS:
-                {
-                    if (!isCompletedAll)
-                    {
-                        if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
-                        {
-                            if (challenge.<InventoryRequirements>getRequirements().isTakeItems())
-                            {
-                                result.add(this.user.getTranslation(
-                                    "challenges.gui.challenge-description.warning-items-take"));
-                            }
-                        }
-                        else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
-                        {
-                            result.add(this.user.getTranslation(
-                                "challenges.gui.challenge-description.objects-close-by"));
+                                ChallengeLevel level = manager.getLevel(challenge);
 
-                            IslandRequirements requirements = challenge.getRequirements();
-
-                            if (requirements.isRemoveEntities() && !requirements.getRequiredEntities().isEmpty())
-                            {
-                                result.add(this.user.getTranslation(
-                                    "challenges.gui.challenge-description.warning-entities-kill"));
-                            }
-
-                            if (requirements.isRemoveBlocks() && !requirements.getRequiredBlocks().isEmpty())
-                            {
-                                result.add(this.user.getTranslation(
-                                    "challenges.gui.challenge-description.warning-blocks-remove"));
-                            }
-                        }
-                    }
-                    break;
-                }
-                case ENVIRONMENT:
-                {
-                    // Display only if there are limited environments
-
-                    if (!isCompletedAll &&
-                        !challenge.getEnvironment().isEmpty() &&
-                        challenge.getEnvironment().size() != 3)
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.challenge-description.environment"));
-
-                        if (challenge.getEnvironment().contains(World.Environment.NORMAL))
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.descriptions.normal"));
-                        }
-
-                        if (challenge.getEnvironment().contains(World.Environment.NETHER))
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.descriptions.nether"));
-                        }
-
-                        if (challenge.getEnvironment().contains(World.Environment.THE_END))
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.descriptions.the-end"));
-                        }
-                    }
-                    break;
-                }
-                case REQUIREMENTS:
-                {
-                    if (!isCompletedAll)
-                    {
-                        switch (challenge.getChallengeType())
-                        {
-                            case INVENTORY:
-                                result.addAll(this.getInventoryRequirements(challenge.getRequirements()));
+                                if (level == null)
+                                {
+                                    result.add(this.user.getTranslation("challenges.errors.missing-level",
+                                            "[level]", challenge.getLevel()));
+                                }
+                                else
+                                {
+                                    result.add(this.user
+                                            .getTranslation("challenges.gui.challenge-description.level",
+                                                    "[level]", level.getFriendlyName()));
+                                }
                                 break;
-                            case ISLAND:
-                                result.addAll(this.getIslandRequirements(challenge.getRequirements()));
+                            }
+                            case STATUS:
+                            {
+                                if (isCompletedOnce)
+                                {
+                                    result.add(this.user
+                                            .getTranslation("challenges.gui.challenge-description.completed"));
+                                }
                                 break;
-                            case OTHER:
-                                result.addAll(this.getOtherRequirements(challenge.getRequirements()));
+                            }
+                            case COUNT:
+                            {
+                                if (challenge.isRepeatable())
+                                {
+                                    if (challenge.getMaxTimes() > 0)
+                                    {
+                                        if (isCompletedAll)
+                                        {
+                                            result.add(this.user.getTranslation(
+                                                    "challenges.gui.challenge-description.maxed-reached",
+                                                    "[donetimes]",
+                                                    String.valueOf(doneTimes),
+                                                    "[maxtimes]",
+                                                    String.valueOf(challenge.getMaxTimes())));
+                                        }
+                                        else
+                                        {
+                                            result.add(this.user.getTranslation(
+                                                    "challenges.gui.challenge-description.completed-times-of",
+                                                    "[donetimes]",
+                                                    String.valueOf(doneTimes),
+                                                    "[maxtimes]",
+                                                    String.valueOf(challenge.getMaxTimes())));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        result.add(this.user.getTranslation(
+                                                "challenges.gui.challenge-description.completed-times",
+                                                "[donetimes]",
+                                                String.valueOf(doneTimes)));
+                                    }
+                                }
                                 break;
-                        }
-                    }
+                            }
+                            case DESCRIPTION:
+                            {
+                                result.addAll(challenge.getDescription());
+                                break;
+                            }
+                            case WARNINGS:
+                            {
+                                if (!isCompletedAll)
+                                {
+                                    if (challenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
+                                    {
+                                        if (challenge.<InventoryRequirements>getRequirements().isTakeItems())
+                                        {
+                                            result.add(this.user.getTranslation(
+                                                    "challenges.gui.challenge-description.warning-items-take"));
+                                        }
+                                    }
+                                    else if (challenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
+                                    {
+                                        result.add(this.user.getTranslation(
+                                                "challenges.gui.challenge-description.objects-close-by"));
 
-                    break;
-                }
-                case REWARD_TEXT:
-                {
-                    if (isCompletedAll)
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
-                    }
-                    else
-                    {
-                        if (isCompletedOnce)
-                        {
-                            result.add(challenge.getRepeatRewardText());
-                        }
-                        else
-                        {
-                            result.add(challenge.getRewardText());
-                        }
-                    }
-                    break;
-                }
-                case REWARD_OTHER:
-                {
-                    if (!isCompletedAll)
-                    {
-                        result.addAll(this.getChallengeRewardOthers(challenge, isCompletedOnce));
-                    }
-                    break;
-                }
-                case REWARD_ITEMS:
-                {
-                    if (!isCompletedAll)
-                    {
-                        result.addAll(this.getChallengeRewardItems(challenge, isCompletedOnce));
-                    }
-                    break;
-                }
-                case REWARD_COMMANDS:
-                {
-                    if (!isCompletedAll)
-                    {
-                        result.addAll(this.getChallengeRewardCommands(challenge, isCompletedOnce, user));
-                    }
-                    break;
-                }
-            }
-        });
+                                        IslandRequirements requirements = challenge.getRequirements();
 
-        result.replaceAll(x -> x.replace("[label]", this.topLabel));
+                                        if (requirements.isRemoveEntities() && !requirements.getRequiredEntities().isEmpty())
+                                        {
+                                            result.add(this.user.getTranslation(
+                                                    "challenges.gui.challenge-description.warning-entities-kill"));
+                                        }
 
-        return result;
+                                        if (requirements.isRemoveBlocks() && !requirements.getRequiredBlocks().isEmpty())
+                                        {
+                                            result.add(this.user.getTranslation(
+                                                    "challenges.gui.challenge-description.warning-blocks-remove"));
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                            case ENVIRONMENT:
+                            {
+                                // Display only if there are limited environments
+
+                                if (!isCompletedAll &&
+                                        !challenge.getEnvironment().isEmpty() &&
+                                        challenge.getEnvironment().size() != 3)
+                                {
+                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.environment"));
+
+                                    if (challenge.getEnvironment().contains(World.Environment.NORMAL))
+                                    {
+                                        result.add(this.user.getTranslation("challenges.gui.descriptions.normal"));
+                                    }
+
+                                    if (challenge.getEnvironment().contains(World.Environment.NETHER))
+                                    {
+                                        result.add(this.user.getTranslation("challenges.gui.descriptions.nether"));
+                                    }
+
+                                    if (challenge.getEnvironment().contains(World.Environment.THE_END))
+                                    {
+                                        result.add(this.user.getTranslation("challenges.gui.descriptions.the-end"));
+                                    }
+                                }
+                                break;
+                            }
+                            case REQUIREMENTS:
+                            {
+                                if (!isCompletedAll)
+                                {
+                                    switch (challenge.getChallengeType())
+                                    {
+                                    case INVENTORY:
+                                        result.addAll(this.getInventoryRequirements(challenge.getRequirements()));
+                                        break;
+                                    case ISLAND:
+                                        result.addAll(this.getIslandRequirements(challenge.getRequirements()));
+                                        break;
+                                    case OTHER:
+                                        result.addAll(this.getOtherRequirements(challenge.getRequirements()));
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            }
+                            case REWARD_TEXT:
+                            {
+                                if (isCompletedAll)
+                                {
+                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.not-repeatable"));
+                                }
+                                else
+                                {
+                                    // Show a title to the rewards
+                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
+                                    if (isCompletedOnce)
+                                    {
+                                        result.add(challenge.getRepeatRewardText());
+                                    }
+                                    else
+                                    {
+                                        result.add(challenge.getRewardText());
+                                    }
+                                }
+                                break;
+                            }
+                            case REWARD_OTHER:
+                            {
+                                if (!isCompletedAll)
+                                {
+                                    result.addAll(this.getChallengeRewardOthers(challenge, isCompletedOnce));
+                                }
+                                break;
+                            }
+                            case REWARD_ITEMS:
+                            {
+                                if (!isCompletedAll)
+                                {
+                                    result.addAll(this.getChallengeRewardItems(challenge, isCompletedOnce));
+                                }
+                                break;
+                            }
+                            case REWARD_COMMANDS:
+                            {
+                                if (!isCompletedAll)
+                                {
+                                    result.addAll(this.getChallengeRewardCommands(challenge, isCompletedOnce, user));
+                                }
+                                break;
+                            }
+                            }
+                        });
+
+                        result.replaceAll(x -> x.replace("[label]", this.topLabel));
+
+                        return result;
     }
 
 
@@ -661,7 +663,7 @@ public abstract class CommonGUI
             for (String command : rewardCommands)
             {
                 result.add(this.user.getTranslation("challenges.gui.descriptions.command",
-                    "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
+                        "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
             }
         }
 
@@ -718,7 +720,7 @@ public abstract class CommonGUI
             result.add(this.user.getTranslation("challenges.gui.challenge-description.required-items"));
 
             Utils.groupEqualItems(requirements.getRequiredItems()).forEach(itemStack ->
-                result.addAll(this.generateItemStackDescription(itemStack)));
+            result.addAll(this.generateItemStackDescription(itemStack)));
         }
 
         return result;
@@ -744,7 +746,7 @@ public abstract class CommonGUI
                 for (Map.Entry<Material, Integer> entry : challenge.getRequiredBlocks().entrySet())
                 {
                     result.add(this.user.getTranslation("challenges.gui.descriptions.block",
-                            "[block]", entry.getKey().name(),
+                            "[block]", Util.prettifyText(entry.getKey().name()),
                             "[count]", Integer.toString(entry.getValue())));
                 }
             }
@@ -757,7 +759,7 @@ public abstract class CommonGUI
                 for (Map.Entry<EntityType, Integer> entry : challenge.getRequiredEntities().entrySet())
                 {
                     result.add(this.user.getTranslation("challenges.gui.descriptions.entity",
-                            "[entity]", entry.getKey().name(),
+                            "[entity]", Util.prettifyText(entry.getKey().name()),
                             "[count]", Integer.toString(entry.getValue())));
                 }
             }
@@ -787,105 +789,105 @@ public abstract class CommonGUI
 
         // Check if unlock message should appear.
         boolean hasCompletedOne = status.isComplete() || status.isUnlocked() &&
-            level.getChallenges().stream().anyMatch(challenge ->
+                level.getChallenges().stream().anyMatch(challenge ->
                 this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge));
 
         this.addon.getChallengesSettings().getLevelLoreMessage().forEach(messagePart -> {
             switch (messagePart)
             {
-                case LEVEL_STATUS:
+            case LEVEL_STATUS:
+            {
+                if (status.isComplete())
                 {
-                    if (status.isComplete())
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.level-description.completed"));
-                    }
-                    break;
+                    result.add(this.user.getTranslation("challenges.gui.level-description.completed"));
                 }
-                case CHALLENGE_COUNT:
+                break;
+            }
+            case CHALLENGE_COUNT:
+            {
+                if (!status.isComplete() && status.isUnlocked())
                 {
-                    if (!status.isComplete() && status.isUnlocked())
-                    {
-                        int doneChallengeCount = (int) level.getChallenges().stream().
+                    int doneChallengeCount = (int) level.getChallenges().stream().
                             filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge)).
                             count();
 
-                        result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",
+                    result.add(this.user.getTranslation("challenges.gui.level-description.completed-challenges-of",
                             "[number]", Integer.toString(doneChallengeCount),
                             "[max]", Integer.toString(level.getChallenges().size())));
-                    }
-
-                    break;
                 }
-                case UNLOCK_MESSAGE:
-                {
-                    if (!hasCompletedOne)
-                    {
-                        result.add(level.getUnlockMessage());
-                    }
 
-                    break;
-                }
-                case WAIVER_AMOUNT:
+                break;
+            }
+            case UNLOCK_MESSAGE:
+            {
+                if (!hasCompletedOne)
                 {
-                    if (status.isUnlocked() && !status.isComplete())
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.level-description.waver-amount",
+                    result.add(level.getUnlockMessage());
+                }
+
+                break;
+            }
+            case WAIVER_AMOUNT:
+            {
+                if (status.isUnlocked() && !status.isComplete())
+                {
+                    result.add(this.user.getTranslation("challenges.gui.level-description.waver-amount",
                             "[value]", Integer.toString(level.getWaiverAmount())));
+                }
+
+                break;
+            }
+            case LEVEL_REWARD_TEXT:
+            {
+                if (status.isUnlocked() && !status.isComplete())
+                {
+                    result.add(level.getRewardText());
+                }
+                break;
+            }
+            case LEVEL_REWARD_OTHER:
+            {
+                if (status.isUnlocked() && !status.isComplete())
+                {
+                    if (level.getRewardExperience() > 0)
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.level-description.experience-reward",
+                                "[value]", Integer.toString(level.getRewardExperience())));
                     }
 
-                    break;
-                }
-                case LEVEL_REWARD_TEXT:
-                {
-                    if (status.isUnlocked() && !status.isComplete())
+                    if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
                     {
-                        result.add(level.getRewardText());
-                    }
-                    break;
-                }
-                case LEVEL_REWARD_OTHER:
-                {
-                    if (status.isUnlocked() && !status.isComplete())
-                    {
-                        if (level.getRewardExperience() > 0)
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.level-description.experience-reward",
-                                    "[value]", Integer.toString(level.getRewardExperience())));
-                        }
-
-                        if (this.addon.isEconomyProvided() && level.getRewardMoney() > 0)
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.level-description.money-reward",
+                        result.add(this.user.getTranslation("challenges.gui.level-description.money-reward",
                                 "[value]", Integer.toString(level.getRewardMoney())));
-                        }
                     }
-                    break;
                 }
-                case LEVEL_REWARD_ITEMS:
+                break;
+            }
+            case LEVEL_REWARD_ITEMS:
+            {
+                if (status.isUnlocked() && !status.isComplete() && !level.getRewardItems().isEmpty())
                 {
-                    if (status.isUnlocked() && !status.isComplete() && !level.getRewardItems().isEmpty())
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
+                    result.add(this.user.getTranslation("challenges.gui.level-description.reward-items"));
 
-                        Utils.groupEqualItems(level.getRewardItems()).forEach(itemStack ->
-                            result.addAll(this.generateItemStackDescription(itemStack)));
-                    }
-                    break;
+                    Utils.groupEqualItems(level.getRewardItems()).forEach(itemStack ->
+                    result.addAll(this.generateItemStackDescription(itemStack)));
                 }
-                case LEVEL_REWARD_COMMANDS:
+                break;
+            }
+            case LEVEL_REWARD_COMMANDS:
+            {
+                if (status.isUnlocked() && !status.isComplete() && !level.getRewardCommands().isEmpty())
                 {
-                    if (status.isUnlocked() && !status.isComplete() && !level.getRewardCommands().isEmpty())
-                    {
-                        result.add(this.user.getTranslation("challenges.gui.level-description.reward-commands"));
+                    result.add(this.user.getTranslation("challenges.gui.level-description.reward-commands"));
 
-                        for (String command : level.getRewardCommands())
-                        {
-                            result.add(this.user.getTranslation("challenges.gui.descriptions.command",
+                    for (String command : level.getRewardCommands())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.descriptions.command",
                                 "[command]",  command.replace("[player]", user.getName()).replace("[SELF]", "")));
-                        }
                     }
-                    break;
                 }
+                break;
+            }
             }
         });
 
@@ -905,12 +907,13 @@ public abstract class CommonGUI
      * @param itemStack Object which lore must be generated
      * @return List with generated description
      */
+    @SuppressWarnings("deprecation")
     protected List<String> generateItemStackDescription(ItemStack itemStack)
     {
         List<String> result = new ArrayList<>();
 
         result.add(this.user.getTranslation("challenges.gui.item-description.item",
-                "[item]", itemStack.getType().name(),
+                "[item]", Util.prettifyText(itemStack.getType().name()),
                 "[count]", Integer.toString(itemStack.getAmount())));
 
         if (itemStack.hasItemMeta())
@@ -959,22 +962,22 @@ public abstract class CommonGUI
                 if (data.isExtended() && data.isUpgraded())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended-upgraded",
-                            "[name]", data.getType().name()));
+                            "[name]", Util.prettifyText(data.getType().name())));
                 }
                 else if (data.isUpgraded())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-upgraded",
-                            "[name]", data.getType().name()));
+                            "[name]", Util.prettifyText(data.getType().name())));
                 }
                 else if (data.isExtended())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended",
-                            "[name]", data.getType().name()));
+                            "[name]", Util.prettifyText(data.getType().name())));
                 }
                 else
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type",
-                            "[name]", data.getType().name()));
+                            "[name]", Util.prettifyText(data.getType().name())));
                 }
 
                 if (((PotionMeta) meta).hasCustomEffects())
@@ -983,7 +986,7 @@ public abstract class CommonGUI
 
                     ((PotionMeta) meta).getCustomEffects().forEach(potionEffect ->
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-effect",
-                            "[effect]", potionEffect.getType().getName(),
+                            "[effect]", Util.prettifyText(potionEffect.getType().getName()),
                             "[duration]", Integer.toString(potionEffect.getDuration()),
                             "[amplifier]", Integer.toString(potionEffect.getAmplifier()))));
                 }
@@ -999,14 +1002,14 @@ public abstract class CommonGUI
             else if (meta instanceof SpawnEggMeta)
             {
                 result.add(this.user.getTranslation("challenges.gui.item-description.egg-meta",
-                        "[mob]", ((SpawnEggMeta) meta).getSpawnedType().name()));
+                        "[mob]", Util.prettifyText(((SpawnEggMeta) meta).getSpawnedType().name())));
             }
             else if (meta instanceof TropicalFishBucketMeta)
             {
                 result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
-                        "[pattern]", ((TropicalFishBucketMeta) meta).getPattern().name(),
-                        "[pattern-color]", ((TropicalFishBucketMeta) meta).getPatternColor().name(),
-                        "[body-color]", ((TropicalFishBucketMeta) meta).getBodyColor().name()));
+                        "[pattern]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPattern().name()),
+                        "[pattern-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPatternColor().name()),
+                        "[body-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getBodyColor().name())));
                 // parse ne
             }
 
@@ -1026,9 +1029,9 @@ public abstract class CommonGUI
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Chat Input Methods
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Chat Input Methods
+    // ---------------------------------------------------------------------
 
 
     /**
@@ -1043,44 +1046,44 @@ public abstract class CommonGUI
         final User user = this.user;
 
         Conversation conversation =
-            new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
-                new StringPrompt()
-                {
-                    /**
-                     * @see Prompt#getPromptText(ConversationContext)
-                     */
-                    @Override
-                    public String getPromptText(ConversationContext conversationContext)
-                    {
-                        // Close input GUI.
-                        user.closeInventory();
-
-                        if (message != null)
+                new ConversationFactory(BentoBox.getInstance()).withFirstPrompt(
+                        new StringPrompt()
                         {
-                            // Create Edit Text message.
-                            TextComponent component = new TextComponent(user.getTranslation("challenges.gui.descriptions.admin.click-to-edit"));
-                            component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, message));
-                            // Send question and message to player.
-                            user.getPlayer().spigot().sendMessage(component);
-                        }
+                            /**
+                             * @see Prompt#getPromptText(ConversationContext)
+                             */
+                            @Override
+                            public String getPromptText(ConversationContext conversationContext)
+                            {
+                                // Close input GUI.
+                                user.closeInventory();
 
-                        // There are no editable message. Just return question.
-                        return question;
-                    }
+                                if (message != null)
+                                {
+                                    // Create Edit Text message.
+                                    TextComponent component = new TextComponent(user.getTranslation("challenges.gui.descriptions.admin.click-to-edit"));
+                                    component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, message));
+                                    // Send question and message to player.
+                                    user.getPlayer().spigot().sendMessage(component);
+                                }
+
+                                // There are no editable message. Just return question.
+                                return question;
+                            }
 
 
-                    /**
-                     * @see Prompt#acceptInput(ConversationContext, String)
-                     */
-                    @Override
-                    public Prompt acceptInput(ConversationContext conversationContext, String answer)
-                    {
-                        // Add answer to consumer.
-                        consumer.accept(answer);
-                        // End conversation
-                        return Prompt.END_OF_CONVERSATION;
-                    }
-                }).
+                            /**
+                             * @see Prompt#acceptInput(ConversationContext, String)
+                             */
+                            @Override
+                            public Prompt acceptInput(ConversationContext conversationContext, String answer)
+                            {
+                                // Add answer to consumer.
+                                consumer.accept(answer);
+                                // End conversation
+                                return Prompt.END_OF_CONVERSATION;
+                            }
+                        }).
                 withLocalEcho(false).
                 // On cancel conversation will be closed.
                 withEscapeSequence("cancel").
