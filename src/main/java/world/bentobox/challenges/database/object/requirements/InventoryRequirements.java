@@ -10,6 +10,7 @@ package world.bentobox.challenges.database.object.requirements;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bukkit.inventory.ItemStack;
@@ -83,6 +84,19 @@ public class InventoryRequirements extends Requirements
 // ---------------------------------------------------------------------
 // Section: Other methods
 // ---------------------------------------------------------------------
+
+
+	/**
+	 * Method isValid returns if given requirement data is valid or not.
+	 *
+	 * @return {@code true} if data is valid, {@code false} otherwise.
+	 */
+	@Override
+	public boolean isValid()
+	{
+		return super.isValid() &&
+			this.requiredItems != null && this.requiredItems.stream().noneMatch(Objects::isNull);
+	}
 
 
 	/**

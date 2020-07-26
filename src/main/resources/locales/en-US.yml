@@ -595,6 +595,8 @@ challenges:
         missing-level: '&c Challenge Level [level] is not defined in the database. It may cause errors!'
         missing-arguments: '&c Command is missing arguments.'
         no-multiple-permission: "&c You do not have permission to complete this challenge multiple times at once."
+        invalid-level: "&c Level [level] contains invalid data. It will not be loaded from database!"
+        invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:

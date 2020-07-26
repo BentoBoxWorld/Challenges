@@ -1,12 +1,7 @@
 package world.bentobox.challenges.database.object;
 
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -18,6 +13,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.database.objects.Table;
 import world.bentobox.challenges.database.object.adapters.EntityCompatibilityAdapter;
@@ -1105,6 +1101,32 @@ public class Challenge implements DataObject
 
 
     /**
+     * This method checks if variable values are valid for current level.
+     * @return {@code true} if all object values are valid, {@code false} otherwise.
+     */
+    public boolean isValid()
+    {
+        return this.uniqueId != null &&
+            !this.uniqueId.isEmpty() &&
+            this.friendlyName != null &&
+            this.description != null &&
+            this.icon != null &&
+            this.challengeType != null &&
+            this.environment != null &&
+            this.level != null &&
+
+            this.requirements.isValid() &&
+
+            this.rewardText != null &&
+            this.rewardItems.stream().noneMatch(Objects::isNull) &&
+            this.rewardCommands != null &&
+
+            this.repeatRewardText != null &&
+            this.repeatItemReward.stream().noneMatch(Objects::isNull) &&
+            this.repeatRewardCommands != null;
+    }
+
+    /**
      * Clone method that returns clone of current challenge.
      * @return Challenge that is cloned from current object.
      */
@@ -1115,12 +1137,7 @@ public class Challenge implements DataObject
 
         try
         {
-            clone = (Challenge) super.clone();
-        }
-        catch (CloneNotSupportedException e)
-        {
             clone = new Challenge();
-
             clone.setUniqueId(this.uniqueId);
             clone.setFriendlyName(this.friendlyName);
             clone.setDeployed(this.deployed);
@@ -1133,7 +1150,9 @@ public class Challenge implements DataObject
             clone.setRemoveWhenCompleted(this.removeWhenCompleted);
             clone.setRequirements(this.requirements.clone());
             clone.setRewardText(this.rewardText);
-            clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone).
+            clone.setRewardItems(
+                this.rewardItems.stream().
+                    map(ItemStack::clone).
                     collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
@@ -1142,10 +1161,19 @@ public class Challenge implements DataObject
             clone.setRepeatRewardText(this.repeatRewardText);
             clone.setMaxTimes(this.maxTimes);
             clone.setRepeatExperienceReward(this.repeatExperienceReward);
-            clone.setRepeatItemReward(this.repeatItemReward.stream().map(ItemStack::clone).
+            clone.setRepeatItemReward(
+                this.repeatItemReward.stream().
+                    map(ItemStack::clone).
                     collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
             clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
+        }
+        catch (Exception e)
+        {
+            BentoBox.getInstance().logError("Failed to clone Challenge " + this.uniqueId);
+            BentoBox.getInstance().logStacktrace(e);
+            clone = this;
+            this.deployed = false;
         }
 
         return clone;

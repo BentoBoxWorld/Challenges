@@ -1,10 +1,7 @@
 package world.bentobox.challenges.database.object;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -12,10 +9,12 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.annotations.Expose;
 
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.database.objects.Table;
 import world.bentobox.challenges.ChallengesManager;
+
 
 /**
  * Represent a challenge level
@@ -521,21 +520,35 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 
 
     /**
+     * This method checks if variable values are valid for current level.
+     * @return {@code true} if all object values are valid, {@code false} otherwise.
+     */
+    public boolean isValid()
+    {
+        return this.uniqueId != null &&
+            !this.uniqueId.isEmpty() &&
+            this.friendlyName != null &&
+            this.challenges != null &&
+            this.icon != null &&
+            this.world != null &&
+            this.unlockMessage != null &&
+            this.rewardText != null &&
+            this.rewardItems.stream().noneMatch(Objects::isNull) &&
+            this.rewardCommands != null;
+    }
+
+
+    /**
      * Clone method that returns clone of current challengeLevel.
      * @return ChallengeLevel that is cloned from current object.
      */
     @Override
     public ChallengeLevel clone()
     {
-        ChallengeLevel clone;
+        ChallengeLevel clone = new ChallengeLevel();
 
         try
         {
-            clone = (ChallengeLevel) super.clone();
-        }
-        catch (CloneNotSupportedException e)
-        {
-            clone = new ChallengeLevel();
             clone.setUniqueId(this.uniqueId);
             clone.setFriendlyName(this.friendlyName);
             clone.setIcon(this.icon.clone());
@@ -545,11 +558,20 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
             clone.setWaiverAmount(this.waiverAmount);
             clone.setUnlockMessage(this.unlockMessage);
             clone.setRewardText(this.rewardText);
-            clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone).collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
+            clone.setRewardItems(
+                this.rewardItems.stream().
+                    map(ItemStack::clone).
+                    collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
             clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
             clone.setChallenges(new HashSet<>(this.challenges));
+        }
+        catch (Exception e)
+        {
+            BentoBox.getInstance().logError("Failed to clone ChallengeLevel " + this.uniqueId);
+            BentoBox.getInstance().logStacktrace(e);
+            clone = this;
         }
 
         return clone;

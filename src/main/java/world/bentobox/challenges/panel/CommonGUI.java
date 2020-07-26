@@ -1006,11 +1006,13 @@ public abstract class CommonGUI
             }
             else if (meta instanceof TropicalFishBucketMeta)
             {
-                result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
+                if (((TropicalFishBucketMeta) meta).hasVariant())
+                {
+                    result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
                         "[pattern]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPattern().name()),
                         "[pattern-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPatternColor().name()),
                         "[body-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getBodyColor().name())));
-                // parse ne
+                }
             }
 
             if (meta.hasEnchants())

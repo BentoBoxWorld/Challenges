@@ -279,6 +279,17 @@ public class ChallengesManager
             return false;
         }
 
+        if (!challenge.isValid())
+        {
+            if (!silent)
+            {
+                user.sendMessage("challenges.errors.invalid-challenge", "[challenge]", challenge.getUniqueId());
+            }
+
+            this.addon.logWarning("Data for challenge `" + challenge.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
+            return false;
+        }
+
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
         {
             if (!overwrite)
@@ -349,6 +360,17 @@ public class ChallengesManager
                 user.sendMessage("load-error", "[value]", "NULL");
             }
 
+            return false;
+        }
+
+        if (!level.isValid())
+        {
+            if (!silent)
+            {
+                user.sendMessage("challenges.errors.invalid-level", "[level]", level.getUniqueId());
+            }
+
+            this.addon.logWarning("Data for level `" + level.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
             return false;
         }
 

@@ -7,10 +7,7 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -151,6 +148,20 @@ public class IslandRequirements extends Requirements
 // ---------------------------------------------------------------------
 // Section: Other methods
 // ---------------------------------------------------------------------
+
+
+	/**
+	 * Method isValid returns if given requirement data is valid or not.
+	 *
+	 * @return {@code true} if data is valid, {@code false} otherwise.
+	 */
+	@Override
+	public boolean isValid()
+	{
+		return super.isValid() &&
+			this.requiredBlocks != null && this.requiredBlocks.keySet().stream().noneMatch(Objects::isNull) &&
+			this.requiredEntities != null && this.requiredEntities.keySet().stream().noneMatch(Objects::isNull);
+	}
 
 
 	/**
