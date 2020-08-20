@@ -2113,7 +2113,7 @@
         "class": "IslandRequirements",
         "parameters": {
           "requiredBlocks": {
-            "NETHERRACK": 1
+            "END_STONE": 1
           },
           "removeBlocks": false,
           "requiredEntities": {},
