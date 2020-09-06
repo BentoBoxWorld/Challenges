@@ -44,4 +44,4 @@ There exist also Web Library, where users can download public challenges. It is 
 
 ## Information
 
-More information can be found in [Wiki Pages](https://docs.bentobox.world/addons/Challenges/).
+More information can be found in [Wiki Pages](https://docs.bentobox.world/en/latest/addons/Challenges/).
