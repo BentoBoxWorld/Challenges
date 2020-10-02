@@ -58,11 +58,6 @@ public class ChallengesAddon extends Addon {
     private boolean hooked;
 
     /**
-     * This boolean indicate if economy is enabled.
-     */
-    private boolean economyProvided;
-
-    /**
      * VaultHook that process economy.
      */
     private VaultHook vaultHook;
@@ -219,11 +214,10 @@ public class ChallengesAddon extends Addon {
             if (!vault.isPresent() || !vault.get().hook())
             {
                 this.vaultHook = null;
-                this.logWarning("Economy plugin not found so money options will not work!");
+                this.logWarning("Vault plugin not found. Economy will not work!");
             }
             else
             {
-                this.economyProvided = true;
                 this.vaultHook = vault.get();
             }
 
@@ -531,7 +525,7 @@ public class ChallengesAddon extends Addon {
      */
     public boolean isEconomyProvided()
     {
-        return this.economyProvided;
+        return this.vaultHook != null && this.vaultHook.hook();
     }
 
 
