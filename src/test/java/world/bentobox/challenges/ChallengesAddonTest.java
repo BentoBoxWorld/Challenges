@@ -291,7 +291,7 @@ public class ChallengesAddonTest {
         addon.setState(State.LOADED);
         addon.onEnable();
         verify(plugin).logWarning("[challenges] Level add-on not found so level challenges will not work!");
-        verify(plugin).logWarning("[challenges] Economy plugin not found so money options will not work!");
+        verify(plugin).logWarning("[challenges] Vault plugin not found. Economy will not work!");
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin, never()).logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
 

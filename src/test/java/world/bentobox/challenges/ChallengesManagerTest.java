@@ -60,6 +60,7 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
@@ -162,6 +163,7 @@ public class ChallengesManagerTest {
         challenge.setFriendlyName("name");
         challenge.setLevel(GAME_MODE_NAME + "_novice");
         challenge.setDescription(Collections.singletonList("A description"));
+        challenge.setRequirements(new IslandRequirements());
 
         // Challenge Level
         level = new ChallengeLevel();
@@ -737,7 +739,7 @@ public class ChallengesManagerTest {
     @Test
     public void testCreateChallenge() {
         @Nullable
-        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, null);
+        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, new IslandRequirements());
         assertEquals(ChallengeType.ISLAND, ch.getChallengeType());
         assertEquals("newChal", ch.getUniqueId());
     }
