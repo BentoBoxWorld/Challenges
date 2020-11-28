@@ -2088,26 +2088,26 @@ public class ChallengesManager
     /**
      * This method returns if in given world has any stored challenge or level.
      * @param world World that needs to be checked
-     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
+     * @return {@code true} if world has any challenge or level, otherwise {@code false}
      */
     public boolean hasAnyChallengeData(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).filter(gameMode ->
-        this.hasAnyChallengeData(gameMode.getDescription().getName())).isPresent();
+            this.hasAnyChallengeData(gameMode.getDescription().getName())).isPresent();
     }
 
 
     /**
      * This method returns if in given gameMode has any stored challenge or level.
      * @param gameMode GameMode addon name that needs to be checked
-     * @return <code>true</code> if gameMode has any challenge or level, otherwise <code>false</code>
+     * @return {@code true} if gameMode has any challenge or level, otherwise {@code false}
      */
     public boolean hasAnyChallengeData(@NonNull String gameMode)
     {
-        return this.challengeDatabase.loadObjects().stream().anyMatch(
-                challenge -> challenge.matchGameMode(gameMode)) ||
-                this.levelDatabase.loadObjects().stream().anyMatch(
-                        level -> level.matchGameMode(gameMode));
+        return this.challengeCacheData.values().stream().anyMatch(challenge -> challenge.matchGameMode(gameMode)) ||
+            this.levelCacheData.values().stream().anyMatch(level -> level.matchGameMode(gameMode)) ||
+            this.challengeDatabase.loadObjects().stream().anyMatch(challenge -> challenge.matchGameMode(gameMode)) ||
+            this.levelDatabase.loadObjects().stream().anyMatch(level -> level.matchGameMode(gameMode));
     }
 
 

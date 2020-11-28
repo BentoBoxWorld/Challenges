@@ -62,6 +62,8 @@ public class ChallengesGUI extends CommonGUI
 				break;
 			}
 		}
+
+		this.containsChallenges = this.challengesManager.hasAnyChallengeData(this.world);
 	}
 
 // ---------------------------------------------------------------------
@@ -76,7 +78,7 @@ public class ChallengesGUI extends CommonGUI
 	public void build()
 	{
 		// Do not open gui if there is no challenges.
-		if (!this.challengesManager.hasAnyChallengeData(this.world))
+		if (!this.containsChallenges)
 		{
 			this.addon.logError("There are no challenges set up!");
 			this.user.sendMessage("challenges.errors.no-challenges");
@@ -518,4 +520,9 @@ public class ChallengesGUI extends CommonGUI
 	 * Challenge Manager object.
 	 */
 	private ChallengesManager challengesManager;
+
+	/**
+	 * This boolean indicates if in the world there exist challenges for displaying in GUI.
+	 */
+	private final boolean containsChallenges;
 }
