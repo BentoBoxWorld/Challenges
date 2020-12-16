@@ -26,8 +26,13 @@ public class ResetListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIslandReset(IslandEvent e) {
-        if (e.getReason().equals(Reason.CREATED) || (addon.getChallengesSettings().isResetChallenges() && e.getReason().equals(Reason.RESETTED))) {
-            addon.getChallengesManager().resetAllChallenges(e.getOwner(), e.getLocation().getWorld(), e.getOwner());
+        if (addon.getChallengesSettings().isResetChallenges())
+        {
+            if (e.getReason().equals(IslandEvent.Reason.CREATED) ||
+                e.getReason().equals(IslandEvent.Reason.RESETTED) ||
+                e.getReason().equals(IslandEvent.Reason.REGISTERED)) {
+                addon.getChallengesManager().resetAllChallenges(e.getOwner(), e.getLocation().getWorld(), e.getOwner());
+            }
         }
     }
 }
