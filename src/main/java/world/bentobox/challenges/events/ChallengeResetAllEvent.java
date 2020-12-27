@@ -1,6 +1,7 @@
 package world.bentobox.challenges.events;
 
 
+import org.bukkit.event.HandlerList;
 import java.util.UUID;
 
 import world.bentobox.bentobox.api.events.BentoBoxEvent;
@@ -126,6 +127,34 @@ public class ChallengeResetAllEvent extends BentoBoxEvent
 
 
 // ---------------------------------------------------------------------
+// Section: Handler methods
+// ---------------------------------------------------------------------
+
+
+	/**
+	 * Gets handlers.
+	 *
+	 * @return the handlers
+	 */
+	@Override
+	public HandlerList getHandlers()
+	{
+		return ChallengeResetAllEvent.handlers;
+	}
+
+
+	/**
+	 * Gets handlers.
+	 *
+	 * @return the handlers
+	 */
+	public static HandlerList getHandlerList()
+	{
+		return ChallengeResetAllEvent.handlers;
+	}
+
+
+// ---------------------------------------------------------------------
 // Section: Variables
 // ---------------------------------------------------------------------
 
@@ -149,4 +178,9 @@ public class ChallengeResetAllEvent extends BentoBoxEvent
 	 * Reset Reason
 	 */
 	private String reason;
+
+	/**
+	 * Event listener list for current
+	 */
+	private static final HandlerList handlers = new HandlerList();
 }
