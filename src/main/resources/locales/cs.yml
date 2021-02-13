@@ -402,6 +402,7 @@ challenges:
       completed: "&BDokončeno"
       warning-items-take: "&cVšechny požadované předměty budou po dokončení výzvy
         odebrány!"
+      rewards-title: "&a Odměny:"
     level-description:
       experience-reward: "&6Zkuš. odměna: [value]"
       money-reward: "&6Peněžní odměna: $[value]"
@@ -515,6 +516,9 @@ challenges:
     cannot-remove-items: "&cNěkteré předměty nelze odebrat z tvého inventáře!"
     not-valid-integer: '&cUvedené celé číslo "[value]" je neplatné!|Hodnota by měla
       být mezi [min] a [max].'
+    invalid-level: "&c Level [level] obsahuje neplatná data. Nebude načten z databáze!"
+    invalid-challenge: "&c Challenge [challenge] obsahuje neplatná data. Nebude načtena
+      z databáze!"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
