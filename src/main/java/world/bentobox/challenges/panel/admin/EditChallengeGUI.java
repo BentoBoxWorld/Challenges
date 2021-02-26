@@ -17,6 +17,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
@@ -644,7 +645,7 @@ public class EditChallengeGUI extends CommonGUI
             for (Map.Entry<EntityType, Integer> entry : requirements.getRequiredEntities().entrySet())
             {
                 description.add(this.user.getTranslation("challenges.gui.descriptions.entity",
-                        "[entity]", Util.prettifyText(entry.getKey().name()),
+                        "[entity]", LangUtilsHook.getEntityName(entry.getKey(), user),
                         "[count]", Integer.toString(entry.getValue())));
             }
 
@@ -694,7 +695,7 @@ public class EditChallengeGUI extends CommonGUI
             for (Map.Entry<Material, Integer> entry : requirements.getRequiredBlocks().entrySet())
             {
                 description.add(this.user.getTranslation("challenges.gui.descriptions.block",
-                        "[block]", entry.getKey().name(),
+                        "[block]", LangUtilsHook.getMaterialName(entry.getKey(), user),
                         "[count]", Integer.toString(entry.getValue())));
             }
 

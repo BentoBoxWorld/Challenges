@@ -29,6 +29,7 @@ import org.bukkit.util.BoundingBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
@@ -758,7 +759,7 @@ public class TryToComplete
                 {
                     this.user.sendMessage("challenges.errors.not-enough-items",
                             "[items]",
-                            Util.prettifyText(required.getType().toString()));
+                            LangUtilsHook.getItemName(required, user));
                     return EMPTY_RESULT;
                 }
 
@@ -1016,7 +1017,7 @@ public class TryToComplete
 
         blocks.forEach((k, v) -> user.sendMessage("challenges.errors.you-still-need",
                 "[amount]", String.valueOf(v),
-                "[item]", Util.prettifyText(k.toString())));
+                "[item]", LangUtilsHook.getMaterialName(k, user)));
 
 
         // kick garbage collector
@@ -1097,7 +1098,7 @@ public class TryToComplete
 
         minimalRequirements.forEach((reqEnt, amount) -> this.user.sendMessage("challenges.errors.you-still-need",
                 "[amount]", String.valueOf(amount),
-                "[item]", Util.prettifyText(reqEnt.toString())));
+                "[item]", LangUtilsHook.getEntityName(reqEnt, user)));
 
         // Kick garbage collector
         entitiesFound.clear();

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -36,6 +38,7 @@ import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
@@ -746,7 +749,7 @@ public abstract class CommonGUI
                 for (Map.Entry<Material, Integer> entry : challenge.getRequiredBlocks().entrySet())
                 {
                     result.add(this.user.getTranslation("challenges.gui.descriptions.block",
-                            "[block]", Util.prettifyText(entry.getKey().name()),
+                            "[block]", LangUtilsHook.getMaterialName(entry.getKey(), user),
                             "[count]", Integer.toString(entry.getValue())));
                 }
             }
@@ -759,7 +762,7 @@ public abstract class CommonGUI
                 for (Map.Entry<EntityType, Integer> entry : challenge.getRequiredEntities().entrySet())
                 {
                     result.add(this.user.getTranslation("challenges.gui.descriptions.entity",
-                            "[entity]", Util.prettifyText(entry.getKey().name()),
+                            "[entity]", LangUtilsHook.getEntityName(entry.getKey(), user),
                             "[count]", Integer.toString(entry.getValue())));
                 }
             }
@@ -913,7 +916,7 @@ public abstract class CommonGUI
         List<String> result = new ArrayList<>();
 
         result.add(this.user.getTranslation("challenges.gui.item-description.item",
-                "[item]", Util.prettifyText(itemStack.getType().name()),
+                "[item]", LangUtilsHook.getItemName(itemStack, user),
                 "[count]", Integer.toString(itemStack.getAmount())));
 
         if (itemStack.hasItemMeta())
@@ -942,7 +945,8 @@ public abstract class CommonGUI
             {
                 ((EnchantmentStorageMeta) meta).getStoredEnchants().forEach(((enchantment, level) -> {
                     result.add(this.user.getTranslation("challenges.gui.item-description.item-enchant",
-                            "[enchant]", enchantment.getKey().getKey(), "[level]", Integer.toString(level)));
+                            "[enchant]", LangUtilsHook.getEnchantName(enchantment, user),
+                            "[level]", LangUtilsHook.getEnchantLevelName(level, user)));
                 }));
             }
             else if (meta instanceof KnowledgeBookMeta)
@@ -952,8 +956,10 @@ public abstract class CommonGUI
             }
             else if (meta instanceof LeatherArmorMeta)
             {
-                result.add(this.user.getTranslation("challenges.gui.item-description.armor-color",
-                        "[color]", ((LeatherArmorMeta) meta).getColor().toString()));
+                // The color value should be displayed like "#2B50E1"
+                Color color = ((LeatherArmorMeta) meta).getColor();
+                String cols = String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+                result.add(this.user.getTranslation("challenges.gui.item-description.armor-color", "[color]", cols));
             }
             else if (meta instanceof PotionMeta)
             {
@@ -962,33 +968,37 @@ public abstract class CommonGUI
                 if (data.isExtended() && data.isUpgraded())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended-upgraded",
-                            "[name]", Util.prettifyText(data.getType().name())));
+                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
                 }
                 else if (data.isUpgraded())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-upgraded",
-                            "[name]", Util.prettifyText(data.getType().name())));
+                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
                 }
                 else if (data.isExtended())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended",
-                            "[name]", Util.prettifyText(data.getType().name())));
+                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
                 }
                 else
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.potion-type",
-                            "[name]", Util.prettifyText(data.getType().name())));
+                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
                 }
 
                 if (((PotionMeta) meta).hasCustomEffects())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.custom-effects"));
 
-                    ((PotionMeta) meta).getCustomEffects().forEach(potionEffect ->
-                    result.add(this.user.getTranslation("challenges.gui.item-description.potion-effect",
-                            "[effect]", Util.prettifyText(potionEffect.getType().getName()),
-                            "[duration]", Integer.toString(potionEffect.getDuration()),
-                            "[amplifier]", Integer.toString(potionEffect.getAmplifier()))));
+                    ((PotionMeta) meta).getCustomEffects().forEach(potionEffect -> {
+                        int duration = potionEffect.getDuration();
+                        int m = duration / 20 / 60;
+                        int s = duration / 20 % 60;
+                        result.add(this.user.getTranslation("challenges.gui.item-description.potion-effect",
+                                "[effect]", LangUtilsHook.getPotionEffectName(potionEffect.getType(), user),
+                                "[duration]", String.format("%d:%02d", m, s),
+                                "[amplifier]", LangUtilsHook.getEffectAmplifierName(potionEffect.getAmplifier(), user)));
+                    });
                 }
             }
             else if (meta instanceof SkullMeta)
@@ -1002,16 +1012,17 @@ public abstract class CommonGUI
             else if (meta instanceof SpawnEggMeta)
             {
                 result.add(this.user.getTranslation("challenges.gui.item-description.egg-meta",
-                        "[mob]", Util.prettifyText(((SpawnEggMeta) meta).getSpawnedType().name())));
+                        "[mob]", LangUtilsHook.getEntityName(((SpawnEggMeta) meta).getSpawnedType(), user)));
             }
             else if (meta instanceof TropicalFishBucketMeta)
             {
-                if (((TropicalFishBucketMeta) meta).hasVariant())
+                TropicalFishBucketMeta fishMeta = (TropicalFishBucketMeta) meta;
+                if ((fishMeta).hasVariant())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
-                        "[pattern]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPattern().name()),
-                        "[pattern-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getPatternColor().name()),
-                        "[body-color]", Util.prettifyText(((TropicalFishBucketMeta) meta).getBodyColor().name())));
+                        "[pattern]", LangUtilsHook.getTropicalFishTypeName(fishMeta.getPattern(), user),
+                        "[pattern-color]", LangUtilsHook.getDyeColorName(fishMeta.getPatternColor(), user),
+                        "[body-color]", LangUtilsHook.getDyeColorName(fishMeta.getBodyColor(), user)));
                 }
             }
 
@@ -1020,9 +1031,9 @@ public abstract class CommonGUI
                 itemStack.getEnchantments().forEach((enchantment, level) -> {
                     result.add(this.user.getTranslation("challenges.gui.item-description.item-enchant",
                             "[enchant]",
-                            enchantment.getKey().getKey(),
+                            LangUtilsHook.getEnchantName(enchantment, user),
                             "[level]",
-                            Integer.toString(level)));
+                            LangUtilsHook.getEnchantLevelName(level, user)));
                 });
             }
         }
