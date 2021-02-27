@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.ChatColor;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
@@ -17,6 +18,7 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TropicalFish;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -29,6 +31,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -964,26 +967,29 @@ public abstract class CommonGUI
             else if (meta instanceof PotionMeta)
             {
                 PotionData data = ((PotionMeta) meta).getBasePotionData();
+                PotionEffectType effect = data.getType().getEffectType();
 
-                if (data.isExtended() && data.isUpgraded())
-                {
-                    result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended-upgraded",
-                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
-                }
-                else if (data.isUpgraded())
-                {
-                    result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-upgraded",
-                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
-                }
-                else if (data.isExtended())
-                {
-                    result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended",
-                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
-                }
-                else
-                {
-                    result.add(this.user.getTranslation("challenges.gui.item-description.potion-type",
-                            "[name]", LangUtilsHook.getPotionTypeName(data.getType(), user)));
+                if (effect != null) {
+                    if (data.isExtended() && data.isUpgraded())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended-upgraded",
+                                "[name]", LangUtilsHook.getPotionEffectName(effect, user)));
+                    }
+                    else if (data.isUpgraded())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-upgraded",
+                                "[name]", LangUtilsHook.getPotionEffectName(effect, user)));
+                    }
+                    else if (data.isExtended())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.item-description.potion-type-extended",
+                                "[name]", LangUtilsHook.getPotionEffectName(effect, user)));
+                    }
+                    else
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.item-description.potion-type",
+                                "[name]", LangUtilsHook.getPotionEffectName(effect, user)));
+                    }
                 }
 
                 if (((PotionMeta) meta).hasCustomEffects())
@@ -1017,6 +1023,14 @@ public abstract class CommonGUI
             else if (meta instanceof TropicalFishBucketMeta)
             {
                 TropicalFishBucketMeta fishMeta = (TropicalFishBucketMeta) meta;
+
+                // First try to use LangUtilsHook to get the predefined tropical
+                // fish names so that the description looks like vanilla names.
+                String predefined = LangUtilsHook.getPredefinedTropicalFishName(fishMeta, user);
+                if (predefined != null) {
+                    result.add(ChatColor.translateAlternateColorCodes('&', "&7&o  " + predefined));
+                }
+                else
                 if ((fishMeta).hasVariant())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
