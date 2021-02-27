@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
@@ -1009,10 +1006,14 @@ public abstract class CommonGUI
             }
             else if (meta instanceof SkullMeta)
             {
-                if (((SkullMeta) meta).getOwningPlayer() != null)
-                {
-                    result.add(this.user.getTranslation("challenges.gui.item-description.skull-owner",
-                            "[owner]", ((SkullMeta) meta).getOwningPlayer().getName()));
+                OfflinePlayer ofp = ((SkullMeta) meta).getOwningPlayer();
+                if (ofp != null) {
+                    String ownerName = ofp.getName();
+                    if (ownerName != null && !ownerName.isEmpty()) {
+                        result.add(this.user.getTranslation(
+                                "challenges.gui.item-description.skull-owner",
+                                "[owner]", ownerName));
+                    }
                 }
             }
             else if (meta instanceof SpawnEggMeta)
