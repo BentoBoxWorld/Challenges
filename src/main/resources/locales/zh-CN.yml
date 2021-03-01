@@ -79,8 +79,8 @@ challenges:
         lore-edit: '&3&l编辑描述'
 
         type-select: "&3&l选择挑战类型"
-      challenges: '&6&l挑战'
-      game-modes: '&6&l选择游戏模式'
+      challenges: '&3&l挑战'
+      game-modes: '&3&l选择游戏模式'
 
       multiple-complete: '&6&l多少次？'
     buttons:
@@ -101,26 +101,26 @@ challenges:
         challenges: '&f&l挑战'
         deployment: '&f&l部署'
         icon: '&f&l图标'
-        locked-icon: '&f&l锁定图标'
+        locked-icon: '&f&l未解锁图标'
         description: '&f&l描述'
         order: '&f&l顺序'
         environment: '&f&l环境'
-        remove-on-complete: '&c&l完成后删除'
+        remove-on-complete: '&7&l完成后删除'
         name: '&f&l友好名称'
         required-entities: '&f&l需要的实体'
         remove-entities: '&c&l消灭实体'
         required-blocks: '&f&l需要的方块'
         remove-blocks: '&c&l拿掉方块'
         search-radius: '&f&l探测范围'
-        required-permissions: '&f&l必有的权限'
+        required-permissions: '&f&l权限'
         required-items: '&f&l需要的物品'
         remove-items: '&c&l删除物品'
-        required-experience: '&f&l需要的经验'
+        required-experience: '&f&l经验值'
         remove-experience: '&f&l扣除经验'
-        required-level: '&f&l需要的岛屿等级'
-        required-money: '&f&l需要的游戏币'
+        required-level: '&f&l岛屿等级'
+        required-money: '&f&l游戏币'
         remove-money: '&f&l扣除游戏币'
-        reward-text: '&f&l奖励消息'
+        reward-text: '&f&l反馈消息'
         reward-items: '&f&l奖励物品'
         reward-experience: '&f&l奖励经验'
         reward-money: '&f&l奖励游戏币'
@@ -135,7 +135,7 @@ challenges:
         waiver-amount: '&f&l豁免挑战数'
         add-challenge: '&f&l添加挑战'
         remove-challenge: '&f&l删除挑战'
-        reset-on-new: '&f&l创建新岛时重置'
+        reset-on-new: '&f&l重玩时重置'
         broadcast: '&f&l完成后广播消息'
         remove-completed: '&f&l完成后删除'
         glow: '&f&l完成后发光'
@@ -151,7 +151,7 @@ challenges:
         save: '&f&l保存'
         cancel: '&f&l取消'
         input: '&f&l键盘输入'
-        value: '&f&l值'
+        value: '&f&l结果'
         set: '&f&l='
         increase: '&f&l+'
         reduce: '&f&l-'
@@ -159,8 +159,8 @@ challenges:
         clear: '&f&l清除'
         remove-empty: '&f&l删除空行'
         number: '[number]'
-        level-lore: '&f&l等级描述'
-        challenge-lore: '&f&l挑战描述'
+        level-lore: '&f&l等级描述元素'
+        challenge-lore: '&f&l挑战描述元素'
         gui-view-mode: '&f&l显示所有游戏模式'
         gui-mode: '&f&l单一挑战式面板'
         history-store: '&f&l挑战历史'
@@ -198,7 +198,7 @@ challenges:
         set: '&f&l设置模式。|&7单击数字将值直接设置为所选数值。'
         increase: '&f&l累加模式。|&7单击数字将当前值加上所选数值。'
         reduce: '&f&l递减模式。|&7点击数字将当前值减去所选数值。'
-        multiply: '&f&l累乘模式。|&7&l单击数字将当前值乘以所选数字。'
+        multiply: '&f&l累乘模式。|&7&l单击数字将当前值乘以所选数值。'
         import: |-
           &7导入 ASkyblock(旧版空岛插件) 的挑战。
           &f右键点击 启用/禁用 覆盖模式。
@@ -221,132 +221,141 @@ challenges:
         delete-level: '&7删除某个挑战等级。'
         settings: '&7修改挑战组件配置。'
         properties: '&7修改该挑战的常规属性。'
-        requirements: '&7设定完成该挑战的必要条件。'
-        rewards: '&7设定完成该挑战后获得的奖励。'
+        requirements: '&7设置要完成该挑战的必要条件。'
+        rewards: '&7设置完成该挑战后获得的奖励。'
         challenges: '&7管理该等级的所有挑战(增加/删除)。'
         deployment: '&7允许玩家查看和完成该挑战。'
-        icon-challenge: '&c该挑战将显示在玩家挑战面板中的图标。'
-        icon-level: '&7该挑战等级将显示在玩家挑战面板中的图标。'
-        locked-icon: '&7该挑战等级未解锁时在玩家面板中显示的图标。'
-        description: '&7编辑描述。'
+        icon-challenge: '&7设置该挑战将显示在|&7挑战面板中的图标。'
+        icon-level: '&7设置该挑战等级将显示在|&7挑战面板中的图标。'
+        locked-icon: '&7设置该挑战等级未解锁时|&7在面板中显示的图标。'
+        description: '&7修改挑战描述文本。'
         order: '&7修改顺序号。|&7顺序号越大，显示在面板中的位置越靠后。'
-        environment: '&7更改要完成该挑战应所处的环境。'
-        remove-on-complete: '&7玩家完成挑战后，挑战面板中将不再显示该挑战。'
-        name-challenge: '&7更改该挑战在面板中的显示名称。'
-        name-level: '&7更改该挑战等级在面板中的显示名称。'
+        environment: '&7设置要完成该挑战应所处的环境。'
+        remove-on-complete: '&7设置玩家完成挑战后，挑战面板|&7中是否不再显示该挑战。'
+        name-challenge: '&7设置该挑战在面板中的显示名称。'
+        name-level: '&7设置该挑战等级在面板中的显示名称。'
         required-entities: |-
           &7添加/修改/删除
-          &7完成该挑战应在指定范围内探测到的实体。
+          &7要完成该挑战应在指定范围内探测到的实体。
           &6所需实体：
-        remove-entities: '&7当玩家完成挑战后，删除(杀死)所需实体。'
+        remove-entities: '&7设置当玩家完成挑战后，是否删除(杀死)所需实体。'
         required-blocks: |-
           &7添加/修改/删除
-          &7完成该挑战应在指定范围内探测到的方块。
+          &7要完成该挑战应在指定范围内探测到的方块。
           &6所需方块：
-        remove-blocks: '&7当玩家完成挑战后，删除(替换成空气)所需方块。'
+        remove-blocks: '&7设置当玩家完成挑战后，是否删除(替换成空气)所需方块。'
         search-radius: "&7玩家所在位置周围的半径，|&7将在其范围内探测所需的实体和方块。"
         required-permissions: |-
-          &7设定玩家完成任务必须具的权限。
+          &7设置玩家要完成挑战必须具有的权限。
           &6所需权限：
         required-items: |-
-          &7设定玩家完成任务背包中必须有的物品。
+          &7设置玩家要完成挑战背包中必须有的物品。
           &6所需物品：
-        remove-items: '&7当玩家完成挑战后，将从背包中删除所需物品。'
-        required-experience: '&7设定用户完成挑战所需要的经验值。'
-        remove-experience: '&7当用户完成挑战后，所需经验值将被扣减。'
+        remove-items: '&7设置当玩家完成挑战后，是否|&7从背包中删除所需物品。'
+        required-experience: '&7设置玩家要完成挑战所需要的经验值。'
+        remove-experience: '&7设置玩家完成挑战后，是否扣除所需经验值。'
         required-level: |-
-          &7设定完成此挑战所需的岛屿等级。
-          &c&l- &c需要安装 Level 组件。'
+          &7设置要完成此挑战所需的岛屿等级。
+          &c需要安装 Level 组件。
         required-money: |-
-          Define the required money in player"s account.
-          &c Requires Vault and an Economy plugin.'
+          &7设置要完成此挑战所需的游戏币数量。
+          &c需要安装 Vault 和兼容的经济插件。
         remove-money: |-
-          Remove required money from player"s account.
-          &c Requires Vault and an Economy plugin.'
-        reward-text: 'Change message that will be sent to player after challenges completion.'
+          &7完成挑战后，是否扣除玩家所需数量的游戏币。
+          &c需要安装 Vault 和兼容的经济插件。
+        reward-text: '&7设置玩家完成挑战后发送给玩家的聊天消息。'
         reward-items: |-
-          Change first time completion reward items.
-          Items:
-        reward-experience: 'Change first time completion reward experience.'
+          &7设置首次完成挑战获得的物品奖励。
+          &a奖励物品：
+        reward-experience: '&7设置首次完成挑战后获得的经验值奖励。'
         reward-money: |-
-          Change first time completion reward money.
-          &c Requires Vault and Economy plugin.
+          &7设置首次完成挑战获得的游戏币奖励。
+          &c需要安装 Vault 和兼容的经济插件。
         reward-commands: |-
-          Define reward commands that will be called after first time completion.
-          ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
-          ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
-          Commands:
-        repeatable: 'Define if challenge is repeatable or not.'
-        repeat-count: 'Define maximal repeat count. If the value is set 0, there are no limitations.'
-        repeat-reward-text: 'Change message that will be sent to the player after challenge repeated completion.'
+          &7设置首次完成挑战后将执行的命令。
+          &3无需在命令行首加斜杠 “/”。
+          &3命令行首加 “[SELF]” 将由玩家执行。
+          &3例如 “&f[SELF] heal&3”。
+          &3文字 “[player]” 将替换为玩家名称。
+          &3例如 “&fkill [player]&3”。
+          &a奖励命令：
+        repeatable: '&7设置该挑战是否可重复完成。'
+        repeat-count: '&7设置最大完成次数，设置为 0 表示不限次数。'
+        repeat-reward-text: '&7设置重复完成挑战后发送给玩家的聊天消息。'
         repeat-reward-items: |-
-          Change repeated completion reward items.
-          Items:
-        repeat-reward-experience: 'Change repeated completion reward experience.'
+          &7设置重复完成挑战获得的物品奖励。
+          &a奖励物品：
+        repeat-reward-experience: '&7设置重复完成挑战后获得的经验值奖励。'
         repeat-reward-money: |-
-          Change repeated completion reward money.
-          &c Requires Vault and an Economy plugin.
+          &7设置重复完成挑战获得的游戏币奖励。
+          &c需要安装 Vault 和兼容的经济插件。
         repeat-reward-commands: |-
-          Define reward commands that will be executed after challenge repeated completion.
-          ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
-          ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
-          Commands:
-        waiver-amount: 'Set the amount of challenges a player can leave out to unlock the next level.'
-        reward-text-level: 'Change the message that will be sent to the player after completing all challenges in a level.'
-        add-challenge: 'Add an existing challenge to the current level.'
-        remove-challenge: 'Remove a challenge from the current level.'
-        reset-on-new: 'Enables/Disables resets of all challenges for a player if they restart, leave or get kicked from an island.'
-        broadcast: 'Enables/Disables the broadcast about the first time challenge completion to all online players.'
-        remove-completed: 'Enables/Disables hiding challenges that are completed and cannot be repeated.'
-        glow: 'Enables/Disables the glowing effect for completed challenges.'
-        free-at-top: 'Change free challenges location. True means that challenges will be first, otherwise they will be last.'
-        line-length: 'Modify the maximum line length in lore box. Will not affect stored objects.'
-        toggle-user-list: 'Switch to different player list.'
-        mode-online: 'Players which are currently online.'
-        mode-in-world: 'Players in a GameMode world.'
-        mode-with-island: 'Players that have an island in a GameMode world.'
-        selected: 'Selected'
+          &7设置首次完成挑战后将执行的命令。
+          &3无需在命令行首加斜杠 “/”。
+          &3命令行首加 “[SELF]” 将由玩家执行。
+          &3例如 “&f[SELF] heal&3”。
+          &3文字 “[player]” 将替换为玩家名称。
+          &3例如 “&fkill [player]&3”。
+          &a奖励命令：
+        waiver-amount: '&7设置玩家解锁下一级需要|&7完成当前等级的数量。'
+        reward-text-level: '&7完成当前等级所有挑战后发送给玩家的聊天消息。'
+        add-challenge: '&7将现有挑战添加到当前挑战等级。'
+        remove-challenge: '&7从当前挑战等级中移除挑战。'
+        reset-on-new: '&7当玩家重置、离开或被踢出岛屿时|&7是否重置他的所有挑战。'
+        broadcast: '&7设置玩家首次完成挑战后，是否向所有在线玩家发送广播。'
+        remove-completed: '&7设置完成挑战后是否从面板中隐藏且无法重复。'
+        glow: '&7设置'
+        free-at-top: '&7设置是否将独立挑战放在面板前排。'
+        line-length: '&7设置面板图标描述行显示的最大长度。|&7这个设定只影响显示效果，不会修改存储数据。'
+        toggle-user-list: '&7按所选模式过滤玩家。'
+        mode-online: '当前所有在线玩家。'
+        mode-in-world: '当前游戏模式中的玩家。'
+        mode-with-island: '在当前游戏模式中有归属岛屿的玩家。'
+        selected: '&5已选定'
         remove-selected: |-
-          Remove selected elements.
-          Select elements with the right mouse button.
-        show-eggs: 'Switch entity view between Egg mode or Head mode.'
-        level-lore: 'Modify which level description elements should be visible.'
-        challenge-lore: 'Modify which challenge description elements should be visible.'
-        gui-view-mode: "Set if /challenges GUI should show GameModes or challenges in player's world."
-        history-store: 'Enable/disable challenges history storage.'
+          &7删除所有选定的内容。
+          &7右键单击来选定内容。
+        show-eggs: '&7切换使用&3生成蛋&7或&3带纹理的玩家头&7来显示实体。'
+        level-lore: '&7设置挑战等级描述中哪些元素是可见的。'
+        challenge-lore: '&7设置挑战描述中哪些元素是可见的。'
+        gui-view-mode: "&7设置玩家通过命令打开的面板是适用于|&7当前世界还是适用于整个游戏模式的。"
+        history-store: '&7设置是存储挑战历史记录。'
         history-lifespan: |-
-          Modify how many days history data should be stored.
-          0 means forever.
+          &7设置历史记录数据可以保存的天数。
+          &7设置为 0 将永久保存.
         island-store: |-
-          Enable/disable challenges data storing per island. This means that challenges will be the same for the whole team if this is enabled.
-          &c Will NOT convert data on click. PROGRESS WILL BE LOST.'
+          &7设置是否按岛屿为单位来存储数据。
+          &7如果启用此选项，则整个岛屿所有
+          &7成员的挑战将是相同的。
+          &c点击切换时不会立即转换数据。
         default-locked-icon: |-
-          Change default locked level icon.
-          This option can be overwritten by each level.'
+          &7设置未解锁的挑战等级默认图标.
+          &7为挑战等级单独设定未解锁图标可以覆盖此设置。
         gui-mode: |-
-          Enable/disable single challenges GUI.
-          &2 Requires a server restart.'
-        visibility-mode: 'Show/hide undeployed challenges.'
+          &7设置是否可以用单独的命令打开挑战面板。
+          &7例如使用 &f/challenges &7打开面板。
+          &c&l需要重启服务器。
+        visibility-mode: '&7选择未部署的挑战可见模式。'
 
-        click-to-edit: '&4 Click here to edit input.'
-        edit-text-line: '&6 Edit text message!'
-        add-text-line: '&6 Add new text message!'
-        input-mode: 'Switch between chat and anvil input modes.'
-        title-enable: 'Enable/disable the title message that will be shown to player"s when they complete a challenge.'
-        title-showtime: 'Modify how long title messages will be visible to the player.'
-        default-import: 'Import default challenges.'
-        default-export: 'Export existing challenges to defaults.json file.'
-        complete-wipe: 'Completely clear all challenges addon databases. Includes player data!'
+        click-to-edit: '&4点击此处编辑输入。'
+        edit-text-line: '&6编辑文本消息！'
+        add-text-line: '&6增加新的文本消息！'
+        input-mode: '&7选择是在聊天中还是铁砧上输入文本。'
+        title-enable: '&7设置是否在完成挑战后向玩家发送标题消息。'
+        title-showtime: '&7设置标题消息显示时长。'
+        default-import: '&7导入默认挑战。'
+        default-export: '&7将现有挑战导出到 defaults.json 文件。'
+        complete-wipe: '&c彻底清空所有挑战组件数据库，|&c包括玩家数据！'
 
-        challenge-wipe: 'Completely clear challenges and their level databases!'
-        players-wipe: 'Completely clear player database!'
+        challenge-wipe: '&c彻底清空挑战和挑战等级数据库！|&c清空后玩家不能再进行任何挑战。'
+        players-wipe: '&c彻底清空玩家数据库！|&c清空后所有玩家的挑战进度将丢失。'
 
-        library: 'Open GUI that shows all available public Challenges Libraries.'
+        library: '&c从网络上下载共享挑战库。'
 
-        library-author: 'by &e [author]'
-        library-version: '&9 Made in Challenges [version]'
-        library-lang: '&a Language: [lang]'
-        library-gamemode: '&a Primary for [gamemode]'
+        library-author: '&7由 &e[author] &7创作。'
+        library-version: '&9兼容 Challenges [version]'
+        library-lang: '&7语言： [lang]'
+        library-gamemode: '&a适用于 [gamemode]'
 
         download: |-
           Manually update available challenges libraries.
@@ -429,9 +438,9 @@ challenges:
             Reward commands.
             List of commands that will be rewarded defined in challengeLevel.rewardCommands
       current-value: |-
-        &6 Current value: [value].
-      enabled: 'Active'
-      disabled: 'Disabled'
+        &6当前值： &r [value]
+      enabled: '&a已开启'
+      disabled: '&c已关闭'
       type:
         island: '&a require blocks or mobs around player'
         inventory: '&a require items in the player"s inventory'
@@ -550,8 +559,8 @@ challenges:
 
       start-downloading: '&5 Starting to download and import Challenges Library.'
     you-completed-challenge: '&2 You completed the [value] &r &2 challenge!'
-    you-repeated-challenge: '&2 You repeated the [value] &r &2 challenge!'
-    you-repeated-challenge-multiple: '&2 You repeated the [value] &r &2 challenge [count] times!'
+    you-repeated-challenge: '&2 你再次完成了 [value] &r &2 challenge!'
+    you-repeated-challenge-multiple: '&2 You 再次完成了 the [value] &r &2 challenge [count] times!'
     you-completed-level: '&2 You completed the [value] &r &2 level!'
     name-has-completed-challenge: '&5 [name] has completed the [value] &r &5 challenge!'
     name-has-completed-level: '&5 [name] has completed the [value] &r &5 level!'
