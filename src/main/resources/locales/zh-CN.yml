@@ -2,7 +2,10 @@
 # This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
 # the one at http://yaml-online-parser.appspot.com                                        #
 ###########################################################################################
-
+# 备注
+# 更改挑战所需环境界面 三个图标未被应用汉化
+# 插件管理 完成后广播消息没有显示描述
+#
 meta:
   authors:
     - ApacheZy
@@ -74,8 +77,8 @@ challenges:
 
         library-title: '&3&l网络库'
 
-        lore-add: '&3&l增加描述行'
-        lore-remove: '&3&l删除描述行'
+        lore-add: '&3&l增加描述'
+        lore-remove: '&3&l删除描述'
         lore-edit: '&3&l编辑描述'
 
         type-select: "&3&l选择挑战类型"
@@ -162,7 +165,7 @@ challenges:
         level-lore: '&f&l等级描述元素'
         challenge-lore: '&f&l挑战描述元素'
         gui-view-mode: '&f&l显示所有游戏模式'
-        gui-mode: '&f&l单一挑战式面板'
+        gui-mode: '&f&l独立命令'
         history-store: '&f&l挑战历史'
         history-lifespan: '&f&l保存期限'
         island-store: '&6&l按岛屿存储'
@@ -210,7 +213,6 @@ challenges:
         reset: |-
           &7重置玩家已完成的挑战。
           &f右键点击 启用/禁用 全部重置功能。
-         # 待确认 似乎需要开启才能显示。
         create-challenge: |-
           &7创建一个新的挑战。
           &7默认情况下新挑战将出现在独立挑战列表中。
@@ -283,7 +285,7 @@ challenges:
         repeat-count: '&7设置最大完成次数，设置为 0 表示不限次数。'
         repeat-reward-text: '&7设置重复完成挑战后发送给玩家的聊天消息。'
         repeat-reward-items: |-
-          &7设置重复完成挑战获得的物品奖励。
+          &7设置重复完成挑战获得的奖励物品。
           &a奖励物品：
         repeat-reward-experience: '&7设置重复完成挑战后获得的经验值奖励。'
         repeat-reward-money: |-
@@ -298,12 +300,12 @@ challenges:
           &3例如 “&fkill [player]&3”。
           &a奖励命令：
         waiver-amount: '&7设置玩家解锁下一级需要|&7完成当前等级的数量。'
-        reward-text-level: '&7完成当前等级所有挑战后发送给玩家的聊天消息。'
+        reward-text-level: '&7完成当前等级所有挑战后|&7发送给玩家的聊天消息。'
         add-challenge: '&7将现有挑战添加到当前挑战等级。'
         remove-challenge: '&7从当前挑战等级中移除挑战。'
         reset-on-new: '&7当玩家重置、离开或被踢出岛屿时|&7是否重置他的所有挑战。'
-        broadcast: '&7设置玩家首次完成挑战后，是否向所有在线玩家发送广播。'
-        remove-completed: '&7设置完成挑战后是否从面板中隐藏且无法重复。'
+        broadcast: '&7设置玩家首次完成挑战后是否|&7向所有在线玩家发送广播。'
+        remove-completed: '&7设置完成挑战后是否从面板|&7中隐藏且无法重复。'
         glow: '&7设置'
         free-at-top: '&7设置是否将独立挑战放在面板前排。'
         line-length: '&7设置面板图标描述行显示的最大长度。|&7这个设定只影响显示效果，不会修改存储数据。'
@@ -318,7 +320,7 @@ challenges:
         show-eggs: '&7切换使用&3生成蛋&7或&3带纹理的玩家头&7来显示实体。'
         level-lore: '&7设置挑战等级描述中哪些元素是可见的。'
         challenge-lore: '&7设置挑战描述中哪些元素是可见的。'
-        gui-view-mode: "&7设置玩家通过命令打开的面板是适用于|&7当前世界还是适用于整个游戏模式的。"
+        gui-view-mode: "&7设置玩家通过命令打开的面板是适用于|&7当前世界还是适用于整个游戏模式的。" # 待确认
         history-store: '&7设置是存储挑战历史记录。'
         history-lifespan: |-
           &7设置历史记录数据可以保存的天数。
@@ -332,10 +334,10 @@ challenges:
           &7设置未解锁的挑战等级默认图标.
           &7为挑战等级单独设定未解锁图标可以覆盖此设置。
         gui-mode: |-
-          &7设置是否可以用单独的命令打开挑战面板。
-          &7例如使用 &f/challenges &7打开面板。
-          &c&l需要重启服务器。
-        visibility-mode: '&7选择未部署的挑战可见模式。'
+          &7设置是否可以用单独的命令打开面板。
+          &7例如使用 &f/c &7打开面板。
+          &c&l更改设置后重启服务器才能生效。
+        visibility-mode: '&7选择未部署的挑战可见模式。| '
 
         click-to-edit: '&4点击此处编辑输入。'
         edit-text-line: '&6编辑文本消息！'
@@ -358,9 +360,9 @@ challenges:
         library-gamemode: '&a适用于 [gamemode]'
 
         download: |-
-          Manually update available challenges libraries.
-          Right click to enable cache clearing.'
-        download-disabled: 'GitHub data downloader is disabled in BentoBox. Without it, you cannot use Libraries!'
+          &7从共享网络库上下载可用的挑战。
+          &7右键点击 开启/关闭 缓存清理。
+        download-disabled: '&cGitHub 下载器已在 BentoBox 中禁用。|&c没有它，您将无法使用共享库!'
 
         lore:
           level: |-
@@ -442,88 +444,89 @@ challenges:
       enabled: '&a已开启'
       disabled: '&c已关闭'
       type:
-        island: '&a require blocks or mobs around player'
-        inventory: '&a require items in the player"s inventory'
-        other: '&a require things from other plugins/addons'
-      the-end: '- The End'
-      nether: '- Nether'
-      normal: '- Overworld'
-      entity: '- [entity] : [count]'
-      block: '- [block] : [count]'
-      permission: '- [permission]'
-      item: '- [count] x [item]'
-      item-meta: '  ([meta])'
-      item-enchant: '   - [enchant] [level]'
+        island: '&a挑战内容为建造和驯养类。|&7要完成该类挑战，玩家周围|&7必须有指定数量的方块或实体。'
+        inventory: '&a挑战内容为物品收集。|&7要完成该类挑战，玩家背包中|&7必须有指定数量的物品。'
+        other: '&a挑战内容为数据条件类。|&7要完成该类挑战，玩家必须有设定的|&7游戏币/经验值/岛屿等级/权限。'
+      the-end: '- 末地'
+      nether: '- 下界'
+      normal: '- 主世界'
+      entity: '&7- [entity] : [count]' # 待确认 以下内容根据显示效果重新调整
+      block:  '&7- [block] : [count]'
+      item:   '&7- [count] x [item]'
+      item-meta: '&7  ([meta])'
+      item-enchant: '&7   - [enchant] [level]'
+      permission: '&7- [permission]'
       command: '- [command]'
-      level-unlocked: 'Click to see [level] challenges!'
+
+      level-unlocked: '&f点击查看 &r[level] &f的所有挑战！'
       level-locked: 'Complete [count] more [level] challenges to unlock this level!'
 
-      increase-by: "&a Increase completion count by [value]"
-      reduce-by: "&c Reduce completion count by [value]"
+      increase-by: "&a将完成计数增加 &f[value]"
+      reduce-by: "&c将完成计数减少 &f[value]"
 
       visibility:
-        visible: "All challenges are visible to everyone"
-        hidden: "Only Deployed challenges are visible."
-        toggleable: "Toggle if undeployed challenges should be displayed"
+        visible: "所有挑战对所有玩家都可见"
+        hidden: "仅显示已部署的挑战"
+        toggleable: "玩家可以自行从面板中切换显示模式|&r"
 
     challenge-description:
-      level: '&f Level: [level]'
-      completed: '&b Completed'
-      completed-times-of: 'Completed [donetimes] out of [maxtimes]'
-      maxed-reached: 'Completed [donetimes] out of [maxtimes]'
-      completed-times: 'Completed [donetimes]'
-      warning-items-take: '&c All required items are taken from your inventory when you complete this challenge!'
-      objects-close-by: '&c All required blocks and entities must be close to you on your island!'
-      warning-entities-kill: '&c All required entities will be killed when you complete this challenge!'
-      warning-blocks-remove: '&c All required blocks will be removed when you complete this challenge!'
-      not-repeatable: '&c This challenge is not repeatable!'
-      experience-reward: '&6 Exp reward: [value]'
-      money-reward: '&6 Money reward: $[value]'
-      required-experience: '&6 Required exp: [value]'
-      required-money: '&6 Required money: $[value]'
-      required-island-level: '&6 Required island level: [value]'
-      environment: 'Required Environments:'
-      rewards-title: '&a  Rewards:'
-      reward-items: '&6 Reward Items:'
-      reward-commands: '&6 Reward Commands:'
-      required-items: 'Required Items:'
-      required-entities: 'Required Entities:'
-      required-blocks: 'Required Blocks:'
+      level: '&f等级： [level]'
+      completed: '&b已完成'
+      completed-times-of: '&3可挑战 [maxtimes] 次， 完成了 [donetimes] 次。'
+      maxed-reached: '&b完成了 [donetimes] 次， 可挑战 [maxtimes] 次。'
+      completed-times: '&b完成了 [donetimes] 次。'
+      warning-items-take: '&c完成挑战后，所有必需物品将被删除。'
+      objects-close-by: '&c必须在您的岛上，并且周围有所需方块和实体。'
+      warning-entities-kill: '&c完成挑战后，所有必需实体都会被消灭。'
+      warning-blocks-remove: '&c完成挑战后，所有必需方块都会被删除。'
+      not-repeatable: '&c这个挑战不可重复！'
+      experience-reward: '&2经验值奖励： - &f[value]'
+      money-reward: '&2游戏币奖励： - &f[value]'
+      required-experience: '&6需要经验值： - &f[value]'
+      required-money: '&6需要游戏币： - &f[value]'
+      required-island-level: '&6需要岛屿等级： - &f[value]'
+      environment: '&6需要环境：'
+      rewards-title: '&a&l奖励：'
+      reward-items: '&a物品奖励：'
+      reward-commands: '&2命令奖励：'
+      required-items: '&6需要物品：'
+      required-entities: '&6需要实体：'
+      required-blocks: '&6需要方块:'
     level-description:
-      completed: '&b Completed'
-      completed-challenges-of: '&3 You have completed [number] out of [max] challenges in this level.'
-      waver-amount: '&6 [value] challenges can be skipped to unlock next level.'
-      experience-reward: '&6 Exp reward: [value]'
-      money-reward: '&6 Money reward: $[value]'
-      reward-items: '&6 Reward Items:'
-      reward-commands: '&6 Reward Commands:'
+      completed: '&b已全部完成'
+      completed-challenges-of: '&3该等级共有 [max] 个挑战，你已完成了 [number] 个。'
+      waver-amount: '&6你可以跳过 [value] 个挑战来解锁下一级。'
+      experience-reward: '&a经验值奖励: - &f[value]'
+      money-reward: '&a游戏币奖励： - &f[value]'
+      reward-items: '&a物品奖励：'
+      reward-commands: '&a命令奖励：'
     item-description:
-      item: '- [count] x [item]'
-      item-meta: '  ([meta])'
-      item-enchant: '   - [enchant] [level]'
-      item-name: '  [name]'
-      item-lore: '  Item Lore:'
-      book-meta: '  [title] by [author]'
-      recipe-count: '  [count] recipes'
-      armor-color: '  [color]'
-      potion-type-extended-upgraded: '  Extended and upgraded [name]'
-      potion-type-upgraded: '  Upgraded [name]'
-      potion-type-extended: '  Extended [name]'
-      potion-type: '  [name]'
-      custom-effects: '  Custom Effects:'
-      potion-effect: '  [effect] x [amplifier] for [duration]t'
-      skull-owner: '  [owner]'
-      egg-meta: '  [mob]'
-      fish-meta: '  [body-color] with [pattern-color] [pattern]'
+      item:                          '&7- [count] x [item]'
+      item-meta:                     '&8  ([meta])'
+      item-enchant:                  '&8   - [enchant] [level]'
+      item-name:                     '&7   [name]'
+      item-lore:                     '&7   Item Lore:'
+      book-meta:                     '&7   《[title]》 - [author] 著'
+      recipe-count:                  '&7   [count] 个配方'
+      armor-color:                 '&8&o   [color]'
+      potion-type-extended-upgraded: '&7   [name] II （Extended）'
+      potion-type-upgraded:          '&7   [name] II'
+      potion-type-extended:          '&7   [name] Extended '
+      potion-type:                   '&7   [name]'
+      custom-effects:                '&7   自定义效果：'
+      potion-effect:                 '&8   [effect] x [amplifier] （[duration]）'
+      skull-owner:                   '&7   [owner]'
+      egg-meta:                      '&7   [mob]'
+      fish-meta:                     '&7   [body-color] with [pattern-color] [pattern]'
 
     questions:
       prefix: "&2 [SERVER]: "
 
       admin:
-        number: "Write a number in the chat and press enter."
-        unique-id: "Write the object's unique id and press enter."
-        challenge-name: "Write the display name in the chat for the current challenge."
-        level-name: "Write the display name in chat for the current level."
+        number: "请通过聊天栏输入数值："
+        unique-id: "请通过聊天栏输入对象的唯一ID："
+        challenge-name: "请通过聊天栏输入该挑战的名称："
+        level-name: "请通过聊天栏输入该挑战等级的名称："
 
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
