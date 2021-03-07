@@ -17,6 +17,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Players;
+import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
@@ -274,7 +275,17 @@ public class ListUsersGUI extends CommonGUI
         else if (mode.equals(ViewMode.WITH_ISLAND))
         {
             return this.addon.getPlayers().getPlayers().stream().
-                    filter(player -> this.addon.getIslands().getIsland(this.world, player.getPlayerUUID()) != null).
+                    filter(p -> {
+                        // When I reached this position during the test, the user
+                        // UUID string was empty. Although I don't know the specific
+                        // reason, it is wise to add judgment here.
+                        String uidStr = p.getUniqueId();
+                        if (uidStr == null) {
+                            return false;
+                        }
+                        IslandsManager im = ListUsersGUI.this.addon.getIslands();
+                        return im.getIsland(ListUsersGUI.this.world, p.getPlayerUUID()) != null;
+                    }).
                     map(Players::getPlayer).
                     collect(Collectors.toList());
         }
