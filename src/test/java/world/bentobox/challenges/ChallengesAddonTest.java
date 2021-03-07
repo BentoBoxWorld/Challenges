@@ -219,7 +219,7 @@ public class ChallengesAddonTest {
         new File("config.yml").delete();
         deleteAll(new File("addons"));
         deleteAll(new File("database"));
-
+        deleteAll(new File("database_backup"));
     }
 
     private void deleteAll(File file) throws IOException {

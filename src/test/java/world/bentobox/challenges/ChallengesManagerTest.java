@@ -196,10 +196,16 @@ public class ChallengesManagerTest {
      */
     @After
     public void tearDown() throws Exception {
-        // Clean up JSON database
-        // Clean up file system
-        if (database.exists()) {
-            Files.walk(database.toPath())
+        new File("addon.jar").delete();
+        new File("config.yml").delete();
+        deleteAll(new File("addons"));
+        deleteAll(new File("database"));
+        deleteAll(new File("database_backup"));
+    }
+
+    private void deleteAll(File file) throws IOException {
+        if (file.exists()) {
+            Files.walk(file.toPath())
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete);
