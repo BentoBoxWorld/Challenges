@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -17,6 +16,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
@@ -175,7 +175,7 @@ public class ManageEntitiesGUI extends CommonGUI
 	private PanelItem createEntityButton(EntityType entity)
 	{
 		return new PanelItemBuilder().
-			name(WordUtils.capitalize(entity.name().toLowerCase().replace("_", " "))).
+			name(LangUtilsHook.getEntityName(entity, user)).
 			description(this.selectedEntities.contains(entity) ?
 				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			icon(this.asEggs ?

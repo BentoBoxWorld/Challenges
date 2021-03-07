@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -437,11 +438,12 @@ public class EditChallengeGUI extends CommonGUI
             description.add(this.user.getTranslation("challenges.gui.descriptions.admin.environment"));
 
             description.add((this.challenge.getEnvironment().contains(World.Environment.NORMAL) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.normal"));
+                    // If color code is removed from here, users can use color code in language files.
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.normal")));
             description.add((this.challenge.getEnvironment().contains(World.Environment.NETHER) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.nether"));
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.nether")));
             description.add((this.challenge.getEnvironment().contains(World.Environment.THE_END) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.the-end"));
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.the-end")));
 
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {

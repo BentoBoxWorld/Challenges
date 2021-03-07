@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -16,6 +15,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.CommonGUI;
 import world.bentobox.challenges.panel.util.NumberGUI;
@@ -166,7 +166,7 @@ public class ManageBlocksGUI extends CommonGUI
 	private PanelItem createElementButton(Material material)
 	{
 		return new PanelItemBuilder().
-			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " "))).
+			name(LangUtilsHook.getMaterialName(material, user)).
 			icon(GuiUtils.getMaterialItem(material, this.materialMap.get(material))).
 			description(this.selectedMaterials.contains(material) ?
 				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").

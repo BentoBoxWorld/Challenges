@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +14,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -158,7 +158,7 @@ public class SelectBlocksGUI
 		if (!this.selectedMaterials.isEmpty())
 		{
 			description.add(this.user.getTranslation("challenges.gui.descriptions.admin.selected") + ":");
-			this.selectedMaterials.forEach(material -> description.add(" - " + material.name()));
+			this.selectedMaterials.forEach(material -> description.add(" - " + LangUtilsHook.getMaterialName(material, user)));
 		}
 
 		panelBuilder.item(5,
@@ -218,7 +218,7 @@ public class SelectBlocksGUI
 		ItemStack itemStack = GuiUtils.getMaterialItem(material);
 
 		return new PanelItemBuilder().
-			name(WordUtils.capitalize(material.name().toLowerCase().replace("_", " "))).
+			name(LangUtilsHook.getMaterialName(material, user)).
 			description(this.selectedMaterials.contains(material) ?
 				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
 			icon(itemStack).

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +17,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -101,7 +101,7 @@ public class SelectEntityGUI
 		if (!this.selectedEntities.isEmpty())
 		{
 			description.add(this.user.getTranslation("challenges.gui.descriptions.admin.selected") + ":");
-			this.selectedEntities.forEach(entity -> description.add(" - " + entity.name()));
+			this.selectedEntities.forEach(entity -> description.add(" - " + LangUtilsHook.getEntityName(entity, user)));
 		}
 
 		panelBuilder.item(5,
@@ -178,7 +178,7 @@ public class SelectEntityGUI
 		ItemStack itemStack = this.asEggs ? GuiUtils.getEntityEgg(entity) : GuiUtils.getEntityHead(entity);
 
 		return new PanelItemBuilder().
-			name(WordUtils.capitalize(entity.name().toLowerCase().replace("_", " "))).
+			name(LangUtilsHook.getEntityName(entity, user)).
 			icon(itemStack).
 			description(this.selectedEntities.contains(entity) ?
 				this.user.getTranslation("challenges.gui.descriptions.admin.selected") : "").
