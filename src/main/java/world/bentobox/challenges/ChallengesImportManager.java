@@ -241,7 +241,9 @@ public class ChallengesImportManager
                     this.addon.logWarning("challenges.messages.defaults-file-overwrite");
                 }
 
-                defaultFile.delete();
+                if (!defaultFile.delete()) {
+                    this.addon.logError("Could not delete file: " + defaultFile.getAbsolutePath());
+                }
             }
             else
             {

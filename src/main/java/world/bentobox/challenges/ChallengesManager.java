@@ -262,7 +262,7 @@ public class ChallengesManager
      * @param silent - if true, no messages are sent to user
      * @return - true if imported
      */
-    public boolean loadChallenge(@NonNull Challenge challenge,
+    public boolean loadChallenge(@Nullable Challenge challenge,
             boolean overwrite,
             User user,
             boolean silent)
@@ -276,6 +276,17 @@ public class ChallengesManager
                 user.sendMessage("load-error", "[value]", "NULL");
             }
 
+            return false;
+        }
+
+        if (!challenge.isValid())
+        {
+            if (!silent)
+            {
+                user.sendMessage("challenges.errors.invalid-challenge", "[challenge]", challenge.getUniqueId());
+            }
+
+            this.addon.logWarning("Data for challenge `" + challenge.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
             return false;
         }
 
@@ -335,7 +346,7 @@ public class ChallengesManager
      * @param silent of type boolean that indicate if message to user must be sent.
      * @return boolean that indicate about load status.
      */
-    public boolean loadLevel(@NonNull ChallengeLevel level,
+    public boolean loadLevel(@Nullable ChallengeLevel level,
             boolean overwrite,
             User user,
             boolean silent)
@@ -349,6 +360,17 @@ public class ChallengesManager
                 user.sendMessage("load-error", "[value]", "NULL");
             }
 
+            return false;
+        }
+
+        if (!level.isValid())
+        {
+            if (!silent)
+            {
+                user.sendMessage("challenges.errors.invalid-level", "[level]", level.getUniqueId());
+            }
+
+            this.addon.logWarning("Data for level `" + level.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
             return false;
         }
 
@@ -2066,26 +2088,26 @@ public class ChallengesManager
     /**
      * This method returns if in given world has any stored challenge or level.
      * @param world World that needs to be checked
-     * @return <code>true</code> if world has any challenge or level, otherwise <code>false</code>
+     * @return {@code true} if world has any challenge or level, otherwise {@code false}
      */
     public boolean hasAnyChallengeData(@NonNull World world)
     {
         return this.islandWorldManager.getAddon(world).filter(gameMode ->
-        this.hasAnyChallengeData(gameMode.getDescription().getName())).isPresent();
+            this.hasAnyChallengeData(gameMode.getDescription().getName())).isPresent();
     }
 
 
     /**
      * This method returns if in given gameMode has any stored challenge or level.
      * @param gameMode GameMode addon name that needs to be checked
-     * @return <code>true</code> if gameMode has any challenge or level, otherwise <code>false</code>
+     * @return {@code true} if gameMode has any challenge or level, otherwise {@code false}
      */
     public boolean hasAnyChallengeData(@NonNull String gameMode)
     {
-        return this.challengeDatabase.loadObjects().stream().anyMatch(
-                challenge -> challenge.matchGameMode(gameMode)) ||
-                this.levelDatabase.loadObjects().stream().anyMatch(
-                        level -> level.matchGameMode(gameMode));
+        return this.challengeCacheData.values().stream().anyMatch(challenge -> challenge.matchGameMode(gameMode)) ||
+            this.levelCacheData.values().stream().anyMatch(level -> level.matchGameMode(gameMode)) ||
+            this.challengeDatabase.loadObjects().stream().anyMatch(challenge -> challenge.matchGameMode(gameMode)) ||
+            this.levelDatabase.loadObjects().stream().anyMatch(level -> level.matchGameMode(gameMode));
     }
 
 

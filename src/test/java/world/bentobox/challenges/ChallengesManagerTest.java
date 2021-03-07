@@ -39,6 +39,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -59,6 +60,7 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
@@ -161,6 +163,7 @@ public class ChallengesManagerTest {
         challenge.setFriendlyName("name");
         challenge.setLevel(GAME_MODE_NAME + "_novice");
         challenge.setDescription(Collections.singletonList("A description"));
+        challenge.setRequirements(new IslandRequirements());
 
         // Challenge Level
         level = new ChallengeLevel();
@@ -193,10 +196,16 @@ public class ChallengesManagerTest {
      */
     @After
     public void tearDown() throws Exception {
-        // Clean up JSON database
-        // Clean up file system
-        if (database.exists()) {
-            Files.walk(database.toPath())
+        new File("addon.jar").delete();
+        new File("config.yml").delete();
+        deleteAll(new File("addons"));
+        deleteAll(new File("database"));
+        deleteAll(new File("database_backup"));
+    }
+
+    private void deleteAll(File file) throws IOException {
+        if (file.exists()) {
+            Files.walk(file.toPath())
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete);
@@ -333,6 +342,7 @@ public class ChallengesManagerTest {
     /**
      * Test method for {@link world.bentobox.challenges.ChallengesManager#removeFromCache(java.util.UUID)}.
      */
+    @Ignore("This method does not do anything so there is no need to test right now.")
     @Test
     public void testRemoveFromCache() {
         cm.removeFromCache(playerID);
@@ -735,7 +745,7 @@ public class ChallengesManagerTest {
     @Test
     public void testCreateChallenge() {
         @Nullable
-        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, null);
+        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, new IslandRequirements());
         assertEquals(ChallengeType.ISLAND, ch.getChallengeType());
         assertEquals("newChal", ch.getUniqueId());
     }

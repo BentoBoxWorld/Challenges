@@ -60,6 +60,16 @@ public abstract class Requirements
 
 
 	/**
+	 * Method isValid returns if given requirement data is valid or not.
+	 * @return {@code true} if data is valid, {@code false} otherwise.
+	 */
+	public boolean isValid()
+	{
+		return this.requiredPermissions != null;
+	}
+
+
+	/**
 	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
 	 * to use it.
 	 * @return Requirements clone
