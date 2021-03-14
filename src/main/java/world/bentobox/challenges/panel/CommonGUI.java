@@ -514,10 +514,14 @@ public abstract class CommonGUI
                                     // Show a title to the rewards
                                     // If there is no reward text, do not display title
                                     String rewardText = isCompletedOnce ? challenge.getRepeatRewardText() : challenge.getRewardText();
-                                    if (rewardText != null && !ChatColor.stripColor(rewardText).isEmpty())
+                                    if (rewardText != null)
                                     {
-                                        result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
-                                        result.add(rewardText);
+                                        String testText = ChatColor.translateAlternateColorCodes('&', rewardText);
+                                        if (!ChatColor.stripColor(testText.replaceAll("[\\r\\n]", "")).isEmpty())
+                                        {
+                                            result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
+                                            result.add(rewardText);
+                                        }
                                     }
                                 }
                                 break;
