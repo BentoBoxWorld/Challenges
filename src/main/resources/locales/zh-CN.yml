@@ -36,7 +36,7 @@ challenges:
                 description: '将现有挑战导出到 default.json 文件。'
                 parameters: '[overwrite] - 允许覆盖现有文件。'
             complete:
-                description: '将玩家的某个设置为完成为一个玩家完成挑战。'
+                description: '为一个玩家完成挑战。'
                 parameters: '<player> <challenge_id>'
             reset:
                 description: '重设玩家的挑战。如果将参数 <challenge_id> 设置为 "all"， 则将重置该玩家所有挑战。'
