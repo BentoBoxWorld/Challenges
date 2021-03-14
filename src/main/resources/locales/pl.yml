@@ -525,6 +525,7 @@ challenges:
       egg-meta: "[tłum]"
       fish-meta: "[body-color] with [pattern-color] [pattern]"
       predefined-fish: '  [fish-name]'
+      banner-pattern: '  [pattern]'
     questions:
       prefix: "&amp; 2 [SERWER]:"
       admin:

@@ -1,37 +1,19 @@
 package world.bentobox.challenges.panel;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.conversations.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.KnowledgeBookMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
-import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
-
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -46,6 +28,12 @@ import world.bentobox.challenges.database.object.requirements.IslandRequirements
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 
 /**
@@ -511,14 +499,16 @@ public abstract class CommonGUI
                                 else
                                 {
                                     // Show a title to the rewards
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
-                                    if (isCompletedOnce)
+                                    // If there is no reward text, do not display title
+                                    String rewardText = isCompletedOnce ? challenge.getRepeatRewardText() : challenge.getRewardText();
+                                    if (rewardText != null)
                                     {
-                                        result.add(challenge.getRepeatRewardText());
-                                    }
-                                    else
-                                    {
-                                        result.add(challenge.getRewardText());
+                                        String testText = ChatColor.translateAlternateColorCodes('&', rewardText);
+                                        if (!ChatColor.stripColor(testText.replaceAll("[\\r\\n]", "")).isEmpty())
+                                        {
+                                            result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
+                                            result.add(rewardText);
+                                        }
                                     }
                                 }
                                 break;
@@ -1034,6 +1024,12 @@ public abstract class CommonGUI
                         "[pattern]", LangUtilsHook.getTropicalFishTypeName(fishMeta.getPattern(), user),
                         "[pattern-color]", LangUtilsHook.getDyeColorName(fishMeta.getPatternColor(), user),
                         "[body-color]", LangUtilsHook.getDyeColorName(fishMeta.getBodyColor(), user)));
+                }
+            }
+            else if (meta instanceof BannerMeta) {
+                for (Pattern pattern : ((BannerMeta) meta).getPatterns()) {
+                    result.add(this.user.getTranslation("challenges.gui.item-description.banner-pattern",
+                        "[pattern]", LangUtilsHook.getBannerPatternName(pattern, user)));
                 }
             }
 
