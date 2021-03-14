@@ -262,7 +262,7 @@ public class ChallengesManager
      * @param silent - if true, no messages are sent to user
      * @return - true if imported
      */
-    public boolean loadChallenge(@NonNull Challenge challenge,
+    public boolean loadChallenge(@Nullable Challenge challenge,
             boolean overwrite,
             User user,
             boolean silent)
@@ -346,7 +346,7 @@ public class ChallengesManager
      * @param silent of type boolean that indicate if message to user must be sent.
      * @return boolean that indicate about load status.
      */
-    public boolean loadLevel(@NonNull ChallengeLevel level,
+    public boolean loadLevel(@Nullable ChallengeLevel level,
             boolean overwrite,
             User user,
             boolean silent)
