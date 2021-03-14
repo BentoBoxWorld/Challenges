@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -511,14 +512,12 @@ public abstract class CommonGUI
                                 else
                                 {
                                     // Show a title to the rewards
-                                    result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
-                                    if (isCompletedOnce)
+                                    // If there is no reward text, do not display title
+                                    String rewardText = isCompletedOnce ? challenge.getRepeatRewardText() : challenge.getRewardText();
+                                    if (rewardText != null && !ChatColor.stripColor(rewardText).isEmpty())
                                     {
-                                        result.add(challenge.getRepeatRewardText());
-                                    }
-                                    else
-                                    {
-                                        result.add(challenge.getRewardText());
+                                        result.add(this.user.getTranslation("challenges.gui.challenge-description.rewards-title"));
+                                        result.add(rewardText);
                                     }
                                 }
                                 break;
