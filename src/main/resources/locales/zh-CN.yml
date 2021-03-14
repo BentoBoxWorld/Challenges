@@ -120,14 +120,14 @@ challenges:
                 required-level: '&f&l岛屿等级'
                 required-money: '&f&l游戏币'
                 remove-money: '&f&l扣除游戏币'
-                reward-text: '&f&l反馈消息'
+                reward-text: '&f&l奖励简介'
                 reward-items: '&f&l奖励物品'
                 reward-experience: '&f&l奖励经验'
                 reward-money: '&f&l奖励游戏币'
                 reward-commands: '&f&l命令奖励'
                 repeatable: '&f&l可重复'
                 repeat-count: '&f&l最大重复次数'
-                repeat-reward-text: '&f&l重复奖励消息'
+                repeat-reward-text: '&f&l重复奖励简介'
                 repeat-reward-items: '&f&l重复奖励物品'
                 repeat-reward-experience: '&f&l重复奖励经验'
                 repeat-reward-money: '&f&l重复奖励游戏币'
@@ -159,8 +159,8 @@ challenges:
                 clear: '&f&l清除'
                 remove-empty: '&f&l删除空行'
                 number: '[number]'
-                level-lore: '&f&l等级描述元素'
-                challenge-lore: '&f&l挑战描述元素'
+                level-lore: '&f&l挑战等级描述元素'
+                challenge-lore: '&f&l挑战项描述元素'
                 gui-view-mode: '&f&l独立命令用途'
                 gui-mode: '&f&l独立命令'
                 history-store: '&f&l挑战历史'
@@ -236,20 +236,20 @@ challenges:
                 required-entities: |-
                     &7添加/修改/删除
                     &7要完成这项挑战应在指定范围内存在的实体。
-                    &6所需实体：
+                    &e&l所需实体：
                 remove-entities: '&7设置当玩家完成挑战后，|&7是否删除(杀死)所需实体。'
                 required-blocks: |-
                     &7添加/修改/删除
                     &7要完成这项挑战应在指定范围内存在的方块。
-                    &6所需方块：
+                    &e&l所需方块：
                 remove-blocks: '&7设置当玩家完成挑战后，|&7是否删除(替换成空气)所需方块。'
                 search-radius: "&7玩家所在位置周围的半径，|&7将在其范围内探测所需的实体和方块。"
                 required-permissions: |-
                     &7设置玩家要完成挑战必须具有的权限。
-                    &6所需权限：
+                    &e&l所需权限：
                 required-items: |-
                     &7设置玩家要完成挑战物品栏中必须有的物品。
-                    &6所需物品：
+                    &e&l所需物品：
                 remove-items: '&7设置当玩家完成挑战后，是否|&7从物品栏中删除所需物品。'
                 required-experience: '&7设置玩家要完成挑战所|&7需要的经验值。'
                 remove-experience: '&7设置玩家完成挑战后，是否扣除所需经验值。'
@@ -262,10 +262,18 @@ challenges:
                 remove-money: |-
                     &7完成挑战后，是否扣除玩家所需数量的游戏币。
                     &c需要安装 Vault 和兼容的经济插件。
-                reward-text: '&7设置玩家完成挑战后发送给玩家的聊天消息。'
+                reward-text: |-
+                    &7可以包含在挑战项图标的描述里，
+                    &7也可以包含在完成挑战后发送给玩
+                    &7家的标题消息里。
+                    &7如果要包含在图标描述里， 请到插
+                    &7件设置 “挑战项描述元素” 中设置；
+                    &7如果要包含在标题消息里， 请修改
+                    &7本文件：
+                    &2challenges.titles &7部分
                 reward-items: |-
                     &7设置首次完成挑战获得的物品奖励。
-                    &a奖励物品：
+                    &a&l奖励物品：
                 reward-experience: '&7设置首次完成挑战后获得的经验值奖励。'
                 reward-money: |-
                     &7设置首次完成挑战获得的游戏币奖励。
@@ -277,13 +285,13 @@ challenges:
                     &3例如 “&f[SELF] heal&3”。
                     &3文字 “[player]” 将替换为玩家名称。
                     &3例如 “&fkill [player]&3”。
-                    &a奖励命令：
+                    &a&l奖励命令：
                 repeatable: '&7设置这项挑战是否可重复进行。'
                 repeat-count: '&7设置最大完成次数，设置为 0 表示不限次数。'
-                repeat-reward-text: '&7设置重复完成挑战后发送给玩家的聊天消息。'
+                repeat-reward-text: '&7类似奖励简介， 但不能用于发送标题消息。'
                 repeat-reward-items: |-
                     &7设置重复完成挑战获得的奖励物品。
-                    &a奖励物品：
+                    &a&l奖励物品：
                 repeat-reward-experience: '&7设置重复完成挑战后获得的经验值奖励。'
                 repeat-reward-money: |-
                     &7设置重复完成挑战获得的游戏币奖励。
@@ -295,7 +303,7 @@ challenges:
                     &3例如 “&f[SELF] heal&3”。
                     &3文字 “[player]” 将替换为玩家名称。
                     &3例如 “&fkill [player]&3”。
-                    &a奖励命令：
+                    &a&l奖励命令：
                 waiver-amount: '&7设置玩家解锁下一级需要|&7完成当前等级的数量。'
                 reward-text-level: '&7完成当前等级所有挑战后|&7发送给玩家的聊天消息。'
                 add-challenge: '&7将现有挑战添加到当前挑战等级。'
@@ -305,7 +313,7 @@ challenges:
                 remove-completed: '&7设置完成挑战后是否从面板|&7中隐藏且无法重复。'
                 glow: '&7设置'
                 free-at-top: '&7设置是否将独立挑战放在面板前排。'
-                line-length: '&7设置面板图标描述行显示的最大长度。|&7这个设定只影响显示效果，不会修改存储数据。'
+                line-length: '&7设置图标描述行显示的最大长度。|&7这个设定只影响显示效果，不会修改存储数据。'
                 toggle-user-list: '&7按所选模式过滤玩家。'
                 mode-online: '当前所有在线玩家。'
                 mode-in-world: '当前游戏模式中的玩家。'
@@ -325,19 +333,22 @@ challenges:
                     &7当 &c关闭 &7时，将直接打开适用于当前
                     &7游戏模式的挑战面板。
                     &e只在安装了多个游戏模式时有用。
-                history-store: '&7设置是存储挑战历史记录。'
+                history-store: '&7设置是否存储挑战历史记录。'
                 history-lifespan: |-
-                    &7设置历史记录数据可以保存的天数。
+                    &7设置历史记录数据保存的天数。
                     &7设置为 0 将永久保存.
-                island-store: |-
-                    &7设置是否按岛屿为单位来存储数据。
-                    &7如果开启此选项，则整个岛屿所有
-                    &7成员的挑战将是相同的。
-                    &c点击切换时不会立即转换数据。
+                island-store: |+
+                    &7是否按岛屿为单位来存储数据。
+                    &7如果开启此选项， 则整个岛屿所有
+                    &7成员的挑战进度都是相同的。
+
+                    &c点击切换时不会立即转换数据， 并
+                    &c且玩家的挑战进度可能会丢失。
 
                 default-locked-icon: |-
-                    &7设置未解锁的挑战等级默认图标.
-                    &7为挑战等级单独设定未解锁图标可以覆盖此设置。
+                    &7设置未解锁的挑战等级默认图标。
+                    &7为挑战等级单独设定未解锁图标
+                    &7可以超越此设置。
                 gui-mode: |-
                     &7设置是否可以用单独的命令打开面板,
                     &7例如使用 &f/c &7打开面板。
@@ -366,18 +377,23 @@ challenges:
 
                 download: |-
                     &7从共享网络库上下载可用的挑战。
-                    &7右键点击 开启/关闭 缓存清理。
+                    &7右键点击 &a开启&7/&a关闭 &7缓存清理。
                 download-disabled: '&cGitHub 下载器已在 BentoBox 中禁用。|&c没有它，您将无法使用共享库!'
 
                 lore:
                     level: '&7所属挑战等级名称'
                     status: '&7完成状态'
                     count: '&7完成次数'
-                    description: '&7描述文字'
+                    description: '&7简介文字'
                     warnings: '&7警告文字'
                     environment: '&7环境需求'
                     requirements: '&7需求'
-                    reward_text: '&7奖励描述'
+                    # 挑战项目数据中 challenge.rewardText
+                    # 挑战等级数据中 challenge.repeatRewardText
+                    reward_text: |-
+                        &7奖励简介， 一般用来对奖励命令进
+                        &7行描述。 例如完成挑战后将获得称
+                        &7号， 升级为VIP之类的。
                     reward_other: |-
                         &7其他奖励描述
                         &7包含经验奖励、游戏币奖励以及不可重复完成的提示
@@ -399,16 +415,16 @@ challenges:
                 island: '&a挑战内容为建造和驯养类。|&7要完成该类挑战，玩家周围|&7必须有指定数量的方块或实体。'
                 inventory: '&a挑战内容为物品收集。|&7要完成该类挑战，玩家物品栏中|&7必须有指定数量的物品。'
                 other: '&a挑战内容为数据条件类。|&7要完成该类挑战，玩家必须有设定的|&7游戏币/经验值/岛屿等级/权限。'
-            the-end: '- 末地'
-            nether: '- 下界'
-            normal: '- 主世界'
-            entity: '&7- [entity] x [count]'
-            block:  '&7- [block] x [count]'
-            item:   '&7- [item] x [count]'
+            the-end: '&f- 末地'
+            nether: '&f- 下界'
+            normal: '&f- 主世界'
+            entity: '&f- [entity] x [count]'
+            block:  '&f- [block] x [count]'
+            item:   '&f- [item] x [count]'
             item-meta: '&7  ([meta])'
             item-enchant: '&7   - [enchant] [level]'
             permission: '&7- [permission]'
-            command: '- [command]'
+            command: '&7- [command]'
 
             level-unlocked: '&f点击查看 &r[level] &f的所有挑战！'
             level-locked: '&7再完成 &f[count] &7个 &r[level] &7的挑战项目即可解锁此等级。'
@@ -422,7 +438,7 @@ challenges:
                 toggleable: "玩家可以自行从面板中切换显示模式|&r"
 
         challenge-description:
-            level: '&f等级： [level]'
+            level: '&3等级： [level]'
             completed: '&b已完成'
             completed-times-of: '&3可挑战 [maxtimes] 次， 完成了 [donetimes] 次。'
             maxed-reached: '&b完成了 [donetimes] 次， 可挑战 [maxtimes] 次。'
@@ -432,46 +448,47 @@ challenges:
             warning-entities-kill: '&c完成后，所需实体将被消灭。'
             warning-blocks-remove: '&c完成后，所需方块将被摧毁。'
             not-repeatable: '&c这项挑战不可重复！'
-            experience-reward: '&2经验值奖励： &7[value]'
-            money-reward: '&2游戏币奖励： &7[value]'
-            required-experience: '&6需要经验值： &7[value]'
-            required-money: '&6需要游戏币： - &7[value]'
-            required-island-level: '&6需要岛屿等级： - &7[value]'
-            environment: '&6需要环境：'
+            experience-reward: '&a经验值奖励： &f[value]'
+            money-reward: '&a游戏币奖励： &f[value]'
+            required-experience: '&e需要经验值： &f[value]'
+            required-money: '&e需要游戏币： - &f[value]'
+            required-island-level: '&e需要岛屿等级： - &f[value]'
+            environment: '&e需要环境：'
             rewards-title: '&a&l奖励：'
-            reward-items: '&2物品奖励：'
-            reward-commands: '&2命令奖励：'
-            required-items: '&6需要物品：'
-            required-entities: '&6需要实体：'
-            required-blocks: '&6需要方块:'
+            reward-items: '&a物品奖励：'
+            reward-commands: '&a命令奖励：'
+            required-items: '&e需要物品：'
+            required-entities: '&e需要实体：'
+            required-blocks: '&e需要方块:'
         level-description:
             completed: '&b已全部完成'
             completed-challenges-of: |-
                 &3该等级共有 &f[max] &3项挑战，
                 &3你已完成了 &f[number] &3项。
             waver-amount: '&6你可以跳过 &f[value] &6项挑战来解锁下一级。'
-            experience-reward: '&2经验值奖励: - &f[value]'
-            money-reward: '&2游戏币奖励： - &f[value]'
-            reward-items: '&2物品奖励：'
-            reward-commands: '&2命令奖励：'
+            experience-reward: '&a经验值奖励: &f[value]'
+            money-reward: '&a游戏币奖励： &f[value]'
+            reward-items: '&a物品奖励：'
+            reward-commands: '&a命令奖励：'
         item-description:
-            item:                          '&7- [item] x [count]'
-            item-meta:                     '&8   ([meta])'
-            item-enchant:                  '&8   [enchant] [level]'
-            item-name:                     '&7   [name]'
-            item-lore:                     '&7   物品描述：'
+            item:                          '&f- [item] x [count]'
+            item-meta:                     '&7   ([meta])'
+            item-enchant:                  '&7   [enchant] [level]'
+            item-name:                     '&f   [name]'
+            item-lore:                     '&f   物品描述：'
             book-meta:                     '&7   《[title]》 - [author] 著'
             recipe-count:                  '&7   [count] 个配方'
-            armor-color:                 '&8&o   [color]'
-            potion-type-extended-upgraded: '&7   [name] II （Extended）'
+            armor-color:                 '&7&o   [color]'
+            potion-type-extended-upgraded: '&7   [name] II （＋）'
             potion-type-upgraded:          '&7   [name] II'
-            potion-type-extended:          '&7   [name] Extended '
+            potion-type-extended:          '&7   [name] （＋）'
             potion-type:                   '&7   [name]'
-            custom-effects:                '&7   自定义效果：'
-            potion-effect:                 '&8   [effect] [amplifier] （[duration]）'
+            custom-effects:                '&f   自定义效果：'
+            potion-effect:                 '&7   [effect] [amplifier] （[duration]）'
             skull-owner:                   '&7   [owner]'
             egg-meta:                      '&7   [mob]'
-            fish-meta:                   '&8&o   [body-color]-[pattern-color] [pattern]'
+            fish-meta:                   '&7&o   [body-color]-[pattern-color] [pattern]'
+            predefined-fish:             '&7&o   [fish-name]'
 
         questions:
             prefix: "&7[&e服务器&7]： &r"
@@ -485,8 +502,8 @@ challenges:
     titles:
         #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
         #       [friendlyName] will be replaced with challenge friendly name.
-        #       [level] will be replaced with level friendly name.
-        #       [rewardText] will be replaced with the challenge reward text.
+        #       [level] 将替换为挑战等级的友好名称
+        #       [rewardText] 将替换为挑战项的 rewardText 字段内容（每个挑战项都可以设置）
         challenge-title: '&a已完成'
         challenge-subtitle: '[friendlyName]'
         #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the level object.
@@ -498,46 +515,46 @@ challenges:
         admin:
             # 鬼知道你说的 Thing 是什么！况且这些翻译内容从来没用到过。
             hit-things: '&7单击以将其添加到所需列表中。完成后右键单击。'
-            you-added: '&a您向挑战添加了一个 &2r[thing]' # ？？？
+            you-added: '&a您向挑战添加了一个 &ar[thing]' # ？？？
             challenge-created: '&a挑战项 &r[challenge] &a已创建！'
             complete-wipe: '&c希望您有备份，因为您刚刚删除了挑战组件的全部数据库！'
 
             challenge-wipe: '&c希望您有备份，因为您刚刚删除了所有挑战项和挑战等级！'
             players-wipe: '&c希望您有备份，因为您刚刚删除了所有玩家已完成的挑战！'
 
-            completed: '&2你将玩家 &r[player] &2的挑战项 &r[name] &2设置为已完成！'
-            already-completed: '&2这项挑战已经完成过了！'
-            reset: '&2你为玩家 &r[player] &2重置了挑战项 &r[name]&2！'
-            reset-all: '&2玩家 &r[player] &2的所有挑战项已被重置！'
-            not-completed: '&2这项挑战尚未完成！'
+            completed: '&a你将玩家 &r[player] &a的挑战项 &r[name] &a设置为已完成！'
+            already-completed: '&a这项挑战已经完成过了！'
+            reset: '&a你为玩家 &r[player] &a重置了挑战项 &r[name]&a！'
+            reset-all: '&a玩家 &r[player] &a的所有挑战项已被重置！'
+            not-completed: '&a这项挑战尚未完成！'
 
-            migrate-start: '&2开始迁移挑战组件数据库。'
-            migrate-end: '&2挑战组件数据库已更新为新格式。'
-            migrate-not: '&2所有数据均有效。'
+            migrate-start: '&a开始迁移挑战组件数据库。'
+            migrate-end: '&a挑战组件数据库已更新为新格式。'
+            migrate-not: '&a所有数据均有效。'
 
             start-downloading: '&5开始下载网络库并导入。'
-        you-completed-challenge: '&2你完成了挑战 &r[value] &2！'
-        you-repeated-challenge: '&2你再次完成了挑战 &r[value] &2！'
-        you-repeated-challenge-multiple: '&2你完成挑战 &r[value] &r[count] &2次了！'
-        you-completed-level: '&2恭喜，你的挑战等级 &r[value] &2已完成！'
+        you-completed-challenge: '&a你完成了挑战 &r[value] &a！'
+        you-repeated-challenge: '&a你再次完成了挑战 &r[value] &a！'
+        you-repeated-challenge-multiple: '&a你完成挑战 &r[value] &r[count] &a次了！'
+        you-completed-level: '&a恭喜，你的挑战等级 &r[value] &a已完成！'
         name-has-completed-challenge: '&a恭喜！ &r[name] &a完成了挑战 [value] &a！'
         name-has-completed-level: '&a恭喜！ &r[name] &a的挑战等级 [value] &a已全部完成！'
         import-levels: '&a开始导入挑战等级'
         import-challenges: '&a开始导入挑战'
         no-levels: '&e警告： 文件 &fchallenges.yml &e中没有定义任何挑战等级！'
         import-number: '&a导入了 &f[number] &a个挑战项目'
-        load-skipping: '&c挑战项 "[value]" &c已存在 - 将跳过'
-        load-overwriting: '&6覆盖了已载入的挑战： "[value]"'
-        load-add: '&a新增了挑战： [value]'
+        load-skipping: '&c挑战项 &f[value] &c已存在 - 将跳过'
+        load-overwriting: '&6覆盖了已载入的挑战： &f[value]'
+        load-add: '&a新增了挑战： &f[value]'
         defaults-file-overwrite: '&cdefaults.json 已被覆盖。'
         defaults-file-completed: 'defaults.json 已经保存了 [world] 中的所有挑战。'
     errors:
         no-name: '&c缺少挑战名称。'
         unknown-challenge: '&c未知的挑战。'
-        unique-id: '&c唯一ID "[id]" 无效。'
-        wrong-icon: '&c给定的材料 "[value]" 无效，不能用作图标。'
-        not-valid-integer: '&c给定的整数值 "[value]" 无效！它只能在 [min] 到 [max] 取值。'
-        not-a-integer: '&c给定的值 "[value]" 不是有效整数！'
+        unique-id: '&c唯一ID "&7[id]&c" 无效。'
+        wrong-icon: '&c给定的材料 "&7[value]&c" 无效，不能用作图标。'
+        not-valid-integer: '&c给定的整数值 "&7[value]&c" 无效！它只能在 [min] 到 [max] 取值。'
+        not-a-integer: '&c给定的值 "&7[value]&c" 不是有效整数！'
         not-deployed: '&c这项挑战尚未部署！'
         not-on-island: '&c您必须在您的岛上才能完成挑战！'
         challenge-level-not-available: '&c您尚未解锁这项挑战的等级。'

@@ -512,6 +512,7 @@ challenges:
       skull-owner: "[owner]"
       egg-meta: "[mob]"
       fish-meta: "[body-color] mit [pattern-color] [pattern]"
+      predefined-fish: '  [fish-name]'
     questions:
       prefix: "&2[SERVER]:"
       admin:

@@ -312,10 +312,11 @@ challenges:
             potion-type-extended: '  Extended [name]'
             potion-type: '  [name]'
             custom-effects: '  自定義效果:'
-            potion-effect: '  [effect] x [amplifier] for [duration]t'
+            potion-effect: '  [effect] [amplifier] （[duration]）'
             skull-owner: '  [owner]'
             egg-meta: '  [mob]'
-            fish-meta: '  [body-color] with [pattern-color] [pattern]'
+            fish-meta: '  [body-color]-[pattern-color] [pattern]'
+            predefined-fish: '  [fish-name]'
 
         questions:
             prefix: "&2[SERVER]: "

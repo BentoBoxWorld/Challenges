@@ -485,6 +485,7 @@ challenges:
       custom-effects: 'Индивидуальные эффекты:'
       potion-effect: "[effect] x [amplifier] для [duration]t"
       fish-meta: "[body-color] с [pattern-color] [pattern]"
+      predefined-fish: '  [fish-name]'
       item-meta: "([meta])"
       item-enchant: "- [enchant] [level]"
       item-name: "[name]"

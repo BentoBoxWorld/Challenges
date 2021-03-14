@@ -560,6 +560,7 @@ challenges:
       potion-type-extended: "[name] extendido"
       potion-effect: "[effect] x [amplifier] por [duration]t"
       fish-meta: "[body-color] con [patter-color] [pattern]"
+      predefined-fish: '  [fish-name]'
       item-meta: "([meta])"
       armor-color: "[color]"
       custom-effects: 'Efectos personalizados:'
