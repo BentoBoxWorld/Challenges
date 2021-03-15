@@ -490,6 +490,7 @@ challenges:
             fish-meta:                   '&7&o   [body-color]-[pattern-color] [pattern]'
             predefined-fish:             '&7&o   [fish-name]'
             banner-pattern:                '&7   [pattern]'
+            music-disk-desc:               '&7   [desc]'
 
         questions:
             prefix: "&7[&e服务器&7]： &r"

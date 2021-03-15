@@ -562,6 +562,7 @@ challenges:
       fish-meta: "[body-color] con [patter-color] [pattern]"
       predefined-fish: '  [fish-name]'
       banner-pattern: '  [pattern]'
+      music-disk-desc: '  [desc]'
       item-meta: "([meta])"
       armor-color: "[color]"
       custom-effects: 'Efectos personalizados:'

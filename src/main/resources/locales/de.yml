@@ -514,6 +514,7 @@ challenges:
       fish-meta: "[body-color] mit [pattern-color] [pattern]"
       predefined-fish: '  [fish-name]'
       banner-pattern: '  [pattern]'
+      music-disk-desc: '  [desc]'
     questions:
       prefix: "&2[SERVER]:"
       admin:

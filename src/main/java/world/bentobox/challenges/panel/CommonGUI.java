@@ -916,6 +916,12 @@ public abstract class CommonGUI
                         "[name]", meta.getDisplayName()));
             }
 
+            String cdDesc = LangUtilsHook.getMusicDiskDesc(itemStack.getType(), user);
+            if (cdDesc != null) {
+                result.add(this.user.getTranslation("challenges.gui.item-description.music-disk-desc",
+                        "[desc]", cdDesc));
+            }
+
             if (meta.hasLore())
             {
                 result.add(this.user.getTranslation("challenges.gui.item-description.item-lore"));

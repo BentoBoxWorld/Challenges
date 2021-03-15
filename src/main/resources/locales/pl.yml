@@ -526,6 +526,7 @@ challenges:
       fish-meta: "[body-color] with [pattern-color] [pattern]"
       predefined-fish: '  [fish-name]'
       banner-pattern: '  [pattern]'
+      music-disk-desc: '  [desc]'
     questions:
       prefix: "&amp; 2 [SERWER]:"
       admin:

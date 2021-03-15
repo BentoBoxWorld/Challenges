@@ -318,6 +318,7 @@ challenges:
             fish-meta: '  [body-color]-[pattern-color] [pattern]'
             predefined-fish: '  [fish-name]'
             banner-pattern: '  [pattern]'
+            music-disk-desc: '  [desc]'
 
         questions:
             prefix: "&2[SERVER]: "
