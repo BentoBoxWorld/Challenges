@@ -907,7 +907,8 @@ public abstract class CommonGUI
                 "[count]", Integer.toString(itemStack.getAmount())));
 
         String cdDesc = LangUtilsHook.getMusicDiskDesc(itemStack.getType(), user);
-        if (cdDesc != null) {
+        if (cdDesc != null)
+        {
             result.add(this.user.getTranslation("challenges.gui.item-description.music-disk-desc",
                     "[desc]", cdDesc));
         }
@@ -984,7 +985,8 @@ public abstract class CommonGUI
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.custom-effects"));
 
-                    ((PotionMeta) meta).getCustomEffects().forEach(potionEffect -> {
+                    ((PotionMeta) meta).getCustomEffects().forEach(potionEffect ->
+                    {
                         int duration = potionEffect.getDuration();
                         int m = duration / 20 / 60;
                         int s = duration / 20 % 60;
@@ -998,11 +1000,12 @@ public abstract class CommonGUI
             else if (meta instanceof SkullMeta)
             {
                 OfflinePlayer ofp = ((SkullMeta) meta).getOwningPlayer();
-                if (ofp != null) {
+                if (ofp != null)
+                {
                     String ownerName = ofp.getName();
-                    if (ownerName != null && !ownerName.isEmpty()) {
-                        result.add(this.user.getTranslation(
-                                "challenges.gui.item-description.skull-owner",
+                    if (ownerName != null && !ownerName.isEmpty())
+                    {
+                        result.add(this.user.getTranslation("challenges.gui.item-description.skull-owner",
                                 "[owner]", ownerName));
                     }
                 }
@@ -1019,12 +1022,12 @@ public abstract class CommonGUI
                 // First try to use LangUtilsHook to get the predefined tropical
                 // fish names so that the description looks like vanilla names.
                 String predefined = LangUtilsHook.getPredefinedTropicalFishName(fishMeta, user);
-                if (predefined != null) {
+                if (predefined != null)
+                {
                     result.add(this.user.getTranslation("challenges.gui.item-description.predefined-fish",
                         "[fish-name]", predefined));
                 }
-                else
-                if ((fishMeta).hasVariant())
+                else if ((fishMeta).hasVariant())
                 {
                     result.add(this.user.getTranslation("challenges.gui.item-description.fish-meta",
                         "[pattern]", LangUtilsHook.getTropicalFishTypeName(fishMeta.getPattern(), user),
@@ -1032,8 +1035,10 @@ public abstract class CommonGUI
                         "[body-color]", LangUtilsHook.getDyeColorName(fishMeta.getBodyColor(), user)));
                 }
             }
-            else if (meta instanceof BannerMeta) {
-                for (Pattern pattern : ((BannerMeta) meta).getPatterns()) {
+            else if (meta instanceof BannerMeta)
+            {
+                for (Pattern pattern : ((BannerMeta) meta).getPatterns())
+                {
                     result.add(this.user.getTranslation("challenges.gui.item-description.banner-pattern",
                         "[pattern]", LangUtilsHook.getBannerPatternName(pattern, user)));
                 }
