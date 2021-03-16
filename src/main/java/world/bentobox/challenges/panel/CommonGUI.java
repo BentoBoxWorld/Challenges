@@ -906,6 +906,12 @@ public abstract class CommonGUI
                 "[item]", LangUtilsHook.getItemName(itemStack, user),
                 "[count]", Integer.toString(itemStack.getAmount())));
 
+        String cdDesc = LangUtilsHook.getMusicDiskDesc(itemStack.getType(), user);
+        if (cdDesc != null) {
+            result.add(this.user.getTranslation("challenges.gui.item-description.music-disk-desc",
+                    "[desc]", cdDesc));
+        }
+
         if (itemStack.hasItemMeta())
         {
             ItemMeta meta = itemStack.getItemMeta();
@@ -914,12 +920,6 @@ public abstract class CommonGUI
             {
                 result.add(this.user.getTranslation("challenges.gui.item-description.item-name",
                         "[name]", meta.getDisplayName()));
-            }
-
-            String cdDesc = LangUtilsHook.getMusicDiskDesc(itemStack.getType(), user);
-            if (cdDesc != null) {
-                result.add(this.user.getTranslation("challenges.gui.item-description.music-disk-desc",
-                        "[desc]", cdDesc));
             }
 
             if (meta.hasLore())
