@@ -621,7 +621,7 @@ challenges:
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: "&5&Umschalten, wer  &5&Herausforderungen erledigen kann"
+      description: "&5Umschalten, wer &5Herausforderungen erledigen kann"
       name: Herausforderungen Schutz
     CHALLENGES_WORLD_PROTECTION:
       name: Herausforderungen Inselbegrenzung
