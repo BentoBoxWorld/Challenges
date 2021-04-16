@@ -40,7 +40,7 @@ public class CompleteChallengeCommand extends CompositeCommand
     public void setup()
     {
         this.setOnlyPlayer(true);
-        this.setPermission("complete");
+        this.setPermission("challenges");
         this.setParametersHelp("challenges.commands.user.complete.parameters");
         this.setDescription("challenges.commands.user.complete.description");
     }

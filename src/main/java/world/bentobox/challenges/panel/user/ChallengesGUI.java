@@ -378,7 +378,7 @@ public class ChallengesGUI extends CommonGUI
 
 				if (clickType.isRightClick() &&
 					challenge.isRepeatable() &&
-					this.user.hasPermission(this.permissionPrefix + "complete.multiple"))
+					this.user.hasPermission(this.permissionPrefix + "challenges.multiple"))
 				{
 					new MultipleGUI(this.user,
 						this.addon.getChallengesSettings().getLoreLineLength(),
