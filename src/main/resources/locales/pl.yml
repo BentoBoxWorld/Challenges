@@ -45,10 +45,10 @@ challenges:
   gui:
     title:
       admin:
-        gui-title: "&amp; aChallenges Administrator"
+        gui-title: "&a Challenges Administrator"
         edit-challenge-title: " edytuj wyzwanie"
         edit-level-title: Poziom edycji
-        settings-title: "&aEdytuj ustawienia"
+        settings-title: "&a Edytuj ustawienia"
         choose-challenge-title: " Wybierz wyzwanie"
         choose-level-title: i a Wybierz poziom
         choose-user-title: Wybierz odtwarzacz
@@ -64,11 +64,11 @@ challenges:
         edit-text-fields: i edytuj pola tekstowe
         library-title: i a Biblioteki do pobrania
         lore-add: i Dodaj element wiedzy
-        lore-remove: "&amp; aUsuń element wiedzy"
+        lore-remove: "&a Usuń element wiedzy"
         lore-edit: i edytuj Lore
         type-select: i a Wybierz typ wyzwania
       challenges: I 6 Wyzwania
-      game-modes: "&amp; 6 Wybierz GameMode"
+      game-modes: "&6 Wybierz GameMode"
       multiple-complete: I 6 Ile razy?
     buttons:
       admin:
@@ -132,8 +132,8 @@ challenges:
         library: Biblioteka internetowa
         download: Pobierz biblioteki
         type:
-          island: "&amp; 6 Typ wyspy"
-          inventory: "&amp; 6 Typ zapasów"
+          island: "&6 Typ wyspy"
+          inventory: "&6 Typ zapasów"
           other: I 6 Inne typy
         import: Importuj wyzwania ASkyblock
         settings: Edytuj ustawienia
@@ -270,8 +270,8 @@ challenges:
         mode-in-world: Gracze w świecie GameMode.
         mode-with-island: Gracze, którzy mają wyspę w świecie GameMode.
         visibility-mode: Pokaż / ukryj niewykorzystane wyzwania.
-        edit-text-line: "&amp; 6 Edytuj wiadomość tekstową!"
-        add-text-line: "&amp; 6 Dodaj nową wiadomość tekstową!"
+        edit-text-line: "&6 Edytuj wiadomość tekstową!"
+        add-text-line: "&6 Dodaj nową wiadomość tekstową!"
         title-enable: Włącz / wyłącz wiadomość tytułową, która będzie wyświetlana
           graczom po ukończeniu wyzwania.
         title-showtime: Zmień, jak długo wiadomości tytułowe będą widoczne dla odtwarzacza.
@@ -450,17 +450,17 @@ challenges:
       the-end: "- Koniec"
       nether: "- Nether"
       normal: "- Overworld"
-      entity: "- [podmiot]: [liczba]"
-      block: "- [blok]: [liczba]"
-      permission: "- [pozwolenie]"
-      item: "- [liczba] x [pozycja]"
+      entity: "- [entity]: [count]"
+      block: "- [block]: [count]"
+      permission: "- [permission]"
+      item: "- [count] x [item]"
       item-meta: "([meta])"
-      item-enchant: "- [enchant] [poziom]"
-      command: "- [Komenda]"
-      level-unlocked: Kliknij, aby zobaczyć wyzwania [poziomu]!
-      level-locked: Ukończ [liczyć] więcej [poziomów] wyzwań, aby odblokować ten poziom!
-      increase-by: "&amp; aZwiększ liczbę ukończeń o [wartość]"
-      reduce-by: "&amp; c Zmniejsz liczbę ukończeń o [wartość]"
+      item-enchant: "- [enchant] [level]"
+      command: "- [command]"
+      level-unlocked: Kliknij, aby zobaczyć wyzwania [level]!
+      level-locked: Ukończ [count] więcej [level] wyzwań, aby odblokować ten poziom!
+      increase-by: "&a Zwiększ liczbę ukończeń o [value]"
+      reduce-by: "&c Zmniejsz liczbę ukończeń o [value]"
       visibility:
         hidden: Widoczne są tylko wdrożone wyzwania.
         visible: Wszystkie wyzwania są widoczne dla wszystkich
@@ -469,63 +469,63 @@ challenges:
         island: i zdobywaj bloki lub moby wokół gracza
         other: i pytaj o rzeczy z innych wtyczek / dodatków
         inventory: i zdobywaj przedmioty w ekwipunku gracza
-      current-value: "&6Aktualna wartość e: [value]."
+      current-value: "&6 Aktualna wartość e: [value]."
     challenge-description:
       completed-times-of: Ukończone [donetimes] z [maxtimes]
       maxed-reached: Ukończone [donetimes] z [maxtimes]
       completed-times: Ukończone [donetimes]
-      objects-close-by: "&amp; cWszystkie wymagane bloki i byty muszą znajdować się
+      objects-close-by: "&c Wszystkie wymagane bloki i byty muszą znajdować się
         blisko ciebie na twojej wyspie!"
-      warning-entities-kill: "&amp; c Wszystkie wymagane jednostki zostaną zabite
+      warning-entities-kill: "&c Wszystkie wymagane jednostki zostaną zabite
         po ukończeniu tego wyzwania!"
-      warning-blocks-remove: "&amp; cWszystkie wymagane bloki zostaną usunięte po
+      warning-blocks-remove: "&c Wszystkie wymagane bloki zostaną usunięte po
         ukończeniu tego wyzwania!"
-      not-repeatable: "&amp; c To wyzwanie nie jest powtarzalne!"
-      experience-reward: "&amp; 6Exp nagroda: [wartość]"
-      money-reward: "&amp; Nagroda pieniężna: $ [wartość]"
-      required-experience: "&amp; 6 Wymagany exp: [wartość]"
-      required-money: 'I 6 Wymagane pieniądze: [wartość]'
-      required-island-level: "&amp; 6 Wymagany poziom wyspy: [wartość]"
+      not-repeatable: "&c To wyzwanie nie jest powtarzalne!"
+      experience-reward: "&6 Exp nagroda: [value]"
+      money-reward: "&amp; Nagroda pieniężna: $[value]"
+      required-experience: "&6 Wymagany exp: [value]"
+      required-money: 'I 6 Wymagane pieniądze: [value]'
+      required-island-level: "&6 Wymagany poziom wyspy: [value]"
       environment: 'Wymagane środowiska:'
       reward-items: 'I 6 przedmiotów dodatkowych:'
-      reward-commands: "&amp; 6 Polecenia dodatkowe:"
+      reward-commands: "&6 Polecenia dodatkowe:"
       required-items: 'Wymagane rzeczy:'
       required-entities: 'Wymagane podmioty:'
       required-blocks: 'Wymagane bloki:'
-      level: "&amp; fLevel: [poziom]"
+      level: "&f Level: [level]"
       completed: i b Ukończone
-      warning-items-take: "&amp; c Wszystkie wymagane przedmioty są pobierane z ekwipunku
+      warning-items-take: "&c Wszystkie wymagane przedmioty są pobierane z ekwipunku
         po ukończeniu tego wyzwania!"
       rewards-title: "& Nagrody:"
     level-description:
-      experience-reward: "&amp; 6Exp nagroda: [wartość]"
-      money-reward: "&amp; Nagroda pieniężna: $ [wartość]"
+      experience-reward: "&6 Exp nagroda: [value]"
+      money-reward: "&amp; Nagroda pieniężna: $ [value]"
       reward-items: 'I 6 przedmiotów dodatkowych:'
-      reward-commands: "&amp; 6 Polecenia dodatkowe:"
-      waver-amount: I 6 wyzwań [wartość] można pominąć, aby odblokować następny poziom.
+      reward-commands: "&6 Polecenia dodatkowe:"
+      waver-amount: I 6 wyzwań [value] można pominąć, aby odblokować następny poziom.
       completed: i b Ukończone
-      completed-challenges-of: "&amp; 3 Ukończyłeś [liczbę] spośród [maks.] Wyzwań
+      completed-challenges-of: "&3 Ukończyłeś [number] spośród [max] Wyzwań
         na tym poziomie."
     item-description:
-      item: "- [liczba] x [pozycja]"
+      item: "- [count] x [item]"
       item-meta: "([meta])"
-      item-enchant: "- [enchant] [poziom]"
-      item-name: "[imię]"
+      item-enchant: "- [enchant] [level]"
+      item-name: "[name]"
       item-lore: 'Przedmiot:'
-      book-meta: "[tytuł] autor: [autor]"
-      recipe-count: "[liczba] przepisów"
-      armor-color: "[kolor]"
-      potion-type-extended-upgraded: Rozszerzone i zaktualizowane [nazwa]
-      potion-type-upgraded: Ulepszony [nazwa]
-      potion-type-extended: Rozszerzone [nazwa]
-      potion-type: "[imię]"
+      book-meta: "[title] autor: [author]"
+      recipe-count: "[count] przepisów"
+      armor-color: "[color]"
+      potion-type-extended-upgraded: Rozszerzone i zaktualizowane [name]
+      potion-type-upgraded: Ulepszony [name]
+      potion-type-extended: Rozszerzone [name]
+      potion-type: "[name]"
       custom-effects: 'Efekty niestandardowe:'
-      potion-effect: "[efekt] x [wzmacniacz] dla [czas trwania] t"
-      skull-owner: "[właściciel]"
-      egg-meta: "[tłum]"
+      potion-effect: "[effect] x [amplifier] dla [duration] t"
+      skull-owner: "[owner]"
+      egg-meta: "[mob]"
       fish-meta: "[body-color] with [pattern-color] [pattern]"
     questions:
-      prefix: "&amp; 2 [SERWER]:"
+      prefix: "&2 [SERWER]:"
       admin:
         number: Wpisz liczbę na czacie i naciśnij enter.
         challenge-name: Wpisz nazwę wyświetlaną na czacie dla bieżącego wyzwania.
@@ -533,104 +533,101 @@ challenges:
         unique-id: Wpisz unikalny identyfikator obiektu i naciśnij klawisz Enter.
   titles:
     challenge-title: Zakończone sukcesem
-    challenge-subtitle: "[przyjazne imię]"
+    challenge-subtitle: "[friendlyName]"
     level-title: Zakończone sukcesem
-    level-subtitle: "[przyjazne imię]"
+    level-subtitle: "[friendlyName]"
   messages:
     admin:
       you-added: 'Dodałeś do wyzwań '
-      challenge-created: "[wyzwanie]&r stwórz"
-      completed: "&2Ukończył wyzwanie [name]  [player]!"
+      challenge-created: "[challenge]&r stwórz"
+      completed: "&2 Ukończył wyzwanie [name]  [player]!"
       already-completed: "&2 Ukończyłeś to wyzwanie!"
-      reset: "&2Zresetowałeś wyzwanie  [name] dla [player]!"
-      reset-all: "&amp; 2 Wszystkie wyzwania [gracza] zostały zresetowane!"
+      reset: "&2 Zresetowałeś wyzwanie  [name] dla [player]!"
+      reset-all: "&2 Wszystkie wyzwania [player] zostały zresetowane!"
       not-completed: |-
-        &2To wyzwanie nie zostało ukończone!
+        &2 To wyzwanie nie zostało ukończone!
         Sprawdz czy wszystko wykonałeś poprawnie
-      migrate-start: "&2Rozpoczęto migrację wyzwań  addon data."
-      migrate-not: "&2Wszystkie dane są poprawne."
-      start-downloading: "&amp; 5 Rozpoczęcie pobierania i importowania biblioteki
+      migrate-start: "&2 Rozpoczęto migrację wyzwań  addon data."
+      migrate-not: "&2 Wszystkie dane są poprawne."
+      start-downloading: "&5 Rozpoczęcie pobierania i importowania biblioteki
         wyzwań."
-      migrate-end: "&amp; 2 Wyzwania dotyczące danych dodatkowych zaktualizowano do
+      migrate-end: "&2 Wyzwania dotyczące danych dodatkowych zaktualizowano do
         nowego formatu."
       hit-things: Kliknij rzeczy, aby dodać je do listy wymaganych rzeczy. Po zakończeniu
         kliknij prawym przyciskiem myszy.
-      complete-wipe: "&amp; c Mam nadzieję, że masz kopie zapasowe, ponieważ właśnie
+      complete-wipe: "&c Mam nadzieję, że masz kopie zapasowe, ponieważ właśnie
         skasowałeś wszystkie bazy danych Wyzwań Addon!"
       challenge-wipe: I c Mam nadzieję, że masz kopie zapasowe, ponieważ właśnie skasowałeś
         wszystkie Wyzwania i ich poziomy!
-      players-wipe: "&amp; c Mam nadzieję, że masz kopie zapasowe, ponieważ po prostu
+      players-wipe: "&c Mam nadzieję, że masz kopie zapasowe, ponieważ po prostu
         usuwasz wszystkie ukończone wyzwania gracza!"
-    you-completed-challenge: "&amp; 2Ukończono [wartość] &amp; r &amp; 2 wyzwanie!"
-    you-repeated-challenge: "&amp; 2 Powtórzyłeś [wartość] &amp; r &amp; 2 wyzwanie!"
-    you-repeated-challenge-multiple: "&amp; 2 Powtórzyłeś [wartość] &amp; r &amp;
-      2challenge [liczba] razy!"
-    you-completed-level: "&amp; 2Ukończono [wartość] &amp; r &amp; 2 poziom!"
-    name-has-completed-challenge: "&amp; 5 [nazwa] zakończyła [wartość] &amp; r &amp;
-      5 wyzwanie!"
-    name-has-completed-level: "&amp; 5 [nazwa] uzupełniła [wartość] &amp; r &amp;
-      5 poziom!"
+    you-completed-challenge: "&2 Ukończono [value] &r&2 wyzwanie!"
+    you-repeated-challenge: "&2 Powtórzyłeś [value] &r&2 wyzwanie!"
+    you-repeated-challenge-multiple: "&2  Powtórzyłeś [value] &r&2 challenge [count] razy!"
+    you-completed-level: "&2 Ukończono [value] &r&2  poziom!"
+    name-has-completed-challenge: "&5  [name] zakończyła [value] &r&5 wyzwanie!"
+    name-has-completed-level: "&5  [name] uzupełniła [value] &r&5 poziom!"
     import-levels: Rozpocznij importowanie poziomów
     import-challenges: Rozpocznij importowanie wyzwań
     no-levels: 'Ostrzeżenie: Brak poziomów zdefiniowanych w challenge.yml'
-    import-number: Zaimportowane [liczba] wyzwań
+    import-number: Zaimportowane [count] wyzwań
     load-skipping: '"[value]" Istnieje -'
-    load-overwriting: Nadpisywanie „[wartość]”
-    load-add: 'Dodanie nowego obiektu: [wartość]'
+    load-overwriting: Nadpisywanie „[value]”
+    load-add: 'Dodanie nowego obiektu: [value]'
     defaults-file-overwrite: defaults.json istnieje. zostanie nadpisany.
-    defaults-file-completed: Plik defaults.json jest wypełniony wyzwaniami z [świata]!
+    defaults-file-completed: Plik defaults.json jest wypełniony wyzwaniami z [world]!
   errors:
     no-name: "&cNieprawidłowa nazwa wyzwania"
     unknown-challenge: "&cNieznane wyzwanie"
-    unique-id: "&amp; cUniqueID „[id]” jest nieprawidłowy."
-    wrong-icon: "&amp; cDany materiał „[wartość]” jest nieprawidłowy i nie może być
+    unique-id: "&c UniqueID „[id]” jest nieprawidłowy."
+    wrong-icon: "&c Dany materiał „[value]” jest nieprawidłowy i nie może być
       używany jako ikona."
-    not-deployed: "&amp; cChallenge nie został wdrożony!"
+    not-deployed: "&c Challenge nie został wdrożony!"
     not-on-island: "&cMusisz być na swojej wyspie by to zrobic!"
     not-repeatable: "&cTo wyzwanie możesz wykonać tylko raz!"
-    not-enough-items: "&cNie posiadasz wystarczająco [przedmiotów] do zakończenia
+    not-enough-items: "&cNie posiadasz wystarczająco [items] do zakończenia
       tego wyzwania!"
     not-close-enough: "&cmusisz stać w środku [number] przy wszystkich wymaganych
       blokach."
     you-still-need: "&cPotrzebujesz nadal [amount] x [item]"
-    not-enough-money: "&cAby ukończyć wyzwanie, musisz mieć [walutę] na swoim koncie."
-    import-no-file: "&amp; cNie mogłem znaleźć pliku challenge.yml do importowania!"
-    no-load: "&cBłąd: Nie można załadować challenges.yml. [wiadomość]"
-    load-error: "&amp; cError: Nie można załadować [wartość]."
-    defaults-file-exist: "&amp; cdefaults.json już istnieje. Użyj trybu zastępowania,
+    not-enough-money: "&cAby ukończyć wyzwanie, musisz mieć [value] na swoim koncie."
+    import-no-file: "&c Nie mogłem znaleźć pliku challenge.yml do importowania!"
+    no-load: "&cBłąd: Nie można załadować challenges.yml. [message]"
+    load-error: "&c Error: Nie można załadować [value]."
+    defaults-file-exist: "&c defaults.json już istnieje. Użyj trybu zastępowania,
       aby go zastąpić!"
-    defaults-file-error: "&amp; c Wystąpił błąd podczas tworzenia pliku defaults.json!
+    defaults-file-error: "&c Wystąpił błąd podczas tworzenia pliku defaults.json!
       Sprawdź konsolę!"
-    missing-arguments: "&amp; cCommand brakuje argumentów."
-    wrong-environment: "&amp; c Jesteś w złym środowisku!"
-    missing-addon: "&amp; cNie można ukończyć wyzwania: brakuje wymaganego dodatku
+    missing-arguments: "&c Command brakuje argumentów."
+    wrong-environment: "&c Jesteś w złym środowisku!"
+    missing-addon: "&c Nie można ukończyć wyzwania: brakuje wymaganego dodatku
       lub wtyczki."
-    exist-challenges-or-levels: "&amp; cChallenges już istnieją w twoim świecie. Nie
+    exist-challenges-or-levels: "&c Challenges już istnieją w twoim świecie. Nie
       można kontynuować!"
-    no-challenges: "&amp; cChallenges nie są jeszcze zaimplementowane na tym świecie!"
-    no-challenges-admin: "&amp; cChallenges nie są jeszcze zaimplementowane na tym
-      świecie! Użyj &amp; 5 / [polecenie] i c, aby je dodać!"
-    missing-level: "&amp; cChallenge Poziom [poziom] nie jest zdefiniowany w bazie
+    no-challenges: "&c Challenges nie są jeszcze zaimplementowane na tym świecie!"
+    no-challenges-admin: "&c Challenges nie są jeszcze zaimplementowane na tym
+      świecie! Użyj &5 /[command] i c, aby je dodać!"
+    missing-level: "&c Challenge Poziom [level] nie jest zdefiniowany w bazie
       danych. Może to powodować błędy!"
-    no-multiple-permission: "&amp; c Nie masz uprawnień do wielokrotnego wykonania
+    no-multiple-permission: "&c  Nie masz uprawnień do wielokrotnego wykonania
       tego wyzwania jednocześnie."
-    not-a-integer: "&amp; c Podana wartość „[wartość]” nie jest liczbą całkowitą!"
-    challenge-level-not-available: "&amp; c Nie odblokowałeś wymaganego poziomu, aby
+    not-a-integer: "&c  Podana wartość „[value]” nie jest liczbą całkowitą!"
+    challenge-level-not-available: "&c  Nie odblokowałeś wymaganego poziomu, aby
       ukończyć to wyzwanie."
-    incorrect: "&amp; cNie można ukończyć wyzwania: Wymagania są niepoprawne."
-    not-enough-experience: "&amp; c Konieczne jest posiadanie [wartość] EXP, aby ukończyć
+    incorrect: "&c Nie można ukończyć wyzwania: Wymagania są niepoprawne."
+    not-enough-experience: "&c  Konieczne jest posiadanie [value] EXP, aby ukończyć
       to wyzwanie."
-    island-level: "&amp; cTa wyspa musi mieć poziom [liczba] lub wyższy, aby ukończyć
+    island-level: "&c Ta wyspa musi mieć poziom [count] lub wyższy, aby ukończyć
       to wyzwanie!"
-    no-rank: "&amp; c Nie masz wystarczająco wysokiej rangi, aby to zrobić."
-    cannot-remove-items: "&amp; c Niektórych przedmiotów nie można usunąć z ekwipunku!"
+    no-rank: "&c  Nie masz wystarczająco wysokiej rangi, aby to zrobić."
+    cannot-remove-items: "&c  Niektórych przedmiotów nie można usunąć z ekwipunku!"
     not-valid-integer: |-
       &c
       Podana liczba całkowita "[value]"jest nieprawidłowa
       wartość powinna być między  [min] i [max].
-    invalid-level: "& c Poziom [poziom] zawiera nieprawidłowe dane. Nie zostanie załadowany
+    invalid-level: "&c Poziom [level] zawiera nieprawidłowe dane. Nie zostanie załadowany
       z bazy danych!"
-    invalid-challenge: "& c Wyzwanie [wyzwanie] zawiera nieprawidłowe dane. Nie zostanie
+    invalid-challenge: "&c Wyzwanie [challenge] zawiera nieprawidłowe dane. Nie zostanie
       załadowany z bazy danych!"
 protection:
   flags:
@@ -643,11 +640,10 @@ protection:
       name: Wyzwania Ograniczenia wyspy
       hint: Żadnych wyzwań poza wyspą
       description: |-
-        &amp; 5 i o Włącz / wyłącz
+        &5  i o Włącz / wyłącz
         Oraz 5 i wymagania dla graczy do
         I 5 i przestrzegaj ich wyspy
         I 5 i ukończ wyzwanie.
 version: 11
 meta:
-  authors:
-  - BONNe
+  authors: []
