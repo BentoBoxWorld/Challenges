@@ -203,7 +203,7 @@ public class CompleteChallengeCommandTest {
      */
     @Test
     public void testSetup() {
-        assertEquals("bskyblock.complete", cc.getPermission());
+        assertEquals("bskyblock.challenges", cc.getPermission());
         assertEquals("challenges.commands.user.complete.parameters", cc.getParameters());
         assertEquals("challenges.commands.user.complete.description", cc.getDescription());
         assertTrue(cc.isOnlyPlayer());
