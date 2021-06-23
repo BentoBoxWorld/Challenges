@@ -32,17 +32,17 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <powermock.version>2.0.4</powermock.version>
         <!-- More visible way how to change dependency versions -->
-        <spigot.version>1.15.2-R0.1-SNAPSHOT</spigot.version>
-        <bentobox.version>1.15.4</bentobox.version>
+        <spigot.version>1.17-R0.1-SNAPSHOT</spigot.version>
+        <bentobox.version>1.17.0-SNAPSHOT</bentobox.version>
         <level.version>2.5.0</level.version>
         <vault.version>1.7</vault.version>
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
-        <build.version>0.8.5</build.version>
+        <build.version>0.9.0</build.version>
         <build.number>-LOCAL</build.number>
         <!-- Sonar Cloud -->
         <sonar.projectKey>BentoBoxWorld_Challenges</sonar.projectKey>
@@ -215,8 +215,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
             <plugin>

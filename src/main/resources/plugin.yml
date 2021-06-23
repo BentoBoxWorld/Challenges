@@ -1,0 +1,10 @@
+name: Challenges
+main: world.bentobox.challenges.ChallengesPladdon
+version: ${version}
+api-version: 1.17
+description: Challenges Addon
+authors:
+  - tastybento
+  - BONNe
+depend:
+  - BentoBox
