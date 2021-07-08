@@ -1,361 +1,441 @@
 ---
+meta:
+  authors:
+  - BONNe
 challenges:
   commands:
     admin:
       main:
-        description: Hlavní administrátorský příkaz. Otevře GUI.
+        parameters: ''
+        description: Main admin command. Opens GUI.
       import:
+        description: |-
+          Import challenges from challenges.yml
+          Parameter overwrite means that challenges or levels with the same ID will be overwritten.
         parameters: "[overwrite]"
-        description: Importovat výzvy ze souboru challenges.yml|Parametr overwrite
-          znamená, že výzvy nebo úrovně se stejnou ID budou přepsána.
       reload:
+        description: |-
+          Reload challenges from the database
+          Parameter hard means that addon will reset the connection to the database.
         parameters: "[hard]"
-        description: Znovu načíst výzvy z databáze|Parametr hard znamená, že doplňek
-          zresetuje připojení k databázi.
-      defaults:
-        parameters: "[command]"
-        description: Tato metoda ukáže podpříkazy, které umožní import/export výchozích
-          výzev.
-      defaults-generate:
-        parameters: "[overwrite] - umožní přepsat existující soubor."
-        description: Tato metoda umožňuje export existujících výzev do souboru default.json.
-      complete:
-        parameters: "<player> <challenge_id>"
-        description: Tento příkaz umožňuje dokončit výzvu hráči bez GUI.
-      reset:
-        parameters: "<player> <challenge_id>"
-        description: Tento příkaz umožňuje resetovat výzvu hráči bez GUI. Pokud je
-          "challenge_id" nastaveno na "all", potom příkaz zresetuje hráči všechny
-          výzvy.
-      migrate:
-        description: Tato metoda umožňuje migrovat data výzev, která referují na svět
-          nynějšího herního módu, do nového formátu úložiště 0.8.0.
       show:
-        description: Tato metoda vypíše do chatu všechny výzvy, které ve světě existují.
+        description: Prints all challenges in the chat which exist in this world.
+        parameters: ''
+      defaults:
+        description: Shows subcommands to import/export the default challenges.
+        parameters: "[command]"
       defaults-import:
-        description: Tato metoda umožňuje import výchozích výzev.
-    user:
+        description: Import the default challenges.
+        parameters: ''
+      defaults-generate:
+        description: Export existing challenges to default.json file.
+        parameters: "[overwrite] - allows to overwrite existing file."
       complete:
-        parameters: "<challenge_id> [count]"
-        description: Tato metoda umožňuje dokončit výzvu bez GUI.
+        description: Complete a challenge for a player.
+        parameters: "<player> <challenge_id>"
+      reset:
+        description: Reset a challenge for a player. If "challenge_id" is set to "all",
+          then it will reset all challenges.
+        parameters: "<player> <challenge_id>"
+      migrate:
+        description: Migrate current game world challenges data to 0.8.0 storage format.
+        parameters: ''
+    user:
       main:
-        description: Tato metoda otevárá GUI Výzev.
+        description: Open Challenges GUI.
+        parameters: ''
+      complete:
+        description: Complete challenge.
+        parameters: "<challenge_id> [count]"
   gui:
     title:
       admin:
-        gui-title: "&aAdministrace Výzev"
-        edit-challenge-title: "&aEditovat výzvu"
-        edit-level-title: "&aEditovat úroveň"
-        settings-title: "&aEditovat nastavení"
-        choose-challenge-title: "&aZvolit výzvu"
-        choose-level-title: "&aZvolit úroveň"
-        choose-user-title: "&aZvolit hráče"
-        manage-blocks: "&aSpravovat bloky"
-        manage-entities: "&aSpravovat entity"
-        confirm-title: "&aPotvrzení"
-        manage-items: "&aSpravovat předměty"
-        manage-numbers: "&aČíselník"
-        select-block: "&aZvolit blok"
-        select-challenge: "&aZvolit výzvu"
-        select-entity: "&aZvolit entitu"
-        toggle-environment: "&aPřepnout prostředí"
-        edit-text-fields: "&aEditovat textová pole"
-        library-title: "&aStáhnutelné knihovny"
-        lore-add: "&aPřidat řádek příběhu"
-        lore-remove: "&aOdstranit řádek příběhu"
-        lore-edit: "&aEditovat příběh"
-        type-select: "&aZvolit typ výzvy"
-      challenges: "&6Výzvy"
-      game-modes: "&6Zvolit herní mód"
-      multiple-complete: "&6Kolikrát?"
+        gui-title: "&a Challenges Admin"
+        edit-challenge-title: "&a  Edit Challenge"
+        edit-level-title: "&a  Edit Level"
+        settings-title: "&a  Edit Settings"
+        choose-challenge-title: "&a  Choose Challenge"
+        choose-level-title: "&a  Choose Level"
+        choose-user-title: "&a  Choose Player"
+        manage-blocks: "&a  Manage Blocks"
+        manage-entities: "&a  Manage Entities"
+        confirm-title: "&a  Confirmation"
+        manage-items: "&a  Manage Items"
+        manage-numbers: "&a  Number Pad"
+        select-block: "&a  Select Block"
+        select-challenge: "&a  Select Challenge"
+        select-entity: "&a  Select Entity"
+        toggle-environment: "&a  Toggle Environment"
+        edit-text-fields: "&a  Edit Text Fields"
+        library-title: "&a  Downloadable Libraries"
+        lore-add: "&a  Add Lore Element"
+        lore-remove: "&a  Remove Lore Element"
+        lore-edit: "&a  Edit Lore"
+        type-select: "&a  Choose Challenge Type"
+      challenges: "&6  Challenges"
+      game-modes: "&6  Choose GameMode"
+      multiple-complete: "&6  How many times?"
     buttons:
       admin:
-        complete: Dokončit výzvy hráče
-        reset: Resetovat výzvy hráče
-        create-challenge: Přidat novou výzvu
-        create-level: Přidat novou úroveň
-        edit-challenge: Editovat výzvu
-        edit-level: Editovat úroveň
-        delete-challenge: Odstranit výzvu
-        delete-level: Odstranit úroveň
-        properties: Vlastnosti
-        requirements: Požadavky
-        rewards: Odměny
-        challenges: Výzvy
-        deployment: Zveřejnění
-        icon: Ikona
-        locked-icon: Ikona zamčení
-        description: Popis
-        order: Pořadí
-        environment: Prostředí
-        remove-on-complete: Odstranit po dokončení
-        required-experience: Požadované zkušenosti
-        remove-experience: Odstranit zkušenosti
-        required-level: Požadovaná úroveň ostrova
-        required-money: Požadované peníze
-        remove-money: Odstranit peníze
-        reward-text: Zpráva odměny
-        reward-items: Odměnit předměty
-        reward-experience: Odměnit zkušenostmi
-        reward-money: Odměnit penězmi
-        reward-commands: Příkazy odměny
-        repeatable: Opakovatelná
-        repeat-count: Max. počet opakování
-        repeat-reward-text: Zpráva opakované odměny
-        repeat-reward-items: Odměnit předměty po opakování
-        repeat-reward-experience: Odměnit zkušenostmi po opakování
-        repeat-reward-money: Odměnit penězmi po opakování
-        repeat-reward-commands: Odměnit příkazy po opakování
-        remove-completed: Odstranit po dokončení
-        glow: Svítit při dokončení
-        free-at-top: Výzvy zdarma první
-        line-length: Délka řádku příběhu
-        add: Přidat
-        accept: Přijmout
-        decline: Odmítnout
-        save: Uložit
-        cancel: Zrušit
-        input: Vstup
-        value: Hodnota
+        complete: Complete user challenge
+        reset: Reset user challenge
+        create-challenge: Add new challenge
+        create-level: Add new level
+        edit-challenge: Edit challenge
+        edit-level: Edit level
+        delete-challenge: Remove challenge
+        delete-level: Remove level
+        import: Import ASkyblock challenges
+        settings: Edit settings
+        properties: Properties
+        requirements: Requirements
+        rewards: Rewards
+        challenges: Challenges
+        deployment: Deployment
+        icon: Icon
+        locked-icon: Locked Icon
+        description: Description
+        order: Order
+        environment: Environment
+        remove-on-complete: Remove after completion
+        name: Friendly name
+        required-entities: Required entities
+        remove-entities: Kill entities
+        required-blocks: Required blocks
+        remove-blocks: Remove blocks
+        search-radius: Search radius
+        required-permissions: Required permissions
+        required-items: Required items
+        remove-items: Remove items
+        required-experience: Required experience
+        remove-experience: Remove experience
+        required-level: Required island level
+        required-money: Required money
+        remove-money: Remove money
+        reward-text: Reward message
+        reward-items: Reward items
+        reward-experience: Reward experience
+        reward-money: Reward money
+        reward-commands: Reward commands
+        repeatable: Repeatable
+        repeat-count: Max Times
+        repeat-reward-text: Repeat reward message
+        repeat-reward-items: Repeat reward items
+        repeat-reward-experience: Repeat reward experience
+        repeat-reward-money: Repeat reward money
+        repeat-reward-commands: Repeat reward commands
+        waiver-amount: Waiver amount
+        add-challenge: Add challenge
+        remove-challenge: Remove challenge
+        reset-on-new: Reset on new island
+        broadcast: Broadcast completion
+        remove-completed: Remove after complete
+        glow: Glow when completed
+        free-at-top: Free challenges first
+        line-length: Lore line length
+        visibility-mode: Challenge visibility mode
+        toggle-user-list: User list
+        remove-selected: Remove selected
+        add: Add
+        show-eggs: Switch view mode
+        accept: Accept
+        decline: Decline
+        save: Save
+        cancel: Cancel
+        input: Input
+        value: Value
         set: "="
         increase: "+"
         reduce: "-"
         multiply: "*"
-        clear: Vyčistit
-        remove-empty: Odstranit prázdné
+        clear: Clear
+        remove-empty: Remove empty
         number: "[number]"
-        history-lifespan: Dosah historie
-        input-mode: Přepnout režim vstupu
-        title-enable: Titul dokončení
-        library: Webová knihovna
-        download: Stáhnout knihovny
+        level-lore: Level description
+        challenge-lore: Challenge description
+        gui-view-mode: Display all GameModes
+        gui-mode: Single challenges GUI
+        history-store: Challenges history
+        history-lifespan: History LifeSpan
+        island-store: Store per island
+        default-locked-icon: Locked level icon
+        input-mode: Switch input mode
+        title-enable: Completion title
+        title-showtime: Title show time
+        default-import: Import default challenges
+        default-export: Export existing challenges
+        complete-wipe: Wipe addon databases
+        challenge-wipe: Wipe challenges database
+        players-wipe: Wipe user database
+        library: Web Library
+        download: Download Libraries
         type:
-          island: "&6Typ ostrova"
-          inventory: "&6Typ inventáře"
-          other: "&6Jiný typ"
-        import: Importovat výzvy starého pluginu ASkyBlock
-        settings: Editovat nastavení
-        name: Viditelný název
-        required-entities: Požadované entity
-        remove-entities: Zabít entity
-        required-blocks: Požadované bloky
-        remove-blocks: Odstranit bloky
-        search-radius: Radius hledání
-        required-permissions: Požadovaná oprávnění
-        required-items: Požadované předměty
-        remove-items: Odstranit předměty
-        waiver-amount: Nedokončené výzvy
-        add-challenge: Přidat výzvu
-        remove-challenge: Odstranit výzvu
-        reset-on-new: Resetovat na novém ostrově
-        broadcast: Oznámit dokončení
-        visibility-mode: Mód viditelnosti výzvy
-        toggle-user-list: Seznam hráčů
-        remove-selected: Odstranit vybrané
-        show-eggs: Přepnout mód zobrazení
-        level-lore: Popis úrovně
-        challenge-lore: Popis výzvy
-        gui-view-mode: Ukázat všechny herní módy
-        gui-mode: Samostatné GUI výzev
-        history-store: Historie výzev
-        island-store: Ukládat dle ostrovů
-        default-locked-icon: Ikona zamčené úrovně
-        title-showtime: Titul ukázky
-        default-import: Import výchozích výzev
-        default-export: Export existujících výzev
-        complete-wipe: Vymazat databáze doplňku
-        challenge-wipe: Vymazat databáze výzev
-        players-wipe: Vymazat databáze hráčů
-      next: Další
-      previous: Předchozí
-      return: Zpět
-      value: Dokončeno
-      increase: Zvýšit
-      reduce: Snížit
+          island: "&6  Island Type"
+          inventory: "&6  Inventory Type"
+          other: "&6 Other Type"
+      next: Next
+      previous: Previous
+      return: Return
+      value: Complete
+      increase: Increase
+      reduce: Reduce
     descriptions:
       admin:
-        input: Otevřít vstup tetového pole.
-        deployment: Umožňuje hráčům dokončit (zobrazit) výzvu.
-        icon-challenge: Ikona, která bude zobrazena v GUI panelech pro tuto výzvu.
-        icon-level: Ikona, která bude zobrazena v GUI panelech pro tuto úroveň.
-        remove-completed: Zapíná/vypíná skrývání výzev, které jsou dokončené a nelze
-          je opakovat.
-        toggle-user-list: Přepnout na jiný seznam hráčů.
-        selected: Zvoleno
-        show-eggs: Přepnout zobrazení mobů mezi spawnovacím vajíčkem nebo hlavou moba.
-        click-to-edit: "&4Klikni sem k editaci vstupu."
-        input-mode: Přepni mezi módem vstupu v chatu a kovadlině.
-        library-author: od &e[author]
-        library-lang: "&aJazyk: [lang]"
-        library-gamemode: "&aPrimárně pro [gamemode]"
-        download-disabled: Stahovač dat GitHub je v pluginu BentoBox zakázán. Bez
-          toho nemůžeš použít knihovny!
-        create-level: Umožňuje přidat novou úroveň.
-        edit-challenge: Umožňuje editovat nastavení jakékoliv výzvy.
-        edit-level: Umožňuje editovat nastavení jakékoliv úrovně.
-        delete-challenge: Umožňuje odstranit jakoukoliv výzvu.
-        delete-level: Umožňuje odstranit jakoukoliv úroveň.
-        settings: Umožňuje změnit nastavení doplňku.
-        properties: Umožňuje změnit obecné nastavení
-        requirements: Umožňuje spravovat požadavky
-        rewards: Umožňuje spravovat odměny
-        description: Umožňuje editovat popis.
-        order: Umožňuje změnit číslo pořadí.
-        environment: Umožňuje změnit prostředí, kde výzvy fungují.
-        name-challenge: Umožňuje změnit viditelné jméno výzvy.
-        name-level: Umožňuje změnit viditelné jméno úrovně.
-        remove-entities: Umožňuje odebrat (zabít) entity při dokončení výzvy.
-        remove-blocks: Umožňuje odebrat (nahradit vzduchem) bloky při dokončení výzvy.
-        search-radius: Radius okolo umístění hráče, kde se budou požadované entity
-          a bloky hledat.
-        reward-text: Umožňuje změnit zprávu, která se odešle hráči po dokončení výzvy.
-        repeatable: Umožňuje definovat, zda je výzva opakovatelná nebo ne.
-        free-at-top: Umožňuje změnit umístění výzvy zdarma. Skutečně to znamená, že
-          výzvy budou první, jinak poslední.
-        line-length: Umožňuje modifikovat maximální délku řádku příběhu. To neovlivní
-          uložené objekty.
-        level-lore: Umožňuje modifikovat, které položky popisu úrovně by měly být
-          viditelné.
-        challenge-lore: Umožňuje modifikovat, které položky popisu výzvy by měly být
-          viditelné.
-        gui-view-mode: Umožňuje nastavit, zda GUI /challenges má zobrazit herní módy
-          nebo výzvy ve světě hráče.
-        history-store: Umožňuje zapnout/vypnout ukládání historie výzev.
-        default-import: Umožňuje import výchozích výzev.
-        default-export: Umožňuje export existujících výzev do souboru defaults.json.
-        complete-wipe: Umožňuje kompletně vymazat všechny databáze výzev doplňku.
-          Zahrnuje data hráčů!
-        challenge-wipe: Umožňuje kompletně vymazat databáze výzev a jejich úrovní!
-        players-wipe: Umožňuje kompletně vymazat databázi hráčů!
-        library: Otevře GUI, které ukáže všechny dostupné veřejné knihovny výzev.
-        library-version: "&9Vytvořeno ve verzi Challenges [version]"
-        save: Uložit a vrátit se do předchozího GUI.
-        cancel: Vrátit se do předchozího GUI. Změny nebudou uloženy.
-        set: Operace nastavení. Klikání na čísla změní hodnotu na zvolené číslo.
-        increase: Operace zvýšení. Klikání na čísla zvýší hodnotu o zvolené číslo.
-        reduce: Operace snížení. Klikání na čísla sníží hodnotu o zvolené číslo.
-        multiply: Operace násobení. Klikání na čísla znásobí hodnotu zvoleným číslem.
-        challenges: Umožňuje spravovat úroveň výzev (přidat / odebrat).
-        locked-icon: Ikona, která bude zobrazena v GUI panelech, je-li úroveň zamčena.
-        remove-on-complete: Umožňuje odebrat výzvu z GUI hráče po jejím dokončení.
-        remove-items: Umožňuje odebrat předměty z inventáře hráče po dokončení výzvy.
-        required-experience: Umožňuje definovat požadované zkušenosti hráče pro dokončení
-          výzvy.
-        remove-experience: Umožňuje odebrat požadované zkušenosti.
-        reward-experience: Umožňuje změnit zkušenostní odměnu za první dokončení výzvy.
-        repeat-count: Umožňuje definovat maximální počet opakování. Pokud je hodnota
-          nastavena na 0 nebo nižší, pak nebude počet opakování limitován.
-        repeat-reward-text: Umožňuje změnit zprávu, která se odešle hráči po opakovaném
-          dokončení výzvy.
-        repeat-reward-experience: Umožňuje změnit zkušenostní odměnu za opakované
-          dokončení výzvy.
-        waiver-amount: Umožňuje nastavit, kolik výzev může zůstat nedokončených k
-          odemčení další úrovně.
-        reward-text-level: Umožňuje změnit zprávu, která se odešle hráči po dokončení
-          všech výzev v úrovni.
-        add-challenge: Umožňuje přidat existující výzvu do aktuální úrovně.
-        remove-challenge: Umožňuje odstranit jakoukoliv výzvu z aktuální úrovně.
-        reset-on-new: Zapíná/vypíná možnost, která resetuje všechny výzvy hráče, pokud
-          hráč restartuje ostrov, opustí ostrov nebo byl vykopnut.
-        broadcast: Zapíná/vypíná oznámení online hráčům o prvním dokončení výzvy.
-        glow: Zapíná/vypíná efekt záření pro dokončené výzvy.
-        mode-online: Hráči, kteří jsou aktuálně online.
-        mode-in-world: Hráči, kteří jsou ve světě tohoto herního módu.
-        mode-with-island: Hráči, kteří mají v tomto herním módu ostrov.
-        visibility-mode: Umožňuje přepnout, zda by se nezveřejněné výzvy měly zobrazovat
-          nebo ne.
-        edit-text-line: "&6 Edituj textovou zprávu!"
-        add-text-line: "&6 Přidej novou textovou zprávu!"
-        title-enable: Umožňuje zapnout/vypnout zprávu titulku, který se ukáže, když
-          hráč dokončí výzvu.
-        title-showtime: Umožňuje modifikovat, jak dlouho se bude zpráva titulku pro
-          hráče zobrazovat.
-        import: Umožňuje import výzev ze starého pluginu ASkyblock.|Klinkutí pravým
-          myšítkem zapíná/vypíná mód přepisování.|Vlož soubor Challenges.yml do složky
-          ./BentoBox/addons/Challenges.
-        complete: Umožňuje dokončit výzvy jakémukoliv hráči.|Hráči nedostanou odměnu
-          za dokončení.
-        reset: Umožňuje resetovat dokončené výzvy hráče.|Kliknutí pravým myšítkem
-          zapíná/vypíná funkci resetu všeho.
-        create-challenge: Umožňuje přidat novou výzvu.|Jako výchozí se objeví v seznamu
-          výzev zdarma.
-        required-entities: Umožňuje přidat/editovat/odebrat požadované entity.|Entity:|
-        required-blocks: Umožňuje přidat/editovat/odebrat požadované bloky.|Bloky:|
-        required-permissions: 'Požadovaná oprávnění hráče pro možnost dokončit výzvu.|Oprávnění:'
-        required-items: 'Požadované předměty v inventáři hráče.|Předměty:'
-        required-level: Umožňuje definovat požadovanou úroveň ostrova pro tuto výzvu.|&cVyžaduje
-          doplňek Level.
-        required-money: Umožňuje definovat požadované peníze v účtu hráče.|&cVyžaduje
-          pluginy Vault a Economy.
-        remove-money: Umožňuje odebrat pořadované peníze z účtu hráče.|&cVyžaduje
-          pluginy Vault a Economy.
-        reward-items: 'Umožňuje změnit odměnu za první dokončení výzvy.|Předměty:'
-        reward-money: Umožňuje změnit peněžní odměnu za první dokončení výzvy.|&cVyžaduje
-          pluginy Vault a Economy.
-        reward-commands: 'Umožňuje definovat příkazy odměny, které se vykonají po
-          prvním dokončení výzvy.|***Přidáním "[SELF]" na začátek znamená, že příkaz
-          bude proveden hráčem, např. "/kill"|***Řetězec "[player]" bude nahrazen
-          jménem hráče, např. "/kill [player]" bude nahrazen příkazem "/kill BONNe1704"|Příkazy:'
-        repeat-reward-items: 'Umožňuje změnit odměnu za opakované dokončení výzvy.|Předměty:'
-        repeat-reward-money: Umožňuje změnit peněžní odměnu za opakované dokončení
-          výzvy.|&cVyžaduje pluginy Vault a Economy.
-        repeat-reward-commands: 'Umožňuje definovat příkazy odměny, které se vykonají
-          po opakovaném dokončení výzvy.|***Přidáním "[SELF]" na začátek znamená,
-          že příkaz bude proveden hráčem, např. "/kill"|***Řetězec "[player]" bude
-          nahrazen jménem hráče, např. "/kill [player]" bude nahrazen příkazem "/kill
-          BONNe1704"|Příkazy:'
-        remove-selected: Odstranit zvolené položky.|Můžeš zvolit položky kliknutím
-          pravým myšítkem.
-        history-lifespan: Umožňuje modifikovat, kolik dní budou data historie uložena.|0
-          znamená navždy.
-        island-store: Umožňuje zapnout/vypnout ukládání dat výzev dle ostrova. To
-          znamená, že výzvy budou stejné pro celý tým, pokud bude funkce zapnuta.|Toto
-          NEZKONVERTUJE data kliknutím. POSTUP BUDE ZTRACEN.
-        default-locked-icon: Umožňuje změnit výchozí ikonu zamčené úrovně.|Tato volba
-          může být přepsána každou úrovní.
-        gui-mode: Umožňuje zapnout/vypnout samostatné GUI výzev.|&2Vyžaduje restart
-          serveru.
-        download: Umožňuje manuálně aktualizovat dostupné knihovny výzev. |Klikni
-          pravým myšítkem k zapnutí čištění cache.
+        save: Save and return to the previous GUI.
+        cancel: Return to the previous GUI. Changes will not be saved.
+        input: Open text field input.
+        set: Set operation. Clicking on the numbers will change the value to the selected
+          number.
+        increase: Increase operation. Clicking on the numbers will increase the value
+          by the selected number.
+        reduce: Reduce operation. Clicking on the numbers will reduce the value by
+          the selected number.
+        multiply: Multiply operation. Clicking on the numbers will multiply the value
+          by the selected number.
+        import: |-
+          Import ASkyblock challenges.
+          On right click it enables/disables overwrite mode.
+          Place challenges.yml inside the ./BentoBox/addons/Challenges folder.
+        complete: |-
+          Complete challenges for any user.
+          The user will not get any reward for completion.
+        reset: |-
+          Reset completed user challenges.
+          Right click enables/disables Reset all functionality.
+        create-challenge: |-
+          Add new challenge.
+          Will be in free challenges list by default.
+        create-level: Add new Level.
+        edit-challenge: Edit Challenge settings.
+        edit-level: Edit Level settings.
+        delete-challenge: Remove a Challenge.
+        delete-level: Remove a Level.
+        settings: Change settings.
+        properties: Change general properties
+        requirements: Manage requirements
+        rewards: Manage rewards
+        challenges: Manage level challenges (add / remove).
+        deployment: Allows users to complete (view) challenge.
+        icon-challenge: Icon that will be displayed in GUI panels for this challenge.
+        icon-level: Icon that will be displayed in GUI panels for this level.
+        locked-icon: Icon that will be displayed in GUI panels if the level is locked.
+        description: Edit description.
+        order: Change order number.
+        environment: Change challenge environment.
+        remove-on-complete: Remove a challenge from a player"s GUI after it is completed.
+        name-challenge: Change challenge display name.
+        name-level: Change level display name.
+        required-entities: |-
+          Add/edit/remove required entities.
+          Entities:
+        remove-entities: Remove (kill) entities on challenge completion.
+        required-blocks: |-
+          Add/edit/remove required blocks.
+          Blocks:
+        remove-blocks: Remove (replace with air) blocks on challenge completion.
+        search-radius: Radius around player's location where required entities and
+          blocks will be searched.
+        required-permissions: |-
+          Required permissions a for player to be able to complete this challenge.
+          Permission:
+        required-items: |-
+          Required items in player"s inventory.
+           Items:
+        remove-items: Remove items from player"s inventory after challenge completion.
+        required-experience: Define required experience for a user to complete the
+          challenge.
+        remove-experience: Remove required experience.
+        required-level: |-
+          Define the required island level for this challenge.
+          &c Requires Level addon.'
+        required-money: |-
+          Define the required money in player"s account.
+          &c Requires Vault and an Economy plugin.'
+        remove-money: |-
+          Remove required money from player"s account.
+          &c Requires Vault and an Economy plugin.'
+        reward-text: Change message that will be sent to player after challenges completion.
+        reward-items: |-
+          Change first time completion reward items.
+          Items:
+        reward-experience: Change first time completion reward experience.
+        reward-money: |-
+          Change first time completion reward money.
+          &c Requires Vault and Economy plugin.
+        reward-commands: |-
+          Define reward commands that will be called after first time completion.
+          ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
+          ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
+          Commands:
+        repeatable: Define if challenge is repeatable or not.
+        repeat-count: Define maximal repeat count. If the value is set 0, there are
+          no limitations.
+        repeat-reward-text: Change message that will be sent to the player after challenge
+          repeated completion.
+        repeat-reward-items: |-
+          Change repeated completion reward items.
+          Items:
+        repeat-reward-experience: Change repeated completion reward experience.
+        repeat-reward-money: |-
+          Change repeated completion reward money.
+          &c Requires Vault and an Economy plugin.
+        repeat-reward-commands: |-
+          Define reward commands that will be executed after challenge repeated completion.
+          ***Adding "[SELF]" at the start means that command will be run by player, e.g. "/kill"
+          ***String "[player]" will be replaced with player name, e.g. "/kill [player]" will be transformed to "/kill BONNe1704"
+          Commands:
+        waiver-amount: Set the amount of challenges a player can leave out to unlock
+          the next level.
+        reward-text-level: Change the message that will be sent to the player after
+          completing all challenges in a level.
+        add-challenge: Add an existing challenge to the current level.
+        remove-challenge: Remove a challenge from the current level.
+        reset-on-new: Enables/Disables resets of all challenges for a player if they
+          restart, leave or get kicked from an island.
+        broadcast: Enables/Disables the broadcast about the first time challenge completion
+          to all online players.
+        remove-completed: Enables/Disables hiding challenges that are completed and
+          cannot be repeated.
+        glow: Enables/Disables the glowing effect for completed challenges.
+        free-at-top: Change free challenges location. True means that challenges will
+          be first, otherwise they will be last.
+        line-length: Modify the maximum line length in lore box. Will not affect stored
+          objects.
+        toggle-user-list: Switch to different player list.
+        mode-online: Players which are currently online.
+        mode-in-world: Players in a GameMode world.
+        mode-with-island: Players that have an island in a GameMode world.
+        selected: Selected
+        remove-selected: |-
+          Remove selected elements.
+          Select elements with the right mouse button.
+        show-eggs: Switch entity view between Egg mode or Head mode.
+        level-lore: Modify which level description elements should be visible.
+        challenge-lore: Modify which challenge description elements should be visible.
+        gui-view-mode: Set if /challenges GUI should show GameModes or challenges
+          in player's world.
+        history-store: Enable/disable challenges history storage.
+        history-lifespan: |-
+          Modify how many days history data should be stored.
+          0 means forever.
+        island-store: |-
+          Enable/disable challenges data storing per island. This means that challenges will be the same for the whole team if this is enabled.
+          &c Will NOT convert data on click. PROGRESS WILL BE LOST.'
+        default-locked-icon: |-
+          Change default locked level icon.
+          This option can be overwritten by each level.'
+        gui-mode: |-
+          Enable/disable single challenges GUI.
+          &2 Requires a server restart.'
+        visibility-mode: Show/hide undeployed challenges.
+        click-to-edit: "&4 Click here to edit input."
+        edit-text-line: "&6 Edit text message!"
+        add-text-line: "&6 Add new text message!"
+        input-mode: Switch between chat and anvil input modes.
+        title-enable: Enable/disable the title message that will be shown to player"s
+          when they complete a challenge.
+        title-showtime: Modify how long title messages will be visible to the player.
+        default-import: Import default challenges.
+        default-export: Export existing challenges to defaults.json file.
+        complete-wipe: Completely clear all challenges addon databases. Includes player
+          data!
+        challenge-wipe: Completely clear challenges and their level databases!
+        players-wipe: Completely clear player database!
+        library: Open GUI that shows all available public Challenges Libraries.
+        library-author: by &e [author]
+        library-version: "&9 Made in Challenges [version]"
+        library-lang: "&a Language: [lang]"
+        library-gamemode: "&a Primary for [gamemode]"
+        download: |-
+          Manually update available challenges libraries.
+          Right click to enable cache clearing.'
+        download-disabled: GitHub data downloader is disabled in BentoBox. Without
+          it, you cannot use Libraries!
         lore:
-          level: Řetězec úrovně. | Reprezentuje překlad 'challenges.gui.challenge-description.level'.
-          status: Řetězec statusu. | Reprezentuje překlad 'challenges.gui.challenge-description.completed'.
-          count: Řetězec počtu dončení. | Reprezentuje překlad pro 'challenges.gui.challenge-description.completed-times',  'challenges.gui.challenge-description.completed-times-of'
-            and 'challenges.gui.challenge-description.maxed-reached'.
-          description: Řetězec popisu. | Devinován v objektu výzev - challenge.description.
-          warnings: 'Řetězec varování. | Reprezentuje překlad pro: | ''challenges.gui.challenge-description.warning-items-take''
-            | ''challenges.gui.challenge-description.objects-close-by'' | ''challenges.gui.challenge-description.warning-entities-kill''
-            | ''challenges.gui.challenge-description.warning-blocks-remove''.'
-          environment: Řetězec prostředí. | Definován v objektu výzev - challenge.environment.
-          requirements: 'Řetězec požadavků. | Reprezentuje překlad pro: | ''challenges.gui.challenge-description.required-level''
-            | ''challenges.gui.challenge-description.required-money'' | ''challenges.gui.challenge-description.required-experience''
-            |  and challenge.requiredItems, challenge.requiredBlocks or challenge.requiredEntities.'
-          reward_text: Řetězec odměn. | Definován v challenge.rewardText a challenge.repeatRewardText
-          reward_other: 'Řetězec ostatních odměn. | Reprezentuje překlad pro: | ''challenges.gui.challenge-description.experience-reward''
-            | ''challenges.gui.challenge-description.money-reward'' | ''challenges.gui.challenge-description.not-repeatable''.'
-          reward_items: Předměty odměny. | Seznam předmětů, které budou odměněny,
-            je definován v challenge.rewardItems and challenge.repeatRewardItems.
-          reward_commands: Příkazy odměny. | Seznam příkazů, které budou odměněny,
-            je definován v challenge.rewardCommands and challenge.repeatRewardCommands.
-          level_status: Řetězec statusu. | Reprezentuje překlad 'challenges.gui.level-description.completed'.
-          challenge_count: Řetězec počtu dokončených výzev. | Reprezentuje překlad
-            pro 'challenges.gui.level-description.completed-challenges-of'
-          unlock_message: Řetězec zprávy odemčení. | Definován v objektu výzev Level
-            - challengeLevel.unlockMessage.
-          waiver_amount: Řetězec počtu povolených nedokončených výzev k odemčení další
-            úrovně. | Reprezentuje překlad pro 'challenges.gui.level-description.waver-amount'
-          level_reward_text: Řetězec odměn. | Definován v challengeLevel.rewardText
-          level_reward_other: 'Řetězec ostatních odměn. | Reprezentuje překlad pro:
-            | ''challenges.gui.level-description.experience-reward'' | ''challenges.gui.level-description.money-reward''.'
-          level_reward_items: Předměty odměny. | Seznam předmětů, které budou odměněny,
-            je definován v challengeLevel.rewardItems.
-          level_reward_commands: Příkazy odměny. | Seznam příkazů, které budou odměněny,
-            je definován v challengeLevel.rewardCommands.
-      enabled: Povoleno
-      disabled: Zakázáno
-      the-end: "- End"
+          level: |-
+            Level string.
+            Represents translation challenges.gui.challenge-description.level
+          status: |-
+            Status string.
+            Represents translation challenges.gui.challenge-description.completed
+          count: |-
+            Completion count string.
+            Represents translation for challenges.gui.challenge-description.completed-times
+            challenges.gui.challenge-description.completed-times-of
+            and challenges.gui.challenge-description.maxed-reached
+          description: |-
+            Description string.
+            Defined in challenges object - challenge.description.
+          warnings: |-
+            Warning string.
+            Represents translation for:
+            challenges.gui.challenge-description.warning-items-take
+            challenges.gui.challenge-description.objects-close-by
+            challenges.gui.challenge-description.warning-entities-kill
+            challenges.gui.challenge-description.warning-blocks-remove
+          environment: |-
+            Environment string.
+            Defined in challenges object - challenge.environment.
+          requirements: |-
+            Requirement string.
+            Represents translation for:
+            challenges.gui.challenge-description.required-level
+            challenges.gui.challenge-description.required-money
+            challenges.gui.challenge-description.required-experience
+            challenge.requiredItems'
+            challenge.requiredBlocks'
+            or challenge.requiredEntities.
+          reward_text: |-
+            Reward string.
+            Defined in challenge.rewardText and challenge.repeatRewardText
+          reward_other: |-
+            Reward other string.
+            Represents translation for:
+            challenges.gui.challenge-description.experience-reward
+            challenges.gui.challenge-description.money-reward
+            challenges.gui.challenge-description.not-repeatable
+          reward_items: |-
+            Reward items.
+            List of items that will be rewarded defined in challenge.rewardItems and challenge.repeatRewardItems.
+          reward_commands: |-
+            Reward commands.
+            List of commands that will be rewarded defined in challenge.rewardCommands and challenge.repeatRewardCommands.
+          level_status: |-
+            Status string.
+            Represents translation challenges.gui.level-description.completed
+          challenge_count: |-
+            Completed challenge count string.
+            Represents translation for challenges.gui.level-description.completed-challenges-of
+          unlock_message: |-
+            Unlock message string.
+            Defined in challenges Level object - challengeLevel.unlockMessage
+          waiver_amount: |-
+            Shippable challenge count to unlock next level string.
+            Represents translation for challenges.gui.level-description.waver-amount
+          level_reward_text: |-
+            Reward string.
+            Defined in challengeLevel.rewardText
+          level_reward_other: |-
+            Reward other string.
+            Represents translation for:
+            challenges.gui.level-description.experience-reward
+            challenges.gui.level-description.money-reward
+          level_reward_items: |-
+            Reward items.
+            List of items that will be rewarded defined in challengeLevel.rewardItems
+          level_reward_commands: |-
+            Reward commands.
+            List of commands that will be rewarded defined in challengeLevel.rewardCommands
+      current-value: "&6 Current value: [value]."
+      enabled: Active
+      disabled: Disabled
+      type:
+        island: "&a require blocks or mobs around player"
+        inventory: '&a require items in the player"s inventory'
+        other: "&a require things from other plugins/addons"
+      the-end: "- The End"
       nether: "- Nether"
-      normal: "- Svět"
+      normal: "- Overworld"
       entity: "- [entity] : [count]"
       block: "- [block] : [count]"
       permission: "- [permission]"
@@ -363,178 +443,181 @@ challenges:
       item-meta: "  ([meta])"
       item-enchant: "   - [enchant] [level]"
       command: "- [command]"
-      level-unlocked: Klikni k zobrazení výzev [level]!
-      level-locked: Dokonči dalších [count] výzev [level] k odemčení další úrovně!
-      increase-by: "&aNavýšit počet dokončení o [value]"
-      reduce-by: "&cSnížit počet dokončení o [value]"
+      level-unlocked: Click to see [level] challenges!
+      level-locked: Complete [count] more [level] challenges to unlock this level!
+      increase-by: "&a Increase completion count by [value]"
+      reduce-by: "&c Reduce completion count by [value]"
       visibility:
-        hidden: Jen zveřejněné výzvy jsou viditelné.
-        visible: Všechny výzvy jsou pro všechny viditelné
-        toggleable: Umožňuje přepnout, zda by měly být nezveřejněné výzvy viditelné
-      type:
-        island: "&aUmožňuje požadovat bloky nebo moby okolo hráče"
-        other: "&aUmožňuje požadovat položky z ostatních pluginů/doplňků"
-        inventory: "&aUmožňuje požadovat předměty v inventáři hráče"
-      current-value: "|&6Nynější hodnota: [value]."
+        visible: All challenges are visible to everyone
+        hidden: Only Deployed challenges are visible.
+        toggleable: Toggle if undeployed challenges should be displayed
     challenge-description:
-      completed-times-of: Dokončeno [donetimes] z [maxtimes]
-      maxed-reached: Dokončeno [donetimes] z [maxtimes]
-      completed-times: Dokončeno [donetimes]
-      objects-close-by: "&cVšechny požadované bloky a entity musí být blízko tebe
-        na tvém ostrově!"
-      warning-entities-kill: "&cVšechny požadované entity budou zabity po dokončení
-        této výzvy!"
-      warning-blocks-remove: "&cVšechny požadované blocks budou odstraněny po dokončení
-        této výzvy!"
-      not-repeatable: "&cTato výzva není opakovatelná!"
-      experience-reward: "&6Zkuš. odměna: [value]"
-      money-reward: "&6Peněžní odměna: $[value]"
-      required-experience: "&6Potřebné zkuš.: [value]"
-      required-money: "&6Potřebné peníze: $[value]"
-      required-island-level: "&6Potřebná úroveň ostrova: [value]"
-      environment: 'Požadovaná prostředí:'
-      reward-items: "&6Odměněné předměty:"
-      reward-commands: "&6Odměněné příkazy:"
-      required-items: 'Potřebné předměty:'
-      required-entities: 'Potřebné entity:'
-      required-blocks: 'Potřebné bloky:'
-      level: "&FÚroveň: [level]"
-      completed: "&BDokončeno"
-      warning-items-take: "&cVšechny požadované předměty budou po dokončení výzvy
-        odebrány!"
-      rewards-title: "&a Odměny:"
+      level: "&f Level: [level]"
+      completed: "&b Completed"
+      completed-times-of: Completed [donetimes] out of [maxtimes]
+      maxed-reached: Completed [donetimes] out of [maxtimes]
+      completed-times: Completed [donetimes]
+      warning-items-take: "&c All required items are taken from your inventory when
+        you complete this challenge!"
+      objects-close-by: "&c All required blocks and entities must be close to you
+        on your island!"
+      warning-entities-kill: "&c All required entities will be killed when you complete
+        this challenge!"
+      warning-blocks-remove: "&c All required blocks will be removed when you complete
+        this challenge!"
+      not-repeatable: "&c This challenge is not repeatable!"
+      experience-reward: "&6 Exp reward: [value]"
+      money-reward: "&6 Money reward: $[value]"
+      required-experience: "&6 Required exp: [value]"
+      required-money: "&6 Required money: $[value]"
+      required-island-level: "&6 Required island level: [value]"
+      environment: 'Required Environments:'
+      rewards-title: "&a  Rewards:"
+      reward-items: "&6 Reward Items:"
+      reward-commands: "&6 Reward Commands:"
+      required-items: 'Required Items:'
+      required-entities: 'Required Entities:'
+      required-blocks: 'Required Blocks:'
     level-description:
-      experience-reward: "&6Zkuš. odměna: [value]"
-      money-reward: "&6Peněžní odměna: $[value]"
-      reward-items: "&6Odměněné předměty:"
-      reward-commands: "&6Odměněné příkazy:"
-      waver-amount: "&6Lze přeskočit [value] výzev k odemčení další úrovně."
-      completed: "&BDokončeno"
-      completed-challenges-of: "&3Dokončil jsi [number] z [max] výzev v této úrovni."
+      completed: "&b Completed"
+      completed-challenges-of: "&3 You have completed [number] out of [max] challenges
+        in this level."
+      waver-amount: "&6 [value] challenges can be skipped to unlock next level."
+      experience-reward: "&6 Exp reward: [value]"
+      money-reward: "&6 Money reward: $[value]"
+      reward-items: "&6 Reward Items:"
+      reward-commands: "&6 Reward Commands:"
     item-description:
       item: "- [count] x [item]"
       item-meta: "  ([meta])"
       item-enchant: "   - [enchant] [level]"
       item-name: "  [name]"
-      item-lore: "  Příběh přemětu:"
-      book-meta: "  [title] od [author]"
-      recipe-count: "  [count] receptů"
+      item-lore: "  Item Lore:"
+      book-meta: "  [title] by [author]"
+      recipe-count: "  [count] recipes"
       armor-color: "  [color]"
-      potion-type-extended-upgraded: "  Rozšířen a aktualizován [name]"
-      potion-type-upgraded: "  Aktualizován [name]"
-      potion-type-extended: "  Rozšířen [name]"
+      potion-type-extended-upgraded: "  Extended and upgraded [name]"
+      potion-type-upgraded: "  Upgraded [name]"
+      potion-type-extended: "  Extended [name]"
       potion-type: "  [name]"
-      custom-effects: "  Vlastní efekty:"
-      potion-effect: "  [effect] x [amplifier] na [duration]t"
+      custom-effects: "  Custom Effects:"
+      potion-effect: "  [effect] x [amplifier] for [duration]t"
       skull-owner: "  [owner]"
       egg-meta: "  [mob]"
-      fish-meta: "  [body-color] s [pattern-color] [pattern]"
+      fish-meta: "  [body-color] with [pattern-color] [pattern]"
     questions:
-      prefix: "&2[SERVER]: "
+      prefix: "&2 [SERVER]: "
       admin:
+        number: Write a number in the chat and press enter.
         unique-id: Napište jedinečné ID objektu a stiskněte klávesu Enter.
-        number: Napiš číslo do chatu a stiskni Enter k přijetí a opět stiskni Enter.
-        challenge-name: Napiš do chatu zobrazované jméno pro aktuální výzvu.
-        level-name: Napiš do chatu zobrazované jméno pro aktuální úroveň.
+        challenge-name: Write the display name in the chat for the current challenge.
+        level-name: Write the display name in chat for the current level.
   titles:
-    challenge-title: Úspěšně dokončeno
+    challenge-title: Successfully completed
     challenge-subtitle: "[friendlyName]"
-    level-title: Úspěšně dokončeno
+    level-title: Successfully completed
     level-subtitle: "[friendlyName]"
   messages:
     admin:
-      you-added: Přidal jsi jeden [thing] do výzvy
-      challenge-created: "[challenge]&r vytvořeno!"
-      completed: "&2Dokončil jsi výzvu [name] hráči [player]!"
-      already-completed: "&2Tato výzva již byla dokončena!"
-      reset: "&2Resetoval jsi výzvu [name] hráči [player]!"
-      reset-all: "&2Všechny výzvy hráče [player] jsou resetovány!"
-      not-completed: "&2Tato výzva ještě není dokončena!"
-      migrate-start: "&2Začít migrovat data doplňku Challenges."
-      migrate-not: "&2Všechna data jsou platná."
-      start-downloading: "&5Začínám stahovat a importovat knihovnu výzev."
-      migrate-end: "&2Data doplňku Challenges jsou aktualizována na nový formát."
-      hit-things: Bouchni do věcí pro jejich přidání do seznamu požadovaných věcí.
-        Klikni pravým myšítkem, jakmile budeš hotov.
-      complete-wipe: "&cDoufám, že máš zálohy, neboť jsi právě vyprázdnil všechny
-        databáze doplňku Challenges!"
-      challenge-wipe: "&cDoufám, že máš zálohy, neboť jsi právě vyprázdnil výzvy a
-        jejich úrovně z databází!"
-      players-wipe: "&cDoufám, že máš zálohy, neboť jsi právě vyprázdnil dokončené
-        výzvy hráčů z databází!"
-    you-completed-challenge: "&2Dokončil jsi výzvu [value]&r&2!"
-    you-repeated-challenge: "&2Zopakoval jsi výzvu [value]&r&2!"
-    you-repeated-challenge-multiple: "&2Zopakoval jsi výzvu [value] &r&2[count]x!"
-    you-completed-level: "&2Dokončil jsi úroveň [value]&r&2!"
-    name-has-completed-challenge: "&5[name] dokončil výzvu [value]&r&5!"
-    name-has-completed-level: "&5[name] dokončil úroveň [value]&r&5!"
-    import-levels: Začínám importovat úrovně
-    import-challenges: Začínám importovat výzvy
-    no-levels: 'Varování: Žádné úrovně nejsu definovány v souboru challenges.yml'
-    import-number: Importováno [number] výzev
-    load-skipping: '"[value]" již existuje - přeskakuji'
-    load-overwriting: Přepisuji "[value]"
-    load-add: 'Přidávám nový objekt: [value]'
-    defaults-file-overwrite: Soubor defaults.json existuje. Bude přepsán.
-    defaults-file-completed: Soubor defaults.json je naplněn výzvami ze světa [world]!
+      hit-things: Click the things to add them to the list of required things. Right
+        click when done.
+      you-added: You added one [thing] to the challenge
+      challenge-created: "[challenge]&r  created!"
+      complete-wipe: "&c Hopefully you have backups, because you just erased all the
+        Challenges Addon databases!"
+      challenge-wipe: "&c Hopefully you have backups, because you just erased all
+        the Challenges and their levels!"
+      players-wipe: "&c Hopefully you have backups, because you just erase all the
+        player completed challenges!"
+      completed: "&2 You completed challenge [name] for [player]!"
+      already-completed: "&2 This challenge was already completed!"
+      reset: "&2 You reset challenge [name] for [player]!"
+      reset-all: "&2 All [player] challenges were reset!"
+      not-completed: "&2 This challenge is not completed yet!"
+      migrate-start: "&2 Start migrating challenges addon data."
+      migrate-end: "&2 Challenges addon data updated to new format."
+      migrate-not: "&2 All data is valid."
+      start-downloading: "&5 Starting to download and import Challenges Library."
+    you-completed-challenge: "&2 You completed the [value] &r &2 challenge!"
+    you-repeated-challenge: "&2 You repeated the [value] &r &2 challenge!"
+    you-repeated-challenge-multiple: "&2 You repeated the [value] &r &2 challenge
+      [count] times!"
+    you-completed-level: "&2 You completed the [value] &r &2 level!"
+    name-has-completed-challenge: "&5 [name] has completed the [value] &r &5 challenge!"
+    name-has-completed-level: "&5 [name] has completed the [value] &r &5 level!"
+    import-levels: Start importing Levels
+    import-challenges: Start importing Challenges
+    no-levels: 'Warning: No levels defined in challenges.yml'
+    import-number: Imported [number] challenges
+    load-skipping: '"[value]" already exists - skipping'
+    load-overwriting: Overwriting "[value]"
+    load-add: 'Adding new object: [value]'
+    defaults-file-overwrite: defaults.json exists. It will be overwritten.
+    defaults-file-completed: defaults.json file is populated with challenges from
+      [world]!
   errors:
-    no-name: "&cChybějící název výzvy"
-    unknown-challenge: "&cNeznámá výzva"
-    unique-id: '&cUnikátní ID "[id]" není platné.'
-    wrong-icon: '&cUvedený materiál "[value]" je neplatný a nelze jej použít jako
-      ikonu.'
-    not-deployed: "&cVýzva není zveřejněna!"
-    not-on-island: "&cK tomuto musíš být na svém ostrově!"
-    not-repeatable: "&cTato výzva není opakovatelná!"
-    not-enough-items: "&cNemáš dostatek [items] k dokončení této výzvy!"
-    not-close-enough: "&cMusíš stát alespoň [number] bloků od požadovaných položek."
-    you-still-need: "&cStále potřebuješ [amount] x [item]"
-    not-enough-money: "&cJe důležité mít [value] na svém účtu k dokončení této výzvy."
-    import-no-file: "&cNelze najít soubor challenges.yml k importu!"
-    no-load: "&cChyba: Nelze načíst soubor challenges.yml. [message]"
-    load-error: "&cChyba: Nelze načíst [value]."
-    defaults-file-exist: "&cSoubor defaults.json již existuje. Použij mód přepsání
-      k jeho nahrazení!"
-    defaults-file-error: "&cVyskytla se chyba během vytváření souboru defaults.json!
-      Podívej se do konzole!"
-    missing-arguments: "&cPříkaz postrádá argumenty."
-    wrong-environment: "&cJsi ve špatném prostředí!"
-    missing-addon: "&cNelze dokončit výzvu. Vyžadovaný doplňek nebo plugin chybí."
-    exist-challenges-or-levels: "&cVe tvém světě již existují výzvy. Nelze pokračovat!"
-    no-challenges: "&cVýzvy nejsou v aktuálním světě implementovány!"
-    no-challenges-admin: "&cVýzvy nejsou v aktuálním světě implementovány! Měl bys
-      použít &5/[command] &ck jejich přidání!"
-    missing-level: "&cÚroveň výzev [level] není v databázi definována. To může způsobit
-      nějaké chyby!"
-    no-multiple-permission: "&cNemáš oprávnění k dokončení výzev vícekrát najednou."
-    not-a-integer: '&cUvedená hodnota "[value]" není celé číslo!'
-    challenge-level-not-available: "&cNeodemkl jsi úroveň k dokončení této výzvy."
-    incorrect: "&cNelze dokončit výzvu. Požadavky nejsou správně."
-    not-enough-experience: "&cJe důležité mít [value] zkuš. k dokončení této výzvy."
-    island-level: "&cÚroveň tvého ostrova musí být [number] k dokončení této výzvy!"
-    no-rank: "&cNa toto nemáš hodnost."
-    cannot-remove-items: "&cNěkteré předměty nelze odebrat z tvého inventáře!"
-    not-valid-integer: '&cUvedené celé číslo "[value]" je neplatné!|Hodnota by měla
-      být mezi [min] a [max].'
-    invalid-level: "&c Level [level] obsahuje neplatná data. Nebude načten z databáze!"
-    invalid-challenge: "&c Challenge [challenge] obsahuje neplatná data. Nebude načtena
-      z databáze!"
+    no-name: "&c Missing challenge name"
+    unknown-challenge: "&c Unknown challenge"
+    unique-id: '&c UniqueID "[id]" is not valid.'
+    wrong-icon: '&c Given material "[value]" is not valid and cannot be used as icon.'
+    not-valid-integer: |-
+      &c Given integer "[value]" is not valid!
+      Value should be between [min] and [max].
+    not-a-integer: '&c Given value "[value]" is not an integer!'
+    not-deployed: "&c Challenge is not deployed!"
+    not-on-island: "&c You must be on your island to do that!"
+    challenge-level-not-available: "&c You have not unlocked the required level to
+      complete this challenge."
+    not-repeatable: "&c This challenge is not repeatable!"
+    wrong-environment: "&c You are in the wrong environment!"
+    not-enough-items: "&c You do not have enough [items] to complete this challenge!"
+    not-close-enough: "&c You must be standing within [number] blocks of all required
+      items."
+    you-still-need: "&c You still need [amount] x [item]"
+    missing-addon: "&c Cannot complete challenge: Required addon or plugin is missing."
+    incorrect: "&c Cannot complete challenge: Requirements are incorrect."
+    not-enough-money: "&c It is necessary to have [value] on your account to complete
+      the challenge."
+    not-enough-experience: "&c It is necessary to have [value] EXP to complete this
+      challenge."
+    island-level: "&c Your island must be level [number] or greater to complete this
+      challenge!"
+    import-no-file: "&c Could not find challenges.yml file to import!"
+    no-load: "&c Error: Could not load challenges.yml. [message]"
+    load-error: "&c Error: Cannot load [value]."
+    no-rank: "&c You do not have rank that is high enough to do that."
+    cannot-remove-items: "&c Some items cannot be removed from your inventory!"
+    exist-challenges-or-levels: "&c Challenges already exist in your world. Cannot
+      proceed!"
+    defaults-file-exist: "&c defaults.json already exists. Use overwrite mode to replace
+      it!"
+    defaults-file-error: "&c There was an error while creating defaults.json file!
+      Check console!"
+    no-challenges: "&c Challenges are not implemented in this world yet!"
+    no-challenges-admin: "&c Challenges are not implemented in this world yet! Use
+      &5 /[command] &c to add them!"
+    missing-level: "&c Challenge Level [level] is not defined in the database. It
+      may cause errors!"
+    missing-arguments: "&c Command is missing arguments."
+    no-multiple-permission: "&c You do not have permission to complete this challenge
+      multiple times at once."
+    invalid-level: "&c Level [level] contains invalid data. It will not be loaded
+      from database!"
+    invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not
+      be loaded from database!"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
       description: |-
-        &5&oPřepnout, kdo může
-        &5&odokončit výzvy
-      name: Protekce výzev
+        &5 &o Toggle who can
+        &5 &o complete challenges
+      name: Challenges protection
     CHALLENGES_WORLD_PROTECTION:
-      name: Limitace výzev na ostrov
-      hint: Žádné výzvy mimo ostrov
       description: |-
-        &5&oToto umožní zapnout/vypnout
-        &5&opožadavky hráčů
-        &5&obýt na jejich ostrově
-        &5&ok dokončení výzvy.
+        &5 &o Enable/disable
+        &5 &o requirement for players to
+        &5 &o be on their island to
+        &5 &o complete a challenge.
+      name: Challenges Island limitation
+      hint: No challenges outside island
 version: 11
-meta:
-  authors:
-    '0': BONNe
