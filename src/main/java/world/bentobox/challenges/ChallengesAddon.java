@@ -29,6 +29,8 @@ import world.bentobox.challenges.handlers.LevelDataRequestHandler;
 import world.bentobox.challenges.handlers.LevelListRequestHandler;
 import world.bentobox.challenges.listeners.ResetListener;
 import world.bentobox.challenges.listeners.SaveListener;
+import world.bentobox.challenges.managers.ChallengesImportManager;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.web.WebManager;
 import world.bentobox.level.Level;
 

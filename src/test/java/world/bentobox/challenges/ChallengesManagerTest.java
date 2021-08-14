@@ -65,6 +65,7 @@ import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
 import world.bentobox.challenges.events.LevelCompletedEvent;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.LevelStatus;
 
 /**
@@ -214,7 +215,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#load()}.
+     * Test method for {@link ChallengesManager#load()}.
      * @throws InterruptedException
      */
     @Test
@@ -230,7 +231,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#reload()}.
+     * Test method for {@link ChallengesManager#reload()}.
      * @throws InterruptedException
      */
     @Test
@@ -246,7 +247,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeNoOverwriteSilent() {
@@ -257,7 +258,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeNoOverwriteNotSilent() {
@@ -269,7 +270,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeOverwriteSilent() {
@@ -281,7 +282,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeOverwriteNotSilent() {
@@ -293,7 +294,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelNoOverwriteSilent() {
@@ -304,7 +305,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelNoOverwriteNotSilent() {
@@ -316,7 +317,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelOverwriteSilent() {
@@ -328,7 +329,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelOverwriteNotSilent() {
@@ -340,7 +341,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#removeFromCache(java.util.UUID)}.
+     * Test method for {@link ChallengesManager#removeFromCache(java.util.UUID)}.
      */
     @Ignore("This method does not do anything so there is no need to test right now.")
     @Test
@@ -351,7 +352,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#wipeDatabase(boolean)}.
+     * Test method for {@link ChallengesManager#wipeDatabase(boolean)}.
      * @throws InterruptedException
      */
     @Test
@@ -387,7 +388,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#wipePlayers()}.
+     * Test method for {@link ChallengesManager#wipePlayers()}.
      * @throws InterruptedException
      */
     @Test
@@ -403,7 +404,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#migrateDatabase(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#migrateDatabase(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
      */
     @Test
     public void testMigrateDatabase() {
@@ -411,7 +412,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#save()}.
+     * Test method for {@link ChallengesManager#save()}.
      */
     @Test
     public void testSave() {
@@ -419,7 +420,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#saveChallenge(world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#saveChallenge(world.bentobox.challenges.database.object.Challenge)}.
      * @throws InterruptedException
      */
     @Test
@@ -460,7 +461,7 @@ public class ChallengesManagerTest {
         return tempFile.renameTo(inputFile);
     }
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#saveLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#saveLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
      * @throws InterruptedException
      */
     @Test
@@ -476,7 +477,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#isChallengeComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#isChallengeComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
      */
     @Test
     public void testIsChallengeCompleteUserWorldChallenge() {
@@ -484,7 +485,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#isChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#isChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
      */
     @Test
     public void testIsChallengeCompleteUUIDWorldChallenge() {
@@ -492,7 +493,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#isChallengeComplete(java.util.UUID, org.bukkit.World, java.lang.String)}.
+     * Test method for {@link ChallengesManager#isChallengeComplete(java.util.UUID, org.bukkit.World, java.lang.String)}.
      */
     @Test
     public void testIsChallengeCompleteUUIDWorldString() {
@@ -500,7 +501,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#setChallengeComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, int)}.
+     * Test method for {@link ChallengesManager#setChallengeComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, int)}.
      */
     @Test
     public void testSetChallengeCompleteUserWorldChallengeInt() {
@@ -510,7 +511,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#setChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, int)}.
+     * Test method for {@link ChallengesManager#setChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, int)}.
      */
     @Test
     public void testSetChallengeCompleteUUIDWorldChallengeInt() {
@@ -520,7 +521,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#setChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, java.util.UUID)}.
+     * Test method for {@link ChallengesManager#setChallengeComplete(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, java.util.UUID)}.
      */
     @Test
     public void testSetChallengeCompleteUUIDWorldChallengeUUID() {
@@ -531,7 +532,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#resetChallenge(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, java.util.UUID)}.
+     * Test method for {@link ChallengesManager#resetChallenge(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.Challenge, java.util.UUID)}.
      */
     @Test
     public void testResetChallenge() {
@@ -543,7 +544,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#resetAllChallenges(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#resetAllChallenges(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
      */
     @Test
     public void testResetAllChallengesUserWorld() {
@@ -555,7 +556,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#resetAllChallenges(java.util.UUID, org.bukkit.World, java.util.UUID)}.
+     * Test method for {@link ChallengesManager#resetAllChallenges(java.util.UUID, org.bukkit.World, java.util.UUID)}.
      */
     @Test
     public void testResetAllChallengesUUIDWorldUUID() {
@@ -567,7 +568,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getChallengeTimes(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#getChallengeTimes(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.Challenge)}.
      */
     @Test
     public void testGetChallengeTimesUserWorldChallenge() {
@@ -577,7 +578,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getChallengeTimes(world.bentobox.bentobox.api.user.User, org.bukkit.World, java.lang.String)}.
+     * Test method for {@link ChallengesManager#getChallengeTimes(world.bentobox.bentobox.api.user.User, org.bukkit.World, java.lang.String)}.
      */
     @Test
     public void testGetChallengeTimesUserWorldString() {
@@ -587,7 +588,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#isLevelCompleted(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#isLevelCompleted(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
      */
     @Test
     public void testIsLevelCompleted() {
@@ -595,7 +596,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#isLevelUnlocked(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#isLevelUnlocked(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
      */
     @Test
     public void testIsLevelUnlocked() {
@@ -605,7 +606,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#setLevelComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#setLevelComplete(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
      */
     @Test
     public void testSetLevelComplete() {
@@ -616,7 +617,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#validateLevelCompletion(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#validateLevelCompletion(world.bentobox.bentobox.api.user.User, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
      */
     @Test
     public void testValidateLevelCompletion() {
@@ -624,7 +625,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getChallengeLevelStatus(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#getChallengeLevelStatus(java.util.UUID, org.bukkit.World, world.bentobox.challenges.database.object.ChallengeLevel)}.
      */
     @Test
     public void testGetChallengeLevelStatus() {
@@ -639,7 +640,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getAllChallengeLevelStatus(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#getAllChallengeLevelStatus(world.bentobox.bentobox.api.user.User, org.bukkit.World)}.
      */
     @Test
     public void testGetAllChallengeLevelStatus() {
@@ -655,7 +656,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getAllChallengesNames(org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#getAllChallengesNames(org.bukkit.World)}.
      */
     @Test
     public void testGetAllChallengesNames() {
@@ -668,7 +669,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getAllChallenges(org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#getAllChallenges(org.bukkit.World)}.
      */
     @Test
     public void testGetAllChallenges() {
@@ -681,7 +682,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getFreeChallenges(org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#getFreeChallenges(org.bukkit.World)}.
      */
     @Test
     public void testGetFreeChallenges() {
@@ -701,7 +702,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getLevelChallenges(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#getLevelChallenges(world.bentobox.challenges.database.object.ChallengeLevel)}.
      * @throws InterruptedException
      */
     @Test
@@ -718,7 +719,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getChallenge(java.lang.String)}.
+     * Test method for {@link ChallengesManager#getChallenge(java.lang.String)}.
      * @throws InterruptedException
      */
     @Test
@@ -732,7 +733,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#containsChallenge(java.lang.String)}.
+     * Test method for {@link ChallengesManager#containsChallenge(java.lang.String)}.
      */
     @Test
     public void testContainsChallenge() {
@@ -740,7 +741,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#createChallenge(java.lang.String, world.bentobox.challenges.database.object.Challenge.ChallengeType, world.bentobox.challenges.database.object.requirements.Requirements)}.
+     * Test method for {@link ChallengesManager#createChallenge(java.lang.String, world.bentobox.challenges.database.object.Challenge.ChallengeType, world.bentobox.challenges.database.object.requirements.Requirements)}.
      */
     @Test
     public void testCreateChallenge() {
@@ -751,7 +752,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#deleteChallenge(world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#deleteChallenge(world.bentobox.challenges.database.object.Challenge)}.
      * @throws InterruptedException
      */
     @Test
@@ -767,7 +768,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getLevels(org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#getLevels(org.bukkit.World)}.
      */
     @Test
     public void testGetLevels() {
@@ -778,7 +779,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getLevel(world.bentobox.challenges.database.object.Challenge)}.
+     * Test method for {@link ChallengesManager#getLevel(world.bentobox.challenges.database.object.Challenge)}.
      */
     @Test
     public void testGetLevelChallenge() {
@@ -787,7 +788,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#getLevel(java.lang.String)}.
+     * Test method for {@link ChallengesManager#getLevel(java.lang.String)}.
      */
     @Test
     public void testGetLevelString() {
@@ -798,7 +799,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#containsLevel(java.lang.String)}.
+     * Test method for {@link ChallengesManager#containsLevel(java.lang.String)}.
      */
     @Test
     public void testContainsLevel() {
@@ -808,7 +809,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#addChallengeToLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#addChallengeToLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
      * @throws InterruptedException
      */
     @Test
@@ -821,7 +822,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#removeChallengeFromLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#removeChallengeFromLevel(world.bentobox.challenges.database.object.Challenge, world.bentobox.challenges.database.object.ChallengeLevel)}.
      * @throws InterruptedException
      */
     @Test
@@ -832,7 +833,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#createLevel(java.lang.String, org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#createLevel(java.lang.String, org.bukkit.World)}.
      */
     @Test
     public void testCreateLevel() {
@@ -843,7 +844,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#deleteChallengeLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
+     * Test method for {@link ChallengesManager#deleteChallengeLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.
      * @throws InterruptedException
      */
     @Test
@@ -855,7 +856,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#hasAnyChallengeData(org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#hasAnyChallengeData(org.bukkit.World)}.
      * @throws InterruptedException
      */
     @Test
@@ -866,7 +867,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.ChallengesManager#hasAnyChallengeData(java.lang.String)}.
+     * Test method for {@link ChallengesManager#hasAnyChallengeData(java.lang.String)}.
      * @throws InterruptedException
      */
     @Test

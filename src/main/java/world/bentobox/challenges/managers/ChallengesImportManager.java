@@ -1,4 +1,4 @@
-package world.bentobox.challenges;
+package world.bentobox.challenges.managers;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +26,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.json.BentoboxTypeAdapterFactory;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.Util;
+import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.utils.Utils;
