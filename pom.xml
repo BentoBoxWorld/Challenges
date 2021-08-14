@@ -112,9 +112,10 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
+        <!-- Minecraft Lib Repo -->
         <repository>
-            <id>codemc-nms</id>
-            <url>https://repo.codemc.org/repository/nms/</url>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
         </repository>
         <!--Vault Repo is down. -->
         <repository>
@@ -128,6 +129,14 @@
     </repositories>
 
     <dependencies>
+        <!-- Mojang Auth-->
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.21</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
