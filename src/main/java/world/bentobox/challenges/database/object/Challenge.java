@@ -57,6 +57,11 @@ public class Challenge implements DataObject
          * other plugins to be setup before it could work.
          */
         OTHER,
+
+        /**
+         * Challenge based on player statistic data.
+         */
+        STATISTIC
     }
 
 

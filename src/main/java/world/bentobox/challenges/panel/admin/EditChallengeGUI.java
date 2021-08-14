@@ -23,12 +23,9 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
 import world.bentobox.challenges.panel.CommonGUI;
-import world.bentobox.challenges.panel.util.ItemSwitchGUI;
-import world.bentobox.challenges.panel.util.NumberGUI;
-import world.bentobox.challenges.panel.util.SelectBlocksGUI;
-import world.bentobox.challenges.panel.util.SelectEnvironmentGUI;
-import world.bentobox.challenges.panel.util.StringListGUI;
+import world.bentobox.challenges.panel.util.*;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
@@ -118,15 +115,10 @@ public class EditChallengeGUI extends CommonGUI
         {
             switch (this.challenge.getChallengeType())
             {
-            case INVENTORY:
-                this.buildInventoryRequirementsPanel(panelBuilder);
-                break;
-            case ISLAND:
-                this.buildIslandRequirementsPanel(panelBuilder);
-                break;
-            case OTHER:
-                this.buildOtherRequirementsPanel(panelBuilder);
-                break;
+                case INVENTORY -> this.buildInventoryRequirementsPanel(panelBuilder);
+                case ISLAND -> this.buildIslandRequirementsPanel(panelBuilder);
+                case OTHER -> this.buildOtherRequirementsPanel(panelBuilder);
+                case STATISTIC -> this.buildStatisticRequirementsPanel(panelBuilder);
             }
         }
         else if (this.currentMenuType.equals(MenuType.REWARDS))
@@ -139,6 +131,8 @@ public class EditChallengeGUI extends CommonGUI
         // Every time when this GUI is build, save challenge
         // This will ensure that all main things will be always stored
         this.addon.getChallengesManager().saveChallenge(this.challenge);
+        // If for some reason challenge is not loaded, do it.
+        this.addon.getChallengesManager().loadChallenge(this.challenge, false, null, true);
 
         panelBuilder.build();
     }
@@ -205,6 +199,33 @@ public class EditChallengeGUI extends CommonGUI
         panelBuilder.item(21, this.createRequirementButton(RequirementButton.REMOVE_MONEY));
 
         panelBuilder.item(23, this.createRequirementButton(RequirementButton.REQUIRED_LEVEL));
+
+        panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
+    }
+
+
+    /**
+     * This class populates ChallengesEditGUI with other challenges requirement elements.
+     * @param panelBuilder PanelBuilder where icons must be added.
+     */
+    private void buildStatisticRequirementsPanel(PanelBuilder panelBuilder)
+    {
+        panelBuilder.item(10, this.createRequirementButton(RequirementButton.STATISTIC));
+        panelBuilder.item(19, this.createRequirementButton(RequirementButton.REMOVE_STATISTIC));
+
+        panelBuilder.item(11, this.createRequirementButton(RequirementButton.STATISTIC_AMOUNT));
+
+        StatisticRequirements requirements = this.challenge.getRequirements();
+
+        if (requirements.getStatistic() != null)
+        {
+            switch (requirements.getStatistic().getType())
+            {
+                case ITEM -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ITEMS));
+                case BLOCK -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_BLOCKS));
+                case ENTITY -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ENTITIES));
+            }
+        }
 
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
     }
@@ -344,7 +365,16 @@ public class EditChallengeGUI extends CommonGUI
 
             icon = new ItemStack(Material.LEVER);
             clickHandler = (panel, user, clickType, slot) -> {
-                this.challenge.setDeployed(!this.challenge.isDeployed());
+                if (this.challenge.isValid())
+                {
+                    this.challenge.setDeployed(!this.challenge.isDeployed());
+                }
+                else
+                {
+                    this.user.sendMessage("challenges.errors.invalid-challenge",
+                        "[challenge]", this.challenge.getFriendlyName());
+                    this.challenge.setDeployed(false);
+                }
 
                 this.build();
                 return true;
@@ -547,24 +577,25 @@ public class EditChallengeGUI extends CommonGUI
 
         switch (button)
         {
-        case REQUIRED_PERMISSIONS:
-        {
-            name = this.user.getTranslation("challenges.gui.buttons.admin.required-permissions");
-            description = new ArrayList<>(this.challenge.getRequirements().getRequiredPermissions().size() + 1);
-            description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-permissions"));
+            case REQUIRED_PERMISSIONS -> {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.required-permissions");
+                description = new ArrayList<>(this.challenge.getRequirements().getRequiredPermissions().size() + 1);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-permissions"));
 
-            for (String permission : this.challenge.getRequirements().getRequiredPermissions())
-            {
-                description.add(this.user.getTranslation("challenges.gui.descriptions.permission",
+                for (String permission : this.challenge.getRequirements().getRequiredPermissions())
+                {
+                    description.add(this.user.getTranslation("challenges.gui.descriptions.permission",
                         "[permission]", permission));
-            }
+                }
 
-            icon = new ItemStack(Material.REDSTONE_LAMP);
-            clickHandler = (panel, user, clickType, slot) -> {
-                new StringListGUI(this.user,
+                icon = new ItemStack(Material.REDSTONE_LAMP);
+                clickHandler = (panel, user, clickType, slot) ->
+                {
+                    new StringListGUI(this.user,
                         this.challenge.getRequirements().getRequiredPermissions(),
                         lineLength,
-                        (status, value) -> {
+                        (status, value) ->
+                        {
                             if (status)
                             {
                                 this.challenge.getRequirements().setRequiredPermissions(new HashSet<>(value));
@@ -573,47 +604,39 @@ public class EditChallengeGUI extends CommonGUI
                             this.build();
                         });
 
-                return true;
-            };
-            glow = false;
-            break;
-        }
-
-        case REQUIRED_ENTITIES:
-        case REMOVE_ENTITIES:
-        case REQUIRED_BLOCKS:
-        case REMOVE_BLOCKS:
-        case SEARCH_RADIUS:
-        {
-            return this.createIslandRequirementButton(button);
-        }
-
-        case REQUIRED_ITEMS:
-        case REMOVE_ITEMS:
-        {
-            return this.createInventoryRequirementButton(button);
-        }
-
-        case REQUIRED_EXPERIENCE:
-        case REMOVE_EXPERIENCE:
-        case REQUIRED_LEVEL:
-        case REQUIRED_MONEY:
-        case REMOVE_MONEY:
-        {
-            return this.createOtherRequirementButton(button);
-        }
-
-        default:
-            return null;
+                    return true;
+                };
+                glow = false;
+            }
+            // Buttons for Island Requirements
+            case REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS -> {
+                return this.createIslandRequirementButton(button);
+            }
+            // Buttons for Inventory Requirements
+            case REQUIRED_ITEMS, REMOVE_ITEMS -> {
+                return this.createInventoryRequirementButton(button);
+            }
+            // Buttons for Other Requirements
+            case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY -> {
+                return this.createOtherRequirementButton(button);
+            }
+            // Buttons for Statistic Requirements
+            case STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS, STATISTIC_ENTITIES, STATISTIC_AMOUNT, REMOVE_STATISTIC -> {
+                return this.createStatisticRequirementButton(button);
+            }
+            // Default behaviour.
+            default -> {
+                return null;
+            }
         }
 
         return new PanelItemBuilder().
-                icon(icon).
-                name(name).
-                description(GuiUtils.stringSplit(description, this.lineLength)).
-                glow(glow).
-                clickHandler(clickHandler).
-                build();
+            icon(icon).
+            name(name).
+            description(GuiUtils.stringSplit(description, this.lineLength)).
+            glow(glow).
+            clickHandler(clickHandler).
+            build();
     }
 
 
@@ -1020,6 +1043,198 @@ public class EditChallengeGUI extends CommonGUI
                 glow(glow).
                 clickHandler(clickHandler).
                 build();
+    }
+
+
+    /**
+     * Creates a button for statistic requirements.
+     * @param button Button that must be created.
+     * @return PanelItem button.
+     */
+    private PanelItem createStatisticRequirementButton(RequirementButton button)
+    {
+        ItemStack icon;
+        String name;
+        List<String> description;
+        boolean glow;
+        PanelItem.ClickHandler clickHandler;
+
+        final StatisticRequirements requirements = this.challenge.getRequirements();
+
+        switch (button)
+        {
+            case STATISTIC:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.required-statistic");
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-statistic"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", String.valueOf(requirements.getStatistic())));
+
+                icon = new ItemStack(Material.PAPER);
+                clickHandler = (panel, user, clickType, slot) -> {
+                    new SelectStatisticGUI(this.user, (status, statistic) -> {
+                        if (status)
+                        {
+                            requirements.setStatistic(statistic);
+                        }
+
+                        this.build();
+                    });
+                    return true;
+                };
+                glow = false;
+                break;
+            }
+            case STATISTIC_AMOUNT:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.required-amount");
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.required-amount"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]", Integer.toString(requirements.getAmount())));
+
+                icon = new ItemStack(Material.CHEST);
+                clickHandler = (panel, user, clickType, slot) -> {
+                    new NumberGUI(this.user,
+                        requirements.getAmount(),
+                        0,
+                        this.lineLength,
+                        (status, value) -> {
+                            if (status)
+                            {
+                                requirements.setAmount(value);
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+                break;
+            }
+            case REMOVE_STATISTIC:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.remove-statistic");
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.remove-statistic"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.current-value",
+                    "[value]",
+                    requirements.isReduceStatistic() ?
+                        this.user.getTranslation("challenges.gui.descriptions.enabled") :
+                        this.user.getTranslation("challenges.gui.descriptions.disabled")));
+
+                icon = new ItemStack(Material.LEVER);
+                clickHandler = (panel, user, clickType, slot) -> {
+                    requirements.setReduceStatistic(!requirements.isReduceStatistic());
+
+                    this.build();
+                    return true;
+                };
+                glow = requirements.isReduceStatistic();
+                break;
+            }
+            case STATISTIC_BLOCKS:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.statistic-block");
+
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.statistic-block"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.statistic-block",
+                    "[material]", String.valueOf(requirements.getMaterial())));
+
+                icon = requirements.getMaterial() == null ?
+                    new ItemStack(Material.BARRIER) :
+                    new ItemStack(requirements.getMaterial());
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    new SelectBlocksGUI(this.user,
+                        true,
+                        Collections.emptySet(),
+                        (status, block) -> {
+                            if (status)
+                            {
+                                requirements.setMaterial(block.iterator().next());
+                            }
+
+                            this.build();
+                        });
+
+                    return true;
+                };
+
+                glow = false;
+                break;
+            }
+            case STATISTIC_ITEMS:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.statistic-item");
+
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.statistic-item"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.statistic-item",
+                    "[material]", String.valueOf(requirements.getMaterial())));
+
+                icon = requirements.getMaterial() == null ?
+                    new ItemStack(Material.BARRIER) :
+                    new ItemStack(requirements.getMaterial());
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    new SelectBlocksGUI(this.user,
+                        true,
+                        (status, block) -> {
+                            if (status)
+                            {
+                                requirements.setMaterial(block.iterator().next());
+                            }
+
+                            this.build();
+                        });
+
+                    return true;
+                };
+                glow = false;
+                break;
+            }
+            case STATISTIC_ENTITIES:
+            {
+                name = this.user.getTranslation("challenges.gui.buttons.admin.statistic-entity");
+
+                description = new ArrayList<>(2);
+                description.add(this.user.getTranslation("challenges.gui.descriptions.admin.statistic-entity"));
+                description.add(this.user.getTranslation("challenges.gui.descriptions.statistic-entity",
+                    "[entity]", String.valueOf(requirements.getEntity())));
+
+                icon = requirements.getEntity() == null ?
+                    new ItemStack(Material.BARRIER) :
+                    new ItemStack(GuiUtils.getEntityEgg(requirements.getEntity()));
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    new SelectEntityGUI(this.user, Collections.emptySet(), true, (status, entities) -> {
+                        if (status)
+                        {
+                            requirements.setEntity(entities.iterator().next());
+                        }
+
+                        this.build();
+                    });
+
+                    return true;
+                };
+                glow = false;
+                break;
+            }
+            default:
+                return null;
+        }
+
+        return new PanelItemBuilder().
+            icon(icon).
+            name(name).
+            description(GuiUtils.stringSplit(description, this.lineLength)).
+            glow(glow).
+            clickHandler(clickHandler).
+            build();
     }
 
 
@@ -1506,6 +1721,12 @@ public class EditChallengeGUI extends CommonGUI
         REQUIRED_LEVEL,
         REQUIRED_MONEY,
         REMOVE_MONEY,
+        STATISTIC,
+        STATISTIC_BLOCKS,
+        STATISTIC_ITEMS,
+        STATISTIC_ENTITIES,
+        STATISTIC_AMOUNT,
+        REMOVE_STATISTIC,
     }
 
 

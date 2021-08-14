@@ -44,6 +44,8 @@ import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.utils.Utils;
 
@@ -488,15 +490,18 @@ public abstract class CommonGUI
                                 {
                                     switch (challenge.getChallengeType())
                                     {
-                                    case INVENTORY:
-                                        result.addAll(this.getInventoryRequirements(challenge.getRequirements()));
-                                        break;
-                                    case ISLAND:
-                                        result.addAll(this.getIslandRequirements(challenge.getRequirements()));
-                                        break;
-                                    case OTHER:
-                                        result.addAll(this.getOtherRequirements(challenge.getRequirements()));
-                                        break;
+                                        case INVENTORY:
+                                            result.addAll(this.getInventoryRequirements(challenge.getRequirements()));
+                                            break;
+                                        case ISLAND:
+                                            result.addAll(this.getIslandRequirements(challenge.getRequirements()));
+                                            break;
+                                        case OTHER:
+                                            result.addAll(this.getOtherRequirements(challenge.getRequirements()));
+                                            break;
+                                        case STATISTIC:
+                                            result.addAll(this.getStatisticRequirements(challenge.getRequirements()));
+                                            break;
                                     }
                                 }
 
@@ -721,6 +726,45 @@ public abstract class CommonGUI
 
             Utils.groupEqualItems(requirements.getRequiredItems()).forEach(itemStack ->
             result.addAll(this.generateItemStackDescription(itemStack)));
+        }
+
+        return result;
+    }
+
+
+    /**
+     * This method returns list of strings that contains basic information about requirements.
+     * @param requirements which requirements message must be created.
+     * @return list of strings that contains requirements message.
+     */
+    private List<String> getStatisticRequirements(StatisticRequirements requirements)
+    {
+        List<String> result = new ArrayList<>();
+
+        result.add(this.user.getTranslation("challenges.gui.challenge-description.required-stats",
+            "[stat]", GuiUtils.sanitizeInput(requirements.getStatistic().name())));
+
+        switch (requirements.getStatistic().getType())
+        {
+            case ITEM -> {
+                result.add(this.user.getTranslation("challenges.gui.challenge-description.stat-item",
+                    "[material]", GuiUtils.sanitizeInput(requirements.getMaterial().name()),
+                    "[amount]", String.valueOf(requirements.getAmount())));
+            }
+            case BLOCK -> {
+                result.add(this.user.getTranslation("challenges.gui.challenge-description.stat-block",
+                    "[material]", GuiUtils.sanitizeInput(requirements.getMaterial().name()),
+                    "[amount]", String.valueOf(requirements.getAmount())));
+            }
+            case ENTITY -> {
+                result.add(this.user.getTranslation("challenges.gui.challenge-description.stat-entity",
+                    "[entity]", GuiUtils.sanitizeInput(requirements.getEntity().name()),
+                    "[amount]", String.valueOf(requirements.getAmount())));
+            }
+            case UNTYPED -> {
+                result.add(this.user.getTranslation("challenges.gui.challenge-description.stat-amount",
+                    "[amount]", String.valueOf(requirements.getAmount())));
+            }
         }
 
         return result;

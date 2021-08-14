@@ -2,6 +2,7 @@ package world.bentobox.challenges.tasks;
 
 
 
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -38,6 +40,7 @@ import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -447,63 +450,196 @@ public class TryToComplete
      */
     private void fullFillRequirements(ChallengeResult result)
     {
-        if (this.challenge.getChallengeType().equals(ChallengeType.ISLAND))
+        switch (this.challenge.getChallengeType())
         {
-            IslandRequirements requirements = this.challenge.getRequirements();
+            case ISLAND -> {
+                IslandRequirements requirements = this.challenge.getRequirements();
 
-            if (result.meetsRequirements &&
+                if (result.meetsRequirements &&
                     requirements.isRemoveEntities() &&
                     !requirements.getRequiredEntities().isEmpty())
-            {
-                this.removeEntities(result.entities, result.getFactor());
-            }
+                {
+                    this.removeEntities(result.entities, result.getFactor());
+                }
 
-            if (result.meetsRequirements &&
+                if (result.meetsRequirements &&
                     requirements.isRemoveBlocks() &&
                     !requirements.getRequiredBlocks().isEmpty())
-            {
-                this.removeBlocks(result.blocks, result.getFactor());
+                {
+                    this.removeBlocks(result.blocks, result.getFactor());
+                }
             }
-        }
-        else if (this.challenge.getChallengeType().equals(ChallengeType.INVENTORY))
-        {
-            // If remove items, then remove them
-            if (this.getInventoryRequirements().isTakeItems())
-            {
-                int sumEverything = result.requiredItems.stream().
+            case INVENTORY -> {
+                // If remove items, then remove them
+                if (this.getInventoryRequirements().isTakeItems())
+                {
+                    int sumEverything = result.requiredItems.stream().
                         mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
                         sum();
 
-                Map<ItemStack, Integer> removedItems =
+                    Map<ItemStack, Integer> removedItems =
                         this.removeItems(result.requiredItems, result.getFactor());
 
-                int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
+                    int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
 
-                // Something is not removed.
-                if (sumEverything != removedAmount)
-                {
-                    this.user.sendMessage("challenges.errors.cannot-remove-items");
+                    // Something is not removed.
+                    if (sumEverything != removedAmount)
+                    {
+                        this.user.sendMessage("challenges.errors.cannot-remove-items");
 
-                    result.removedItems = removedItems;
-                    result.meetsRequirements = false;
+                        result.removedItems = removedItems;
+                        result.meetsRequirements = false;
+                    }
                 }
             }
-        }
-        else if (this.challenge.getChallengeType().equals(ChallengeType.OTHER))
-        {
-            OtherRequirements requirements = this.challenge.getRequirements();
+            case OTHER -> {
+                OtherRequirements requirements = this.challenge.getRequirements();
 
-            if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
-            {
-                this.addon.getEconomyProvider().withdraw(this.user, requirements.getRequiredMoney());
-            }
+                if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
+                {
+                    this.addon.getEconomyProvider().withdraw(this.user, requirements.getRequiredMoney());
+                }
 
-            if (requirements.isTakeExperience() &&
+                if (requirements.isTakeExperience() &&
                     this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
-            {
-                // Cannot take anything from creative game mode.
-                this.user.getPlayer().setTotalExperience(
+                {
+                    // Cannot take anything from creative game mode.
+                    this.user.getPlayer().setTotalExperience(
                         this.user.getPlayer().getTotalExperience() - requirements.getRequiredExperience());
+                }
+            }
+            case STATISTIC -> {
+                StatisticRequirements requirements = this.challenge.getRequirements();
+
+                if (requirements.isReduceStatistic())
+                {
+                    int removeAmount = result.getFactor() * requirements.getAmount();
+
+                    // Start to remove from player who called the completion.
+                    switch (requirements.getStatistic().getType())
+                    {
+                        case UNTYPED -> {
+                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
+
+                            if (removeAmount >= statistic)
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(), 0);
+                                removeAmount -= statistic;
+                            }
+                            else
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(), statistic - removeAmount);
+                                removeAmount = 0;
+                            }
+                        }
+                        case ITEM, BLOCK -> {
+                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
+
+                            if (removeAmount >= statistic)
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
+                                removeAmount -= statistic;
+                            }
+                            else
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                    requirements.getMaterial(),
+                                    statistic - removeAmount);
+                                removeAmount = 0;
+                            }
+                        }
+                        case ENTITY -> {
+                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
+
+                            if (removeAmount >= statistic)
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
+                                removeAmount -= statistic;
+                            }
+                            else
+                            {
+                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                    requirements.getEntity(),
+                                    statistic - removeAmount);
+                                removeAmount = 0;
+                            }
+                        }
+                    }
+
+                    // If challenges are in sync with all island members, then punish others too.
+                    if (this.addon.getChallengesSettings().isStoreAsIslandData())
+                    {
+                        Island island = this.addon.getIslands().getIsland(this.world, this.user);
+
+                        if (island == null)
+                        {
+                            // hmm
+                            return;
+                        }
+
+                        for (UnmodifiableIterator<UUID> iterator = island.getMemberSet().iterator();
+                            iterator.hasNext() && removeAmount > 0; )
+                        {
+                            Player player = Bukkit.getPlayer(iterator.next());
+
+                            if (player == null || player == this.user.getPlayer())
+                            {
+                                // cannot punish null or player who already was punished.
+                                continue;
+                            }
+
+                            switch (requirements.getStatistic().getType())
+                            {
+                                case UNTYPED -> {
+                                    int statistic = player.getStatistic(requirements.getStatistic());
+
+                                    if (removeAmount >= statistic)
+                                    {
+                                        removeAmount -= statistic;
+                                        player.setStatistic(requirements.getStatistic(), 0);
+                                    }
+                                    else
+                                    {
+                                        player.setStatistic(requirements.getStatistic(), statistic - removeAmount);
+                                        removeAmount = 0;
+                                    }
+                                }
+                                case ITEM, BLOCK -> {
+                                    int statistic = player.getStatistic(requirements.getStatistic());
+
+                                    if (removeAmount >= statistic)
+                                    {
+                                        removeAmount -= statistic;
+                                        player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
+                                    }
+                                    else
+                                    {
+                                        player.setStatistic(requirements.getStatistic(),
+                                            requirements.getMaterial(),
+                                            statistic - removeAmount);
+                                        removeAmount = 0;
+                                    }
+                                }
+                                case ENTITY -> {
+                                    int statistic = player.getStatistic(requirements.getStatistic());
+
+                                    if (removeAmount >= statistic)
+                                    {
+                                        removeAmount -= statistic;
+                                        player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
+                                    }
+                                    else
+                                    {
+                                        player.setStatistic(requirements.getStatistic(),
+                                            requirements.getEntity(),
+                                            statistic - removeAmount);
+                                        removeAmount = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -595,6 +731,10 @@ public class TryToComplete
         else if (type.equals(ChallengeType.OTHER))
         {
             result = this.checkOthers(this.getAvailableCompletionTimes(maxTimes));
+        }
+        else if (type.equals(ChallengeType.STATISTIC))
+        {
+            result = this.checkStatistic(this.getAvailableCompletionTimes(maxTimes));
         }
         else
         {
@@ -1225,6 +1365,50 @@ public class TryToComplete
             {
                 factor = Math.min(factor, this.user.getPlayer().getTotalExperience() / requirements.getRequiredExperience());
             }
+
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
+        }
+
+        return EMPTY_RESULT;
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Statistic Challenge
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * Checks if a statistic challenge can be completed or not
+     * It returns ChallengeResult.
+     * @param factor - times that user wanted to complete
+     */
+    private ChallengeResult checkStatistic(int factor)
+    {
+        StatisticRequirements requirements = this.challenge.getRequirements();
+
+        int currentValue;
+
+        switch (requirements.getStatistic().getType())
+        {
+            case UNTYPED -> currentValue =
+                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic());
+            case ITEM, BLOCK -> currentValue =
+                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(), requirements.getMaterial());
+            case ENTITY -> currentValue =
+                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(), requirements.getEntity());
+            default -> currentValue = 0;
+        }
+
+        if (currentValue < requirements.getAmount())
+        {
+            this.user.sendMessage("challenges.errors.requirement-not-met",
+                TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                "[value]", String.valueOf(currentValue));
+        }
+        else
+        {
+            factor = requirements.getAmount() == 0 ? factor : Math.min(factor, currentValue / requirements.getAmount());
 
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }

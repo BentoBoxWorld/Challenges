@@ -17,7 +17,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -1285,6 +1288,101 @@ public class ChallengesManager
     // ---------------------------------------------------------------------
     // Section: Public methods for processing player/island data.
     // ---------------------------------------------------------------------
+
+
+    /**
+     * Gets statistic data.
+     *
+     * @param user the user
+     * @param world the world
+     * @param statistic the statistic
+     * @return the statistic data
+     */
+    public int getStatisticData(User user, World world, Statistic statistic)
+    {
+        if (this.settings.isStoreAsIslandData())
+        {
+            Island island = this.addon.getIslands().getIsland(world, user);
+
+            if (island == null)
+            {
+                return 0;
+            }
+
+            return island.getMemberSet().stream().map(Bukkit::getPlayer).
+                filter(Objects::nonNull).
+                mapToInt(player -> player.getStatistic(statistic)).
+                sum();
+        }
+        else
+        {
+            return user.getPlayer().getStatistic(statistic);
+        }
+    }
+
+
+    /**
+     * Gets statistic data.
+     *
+     * @param user the user
+     * @param world the world
+     * @param statistic the statistic
+     * @param material the material
+     * @return the statistic data
+     */
+    public int getStatisticData(User user, World world, Statistic statistic, Material material)
+    {
+        if (this.settings.isStoreAsIslandData())
+        {
+            Island island = this.addon.getIslands().getIsland(world, user);
+
+            if (island == null)
+            {
+                return 0;
+            }
+
+            return island.getMemberSet().stream().map(Bukkit::getPlayer).
+                filter(Objects::nonNull).
+                mapToInt(player -> player.getStatistic(statistic, material)).
+                sum();
+        }
+        else
+        {
+            return user.getPlayer().getStatistic(statistic, material);
+        }
+    }
+
+
+    /**
+     * Gets statistic data.
+     *
+     * @param user the user
+     * @param world the world
+     * @param statistic the statistic
+     * @param entity the entity
+     * @return the statistic data
+     */
+    public int getStatisticData(User user, World world, Statistic statistic, EntityType entity)
+    {
+        if (this.settings.isStoreAsIslandData())
+        {
+            Island island = this.addon.getIslands().getIsland(world, user);
+
+            if (island == null)
+            {
+                return 0;
+            }
+
+            return island.getMemberSet().stream().map(Bukkit::getPlayer).
+                filter(Objects::nonNull).
+                mapToInt(player -> player.getStatistic(statistic, entity)).
+                sum();
+        }
+        else
+        {
+            return user.getPlayer().getStatistic(statistic, entity);
+        }
+    }
 
 
     /**

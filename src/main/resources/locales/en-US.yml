@@ -79,6 +79,7 @@ challenges:
                 lore-edit: '&a  Edit Lore'
 
                 type-select: "&a  Choose Challenge Type"
+                select-statistic: "&a Select Statistic Type"
             challenges: '&6  Challenges'
             game-modes: '&6  Choose GameMode'
 
@@ -176,6 +177,13 @@ challenges:
                 challenge-wipe: 'Wipe challenges database'
                 players-wipe: 'Wipe user database'
 
+                required-statistic: 'Required Statistic'
+                required-amount: 'Required amount'
+                remove-statistic: 'Reduce statistic value'
+                statistic-block: 'Statistic Block'
+                statistic-item: 'Statistic Item'
+                statistic-entity: 'Statistic Entity'
+
                 library: 'Web Library'
                 download: 'Download Libraries'
 
@@ -183,6 +191,7 @@ challenges:
                     island: '&6  Island Type'
                     inventory: '&6  Inventory Type'
                     other: '&6 Other Type'
+                    statistic: '&6 Statistic Type'
             next: 'Next'
             previous: 'Previous'
             return: 'Return'
@@ -349,6 +358,13 @@ challenges:
                     Right click to enable cache clearing.'
                 download-disabled: 'GitHub data downloader is disabled in BentoBox. Without it, you cannot use Libraries!'
 
+                required-statistic: 'Type of statistic that are checked.'
+                required-amount: 'Amount that need to be reached for the statistic.'
+                remove-statistic: 'Reduce statistic value from player stats data.'
+                statistic-block: 'Block which stats must be checked.'
+                statistic-item: 'Item which stats must be checked.'
+                statistic-entity: 'Entity which stats must be checked.'
+
                 lore:
                   level: |-
                     Level string.
@@ -432,6 +448,7 @@ challenges:
                 island: '&a require blocks or mobs around player'
                 inventory: '&a require items in the player"s inventory'
                 other: '&a require things from other plugins/addons'
+                statistic: '&a require statistic data for player'
             the-end: '- The End'
             nether: '- Nether'
             normal: '- Overworld'
@@ -452,6 +469,10 @@ challenges:
                 visible: "All challenges are visible to everyone"
                 hidden: "Only Deployed challenges are visible."
                 toggleable: "Toggle if undeployed challenges should be displayed"
+
+            statistic-entity: "Current entity: [entity]"
+            statistic-item: "Current item: [material]"
+            statistic-block: "Current block: [material]"
 
         challenge-description:
             level: '&f Level: [level]'
@@ -476,6 +497,11 @@ challenges:
             required-items: 'Required Items:'
             required-entities: 'Required Entities:'
             required-blocks: 'Required Blocks:'
+            required-stats: 'Statistic: [stat]'
+            stat-item: 'Item: [amount] x [material]'
+            stat-block: 'Block: [amount] x [material]'
+            stat-entity: 'Entity: [amount] x [entity]'
+            stat-amount: 'Amount: [amount]'
         level-description:
             completed: '&b Completed'
             completed-challenges-of: '&3 You have completed [number] out of [max] challenges in this level.'

@@ -20,10 +20,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.database.object.Challenge;
-import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
-import world.bentobox.challenges.database.object.requirements.IslandRequirements;
-import world.bentobox.challenges.database.object.requirements.OtherRequirements;
-import world.bentobox.challenges.database.object.requirements.Requirements;
+import world.bentobox.challenges.database.object.requirements.*;
 import world.bentobox.challenges.utils.GuiUtils;
 
 
@@ -71,6 +68,7 @@ public class ChallengeTypeGUI
 		panelBuilder.item(0, this.getButton(Challenge.ChallengeType.INVENTORY));
 		panelBuilder.item(1, this.getButton(Challenge.ChallengeType.ISLAND));
 		panelBuilder.item(2, this.getButton(Challenge.ChallengeType.OTHER));
+		panelBuilder.item(3, this.getButton(Challenge.ChallengeType.STATISTIC));
 
 		panelBuilder.build();
 	}
@@ -109,6 +107,13 @@ public class ChallengeTypeGUI
 				icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				clickHandler = ((panel, user1, clickType, slot) -> {
 					this.consumer.accept(type, new OtherRequirements());
+					return true;
+				});
+				break;
+			case STATISTIC:
+				icon = new ItemStack(Material.BOOK);
+				clickHandler = ((panel, user1, clickType, slot) -> {
+					this.consumer.accept(type, new StatisticRequirements());
 					return true;
 				});
 				break;
