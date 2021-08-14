@@ -36,13 +36,14 @@
         <powermock.version>2.0.9</powermock.version>
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.17-R0.1-SNAPSHOT</spigot.version>
+        <spigot-annotations.version>1.2.3-SNAPSHOT</spigot-annotations.version>
         <bentobox.version>1.17.0</bentobox.version>
         <level.version>2.6.3</level.version>
         <vault.version>1.7</vault.version>
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
-        <build.version>0.9.0</build.version>
+        <build.version>1.0.0</build.version>
         <build.number>-LOCAL</build.number>
         <!-- Sonar Cloud -->
         <sonar.projectKey>BentoBoxWorld_Challenges</sonar.projectKey>
@@ -135,9 +136,8 @@
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
+            <artifactId>plugin-annotations</artifactId>
+            <version>${spigot-annotations.version}</version>
         </dependency>
         <!-- Mockito (Unit testing) -->
         <dependency>
