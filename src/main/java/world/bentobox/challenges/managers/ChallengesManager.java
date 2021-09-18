@@ -60,47 +60,47 @@ public class ChallengesManager
     /**
      * This config object stores structures for challenge objects.
      */
-    private Database<Challenge> challengeDatabase;
+    private final Database<Challenge> challengeDatabase;
 
     /**
      * This config object stores structures for challenge level objects.
      */
-    private Database<ChallengeLevel> levelDatabase;
+    private final Database<ChallengeLevel> levelDatabase;
 
     /**
      * This database allows to access player challenge data.
      */
-    private Database<ChallengesPlayerData> playersDatabase;
+    private final Database<ChallengesPlayerData> playersDatabase;
 
     /**
      * This is local cache that links challenge unique id with challenge object.
      */
-    private Map<String, Challenge> challengeCacheData;
+    private final Map<String, Challenge> challengeCacheData;
 
     /**
      * This is local cache that links level unique id with level object.
      */
-    private Map<String, ChallengeLevel> levelCacheData;
+    private final Map<String, ChallengeLevel> levelCacheData;
 
     /**
      * This is local cache that links UUID with corresponding player challenge data.
      */
-    private Map<String, ChallengesPlayerData> playerCacheData;
+    private final Map<String, ChallengesPlayerData> playerCacheData;
 
     /**
      * This variable allows to access ChallengesAddon.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 
     /**
      * This variable allows to access ChallengesAddon settings.
      */
-    private Settings settings;
+    private final Settings settings;
 
     /**
      * Island world manager allows to detect which world refferes to which gamemode addon.
      */
-    private IslandWorldManager islandWorldManager;
+    private final IslandWorldManager islandWorldManager;
 
 
     // ---------------------------------------------------------------------
@@ -249,7 +249,6 @@ public class ChallengesManager
      * Load challenge silently. Used when loading.
      *
      * @param challenge Challenge that must be loaded.
-     * @return true if successful
      */
     private void loadChallenge(@NonNull Challenge challenge)
     {
@@ -291,7 +290,9 @@ public class ChallengesManager
             }
 
             this.addon.logWarning("Data for challenge `" + challenge.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
-            return false;
+
+            // Load the challenge but set it as "undeployed"
+            challenge.setDeployed(false);
         }
 
         if (this.challengeCacheData.containsKey(challenge.getUniqueId()))
@@ -382,13 +383,11 @@ public class ChallengesManager
         {
             if (user != null)
             {
-                user.sendMessage("challenges.errors.load-error",
-                        VALUE, level.getFriendlyName());
+                user.sendMessage("challenges.errors.load-error", VALUE, level.getFriendlyName());
             }
             else
             {
-                this.addon.logError(
-                        "Challenge Level '" + level.getUniqueId() + "' is not valid and skipped");
+                this.addon.logError("Challenge Level '" + level.getUniqueId() + "' is not valid and skipped");
             }
 
             return false;
@@ -739,7 +738,6 @@ public class ChallengesManager
     /**
      * This method collects all data from challenges database and migrates them.
      */
-    @SuppressWarnings("deprecation")
     private boolean migrateChallenges(World world)
     {
         String addonName = Utils.getGameMode(world);
@@ -768,49 +766,6 @@ public class ChallengesManager
                 }
 
                 updated = true;
-
-                this.challengeDatabase.saveObjectAsync(challenge);
-                this.challengeCacheData.put(challenge.getUniqueId(), challenge);
-            }
-
-            // Migrate Requirements.
-            if (challenge.getRequirements() == null)
-            {
-                switch (challenge.getChallengeType())
-                {
-                case INVENTORY:
-                    InventoryRequirements inventoryRequirements = new InventoryRequirements();
-                    inventoryRequirements.setRequiredItems(challenge.getRequiredItems());
-                    inventoryRequirements.setTakeItems(challenge.isTakeItems());
-
-                    inventoryRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
-                    challenge.setRequirements(inventoryRequirements);
-                    break;
-                case ISLAND:
-                    IslandRequirements islandRequirements = new IslandRequirements();
-                    islandRequirements.setRemoveBlocks(challenge.isRemoveBlocks());
-                    islandRequirements.setRemoveEntities(challenge.isRemoveEntities());
-                    islandRequirements.setRequiredBlocks(challenge.getRequiredBlocks());
-                    islandRequirements.setRequiredEntities(challenge.getRequiredEntities());
-                    islandRequirements.setSearchRadius(challenge.getSearchRadius());
-
-                    islandRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
-                    challenge.setRequirements(islandRequirements);
-                    break;
-                case OTHER:
-                    OtherRequirements otherRequirements = new OtherRequirements();
-                    otherRequirements.setRequiredExperience(challenge.getRequiredExperience());
-                    otherRequirements.setRequiredIslandLevel(challenge.getRequiredIslandLevel());
-                    otherRequirements.setRequiredMoney(challenge.getRequiredMoney());
-                    otherRequirements.setTakeExperience(challenge.isTakeExperience());
-                    otherRequirements.setTakeMoney(challenge.isTakeMoney());
-
-                    otherRequirements.setRequiredPermissions(challenge.getRequiredPermissions());
-                    challenge.setRequirements(otherRequirements);
-                    break;
-                }
-
-                // This save should not involve any upgrades in other parts.
 
                 this.challengeDatabase.saveObjectAsync(challenge);
                 this.challengeCacheData.put(challenge.getUniqueId(), challenge);
@@ -1834,12 +1789,13 @@ public class ChallengesManager
      * @return Challenge that is currently created.
      */
     @Nullable
-    public Challenge createChallenge(String uniqueID, Challenge.ChallengeType type, Requirements requirements)
+    public Challenge createChallenge(String uniqueID, String name, Challenge.ChallengeType type, Requirements requirements)
     {
         if (!this.containsChallenge(uniqueID))
         {
             Challenge challenge = new Challenge();
             challenge.setUniqueId(uniqueID);
+            challenge.setFriendlyName(name);
             challenge.setRequirements(requirements);
             challenge.setChallengeType(type);
 
@@ -2129,15 +2085,18 @@ public class ChallengesManager
     /**
      * This method creates and returns new challenges level with given uniqueID.
      * @param uniqueID - new ID for challenge level.
+     * @param name Name - name of the level.
+     * @param world World where level is created.
      * @return ChallengeLevel that is currently created.
      */
     @Nullable
-    public ChallengeLevel createLevel(String uniqueID, World world)
+    public ChallengeLevel createLevel(String uniqueID, String name, World world)
     {
         if (!this.containsLevel(uniqueID))
         {
             ChallengeLevel level = new ChallengeLevel();
             level.setUniqueId(uniqueID);
+            level.setFriendlyName(name);
             level.setWorld(world.getName());
 
             this.saveLevel(level);

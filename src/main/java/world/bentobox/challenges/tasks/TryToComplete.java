@@ -452,7 +452,7 @@ public class TryToComplete
     {
         switch (this.challenge.getChallengeType())
         {
-            case ISLAND -> {
+            case ISLAND_TYPE -> {
                 IslandRequirements requirements = this.challenge.getRequirements();
 
                 if (result.meetsRequirements &&
@@ -469,7 +469,7 @@ public class TryToComplete
                     this.removeBlocks(result.blocks, result.getFactor());
                 }
             }
-            case INVENTORY -> {
+            case INVENTORY_TYPE -> {
                 // If remove items, then remove them
                 if (this.getInventoryRequirements().isTakeItems())
                 {
@@ -492,7 +492,7 @@ public class TryToComplete
                     }
                 }
             }
-            case OTHER -> {
+            case OTHER_TYPE -> {
                 OtherRequirements requirements = this.challenge.getRequirements();
 
                 if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
@@ -508,7 +508,7 @@ public class TryToComplete
                         this.user.getPlayer().getTotalExperience() - requirements.getRequiredExperience());
                 }
             }
-            case STATISTIC -> {
+            case STATISTIC_TYPE -> {
                 StatisticRequirements requirements = this.challenge.getRequirements();
 
                 if (requirements.isReduceStatistic())
@@ -720,19 +720,19 @@ public class TryToComplete
             this.user.sendMessage("general.errors.no-permission");
             result = EMPTY_RESULT;
         }
-        else if (type.equals(ChallengeType.INVENTORY))
+        else if (type.equals(ChallengeType.INVENTORY_TYPE))
         {
             result = this.checkInventory(this.getAvailableCompletionTimes(maxTimes));
         }
-        else if (type.equals(ChallengeType.ISLAND))
+        else if (type.equals(ChallengeType.ISLAND_TYPE))
         {
             result = this.checkSurrounding(this.getAvailableCompletionTimes(maxTimes));
         }
-        else if (type.equals(ChallengeType.OTHER))
+        else if (type.equals(ChallengeType.OTHER_TYPE))
         {
             result = this.checkOthers(this.getAvailableCompletionTimes(maxTimes));
         }
-        else if (type.equals(ChallengeType.STATISTIC))
+        else if (type.equals(ChallengeType.STATISTIC_TYPE))
         {
             result = this.checkStatistic(this.getAvailableCompletionTimes(maxTimes));
         }
