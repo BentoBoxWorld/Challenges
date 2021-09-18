@@ -741,13 +741,13 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link ChallengesManager#createChallenge(java.lang.String, world.bentobox.challenges.database.object.Challenge.ChallengeType, world.bentobox.challenges.database.object.requirements.Requirements)}.
+     * Test method for {@link ChallengesManager#createChallenge(java.lang.String, java.lang.String, world.bentobox.challenges.database.object.Challenge.ChallengeType, world.bentobox.challenges.database.object.requirements.Requirements)}.
      */
     @Test
     public void testCreateChallenge() {
         @Nullable
-        Challenge ch = cm.createChallenge("newChal", ChallengeType.ISLAND, new IslandRequirements());
-        assertEquals(ChallengeType.ISLAND, ch.getChallengeType());
+        Challenge ch = cm.createChallenge("newChal", "newChal", ChallengeType.ISLAND_TYPE, new IslandRequirements());
+        assertEquals(ChallengeType.ISLAND_TYPE, ch.getChallengeType());
         assertEquals("newChal", ch.getUniqueId());
     }
 
@@ -833,12 +833,12 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link ChallengesManager#createLevel(java.lang.String, org.bukkit.World)}.
+     * Test method for {@link ChallengesManager#createLevel(java.lang.String, java.lang.String, org.bukkit.World)}.
      */
     @Test
     public void testCreateLevel() {
         @Nullable
-        ChallengeLevel cl = cm.createLevel("Expert", world);
+        ChallengeLevel cl = cm.createLevel("Expert", "Expert", world);
         assertEquals("Expert", cl.getUniqueId());
         assertEquals(world.getName(), cl.getWorld());
     }

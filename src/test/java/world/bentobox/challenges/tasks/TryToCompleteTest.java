@@ -153,7 +153,7 @@ public class TryToCompleteTest {
         challenge.setFriendlyName("name");
         challenge.setLevel(GAME_MODE_NAME + "_novice");
         challenge.setDescription(Collections.singletonList("A description"));
-        challenge.setChallengeType(ChallengeType.INVENTORY);
+        challenge.setChallengeType(ChallengeType.INVENTORY_TYPE);
         challenge.setDeployed(true);
         challenge.setIcon(new ItemStack(Material.EMERALD));
         challenge.setEnvironment(Collections.singleton(World.Environment.NORMAL));
@@ -476,7 +476,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandBBTooLarge() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
         challenge.setRequirements(req);
@@ -493,7 +493,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccessNoEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
         challenge.setRequirements(req);
@@ -507,7 +507,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = Collections.singletonMap(EntityType.GHAST, 3);
         req.setRequiredEntities(requiredEntities);
@@ -523,7 +523,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.GHAST, 3);
@@ -544,7 +544,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.GHAST, 3);
@@ -571,7 +571,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -598,7 +598,7 @@ public class TryToCompleteTest {
         when(user.getWorld()).thenReturn(netherWorld);
         when(netherWorld.getName()).thenReturn("world_nether");
         when(netherWorld.getEnvironment()).thenReturn(Environment.NETHER);
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.PUFFERFISH, 1);
