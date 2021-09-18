@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -104,11 +105,11 @@ public class AdminPanel extends CommonPanel
         panelBuilder.item(31, this.createButton(Button.DELETE_LEVEL));
 
         // Import Challenges
-        panelBuilder.item(15, this.createButton(Button.IMPORT_CHALLENGES));
-        panelBuilder.item(24, this.createButton(Button.LIBRARY));
-
-        // Not added as I do not think admins should use it. It still will be able via command.
-        //		panelBuilder.item(33, this.createButton(Button.DEFAULT_EXPORT_CHALLENGES));
+        panelBuilder.item(14, this.createButton(Button.IMPORT_TEMPLATE));
+        panelBuilder.item(15, this.createButton(Button.IMPORT_DATABASE));
+        panelBuilder.item(33, this.createButton(Button.LIBRARY));
+        // Export Challenges
+        panelBuilder.item(24, this.createButton(Button.EXPORT_CHALLENGES));
 
         // Edit Addon Settings
         panelBuilder.item(16, this.createButton(Button.EDIT_SETTINGS));
@@ -326,10 +327,21 @@ public class AdminPanel extends CommonPanel
                 description.add("");
                 description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
             }
-            case IMPORT_CHALLENGES -> {
-                icon = new ItemStack(Material.HOPPER);
+            case IMPORT_DATABASE -> {
+                icon = new ItemStack(Material.BOOKSHELF);
                 clickHandler = (panel, user, clickType, slot) -> {
-                    // TODO: Importing GUI.
+                    LibraryPanel.open(this, LibraryPanel.Library.DATABASE);
+                    return true;
+                };
+                glow = true;
+
+                description.add("");
+                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+            }
+            case IMPORT_TEMPLATE -> {
+                icon = new ItemStack(Material.BOOKSHELF);
+                clickHandler = (panel, user, clickType, slot) -> {
+                    LibraryPanel.open(this, LibraryPanel.Library.TEMPLATE);
                     return true;
                 };
                 glow = false;
@@ -340,7 +352,36 @@ public class AdminPanel extends CommonPanel
             case EXPORT_CHALLENGES -> {
                 icon = new ItemStack(Material.HOPPER);
                 clickHandler = (panel, user, clickType, slot) -> {
-                    // TODO: Exporting GUI.
+
+                    // This consumer process file exporting after user input is returned.
+                    Consumer<String> fileNameConsumer = value -> {
+                        if (value != null)
+                        {
+                            this.addon.getImportManager().generateDatabaseFile(this.user,
+                                this.world,
+                                Utils.sanitizeInput(value));
+                        }
+
+                        this.build();
+                    };
+
+                    // This function checks if file can be created.
+                    Function<String, Boolean> validationFunction = fileName ->
+                    {
+                        String sanitizedName = Utils.sanitizeInput(fileName);
+                        return !new File(this.addon.getDataFolder(),
+                            sanitizedName.endsWith(".json") ? sanitizedName : sanitizedName + ".json").exists();
+                    };
+
+                    // Call a conversation API to get input string.
+                    ConversationUtils.createIDStringInput(fileNameConsumer,
+                        validationFunction,
+                        this.user,
+                        this.user.getTranslation(Constants.CONVERSATIONS + "exported-file-name"),
+                        this.user.getTranslation(Constants.CONVERSATIONS + "database-export-completed",
+                            Constants.WORLD, world.getName()),
+                        Constants.CONVERSATIONS + "file-name-exist");
+
                     return true;
                 };
                 glow = false;
@@ -361,7 +402,7 @@ public class AdminPanel extends CommonPanel
                 clickHandler = (panel, user, clickType, slot) -> {
                     if (WebManager.isEnabled())
                     {
-                        ListLibraryPanel.open(this);
+                        LibraryPanel.open(this, LibraryPanel.Library.WEB);
                     }
 
                     return true;
@@ -385,7 +426,8 @@ public class AdminPanel extends CommonPanel
                         Consumer<Boolean> consumer = value -> {
                             if (value)
                             {
-                                this.addon.getChallengesManager().wipeDatabase(this.wipeAll);
+                                this.addon.getChallengesManager().wipeDatabase(this.wipeAll,
+                                    Utils.getGameMode(this.world));
                             }
 
                             this.build();
@@ -423,7 +465,8 @@ public class AdminPanel extends CommonPanel
                         Consumer<Boolean> consumer = value -> {
                             if (value)
                             {
-                                this.addon.getChallengesManager().wipeDatabase(this.wipeAll);
+                                this.addon.getChallengesManager().wipeDatabase(this.wipeAll,
+                                    Utils.getGameMode(this.world));
                             }
 
                             this.build();
@@ -454,7 +497,7 @@ public class AdminPanel extends CommonPanel
                     Consumer<Boolean> consumer = value -> {
                         if (value)
                         {
-                            this.addon.getChallengesManager().wipePlayers();
+                            this.addon.getChallengesManager().wipePlayers(Utils.getGameMode(this.world));
                         }
 
                         this.build();
@@ -512,7 +555,8 @@ public class AdminPanel extends CommonPanel
         DELETE_CHALLENGE,
         DELETE_LEVEL,
         EDIT_SETTINGS,
-        IMPORT_CHALLENGES,
+        IMPORT_DATABASE,
+        IMPORT_TEMPLATE,
         EXPORT_CHALLENGES,
         /**
          * Allows to remove whole database

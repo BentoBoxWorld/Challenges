@@ -102,6 +102,15 @@ public abstract class CommonPanel
     protected abstract void build();
 
 
+    /**
+     * This method reopens given panel.
+     * @param panel Panel that must be reopened.
+     */
+    public static void reopen(CommonPanel panel)
+    {
+        panel.build();
+    }
+
 
 // ---------------------------------------------------------------------
 // Section: Common methods

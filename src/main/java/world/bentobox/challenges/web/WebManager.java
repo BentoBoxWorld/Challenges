@@ -115,7 +115,7 @@ public class WebManager
 
 				JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
 				catalog.getAsJsonArray("challenges").forEach(gamemode ->
-					this.library.add(new LibraryEntry(gamemode.getAsJsonObject())));
+					this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
 			}
 		});
 	}
@@ -142,7 +142,7 @@ public class WebManager
 			try
 			{
 				challengeLibrary = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
-					getContent("challenges/library/" + entry.getRepository() + ".json").
+					getContent("challenges/library/" + entry.repository() + ".json").
 					getContent().
 					replaceAll("\\n", "");
 			}
@@ -192,7 +192,7 @@ public class WebManager
 	public List<LibraryEntry> getLibraryEntries()
 	{
 		List<LibraryEntry> entries = new ArrayList<>(this.library);
-		entries.sort(Comparator.comparingInt(LibraryEntry::getSlot));
+		entries.sort(Comparator.comparingInt(LibraryEntry::slot));
 
 		return entries;
 	}
@@ -216,15 +216,15 @@ public class WebManager
 	/**
 	 * Challenges Addon variable.
 	 */
-	private ChallengesAddon addon;
+	private final ChallengesAddon addon;
 
 	/**
 	 * BentoBox plugin variable.
 	 */
-	private BentoBox plugin;
+	private final BentoBox plugin;
 
 	/**
 	 * This list contains all entries that were downloaded from GitHub.
 	 */
-	private List<LibraryEntry> library;
+	private final List<LibraryEntry> library;
 }

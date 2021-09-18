@@ -1,19 +1,7 @@
 package world.bentobox.challenges.managers;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -24,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
@@ -591,16 +580,27 @@ public class ChallengesManager
     /**
      * This method removes all challenges addon data from Database.
      * @param complete Remove also user data.
+     * @param name Name of the GameMode.
      */
-    public void wipeDatabase(boolean complete)
+    public void wipeDatabase(boolean complete, String name)
     {
-        this.wipeLevels();
-        this.wipeChallenges();
+        this.wipeLevels(name);
+        this.wipeChallenges(name);
 
         if (complete)
         {
-            this.wipePlayers();
+            this.wipePlayers(name);
         }
+    }
+
+
+    /**
+     * This method removes all challenges addon data from Database.
+     * @param name Name of the GameMode.
+     */
+    public void wipeDatabase(String name)
+    {
+        this.wipeDatabase(false, name);
     }
 
 
@@ -608,12 +608,17 @@ public class ChallengesManager
      * This method collects all data from levels database and removes them.
      * Also clears levels cache data.
      */
-    private void wipeLevels()
+    private void wipeLevels(String gamemode)
     {
         List<ChallengeLevel> levelList = this.levelDatabase.loadObjects();
 
-        levelList.forEach(level -> this.levelDatabase.deleteID(level.getUniqueId()));
-        this.levelCacheData.clear();
+        levelList.stream().
+            filter(level -> level.getUniqueId().startsWith(gamemode.toLowerCase()) ||
+                level.getUniqueId().startsWith(gamemode)).
+            forEach(level -> {
+                this.levelDatabase.deleteID(level.getUniqueId());
+                this.levelCacheData.remove(level.getUniqueId());
+            });
     }
 
 
@@ -621,12 +626,17 @@ public class ChallengesManager
      * This method collects all data from challenges database and removes them.
      * Also clears challenges cache data.
      */
-    private void wipeChallenges()
+    private void wipeChallenges(String gamemode)
     {
         List<Challenge> challengeList = this.challengeDatabase.loadObjects();
 
-        challengeList.forEach(challenge -> this.challengeDatabase.deleteID(challenge.getUniqueId()));
-        this.challengeCacheData.clear();
+        challengeList.stream().
+            filter(challenge -> challenge.getUniqueId().startsWith(gamemode.toLowerCase()) ||
+                challenge.getUniqueId().startsWith(gamemode)).
+            forEach(challenge -> {
+                this.challengeDatabase.deleteID(challenge.getUniqueId());
+                this.challengeCacheData.remove(challenge.getUniqueId());
+            });
     }
 
 
@@ -634,12 +644,15 @@ public class ChallengesManager
      * This method collects all data from players database and removes them.
      * Also clears players cache data.
      */
-    public void wipePlayers()
+    public void wipePlayers(String gamemode)
     {
-        List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
-
-        playerDataList.forEach(playerData -> this.playersDatabase.deleteID(playerData.getUniqueId()));
         this.playerCacheData.clear();
+
+        List<ChallengesPlayerData> playerDataList = this.playersDatabase.loadObjects();
+        playerDataList.forEach(playerData -> {
+            playerData.reset(gamemode);
+            this.playersDatabase.saveObjectAsync(playerData);
+        });
     }
 
 

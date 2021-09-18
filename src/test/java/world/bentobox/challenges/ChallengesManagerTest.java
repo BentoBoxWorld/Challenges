@@ -352,7 +352,7 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link ChallengesManager#wipeDatabase(boolean)}.
+     * Test method for {@link ChallengesManager#wipeDatabase(boolean, String)}.
      * @throws InterruptedException
      */
     @Test
@@ -376,19 +376,19 @@ public class ChallengesManagerTest {
         assertTrue(checkPd.exists());
 
         // Wipe it
-        cm.wipeDatabase(false);
+        cm.wipeDatabase(false, "");
 
         // Verify
         assertFalse(check.exists());
         assertFalse(checkLv.exists());
         assertTrue(checkPd.exists());
 
-        cm.wipeDatabase(true);
+        cm.wipeDatabase(true, "");
         assertFalse(checkPd.exists());
     }
 
     /**
-     * Test method for {@link ChallengesManager#wipePlayers()}.
+     * Test method for {@link ChallengesManager#wipePlayers(String)}.
      * @throws InterruptedException
      */
     @Test
@@ -399,7 +399,7 @@ public class ChallengesManagerTest {
         File plData = new File(database, "ChallengesPlayerData");
         File checkLv = new File(plData, playerID.toString() + ".json");
         assertTrue(checkLv.exists());
-        cm.wipePlayers();
+        cm.wipePlayers("");
         assertFalse(checkLv.exists());
     }
 

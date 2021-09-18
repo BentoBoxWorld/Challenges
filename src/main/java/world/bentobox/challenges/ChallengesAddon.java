@@ -314,6 +314,10 @@ public class ChallengesAddon extends Addon {
         this.saveResource("panels/main_panel.yml", false);
         this.saveResource("panels/multiple_panel.yml",false);
         this.saveResource("panels/gamemode_panel.yml",false);
+
+        // Save template
+        this.saveResource("template.yml",false);
+        this.saveResource("default.json",false);
     }
 
 

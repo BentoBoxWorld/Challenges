@@ -189,14 +189,21 @@ challenges:
                 description: |-
                     &7 Opens a public
                     &7 challenges library.
-            import_challenges:
-                name: "&f&l Import Challenges"
+            import_database:
+                name: "&f&l Import Database"
                 description: |-
-                    &7 Allows to import challenges.
+                    &7 Allows to import exported
+                    &7 challenges database.
+            import_template:
+                name: "&f&l Import Template"
+                description: |-
+                    &7 Allows to import template
+                    &7 file with challenges.
             export_challenges:
                 name: "&f&l Export Challenges"
                 description: |-
-                    &7 Allows to export challenges.
+                    &7 Allows to export database
+                    &7 to a local file.
             properties:
                 name: "&f&l Properties"
                 description: |-
@@ -1046,6 +1053,16 @@ challenges:
         start-downloading: "&a Starting to download and import Challenges Library."
         # Message that appears when writing multiline text.
         written-text: "&a Input Text:"
+        # Message that appears after importing library data into database.
+        confirm-data-replacement: "&e Please confirm that you want to replace your current challenges with new one."
+        # Message that appears after successful data importing
+        new-challenges-imported: "&a Success, new Challenges for [gamemode] were imported."
+        # Message that appears after admin clicks on database exporting button.
+        exported-file-name: "&e Please enter a file name for the exported database file. (write 'cancel' to exit)"
+        # Message that appears after successful database exporting to file.
+        database-export-completed: "&a Success, the database export for [world] is completed. File [file] generated."
+        # Message that appears if input file name is already taken.
+        file-name-exist: "&c File with name '[id]' exists. Cannot overwrite."
     titles:
 #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
 #       [friendlyName] will be replaced with challenge friendly name.
@@ -1131,6 +1148,7 @@ challenges:
         no-multiple-permission: "&c You do not have permission to complete this challenge multiple times at once."
         invalid-level: "&c Level [level] contains invalid data. It will not be loaded from database!"
         invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
+        no-library-entries: "&c Cannot find any library entries. Nothing to show."
 protection:
     flags:
         CHALLENGES_ISLAND_PROTECTION:

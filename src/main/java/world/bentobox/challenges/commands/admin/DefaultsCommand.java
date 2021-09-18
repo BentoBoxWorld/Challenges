@@ -97,7 +97,8 @@ public class DefaultsCommand extends CompositeCommand
         @Override
         public boolean execute(User user, String label, List<String> args)
         {
-            return DefaultsCommand.this.addon.getImportManager().loadDefaultChallenges(user, this.getWorld());
+            DefaultsCommand.this.addon.getImportManager().loadDownloadedChallenges(user, this.getWorld(), "default");
+            return true;
         }
     }
 
@@ -135,10 +136,12 @@ public class DefaultsCommand extends CompositeCommand
         @Override
         public boolean execute(User user, String label, List<String> args)
         {
-            return DefaultsCommand.this.addon.getImportManager().generateDefaultChallengeFile(
+             DefaultsCommand.this.addon.getImportManager().generateDatabaseFile(
                 user,
                 this.getWorld(),
-                !args.isEmpty() && args.get(0).equalsIgnoreCase("overwrite"));
+                "defaults");
+
+             return true;
         }
 
 
