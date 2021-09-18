@@ -2,10 +2,11 @@
   "challengeList": [
     {
       "uniqueId": "cobblecollector",
-      "friendlyName": "Cobble Stone Exchange",
+      "friendlyName": "&f&l Cobble Stone Exchange",
       "deployed": true,
       "description": [
-        "Exchange cobble stone to some useful materials"
+        "&7 Exchange cobble stone",
+        "&7 to some useful materials"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COBBLESTONE\n",
       "order": 1,
@@ -23,7 +24,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Small amount of gravel will always be handy",
+      "rewardText": "&7 Small amount of gravel \n&7 will always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GRAVEL\n  amount: 4\n"
       ],
@@ -31,7 +32,7 @@
       "rewardMoney": 10,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Small amount of gravel will always be handy",
+      "repeatRewardText": "&7 Small amount of gravel \n&7 will always be handy",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -42,10 +43,11 @@
     },
     {
       "uniqueId": "seedcollector",
-      "friendlyName": "Seeds Exchange",
+      "friendlyName": "&f&l Seeds Exchange",
       "deployed": true,
       "description": [
-        "Exchange seeds to some useful materials"
+        "&7 Exchange seeds to ",
+        "&7 some useful materials"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: WHEAT_SEEDS\n",
       "order": 2,
@@ -63,7 +65,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Small amount of dirt will always be handy",
+      "rewardText": "&7 Small amount of dirt \n&7 will always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 4\n"
       ],
@@ -71,7 +73,7 @@
       "rewardMoney": 10,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Small amount of dirt will always be handy",
+      "repeatRewardText": "&7 Small amount of dirt \n&7 will always be handy",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -82,10 +84,11 @@
     },
     {
       "uniqueId": "cactuscollector",
-      "friendlyName": "Cactus Exchange",
+      "friendlyName": "&f&l Cactus Exchange",
       "deployed": true,
       "description": [
-        "Exchange cactus to some useful materials"
+        "&7 Exchange cactus to ",
+        "&7 some useful materials"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CACTUS\n",
       "order": 3,
@@ -103,7 +106,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Small amount of sand will always be handy",
+      "rewardText": "&7 Small amount of sand \n&7 will always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SAND\n  amount: 4\n"
       ],
@@ -111,7 +114,7 @@
       "rewardMoney": 10,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Small amount of sand will always be handy",
+      "repeatRewardText": "&7 Small amount of sand will always be handy",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -122,10 +125,11 @@
     },
     {
       "uniqueId": "treecollector",
-      "friendlyName": "Logs Exchange",
+      "friendlyName": "&f&l Logs Exchange",
       "deployed": true,
       "description": [
-        "Fell trees and collect some logs"
+        "&7 Fell trees and collect ",
+        "&7 some logs"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OAK_LOG\n",
       "order": 4,
@@ -143,7 +147,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your logs for some clay",
+      "rewardText": "&7 Exchange your logs \n&7 for some clay",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CLAY\n  amount: 4\n"
       ],
@@ -151,7 +155,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your logs for some clay balls",
+      "repeatRewardText": "&7 Exchange your logs for some clay balls",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -162,10 +166,11 @@
     },
     {
       "uniqueId": "cobblegenerator",
-      "friendlyName": "Cobble Stone Generator",
+      "friendlyName": "&f&l Cobble Stone Generator",
       "deployed": true,
       "description": [
-        "Everything starts with a simple cobblestone generator."
+        "&7 Everything starts with",
+        "&7 a simple cobblestone generator."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COBBLESTONE\n",
       "order": 1,
@@ -188,7 +193,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "These tools will help you with some grind.",
+      "rewardText": "&7 These tools will help \n&7 you with some grind.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: STONE_PICKAXE\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      DIG_SPEED: 5\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: STONE_AXE\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      DIG_SPEED: 5\n",
@@ -208,10 +213,11 @@
     },
     {
       "uniqueId": "cactusfarm",
-      "friendlyName": "Cactus farm",
+      "friendlyName": "&f&l Cactus farm",
       "deployed": true,
       "description": [
-        "Create a simple cactus farm"
+        "&7 Create a simple",
+        "&7 cactus farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CACTUS\n",
       "order": 2,
@@ -232,7 +238,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra sand will always be handy",
+      "rewardText": "&7 Extra sand will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SAND\n  amount: 10\n"
       ],
@@ -249,10 +255,11 @@
     },
     {
       "uniqueId": "melonfarm",
-      "friendlyName": "Melon farm",
+      "friendlyName": "&f&l Melon farm",
       "deployed": true,
       "description": [
-        "Create a simple Melon farm"
+        "&7 Create a simple",
+        "&7 melon farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MELON\n",
       "order": 2,
@@ -273,7 +280,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -290,10 +297,11 @@
     },
     {
       "uniqueId": "mushroomfarm",
-      "friendlyName": "Mushroom farm",
+      "friendlyName": "&f&l Mushroom farm",
       "deployed": true,
       "description": [
-        "Create a simple mushroom farm"
+        "&7 Create a simple",
+        "&7 mushroom farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BROWN_MUSHROOM\n",
       "order": 2,
@@ -315,7 +323,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "This mycelium will help you with collecting mushrooms faster.",
+      "rewardText": "&7 This mycelium will \n&7 help you with collecting \n&7 mushrooms faster.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MYCELIUM\n"
       ],
@@ -332,10 +340,11 @@
     },
     {
       "uniqueId": "pumpkinfarm",
-      "friendlyName": "Pumpkin farm",
+      "friendlyName": "&f&l Pumpkin farm",
       "deployed": true,
       "description": [
-        "Create a simple Pumpkin farm"
+        "&7 Create a simple",
+        "&7 pumpkin farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PUMPKIN\n",
       "order": 2,
@@ -356,7 +365,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -373,10 +382,11 @@
     },
     {
       "uniqueId": "sugarcanefarm",
-      "friendlyName": "Sugarcane farm",
+      "friendlyName": "&f&l Sugarcane farm",
       "deployed": true,
       "description": [
-        "Create a simple sugarcane farm"
+        "&7 Create a simple",
+        "&7 sugarcane farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SUGAR_CANE\n",
       "order": 2,
@@ -397,7 +407,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "This sand will help you to increase your farm size.",
+      "rewardText": "&7 This sand will \n&7 help you to increase \n&7 your farm size.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SAND\n  amount: 16\n"
       ],
@@ -414,10 +424,11 @@
     },
     {
       "uniqueId": "treefarm",
-      "friendlyName": "Tree farm",
+      "friendlyName": "&f&l Tree farm",
       "deployed": true,
       "description": [
-        "Create a simple tree farm"
+        "&7 Create a simple",
+        "&7 tree farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OAK_SAPLING\n",
       "order": 2,
@@ -438,7 +449,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 10\n"
       ],
@@ -455,10 +466,11 @@
     },
     {
       "uniqueId": "applecollector",
-      "friendlyName": "Apple Picker",
+      "friendlyName": "&f&l Apple Picker",
       "deployed": true,
       "description": [
-        "Find and collect some apples from trees"
+        "&7 Find and collect some",
+        "&7 apples from trees"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: APPLE\n",
       "order": 3,
@@ -476,7 +488,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "These saplings will help you to get more trees",
+      "rewardText": "&7 These saplings will \n&7 help you to get more \n&7 trees",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SPRUCE_SAPLING\n  amount: 4\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ACACIA_SAPLING\n  amount: 4\n",
@@ -488,7 +500,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "These saplings will help you to get more trees",
+      "repeatRewardText": "&7 These saplings will help \n&7 you to get more trees",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -503,10 +515,11 @@
     },
     {
       "uniqueId": "melonmaker",
-      "friendlyName": "Melon collector",
+      "friendlyName": "&f&l Melon collector",
       "deployed": true,
       "description": [
-        "Grow, collect and craft some melons"
+        "&7 Grow, collect and craft",
+        "&7 some melons"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MELON\n",
       "order": 3,
@@ -524,7 +537,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic transformed collected melons into some clay blocks",
+      "rewardText": "&7 Magic transformed \n&7 collected melons into \n&7 some clay blocks",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CLAY\n  amount: 4\n"
       ],
@@ -532,7 +545,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic transformed collected melons into some clay balls",
+      "repeatRewardText": "&7 Magic transformed collected \n&7 melons into some clay balls",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -543,10 +556,11 @@
     },
     {
       "uniqueId": "papermaker",
-      "friendlyName": "Paper Maker",
+      "friendlyName": "&f&l Paper Maker",
       "deployed": true,
       "description": [
-        "Collect sugar canes and craft some paper"
+        "&7 Collect sugar canes and",
+        "&7 craft some paper"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PAPER\n",
       "order": 3,
@@ -564,7 +578,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic will transform crafted paper into red sand",
+      "rewardText": "&7 Magic will transform \n&7 crafted paper into red sand",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: RED_SAND\n  amount: 4\n"
       ],
@@ -572,7 +586,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic will transform crafted paper into red sand",
+      "repeatRewardText": "&7 Magic will transform \n&7 crafted paper into red sand",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -583,10 +597,11 @@
     },
     {
       "uniqueId": "pumpkinmaker",
-      "friendlyName": "Pumpkin collector",
+      "friendlyName": "&f&l Pumpkin collector",
       "deployed": true,
       "description": [
-        "Grow and collect some pumpkins"
+        "&7 Grow and collect",
+        "&7 some pumpkins"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PUMPKIN\n",
       "order": 3,
@@ -604,7 +619,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic transformed collected pumpkins into some clay blocks",
+      "rewardText": "&7 Magic transformed collected \n&7 pumpkins into some \n&7 clay blocks",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CLAY\n  amount: 4\n"
       ],
@@ -612,7 +627,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic transformed collected pumpkins into some clay balls",
+      "repeatRewardText": "&7 Magic transformed collected \n&7 pumpkins into some clay balls",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -623,10 +638,12 @@
     },
     {
       "uniqueId": "chiseledmaker",
-      "friendlyName": "Chiseled stone bricks crafter",
+      "friendlyName": "&f&l Chiseled stone bricks crafter",
       "deployed": true,
       "description": [
-        "Smelt some stone and craft some chiseled stone bricks"
+        "&7 Smelt some stone and",
+        "&7 craft some chiseled",
+        "&7 stone bricks"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CHISELED_STONE_BRICKS\n",
       "order": 4,
@@ -644,7 +661,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic transformed these bricks into andesite",
+      "rewardText": "&7 Magic transformed these \n&7 bricks into andesite",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ANDESITE\n  amount: 4\n"
       ],
@@ -652,7 +669,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic transformed these bricks into andesite",
+      "repeatRewardText": "&7 Magic transformed these \n&7 bricks into andesite",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -663,10 +680,11 @@
     },
     {
       "uniqueId": "crackedmaker",
-      "friendlyName": "Cracked stone bricks crafter",
+      "friendlyName": "&f&l Cracked stone bricks crafter",
       "deployed": true,
       "description": [
-        "Smelt some bricks to get cracked stone bricks."
+        "&7 Smelt some bricks to",
+        "&7 get cracked stone bricks."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CRACKED_STONE_BRICKS\n",
       "order": 4,
@@ -684,7 +702,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic transformed these bricks into diorite.",
+      "rewardText": "&7 Magic transformed these \n&7 bricks into bird-poop.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIORITE\n  amount: 4\n"
       ],
@@ -692,7 +710,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic transformed these bricks into diorite.",
+      "repeatRewardText": "&7 Magic transformed these \n&7 bricks into diorite.",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -703,10 +721,11 @@
     },
     {
       "uniqueId": "stonesmelter",
-      "friendlyName": "Stone brick maker",
+      "friendlyName": "&f&l Stone brick maker",
       "deployed": true,
       "description": [
-        "Smelt some stone and craft some stone bricks"
+        "&7 Smelt some stone and",
+        "&7 craft some stone bricks"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: STONE_BRICKS\n",
       "order": 4,
@@ -724,7 +743,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Magic transformed these bricks into granite",
+      "rewardText": "&7 Magic transformed these \n&7 bricks into granite",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GRANITE\n  amount: 4\n"
       ],
@@ -732,7 +751,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Magic transformed these bricks into granite",
+      "repeatRewardText": "&7 Magic transformed these \n&7 bricks into granite",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -743,10 +762,11 @@
     },
     {
       "uniqueId": "beetrootfarm",
-      "friendlyName": "Beetroot farm",
+      "friendlyName": "&f&l Beetroot farm",
       "deployed": true,
       "description": [
-        "Create a simple beetroot farm"
+        "&7 Create a simple",
+        "&7 beetroot farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BEETROOT\n",
       "order": 1,
@@ -767,7 +787,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -784,10 +804,11 @@
     },
     {
       "uniqueId": "carrotfarm",
-      "friendlyName": "Carrot farm",
+      "friendlyName": "&f&l Carrot farm",
       "deployed": true,
       "description": [
-        "Create a simple carrot farm"
+        "&7 Create a simple",
+        "&7 carrot farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CARROT\n",
       "order": 1,
@@ -808,7 +829,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -825,10 +846,11 @@
     },
     {
       "uniqueId": "potatofarm",
-      "friendlyName": "Potato farm",
+      "friendlyName": "&f&l Potato farm",
       "deployed": true,
       "description": [
-        "Create a simple potato farm"
+        "&7 Create a simple",
+        "&7 potato farm"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: POTATO\n",
       "order": 1,
@@ -849,7 +871,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Extra dirt will always be handy",
+      "rewardText": "&7 Extra dirt will \n&7 always be handy",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -866,10 +888,11 @@
     },
     {
       "uniqueId": "animalfarm",
-      "friendlyName": "Animal farm",
+      "friendlyName": "&f&l Animal farm",
       "deployed": true,
       "description": [
-        "Create a grass field and wait for animals to spawn."
+        "&7 Create a grass field and",
+        "&7 wait for animals to spawn."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GRASS_BLOCK\n",
       "order": 2,
@@ -895,7 +918,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Iron to craft some tools and a couple of cats.",
+      "rewardText": "&7 Iron to craft some \n&7 tools and a couple of \n&7 cats.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OCELOT_SPAWN_EGG\n  amount: 2\n"
@@ -913,10 +936,11 @@
     },
     {
       "uniqueId": "mobfarm",
-      "friendlyName": "Mob farm",
+      "friendlyName": "&f&l Mob farm",
       "deployed": true,
       "description": [
-        "Create a dark place and spawn some hostile mobs."
+        "&7 Create a dark place and",
+        "&7 spawn some hostile mobs."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: STONE\n",
       "order": 2,
@@ -940,7 +964,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Iron for item crafting and some dogs.",
+      "rewardText": "&7 Iron for item crafting \n&7 and some dogs.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: WOLF_SPAWN_EGG\n  amount: 2\n"
@@ -958,10 +982,12 @@
     },
     {
       "uniqueId": "visitnether",
-      "friendlyName": "Visit nether",
+      "friendlyName": "&f&l Visit nether",
       "deployed": true,
       "description": [
-        "The nether is a horrible place, but it has some useful materials."
+        "&7 The nether is a horrible",
+        "&7 place, but it has some",
+        "&7 useful materials."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: NETHERRACK\n",
       "order": 3,
@@ -984,7 +1010,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some iron and lapis for your efforts.",
+      "rewardText": "&7 Some iron and lapis \n&7 for your efforts.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: LAPIS_BLOCK\n  amount: 3\n"
@@ -1002,10 +1028,10 @@
     },
     {
       "uniqueId": "angler",
-      "friendlyName": "Angler",
+      "friendlyName": "&f&l Angler",
       "deployed": true,
       "description": [
-        "Catch some salmon"
+        "&7 Catch some salmon"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SALMON\n",
       "order": 4,
@@ -1023,7 +1049,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some prismarine crystals and kelp",
+      "rewardText": "&7 Some prismarine crystals \n&7 and kelp",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PRISMARINE_CRYSTALS\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: KELP\n  amount: 4\n"
@@ -1032,7 +1058,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Some prismarine crystals",
+      "repeatRewardText": "&7 Some prismarine crystals",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1043,10 +1069,10 @@
     },
     {
       "uniqueId": "fisherman",
-      "friendlyName": "Fisherman",
+      "friendlyName": "&f&l Fisherman",
       "deployed": true,
       "description": [
-        "Catch some cod"
+        "&7 Catch some cod"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COD\n",
       "order": 4,
@@ -1064,7 +1090,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some prismarine shards and sea pickles",
+      "rewardText": "&7 Some prismarine shards \n&7 and sea pickles",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PRISMARINE_SHARD\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SEA_PICKLE\n  amount: 4\n"
@@ -1073,7 +1099,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Some prismarine shards",
+      "repeatRewardText": "&7 Some prismarine shards",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1084,10 +1110,11 @@
     },
     {
       "uniqueId": "grinder",
-      "friendlyName": "Grinder",
+      "friendlyName": "&f&l Grinder",
       "deployed": true,
       "description": [
-        "Use your mobfarm to collect mob drops"
+        "&7 Use your mobfarm",
+        "&7 to collect mob drops"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BONE\n",
       "order": 4,
@@ -1110,7 +1137,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchanging drops will provide some useful materials.",
+      "rewardText": "&7 Exchanging drops will \n&7 provide some useful \n&7 materials.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: REDSTONE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 5\n",
@@ -1120,7 +1147,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Some prismarine crystals",
+      "repeatRewardText": "&7 Some prismarine crystals",
       "maxTimes": 0,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1131,10 +1158,11 @@
     },
     {
       "uniqueId": "competent",
-      "friendlyName": "Competent Island",
+      "friendlyName": "&f&l Competent Island",
       "deployed": true,
       "description": [
-        "Reach 20th level of island."
+        "&7 Reach 20th level",
+        "&7 of island."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: YELLOW_CONCRETE\n",
       "order": 5,
@@ -1153,7 +1181,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Now you can create a nether portal",
+      "rewardText": "&7 Now you can create \n&7 a nether portal",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OBSIDIAN\n  amount: 10\n"
       ],
@@ -1170,10 +1198,12 @@
     },
     {
       "uniqueId": "irongolemfarm",
-      "friendlyName": "Iron Farm",
+      "friendlyName": "&f&l Iron Farm",
       "deployed": true,
       "description": [
-        "Use your villagers to spawn free iron golems."
+        "&7 Use your villagers",
+        "&7 to spawn free iron",
+        "&7 golems."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_BLOCK\n",
       "order": 1,
@@ -1194,7 +1224,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some handy mending books and redstone ore",
+      "rewardText": "&7 Some handy mending \n&7 books and redstone ore",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
@@ -1213,10 +1243,11 @@
     },
     {
       "uniqueId": "slimefarm",
-      "friendlyName": "Slime farm",
+      "friendlyName": "&f&l Slime farm",
       "deployed": true,
       "description": [
-        "Create a slime farm to get some slime blocks"
+        "&7 Create a slime farm",
+        "&7 to get some slime blocks"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SLIME_BLOCK\n",
       "order": 1,
@@ -1237,7 +1268,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some nether quartz ore and an extra mending book",
+      "rewardText": "&7 Get some nether \n&7 quartz ore and an extra \n&7 mending book",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: NETHER_QUARTZ_ORE\n  amount: 16\n"
@@ -1255,10 +1286,10 @@
     },
     {
       "uniqueId": "snowgolemfarm",
-      "friendlyName": "Snow farm",
+      "friendlyName": "&f&l Snow farm",
       "deployed": true,
       "description": [
-        "."
+        "&7 Create a snow Golem"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SNOW_BLOCK\n",
       "order": 1,
@@ -1281,7 +1312,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some mending books and lapis ore",
+      "rewardText": "&7 Some mending books \n&7 and lapis ore",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ENCHANTED_BOOK\n  amount: 1\n  meta:\n    ==: ItemMeta\n    meta-type: ENCHANTED\n    stored-enchants:\n      MENDING: 1\n",
@@ -1300,10 +1331,11 @@
     },
     {
       "uniqueId": "villagerbreeder",
-      "friendlyName": "Villager Breeder",
+      "friendlyName": "&f&l Villager Breeder",
       "deployed": true,
       "description": [
-        "Start to create a villager army."
+        "&7 Start to create",
+        "&7 a villager army."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EMERALD_BLOCK\n",
       "order": 1,
@@ -1324,7 +1356,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Iron for tools crafting and some cats.",
+      "rewardText": "&7 Iron for tools crafting \n&7 and some cats.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OCELOT_SPAWN_EGG\n  amount: 2\n"
@@ -1342,10 +1374,11 @@
     },
     {
       "uniqueId": "eggcollector",
-      "friendlyName": "Egg Collector",
+      "friendlyName": "&f&l Egg Collector",
       "deployed": true,
       "description": [
-        "Create a chicken farm and collect their eggs."
+        "&7 Create a chicken farm",
+        "&7 and collect their eggs."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EGG\n",
       "order": 2,
@@ -1363,7 +1396,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange eggs for some iron",
+      "rewardText": "&7 Exchange eggs for \n&7 some iron",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_ORE\n  amount: 24\n"
       ],
@@ -1371,7 +1404,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange eggs for some iron",
+      "repeatRewardText": "&7 Exchange eggs for \n&7 some iron",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1382,10 +1415,10 @@
     },
     {
       "uniqueId": "flowercollector",
-      "friendlyName": "Flower gatherer",
+      "friendlyName": "&f&l Flower gatherer",
       "deployed": true,
       "description": [
-        "Collect all small flowers."
+        "&7 Collect all small flowers."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DANDELION\n",
       "order": 2,
@@ -1412,7 +1445,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Large flowers are always better.",
+      "rewardText": "&7 Large flowers are \n&7 always better.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COCOA_BEANS\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ROSE_BUSH\n",
@@ -1434,10 +1467,11 @@
     },
     {
       "uniqueId": "milkcollector",
-      "friendlyName": "Milk your cows",
+      "friendlyName": "&f&l Milk your cows",
       "deployed": true,
       "description": [
-        "Create some buckets and milk your cows"
+        "&7 Create some buckets",
+        "&7 and milk your cows"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MILK_BUCKET\n",
       "order": 2,
@@ -1455,7 +1489,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange milk to mooshrooms",
+      "rewardText": "&7 Exchange milk \n&7 to mooshrooms",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BUCKET\n  amount: 9\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MOOSHROOM_SPAWN_EGG\n  amount: 2\n"
@@ -1464,7 +1498,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange milk to some iron",
+      "repeatRewardText": "&7 Exchange milk to \n&7 some iron",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1476,10 +1510,11 @@
     },
     {
       "uniqueId": "woolcollector",
-      "friendlyName": "Wool Collector",
+      "friendlyName": "&f&l Wool Collector",
       "deployed": true,
       "description": [
-        "Collect all colors of wool."
+        "&7 Collect all colors",
+        "&7 of wool."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: WHITE_WOOL\n",
       "order": 2,
@@ -1512,7 +1547,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some handy items for your wool",
+      "rewardText": "&7 Get some handy items \n&7 for your wool",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 2\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MUSIC_DISC_CAT\n",
@@ -1537,10 +1572,11 @@
     },
     {
       "uniqueId": "slimeballcollector",
-      "friendlyName": "Slimeball collector",
+      "friendlyName": "&f&l Slimeball collector",
       "deployed": true,
       "description": [
-        "Kill slimes and collect their slime balls"
+        "&7 Kill slimes and collect",
+        "&7 their slime balls"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SLIME_BALL\n",
       "order": 3,
@@ -1558,7 +1594,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some redstone will always be handy!",
+      "rewardText": "&7 Some redstone will \n&7 always be handy!",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: REDSTONE\n  amount: 27\n"
       ],
@@ -1566,7 +1602,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Some redstone will always be handy!",
+      "repeatRewardText": "&7 Some redstone will \n&7 always be handy!",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1577,10 +1613,11 @@
     },
     {
       "uniqueId": "ironage",
-      "friendlyName": "Iron Age",
+      "friendlyName": "&f&l Iron Age",
       "deployed": true,
       "description": [
-        "Craft iron tools and armor"
+        "&7 Craft iron tools",
+        "&7 and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_INGOT\n",
       "order": 4,
@@ -1606,7 +1643,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your iron stuff to some diamonds",
+      "rewardText": "&7 Exchange your iron stuff \n&7 to some diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 4\n"
       ],
@@ -1614,7 +1651,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your iron stuff to diamond",
+      "repeatRewardText": "&7 Exchange your iron \n&7 stuff to diamond",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1625,10 +1662,11 @@
     },
     {
       "uniqueId": "trader",
-      "friendlyName": "Trader",
+      "friendlyName": "&f&l Trader",
       "deployed": true,
       "description": [
-        "Use your villagers to get some gems"
+        "&7 Use your villagers",
+        "&7 to get some gems"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EMERALD\n",
       "order": 4,
@@ -1646,7 +1684,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your emeralds to some diamonds",
+      "rewardText": "&7 Exchange your emeralds \n&7 to some diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 4\n"
       ],
@@ -1654,7 +1692,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your emeralds to diamond",
+      "repeatRewardText": "&7 Exchange your emeralds \n&7 to diamond",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1665,10 +1703,11 @@
     },
     {
       "uniqueId": "expert",
-      "friendlyName": "Expert Island",
+      "friendlyName": "&f&l Expert Island",
       "deployed": true,
       "description": [
-        "Reach 100th level of island."
+        "&7 Reach 100th level of",
+        "&7 island."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GREEN_CONCRETE\n",
       "order": 6,
@@ -1687,7 +1726,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds",
+      "rewardText": "&7 Get some extra \n&7 diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 10\n"
       ],
@@ -1704,10 +1743,10 @@
     },
     {
       "uniqueId": "alchemist",
-      "friendlyName": "Alchemist",
+      "friendlyName": "&f&l Alchemist",
       "deployed": true,
       "description": [
-        "Brew some potions"
+        "&7 Brew some potions"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BREWING_STAND\n",
       "order": 1,
@@ -1738,7 +1777,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "There are never too many diamonds",
+      "rewardText": "&7 There are never too \n&7 many diamonds",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_ORE\n  amount: 4\n"
       ],
@@ -1757,10 +1796,11 @@
     },
     {
       "uniqueId": "dj",
-      "friendlyName": "DJ",
+      "friendlyName": "&f&l DJ",
       "deployed": true,
       "description": [
-        "Craft a jukebox and collect all music discs"
+        "&7 Craft a jukebox and",
+        "&7 collect all music discs"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MUSIC_DISC_CHIRP\n",
       "order": 2,
@@ -1790,7 +1830,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some diamonds and emeralds for your disks",
+      "rewardText": "&7 Some diamonds and \n&7 emeralds for your disks",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 3\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: EMERALD\n  amount: 10\n",
@@ -1800,7 +1840,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "A diamond and some emeralds for your disks",
+      "repeatRewardText": "&7 A diamond and some emeralds \n&7 for your disks",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1813,10 +1853,10 @@
     },
     {
       "uniqueId": "icefarmer",
-      "friendlyName": "Ice Farmer",
+      "friendlyName": "&f&l Ice Farmer",
       "deployed": true,
       "description": [
-        "Collect some ice"
+        "&7 Collect some ice"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ICE\n",
       "order": 3,
@@ -1835,7 +1875,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes|",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes|",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -1844,7 +1884,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Get some extra diamonds|",
+      "repeatRewardText": "&7 Get some extra \n&7 diamonds",
       "maxTimes": 0,
       "repeatExperienceReward": 0,
       "repeatItemReward": [
@@ -1855,10 +1895,11 @@
     },
     {
       "uniqueId": "goldage",
-      "friendlyName": "Gold Age",
+      "friendlyName": "&f&l Gold Age",
       "deployed": true,
       "description": [
-        "Craft gold tools and armor"
+        "&7 Craft gold tools",
+        "&7 and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GOLD_INGOT\n",
       "order": 4,
@@ -1884,7 +1925,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your gold stuff to some diamond",
+      "rewardText": "&7 Exchange your gold \n&7 stuff to some diamond",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 16\n"
       ],
@@ -1892,7 +1933,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your gold stuff to diamond",
+      "repeatRewardText": "&7 Exchange your gold \n&7 stuff to diamond",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -1903,10 +1944,12 @@
     },
     {
       "uniqueId": "witherkiller",
-      "friendlyName": "Wither Killer",
+      "friendlyName": "&f&l Wither Killer",
       "deployed": true,
       "description": [
-        "Kill the wither and show your worthiness"
+        "&7 Kill the wither",
+        "&7 and show your",
+        "&7 worthiness"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: NETHER_STAR\n",
       "order": 5,
@@ -1924,7 +1967,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_BLOCK\n  amount: 5\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -1942,10 +1985,12 @@
     },
     {
       "uniqueId": "chef",
-      "friendlyName": "Chef",
+      "friendlyName": "&f&l Chef",
       "deployed": true,
       "description": [
-        "Show your ability to cook all types of food"
+        "&7 Show your ability",
+        "&7 to cook all types",
+        "&7 of food"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CAKE\n",
       "order": 6,
@@ -1978,7 +2023,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -1987,7 +2032,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Some diamond ore for your food|",
+      "repeatRewardText": "&7 Some diamond ore \n&7 for your food|",
       "maxTimes": 100,
       "repeatExperienceReward": 0,
       "repeatItemReward": [
@@ -1998,10 +2043,11 @@
     },
     {
       "uniqueId": "zoomaker",
-      "friendlyName": "Zoo Maker",
+      "friendlyName": "&f&l Zoo Maker",
       "deployed": true,
       "description": [
-        "Create a peaceful mob zoo"
+        "&7 Create a peaceful",
+        "&7 mob zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GLASS_PANE\n",
       "order": 7,
@@ -2038,7 +2084,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 32\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -2056,10 +2102,11 @@
     },
     {
       "uniqueId": "advanced",
-      "friendlyName": "Advanced Island",
+      "friendlyName": "&f&l Advanced Island",
       "deployed": true,
       "description": [
-        "Reach 500th level of island."
+        "&7 Reach 500th level",
+        "&7 of island."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BLUE_CONCRETE\n",
       "order": 10,
@@ -2078,7 +2125,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker shells",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker shells",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 20\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_SHELL\n  amount: 5\n"
@@ -2096,10 +2143,11 @@
     },
     {
       "uniqueId": "visitend",
-      "friendlyName": "Visit the End",
+      "friendlyName": "&f&l Visit the End",
       "deployed": true,
       "description": [
-        "Is there something even after the end?"
+        "&7 Is there something",
+        "&7 even after the end?"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: END_STONE\n",
       "order": 3,
@@ -2122,7 +2170,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Some diamonds and an elytra for your efforts.",
+      "rewardText": "&7 Some diamonds and \n&7 an elytra for your efforts.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_ORE\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ELYTRA\n"
@@ -2140,10 +2188,11 @@
     },
     {
       "uniqueId": "diamondage",
-      "friendlyName": "Diamond Age",
+      "friendlyName": "&f&l Diamond Age",
       "deployed": true,
       "description": [
-        "Craft diamond tools and armor"
+        "&7 Craft diamond tools",
+        "&7 and armor"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n",
       "order": 4,
@@ -2169,7 +2218,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your diamond stuff to some shulker boxes",
+      "rewardText": "&7 Exchange your diamond \n&7 stuff to some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 3\n"
       ],
@@ -2177,7 +2226,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your diamond stuff to shulker shell",
+      "repeatRewardText": "&7 Exchange your diamond \n&7 stuff to shulker shell",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -2188,10 +2237,11 @@
     },
     {
       "uniqueId": "glassmaker",
-      "friendlyName": "Glass maker",
+      "friendlyName": "&f&l Glass maker",
       "deployed": true,
       "description": [
-        "Craft and collect all colors of glass"
+        "&7 Craft and collect",
+        "&7 all colors of glass"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GLASS\n",
       "order": 4,
@@ -2224,7 +2274,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your glass to a shulker box",
+      "rewardText": "&7 Exchange your glass \n&7 to a shulker box",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n"
       ],
@@ -2232,7 +2282,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your glass to a shulker shell",
+      "repeatRewardText": "&7 Exchange your glass \n&7 to a shulker shell",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -2243,10 +2293,11 @@
     },
     {
       "uniqueId": "terracottamaker",
-      "friendlyName": "Terracotta maker",
+      "friendlyName": "&f&l Terracotta maker",
       "deployed": true,
       "description": [
-        "Smelt some clay into terracotta"
+        "&7 Smelt some clay",
+        "&7 into terracotta"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: TERRACOTTA\n",
       "order": 4,
@@ -2279,7 +2330,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Exchange your terracotta to a shulker box",
+      "rewardText": "&7 Exchange your terracotta \n&7 to a shulker box",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n"
       ],
@@ -2287,7 +2338,7 @@
       "rewardMoney": 0,
       "rewardCommands": [],
       "repeatable": true,
-      "repeatRewardText": "Exchange your terracotta to a shulker shell",
+      "repeatRewardText": "&7 Exchange your terracotta \n&7 to a shulker shell",
       "maxTimes": 100,
       "repeatExperienceReward": 5,
       "repeatItemReward": [
@@ -2298,10 +2349,11 @@
     },
     {
       "uniqueId": "beaconator",
-      "friendlyName": "Beaconator",
+      "friendlyName": "&f&l Beaconator",
       "deployed": true,
       "description": [
-        "Create a beacon with iron base"
+        "&7 Create a beacon",
+        "&7 with iron base"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BEACON\n",
       "order": 6,
@@ -2323,7 +2375,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 32\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -2341,10 +2393,10 @@
     },
     {
       "uniqueId": "enderkiller",
-      "friendlyName": "Hostile Zoo",
+      "friendlyName": "&f&l Hostile Zoo",
       "deployed": true,
       "description": [
-        "Create hostile mob zoo"
+        "&7 Create hostile mob zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: IRON_BARS\n",
       "order": 6,
@@ -2380,7 +2432,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 32\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 5\n"
@@ -2398,10 +2450,11 @@
     },
     {
       "uniqueId": "engineer",
-      "friendlyName": "Engineer",
+      "friendlyName": "&f&l Engineer",
       "deployed": true,
       "description": [
-        "Create some redstone machines"
+        "&7 Create some redstone",
+        "&7 machines"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: OBSERVER\n",
       "order": 6,
@@ -2429,7 +2482,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 32\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -2449,10 +2502,11 @@
     },
     {
       "uniqueId": "waterzoo",
-      "friendlyName": "Water Zoo",
+      "friendlyName": "&f&l Water Zoo",
       "deployed": true,
       "description": [
-        "Create a water animal zoo"
+        "&7 Create a water",
+        "&7 animal zoo"
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BLUE_STAINED_GLASS_PANE\n",
       "order": 7,
@@ -2481,7 +2535,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 16\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 2\n"
@@ -2499,10 +2553,11 @@
     },
     {
       "uniqueId": "elite",
-      "friendlyName": "Elite Island",
+      "friendlyName": "&f&l Elite Island",
       "deployed": true,
       "description": [
-        "Reach 10 000th level of island."
+        "&7 Reach 10 000th level",
+        "&7 of island."
       ],
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MAGENTA_CONCRETE\n",
       "order": 10,
@@ -2521,7 +2576,7 @@
           "requiredPermissions": []
         }
       },
-      "rewardText": "Get some extra diamonds and some shulker boxes",
+      "rewardText": "&7 Get some extra diamonds \n&7 and some shulker boxes",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 64\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: SHULKER_BOX\n  amount: 5\n"
@@ -2541,14 +2596,14 @@
   "challengeLevelList": [
     {
       "uniqueId": "novice",
-      "friendlyName": "Novice",
+      "friendlyName": "&f&l Novice",
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: ORANGE_CONCRETE\n",
       "lockedIcon": null,
       "world": "",
       "order": 1,
       "waiverAmount": 3,
       "unlockMessage": "",
-      "rewardText": "Small reward for completing all Novice challenges.",
+      "rewardText": "&7 Small reward for \n&7 completing all \n&7 Novice challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GRASS_BLOCK\n"
       ],
@@ -2576,14 +2631,14 @@
     },
     {
       "uniqueId": "competent",
-      "friendlyName": "Competent",
+      "friendlyName": "&f&l Competent",
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: YELLOW_CONCRETE\n",
       "lockedIcon": null,
       "world": "",
       "order": 2,
       "waiverAmount": 2,
-      "unlockMessage": "Congratulations - you unlocked the &dCompetent level!",
-      "rewardText": "Small reward for completing all Competent challenges.",
+      "unlockMessage": "&7 Congratulations - \n&7 you unlocked the \n&7 &dCompetent level!",
+      "rewardText": "&7 Small reward for \n&7 completing all \n&7 Competent challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIRT\n  amount: 16\n"
       ],
@@ -2607,14 +2662,14 @@
     },
     {
       "uniqueId": "expert",
-      "friendlyName": "Expert",
+      "friendlyName": "&f&l Expert",
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GREEN_CONCRETE\n",
       "lockedIcon": null,
       "world": "",
       "order": 3,
       "waiverAmount": 1,
-      "unlockMessage": "Congratulations - you unlocked the &dExpert level!",
-      "rewardText": "Small reward for completing all Expert challenges.",
+      "unlockMessage": "&7 Congratulations - \n&7 you unlocked the \n&7 &dExpert level!",
+      "rewardText": "&7 Small reward for \n&7 completing all \n&7 Expert challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_PICKAXE\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      DIG_SPEED: 5\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_AXE\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      DIG_SPEED: 5\n",
@@ -2643,14 +2698,14 @@
     },
     {
       "uniqueId": "advanced",
-      "friendlyName": "Advanced",
+      "friendlyName": "&f&l Advanced",
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BLUE_CONCRETE\n",
       "lockedIcon": null,
       "world": "",
       "order": 4,
       "waiverAmount": 0,
-      "unlockMessage": "Congratulations - you unlocked the &dAdvanced level!",
-      "rewardText": "Small reward for completing all Advanced challenges.",
+      "unlockMessage": "&7 Congratulations - \n&7 you unlocked the \n&7 &dAdvanced level!",
+      "rewardText": "&7 Small reward for \n&7 completing all \n&7 Advanced challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_HELMET\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      PROTECTION_ENVIRONMENTAL: 4\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_CHESTPLATE\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      PROTECTION_ENVIRONMENTAL: 4\n",
@@ -2676,14 +2731,14 @@
     },
     {
       "uniqueId": "elite",
-      "friendlyName": "Elite",
+      "friendlyName": "&f&l Elite",
       "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: MAGENTA_CONCRETE\n",
       "lockedIcon": null,
       "world": "",
       "order": 5,
       "waiverAmount": 0,
-      "unlockMessage": "Congratulations - you unlocked the &dElite level!",
-      "rewardText": "Small reward for completing all Elite challenges.",
+      "unlockMessage": "&7 Congratulations - \n&7 you unlocked the \n&7 &dElite level!",
+      "rewardText": "&7 Small reward for \n&7 completing all\n&7 Elite challenges.",
       "rewardItems": [
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_SWORD\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      DAMAGE_ALL: 5\n      LOOT_BONUS_MOBS: 3\n",
         "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BOW\n  meta:\n    ==: ItemMeta\n    meta-type: UNSPECIFIC\n    enchants:\n      DURABILITY: 3\n      ARROW_DAMAGE: 5\n      ARROW_INFINITE: 1\n      ARROW_FIRE: 1\n",
