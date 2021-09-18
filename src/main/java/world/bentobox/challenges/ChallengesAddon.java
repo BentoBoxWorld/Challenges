@@ -1,6 +1,7 @@
 package world.bentobox.challenges;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -308,6 +309,11 @@ public class ChallengesAddon extends Addon {
             this.logError("Challenges settings could not load! Addon disabled.");
             this.setState(State.DISABLED);
         }
+
+        // Save existing panels.
+        this.saveResource("panels/main_panel.yml", false);
+        this.saveResource("panels/multiple_panel.yml",false);
+        this.saveResource("panels/gamemode_panel.yml",false);
     }
 
 
