@@ -18,6 +18,7 @@ import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.database.objects.Table;
 import world.bentobox.challenges.database.object.adapters.EntityCompatibilityAdapter;
 import world.bentobox.challenges.database.object.adapters.RequirementsAdapter;
+import world.bentobox.challenges.database.object.adapters.TypeMigrationAdapter;
 import world.bentobox.challenges.database.object.requirements.Requirements;
 
 
@@ -45,23 +46,23 @@ public class Challenge implements DataObject
         /**
          * The player must have the items on them.
          */
-        INVENTORY,
+        INVENTORY_TYPE,
 
         /**
          * Items or required entities have to be within x blocks of the player.
          */
-        ISLAND,
+        ISLAND_TYPE,
 
         /**
          * Other type, like required money / experience or island level. This my request
          * other plugins to be setup before it could work.
          */
-        OTHER,
+        OTHER_TYPE,
 
         /**
          * Challenge based on player statistic data.
          */
-        STATISTIC
+        STATISTIC_TYPE
     }
 
 
@@ -111,7 +112,8 @@ public class Challenge implements DataObject
      * Challenge type can be INVENTORY, OTHER or ISLAND.
      */
     @Expose
-    private ChallengeType challengeType = ChallengeType.INVENTORY;
+    @JsonAdapter(TypeMigrationAdapter.class)
+    private ChallengeType challengeType = ChallengeType.INVENTORY_TYPE;
 
     /**
      * List of environments where this challenge will occur: NETHER, NORMAL, THE_END. Leave blank for all.
@@ -142,63 +144,6 @@ public class Challenge implements DataObject
     @JsonAdapter(RequirementsAdapter.class)
     private Requirements requirements;
 
-    // ---------------------------------------------------------------------
-    // Section: Deprecated Requirements
-    // ---------------------------------------------------------------------
-
-    @Deprecated
-    @Expose
-    private Set<String> requiredPermissions = new HashSet<>();
-
-    @Deprecated
-    @Expose
-    private Map<Material, Integer> requiredBlocks = new EnumMap<>(Material.class);
-
-    @Deprecated
-    @Expose
-    private boolean removeBlocks;
-
-    @Deprecated
-    @Expose
-    @JsonAdapter(EntityCompatibilityAdapter.class)
-    private Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
-
-    @Deprecated
-    @Expose
-    private boolean removeEntities;
-
-    @Deprecated
-    @Expose
-    private List<ItemStack> requiredItems = new ArrayList<>();
-
-    @Deprecated
-    @Expose
-    private boolean takeItems = true;
-
-    @Deprecated
-    @Expose
-    private int requiredExperience = 0;
-
-    @Deprecated
-    @Expose
-    private boolean takeExperience;
-
-    @Deprecated
-    @Expose
-    private int requiredMoney = 0;
-
-    @Deprecated
-    @Expose
-    private boolean takeMoney;
-
-    @Deprecated
-    @Expose
-    private long requiredIslandLevel;
-
-    @Deprecated
-    @Expose
-    private int searchRadius = 10;
-
 
     // ---------------------------------------------------------------------
     // Section: Rewards
@@ -226,7 +171,7 @@ public class Challenge implements DataObject
      * Money reward. Economy plugin or addon required for this option.
      */
     @Expose
-    private int rewardMoney = 0;
+    private double rewardMoney = 0;
 
     /**
      * Commands to run when the player completes the challenge for the first time. String List
@@ -273,7 +218,7 @@ public class Challenge implements DataObject
      * Repeat money reward. Economy plugin or addon required for this option.
      */
     @Expose
-    private int repeatMoneyReward;
+    private double repeatMoneyReward;
 
     /**
      * Commands to run when challenge is repeated. String List.
@@ -390,136 +335,6 @@ public class Challenge implements DataObject
 
 
     /**
-     * @return the requiredPermissions
-     */
-    @Deprecated
-    public Set<String> getRequiredPermissions()
-    {
-        return requiredPermissions;
-    }
-
-
-    /**
-     * @return the requiredBlocks
-     */
-    @Deprecated
-    public Map<Material, Integer> getRequiredBlocks()
-    {
-        return requiredBlocks;
-    }
-
-
-    /**
-     * @return the removeBlocks
-     */
-    @Deprecated
-    public boolean isRemoveBlocks()
-    {
-        return removeBlocks;
-    }
-
-
-    /**
-     * @return the requiredEntities
-     */
-    @Deprecated
-    public Map<EntityType, Integer> getRequiredEntities()
-    {
-        return requiredEntities;
-    }
-
-
-    /**
-     * @return the removeEntities
-     */
-    @Deprecated
-    public boolean isRemoveEntities()
-    {
-        return removeEntities;
-    }
-
-
-    /**
-     * @return the requiredItems
-     */
-    @Deprecated
-    public List<ItemStack> getRequiredItems()
-    {
-        return requiredItems;
-    }
-
-
-    /**
-     * @return the takeItems
-     */
-    @Deprecated
-    public boolean isTakeItems()
-    {
-        return takeItems;
-    }
-
-
-    /**
-     * @return the requiredExperience
-     */
-    @Deprecated
-    public int getRequiredExperience()
-    {
-        return requiredExperience;
-    }
-
-
-    /**
-     * @return the takeExperience
-     */
-    @Deprecated
-    public boolean isTakeExperience()
-    {
-        return takeExperience;
-    }
-
-
-    /**
-     * @return the requiredMoney
-     */
-    @Deprecated
-    public int getRequiredMoney()
-    {
-        return requiredMoney;
-    }
-
-
-    /**
-     * @return the takeMoney
-     */
-    @Deprecated
-    public boolean isTakeMoney()
-    {
-        return takeMoney;
-    }
-
-
-    /**
-     * @return the requiredIslandLevel
-     */
-    @Deprecated
-    public long getRequiredIslandLevel()
-    {
-        return requiredIslandLevel;
-    }
-
-
-    /**
-     * @return the searchRadius
-     */
-    @Deprecated
-    public int getSearchRadius()
-    {
-        return searchRadius;
-    }
-
-
-    /**
      * @return the rewardText
      */
     public String getRewardText()
@@ -549,7 +364,7 @@ public class Challenge implements DataObject
     /**
      * @return the rewardMoney
      */
-    public int getRewardMoney()
+    public double getRewardMoney()
     {
         return rewardMoney;
     }
@@ -612,7 +427,7 @@ public class Challenge implements DataObject
     /**
      * @return the repeatMoneyReward
      */
-    public int getRepeatMoneyReward()
+    public double getRepeatMoneyReward()
     {
         return repeatMoneyReward;
     }
@@ -741,162 +556,6 @@ public class Challenge implements DataObject
 
 
     /**
-     * This method sets the requiredPermissions value.
-     * @param requiredPermissions the requiredPermissions new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredPermissions(Set<String> requiredPermissions)
-    {
-        this.requiredPermissions = requiredPermissions;
-    }
-
-
-    /**
-     * This method sets the requiredBlocks value.
-     * @param requiredBlocks the requiredBlocks new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredBlocks(Map<Material, Integer> requiredBlocks)
-    {
-        this.requiredBlocks = requiredBlocks;
-    }
-
-
-    /**
-     * This method sets the removeBlocks value.
-     * @param removeBlocks the removeBlocks new value.
-     *
-     */
-    @Deprecated
-    public void setRemoveBlocks(boolean removeBlocks)
-    {
-        this.removeBlocks = removeBlocks;
-    }
-
-
-    /**
-     * This method sets the requiredEntities value.
-     * @param requiredEntities the requiredEntities new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredEntities(Map<EntityType, Integer> requiredEntities)
-    {
-        this.requiredEntities = requiredEntities;
-    }
-
-
-    /**
-     * This method sets the removeEntities value.
-     * @param removeEntities the removeEntities new value.
-     *
-     */
-    @Deprecated
-    public void setRemoveEntities(boolean removeEntities)
-    {
-        this.removeEntities = removeEntities;
-    }
-
-
-    /**
-     * This method sets the requiredItems value.
-     * @param requiredItems the requiredItems new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredItems(List<ItemStack> requiredItems)
-    {
-        this.requiredItems = requiredItems;
-    }
-
-
-    /**
-     * This method sets the takeItems value.
-     * @param takeItems the takeItems new value.
-     *
-     */
-    @Deprecated
-    public void setTakeItems(boolean takeItems)
-    {
-        this.takeItems = takeItems;
-    }
-
-
-    /**
-     * This method sets the requiredExperience value.
-     * @param requiredExperience the requiredExperience new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredExperience(int requiredExperience)
-    {
-        this.requiredExperience = requiredExperience;
-    }
-
-
-    /**
-     * This method sets the takeExperience value.
-     * @param takeExperience the takeExperience new value.
-     *
-     */
-    @Deprecated
-    public void setTakeExperience(boolean takeExperience)
-    {
-        this.takeExperience = takeExperience;
-    }
-
-
-    /**
-     * This method sets the requiredMoney value.
-     * @param requiredMoney the requiredMoney new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredMoney(int requiredMoney)
-    {
-        this.requiredMoney = requiredMoney;
-    }
-
-
-    /**
-     * This method sets the takeMoney value.
-     * @param takeMoney the takeMoney new value.
-     *
-     */
-    @Deprecated
-    public void setTakeMoney(boolean takeMoney)
-    {
-        this.takeMoney = takeMoney;
-    }
-
-
-    /**
-     * This method sets the requiredIslandLevel value.
-     * @param requiredIslandLevel the requiredIslandLevel new value.
-     *
-     */
-    @Deprecated
-    public void setRequiredIslandLevel(long requiredIslandLevel)
-    {
-        this.requiredIslandLevel = requiredIslandLevel;
-    }
-
-
-    /**
-     * This method sets the searchRadius value.
-     * @param searchRadius the searchRadius new value.
-     *
-     */
-    @Deprecated
-    public void setSearchRadius(int searchRadius)
-    {
-        this.searchRadius = searchRadius;
-    }
-
-
-    /**
      * This method sets the rewardText value.
      * @param rewardText the rewardText new value.
      *
@@ -934,7 +593,7 @@ public class Challenge implements DataObject
      * @param rewardMoney the rewardMoney new value.
      *
      */
-    public void setRewardMoney(int rewardMoney)
+    public void setRewardMoney(double rewardMoney)
     {
         this.rewardMoney = rewardMoney;
     }
@@ -1011,7 +670,7 @@ public class Challenge implements DataObject
      * @param repeatMoneyReward the repeatMoneyReward new value.
      *
      */
-    public void setRepeatMoneyReward(int repeatMoneyReward)
+    public void setRepeatMoneyReward(double repeatMoneyReward)
     {
         this.repeatMoneyReward = repeatMoneyReward;
     }

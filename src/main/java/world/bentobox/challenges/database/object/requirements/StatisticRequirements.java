@@ -11,6 +11,8 @@ import com.google.gson.annotations.Expose;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 
 public class StatisticRequirements extends Requirements
@@ -82,6 +84,7 @@ public class StatisticRequirements extends Requirements
      *
      * @return the statistic
      */
+    @Nullable
     public Statistic getStatistic()
     {
         return statistic;
@@ -93,7 +96,7 @@ public class StatisticRequirements extends Requirements
      *
      * @param statistic the statistic
      */
-    public void setStatistic(Statistic statistic)
+    public void setStatistic(@NonNull Statistic statistic)
     {
         this.statistic = statistic;
     }
@@ -104,6 +107,7 @@ public class StatisticRequirements extends Requirements
      *
      * @return the entity
      */
+    @Nullable
     public EntityType getEntity()
     {
         return entity;
@@ -115,7 +119,7 @@ public class StatisticRequirements extends Requirements
      *
      * @param entity the entity
      */
-    public void setEntity(EntityType entity)
+    public void setEntity(@Nullable EntityType entity)
     {
         this.entity = entity;
     }
@@ -126,6 +130,7 @@ public class StatisticRequirements extends Requirements
      *
      * @return the material
      */
+    @Nullable
     public Material getMaterial()
     {
         return material;
@@ -137,7 +142,7 @@ public class StatisticRequirements extends Requirements
      *
      * @param material the material
      */
-    public void setMaterial(Material material)
+    public void setMaterial(@Nullable Material material)
     {
         this.material = material;
     }
@@ -195,18 +200,21 @@ public class StatisticRequirements extends Requirements
      * Type of the statistic field.
      */
     @Expose
+    @Nullable
     private Statistic statistic;
 
     /**
      * Type of entity for entity related statistics.
      */
     @Expose
+    @Nullable
     private EntityType entity;
 
     /**
      * Type of material for block and item related statistics.
      */
     @Expose
+    @Nullable
     private Material material;
 
     /**

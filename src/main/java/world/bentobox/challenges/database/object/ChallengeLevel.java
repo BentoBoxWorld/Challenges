@@ -100,7 +100,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     @ConfigComment("")
     @ConfigComment("Money reward. Economy plugin or addon required for this option.")
     @Expose
-    private int rewardMoney = 0;
+    private double rewardMoney = 0;
 
     @ConfigComment("")
     @ConfigComment("Commands to run when the player completes all challenges in current")
@@ -236,7 +236,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * This method returns the rewardMoney value.
      * @return the value of rewardMoney.
      */
-    public int getRewardMoney()
+    public double getRewardMoney()
     {
         return rewardMoney;
     }
@@ -395,7 +395,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * @param rewardMoney the rewardMoney new value.
      *
      */
-    public void setRewardMoney(int rewardMoney)
+    public void setRewardMoney(double rewardMoney)
     {
         this.rewardMoney = rewardMoney;
     }
