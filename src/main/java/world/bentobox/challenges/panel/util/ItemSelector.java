@@ -16,21 +16,23 @@ import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Constants;
 
 
 /**
  * This class allows to change Input ItemStacks to different ItemStacks.
  */
-public class ItemSwitchGUI
+public record ItemSelector(User user, List<ItemStack> itemStacks, BiConsumer<Boolean, List<ItemStack>> consumer)
 {
-	public ItemSwitchGUI(User user, List<ItemStack> itemStacks, int lineLength, BiConsumer<Boolean, List<ItemStack>> consumer)
+	/**
+	 * This method opens GUI that allows to select challenge type.
+	 *
+	 * @param user User who opens GUI.
+	 * @param consumer Consumer that allows to get clicked type.
+	 */
+	public static void open(User user, List<ItemStack> itemStacks, BiConsumer<Boolean, List<ItemStack>> consumer)
 	{
-		this.consumer = consumer;
-		this.user = user;
-		this.itemStacks = itemStacks;
-		this.lineLength = lineLength;
-		this.build();
+		new ItemSelector(user, itemStacks, consumer).build();
 	}
 
 
@@ -39,7 +41,9 @@ public class ItemSwitchGUI
 	 */
 	private void build()
 	{
-		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(this.user.getTranslation("challenges.gui.title.admin.manage-items"));
+		PanelBuilder panelBuilder = new PanelBuilder().
+			user(this.user).
+			name(this.user.getTranslation(Constants.TITLE + "item-selector"));
 
 		// Size of inventory that user can set via GUI.
 		panelBuilder.size(45);
@@ -66,24 +70,27 @@ public class ItemSwitchGUI
 
 	/**
 	 * This method create button that does some functionality in current gui.
+	 *
 	 * @param button Button functionality.
 	 * @return PanelItem.
 	 */
 	private PanelItem getButton(Button button)
 	{
+		final String reference = Constants.BUTTON + button.name().toLowerCase() + ".";
+
+		String name = this.user.getTranslation(reference + "name");
+		final List<String> description = new ArrayList<>(3);
+		description.add(this.user.getTranslation(reference + "description"));
+
 		ItemStack icon;
-		String name;
-		List<String> description;
 		PanelItem.ClickHandler clickHandler;
 
 		switch (button)
 		{
-			case SAVE:
-			{
-				name = this.user.getTranslation("challenges.gui.buttons.admin.save");
-				description = Collections.emptyList();
+			case SAVE -> {
 				icon = new ItemStack(Material.COMMAND_BLOCK);
-				clickHandler = (panel, user, clickType, slot) -> {
+				clickHandler = (panel, user, clickType, slot) ->
+				{
 					// Magic number 9 - second row. First row is for custom buttons.
 					// Magic number 45 - This GUI is initialed with 45 elements.
 					List<ItemStack> returnItems = new ArrayList<>(36);
@@ -102,36 +109,37 @@ public class ItemSwitchGUI
 
 					return true;
 				};
-				break;
+
+				description.add("");
+				description.add(this.user.getTranslation(Constants.TIPS + "click-to-save"));
 			}
-			case CANCEL:
-			{
-				name = this.user.getTranslation("challenges.gui.buttons.admin.cancel");
-				description = Collections.emptyList();
+			case CANCEL -> {
 				icon = new ItemStack(Material.IRON_DOOR);
-				clickHandler = (panel, user, clickType, slot) -> {
+				clickHandler = (panel, user, clickType, slot) ->
+				{
 					this.consumer.accept(false, Collections.emptyList());
 					return true;
 				};
-				break;
+
+				description.add("");
+				description.add(this.user.getTranslation(Constants.TIPS + "click-to-cancel"));
 			}
-			case EMPTY:
-			{
-				name = "";
-				description = Collections.emptyList();
+			case EMPTY -> {
+				description.clear();
+				name = "&r";
 				icon = new ItemStack(Material.BARRIER);
-				clickHandler = (panel, user, clickType, slot) -> true;
-				break;
+				clickHandler = null;
 			}
-			default:
-				return null;
+			default -> {
+				icon = new ItemStack(Material.PAPER);
+				clickHandler = null;
+			}
 		}
 
 		return new PanelItemBuilder().
 			icon(icon).
 			name(name).
-			description(GuiUtils.stringSplit(description, this.lineLength)).
-			glow(false).
+			description(description).
 			clickHandler(clickHandler).
 			build();
 	}
@@ -143,11 +151,10 @@ public class ItemSwitchGUI
 
 
 	/**
-	 * This CustomPanelItem does no lose Item original MetaData. After PanelItem has been
-	 * created it restores original meta data. It also does not allow to change anything that
-	 * could destroy meta data.
+	 * This CustomPanelItem does no lose Item original MetaData. After PanelItem has been created it
+	 * restores original meta data. It also does not allow to change anything that could destroy meta data.
 	 */
-	private class CustomPanelItem extends PanelItem
+	private static class CustomPanelItem extends PanelItem
 	{
 		CustomPanelItem(ItemStack item)
 		{
@@ -190,7 +197,7 @@ public class ItemSwitchGUI
 	/**
 	 * This CustomPanelListener allows to move items in current panel.
 	 */
-	private class CustomPanelListener implements PanelListener
+	private static class CustomPanelListener implements PanelListener
 	{
 		@Override
 		public void setup()
@@ -227,30 +234,4 @@ public class ItemSwitchGUI
 		SAVE,
 		EMPTY
 	}
-
-
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
-
-
-	/**
-	 * User who opens current gui.
-	 */
-	private User user;
-
-	/**
-	 * List with original items.
-	 */
-	private List<ItemStack> itemStacks;
-
-	/**
-	 * Consumer that returns item stacks on save action.
-	 */
-	private BiConsumer<Boolean, List<ItemStack>> consumer;
-
-	/**
-	 * This variable stores how large line can be, before warp it.
-	 */
-	private int lineLength;
 }
