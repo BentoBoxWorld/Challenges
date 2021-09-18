@@ -5,7 +5,7 @@ import java.util.List;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.panel.admin.AdminGUI;
+import world.bentobox.challenges.panel.admin.AdminPanel;
 
 
 public class Challenges extends CompositeCommand
@@ -55,11 +55,11 @@ public class Challenges extends CompositeCommand
         // Open up the admin challenges GUI
         if (user.isPlayer())
         {
-            new AdminGUI((ChallengesAddon) this.getAddon(),
+            AdminPanel.open(this.getAddon(),
                 this.getWorld(),
                 user,
                 this.getTopLabel(),
-                this.getPermissionPrefix()).build();
+                this.getPermissionPrefix());
 
             return true;
         }

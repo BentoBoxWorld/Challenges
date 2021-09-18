@@ -7,7 +7,7 @@ import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.panel.GameModesGUI;
+import world.bentobox.challenges.panel.user.GameModePanel;
 
 
 /**
@@ -58,13 +58,11 @@ public class ChallengesAdminCommand extends CompositeCommand
 		}
 		else
 		{
-			new GameModesGUI(this.addon,
+			GameModePanel.open(this.addon,
 				this.getWorld(),
 				user,
-				this.getTopLabel(),
-				this.getPermissionPrefix(),
-				true,
-				this.gameModeAddons).build();
+				this.gameModeAddons,
+				true);
 		}
 
 		return true;
@@ -78,10 +76,10 @@ public class ChallengesAdminCommand extends CompositeCommand
 	/**
 	 * This variable stores challenges addon.
 	 */
-	private ChallengesAddon addon;
+	private final ChallengesAddon addon;
 
 	/**
 	 * This variable stores List with game modes where challenges addon are hooked in.
 	 */
-	private List<GameModeAddon> gameModeAddons;
+	private final List<GameModeAddon> gameModeAddons;
 }

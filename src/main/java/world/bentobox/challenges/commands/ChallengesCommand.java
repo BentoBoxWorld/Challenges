@@ -6,7 +6,7 @@ import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.panel.user.ChallengesGUI;
+import world.bentobox.challenges.panel.user.ChallengesPanel;
 
 
 public class ChallengesCommand extends CompositeCommand
@@ -70,11 +70,12 @@ public class ChallengesCommand extends CompositeCommand
         // Open up the challenges GUI
         if (user.isPlayer())
         {
-            new ChallengesGUI((ChallengesAddon) this.getAddon(),
-                    this.getWorld(),
-                    user,
-                    this.getTopLabel(),
-                    this.getPermissionPrefix()).build();
+            ChallengesPanel.open(this.getAddon(),
+                this.getWorld(),
+                user,
+                this.getTopLabel(),
+                this.getPermissionPrefix());
+
             return true;
         }
         // Show help
