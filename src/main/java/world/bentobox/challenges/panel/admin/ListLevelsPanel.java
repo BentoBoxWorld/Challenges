@@ -1,28 +1,31 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import java.util.List;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+
+import java.util.function.Consumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.ChallengeLevel;
-import world.bentobox.challenges.panel.CommonGUI;
-import world.bentobox.challenges.panel.util.ConfirmationGUI;
+import world.bentobox.challenges.panel.CommonPagedPanel;
+import world.bentobox.challenges.panel.CommonPanel;
+import world.bentobox.challenges.panel.ConversationUtils;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.GuiUtils;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
  * This class creates GUI that lists all Levels. Clicking on Level icon will be processed
  * by input mode.
  */
-public class ListLevelsGUI extends CommonGUI
+public class ListLevelsPanel extends CommonPagedPanel
 {
     // ---------------------------------------------------------------------
     // Section: Constructor
@@ -37,35 +40,54 @@ public class ListLevelsGUI extends CommonGUI
      * @param permissionPrefix Command permission prefix (f.e. bskyblock.)
      * @param mode - mode that indicate what should do icon clicking.
      */
-    public ListLevelsGUI(ChallengesAddon addon,
+    private ListLevelsPanel(ChallengesAddon addon,
             World world,
             User user,
             Mode mode,
             String topLabel,
             String permissionPrefix)
     {
-        this(addon, world, user, mode, topLabel, permissionPrefix, null);
+        super(addon, user, world, topLabel, permissionPrefix);
+        this.currentMode = mode;
     }
 
 
     /**
-     * @param addon Addon where panel operates.
-     * @param world World from which panel was created.
-     * @param user User who created panel.
-     * @param topLabel Command top label which creates panel (f.e. island or ai)
-     * @param permissionPrefix Command permission prefix (f.e. bskyblock.)
      * @param mode - mode that indicate what should do icon clicking.
      */
-    public ListLevelsGUI(ChallengesAddon addon,
-            World world,
-            User user,
-            Mode mode,
-            String topLabel,
-            String permissionPrefix,
-            CommonGUI parentGUI)
+    private ListLevelsPanel(CommonPanel parentGUI, Mode mode)
     {
-        super(addon, world, user, topLabel, permissionPrefix, parentGUI);
+        super(parentGUI);
         this.currentMode = mode;
+    }
+
+
+    /**
+     * Open the Challenges Admin GUI.
+     *
+     * @param addon the addon
+     * @param world the world
+     * @param user the user
+     * @param topLabel the top label
+     * @param permissionPrefix the permission prefix
+     */
+    public static void open(ChallengesAddon addon,
+        World world,
+        User user,
+        String topLabel,
+        String permissionPrefix,
+        Mode mode)
+    {
+        new ListLevelsPanel(addon, world, user, mode, topLabel, permissionPrefix).build();
+    }
+
+
+    /**
+     * Open the Challenges Admin GUI.
+     */
+    public static void open(CommonPanel parentGUI, Mode mode)
+    {
+        new ListLevelsPanel(parentGUI, mode).build();
     }
 
 
@@ -78,10 +100,10 @@ public class ListLevelsGUI extends CommonGUI
      * {@inheritDoc}
      */
     @Override
-    public void build()
+    protected void build()
     {
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-                this.user.getTranslation("challenges.gui.title.admin.choose-level-title"));
+            this.user.getTranslation(Constants.TITLE + "choose-level"));
 
         if (this.currentMode.equals(Mode.DELETE))
         {
@@ -92,42 +114,9 @@ public class ListLevelsGUI extends CommonGUI
             GuiUtils.fillBorder(panelBuilder);
         }
 
-        List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world);
-
-        final int MAX_ELEMENTS = 21;
-
-        if (this.pageIndex < 0)
-        {
-            this.pageIndex = levelList.size() / MAX_ELEMENTS;
-        }
-        else if (this.pageIndex > (levelList.size() / MAX_ELEMENTS))
-        {
-            this.pageIndex = 0;
-        }
-
-        int levelIndex = MAX_ELEMENTS * this.pageIndex;
-
-        // I want first row to be only for navigation and return button.
-        int index = 10;
-
-        while (levelIndex < ((this.pageIndex + 1) * MAX_ELEMENTS) &&
-                levelIndex < levelList.size() &&
-                index < 36)
-        {
-            if (!panelBuilder.slotOccupied(index))
-            {
-                panelBuilder.item(index, this.createLevelIcon(levelList.get(levelIndex++)));
-            }
-
-            index++;
-        }
-
-        // Navigation buttons only if necessary
-        if (levelList.size() > MAX_ELEMENTS)
-        {
-            panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
-            panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
-        }
+        this.populateElements(panelBuilder,
+            this.addon.getChallengesManager().getLevels(this.world),
+            o -> this.createLevelIcon((ChallengeLevel) o));
 
         panelBuilder.item(44, this.returnButton);
 
@@ -143,38 +132,45 @@ public class ListLevelsGUI extends CommonGUI
     private PanelItem createLevelIcon(ChallengeLevel challengeLevel)
     {
         PanelItemBuilder itemBuilder = new PanelItemBuilder().
-                name(ChatColor.translateAlternateColorCodes('&', challengeLevel.getFriendlyName())).
-                description(GuiUtils.stringSplit(
-                        this.generateLevelDescription(challengeLevel, this.user.getPlayer()),
-                        this.addon.getChallengesSettings().getLoreLineLength())).
-                icon(challengeLevel.getIcon()).
-                glow(false);
+            name(Util.translateColorCodes(challengeLevel.getFriendlyName())).
+            description(this.generateLevelDescription(challengeLevel)).
+            icon(challengeLevel.getIcon());
 
         if (this.currentMode.equals(Mode.EDIT))
         {
+            itemBuilder.description("");
+            itemBuilder.description(this.user.getTranslation(Constants.TIPS + "click-to-edit"));
+
             itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-                new EditLevelGUI(this.addon,
-                        this.world,
-                        this.user,
-                        challengeLevel,
-                        this.topLabel,
-                        this.permissionPrefix,
-                        this).build();
+                EditLevelPanel.open(this, challengeLevel);
                 return true;
             });
         }
         else if (this.currentMode.equals(Mode.DELETE))
         {
+            itemBuilder.description("");
+            itemBuilder.description(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
+
             itemBuilder.clickHandler((panel, user1, clickType, i) -> {
-                new ConfirmationGUI(this.user, value -> {
+                Consumer<Boolean> consumer = value -> {
                     if (value)
                     {
-                        this.addon.getChallengesManager().
-                        deleteChallengeLevel(challengeLevel);
+                        this.addon.getChallengesManager().deleteChallengeLevel(challengeLevel);
                     }
 
                     this.build();
-                });
+                };
+
+                // Create conversation that gets user acceptance to delete generator data.
+                ConversationUtils.createConfirmation(
+                    consumer,
+                    this.user,
+                    this.user.getTranslation(Constants.CONVERSATIONS + "confirm-level-deletion",
+                        Constants.GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.LEVEL, challengeLevel.getFriendlyName()),
+                    this.user.getTranslation(Constants.CONVERSATIONS + "level-removed",
+                        Constants.GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.LEVEL, challengeLevel.getFriendlyName()));
                 return true;
             });
         }
@@ -202,8 +198,9 @@ public class ListLevelsGUI extends CommonGUI
     // Section: Variables
     // ---------------------------------------------------------------------
 
+
     /**
      * Current mode in which icons will act.
      */
-    private Mode currentMode;
+    private final Mode currentMode;
 }

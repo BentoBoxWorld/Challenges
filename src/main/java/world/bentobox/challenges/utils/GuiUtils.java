@@ -3,8 +3,6 @@ package world.bentobox.challenges.utils;
 
 import java.util.*;
 
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -366,74 +364,9 @@ public class GuiUtils
 		private static BorderBlock getPanelBorder(Material material)
 		{
 			ItemStack itemStack = new ItemStack(material);
-			itemStack.getItemMeta().setDisplayName(" ");
+			itemStack.getItemMeta().setDisplayName("&r&8");
 
 			return new BorderBlock(itemStack);
 		}
-	}
-
-
-	/**
-	 * Simple splitter
-	 *
-	 * @param string - string to be split
-	 * @param warpLength - whn warp should be affected.
-	 * @return list of split strings
-	 */
-	public static List<String> stringSplit(String string, int warpLength)
-	{
-		// Remove all ending lines from string.
-		string = string.replaceAll("([\\r\\n])", "\\|");
-		string = ChatColor.translateAlternateColorCodes('&', string);
-		// Check length of lines
-		List<String> result = new ArrayList<>();
-
-		Arrays.stream(string.split("\\|")).
-			map(line -> Arrays.asList(WordUtils.wrap(line, warpLength).split(System.getProperty("line.separator")))).
-			forEach(result::addAll);
-
-		// Fix colors, as splitting my lost that information.
-
-		for (int i = 0, resultSize = result.size(); i < resultSize; i++)
-		{
-			if (i > 0)
-			{
-				String lastColor = ChatColor.getLastColors(result.get(i - 1));
-				result.set(i, lastColor + result.get(i));
-			}
-		}
-
-		return result;
-	}
-
-
-	/**
-	 * Simple splitter for all strings in list.
-	 * @param stringList - list of string to be split
-	 * @param warpLength - whn warp should be affected.
-	 * @return list of split strings
-	 */
-	public static List<String> stringSplit(List<String> stringList, int warpLength)
-	{
-		if (stringList.isEmpty())
-		{
-			return stringList;
-		}
-
-		List<String> newList = new ArrayList<>(stringList.size());
-		stringList.stream().map(string -> GuiUtils.stringSplit(string, warpLength)).forEach(newList::addAll);
-		return newList;
-	}
-
-
-	/**
-	 * Sanitizes the provided input.
-	 * It replaces spaces and hyphens with underscores and lower cases the input.
-	 * @param input input to sanitize
-	 * @return sanitized input
-	 */
-	public static String sanitizeInput(String input)
-	{
-		return input.toLowerCase(Locale.ENGLISH).replace(" ", "_").replace("-", "_");
 	}
 }

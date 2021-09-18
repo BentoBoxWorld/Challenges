@@ -3,12 +3,19 @@ package world.bentobox.challenges.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 
 
 /**
@@ -151,5 +158,104 @@ public class Utils
 		}
 
 		return currentValue;
+	}
+
+
+	/**
+	 * Sanitizes the provided input. It replaces spaces and hyphens with underscores and lower cases the input.
+	 * This code also removes all color codes from the input.
+	 * @param input input to sanitize
+	 * @return sanitized input
+	 */
+	public static String sanitizeInput(String input)
+	{
+		return ChatColor.stripColor(
+			Util.translateColorCodes(input.toLowerCase(Locale.ENGLISH).
+				replace(" ", "_").
+				replace("-", "_")));
+	}
+
+
+	/**
+	 * Send given message to user and add prefix to the start of the message.
+	 *
+	 * @param user User who need to receive message.
+	 * @param message String of message that must be send.
+	 */
+	public static void sendMessage(User user, String message)
+	{
+		user.sendMessage(user.getTranslation(Constants.CONVERSATIONS + "prefix") + message);
+	}
+
+
+
+	public static String prettifyObject(World.Environment object, User user)
+	{
+		return Util.prettifyText(object.name());
+	}
+
+	public static String prettifyObject(@Nullable Material object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.name());
+	}
+
+
+	public static String prettifyObject(@Nullable EntityType object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.name());
+	}
+
+
+	public static String prettifyObject(@Nullable ItemStack object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.getType().name());
+	}
+
+
+	public static String prettifyObject(@Nullable Statistic object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.name());
+	}
+
+
+	public static String prettifyDescription(@Nullable Statistic object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.name());
+	}
+
+
+	public static String prettifyDescription(World.Environment object, User user)
+	{
+		if (object == null)
+		{
+			return "";
+		}
+
+		return Util.prettifyText(object.name());
 	}
 }
