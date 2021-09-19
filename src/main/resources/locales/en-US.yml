@@ -94,27 +94,27 @@ challenges:
             previous:
                 name: "&f&l Previous Page"
                 description: |-
-                    &7 Switch to [number] page
+                    &7 Switch to &e [number] &7 page
             # Button that is used in multi-page GUIs which allows to go to next page.
             next:
                 name: "&f&l Next Page"
                 description: |-
-                    &7 Switch to [number] page
+                    &7 Switch to &e [number] &7 page
             # Button that allows to reduce number
             reduce:
                 name: "&f&l Reduce"
                 description: |-
-                    &7 Reduce by [number]
+                    &7 Reduce by &e [number]
             # Button that allows to increase number
             increase:
                 name: "&f&l Increase"
                 description: |-
-                    &7 Increase by [number]
+                    &7 Increase by &e [number]
             # Button that displays and allows completing challenge
             accept:
                 name: "&f&l Complete"
                 description: |-
-                    &7 Complete challenge [number]
+                    &7 Complete challenge &e [number]
                     &7 time(-s)
             # Button that allows to quit the current gui.
             quit:
@@ -261,7 +261,7 @@ challenges:
                     &7 Objects with equal numbers
                     &7 will be ordered by their
                     &7 unique id names.
-                value: "&7 Current order: [number]"
+                value: "&7 Current order: &e [number]"
             icon:
                 name: "&f&l Icon"
                 description: |-
@@ -279,7 +279,7 @@ challenges:
                     &7 permissions for this
                     &7 challenge to be completable.
                 title: "&7 Permissions: "
-                permission: " &7 - [permission]"
+                permission: " &8 - [permission]"
                 none: "&7 Permissions are not set."
             remove_entities:
                 name: "&f&l Remove Entities"
@@ -298,7 +298,7 @@ challenges:
                     &7 entities for this
                     &7 challenge to be completable.
                 title: "&7 Entities: "
-                list: " &7 - [number] x [entity]"
+                list: " &8 - [number] x [entity]"
                 none: "&7 Entities are not added."
             remove_blocks:
                 name: "&f&l Remove Blocks"
@@ -317,7 +317,7 @@ challenges:
                     &7 blocks for this
                     &7 challenge to be completable.
                 title: "&7 Blocks: "
-                list: " &7 - [number] x [block]"
+                list: " &8 - [number] x [block]"
                 none: "&7 Blocks are not added."
             search_radius:
                 name: "&f&l Search Radius"
@@ -326,7 +326,7 @@ challenges:
                     &7 around player from which
                     &7 blocks and/or entities are
                     &7 detected.
-                value: "&7 Current distance: [number]"
+                value: "&7 Current distance: &e [number]"
             remove_items:
                 name: "&f&l Remove Items"
                 description: |-
@@ -344,7 +344,7 @@ challenges:
                     &7 items for this
                     &7 challenge to be completable.
                 title: "&7 Items: "
-                list: " &7 - [item]"
+                list: " &8 - [item]"
                 none: "&7 Items are not added."
             remove_experience:
                 name: "&f&l Remove Experience"
@@ -362,14 +362,14 @@ challenges:
                     &7 Allows to change the
                     &7 required experience for
                     &7 the player.
-                value: "&7 Current experience: [number]"
+                value: "&7 Current experience: &e [number]"
             required_level:
                 name: "&f&l Required Island Level"
                 description: |-
                     &7 Allows to change the
                     &7 required island level
                     &7 for the challenge.
-                value: "&7 Current level: [number]"
+                value: "&7 Current level: &e [number]"
             remove_money:
                 name: "&f&l Remove Money"
                 description: |-
@@ -386,21 +386,21 @@ challenges:
                     &7 Allows to change the
                     &7 required money on player
                     &7 account for the challenge.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             statistic:
                 name: "&f&l Statistic"
                 description: |-
                     &7 Allows to change the
                     &7 statistic type that is
                     &7 checked in this challenge.
-                value: "&7 Current value: [statistic]"
+                value: "&7 Current value: &e [statistic]"
             statistic_amount:
                 name: "&f&l Target Value"
                 description: |-
                     &7 Allows to change the
                     &7 statistic target value
                     &7 that must be met.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             remove_statistic:
                 name: "&f&l Reduce Statistic"
                 description: |-
@@ -415,19 +415,19 @@ challenges:
                 description: |-
                     &7 Allows to change the
                     &7 statistic target block.
-                value: "&7 Current block: [block]"
+                value: "&7 Current block: &e [block]"
             statistic_items:
                 name: "&f&l Target Item"
                 description: |-
                     &7 Allows to change the
                     &7 statistic target item.
-                value: "&7 Current item: [item]"
+                value: "&7 Current item: &e [item]"
             statistic_entities:
                 name: "&f&l Target Entity"
                 description: |-
                     &7 Allows to change the
                     &7 statistic target entity.
-                value: "&7 Current entity: [entity]"
+                value: "&7 Current entity: &e [entity]"
             reward_text:
                 name: "&f&l Reward Text"
                 description: |-
@@ -448,7 +448,7 @@ challenges:
                     &7 Allows to change reward
                     &7 items.
                 title: "&7 Items: "
-                list: " &7 - [item]"
+                list: " &8 - [item]"
                 none: "&7 Items are not added."
             repeat_reward_items:
                 name: "&f&l Repeat Reward Items"
@@ -457,7 +457,7 @@ challenges:
                     &7 reward items for this
                     &7 challenge.
                 title: "&7 Items: "
-                list: " &7 - [item]"
+                list: " &8 - [item]"
                 none: "&7 Items are not added."
             reward_experience:
                 name: "&f&l Reward Experience"
@@ -465,37 +465,63 @@ challenges:
                     &7 Allows to change the
                     &7 reward experience for
                     &7 the player.
-                value: "&7 Reward experience: [number]"
+                value: "&7 Reward experience: &e [number]"
             repeat_reward_experience:
                 name: "&f&l Repeat Reward Experience"
                 description: |-
                     &7 Allows to change the
                     &7 repeat reward experience
                     &7 for the player.
-                value: "&7 Reward experience: [number]"
+                value: "&7 Reward experience: &e [number]"
             reward_money:
                 name: "&f&l Reward Money"
                 description: |-
                     &7 Allows to change the
                     &7 reward money.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             repeat_reward_money:
                 name: "&f&l Repeat Reward Money"
                 description: |-
                     &7 Allows to change the
                     &7 repeat reward money
                     &7 for the challenge.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             reward_commands:
                 name: "&f&l Reward Commands"
                 description: |-
                     &7 The specific reward commands.
+                    &8 Tip:
+                    &8 The command does not requires
+                    &8 writing first `/` as it will
+                    &8 be applied automatically.
+                    &8 By default commands will be
+                    &8 executed by server. However
+                    &8 adding `[SELF]` at the start
+                    &8 will allow command to be
+                    &8 executed by player. It also
+                    &8 supports one placeholder
+                    &8 `[player]` that will be
+                    &8 replaced with a player name
+                    &8 who completed challenge.
                 value: "&7 Current commands:"
             repeat_reward_commands:
                 name: "&f&l Repeat Reward Text"
                 description: |-
                     &7 The specific repeat reward
                     &7 commands for the challenge.
+                    &8 Tip:
+                    &8 The command does not requires
+                    &8 writing first `/` as it will
+                    &8 be applied automatically.
+                    &8 By default commands will be
+                    &8 executed by server. However
+                    &8 adding `[SELF]` at the start
+                    &8 will allow command to be
+                    &8 executed by player. It also
+                    &8 supports one placeholder
+                    &8 `[player]` that will be
+                    &8 replaced with a player name
+                    &8 who completed challenge.
                 value: "&7 Current commands:"
             repeatable:
                 name: "&f&l Repeatable"
@@ -511,7 +537,7 @@ challenges:
                     &7 Allows to change the
                     &7 number of repeats
                     &7 for the challenge.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             challenges:
                 name: "&f&l Challenges"
                 description: |-
@@ -524,7 +550,7 @@ challenges:
                     &7 of challenges that can
                     &7 be left uncompleted for
                     &7 unlocking next level.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             add_challenges:
                 name: "&f&l Add Challenge(-s)"
                 description: |-
@@ -619,13 +645,13 @@ challenges:
                     &7 in user data.
                     &7 0 means that data will
                     &7 not be removed.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             title_showtime:
                 name: "&f&l Title Showtime"
                 description: |-
                     &7 Number of ticks that title
                     &7 will be showed to the player.
-                value: "&7 Current value: [number]"
+                value: "&7 Current value: &e [number]"
             active_world_list:
                 name: "&f&l Show Only Active World"
                 description: |-
@@ -659,7 +685,7 @@ challenges:
                 description: |-
                     &7 Island Owner: [owner]
                 members: "&7 Island Members:"
-                member: "&7 - [name]"
+                member: "&8 - [name]"
                 no-island: |-
                     &c Player does not have
                     &c an island.
@@ -685,7 +711,7 @@ challenges:
                     &7 selected blocks
                     &7 from lists.
                 title: "&7 Selected Materials:"
-                material: "&7 - [material]"
+                material: "&8 - [material]"
             material:
                 name: "&f&l [material]"
                 description: |-
@@ -708,7 +734,7 @@ challenges:
                     &7 selected entities
                     &7 from lists.
                 title: "&7 Selected Entities:"
-                entity: "&7 - [entity]"
+                entity: "&8 - [entity]"
             entity:
                 name: "&f&l [entity]"
                 description: |-
@@ -752,7 +778,7 @@ challenges:
                     &7 Returns selected elements
                     &7 and opens previous GUI.
                 title: "&7 Selected: "
-                element: "&7 - [element]"
+                element: "&8 - [element]"
             statistic_element:
                 name: "&f&l [statistic]"
                 description: "[description]"
@@ -831,13 +857,13 @@ challenges:
                     # Message that will replace [environment] placeholder if there are multiple environments.
                     environment-title: "&7 Limited to: "
                     # Message that will be added after environment-title-multiple.
-                    environment-list: "&7  - [environment]"
+                    environment-list: "  &7 - &e [environment]"
                     # Message that will replace [permissions] placeholder if there is just a single permission.
                     permission-single: "&c Requires [permissions] permission"
                     # Message that will replace [permissions] placeholder if there are multiple permissions.
                     permissions-title: "&c Requires permissions: "
                     # Message that will be added after permissions-title-multiple.
-                    permissions-list: "&c  - [permission]"
+                    permissions-list: "  &c - [permission]"
                     # Message that will generate for island type requirements and replace [type-requirements]
                     island:
                         lore: |-
@@ -849,13 +875,13 @@ challenges:
                         # Title that will be used if there are defined blocks in island challenge
                         blocks-title: "&7&l Required Blocks:"
                         # Listing of blocks that are required on the island.
-                        blocks-value: "  &8 [number] x [material]"
+                        blocks-value: "  &7 - &e [number] x [material]"
                         # Title that will be used if there are defined entities in island challenge
                         entities-title: "&7&l Required Entities:"
                         # Listing of entities that are required on the island.
-                        entities-value: "  &8 [number] x [entity]"
+                        entities-value: "  &7 - &e [number] x [entity]"
                         # Search radius for the blocks/entities
-                        search-radius: "&7 Not further than &8 [number] &7 meters"
+                        search-radius: "&7 Not further than &e [number] &7 meters"
                         # Waning about block/entity removing
                         warning-block: "&e Blocks will be &c removed"
                         warning-entity: "&e Entities will be &c removed"
@@ -867,7 +893,7 @@ challenges:
                         # Title that will be used if there are list of items for challenge
                         item-title: "&7&l Required Items:"
                         # Listing of an item that are required multiple times.
-                        item-list: "  &7 - &8 [item]"
+                        item-list: "  &7 - &e [item]"
                         # Warning that items will be removed
                         warning: "&e Item(-s) will be &c removed"
                     # Message that will generate for other type requirements and replace [type-requirements]
@@ -879,26 +905,26 @@ challenges:
                             [money-warning]
                             [level]
                         # Text for required experience
-                        experience: "&7&l Required Experience: &r&8 [number]"
+                        experience: "&7&l Required Experience: &r&e [number]"
                         # Warning that experience will be reduced
                         experience-warning: "&e Experience will be &c removed"
                         # Text for required money
-                        money: "&7&l Required money: &r&8 [number]"
+                        money: "&7&l Required money: &r&e [number]"
                         # Warning that money will be reduced
                         money-warning: "&e Experience will be &c removed"
                         # Text for required island level
-                        level: "&7&l Required island level: &r&8 [number]"
+                        level: "&7&l Required island level: &r&e [number]"
                     # Message that will generate for statistic type requirements and replace [type-requirements]
                     statistic:
                         lore: |-
                             [statistic]
                             [warning]
                         # Type of statistic for multiple target counter. Target may be entity or material/block
-                        multiple-target: "&7&l [statistic]: &r&8 [number] x [target]"
+                        multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
                         # Type of statistic for single target. Target may be entity or material/block
-                        single-target: "&7&l [statistic]: &r&8 [target]"
+                        single-target: "&7&l [statistic]: &r&e [target]"
                         # Type of statistic without entity/block target
-                        statistic: "&7&l [statistic] &r&8 [number] &7&l time(-s)"
+                        statistic: "&7&l [statistic] &r&e [number] &7&l time(-s)"
                         # Warning that statistic will be removed
                         warning: "&e Statistic data will be &c reduced"
                 # Contains a text generated inside [rewards] lore
@@ -914,15 +940,15 @@ challenges:
                     # Title that will be used if there are list of items for rewards
                     item-title: "&7 Items:"
                     # Listing of an item that are rewards multiple times.
-                    item-list: "  &7 - &8 [item]"
+                    item-list: "  &7 - &e [item]"
                     # Text for reward experience
-                    experience: "&7 Experience: &r&8 [number]"
+                    experience: "&7 Experience: &r&e [number]"
                     # Text for reward money
-                    money: "&7 Money: &r&8 [number]"
+                    money: "&7 Money: &r&e [number]"
                     # Title for commands listing:
                     commands-title: "&7 Commands:"
                     # Command listing element
-                    command: "  &7 - &8 [command]"
+                    command: "  &7 - &e [command]"
             # This part generates description text for levels object in all GUI's.
             level:
                 lore: |-
@@ -961,15 +987,15 @@ challenges:
                     # Title that will be used if there are list of items for rewards
                     item-title: "&7 Items:"
                     # Listing of an item that are rewards single time.
-                    item-list: "  &7 - &8 [item]"
+                    item-list: "  &7 - &e [item]"
                     # Text for reward experience
-                    experience: "&7 Experience: &r&8 [number]"
+                    experience: "&7 Experience: &r&e [number]"
                     # Text for reward money
-                    money: "&7 Money: &r&8 [number]"
+                    money: "&7 Money: &r&e [number]"
                     # Title for commands listing:
                     commands-title: "&7 Commands:"
                     # Command listing element
-                    command: "  &7 - &8 [command]"
+                    command: "  &7 - &e [command]"
             # This part generates description for the Library Entry
             library:
                 author: '&7 by &e [author]'
