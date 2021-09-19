@@ -15,6 +15,7 @@ import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
@@ -458,7 +459,7 @@ public class EditChallengePanel extends CommonPanel
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
                 description.add(this.user.getTranslation(reference + "value"));
-                description.addAll(this.challenge.getDescription());
+                this.challenge.getDescription().forEach(line -> description.add(Util.translateColorCodes(line)));
 
                 clickHandler = (panel, user, clickType, i) ->
                 {
@@ -1290,7 +1291,7 @@ public class EditChallengePanel extends CommonPanel
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
                 description.add(this.user.getTranslation(reference + "value"));
-                description.add(this.challenge.getRewardText());
+                description.add(Util.translateColorCodes(this.challenge.getRewardText()));
 
                 clickHandler = (panel, user, clickType, i) ->
                 {
@@ -1514,7 +1515,7 @@ public class EditChallengePanel extends CommonPanel
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
                 description.add(this.user.getTranslation(reference + "value"));
-                description.add(this.challenge.getRepeatRewardText());
+                description.add(Util.translateColorCodes(this.challenge.getRepeatRewardText()));
 
                 clickHandler = (panel, user, clickType, i) ->
                 {

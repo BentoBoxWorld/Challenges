@@ -320,7 +320,7 @@ public class EditLevelPanel extends CommonPagedPanel
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
                 description.add(this.user.getTranslation(reference + "value"));
-                description.add(this.challengeLevel.getRewardText());
+                description.add(Util.translateColorCodes(this.challengeLevel.getRewardText()));
 
                 clickHandler = (panel, user, clickType, i) ->
                 {
@@ -534,7 +534,7 @@ public class EditLevelPanel extends CommonPagedPanel
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
                 description.add(this.user.getTranslation(reference + "value"));
-                description.add(this.challengeLevel.getUnlockMessage());
+                description.add(Util.translateColorCodes(this.challengeLevel.getUnlockMessage()));
 
                 clickHandler = (panel, user, clickType, i) ->
                 {
