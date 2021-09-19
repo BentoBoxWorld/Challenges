@@ -15,6 +15,9 @@ import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 
 
+/**
+ * The type Settings.
+ */
 @StoreAt(filename="config.yml", path="addons/Challenges")
 @ConfigComment("Challenges [version] Configuration")
 @ConfigComment("This config file is dynamic and saved when the server is shutdown.")
@@ -24,35 +27,58 @@ import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 public class Settings implements ConfigObject
 {
     @ConfigComment("")
-    @ConfigComment("Allows to define common challenges command that will open User GUI")
-    @ConfigComment("with all GameMode selection or Challenges from user world.")
-    @ConfigComment("This will not affect /{gamemode_user} challenges command.")
-    @ConfigEntry(path = "commands.user", needsRestart = true)
-    private String userCommand = "challenges c";
-
-    @ConfigComment("")
-    @ConfigComment("Allows to define common challenges command that will open Admin GUI")
-    @ConfigComment("with all GameMode selection.")
-    @ConfigComment("This will not affect /{gamemode_admin} challenges command.")
-    @ConfigEntry(path = "commands.admin", needsRestart = true)
-    private String adminCommand = "challengesadmin chadmin";
-
-    @ConfigComment("")
     @ConfigComment("This enables/disables common command that will be independent from")
     @ConfigComment("all GameModes. For admins it will open selection with all GameModes")
     @ConfigComment("(unless there is one), but for users it will open GUI that corresponds")
     @ConfigComment("to their world (unless it is specified other way in Admin GUI).")
-    @ConfigEntry(path = "commands.single-gui", needsRestart = true)
+    @ConfigComment("This means that writing `/[user_global]` will open Challenges GUI's")
+    @ConfigComment("and `/[admin_global]` will open Admin GUI's")
+    @ConfigEntry(path = "commands.global-command", needsRestart = true)
     private boolean useCommonGUI = false;
 
     @ConfigComment("")
-    @ConfigComment("This allows for admins to define which GUI will be opened for admins")
-    @ConfigComment("when users calls single-gui command.")
+    @ConfigComment("This allows to define which GUI will be opened when `single-gui` is enabled.")
+    @ConfigComment("This option is ignored if `single-gui` is disabled.")
     @ConfigComment("Acceptable values:")
     @ConfigComment("   - CURRENT_WORLD - will open GUI that corresponds to user location.")
     @ConfigComment("   - GAMEMODE_LIST - will open GUI with all installed game modes.")
-    @ConfigEntry(path = "commands.single-gamemode")
+    @ConfigEntry(path = "commands.global-view-mode")
     private GuiMode userGuiMode = GuiMode.CURRENT_WORLD;
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define a global challenges user command. This command will work")
+    @ConfigComment("only if `global-commands` is enabled. This allows to execute `/challenges`")
+    @ConfigComment("without referring to the gamemode.")
+    @ConfigEntry(path = "commands.player.global", needsRestart = true)
+    private String globalUserCommand = "challenges c";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define user command for opening challenges GUI's.")
+    @ConfigComment("Unlike `global` command, this requires to have gamemode player command before it.")
+    @ConfigComment("This will look like: `/[player_cmd] challenges`")
+    @ConfigEntry(path = "commands.player.main", needsRestart = true)
+    private String mainUserCommand = "challenges";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define complete command.")
+    @ConfigComment("This will look like: `/[player_cmd] challenges complete`")
+    @ConfigEntry(path = "commands.player.complete", needsRestart = true)
+    private String completeUserCommand = "complete";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define a global challenges admin command. This command will work")
+    @ConfigComment("only if `global-commands` is enabled. This allows to execute `/chadmin`")
+    @ConfigComment("without referring to the gamemode.")
+    @ConfigComment("Note, this must not be the same as user global command.")
+    @ConfigEntry(path = "commands.admin.global", needsRestart = true)
+    private String globalAdminCommand = "challengesadmin chadmin";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define admin command for opening challenges GUI's.")
+    @ConfigComment("Unlike `global` command, this requires to have gamemode admin command before it.")
+    @ConfigComment("This will look like: `/[admin_cmd] challenges`")
+    @ConfigEntry(path = "commands.admin.main", needsRestart = true)
+    private String mainAdminCommand = "challenges";
 
     @ConfigComment("")
     @ConfigComment("This indicate if player challenges data history will be stored or not.")
@@ -95,7 +121,7 @@ public class Settings implements ConfigObject
     @ConfigComment("")
     @ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
     @ConfigEntry(path = "store-island-data")
-    private boolean storeAsIslandData = false;
+    private boolean storeAsIslandData = true;
 
     @ConfigComment("")
     @ConfigComment("Reset Challenges - if this is true, player's challenges will reset when users")
@@ -225,9 +251,42 @@ public class Settings implements ConfigObject
      * This method returns the userCommand value.
      * @return the value of userCommand.
      */
-    public String getUserCommand()
+    public String getGlobalUserCommand()
     {
-        return userCommand;
+        return globalUserCommand;
+    }
+
+
+    /**
+     * Gets main user command.
+     *
+     * @return the main user command
+     */
+    public String getMainUserCommand()
+    {
+        return mainUserCommand;
+    }
+
+
+    /**
+     * Gets complete user command.
+     *
+     * @return the complete user command
+     */
+    public String getCompleteUserCommand()
+    {
+        return completeUserCommand;
+    }
+
+
+    /**
+     * Gets main admin command.
+     *
+     * @return the main admin command
+     */
+    public String getMainAdminCommand()
+    {
+        return mainAdminCommand;
     }
 
 
@@ -235,9 +294,9 @@ public class Settings implements ConfigObject
      * This method returns the adminCommand value.
      * @return the value of adminCommand.
      */
-    public String getAdminCommand()
+    public String getGlobalAdminCommand()
     {
-        return adminCommand;
+        return globalAdminCommand;
     }
 
 
@@ -457,21 +516,54 @@ public class Settings implements ConfigObject
 
     /**
      * This method sets the userCommand value.
-     * @param userCommand the userCommand new value.
+     * @param globalUserCommand the userCommand new value.
      */
-    public void setUserCommand(String userCommand)
+    public void setGlobalUserCommand(String globalUserCommand)
     {
-        this.userCommand = userCommand;
+        this.globalUserCommand = globalUserCommand;
+    }
+
+
+    /**
+     * Sets main user command.
+     *
+     * @param mainUserCommand the main user command
+     */
+    public void setMainUserCommand(String mainUserCommand)
+    {
+        this.mainUserCommand = mainUserCommand;
+    }
+
+
+    /**
+     * Sets complete user command.
+     *
+     * @param completeUserCommand the complete user command
+     */
+    public void setCompleteUserCommand(String completeUserCommand)
+    {
+        this.completeUserCommand = completeUserCommand;
+    }
+
+
+    /**
+     * Sets main admin command.
+     *
+     * @param mainAdminCommand the main admin command
+     */
+    public void setMainAdminCommand(String mainAdminCommand)
+    {
+        this.mainAdminCommand = mainAdminCommand;
     }
 
 
     /**
      * This method sets the adminCommand value.
-     * @param adminCommand the adminCommand new value.
+     * @param globalAdminCommand the adminCommand new value.
      */
-    public void setAdminCommand(String adminCommand)
+    public void setGlobalAdminCommand(String globalAdminCommand)
     {
-        this.adminCommand = adminCommand;
+        this.globalAdminCommand = globalAdminCommand;
     }
 
 
