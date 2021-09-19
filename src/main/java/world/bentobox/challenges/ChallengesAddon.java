@@ -1,10 +1,8 @@
 package world.bentobox.challenges;
 
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,10 +15,10 @@ import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.database.DatabaseSetup.DatabaseType;
 import world.bentobox.bentobox.hooks.VaultHook;
 import world.bentobox.bentobox.managers.RanksManager;
-import world.bentobox.challenges.commands.ChallengesCommand;
-import world.bentobox.challenges.commands.ChallengesUserCommand;
-import world.bentobox.challenges.commands.admin.Challenges;
+import world.bentobox.challenges.commands.ChallengesPlayerCommand;
+import world.bentobox.challenges.commands.ChallengesGlobalPlayerCommand;
 import world.bentobox.challenges.commands.admin.ChallengesAdminCommand;
+import world.bentobox.challenges.commands.admin.ChallengesGlobalAdminCommand;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.handlers.ChallengeDataRequestHandler;
@@ -159,27 +157,18 @@ public class ChallengesAddon extends Addon {
         	if (!this.settings.getDisabledGameModes().contains(
         	    gameModeAddon.getDescription().getName()))
 			{
-				if (gameModeAddon.getPlayerCommand().isPresent())
-				{
-					new ChallengesCommand(this, gameModeAddon.getPlayerCommand().get());
-                    this.hooked = true;
+                gameModeAddon.getPlayerCommand().ifPresent(command ->
+                    new ChallengesPlayerCommand(this, command));
+                gameModeAddon.getAdminCommand().ifPresent(command ->
+                    new ChallengesAdminCommand(this, command));
 
-                    hookedGameModes.add(gameModeAddon);
-                }
-
-				if (gameModeAddon.getAdminCommand().isPresent())
-				{
-					new Challenges(this, gameModeAddon.getAdminCommand().get());
-					this.hooked = true;
-				}
+                this.hooked = true;
+                hookedGameModes.add(gameModeAddon);
 
 				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
 				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
 
 				this.registerPlaceholders(gameModeAddon);
-
-				// TODO: this is old placeholders. Remove when backward compatibility ends.
-                this.registerPlaceholdersOld(gameModeAddon);
 			}
 		});
 
@@ -189,39 +178,12 @@ public class ChallengesAddon extends Addon {
 
             if (this.settings.isUseCommonGUI())
             {
-                new ChallengesUserCommand(this,
-                    this.settings.getUserCommand(),
+                new ChallengesGlobalPlayerCommand(this,
+                    this.settings.getGlobalUserCommand(),
                     hookedGameModes);
-                new ChallengesAdminCommand(this,
-                    this.settings.getAdminCommand(),
+                new ChallengesGlobalAdminCommand(this,
+                    this.settings.getGlobalAdminCommand(),
                     hookedGameModes);
-            }
-
-            // Try to find Level addon and if it does not exist, display a warning
-
-            Optional<Addon> level = this.getAddonByName("Level");
-
-            if (!level.isPresent())
-            {
-                this.logWarning("Level add-on not found so level challenges will not work!");
-                this.levelAddon = null;
-            }
-            else
-            {
-                this.levelProvided = true;
-                this.levelAddon = (Level) level.get();
-            }
-
-            Optional<VaultHook> vault = this.getPlugin().getVault();
-
-            if (!vault.isPresent() || !vault.get().hook())
-            {
-                this.vaultHook = null;
-                this.logWarning("Vault plugin not found. Economy will not work!");
-            }
-            else
-            {
-                this.vaultHook = vault.get();
             }
 
             // Register the reset listener
@@ -255,6 +217,44 @@ public class ChallengesAddon extends Addon {
             this.logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
             this.setState(State.DISABLED);
         }
+    }
+
+
+    /**
+     * Process Level addon and Vault Hook when everything is loaded.
+     */
+    @Override
+    public void allLoaded()
+    {
+        super.allLoaded();
+
+        // Try to find Level addon and if it does not exist, display a warning
+        this.getAddonByName("Level").ifPresentOrElse(addon -> {
+            this.levelAddon = (Level) addon;
+            this.levelProvided = true;
+            this.log("Challenges Addon hooked into Level addon.");
+        }, () -> {
+            this.levelAddon = null;
+            this.logWarning("Level add-on not found so level challenges will not work!");
+        });
+
+
+        // Try to find Vault Plugin and if it does not exist, display a warning
+        this.getPlugin().getVault().ifPresentOrElse(hook -> {
+            this.vaultHook = hook;
+
+            if (this.vaultHook.hook())
+            {
+                this.log("Challenges Addon hooked into Economy.");
+            }
+            else
+            {
+                this.logWarning("Challenges Addon could not hook into valid Economy.");
+            }
+        }, () -> {
+            this.vaultHook = null;
+            this.logWarning("Vault plugin not found. Economy will not work!");
+        });
     }
 
 
@@ -411,75 +411,6 @@ public class ChallengesAddon extends Addon {
                 ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
                 return String.valueOf(level != null ?
                     level.getChallenges().size() - this.challengesManager.getLevelCompletedChallengeCount(user, world, level) : 0);
-            });
-    }
-
-
-    /**
-     * This method registers placeholders into GameMode addon.
-     * @param gameModeAddon GameMode addon where placeholders must be hooked in.
-     * @since 0.8.1
-     * @deprecated remove after 0.9.0
-     */
-    @Deprecated
-    private void registerPlaceholdersOld(GameModeAddon gameModeAddon)
-    {
-        final String gameMode = gameModeAddon.getDescription().getName().toLowerCase();
-        final World world = gameModeAddon.getOverWorld();
-
-        // Number of completions for all challenges placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_total_completion_count",
-            user -> String.valueOf(this.challengesManager.getTotalChallengeCompletionCount(user, world)));
-
-        // Completed challenge count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_completed_count",
-            user -> String.valueOf(this.challengesManager.getCompletedChallengeCount(user, world)));
-
-        // Uncompleted challenge count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_uncompleted_count",
-            user -> String.valueOf(this.challengesManager.getChallengeCount(world) -
-                this.challengesManager.getCompletedChallengeCount(user, world)));
-
-        // Completed challenge level count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_completed_level_count",
-            user -> String.valueOf(this.challengesManager.getCompletedLevelCount(user, world)));
-
-        // Uncompleted challenge level count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_uncompleted_level_count",
-            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
-                this.challengesManager.getCompletedLevelCount(user, world)));
-
-        // Unlocked challenge level count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_unlocked_level_count",
-            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
-                this.challengesManager.getUnlockedLevelCount(user, world)));
-
-        // Locked challenge level count placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_locked_level_count",
-            user -> String.valueOf(this.challengesManager.getLevelCount(world) -
-                this.challengesManager.getUnlockedLevelCount(user, world)));
-
-        // Latest challenge level name placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_latest_level_name",
-            user -> {
-                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
-                return level != null ? level.getFriendlyName() : "";
-            });
-
-        // Latest challenge level id placeholder
-        this.getPlugin().getPlaceholdersManager().registerPlaceholder(this,
-            gameMode + "_challenge_latest_level_id",
-            user -> {
-                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
-                return level != null ? level.getUniqueId() : "";
             });
     }
 
