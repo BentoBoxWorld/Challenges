@@ -1,32 +1,57 @@
-# Challenges Configuration ${project.version}
+# Challenges 1.0.0-SNAPSHOT-LOCAL Configuration
 # This config file is dynamic and saved when the server is shutdown.
 # You cannot edit it while the server is running because changes will
 # be lost! Use in-game settings GUI or edit when server is offline.
 #
 commands:
   #
-  # Allows to define common challenges command that will open User GUI
-  # with all GameMode selection or Challenges from user world.
-  # This will not affect /{gamemode_user} challenges command.
-  user: challenges c
-  #
-  # Allows to define common challenges command that will open Admin GUI
-  # with all GameMode selection.
-  # This will not affect /{gamemode_admin} challenges command.
-  admin: challengesadmin chadmin
-  #
   # This enables/disables common command that will be independent from
   # all GameModes. For admins it will open selection with all GameModes
   # (unless there is one), but for users it will open GUI that corresponds
   # to their world (unless it is specified other way in Admin GUI).
-  single-gui: false
+  # This means that writing `/[user_global]` will open Challenges GUI's
+  # and `/[admin_global]` will open Admin GUI's
+  # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+  global-command: false
   #
-  # This allows for admins to define which GUI will be opened for admins
-  # when users calls single-gui command.
+  # This allows to define which GUI will be opened when `single-gui` is enabled.
+  # This option is ignored if `single-gui` is disabled.
   # Acceptable values:
   #    - CURRENT_WORLD - will open GUI that corresponds to user location.
   #    - GAMEMODE_LIST - will open GUI with all installed game modes.
-  single-gamemode: CURRENT_WORLD
+  global-view-mode: GAMEMODE_LIST
+  player:
+    #
+    # Allows to define a global challenges user command. This command will work
+    # only if `global-commands` is enabled. This allows to execute `/challenges`
+    # without referring to the gamemode.
+    # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+    global: challenges c
+    #
+    # Allows to define user command for opening challenges GUI's.
+    # Unlike `global` command, this requires to have gamemode player command before it.
+    # This will look like: `/[player_cmd] challenges`
+    # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+    main: challenges
+    #
+    # Allows to define complete command.
+    # This will look like: `/[player_cmd] challenges complete`
+    # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+    complete: complete
+  admin:
+    #
+    # Allows to define a global challenges admin command. This command will work
+    # only if `global-commands` is enabled. This allows to execute `/chadmin`
+    # without referring to the gamemode.
+    # Note, this must not be the same as user global command.
+    # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+    global: challengesadmin chadmin
+    #
+    # Allows to define admin command for opening challenges GUI's.
+    # Unlike `global` command, this requires to have gamemode admin command before it.
+    # This will look like: `/[admin_cmd] challenges`
+    # /!\ In order to apply the changes made to this option, you must restart your server. Reloading BentoBox or the server won't work.
+    main: challenges
 history:
   #
   # This indicate if player challenges data history will be stored or not.
@@ -56,72 +81,11 @@ gui-settings:
   # their locked level icon, then it will be used, instead of this one.
   locked-level-icon:
     ==: org.bukkit.inventory.ItemStack
-    v: 1631
-    type: BOOK
-  #
-  # This indicate if free challenges must be at the start (true) or at the end (false) of list.
-  free-challenges-first: true
-  #
-  # This allows to change lore description line length. By default it is 25, but some server
-  # owners may like it to be larger.
-  lore-length: 25
-  #
-  # This string allows to change element order in Challenge description. Each letter represents
-  # one object from challenge description. If letter is not used, then its represented part
-  # will not be in description. If use any letter that is not recognized, then it will be
-  # ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.
-  # List of values and their meaning:
-  #  - LEVEL - Level String: '*.level'
-  #  - STATUS - Status String: '*.completed'
-  #  - COUNT - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'
-  #  - DESCRIPTION - Description String: defined in challenge object - challenge.description
-  #  - WARNINGS - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'
-  #  - ENVIRONMENT - Environment String: defined in challenge object - challenge.environment
-  #  - REQUIREMENTS - Requirement String: '*.required-level', '*.required-money', '*.required-experience' and items, blocks or entities
-  #  - REWARD_TEXT - Reward String: message that is defined in challenge.rewardTest and challenge.repeatRewardText
-  #  - REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward', '*.not-repeatable'
-  #  - REWARD_ITEMS - Reward Items: List of items that will be rewarded.
-  #  - REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.
-  # Requirement and reward items, blocks and entities that are defined in challenge and can be customized under 'challenges.gui.item-description.*'
-  challenge-lore:
-    - LEVEL
-    - STATUS
-    - COUNT
-    - DESCRIPTION
-    - WARNINGS
-    - ENVIRONMENT
-    - REQUIREMENTS
-    - REWARD_TEXT
-    - REWARD_OTHER
-    - REWARD_ITEMS
-    - REWARD_COMMANDS
-  #
-  # This string allows to change element order in Level description. Each letter represents
-  # one object from level description. If letter is not used, then its represented part
-  # will not be in description. If use any letter that is not recognized, then it will be
-  # ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.
-  # List of values and their meaning:
-  #  - LEVEL_STATUS - Status String: '*.completed'
-  #  - CHALLENGE_COUNT - Count of completed challenges String: '*.completed-challenges-of'
-  #  - UNLOCK_MESSAGE - Description String: defined in level object - challengeLevel.unlockMessage
-  #  - WAIVER_AMOUNT - WaiverAmount String: '*.waver-amount'
-  #  - LEVEL_REWARD_TEXT - Reward String: message that is defined in challengeLevel.rewardText.
-  #  - LEVEL_REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward'
-  #  - LEVEL_REWARD_ITEMS - Reward Items: List of items that will be rewarded.
-  #  - LEVEL_REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.
-  # Reward items that are defined in challenge level and can be customized under 'challenges.gui.item-description.*'
-  level-lore:
-    - LEVEL_STATUS
-    - CHALLENGE_COUNT
-    - UNLOCK_MESSAGE
-    - WAIVER_AMOUNT
-    - LEVEL_REWARD_TEXT
-    - LEVEL_REWARD_OTHER
-    - LEVEL_REWARD_ITEMS
-    - LEVEL_REWARD_COMMANDS
+    v: 2730
+    type: BARRIER
 #
 # This indicate if challenges data will be stored per island (true) or per player (false).
-store-island-data: false
+store-island-data: true
 #
 # Reset Challenges - if this is true, player's challenges will reset when users
 # reset an island or if users are kicked or leave a team. Prevents exploiting the
@@ -149,7 +113,4 @@ auto-saver: 30
 # disabled-gamemodes:
 #  - BSkyBlock
 disabled-gamemodes: []
-#
-uniqueId: config
-#
 configVersion: v3
