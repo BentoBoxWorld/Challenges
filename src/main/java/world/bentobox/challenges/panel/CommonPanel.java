@@ -301,9 +301,18 @@ public abstract class CommonPanel
                 forEach(entry ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
-                        Constants.NUMBER, String.valueOf(entry.getValue()),
-                        Constants.MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+
+                    if (entry.getValue() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                            Constants.NUMBER, String.valueOf(entry.getValue()),
+                            Constants.MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                            Constants.MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                    }
                 });
 
             blocks = builder.toString();
@@ -324,9 +333,18 @@ public abstract class CommonPanel
                 forEach(entry ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "entities-value",
-                        Constants.NUMBER, String.valueOf(entry.getValue()),
-                        Constants.ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+
+                    if (entry.getValue() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "entities-value",
+                            Constants.NUMBER, String.valueOf(entry.getValue()),
+                            Constants.ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "entity-value",
+                            Constants.ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+                    }
                 });
 
             entities = builder.toString();
@@ -373,8 +391,18 @@ public abstract class CommonPanel
                 forEach(itemStack ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "item-list",
-                        "[item]", Utils.prettifyObject(itemStack, this.user)));
+
+                    if (itemStack.getAmount() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "items-value",
+                            "[number]", String.valueOf(itemStack.getAmount()),
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "item-value",
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
                 });
 
             items = builder.toString();
@@ -586,8 +614,18 @@ public abstract class CommonPanel
                 forEach(itemStack ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "item-list",
-                        "[item]", Utils.prettifyObject(itemStack, this.user)));
+
+                    if (itemStack.getAmount() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "items-value",
+                            "[number]", String.valueOf(itemStack.getAmount()),
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "item-value",
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
                 });
 
             items = builder.toString();
@@ -669,8 +707,18 @@ public abstract class CommonPanel
                 forEach(itemStack ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "item-list",
-                        "[item]", Utils.prettifyObject(itemStack, this.user)));
+
+                    if (itemStack.getAmount() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "items-value",
+                            "[number]", String.valueOf(itemStack.getAmount()),
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "item-value",
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
                 });
 
             items = builder.toString();
@@ -854,8 +902,18 @@ public abstract class CommonPanel
                 forEach(itemStack ->
                 {
                     builder.append("\n");
-                    builder.append(this.user.getTranslationOrNothing(reference + "item-list",
-                        "[item]", Utils.prettifyObject(itemStack, this.user)));
+
+                    if (itemStack.getAmount() > 1)
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "items-value",
+                            "[number]", String.valueOf(itemStack.getAmount()),
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
+                    else
+                    {
+                        builder.append(this.user.getTranslationOrNothing(reference + "item-value",
+                            "[item]", Utils.prettifyObject(itemStack, this.user)));
+                    }
                 });
 
             items = builder.toString();
