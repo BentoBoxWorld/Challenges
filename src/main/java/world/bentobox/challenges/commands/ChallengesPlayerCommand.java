@@ -5,8 +5,10 @@ import java.util.List;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.ChallengesPanel;
+import world.bentobox.challenges.utils.Utils;
 
 
 public class ChallengesPlayerCommand extends CompositeCommand
@@ -26,9 +28,10 @@ public class ChallengesPlayerCommand extends CompositeCommand
     @Override
     public boolean canExecute(User user, String label, List<String> args)
     {
-        if (!getIWM().inWorld(getWorld())) {
+        if (!this.getIWM().inWorld(user.getWorld()) ||
+            Util.getWorld(this.getWorld()) != Util.getWorld(user.getWorld())) {
             // Not a GameMode world.
-            user.sendMessage("general.errors.wrong-world");
+            Utils.sendMessage(user, user.getTranslation("general.errors.wrong-world"));
             return false;
         }
 
@@ -57,7 +60,14 @@ public class ChallengesPlayerCommand extends CompositeCommand
         if (this.getIslands().getIsland(this.getWorld(), user) == null)
         {
             // Do not open gui if there is no island for this player.
-            user.sendMessage("general.errors.no-island");
+            Utils.sendMessage(user, user.getTranslation("general.errors.no-island"));
+            return false;
+        } else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.getWorld()) &&
+            !this.getIslands().locationIsOnIsland(user.getPlayer(), user.getLocation()))
+        {
+            // Do not open gui if player is not on the island, but challenges requires island for
+            // completion.
+            Utils.sendMessage(user, user.getTranslation("challenges.errors.not-on-island"));
             return false;
         }
 
