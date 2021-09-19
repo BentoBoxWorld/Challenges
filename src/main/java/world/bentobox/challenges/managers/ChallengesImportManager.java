@@ -735,7 +735,7 @@ public class ChallengesImportManager
         {
             if (user.isPlayer())
             {
-                user.sendMessage("challenges.errors.exist-challenges-or-levels");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.exist-challenges-or-levels"));
             }
             else
             {

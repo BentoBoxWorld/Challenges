@@ -47,11 +47,14 @@ public class ChallengesPlayerCommand extends CompositeCommand
                     map(GameModeAddon::getAdminCommand).
                     map(optionalAdminCommand -> optionalAdminCommand.map(CompositeCommand::getTopLabel).orElse(this.getTopLabel())).
                     orElse(this.getTopLabel());
-                user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges-admin",
+                    "[command]",
+                    topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
+
             }
             else
             {
-                user.sendMessage("challenges.errors.no-challenges");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges"));
             }
 
             return false;

@@ -7,6 +7,7 @@ import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.managers.ChallengesManager;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -46,13 +47,13 @@ public class ReloadChallenges extends CompositeCommand
         if (args.isEmpty())
         {
             this.manager.load();
-            user.sendMessage("general.success");
+            Utils.sendMessage(user, user.getTranslation("general.success"));
             return true;
         }
         else if (args.get(0).equalsIgnoreCase("hard"))
         {
             this.manager.reload();
-            user.sendMessage("general.success");
+            Utils.sendMessage(user, user.getTranslation("general.success"));
             return true;
         }
         else

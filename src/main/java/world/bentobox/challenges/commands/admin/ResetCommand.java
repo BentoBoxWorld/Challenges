@@ -57,7 +57,7 @@ public class ResetCommand extends CompositeCommand
         {
             if (user.isPlayer())
             {
-                user.sendMessage("challenges.errors.no-name");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
             }
             else
             {
@@ -68,7 +68,7 @@ public class ResetCommand extends CompositeCommand
         {
             if (user.isPlayer())
             {
-                user.sendMessage("challenges.errors.missing-arguments");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.missing-arguments"));
             }
             else
             {
@@ -83,7 +83,8 @@ public class ResetCommand extends CompositeCommand
             {
                 if (user.isPlayer())
                 {
-                    user.sendMessage("general.errors.unknown-player", TextVariables.NAME, args.get(0));
+                    Utils.sendMessage(user, user.getTranslation("general.errors.unknown-player",
+                        TextVariables.NAME, args.get(0)));
                 }
                 else
                 {
@@ -101,8 +102,8 @@ public class ResetCommand extends CompositeCommand
 
                 if (user.isPlayer())
                 {
-                    user.sendMessage("challenges.messages.admin.reset-all",
-                        "[player]", User.getInstance(targetUUID).getName());
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.reset-all",
+                        "[player]", User.getInstance(targetUUID).getName()));
                 }
                 else
                 {
@@ -125,9 +126,9 @@ public class ResetCommand extends CompositeCommand
 
                         if (user.isPlayer())
                         {
-                            user.sendMessage("challenges.messages.admin.reset",
-                                    "[name]", challenge.getFriendlyName(),
-                                    "[player]", User.getInstance(targetUUID).getName());
+                            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.reset",
+                                "[name]", challenge.getFriendlyName(),
+                                "[player]", User.getInstance(targetUUID).getName()));
                         }
                         else
                         {
@@ -139,7 +140,7 @@ public class ResetCommand extends CompositeCommand
                     {
                         if (user.isPlayer())
                         {
-                            user.sendMessage("challenges.messages.admin.not-completed");
+                            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.not-completed"));
                         }
                         else
                         {
@@ -153,7 +154,7 @@ public class ResetCommand extends CompositeCommand
                 {
                     if (user.isPlayer())
                     {
-                        user.sendMessage("challenges.errors.unknown-challenge");
+                        Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
                     }
                     else
                     {

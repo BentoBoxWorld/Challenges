@@ -57,7 +57,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				user.sendMessage("challenges.errors.no-name");
+				Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
 			}
 			else
 			{
@@ -68,7 +68,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				user.sendMessage("challenges.errors.missing-arguments");
+				Utils.sendMessage(user, user.getTranslation("challenges.errors.missing-arguments"));
 			}
 			else
 			{
@@ -83,9 +83,9 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					user.sendMessage("general.errors.unknown-player",
+					Utils.sendMessage(user, user.getTranslation("general.errors.unknown-player",
 						TextVariables.NAME,
-						args.get(0));
+						args.get(0)));
 				}
 				else
 				{
@@ -108,9 +108,9 @@ public class CompleteCommand extends CompositeCommand
 
 					if (user.isPlayer())
 					{
-						user.sendMessage("challenges.messages.admin.completed",
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.completed",
 							"[name]", challenge.getFriendlyName(),
-							"[player]", User.getInstance(targetUUID).getName());
+							"[player]", User.getInstance(targetUUID).getName()));
 					}
 					else
 					{
@@ -122,7 +122,7 @@ public class CompleteCommand extends CompositeCommand
 				{
 					if (user.isPlayer())
 					{
-						user.sendMessage("challenges.messages.admin.already-completed");
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.already-completed"));
 					}
 					else
 					{
@@ -136,7 +136,7 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					user.sendMessage("challenges.errors.unknown-challenge");
+					Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
 				}
 				else
 				{
@@ -195,5 +195,5 @@ public class CompleteCommand extends CompositeCommand
 	/**
 	 * Variable that holds challenge addon. Single casting.
 	 */
-	private ChallengesAddon addon;
+	private final ChallengesAddon addon;
 }

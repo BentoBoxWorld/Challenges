@@ -55,7 +55,7 @@ public class CompleteChallengeCommand extends CompositeCommand
     {
         if (args.isEmpty())
         {
-            user.sendMessage("challenges.errors.no-name");
+            Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
             this.showHelp(this, user);
             return false;
         }
@@ -74,7 +74,7 @@ public class CompleteChallengeCommand extends CompositeCommand
 
                 if (!canMultipleTimes && count > 1)
                 {
-                    user.sendMessage("challenges.error.no-multiple-permission");
+                    Utils.sendMessage(user, user.getTranslation("challenges.error.no-multiple-permission"));
                     count = 1;
                 }
 
@@ -88,7 +88,7 @@ public class CompleteChallengeCommand extends CompositeCommand
             }
             else
             {
-                user.sendMessage("challenges.errors.unknown-challenge");
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
                 this.showHelp(this, user);
                 return false;
             }

@@ -265,7 +265,7 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("load-error", "[value]", "NULL");
+                Utils.sendMessage(user, user.getTranslation("load-error", "[value]", "NULL"));
             }
 
             return false;
@@ -275,7 +275,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.errors.invalid-challenge", "[challenge]", challenge.getUniqueId());
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.invalid-challenge",
+                    "[challenge]", challenge.getUniqueId()));
             }
 
             this.addon.logWarning("Data for challenge `" + challenge.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
@@ -290,8 +291,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.messages.load-skipping",
-                            VALUE, challenge.getFriendlyName());
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-skipping",
+                        VALUE, challenge.getFriendlyName()));
                 }
 
                 return false;
@@ -300,8 +301,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.messages.load-overwriting",
-                            VALUE, challenge.getFriendlyName());
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-overwriting",
+                        VALUE, challenge.getFriendlyName()));
                 }
             }
         }
@@ -309,8 +310,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.messages.load-add",
-                        VALUE, challenge.getFriendlyName());
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.load-add",
+                    VALUE, challenge.getFriendlyName()));
             }
         }
 
@@ -351,7 +352,7 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("load-error", "[value]", "NULL");
+                Utils.sendMessage(user, user.getTranslation("load-error", "[value]", "NULL"));
             }
 
             return false;
@@ -361,7 +362,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.errors.invalid-level", "[level]", level.getUniqueId());
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.invalid-level",
+                    "[level]", level.getUniqueId()));
             }
 
             this.addon.logWarning("Data for level `" + level.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
@@ -372,7 +374,8 @@ public class ChallengesManager
         {
             if (user != null)
             {
-                user.sendMessage("challenges.errors.load-error", VALUE, level.getFriendlyName());
+                Utils.sendMessage(user, user.getTranslation("challenges.errors.load-error",
+                    VALUE, level.getFriendlyName()));
             }
             else
             {
@@ -388,8 +391,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.messages.load-skipping",
-                            VALUE, level.getFriendlyName());
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-skipping",
+                        VALUE, level.getFriendlyName()));
                 }
 
                 return false;
@@ -398,8 +401,8 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    user.sendMessage("challenges.messages.load-overwriting",
-                            VALUE, level.getFriendlyName());
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-overwriting",
+                        VALUE, level.getFriendlyName()));
                 }
             }
         }
@@ -407,8 +410,8 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                user.sendMessage("challenges.messages.load-add",
-                        VALUE, level.getFriendlyName());
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.load-add",
+                    VALUE, level.getFriendlyName()));
             }
         }
 
@@ -670,7 +673,7 @@ public class ChallengesManager
 
         if (user.isPlayer())
         {
-            user.sendMessage("challenges.messages.admin.migrate-start");
+            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-start"));
         }
         else
         {
@@ -686,7 +689,7 @@ public class ChallengesManager
 
             if (user.isPlayer())
             {
-                user.sendMessage("challenges.messages.admin.migrate-end");
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-end"));
             }
             else
             {
@@ -697,7 +700,7 @@ public class ChallengesManager
         {
             if (user.isPlayer())
             {
-                user.sendMessage("challenges.messages.admin.migrate-not");
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-not"));
             }
             else
             {

@@ -30,6 +30,7 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.tasks.TryToComplete;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.LevelStatus;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -74,7 +75,7 @@ public class ChallengesPanel extends CommonPanel
         if (!this.containsChallenges)
         {
             this.addon.logError("There are no challenges set up!");
-            this.user.sendMessage(Constants.ERRORS + "no-challenges");
+            Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-challenges"));
             return;
         }
 
