@@ -15,6 +15,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -109,8 +110,8 @@ public class CompleteCommand extends CompositeCommand
 					if (user.isPlayer())
 					{
 						Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.completed",
-							"[name]", challenge.getFriendlyName(),
-							"[player]", User.getInstance(targetUUID).getName()));
+							Constants.PARAMETER_NAME, challenge.getFriendlyName(),
+							Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
 					}
 					else
 					{

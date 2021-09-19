@@ -138,7 +138,7 @@ public class ListUsersPanel extends CommonPagedPanel
         if (island == null)
         {
             return new PanelItemBuilder().
-                name(this.user.getTranslation(reference + "name", "[name]", player.getName())).
+                name(this.user.getTranslation(reference + "name", Constants.PARAMETER_NAME, player.getName())).
                 icon(Material.BARRIER).
                 description(this.user.getTranslation(reference + "no-island")).
                 build();
@@ -146,7 +146,7 @@ public class ListUsersPanel extends CommonPagedPanel
 
         List<String> description = new ArrayList<>(4);
         description.add(this.user.getTranslation(reference + "description",
-            "[owner]", this.addon.getPlayers().getName(island.getOwner())));
+            Constants.PARAMETER_OWNER, this.addon.getPlayers().getName(island.getOwner())));
 
         // Is owner in his own island member set? I assume yes. Need testing.
         if (island.getMemberSet().size() > 1)
@@ -156,7 +156,7 @@ public class ListUsersPanel extends CommonPagedPanel
                 if (member != island.getOwner())
                 {
                     description.add(this.user.getTranslation(reference + "member",
-                        "[name]", this.addon.getPlayers().getName(member)));
+                        Constants.PARAMETER_NAME, this.addon.getPlayers().getName(member)));
                 }
             });
         }
@@ -173,7 +173,7 @@ public class ListUsersPanel extends CommonPagedPanel
         }
 
         return new PanelItemBuilder().
-            name(this.user.getTranslation(reference + "name", "[name]", player.getName())).
+            name(this.user.getTranslation(reference + "name", Constants.PARAMETER_NAME, player.getName())).
             icon(player.getName()).
             description(description).
             glow(this.operationMode == Mode.RESET_ALL && this.selectedPlayer == player).

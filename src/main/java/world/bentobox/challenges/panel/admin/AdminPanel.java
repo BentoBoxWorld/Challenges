@@ -218,7 +218,7 @@ public class AdminPanel extends CommonPanel
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "write-name"),
                         this.user.getTranslation(Constants.CONVERSATIONS + "new-object-created",
-                            Constants.WORLD, this.world.getName()),
+                            Constants.PARAMETER_WORLD, this.world.getName()),
                         Constants.CONVERSATIONS + "object-already-exists");
 
                     return true;
@@ -262,7 +262,7 @@ public class AdminPanel extends CommonPanel
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "write-name"),
                         this.user.getTranslation(Constants.CONVERSATIONS + "new-object-created",
-                            Constants.GAMEMODE, Utils.getGameMode(this.world)),
+                            Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)),
                         Constants.CONVERSATIONS + "object-already-exists");
 
                     return true;
@@ -379,7 +379,7 @@ public class AdminPanel extends CommonPanel
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "exported-file-name"),
                         this.user.getTranslation(Constants.CONVERSATIONS + "database-export-completed",
-                            Constants.WORLD, world.getName()),
+                            Constants.PARAMETER_WORLD, world.getName()),
                         Constants.CONVERSATIONS + "file-name-exist");
 
                     return true;
@@ -438,9 +438,9 @@ public class AdminPanel extends CommonPanel
                             consumer,
                             this.user,
                             this.user.getTranslation(Constants.CONVERSATIONS + "confirm-all-data-deletion",
-                                Constants.GAMEMODE, Utils.getGameMode(this.world)),
+                                Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)),
                             this.user.getTranslation(Constants.CONVERSATIONS + "all-data-removed",
-                                Constants.GAMEMODE, Utils.getGameMode(this.world)));
+                                Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)));
                     }
 
                     return true;
@@ -477,9 +477,9 @@ public class AdminPanel extends CommonPanel
                             consumer,
                             this.user,
                             this.user.getTranslation(Constants.CONVERSATIONS + "confirm-challenge-data-deletion",
-                                Constants.GAMEMODE, Utils.getGameMode(this.world)),
+                                Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)),
                             this.user.getTranslation(Constants.CONVERSATIONS + "challenge-data-removed",
-                                Constants.GAMEMODE, Utils.getGameMode(this.world)));
+                                Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)));
                     }
 
                     return true;
@@ -508,9 +508,9 @@ public class AdminPanel extends CommonPanel
                         consumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "confirm-user-data-deletion",
-                            Constants.GAMEMODE, Utils.getGameMode(this.world)),
+                            Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)),
                         this.user.getTranslation(Constants.CONVERSATIONS + "user-data-removed",
-                            Constants.GAMEMODE, Utils.getGameMode(this.world)));
+                            Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world)));
 
                     return true;
                 };

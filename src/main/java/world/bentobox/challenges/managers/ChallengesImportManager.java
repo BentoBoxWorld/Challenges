@@ -82,7 +82,7 @@ public class ChallengesImportManager
         {
             if (user != null)
             {
-                Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-file", Constants.FILE, file));
+                Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-file", Constants.PARAMETER_FILE, file));
             }
 
             return;
@@ -99,7 +99,7 @@ public class ChallengesImportManager
             if (user != null)
             {
                 Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-load",
-                    Constants.FILE, file, TextVariables.DESCRIPTION, e.getMessage()));
+                    Constants.PARAMETER_FILE, file, TextVariables.DESCRIPTION, e.getMessage()));
             }
             else
             {
@@ -117,7 +117,7 @@ public class ChallengesImportManager
             {
                 Utils.sendMessage(user,
                     user.getTranslation(Constants.ERRORS + "not-a-gamemode-world",
-                        Constants.WORLD, world.getName()));
+                        Constants.PARAMETER_WORLD, world.getName()));
             }
             else
             {
@@ -805,7 +805,7 @@ public class ChallengesImportManager
             {
                 Utils.sendMessage(user,
                     user.getTranslation(Constants.ERRORS + "file-exist",
-                        Constants.FILE, fileName));
+                        Constants.PARAMETER_FILE, fileName));
             }
             else
             {
@@ -872,7 +872,7 @@ public class ChallengesImportManager
             {
                 Utils.sendMessage(user,
                     user.getTranslation(Constants.ERRORS + "no-load",
-                        Constants.FILE, fileName,
+                        Constants.PARAMETER_FILE, fileName,
                         TextVariables.DESCRIPTION, e.getMessage()));
             }
 
@@ -884,8 +884,8 @@ public class ChallengesImportManager
             {
                 Utils.sendMessage(user,
                     user.getTranslation(Constants.CONVERSATIONS + "database-export-completed",
-                        Constants.WORLD, world.getName(),
-                        Constants.FILE, fileName));
+                        Constants.PARAMETER_WORLD, world.getName(),
+                        Constants.PARAMETER_FILE, fileName));
             }
             else
             {

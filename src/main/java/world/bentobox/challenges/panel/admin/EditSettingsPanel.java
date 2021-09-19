@@ -269,7 +269,7 @@ public class EditSettingsPanel extends CommonPanel
             }
             case PURGE_HISTORY -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.settings.getLifeSpan())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.settings.getLifeSpan())));
 
                 icon = new ItemStack(Material.FLINT_AND_STEEL, Math.max(1, this.settings.getLifeSpan()));
                 clickHandler = (panel, user, clickType, i) -> {
@@ -379,7 +379,7 @@ public class EditSettingsPanel extends CommonPanel
             }
             case TITLE_SHOWTIME -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.settings.getTitleShowtime())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.settings.getTitleShowtime())));
 
                 icon = new ItemStack(Material.CLOCK, Math.max(1, this.settings.getTitleShowtime()));
                 clickHandler = (panel, user, clickType, i) -> {

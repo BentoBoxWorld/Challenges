@@ -14,11 +14,9 @@ import org.eclipse.jdt.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.addons.GameModeAddon;
-import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.TemplatedPanel;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -147,7 +145,7 @@ public class GameModePanel extends CommonPanel
         if (template.title() != null && !template.title().isBlank())
         {
             builder.name(this.user.getTranslation(this.world, template.title(),
-                Constants.GAMEMODE, gameModeAddon.getDescription().getName()));
+                Constants.PARAMETER_GAMEMODE, gameModeAddon.getDescription().getName()));
         }
         else
         {
@@ -258,7 +256,7 @@ public class GameModePanel extends CommonPanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(this.world, template.description()),
-                Constants.NUMBER, String.valueOf(nextPageIndex));
+                Constants.PARAMETER_NUMBER, String.valueOf(nextPageIndex));
         }
 
         // Add ClickHandler
@@ -334,7 +332,7 @@ public class GameModePanel extends CommonPanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(this.world, template.description()),
-                Constants.NUMBER, String.valueOf(previousPageIndex));
+                Constants.PARAMETER_NUMBER, String.valueOf(previousPageIndex));
         }
 
         // Add ClickHandler

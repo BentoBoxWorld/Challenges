@@ -167,11 +167,11 @@ public class ListChallengesPanel extends CommonPagedPanel
                     consumer,
                     this.user,
                     this.user.getTranslation(Constants.CONVERSATIONS + "confirm-challenge-deletion",
-                        Constants.GAMEMODE, Utils.getGameMode(this.world),
-                        Constants.CHALLENGE, challenge.getFriendlyName()),
+                        Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.PARAMETER_CHALLENGE, challenge.getFriendlyName()),
                     this.user.getTranslation(Constants.CONVERSATIONS + "challenge-removed",
-                        Constants.GAMEMODE, Utils.getGameMode(this.world),
-                        Constants.CHALLENGE, challenge.getFriendlyName()));
+                        Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.PARAMETER_CHALLENGE, challenge.getFriendlyName()));
                 return true;
             });
         }

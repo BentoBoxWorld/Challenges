@@ -401,7 +401,7 @@ public class EditLevelPanel extends CommonPagedPanel
             }
             case REWARD_EXPERIENCE -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challengeLevel.getRewardExperience())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getRewardExperience())));
                 icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -428,7 +428,7 @@ public class EditLevelPanel extends CommonPagedPanel
             }
             case REWARD_MONEY -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challengeLevel.getRewardMoney())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getRewardMoney())));
                 icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -500,7 +500,7 @@ public class EditLevelPanel extends CommonPagedPanel
             }
             case NAME -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    "[name]", this.challengeLevel.getFriendlyName()));
+                    Constants.PARAMETER_NAME, this.challengeLevel.getFriendlyName()));
 
                 icon = new ItemStack(Material.NAME_TAG);
 
@@ -602,7 +602,7 @@ public class EditLevelPanel extends CommonPagedPanel
             }
             case ORDER -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challengeLevel.getOrder())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getOrder())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challengeLevel.getOrder()));
                 clickHandler = (panel, user, clickType, i) -> {
@@ -631,7 +631,7 @@ public class EditLevelPanel extends CommonPagedPanel
             }
             case WAIVER_AMOUNT -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challengeLevel.getWaiverAmount())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getWaiverAmount())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challengeLevel.getWaiverAmount()));
                 clickHandler = (panel, user, clickType, i) -> {

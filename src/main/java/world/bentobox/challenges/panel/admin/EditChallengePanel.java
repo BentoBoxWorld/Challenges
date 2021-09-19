@@ -377,7 +377,7 @@ public class EditChallengePanel extends CommonPanel
         {
             case NAME -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    "[name]", this.challenge.getFriendlyName()));
+                    Constants.PARAMETER_NAME, this.challenge.getFriendlyName()));
 
                 icon = new ItemStack(Material.NAME_TAG);
 
@@ -501,7 +501,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case ORDER -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getOrder())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getOrder())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challenge.getOrder()));
                 clickHandler = (panel, user, clickType, i) -> {
@@ -801,7 +801,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case SEARCH_RADIUS -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(requirements.getSearchRadius())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(requirements.getSearchRadius())));
                 icon = new ItemStack(Material.COBBLESTONE_WALL);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -959,7 +959,7 @@ public class EditChallengePanel extends CommonPanel
         {
             case REQUIRED_EXPERIENCE -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(requirements.getRequiredExperience())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredExperience())));
                 icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1001,7 +1001,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REQUIRED_LEVEL -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(requirements.getRequiredIslandLevel())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredIslandLevel())));
                 icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1028,7 +1028,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REQUIRED_MONEY -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(requirements.getRequiredMoney())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredMoney())));
                 icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1132,7 +1132,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case STATISTIC_AMOUNT -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(requirements.getAmount())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(requirements.getAmount())));
                 icon = new ItemStack(Material.CHEST);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1371,7 +1371,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REWARD_EXPERIENCE -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getRewardExperience())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRewardExperience())));
                 icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1398,7 +1398,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REWARD_MONEY -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getRewardMoney())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRewardMoney())));
                 icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1485,7 +1485,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REPEAT_COUNT -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getMaxTimes())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getMaxTimes())));
                 icon = new ItemStack(Material.COBBLESTONE_WALL);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1594,7 +1594,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REPEAT_REWARD_EXPERIENCE -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getRepeatExperienceReward())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRepeatExperienceReward())));
                 icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {
@@ -1621,7 +1621,7 @@ public class EditChallengePanel extends CommonPanel
             }
             case REPEAT_REWARD_MONEY -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.NUMBER, String.valueOf(this.challenge.getRepeatMoneyReward())));
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRepeatMoneyReward())));
                 icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
                     Consumer<Number> numberConsumer = number -> {

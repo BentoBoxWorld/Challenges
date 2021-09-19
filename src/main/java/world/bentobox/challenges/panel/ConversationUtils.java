@@ -198,7 +198,7 @@ public class ConversationUtils
                     String invalidInput)
             {
                 return user.getTranslation(failTranslationLocation,
-                        Constants.ID,
+                        Constants.PARAMETER_ID,
                         Utils.sanitizeInput(invalidInput));
             }
 
@@ -303,7 +303,7 @@ public class ConversationUtils
             @Override
             protected String getInputNotNumericText(ConversationContext context, String invalidInput)
             {
-                return user.getTranslation(Constants.CONVERSATIONS + "numeric-only", Constants.VALUE, invalidInput);
+                return user.getTranslation(Constants.CONVERSATIONS + "numeric-only", Constants.PARAMETER_VALUE, invalidInput);
             }
 
 
@@ -319,9 +319,9 @@ public class ConversationUtils
             protected String getFailedValidationText(ConversationContext context, Number invalidInput)
             {
                 return user.getTranslation(Constants.CONVERSATIONS + "not-valid-value",
-                        Constants.VALUE, invalidInput.toString(),
-                        Constants.MIN, Double.toString(minValue.doubleValue()),
-                        Constants.MAX, Double.toString(maxValue.doubleValue()));
+                        Constants.PARAMETER_VALUE, invalidInput.toString(),
+                        Constants.PARAMETER_MIN, Double.toString(minValue.doubleValue()),
+                        Constants.PARAMETER_MAX, Double.toString(maxValue.doubleValue()));
             }
 
 

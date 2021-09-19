@@ -90,7 +90,7 @@ public class MultiplePanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(template.description(),
-                Constants.NUMBER, String.valueOf(increaseValue)));
+                Constants.PARAMETER_NUMBER, String.valueOf(increaseValue)));
         }
 
         // Add ClickHandler
@@ -144,7 +144,7 @@ public class MultiplePanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(template.description(),
-                Constants.NUMBER, String.valueOf(decreaseValue)));
+                Constants.PARAMETER_NUMBER, String.valueOf(decreaseValue)));
         }
 
         // Add ClickHandler
@@ -196,7 +196,7 @@ public class MultiplePanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(template.description(),
-                Constants.NUMBER, String.valueOf(completionValue)));
+                Constants.PARAMETER_NUMBER, String.valueOf(completionValue)));
         }
 
         // Add ClickHandler

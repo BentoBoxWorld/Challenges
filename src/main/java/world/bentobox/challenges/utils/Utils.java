@@ -9,12 +9,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
 
 
@@ -188,74 +195,687 @@ public class Utils
 	}
 
 
-
+	/**
+	 * Prettify World.Environment object for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified string for World.Environment.
+	 */
 	public static String prettifyObject(World.Environment object, User user)
 	{
-		return Util.prettifyText(object.name());
-	}
+		// Find addon structure with:
+		// [addon]:
+		//   environments:
+		//     [environment]:
+		//       name: [name]
+		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + ".name");
 
-	public static String prettifyObject(@Nullable Material object, User user)
-	{
-		if (object == null)
+		if (!translation.isEmpty())
 		{
-			return "";
+			// We found our translation.
+			return translation;
 		}
 
-		return Util.prettifyText(object.name());
-	}
+		// Find addon structure with:
+		// [addon]:
+		//   environments:
+		//     [environment]: [name]
 
+		translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase());
 
-	public static String prettifyObject(@Nullable EntityType object, User user)
-	{
-		if (object == null)
+		if (!translation.isEmpty())
 		{
-			return "";
+			// We found our translation.
+			return translation;
 		}
 
-		return Util.prettifyText(object.name());
-	}
+		// Find general structure with:
+		// environments:
+		//   [environment]: [name]
 
+		translation = user.getTranslationOrNothing("environments." + object.name().toLowerCase());
 
-	public static String prettifyObject(@Nullable ItemStack object, User user)
-	{
-		if (object == null)
+		if (!translation.isEmpty())
 		{
-			return "";
+			// We found our translation.
+			return translation;
 		}
 
-		return Util.prettifyText(object.getType().name());
-	}
+		// Lang Utils do not have Environment :(
+		//LangUtilsHook.getEnvrionmentName(object, user);
 
-
-	public static String prettifyObject(@Nullable Statistic object, User user)
-	{
-		if (object == null)
-		{
-			return "";
-		}
-
-		return Util.prettifyText(object.name());
-	}
-
-
-	public static String prettifyDescription(@Nullable Statistic object, User user)
-	{
-		if (object == null)
-		{
-			return "";
-		}
-
+		// Nothing was found. Use just a prettify text function.
 		return Util.prettifyText(object.name());
 	}
 
 
+	/**
+	 * Prettify World.Environment object description for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified description string for World.Environment.
+	 */
 	public static String prettifyDescription(World.Environment object, User user)
 	{
+		// Find addon structure with:
+		// [addon]:
+		//   environments:
+		//     [environment]:
+		//       description: [text]
+		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + ".description");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// No text to return.
+		return "";
+	}
+
+
+	/**
+	 * Prettify Material object for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified string for Material.
+	 */
+	public static String prettifyObject(@Nullable Material object, User user)
+	{
+		// Nothing to translate
 		if (object == null)
 		{
 			return "";
 		}
 
+		// Find addon structure with:
+		// [addon]:
+		//   materials:
+		//     [material]:
+		//       name: [name]
+		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + ".name");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   materials:
+		//     [material]: [name]
+
+		translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find general structure with:
+		// materials:
+		//   [material]: [name]
+
+		translation = user.getTranslationOrNothing("materials." + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Use Lang Utils Hook to translate material
+		return LangUtilsHook.getMaterialName(object, user);
+	}
+
+
+	/**
+	 * Prettify Material object description for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified description string for Material.
+	 */
+	public static String prettifyDescription(@Nullable Material object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   materials:
+		//     [material]:
+		//       description: [text]
+		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + ".description");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// No text to return.
+		return "";
+	}
+
+
+	/**
+	 * Prettify EntityType object for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified string for EntityType.
+	 */
+	public static String prettifyObject(@Nullable EntityType object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   entities:
+		//     [entity]:
+		//       name: [name]
+		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + ".name");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   entities:
+		//     [entity]: [name]
+
+		translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find general structure with:
+		// entities:
+		//   [entity]: [name]
+
+		translation = user.getTranslationOrNothing("entities." + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Use Lang Utils Hook to translate material
+		return LangUtilsHook.getEntityName(object, user);
+	}
+
+
+	/**
+	 * Prettify EntityType object description for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified description string for EntityType.
+	 */
+	public static String prettifyDescription(@Nullable EntityType object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   entities:
+		//     [entity]:
+		//       description: [text]
+		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + ".description");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// No text to return.
+		return "";
+	}
+
+
+	/**
+	 * Prettify Statistic object for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified string for Statistic.
+	 */
+	public static String prettifyObject(@Nullable Statistic object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   statistics:
+		//     [statistic]:
+		//       name: [name]
+		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + ".name");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   statistics:
+		//     [statistic]: [name]
+
+		translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find general structure with:
+		// statistics:
+		//   [statistic]: [name]
+
+		translation = user.getTranslationOrNothing("statistics." + object.name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Use Lang Utils Hook to translate material
+		//return LangUtilsHook.getStatisticName(object, user);
 		return Util.prettifyText(object.name());
+	}
+
+
+	/**
+	 * Prettify Statistic object description for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified description string for Statistic.
+	 */
+	public static String prettifyDescription(@Nullable Statistic object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   statistics:
+		//     [statistic]:
+		//       description: [text]
+		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + ".description");
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// No text to return.
+		return "";
+	}
+
+
+	/**
+	 * Prettify ItemStack object for user.
+	 * @param object Object that must be pretty.
+	 * @param user User who will see the object.
+	 * @return Prettified string for ItemStack.
+	 */
+	public static String prettifyObject(@Nullable ItemStack object, User user)
+	{
+		// Nothing to translate
+		if (object == null)
+		{
+			return "";
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   item-stacks:
+		//     [material]: ...
+		//     meta:
+		//       potion-type: ...
+		//       ...
+		//     generic: [amount] [name] [meta]
+		String translation;
+		switch (object.getType())
+		{
+			case POTION, SPLASH_POTION, LINGERING_POTION, TIPPED_ARROW -> {
+				// Get Potion Meta
+				translation = prettifyObject(object, (PotionMeta) object.getItemMeta(), user);
+			}
+			case PLAYER_HEAD, PLAYER_WALL_HEAD -> {
+				translation = prettifyObject(object, (SkullMeta) object.getItemMeta(), user);
+			}
+			case ENCHANTED_BOOK -> {
+				translation = prettifyObject(object, (EnchantmentStorageMeta) object.getItemMeta(), user);
+			}
+			case WRITTEN_BOOK, WRITABLE_BOOK -> {
+				translation = prettifyObject(object, (BookMeta) object.getItemMeta(), user);
+			}
+			case LEATHER_BOOTS,LEATHER_CHESTPLATE,LEATHER_HELMET,LEATHER_LEGGINGS,LEATHER_HORSE_ARMOR,
+				TRIDENT,CROSSBOW,CHAINMAIL_HELMET,CHAINMAIL_CHESTPLATE,CHAINMAIL_LEGGINGS,CHAINMAIL_BOOTS,IRON_HELMET,
+				IRON_CHESTPLATE,IRON_LEGGINGS,IRON_BOOTS,DIAMOND_HELMET,DIAMOND_CHESTPLATE,DIAMOND_LEGGINGS,DIAMOND_BOOTS,
+				GOLDEN_HELMET,GOLDEN_CHESTPLATE,GOLDEN_LEGGINGS,GOLDEN_BOOTS,NETHERITE_HELMET,NETHERITE_CHESTPLATE,
+				NETHERITE_LEGGINGS,NETHERITE_BOOTS,WOODEN_SWORD,WOODEN_SHOVEL,WOODEN_PICKAXE,WOODEN_AXE,WOODEN_HOE,
+				STONE_SWORD,STONE_SHOVEL,STONE_PICKAXE,STONE_AXE,STONE_HOE,GOLDEN_SWORD,GOLDEN_SHOVEL,GOLDEN_PICKAXE,
+				GOLDEN_AXE,GOLDEN_HOE,IRON_SWORD,IRON_SHOVEL,IRON_PICKAXE,IRON_AXE,IRON_HOE,DIAMOND_SWORD,DIAMOND_SHOVEL,
+				DIAMOND_PICKAXE,DIAMOND_AXE,DIAMOND_HOE,NETHERITE_SWORD,NETHERITE_SHOVEL,NETHERITE_PICKAXE,NETHERITE_AXE,
+				NETHERITE_HOE,TURTLE_HELMET,SHEARS,SHIELD,FLINT_AND_STEEL,BOW -> {
+				translation = prettifyObject(object, object.getItemMeta(), user);
+			}
+			default ->
+				translation = "";
+		}
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find addon structure with:
+		// [addon]:
+		//   materials:
+		//     [material]: [name]
+
+		translation = user.getTranslationOrNothing(Constants.MATERIALS + object.getType().name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Find general structure with:
+		// materials:
+		//   [material]: [name]
+
+		translation = user.getTranslationOrNothing("materials." + object.getType().name().toLowerCase());
+
+		if (!translation.isEmpty())
+		{
+			// We found our translation.
+			return translation;
+		}
+
+		// Use Lang Utils
+		return LangUtilsHook.getItemDisplayName(object, user);
+	}
+
+
+	/**
+	 * Prettify enchant string.
+	 *
+	 * @param enchantment the enchantment
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(Enchantment enchantment, User user)
+	{
+		if (enchantment == null)
+		{
+			return "";
+		}
+
+		String type = user.getTranslationOrNothing(Constants.ITEM_STACKS + "enchant." + enchantment.getKey().getKey());
+
+		if (type.isEmpty())
+		{
+			type = LangUtilsHook.getEnchantName(enchantment, user);
+		}
+
+		return type;
+	}
+
+
+	/**
+	 * Prettify effect string.
+	 *
+	 * @param effect the enchantment
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(PotionEffectType effect, User user)
+	{
+		if (effect == null)
+		{
+			return "";
+		}
+
+		String type = user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion-effect." + effect.getName().toLowerCase());
+
+		if (type.isEmpty())
+		{
+			type = LangUtilsHook.getPotionEffectName(effect, user);
+		}
+
+		return type;
+	}
+
+
+	/**
+	 * Prettify potion item string.
+	 *
+	 * @param item the item
+	 * @param potionMeta the potion meta
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(ItemStack item, @Nullable PotionMeta potionMeta, User user)
+	{
+		if (potionMeta == null)
+		{
+			return "";
+		}
+
+		Material itemType = item.getType();
+
+		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
+		final String metaReference = Constants.ITEM_STACKS + "meta.";
+
+		PotionData potionData = potionMeta.getBasePotionData();
+
+		// Check custom translation for potions.
+		String type = user.getTranslationOrNothing(itemReference + potionData.getType().name().toLowerCase());
+
+		if (type.isEmpty())
+		{
+			// Check potion types translation.
+			type = prettifyObject(potionData.getType().getEffectType(), user);
+		}
+
+		String upgraded = user.getTranslationOrNothing(metaReference + "upgraded");
+		String extended = user.getTranslationOrNothing(metaReference + "extended");
+
+		// Get item specific translation.
+		String specific = user.getTranslationOrNothing(itemReference + "name",
+			"[type]", type,
+			"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
+			"[extended]", (potionData.isExtended() ? extended : ""));
+
+		if (specific.isEmpty())
+		{
+			// Use generic translation.
+			String meta = user.getTranslationOrNothing(metaReference + "potion-meta",
+				"[type]", type,
+				"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
+				"[extended]", (potionData.isExtended() ? extended : ""));
+
+			specific = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
+				"[type]", prettifyObject(itemType, user),
+				"[meta]", meta);
+		}
+
+		return specific;
+	}
+
+
+	/**
+	 * Prettify skull item string.
+	 *
+	 * @param item the item
+	 * @param skullMeta the skull meta
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(ItemStack item, @Nullable SkullMeta skullMeta, User user)
+	{
+		if (skullMeta == null)
+		{
+			return "";
+		}
+
+		Material itemType = item.getType();
+		final String metaReference = Constants.ITEM_STACKS + "meta.";
+
+		String meta = user.getTranslationOrNothing(metaReference + "skull-meta",
+			"[player-name]", skullMeta.getDisplayName());
+
+		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
+			"[type]", prettifyObject(itemType, user),
+			"[meta]", meta);
+	}
+
+
+	/**
+	 * Prettify item string.
+	 *
+	 * @param item the item
+	 * @param itemMeta the item meta
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(ItemStack item, @Nullable ItemMeta itemMeta, User user)
+	{
+		if (itemMeta == null)
+		{
+			return "";
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		itemMeta.getEnchants().forEach((enchantment, level) -> {
+			builder.append("\n");
+			builder.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "meta.enchant-meta",
+				"[type]", prettifyObject(enchantment, user),
+				"[level]", String.valueOf(level)));
+		});
+
+
+		Material itemType = item.getType();
+		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
+
+		String translation = user.getTranslationOrNothing(itemReference + "name",
+			"[type]", prettifyObject(itemType, user),
+			"[enchant]", builder.toString());
+
+		if (translation.isEmpty())
+		{
+			translation = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
+				"[type]", prettifyObject(itemType, user),
+				"[meta]", builder.toString());
+		}
+
+		return translation;
+	}
+
+
+	/**
+	 * Prettify enchantment storage string.
+	 *
+	 * @param item the item
+	 * @param enchantmentMeta the enchantment storage meta
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(ItemStack item, @Nullable EnchantmentStorageMeta enchantmentMeta, User user)
+	{
+		if (enchantmentMeta == null)
+		{
+			return "";
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		enchantmentMeta.getEnchants().forEach((enchantment, level) -> {
+			builder.append("\n");
+			builder.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "meta.enchant-meta",
+				"[type]", prettifyObject(enchantment, user),
+				"[level]", String.valueOf(level)));
+		});
+
+
+		Material itemType = item.getType();
+		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
+
+		String translation = user.getTranslationOrNothing(itemReference + "name",
+			"[type]", prettifyObject(itemType, user),
+			"[enchant]", builder.toString());
+
+		if (translation.isEmpty())
+		{
+			translation = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
+				"[type]", prettifyObject(itemType, user),
+				"[meta]", builder.toString());
+		}
+
+		return translation;
+	}
+
+
+	/**
+	 * Prettify book item string.
+	 *
+	 * @param item the item
+	 * @param bookMeta the book meta
+	 * @param user the user
+	 * @return the string
+	 */
+	public static String prettifyObject(ItemStack item, @Nullable BookMeta bookMeta, User user)
+	{
+		if (bookMeta == null)
+		{
+			return "";
+		}
+
+		Material itemType = item.getType();
+		final String metaReference = Constants.ITEM_STACKS + "meta.";
+
+		String meta = user.getTranslationOrNothing(metaReference + "book-meta",
+			"[title]", bookMeta.getTitle(),
+			"[author]", bookMeta.getAuthor());
+
+		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
+			"[type]", prettifyObject(itemType, user),
+			"[meta]", meta);
 	}
 }

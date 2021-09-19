@@ -128,7 +128,7 @@ public abstract class CommonPagedPanel extends CommonPanel
         if (button == CommonButtons.NEXT)
         {
             description.add(this.user.getTranslation(reference + "description",
-                Constants.NUMBER, String.valueOf(this.pageIndex + 2)));
+                Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex + 2)));
 
             icon = new ItemStack(Material.OAK_SIGN, this.pageIndex + 2);
             clickHandler = (panel, user, clickType, slot) ->
@@ -141,7 +141,7 @@ public abstract class CommonPagedPanel extends CommonPanel
         else if (button == CommonButtons.PREVIOUS)
         {
             description.add(this.user.getTranslation(reference + "description",
-                Constants.NUMBER, String.valueOf(this.pageIndex)));
+                Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex)));
 
             icon = new ItemStack(Material.OAK_SIGN, Math.max(1, this.pageIndex));
             clickHandler = (panel, user, clickType, slot) ->

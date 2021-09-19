@@ -166,11 +166,11 @@ public class ListLevelsPanel extends CommonPagedPanel
                     consumer,
                     this.user,
                     this.user.getTranslation(Constants.CONVERSATIONS + "confirm-level-deletion",
-                        Constants.GAMEMODE, Utils.getGameMode(this.world),
-                        Constants.LEVEL, challengeLevel.getFriendlyName()),
+                        Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.PARAMETER_LEVEL, challengeLevel.getFriendlyName()),
                     this.user.getTranslation(Constants.CONVERSATIONS + "level-removed",
-                        Constants.GAMEMODE, Utils.getGameMode(this.world),
-                        Constants.LEVEL, challengeLevel.getFriendlyName()));
+                        Constants.PARAMETER_GAMEMODE, Utils.getGameMode(this.world),
+                        Constants.PARAMETER_LEVEL, challengeLevel.getFriendlyName()));
                 return true;
             });
         }

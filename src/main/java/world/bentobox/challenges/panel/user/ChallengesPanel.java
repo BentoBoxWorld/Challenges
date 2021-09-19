@@ -224,7 +224,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.title() != null && !template.title().isBlank())
         {
             builder.name(this.user.getTranslation(this.world, template.title(),
-                Constants.CHALLENGE, challenge.getFriendlyName()));
+                Constants.PARAMETER_CHALLENGE, challenge.getFriendlyName()));
         }
         else
         {
@@ -402,7 +402,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.title() != null && !template.title().isBlank())
         {
             builder.name(this.user.getTranslation(this.world, template.title(),
-                Constants.LEVEL, level.getLevel().getFriendlyName()));
+                Constants.PARAMETER_LEVEL, level.getLevel().getFriendlyName()));
         }
         else
         {
@@ -580,7 +580,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(this.world, template.description()),
-                Constants.NUMBER, String.valueOf(nextPageIndex));
+                Constants.PARAMETER_NUMBER, String.valueOf(nextPageIndex));
         }
 
         // Add ClickHandler
@@ -673,7 +673,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.description() != null)
         {
             builder.description(this.user.getTranslation(this.world, template.description()),
-                Constants.NUMBER, String.valueOf(previousPageIndex));
+                Constants.PARAMETER_NUMBER, String.valueOf(previousPageIndex));
         }
 
         // Add ClickHandler

@@ -57,16 +57,6 @@ public class Constants
     public static final String BUTTON = GUI + "buttons.";
 
     /**
-     * Reference string to Biome group Buttons in translations.
-     */
-    public static final String BIOME_GROUP_BUTTON = BUTTON + "biome-groups.";
-
-    /**
-     * Reference string to generator type Buttons in translations.
-     */
-    public static final String GENERATOR_TYPE_BUTTON = BUTTON + "generator-types.";
-
-    /**
      * Reference string to TIPS in translations.
      */
     public static final String TIPS = GUI + "tips.";
@@ -96,11 +86,6 @@ public class Constants
 // ---------------------------------------------------------------------
 
     /**
-     * Reference string to Biomes in translations.
-     */
-    public static final String BIOMES = ADDON_NAME + "biomes.";
-
-    /**
      * Reference string to materials in translations.
      */
     public static final String MATERIALS = ADDON_NAME + "materials.";
@@ -111,181 +96,131 @@ public class Constants
     public static final String ENTITIES = ADDON_NAME + "entities.";
 
     /**
-     * Reference string to Types in translations.
+     * Reference string to environments in translations.
      */
-    public static final String TYPES = ADDON_NAME + "types.";
+    public static final String ENVIRONMENTS = ADDON_NAME + "environments.";
+
+    /**
+     * Reference string to statistics in translations.
+     */
+    public static final String STATISTICS = ADDON_NAME + "statistics.";
+
+    /**
+     * Reference string to item stacks in translations.
+     */
+    public static final String ITEM_STACKS = ADDON_NAME + "item-stacks.";
 
 // ---------------------------------------------------------------------
 // Section: Parameters
 // ---------------------------------------------------------------------
 
     /**
-     * Reference string to generator parameter in translations.
-     */
-    public static final String GENERATOR = "[generator]";
-
-    /**
-     * Reference string to bundle parameter in translations.
-     */
-    public static final String BUNDLE = "[bundle]";
-
-    /**
      * Reference string to gamemode parameter in translations.
      */
-    public static final String GAMEMODE = "[gamemode]";
+    public static final String PARAMETER_GAMEMODE = "[gamemode]";
 
     /**
      * Reference string to world parameter in translations.
      */
-    public static final String WORLD = "[world]";
+    public static final String PARAMETER_WORLD = "[world]";
 
     /**
      * Reference string to value parameter in translations.
      */
-    public static final String VALUE = "[value]";
+    public static final String PARAMETER_VALUE = "[value]";
 
     /**
      * Reference string to block parameter in translations.
      */
-    public static final String BLOCK = "[material]";
+    public static final String PARAMETER_MATERIAL = "[material]";
 
+    /**
+     * Reference string to entity parameter in translations.
+     */
+    public static final String PARAMETER_ENTITY = "[entity]";
+
+    /**
+     * Reference string to environment parameter in translations.
+     */
+    public static final String PARAMETER_ENVIRONMENT = "[environment]";
+    
     /**
      * Reference string to file parameter in translations.
      */
-    public static final String FILE = "[file]";
+    public static final String PARAMETER_FILE = "[file]";
 
     /**
      * Reference string to id parameter in translations.
      */
-    public static final String ID = "[id]";
+    public static final String PARAMETER_ID = "[id]";
 
     /**
      * Reference string to min parameter in translations.
      */
-    public static final String MIN = "[min]";
+    public static final String PARAMETER_MIN = "[min]";
 
     /**
      * Reference string to max parameter in translations.
      */
-    public static final String MAX = "[max]";
+    public static final String PARAMETER_MAX = "[max]";
 
     /**
      * Reference to an author parameter in translation.
      */
-    public static final String AUTHOR = "[author]";
+    public static final String PARAMETER_AUTHOR = "[author]";
 
     /**
      * Reference to an lang parameter in translation.
      */
-    public static final String LANG = "[lang]";
+    public static final String PARAMETER_LANG = "[lang]";
 
     /**
      * Reference to an version parameter in translation.
      */
-    public static final String VERSION = "[version]";
-
-    /**
-     * Reference to an generators parameter in translation.
-     */
-    public static final String GENERATORS = "[generators]";
-
-    /**
-     * Reference to an bundles parameter in translation.
-     */
-    public static final String BUNDLES = "[bundles]";
-
-    /**
-     * Reference to number formant in 0.X
-     */
-    public static final String TENS = "[#.#]";
-
-    /**
-     * Reference to number formant in 0.0X
-     */
-    public static final String HUNDREDS = "[#.##]";
-
-    /**
-     * Reference to number formant in 0.00X
-     */
-    public static final String THOUSANDS = "[#.###]";
-
-    /**
-     * Reference to number formant in 0.000X
-     */
-    public static final String TEN_THOUSANDS = "[#.####]";
-
-    /**
-     * Reference to number formant in 0.0000X
-     */
-    public static final String HUNDRED_THOUSANDS = "[#.#####]";
+    public static final String PARAMETER_VERSION = "[version]";
 
     /**
      * Reference to island in translations.
      */
-    public static final String ISLAND = "[island]";
+    public static final String PARAMETER_ISLAND = "[island]";
 
     /**
      * Reference string to number parameter in translations.
      */
-    public static final String NUMBER = "[number]";
-
-    /**
-     * Reference string to type parameter in translations.
-     */
-    public static final String TYPE = "[type]";
+    public static final String PARAMETER_NUMBER = "[number]";
 
     /**
      * Reference string to permission parameter in translations.
      */
-    public static final String PERMISSION = "[permission]";
-
-    /**
-     * Reference string to biome parameter in translations.
-     */
-    public static final String BIOME = "[biome]";
+    public static final String PARAMETER_PERMISSION = "[permission]";
 
     /**
      * Reference string to player parameter in translations.
      */
-    public static final String PLAYER = "[player]";
+    public static final String PARAMETER_PLAYER = "[player]";
 
     /**
      * Reference string to owner parameter in translations.
      */
-    public static final String OWNER = "[owner]";
-
-    /**
-     * Reference string to members parameter in translations.
-     */
-    public static final String MEMBERS = "[members]";
+    public static final String PARAMETER_OWNER = "[owner]";
 
     /**
      * Reference string to name parameter in translations.
      */
-    public static final String NAME = "[name]";
+    public static final String PARAMETER_NAME = "[name]";
 
+    /**
+     * Reference string to level parameter in translations.
+     */
+    public static final String PARAMETER_LEVEL = "[level]";
+    
     /**
      * Reference string to description parameter in translations.
      */
-    public static final String DESCRIPTION = "[description]";
+    public static final String PARAMETER_DESCRIPTION = "[description]";
 
-    public static final String CHALLENGE = "[challenge]";
-
-    public static final String REQUIREMENTS = "[requirements]";
-
-    public static final String REWARDS = "[rewards]";
-
-    public static final String STATUS = "[status]";
-
-    public static final String LEVEL = "[level]";
-
-    public static final String ENVIRONMENT = "[environment]";
-
-    public static final String TYPE_REQUIREMENT = "[type-requirement]";
-
-    public static final String PERMISSIONS = "[permissions]";
-
-    public static final String MATERIAL = "[material]";
-
-    public static final String ENTITY = "[entity]";
+    /**
+     * Reference string to challenge parameter in translations.
+     */
+    public static final String PARAMETER_CHALLENGE = "[challenge]";
 }

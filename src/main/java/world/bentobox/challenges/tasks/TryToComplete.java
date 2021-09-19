@@ -41,6 +41,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -313,7 +314,7 @@ public class TryToComplete
                     forEach(user -> {
                         Utils.sendMessage(user, user.getTranslation(
                             "challenges.messages.name-has-completed-challenge",
-                            "[name]", this.user.getName(),
+                            Constants.PARAMETER_NAME, this.user.getName(),
                             "[value]", this.challenge.getFriendlyName()));
                     });
             }
@@ -423,7 +424,7 @@ public class TryToComplete
                             forEach(user -> {
                                 Utils.sendMessage(user, user.getTranslation(
                                     "challenges.messages.name-has-completed-level",
-                                    "[name]", this.user.getName(),
+                                    Constants.PARAMETER_NAME, this.user.getName(),
                                     "[value]", level.getFriendlyName()));
                             });
                     }
@@ -812,7 +813,7 @@ public class TryToComplete
             {
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
-                cmd = cmd.substring(6, cmd.length()).replace("[player]", this.user.getName()).trim();
+                cmd = cmd.substring(6, cmd.length()).replace(Constants.PARAMETER_PLAYER, this.user.getName()).trim();
                 try
                 {
                     if (!user.performCommand(cmd))
@@ -831,7 +832,7 @@ public class TryToComplete
             try
             {
                 if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(),
-                    cmd.replace("[player]", this.user.getName())))
+                    cmd.replace(Constants.PARAMETER_PLAYER, this.user.getName())))
                 {
                     this.showError(cmd);
                 }

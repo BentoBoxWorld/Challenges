@@ -156,9 +156,9 @@ public abstract class CommonPanel
         if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty())
         {
             String returnString = this.user.getTranslationOrNothing(reference + "lore",
-                Constants.REQUIREMENTS, requirements,
-                Constants.REWARDS, rewards,
-                Constants.STATUS, status);
+                "[requirements]", requirements,
+                "[rewards]", rewards,
+                "[status]", status);
 
             // remove empty lines from the generated text.
             List<String> collect =
@@ -170,9 +170,9 @@ public abstract class CommonPanel
 
             for (int i = 0; i < collect.size(); i++)
             {
-                if (collect.get(i).contains(Constants.DESCRIPTION))
+                if (collect.get(i).contains(Constants.PARAMETER_DESCRIPTION))
                 {
-                    collect.set(i, collect.get(i).replace(Constants.DESCRIPTION, description));
+                    collect.set(i, collect.get(i).replace(Constants.PARAMETER_DESCRIPTION, description));
                 }
             }
 
@@ -181,10 +181,10 @@ public abstract class CommonPanel
         else
         {
             String returnString = this.user.getTranslationOrNothing(reference + "lore",
-                Constants.DESCRIPTION, description,
-                Constants.REQUIREMENTS, requirements,
-                Constants.REWARDS, rewards,
-                Constants.STATUS, status);
+                Constants.PARAMETER_DESCRIPTION, description,
+                "[requirements]", requirements,
+                "[rewards]", rewards,
+                "[status]", status);
 
             // Remove empty lines and returns as a list.
 
@@ -214,7 +214,7 @@ public abstract class CommonPanel
         else if (challenge.getEnvironment().size() == 1)
         {
             environment = this.user.getTranslationOrNothing(reference + "environment-single",
-                Constants.ENVIRONMENT,
+                Constants.PARAMETER_ENVIRONMENT,
                 Utils.prettifyObject(challenge.getEnvironment().iterator().next(), this.user));
         }
         else
@@ -225,7 +225,7 @@ public abstract class CommonPanel
             {
                 builder.append("\n");
                 builder.append(this.user.getTranslationOrNothing(reference + "environment-single",
-                    Constants.ENVIRONMENT,
+                    Constants.PARAMETER_ENVIRONMENT,
                     Utils.prettifyObject(en, this.user)));
             });
 
@@ -247,7 +247,7 @@ public abstract class CommonPanel
             if (missingPermissions.size() == 1)
             {
                 permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permission-single",
-                    Constants.PERMISSION, missingPermissions.get(0)));
+                    Constants.PARAMETER_PERMISSION, missingPermissions.get(0)));
             }
             else if (!missingPermissions.isEmpty())
             {
@@ -256,7 +256,7 @@ public abstract class CommonPanel
                 {
                     permissionBuilder.append("\n");
                     permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permissions-list",
-                        Constants.PERMISSION, permission));
+                        Constants.PARAMETER_PERMISSION, permission));
                 });
             }
 
@@ -275,9 +275,9 @@ public abstract class CommonPanel
         };
 
         return this.user.getTranslationOrNothing(reference + "lore",
-            Constants.ENVIRONMENT, environment,
-            Constants.TYPE_REQUIREMENT, typeRequirement,
-            Constants.PERMISSIONS, permissions);
+            Constants.PARAMETER_ENVIRONMENT, environment,
+            "[type-requirement]", typeRequirement,
+            "[permissions]", permissions);
     }
 
 
@@ -305,13 +305,13 @@ public abstract class CommonPanel
                     if (entry.getValue() > 1)
                     {
                         builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
-                            Constants.NUMBER, String.valueOf(entry.getValue()),
-                            Constants.MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                            Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()),
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                     }
                     else
                     {
                         builder.append(this.user.getTranslationOrNothing(reference + "block-value",
-                            Constants.MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                     }
                 });
 
@@ -337,13 +337,13 @@ public abstract class CommonPanel
                     if (entry.getValue() > 1)
                     {
                         builder.append(this.user.getTranslationOrNothing(reference + "entities-value",
-                            Constants.NUMBER, String.valueOf(entry.getValue()),
-                            Constants.ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+                            Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()),
+                            Constants.PARAMETER_ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
                     }
                     else
                     {
                         builder.append(this.user.getTranslationOrNothing(reference + "entity-value",
-                            Constants.ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+                            Constants.PARAMETER_ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
                     }
                 });
 
@@ -355,7 +355,7 @@ public abstract class CommonPanel
         }
 
         String searchRadius = this.user.getTranslationOrNothing(reference + "search-radius",
-            Constants.NUMBER, String.valueOf(requirement.getSearchRadius()));
+            Constants.PARAMETER_NUMBER, String.valueOf(requirement.getSearchRadius()));
 
         String warningBlocks = requirement.isRemoveBlocks() ?
             this.user.getTranslationOrNothing(reference + "warning-block") : "";
@@ -547,7 +547,7 @@ public abstract class CommonPanel
             if (maxCompletions > 1)
             {
                 return this.user.getTranslationOrNothing(reference + "completed-times-reached",
-                    Constants.MAX, String.valueOf(maxCompletions));
+                    Constants.PARAMETER_MAX, String.valueOf(maxCompletions));
             }
             else
             {
@@ -559,13 +559,13 @@ public abstract class CommonPanel
             if (maxCompletions > 0)
             {
                 return this.user.getTranslationOrNothing(reference + "completed-times-of",
-                    Constants.MAX, String.valueOf(maxCompletions),
-                    Constants.NUMBER, String.valueOf(completionCount));
+                    Constants.PARAMETER_MAX, String.valueOf(maxCompletions),
+                    Constants.PARAMETER_NUMBER, String.valueOf(completionCount));
             }
             else
             {
                 return this.user.getTranslationOrNothing(reference + "completed-times",
-                    Constants.NUMBER, String.valueOf(completionCount));
+                    Constants.PARAMETER_NUMBER, String.valueOf(completionCount));
             }
         }
         else
