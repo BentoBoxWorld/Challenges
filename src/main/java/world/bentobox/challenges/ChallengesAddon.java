@@ -178,12 +178,8 @@ public class ChallengesAddon extends Addon {
 
             if (this.settings.isUseCommonGUI())
             {
-                new ChallengesGlobalPlayerCommand(this,
-                    this.settings.getGlobalUserCommand(),
-                    hookedGameModes);
-                new ChallengesGlobalAdminCommand(this,
-                    this.settings.getGlobalAdminCommand(),
-                    hookedGameModes);
+                new ChallengesGlobalPlayerCommand(this, hookedGameModes);
+                new ChallengesGlobalAdminCommand(this, hookedGameModes);
             }
 
             // Register the reset listener

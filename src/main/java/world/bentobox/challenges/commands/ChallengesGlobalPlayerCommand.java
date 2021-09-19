@@ -9,26 +9,25 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.panel.user.GameModePanel;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
  * This class provides all necessary thing to implement challenges user command
  */
-public class ChallengesUserCommand extends CompositeCommand
+public class ChallengesGlobalPlayerCommand extends CompositeCommand
 {
 	/**
 	 * Constructor that inits command with given string.
 	 * @param addon Challenges Addon
-	 * @param commands String that contains main command and its alias separated via whitespace.
 	 * @param gameModeAddons List with GameModes where challenges addon operates.
 	 */
-	public ChallengesUserCommand(ChallengesAddon addon, String commands, List<GameModeAddon> gameModeAddons)
+	public ChallengesGlobalPlayerCommand(ChallengesAddon addon, List<GameModeAddon> gameModeAddons)
 	{
 		super(addon,
-			commands.split(" ")[0],
-			commands.split(" "));
+			addon.getChallengesSettings().getPlayerGlobalCommand().split(" ")[0],
+			addon.getChallengesSettings().getPlayerGlobalCommand().split(" "));
 		this.gameModeAddons = gameModeAddons;
-		this.addon = addon;
 	}
 
 
@@ -56,10 +55,11 @@ public class ChallengesUserCommand extends CompositeCommand
 		if (this.gameModeAddons.size() == 1)
 		{
 			this.gameModeAddons.get(0).getPlayerCommand().ifPresent(compositeCommand ->
-				user.performCommand(compositeCommand.getTopLabel() + " challenges"));
+				user.performCommand(compositeCommand.getTopLabel() + " " +
+					this.<ChallengesAddon>getAddon().getChallengesSettings().getPlayerMainCommand().split(" ")[0]));
 			return true;
 		}
-		else if (this.addon.getChallengesSettings().getUserGuiMode() == GuiMode.CURRENT_WORLD)
+		else if (this.<ChallengesAddon>getAddon().getChallengesSettings().getUserGuiMode() == GuiMode.CURRENT_WORLD)
 		{
 			// Find GameMode and run command
 			for (GameModeAddon addon : this.gameModeAddons)
@@ -67,15 +67,18 @@ public class ChallengesUserCommand extends CompositeCommand
 				if (addon.inWorld(user.getWorld()))
 				{
 					addon.getPlayerCommand().ifPresent(compositeCommand ->
-						user.performCommand(compositeCommand.getTopLabel() + " challenges"));
+						user.performCommand(compositeCommand.getTopLabel() + " " +
+							this.<ChallengesAddon>getAddon().getChallengesSettings().getPlayerMainCommand().split(" ")[0]));
 
 					return true;
 				}
 			}
+
+			Utils.sendMessage(user, user.getTranslation("general.errors.wrong-world"));
 		}
-		else if (this.addon.getChallengesSettings().getUserGuiMode() == GuiMode.GAMEMODE_LIST)
+		else if (this.<ChallengesAddon>getAddon().getChallengesSettings().getUserGuiMode() == GuiMode.GAMEMODE_LIST)
 		{
-			GameModePanel.open(this.addon,
+			GameModePanel.open(this.getAddon(),
 				this.getWorld(),
 				user,
 				this.gameModeAddons,
@@ -96,9 +99,4 @@ public class ChallengesUserCommand extends CompositeCommand
 	 * List with hooked GameMode addons.
 	 */
 	private final List<GameModeAddon> gameModeAddons;
-
-	/**
-	 * Challenges addon for easier operations.
-	 */
-	private final ChallengesAddon addon;
 }

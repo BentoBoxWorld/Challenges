@@ -50,20 +50,20 @@ public class Settings implements ConfigObject
     @ConfigComment("only if `global-commands` is enabled. This allows to execute `/challenges`")
     @ConfigComment("without referring to the gamemode.")
     @ConfigEntry(path = "commands.player.global", needsRestart = true)
-    private String globalUserCommand = "challenges c";
+    private String playerGlobalCommand = "challenges c";
 
     @ConfigComment("")
     @ConfigComment("Allows to define user command for opening challenges GUI's.")
     @ConfigComment("Unlike `global` command, this requires to have gamemode player command before it.")
     @ConfigComment("This will look like: `/[player_cmd] challenges`")
     @ConfigEntry(path = "commands.player.main", needsRestart = true)
-    private String mainUserCommand = "challenges";
+    private String playerMainCommand = "challenges";
 
     @ConfigComment("")
     @ConfigComment("Allows to define complete command.")
     @ConfigComment("This will look like: `/[player_cmd] challenges complete`")
     @ConfigEntry(path = "commands.player.complete", needsRestart = true)
-    private String completeUserCommand = "complete";
+    private String playerCompleteCommand = "complete";
 
     @ConfigComment("")
     @ConfigComment("Allows to define a global challenges admin command. This command will work")
@@ -71,14 +71,14 @@ public class Settings implements ConfigObject
     @ConfigComment("without referring to the gamemode.")
     @ConfigComment("Note, this must not be the same as user global command.")
     @ConfigEntry(path = "commands.admin.global", needsRestart = true)
-    private String globalAdminCommand = "challengesadmin chadmin";
+    private String adminGlobalCommand = "challengesadmin chadmin";
 
     @ConfigComment("")
     @ConfigComment("Allows to define admin command for opening challenges GUI's.")
     @ConfigComment("Unlike `global` command, this requires to have gamemode admin command before it.")
     @ConfigComment("This will look like: `/[admin_cmd] challenges`")
     @ConfigEntry(path = "commands.admin.main", needsRestart = true)
-    private String mainAdminCommand = "challenges";
+    private String adminMainCommand = "challenges";
 
     @ConfigComment("")
     @ConfigComment("This indicate if player challenges data history will be stored or not.")
@@ -251,9 +251,9 @@ public class Settings implements ConfigObject
      * This method returns the userCommand value.
      * @return the value of userCommand.
      */
-    public String getGlobalUserCommand()
+    public String getPlayerGlobalCommand()
     {
-        return globalUserCommand;
+        return playerGlobalCommand;
     }
 
 
@@ -262,9 +262,9 @@ public class Settings implements ConfigObject
      *
      * @return the main user command
      */
-    public String getMainUserCommand()
+    public String getPlayerMainCommand()
     {
-        return mainUserCommand;
+        return playerMainCommand;
     }
 
 
@@ -273,9 +273,9 @@ public class Settings implements ConfigObject
      *
      * @return the complete user command
      */
-    public String getCompleteUserCommand()
+    public String getPlayerCompleteCommand()
     {
-        return completeUserCommand;
+        return playerCompleteCommand;
     }
 
 
@@ -284,9 +284,9 @@ public class Settings implements ConfigObject
      *
      * @return the main admin command
      */
-    public String getMainAdminCommand()
+    public String getAdminMainCommand()
     {
-        return mainAdminCommand;
+        return adminMainCommand;
     }
 
 
@@ -294,9 +294,9 @@ public class Settings implements ConfigObject
      * This method returns the adminCommand value.
      * @return the value of adminCommand.
      */
-    public String getGlobalAdminCommand()
+    public String getAdminGlobalCommand()
     {
-        return globalAdminCommand;
+        return adminGlobalCommand;
     }
 
 
@@ -516,54 +516,54 @@ public class Settings implements ConfigObject
 
     /**
      * This method sets the userCommand value.
-     * @param globalUserCommand the userCommand new value.
+     * @param playerGlobalCommand the userCommand new value.
      */
-    public void setGlobalUserCommand(String globalUserCommand)
+    public void setPlayerGlobalCommand(String playerGlobalCommand)
     {
-        this.globalUserCommand = globalUserCommand;
+        this.playerGlobalCommand = playerGlobalCommand;
     }
 
 
     /**
      * Sets main user command.
      *
-     * @param mainUserCommand the main user command
+     * @param playerMainCommand the main user command
      */
-    public void setMainUserCommand(String mainUserCommand)
+    public void setPlayerMainCommand(String playerMainCommand)
     {
-        this.mainUserCommand = mainUserCommand;
+        this.playerMainCommand = playerMainCommand;
     }
 
 
     /**
      * Sets complete user command.
      *
-     * @param completeUserCommand the complete user command
+     * @param playerCompleteCommand the complete user command
      */
-    public void setCompleteUserCommand(String completeUserCommand)
+    public void setPlayerCompleteCommand(String playerCompleteCommand)
     {
-        this.completeUserCommand = completeUserCommand;
+        this.playerCompleteCommand = playerCompleteCommand;
     }
 
 
     /**
      * Sets main admin command.
      *
-     * @param mainAdminCommand the main admin command
+     * @param adminMainCommand the main admin command
      */
-    public void setMainAdminCommand(String mainAdminCommand)
+    public void setAdminMainCommand(String adminMainCommand)
     {
-        this.mainAdminCommand = mainAdminCommand;
+        this.adminMainCommand = adminMainCommand;
     }
 
 
     /**
      * This method sets the adminCommand value.
-     * @param globalAdminCommand the adminCommand new value.
+     * @param adminGlobalCommand the adminCommand new value.
      */
-    public void setGlobalAdminCommand(String globalAdminCommand)
+    public void setAdminGlobalCommand(String adminGlobalCommand)
     {
-        this.globalAdminCommand = globalAdminCommand;
+        this.adminGlobalCommand = adminGlobalCommand;
     }
 
 

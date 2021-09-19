@@ -170,19 +170,18 @@ public class GameModePanel extends CommonPanel
             {
                 if (clickType == action.clickType())
                 {
-                    Optional<CompositeCommand> command;
-
                     if (this.adminMode)
                     {
-                        command = gameModeAddon.getAdminCommand();
+                        gameModeAddon.getAdminCommand().ifPresent(compositeCommand ->
+                            user.performCommand(compositeCommand.getTopLabel() + " " +
+                                this.addon.getChallengesSettings().getAdminMainCommand().split(" ")[0]));
                     }
                     else
                     {
-                        command = gameModeAddon.getPlayerCommand();
+                        gameModeAddon.getPlayerCommand().ifPresent(compositeCommand ->
+                            user.performCommand(compositeCommand.getTopLabel() + " " +
+                                this.addon.getChallengesSettings().getPlayerMainCommand().split(" ")[0]));
                     }
-
-                    command.ifPresent(compositeCommand ->
-                        user.performCommand(compositeCommand.getTopLabel() + " challenges"));
                 }
             }
 

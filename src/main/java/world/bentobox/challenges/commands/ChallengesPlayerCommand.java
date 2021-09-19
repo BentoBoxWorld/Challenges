@@ -9,14 +9,14 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.ChallengesPanel;
 
 
-public class ChallengesCommand extends CompositeCommand
+public class ChallengesPlayerCommand extends CompositeCommand
 {
-    public static final String CHALLENGE_COMMAND = "challenges";
-
-
-    public ChallengesCommand(ChallengesAddon addon, CompositeCommand cmd)
+    public ChallengesPlayerCommand(ChallengesAddon addon, CompositeCommand cmd)
     {
-        super(addon, cmd, CHALLENGE_COMMAND);
+        super(addon,
+            cmd,
+            addon.getChallengesSettings().getPlayerMainCommand().split(" ")[0],
+            addon.getChallengesSettings().getPlayerMainCommand().split(" "));
     }
 
 
@@ -40,9 +40,10 @@ public class ChallengesCommand extends CompositeCommand
             // Show admin better explanation.
             if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + "admin.challenges"))
             {
-                String topLabel = getIWM().getAddon(this.getWorld())
-                        .map(GameModeAddon::getAdminCommand)
-                        .map(optionalAdminCommand -> optionalAdminCommand.map(ac -> ac.getTopLabel()).orElse(this.getTopLabel())).orElse(this.getTopLabel());
+                String topLabel = this.getIWM().getAddon(this.getWorld()).
+                    map(GameModeAddon::getAdminCommand).
+                    map(optionalAdminCommand -> optionalAdminCommand.map(CompositeCommand::getTopLabel).orElse(this.getTopLabel())).
+                    orElse(this.getTopLabel());
                 user.sendMessage("challenges.errors.no-challenges-admin", "[command]", topLabel + " challenges");
             }
             else
@@ -87,7 +88,7 @@ public class ChallengesCommand extends CompositeCommand
     @Override
     public void setup()
     {
-        this.setPermission(CHALLENGE_COMMAND);
+        this.setPermission("challenges");
         this.setParametersHelp("challenges.commands.user.main.parameters");
         this.setDescription("challenges.commands.user.main.description");
 

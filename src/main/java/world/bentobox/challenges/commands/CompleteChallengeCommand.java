@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
@@ -26,10 +25,12 @@ public class CompleteChallengeCommand extends CompositeCommand
      * @param addon Challenges addon.
      * @param cmd Parent Command.
      */
-    public CompleteChallengeCommand(Addon addon, CompositeCommand cmd)
+    public CompleteChallengeCommand(ChallengesAddon addon, CompositeCommand cmd)
     {
-        super(addon, cmd, "complete");
-        this.addon = (ChallengesAddon) addon;
+        super(addon,
+            cmd,
+            addon.getChallengesSettings().getPlayerCompleteCommand().split(" ")[0],
+            addon.getChallengesSettings().getPlayerCompleteCommand().split(" "));
     }
 
 
@@ -62,11 +63,11 @@ public class CompleteChallengeCommand extends CompositeCommand
         {
             // Add world name back at the start
             String challengeName = Utils.getGameMode(this.getWorld()) + "_" + args.get(0);
-            Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
+            Challenge challenge = this.<ChallengesAddon>getAddon().getChallengesManager().getChallenge(challengeName);
 
             if (challenge != null)
             {
-                int count = args.size() == 2 ? Integer.valueOf(args.get(1)) : 1;
+                int count = args.size() == 2 ? Integer.parseInt(args.get(1)) : 1;
 
                 boolean canMultipleTimes =
                         user.hasPermission(this.getPermission() + ".multiple");
@@ -77,7 +78,7 @@ public class CompleteChallengeCommand extends CompositeCommand
                     count = 1;
                 }
 
-                return TryToComplete.complete(this.addon,
+                return TryToComplete.complete(this.getAddon(),
                         user,
                         challenge,
                         this.getWorld(),
@@ -113,10 +114,12 @@ public class CompleteChallengeCommand extends CompositeCommand
         case 3:
             
             // Create suggestions with all challenges that is available for users.
-            returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-                    filter(challenge -> challenge.startsWith(Utils.getGameMode(this.getWorld()) + "_")).
-                    map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
-                    collect(Collectors.toList()));
+            returnList.addAll(this.<ChallengesAddon>getAddon().getChallengesManager().getAllChallengesNames(this.getWorld()).
+                stream().
+                filter(challenge -> challenge.startsWith(Utils.getGameMode(this.getWorld()) + "_") ||
+                    challenge.startsWith(Utils.getGameMode(this.getWorld()).toLowerCase() + "_")).
+                map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
+                collect(Collectors.toList()));
             break;
         case 4:
             // Suggest a number of completions.
@@ -135,14 +138,4 @@ public class CompleteChallengeCommand extends CompositeCommand
 
         return Optional.of(Util.tabLimit(returnList, lastString));
     }
-
-
-    // ---------------------------------------------------------------------
-    // Section: Variables
-    // ---------------------------------------------------------------------
-
-    /**
-     * Variable that holds challenge addon. Single casting.
-     */
-    private ChallengesAddon addon;
 }

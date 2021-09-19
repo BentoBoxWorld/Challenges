@@ -1,85 +1,71 @@
 package world.bentobox.challenges.commands.admin;
 
-
 import java.util.List;
 
-import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.panel.user.GameModePanel;
+import world.bentobox.challenges.panel.admin.AdminPanel;
 
 
-/**
- * This class provides all necessary thing to implement challenges admin command
- */
 public class ChallengesAdminCommand extends CompositeCommand
 {
-	/**
-	 * Constructor that inits command with given string.
-	 * @param addon Challenges Addon
-	 * @param commands String that contains main command and its alias separated via whitespace.
-	 * @param gameModeAddons List with GameModes where challenges addon operates.
-	 */
-	public ChallengesAdminCommand(ChallengesAddon addon, String commands, List<GameModeAddon> gameModeAddons)
-	{
-		super(addon,
-			commands.split(" ")[0],
-			commands.split(" "));
-		this.gameModeAddons = gameModeAddons;
-		this.addon = addon;
-	}
+
+    /**
+     * Admin command for challenges
+     *
+     * @param parent
+     */
+    public ChallengesAdminCommand(ChallengesAddon addon, CompositeCommand parent)
+    {
+        super(addon,
+            parent,
+            addon.getChallengesSettings().getAdminMainCommand().split(" ")[0],
+            addon.getChallengesSettings().getAdminMainCommand().split(" "));
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setup()
-	{
-		this.setPermission("admin.challenges");
-		this.setParametersHelp("challenges.commands.admin.main.parameters");
-		this.setDescription("challenges.commands.admin.main.description");
-	}
+    @Override
+    public void setup()
+    {
+        this.setPermission("admin.challenges");
+        this.setParametersHelp("challenges.commands.admin.main.parameters");
+        this.setDescription("challenges.commands.admin.main.description");
+
+        // Register sub commands
+
+        // This method reloads challenges addon
+        new ReloadChallenges(getAddon(), this);
+
+        // Defaults processing command
+        new DefaultsCommand(this.getAddon(), this);
+
+        // Complete challenge command
+        new CompleteCommand(this.getAddon(), this);
+
+        // Reset challenge command
+        new ResetCommand(this.getAddon(), this);
+
+        new ShowChallenges(this.getAddon(), this);
+
+        new MigrateCommand(this.getAddon(), this);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean execute(User user, String label, List<String> args)
-	{
-		// For single game mode just open correct gui.
+    @Override
+    public boolean execute(User user, String label, List<String> args)
+    {
+        // Open up the admin challenges GUI
+        if (user.isPlayer())
+        {
+            AdminPanel.open(this.getAddon(),
+                this.getWorld(),
+                user,
+                this.getTopLabel(),
+                this.getPermissionPrefix());
 
-		if (this.gameModeAddons.size() == 1)
-		{
-			this.gameModeAddons.get(0).getAdminCommand().ifPresent(compositeCommand ->
-				user.performCommand(compositeCommand.getTopLabel() + " challenges"));
-		}
-		else
-		{
-			GameModePanel.open(this.addon,
-				this.getWorld(),
-				user,
-				this.gameModeAddons,
-				true);
-		}
-
-		return true;
-	}
-
-
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
-
-	/**
-	 * This variable stores challenges addon.
-	 */
-	private final ChallengesAddon addon;
-
-	/**
-	 * This variable stores List with game modes where challenges addon are hooked in.
-	 */
-	private final List<GameModeAddon> gameModeAddons;
+            return true;
+        }
+        return false;
+    }
 }

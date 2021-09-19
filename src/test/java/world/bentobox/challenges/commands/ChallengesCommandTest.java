@@ -66,7 +66,7 @@ public class ChallengesCommandTest {
     private Island island;
     @Mock
     private ChallengesAddon addon;
-    private ChallengesCommand cc;
+    private ChallengesPlayerCommand cc;
     @Mock
     private World world;
     @Mock
@@ -151,11 +151,11 @@ public class ChallengesCommandTest {
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
 
         // Command under test
-        cc = new ChallengesCommand(addon, ic);
+        cc = new ChallengesPlayerCommand(addon, ic);
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteWrongWorld() {
@@ -165,7 +165,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteNoChallenges() {
@@ -176,7 +176,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteNoChallengesOp() {
@@ -189,7 +189,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteNoChallengesHasPerm() {
@@ -202,7 +202,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteNoAdminCommand() {
@@ -216,7 +216,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteNoIsland() {
@@ -226,7 +226,7 @@ public class ChallengesCommandTest {
     }
     
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteSuccess() {
@@ -235,7 +235,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testExecuteUserStringListOfStringConsole() {
@@ -245,7 +245,7 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
+     * Test method for {@link ChallengesPlayerCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testExecuteUserStringListOfStringUser() {        
@@ -253,11 +253,11 @@ public class ChallengesCommandTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.commands.ChallengesCommand#setup()}.
+     * Test method for {@link ChallengesPlayerCommand#setup()}.
      */
     @Test
     public void testSetup() {
-        assertEquals("bskyblock." + ChallengesCommand.CHALLENGE_COMMAND, cc.getPermission());
+        assertEquals("bskyblock.challenges", cc.getPermission());
         assertEquals("challenges.commands.user.main.parameters", cc.getParameters());
         assertEquals("challenges.commands.user.main.description", cc.getDescription());
         assertTrue(cc.isOnlyPlayer());
