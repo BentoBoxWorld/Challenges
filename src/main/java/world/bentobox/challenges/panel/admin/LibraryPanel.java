@@ -33,7 +33,7 @@ import world.bentobox.challenges.web.object.LibraryEntry;
  * This class contains all necessary elements to create GUI that lists all challenges.
  * It allows to edit them or remove, depending on given input mode.
  */
-public class LibraryPanel extends CommonPagedPanel
+public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
 {
     // ---------------------------------------------------------------------
     // Section: Constructor
@@ -54,6 +54,8 @@ public class LibraryPanel extends CommonPagedPanel
             case DATABASE -> this.generateDatabaseEntries();
             case TEMPLATE -> this.generateTemplateEntries();
         };
+
+        this.filterElements = this.libraryEntries;
     }
 
 
@@ -131,6 +133,32 @@ public class LibraryPanel extends CommonPagedPanel
 
 
     /**
+     * This method is called when filter value is updated.
+     */
+    @Override
+    protected void updateFilters()
+    {
+        if (this.searchString == null || this.searchString.isBlank())
+        {
+            this.filterElements = this.libraryEntries;
+        }
+        else
+        {
+            this.filterElements = this.libraryEntries.stream().
+                filter(element -> {
+                    // If element name is set and name contains search field, then do not filter out.
+                    return element.name().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                        element.author().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                        element.gameMode().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                        element.language().toLowerCase().contains(this.searchString.toLowerCase());
+                }).
+                distinct().
+                collect(Collectors.toList());
+        }
+    }
+
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -156,9 +184,7 @@ public class LibraryPanel extends CommonPagedPanel
 
         GuiUtils.fillBorder(panelBuilder);
 
-        this.populateElements(panelBuilder,
-            this.libraryEntries,
-            o -> this.createEntryIcon((LibraryEntry) o));
+        this.populateElements(panelBuilder, this.filterElements);
 
         if (this.mode == Library.WEB)
         {
@@ -232,7 +258,8 @@ public class LibraryPanel extends CommonPagedPanel
      * @param libraryEntry LibraryEntry which button must be created.
      * @return Entry button.
      */
-    private PanelItem createEntryIcon(LibraryEntry libraryEntry)
+    @Override
+    protected PanelItem createElementButton(LibraryEntry libraryEntry)
     {
         PanelItemBuilder itemBuilder = new PanelItemBuilder().
             name(ChatColor.translateAlternateColorCodes('&', libraryEntry.name())).
@@ -436,4 +463,9 @@ public class LibraryPanel extends CommonPagedPanel
      * List of library elements.
      */
     private final List<LibraryEntry> libraryEntries;
+
+    /**
+     * Stores filtered items.
+     */
+    private List<LibraryEntry> filterElements;
 }

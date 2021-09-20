@@ -1,7 +1,9 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -25,7 +27,7 @@ import world.bentobox.challenges.utils.Utils;
  * This class contains all necessary elements to create GUI that lists all challenges.
  * It allows to edit them or remove, depending on given input mode.
  */
-public class ListChallengesPanel extends CommonPagedPanel
+public class ListChallengesPanel extends CommonPagedPanel<Challenge>
 {
     // ---------------------------------------------------------------------
     // Section: Constructor
@@ -97,6 +99,16 @@ public class ListChallengesPanel extends CommonPagedPanel
 
 
     /**
+     * This method is called when filter value is updated.
+     */
+    @Override
+    protected void updateFilters()
+    {
+        // Do nothing here.
+    }
+
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -114,9 +126,15 @@ public class ListChallengesPanel extends CommonPagedPanel
             GuiUtils.fillBorder(panelBuilder);
         }
 
-        this.populateElements(panelBuilder,
-            this.addon.getChallengesManager().getAllChallenges(this.world),
-            o -> this.createChallengeIcon((Challenge) o));
+        List<Challenge> challengeList = this.addon.getChallengesManager().getAllChallenges(this.world).
+            stream().
+            filter(challenge -> this.searchString.isBlank() ||
+                challenge.getFriendlyName().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                challenge.getUniqueId().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                challenge.getChallengeType().name().toLowerCase().contains(this.searchString)).
+            collect(Collectors.toList());
+
+        this.populateElements(panelBuilder, challengeList);
 
         panelBuilder.item(44, this.returnButton);
 
@@ -129,7 +147,8 @@ public class ListChallengesPanel extends CommonPagedPanel
      * @param challenge Challenge which button must be created.
      * @return Challenge button.
      */
-    private PanelItem createChallengeIcon(Challenge challenge)
+    @Override
+    protected PanelItem createElementButton(Challenge challenge)
     {
         PanelItemBuilder itemBuilder = new PanelItemBuilder().
             name(Util.translateColorCodes(challenge.getFriendlyName())).

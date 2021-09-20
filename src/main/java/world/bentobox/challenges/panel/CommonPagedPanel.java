@@ -14,7 +14,7 @@ import org.eclipse.jdt.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -27,7 +27,7 @@ import world.bentobox.challenges.utils.Constants;
 /**
  * This panel implements common things for Paged pages.
  */
-public abstract class CommonPagedPanel extends CommonPanel
+public abstract class CommonPagedPanel<T> extends CommonPanel
 {
     /**
      * Instantiates a new Common paged panel.
@@ -58,15 +58,27 @@ public abstract class CommonPagedPanel extends CommonPanel
 
 
     /**
+     * This method is called when filter value is updated.
+     */
+    protected abstract void updateFilters();
+
+
+    /**
+     * Create element button panel item.
+     *
+     * @param object the object
+     * @return the panel item
+     */
+    protected abstract PanelItem createElementButton(T object);
+
+
+    /**
      * Populate elements.
      *
      * @param panelBuilder the panel builder
      * @param objectList the object list
-     * @param buttonBuilder the button builder
      */
-    protected void populateElements(PanelBuilder panelBuilder,
-        List<?> objectList,
-        Function<Object, PanelItem> buttonBuilder)
+    protected void populateElements(PanelBuilder panelBuilder, List<T> objectList)
     {
         final int MAX_ELEMENTS = 21;
         final int size = objectList.size();
@@ -91,7 +103,7 @@ public abstract class CommonPagedPanel extends CommonPanel
         {
             if (!panelBuilder.slotOccupied(index))
             {
-                panelBuilder.item(index, buttonBuilder.apply(objectList.get(objectIndex++)));
+                panelBuilder.item(index, this.createElementButton(objectList.get(objectIndex++)));
             }
 
             index++;
@@ -106,6 +118,13 @@ public abstract class CommonPagedPanel extends CommonPanel
         if (this.pageIndex > 0)
         {
             panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+        }
+
+        // Add search button only if there is more than MAX_ELEMENTS objects or searchString
+        // is not blank.
+        if (!this.searchString.isBlank() || objectList.size() > MAX_ELEMENTS)
+        {
+            panelBuilder.item(40, this.getButton(CommonButtons.SEARCH));
         }
     }
 
@@ -157,6 +176,59 @@ public abstract class CommonPagedPanel extends CommonPanel
                 return true;
             };
         }
+        else if (button == CommonButtons.SEARCH)
+        {
+            description.add(this.user.getTranslation(reference + "description"));
+
+            if (this.searchString != null && !this.searchString.isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "search",
+                    Constants.PARAMETER_VALUE, this.searchString));
+            }
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-edit"));
+
+            if (!this.searchString.isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
+            }
+
+            icon = new ItemStack(Material.ANVIL);
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (clickType.isRightClick())
+                {
+                    // Clear string.
+                    this.searchString = "";
+                    this.updateFilters();
+                    // Rebuild gui.
+                    this.build();
+                }
+                else
+                {
+                    // Create consumer that process description change
+                    Consumer<String> consumer = value ->
+                    {
+                        if (value != null)
+                        {
+                            this.searchString = value;
+                            this.updateFilters();
+                        }
+
+                        this.build();
+                    };
+
+                    // start conversation
+                    ConversationUtils.createStringInput(consumer,
+                        user,
+                        user.getTranslation(Constants.CONVERSATIONS + "write-search"),
+                        user.getTranslation(Constants.CONVERSATIONS + "search-updated"));
+                }
+
+                return true;
+            };
+        }
         else
         {
             icon = new ItemStack(Material.PAPER);
@@ -178,7 +250,8 @@ public abstract class CommonPagedPanel extends CommonPanel
     private enum CommonButtons
     {
         NEXT,
-        PREVIOUS
+        PREVIOUS,
+        SEARCH
     }
 
 
@@ -186,4 +259,9 @@ public abstract class CommonPagedPanel extends CommonPanel
      * Current page index.
      */
     private int pageIndex;
+
+    /**
+     * Text that contains filter string.
+     */
+    protected String searchString = "";
 }

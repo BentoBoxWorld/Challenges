@@ -34,7 +34,7 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * This class contains all necessary elements to create Levels Edit GUI.
  */
-public class EditLevelPanel extends CommonPagedPanel
+public class EditLevelPanel extends CommonPagedPanel<Challenge>
 {
     // ---------------------------------------------------------------------
     // Section: Constructors
@@ -109,6 +109,16 @@ public class EditLevelPanel extends CommonPagedPanel
     // ---------------------------------------------------------------------
     // Section: Methods
     // ---------------------------------------------------------------------
+
+
+    /**
+     * This method is called when filter value is updated.
+     */
+    @Override
+    protected void updateFilters()
+    {
+        // Do nothing here.
+    }
 
 
     /**
@@ -190,11 +200,15 @@ public class EditLevelPanel extends CommonPagedPanel
      */
     private void buildChallengesPanel(PanelBuilder panelBuilder)
     {
-        List<Challenge> challengeList = this.addon.getChallengesManager().getLevelChallenges(this.challengeLevel);
+        List<Challenge> challengeList = this.addon.getChallengesManager().
+            getLevelChallenges(this.challengeLevel).stream().
+            filter(challenge -> this.searchString.isBlank() ||
+                challenge.getFriendlyName().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                challenge.getUniqueId().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                challenge.getChallengeType().name().toLowerCase().contains(this.searchString)).
+            collect(Collectors.toList());
 
-        this.populateElements(panelBuilder,
-            challengeList,
-            o -> this.createChallengeIcon((Challenge) o));
+        this.populateElements(panelBuilder, challengeList);
 
         panelBuilder.item(39, this.createButton(Button.ADD_CHALLENGES));
         panelBuilder.item(41, this.createButton(Button.REMOVE_CHALLENGES));
@@ -279,7 +293,8 @@ public class EditLevelPanel extends CommonPagedPanel
      * @param challenge Challenge which icon must be created.
      * @return PanelItem that represents given challenge.
      */
-    private PanelItem createChallengeIcon(Challenge challenge)
+    @Override
+    protected PanelItem createElementButton(Challenge challenge)
     {
         return new PanelItemBuilder().
             name(Util.translateColorCodes(challenge.getFriendlyName())).

@@ -4,7 +4,9 @@ package world.bentobox.challenges.panel.admin;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -12,6 +14,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
@@ -25,7 +28,7 @@ import world.bentobox.challenges.utils.Utils;
  * This class creates GUI that lists all Levels. Clicking on Level icon will be processed
  * by input mode.
  */
-public class ListLevelsPanel extends CommonPagedPanel
+public class ListLevelsPanel extends CommonPagedPanel<ChallengeLevel>
 {
     // ---------------------------------------------------------------------
     // Section: Constructor
@@ -97,6 +100,16 @@ public class ListLevelsPanel extends CommonPagedPanel
 
 
     /**
+     * This method is called when filter value is updated.
+     */
+    @Override
+    protected void updateFilters()
+    {
+        // Do nothing here.
+    }
+
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -114,9 +127,14 @@ public class ListLevelsPanel extends CommonPagedPanel
             GuiUtils.fillBorder(panelBuilder);
         }
 
-        this.populateElements(panelBuilder,
-            this.addon.getChallengesManager().getLevels(this.world),
-            o -> this.createLevelIcon((ChallengeLevel) o));
+        List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world).
+            stream().
+            filter(challenge -> this.searchString.isBlank() ||
+                challenge.getFriendlyName().toLowerCase().contains(this.searchString.toLowerCase()) ||
+                challenge.getUniqueId().toLowerCase().contains(this.searchString.toLowerCase())).
+            collect(Collectors.toList());
+
+        this.populateElements(panelBuilder, levelList);
 
         panelBuilder.item(44, this.returnButton);
 
@@ -129,7 +147,8 @@ public class ListLevelsPanel extends CommonPagedPanel
      * @param challengeLevel Level which button must be created.
      * @return Level button.
      */
-    private PanelItem createLevelIcon(ChallengeLevel challengeLevel)
+    @Override
+    protected PanelItem createElementButton(ChallengeLevel challengeLevel)
     {
         PanelItemBuilder itemBuilder = new PanelItemBuilder().
             name(Util.translateColorCodes(challengeLevel.getFriendlyName())).

@@ -31,7 +31,7 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * This class contains methods that allows to select specific user.
  */
-public class ListUsersPanel extends CommonPagedPanel
+public class ListUsersPanel extends CommonPagedPanel<Player>
 {
     // ---------------------------------------------------------------------
     // Section: Constructors
@@ -56,6 +56,7 @@ public class ListUsersPanel extends CommonPagedPanel
         super(addon, user, world, topLabel, permissionPrefix);
         this.onlineUsers = this.collectUsers(ViewMode.IN_WORLD);
         this.operationMode = operationMode;
+        this.filterElements = this.onlineUsers;
     }
 
 
@@ -67,6 +68,7 @@ public class ListUsersPanel extends CommonPagedPanel
         super(panel);
         this.onlineUsers = this.collectUsers(ViewMode.IN_WORLD);
         this.operationMode = operationMode;
+        this.filterElements = this.onlineUsers;
     }
 
 
@@ -104,6 +106,29 @@ public class ListUsersPanel extends CommonPagedPanel
     // ---------------------------------------------------------------------
 
 
+    /**
+     * This method is called when filter value is updated.
+     */
+    @Override
+    protected void updateFilters()
+    {
+        if (this.searchString == null || this.searchString.isBlank())
+        {
+            this.filterElements = this.onlineUsers;
+        }
+        else
+        {
+            this.filterElements = this.onlineUsers.stream().
+                filter(element -> {
+                    // If element name is set and name contains search field, then do not filter out.
+                    return element.getDisplayName().toLowerCase().contains(this.searchString.toLowerCase());
+                }).
+                distinct().
+                collect(Collectors.toList());
+        }
+    }
+
+
     @Override
     protected void build()
     {
@@ -112,9 +137,7 @@ public class ListUsersPanel extends CommonPagedPanel
 
         GuiUtils.fillBorder(panelBuilder);
 
-        this.populateElements(panelBuilder,
-            this.onlineUsers,
-            o -> this.createPlayerIcon((Player) o));
+        this.populateElements(panelBuilder, this.filterElements);
 
         // Add button that allows to toggle different player lists.
         panelBuilder.item( 4, this.createToggleButton());
@@ -129,7 +152,8 @@ public class ListUsersPanel extends CommonPagedPanel
      * @param player Player which button must be created.
      * @return Player button.
      */
-    private PanelItem createPlayerIcon(Player player)
+    @Override
+    protected PanelItem createElementButton(Player player)
     {
         final String reference = Constants.BUTTON + "player.";
 
@@ -318,6 +342,10 @@ public class ListUsersPanel extends CommonPagedPanel
                     this.onlineUsers = this.collectUsers(this.mode);
                 }
 
+                // Reset search
+                this.searchString = "";
+                this.updateFilters();
+
                 this.build();
                 return true;
             }).build();
@@ -358,6 +386,11 @@ public class ListUsersPanel extends CommonPagedPanel
      * List with players that should be in GUI.
      */
     private List<Player> onlineUsers;
+
+    /**
+     * List with players that should be in GUI.
+     */
+    private List<Player> filterElements;
 
     /**
      * Current operation mode.

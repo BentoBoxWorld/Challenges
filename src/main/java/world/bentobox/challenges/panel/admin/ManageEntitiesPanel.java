@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -28,7 +29,7 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * This class allows to edit entities that are in required entities map.
  */
-public class ManageEntitiesPanel extends CommonPagedPanel
+public class ManageEntitiesPanel extends CommonPagedPanel<EntityType>
 {
 	private ManageEntitiesPanel(CommonPanel parentGUI, Map<EntityType, Integer> requiredEntities)
 	{
@@ -39,6 +40,7 @@ public class ManageEntitiesPanel extends CommonPagedPanel
 		this.entityList.sort(Comparator.comparing(Enum::name));
 
 		this.selectedEntities = new HashSet<>(EntityType.values().length);
+		this.filterElements = this.entityList;
 	}
 
 
@@ -57,10 +59,33 @@ public class ManageEntitiesPanel extends CommonPagedPanel
 
 
 	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.entityList;
+		}
+		else
+		{
+			this.filterElements = this.entityList.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
+	}
+
+
+	/**
 	 * This method builds all necessary elements in GUI panel.
 	 */
 	@Override
-	public void build()
+	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
 			name(this.user.getTranslation(Constants.TITLE + "manage-entities"));
@@ -72,9 +97,7 @@ public class ManageEntitiesPanel extends CommonPagedPanel
 		panelBuilder.item(5, this.createButton(Button.REMOVE_ENTITY));
 		panelBuilder.item(8, this.createButton(Button.SWITCH_ENTITY));
 
-		this.populateElements(panelBuilder,
-			this.entityList,
-			o -> this.createEntityButton((EntityType) o));
+		this.populateElements(panelBuilder, this.filterElements);
 
 		// Add return button.
 		panelBuilder.item(44, this.returnButton);
@@ -193,7 +216,8 @@ public class ManageEntitiesPanel extends CommonPagedPanel
 	 * @param entity Entity which button must be created.
 	 * @return new Button for entity.
 	 */
-	private PanelItem createEntityButton(EntityType entity)
+	@Override
+	protected PanelItem createElementButton(EntityType entity)
 	{
 		final String reference = Constants.BUTTON + "entity.";
 
@@ -299,4 +323,9 @@ public class ManageEntitiesPanel extends CommonPagedPanel
 	 * Boolean indicate if entities should be displayed as eggs or mob heads.
 	 */
 	private boolean asEggs;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<EntityType> filterElements;
 }

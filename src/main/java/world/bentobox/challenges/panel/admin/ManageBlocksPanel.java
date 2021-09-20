@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,7 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * This class allows to edit material that are in required material map.
  */
-public class ManageBlocksPanel extends CommonPagedPanel
+public class ManageBlocksPanel extends CommonPagedPanel<Material>
 {
 	private ManageBlocksPanel(CommonPanel parentGUI, Map<Material, Integer> materialMap)
 	{
@@ -36,9 +37,12 @@ public class ManageBlocksPanel extends CommonPagedPanel
 		this.materialList = new ArrayList<>(this.materialMap.keySet());
 
 		// Sort materials by their ordinal value.
-		this.materialList.sort(Comparator.comparing(Enum::ordinal));
+		this.materialList.sort(Comparator.comparing(Enum::name));
 
 		this.selectedMaterials = new HashSet<>();
+
+		// Init without filters applied.
+		this.filterElements = this.materialList;
 	}
 
 
@@ -57,10 +61,33 @@ public class ManageBlocksPanel extends CommonPagedPanel
 
 
 	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.materialList;
+		}
+		else
+		{
+			this.filterElements = this.materialList.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
+	}
+
+
+	/**
 	 * This method builds all necessary elements in GUI panel.
 	 */
 	@Override
-	public void build()
+	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
 			name(this.user.getTranslation(Constants.TITLE + "manage-blocks"));
@@ -71,9 +98,7 @@ public class ManageBlocksPanel extends CommonPagedPanel
 		panelBuilder.item(3, this.createButton(Button.ADD_BLOCK));
 		panelBuilder.item(5, this.createButton(Button.REMOVE_BLOCK));
 
-		this.populateElements(panelBuilder,
-			this.materialList,
-			o -> this.createElementButton((Material) o));
+		this.populateElements(panelBuilder, this.filterElements);
 
 		// Add return button.
 		panelBuilder.item(44, this.returnButton);
@@ -181,7 +206,8 @@ public class ManageBlocksPanel extends CommonPagedPanel
 	 * @param material material which button must be created.
 	 * @return new Button for material.
 	 */
-	private PanelItem createElementButton(Material material)
+	@Override
+	protected PanelItem createElementButton(Material material)
 	{
 		final String reference = Constants.BUTTON + "material.";
 
@@ -279,4 +305,9 @@ public class ManageBlocksPanel extends CommonPagedPanel
 	 * List of required materials.
 	 */
 	private final Map<Material, Integer> materialMap;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<Material> filterElements;
 }
