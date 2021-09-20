@@ -6,8 +6,11 @@ import java.util.List;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.GameModePanel;
+import world.bentobox.challenges.utils.Constants;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
@@ -49,7 +52,12 @@ public class ChallengesGlobalAdminCommand extends CompositeCommand
 	{
 		// For single game mode just open correct gui.
 
-		if (this.gameModeAddons.size() == 1)
+		if (this.gameModeAddons.isEmpty())
+		{
+			Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "not-hooked"));
+			return false;
+		}
+		else if (this.gameModeAddons.size() == 1)
 		{
 			this.gameModeAddons.get(0).getAdminCommand().ifPresent(compositeCommand ->
 				user.performCommand(compositeCommand.getTopLabel() + " " +

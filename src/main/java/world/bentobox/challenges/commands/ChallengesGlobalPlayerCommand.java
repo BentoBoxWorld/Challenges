@@ -9,6 +9,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
 import world.bentobox.challenges.panel.user.GameModePanel;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -52,7 +53,12 @@ public class ChallengesGlobalPlayerCommand extends CompositeCommand
 	{
 		// It is not necessary to check 0, as in that case addon will not be hooked.
 
-		if (this.gameModeAddons.size() == 1)
+		if (this.gameModeAddons.isEmpty())
+		{
+			Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "not-hooked"));
+			return false;
+		}
+		else if (this.gameModeAddons.size() == 1)
 		{
 			this.gameModeAddons.get(0).getPlayerCommand().ifPresent(compositeCommand ->
 				user.performCommand(compositeCommand.getTopLabel() + " " +

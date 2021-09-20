@@ -73,6 +73,12 @@ public class ChallengesAddon extends Addon {
      */
     private boolean levelProvided;
 
+    /**
+     * List of hooked gamemode addons.
+     */
+    private final List<GameModeAddon> hookedGameModes = new ArrayList<>();
+
+
 // ---------------------------------------------------------------------
 // Section: Constants
 // ---------------------------------------------------------------------
@@ -113,6 +119,12 @@ public class ChallengesAddon extends Addon {
         this.saveDefaultConfig();
         // Load the plugin's config
         this.loadSettings();
+
+        if (this.settings.isUseCommonGUI())
+        {
+            new ChallengesGlobalPlayerCommand(this, this.hookedGameModes);
+            new ChallengesGlobalAdminCommand(this, this.hookedGameModes);
+        }
     }
 
 
@@ -151,7 +163,7 @@ public class ChallengesAddon extends Addon {
         // Web content loading
         this.webManager = new WebManager(this);
 
-        List<GameModeAddon> hookedGameModes = new ArrayList<>();
+        this.hookedGameModes.clear();
 
         this.getPlugin().getAddonsManager().getGameModeAddons().forEach(gameModeAddon -> {
         	if (!this.settings.getDisabledGameModes().contains(
@@ -163,7 +175,7 @@ public class ChallengesAddon extends Addon {
                     new ChallengesAdminCommand(this, command));
 
                 this.hooked = true;
-                hookedGameModes.add(gameModeAddon);
+                this.hookedGameModes.add(gameModeAddon);
 
 				CHALLENGES_WORLD_PROTECTION.addGameModeAddon(gameModeAddon);
 				CHALLENGES_ISLAND_PROTECTION.addGameModeAddon(gameModeAddon);
@@ -173,15 +185,6 @@ public class ChallengesAddon extends Addon {
 		});
 
         if (this.hooked) {
-
-            // Create general challenge commands
-
-            if (this.settings.isUseCommonGUI())
-            {
-                new ChallengesGlobalPlayerCommand(this, hookedGameModes);
-                new ChallengesGlobalAdminCommand(this, hookedGameModes);
-            }
-
             // Register the reset listener
             this.registerListener(new ResetListener(this));
             // Register the autosave listener.

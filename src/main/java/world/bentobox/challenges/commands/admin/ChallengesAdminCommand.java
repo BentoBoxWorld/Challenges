@@ -37,9 +37,6 @@ public class ChallengesAdminCommand extends CompositeCommand
         // This method reloads challenges addon
         new ReloadChallenges(getAddon(), this);
 
-        // Defaults processing command
-        new DefaultsCommand(this.getAddon(), this);
-
         // Complete challenge command
         new CompleteCommand(this.getAddon(), this);
 
