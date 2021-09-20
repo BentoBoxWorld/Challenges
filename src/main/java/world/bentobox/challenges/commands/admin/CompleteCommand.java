@@ -109,7 +109,7 @@ public class CompleteCommand extends CompositeCommand
 
 					if (user.isPlayer())
 					{
-						Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.completed",
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.completed",
 							Constants.PARAMETER_NAME, challenge.getFriendlyName(),
 							Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
 					}
@@ -123,7 +123,7 @@ public class CompleteCommand extends CompositeCommand
 				{
 					if (user.isPlayer())
 					{
-						Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.already-completed"));
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.already-completed"));
 					}
 					else
 					{

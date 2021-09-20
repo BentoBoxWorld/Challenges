@@ -673,7 +673,7 @@ public class ChallengesManager
 
         if (user.isPlayer())
         {
-            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-start"));
+            Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-start"));
         }
         else
         {
@@ -689,7 +689,7 @@ public class ChallengesManager
 
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-end"));
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-end"));
             }
             else
             {
@@ -700,7 +700,7 @@ public class ChallengesManager
         {
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.migrate-not"));
+                Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-not"));
             }
             else
             {

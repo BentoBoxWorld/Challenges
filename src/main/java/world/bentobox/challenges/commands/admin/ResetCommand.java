@@ -103,7 +103,7 @@ public class ResetCommand extends CompositeCommand
 
                 if (user.isPlayer())
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.reset-all",
+                    Utils.sendMessage(user, user.getTranslation("challenges.messages.reset-all",
                         Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
                 }
                 else
@@ -127,7 +127,7 @@ public class ResetCommand extends CompositeCommand
 
                         if (user.isPlayer())
                         {
-                            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.reset",
+                            Utils.sendMessage(user, user.getTranslation("challenges.messages.reset",
                                 Constants.PARAMETER_NAME, challenge.getFriendlyName(),
                                 Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
                         }
@@ -141,7 +141,7 @@ public class ResetCommand extends CompositeCommand
                     {
                         if (user.isPlayer())
                         {
-                            Utils.sendMessage(user, user.getTranslation("challenges.messages.admin.not-completed"));
+                            Utils.sendMessage(user, user.getTranslation("challenges.messages.not-completed"));
                         }
                         else
                         {
