@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +36,7 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 
 		this.elements = challengesDescriptionMap.keySet().stream().toList();
 		this.selectedElements = new HashSet<>(this.elements.size());
+		this.filterElements = this.elements;
 	}
 
 
@@ -61,12 +63,38 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 
 		GuiUtils.fillBorder(panelBuilder, this.border);
 
-		this.populateElements(panelBuilder, this.elements);
+		this.populateElements(panelBuilder, this.filterElements);
 
 		panelBuilder.item(3, this.createButton(Button.ACCEPT_SELECTED));
 		panelBuilder.item(5, this.createButton(Button.CANCEL));
 
 		panelBuilder.build();
+	}
+
+
+	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.elements;
+		}
+		else
+		{
+			this.filterElements = this.elements.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.getUniqueId().toLowerCase().
+						contains(this.searchString.toLowerCase()) ||
+						element.getFriendlyName().toLowerCase().
+							contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
 	}
 
 
@@ -218,4 +246,9 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 	 * Border Material.
 	 */
 	private final Material border;
+
+	/**
+	 * Current value.
+	 */
+	private List<Challenge> filterElements;
 }

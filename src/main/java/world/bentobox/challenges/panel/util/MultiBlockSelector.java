@@ -58,7 +58,11 @@ public class MultiBlockSelector extends PagedSelector<Material>
 					}
 				}
 			}).
+			// Sort by name
+			sorted(Comparator.comparing(Material::name)).
 			collect(Collectors.toList());
+		// Init without filters applied.
+		this.filterElements = this.elements;
 	}
 
 
@@ -102,12 +106,35 @@ public class MultiBlockSelector extends PagedSelector<Material>
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
-		this.populateElements(panelBuilder, this.elements);
+		this.populateElements(panelBuilder, this.filterElements);
 
 		panelBuilder.item(3, this.createButton(Button.ACCEPT_SELECTED));
 		panelBuilder.item(5, this.createButton(Button.CANCEL));
 
 		panelBuilder.build();
+	}
+
+
+	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.elements;
+		}
+		else
+		{
+			this.filterElements = this.elements.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
 	}
 
 
@@ -260,4 +287,9 @@ public class MultiBlockSelector extends PagedSelector<Material>
 	 * This variable stores consumer.
 	 */
 	private final BiConsumer<Boolean, Collection<Material>> consumer;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<Material> filterElements;
 }

@@ -38,6 +38,7 @@ public class SingleBlockSelector extends PagedSelector<Material>
 
 		// Barrier cannot be accessible to user.
 		excluded.add(Material.BARRIER);
+		excluded.add(Material.STRUCTURE_VOID);
 
 		this.elements = Arrays.stream(Material.values()).
 			filter(material -> !excluded.contains(material)).
@@ -55,7 +56,11 @@ public class SingleBlockSelector extends PagedSelector<Material>
 					}
 				}
 			}).
+			// Sort by name
+			sorted(Comparator.comparing(Material::name)).
 			collect(Collectors.toList());
+		// Init without filters applied.
+		this.filterElements = this.elements;
 	}
 
 
@@ -103,6 +108,7 @@ public class SingleBlockSelector extends PagedSelector<Material>
 	/**
 	 * This method builds all necessary elements in GUI panel.
 	 */
+	@Override
 	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user);
@@ -110,11 +116,34 @@ public class SingleBlockSelector extends PagedSelector<Material>
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
-		this.populateElements(panelBuilder, this.elements);
+		this.populateElements(panelBuilder, this.filterElements);
 
 		panelBuilder.item(4, this.createButton());
 
 		panelBuilder.build();
+	}
+
+
+	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.elements;
+		}
+		else
+		{
+			this.filterElements = this.elements.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
 	}
 
 
@@ -204,4 +233,9 @@ public class SingleBlockSelector extends PagedSelector<Material>
 	 * This variable stores consumer.
 	 */
 	private final BiConsumer<Boolean, Material> consumer;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<Material> filterElements;
 }

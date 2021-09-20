@@ -11,11 +11,13 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.utils.Constants;
 
 
@@ -32,6 +34,7 @@ public abstract class PagedSelector<T>
     protected PagedSelector(User user)
     {
         this.user = user;
+        this.searchString = "";
     }
 
 
@@ -48,6 +51,12 @@ public abstract class PagedSelector<T>
      * @return the panel item
      */
     protected abstract PanelItem createElementButton(T object);
+
+
+    /**
+     * This method is called when filter value is updated.
+     */
+    protected abstract void updateFilters();
 
 
     /**
@@ -87,15 +96,25 @@ public abstract class PagedSelector<T>
             index++;
         }
 
+        // Add next page button if there are more than MAX_ELEMENTS objects and pageIndex + 1 is
+        // larger or equal to the max page count.
         if (size > MAX_ELEMENTS && !(1.0 * size / MAX_ELEMENTS <= this.pageIndex + 1))
         {
             panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 
         }
 
+        // Add previous page button if pageIndex is not 0.
         if (this.pageIndex > 0)
         {
             panelBuilder.item(18, this.getButton(CommonButtons.PREVIOUS));
+        }
+
+        // Add search button only if there is more than MAX_ELEMENTS objects or searchString
+        // is not blank.
+        if (!this.searchString.isBlank() || objectList.size() > MAX_ELEMENTS)
+        {
+            panelBuilder.item(40, this.getButton(CommonButtons.SEARCH));
         }
     }
 
@@ -120,6 +139,9 @@ public abstract class PagedSelector<T>
             description.add(this.user.getTranslation(reference + "description",
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex + 2)));
 
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-next"));
+
             icon = new ItemStack(Material.OAK_SIGN, this.pageIndex + 2);
             clickHandler = (panel, user, clickType, slot) ->
             {
@@ -133,11 +155,67 @@ public abstract class PagedSelector<T>
             description.add(this.user.getTranslation(reference + "description",
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex)));
 
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-previous"));
+
             icon = new ItemStack(Material.OAK_SIGN, Math.max(1, this.pageIndex));
             clickHandler = (panel, user, clickType, slot) ->
             {
                 this.pageIndex--;
                 this.build();
+                return true;
+            };
+        }
+        else if (button == CommonButtons.SEARCH)
+        {
+            description.add(this.user.getTranslation(reference + "description"));
+
+            if (this.searchString != null && !this.searchString.isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "search",
+                    Constants.PARAMETER_VALUE, this.searchString));
+            }
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-edit"));
+
+            if (!this.searchString.isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
+            }
+
+            icon = new ItemStack(Material.ANVIL);
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (clickType.isRightClick())
+                {
+                    // Clear string.
+                    this.searchString = "";
+                    this.updateFilters();
+                    // Rebuild gui.
+                    this.build();
+                }
+                else
+                {
+                    // Create consumer that process description change
+                    Consumer<String> consumer = value ->
+                    {
+                        if (value != null)
+                        {
+                            this.searchString = value;
+                            this.updateFilters();
+                        }
+
+                        this.build();
+                    };
+
+                    // start conversation
+                    ConversationUtils.createStringInput(consumer,
+                        user,
+                        user.getTranslation(Constants.CONVERSATIONS + "write-search"),
+                        user.getTranslation(Constants.CONVERSATIONS + "search-updated"));
+                }
+
                 return true;
             };
         }
@@ -162,7 +240,8 @@ public abstract class PagedSelector<T>
     private enum CommonButtons
     {
         NEXT,
-        PREVIOUS
+        PREVIOUS,
+        SEARCH
     }
 
 
@@ -175,4 +254,9 @@ public abstract class PagedSelector<T>
      * User who opens gui.
      */
     protected final User user;
+
+    /**
+     * Text that contains filter string.
+     */
+    protected String searchString;
 }

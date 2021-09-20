@@ -3,10 +3,12 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -36,6 +38,9 @@ public class StatisticSelector extends PagedSelector<Statistic>
 		this.consumer = consumer;
 		this.elements = new ArrayList<>(Arrays.asList(Statistic.values()));
 		this.elements.sort(Comparator.comparing(Statistic::name));
+
+		// Init without filters applied.
+		this.filterElements = this.elements;
 	}
 
 
@@ -67,11 +72,34 @@ public class StatisticSelector extends PagedSelector<Statistic>
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
-		this.populateElements(panelBuilder, this.elements);
+		this.populateElements(panelBuilder, this.filterElements);
 
 		panelBuilder.item(4, this.createButton());
 
 		panelBuilder.build();
+	}
+
+
+	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.elements;
+		}
+		else
+		{
+			this.filterElements = this.elements.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
 	}
 
 
@@ -156,4 +184,9 @@ public class StatisticSelector extends PagedSelector<Statistic>
 	 * This variable stores consumer.
 	 */
 	private final BiConsumer<Boolean, Statistic> consumer;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<Statistic> filterElements;
 }

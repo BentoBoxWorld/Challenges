@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +49,11 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
 					return true;
 				}
 			}).
+			// Sort by names
+			sorted(Comparator.comparing(EntityType::name)).
 			collect(Collectors.toList());
+		// Init without filters applied.
+		this.filterElements = this.elements;
 	}
 
 
@@ -106,11 +109,34 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
 
 		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
-		this.populateElements(panelBuilder, this.elements);
+		this.populateElements(panelBuilder, this.filterElements);
 
 		panelBuilder.item(4, this.createButton());
 
 		panelBuilder.build();
+	}
+
+
+	/**
+	 * This method is called when filter value is updated.
+	 */
+	@Override
+	protected void updateFilters()
+	{
+		if (this.searchString == null || this.searchString.isBlank())
+		{
+			this.filterElements = this.elements;
+		}
+		else
+		{
+			this.filterElements = this.elements.stream().
+				filter(element -> {
+					// If element name is set and name contains search field, then do not filter out.
+					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+				}).
+				distinct().
+				collect(Collectors.toList());
+		}
 	}
 
 
@@ -204,4 +230,9 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
 	 * This variable stores consumer.
 	 */
 	private final BiConsumer<Boolean, EntityType> consumer;
+
+	/**
+	 * Stores filtered items.
+	 */
+	private List<EntityType> filterElements;
 }
