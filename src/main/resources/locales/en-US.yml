@@ -13,28 +13,12 @@ challenges:
             main:
                 parameters: ''
                 description: 'Main admin command. Opens GUI.'
-            import:
-                description: |-
-                    Import challenges from challenges.yml
-                    Parameter overwrite means that challenges or levels with the same ID will be overwritten.
-                parameters: '[overwrite]'
             reload:
-                description: |-
-                    Reload challenges from the database
-                    Parameter hard means that addon will reset the connection to the database.
-                parameters: '[hard]'
+                description: "Reload challenges from the database"
+                parameters: ''
             show:
                 description: 'Prints all challenges in the chat which exist in this world.'
                 parameters: ''
-            defaults:
-                description: 'Shows subcommands to import/export the default challenges.'
-                parameters: '[command]'
-            defaults-import:
-                description: 'Import the default challenges.'
-                parameters: ''
-            defaults-generate:
-                description: 'Export existing challenges to default.json file.'
-                parameters: '[overwrite] - allows to overwrite existing file.'
             complete:
                 description: 'Complete a challenge for a player.'
                 parameters: '<player> <challenge_id>'
@@ -231,7 +215,7 @@ challenges:
                     &7 the display name.
                 value: "&7 Currently: &r [name]"
             remove_on_complete:
-                name: "&f&l Remove After Completion"
+                name: "&f&l Hide After Completion"
                 description: |-
                     &7 Toggle if challenge should
                     &7 hidden from player after
@@ -505,7 +489,7 @@ challenges:
                     &8 who completed challenge.
                 value: "&7 Current commands:"
             repeat_reward_commands:
-                name: "&f&l Repeat Reward Text"
+                name: "&f&l Repeat Reward Commands"
                 description: |-
                     &7 The specific repeat reward
                     &7 commands for the challenge.
@@ -832,10 +816,10 @@ challenges:
                 # The main part that generates description text.
                 # [description] comes from challenge.description
                 lore: |-
-                  [description]
-                  [status]
-                  [requirements]
-                  [rewards]
+                    [description]
+                    [status]
+                    [requirements]
+                    [rewards]
                 # Contains a text generated inside [status] lore
                 status:
                     # Status message for completed unrepeatable challenge
@@ -914,7 +898,7 @@ challenges:
                         # Text for required money
                         money: "&7&l Required money: &r&e [number]"
                         # Warning that money will be reduced
-                        money-warning: "&e Experience will be &c removed"
+                        money-warning: "&e Money will be &c removed"
                         # Text for required island level
                         level: "&7&l Required island level: &r&e [number]"
                     # Message that will generate for statistic type requirements and replace [type-requirements]
@@ -927,7 +911,7 @@ challenges:
                         # Type of statistic for single target. Target may be entity or material/block
                         single-target: "&7&l [statistic]: &r&e [target]"
                         # Type of statistic without entity/block target
-                        statistic: "&7&l [statistic] &r&e [number] &7&l time(-s)"
+                        statistic: "&7&l [statistic] &r&e [number]"
                         # Warning that statistic will be removed
                         warning: "&e Statistic data will be &c reduced"
                 # Contains a text generated inside [rewards] lore
@@ -1095,15 +1079,15 @@ challenges:
         # Message that appears if input file name is already taken.
         file-name-exist: "&c File with name '[id]' exists. Cannot overwrite."
     titles:
-#       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
-#       [friendlyName] will be replaced with challenge friendly name.
-#       [level] will be replaced with level friendly name.
-#       [rewardText] will be replaced with the challenge reward text.
+        #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
+        #       [friendlyName] will be replaced with challenge friendly name.
+        #       [level] will be replaced with level friendly name.
+        #       [rewardText] will be replaced with the challenge reward text.
         challenge-title: 'Successfully completed'
         challenge-subtitle: '[friendlyName]'
-#       Title and subtitle may contain variables in [] that will be replaced with a proper message from the level object.
-#       [friendlyName] will be replaced with level friendly name.
-#       [rewardText] will be replaced with the level reward text.
+        #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the level object.
+        #       [friendlyName] will be replaced with level friendly name.
+        #       [rewardText] will be replaced with the level reward text.
         level-title: 'Successfully completed'
         level-subtitle: '[friendlyName]'
     messages:
@@ -1180,6 +1164,7 @@ challenges:
         invalid-level: "&c Level [level] contains invalid data. It will not be loaded from database!"
         invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
         no-library-entries: "&c Cannot find any library entries. Nothing to show."
+        not-hooked: "&c Challenges Addon could not find any GameMode."
 
     # Showcase for manual material translation
     materials:
