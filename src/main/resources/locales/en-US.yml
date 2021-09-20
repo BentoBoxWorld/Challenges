@@ -769,6 +769,13 @@ challenges:
             environment_element:
                 name: "&f&l [environment]"
                 description: "[description]"
+            search:
+                name: "&f&l Search"
+                description: |-
+                    &7 Allows to search an
+                    &7 element with input
+                    &7 text value.
+                search: "&b Value: [value]"
         tips:
             click-to-select: "&e Click &7 to select."
             click-to-choose: "&e Click &7 to choose."
@@ -810,6 +817,10 @@ challenges:
             click-on-item: |-
                 &e Click &7 on item in
                 &7 your inventory.
+            left-click-to-edit: "&e Left Click &7 to edit."
+            right-click-to-clear: "&e Right Click &7 to clear."
+            click-to-previous: "&e Click &7 to view previous page."
+            click-to-next: "&e Click &7 to view next page."
         descriptions:
             # This part generates description text for challenges object in all GUI's.
             challenge:
@@ -1078,6 +1089,10 @@ challenges:
         database-export-completed: "&a Success, the database export for [world] is completed. File [file] generated."
         # Message that appears if input file name is already taken.
         file-name-exist: "&c File with name '[id]' exists. Cannot overwrite."
+        # Message that asks for search value input.
+        write-search: "&e Please write a search value. (write 'cancel' to exit)"
+        # Message that appears after updating search value.
+        search-updated: "&a Search value updated."
     titles:
         #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
         #       [friendlyName] will be replaced with challenge friendly name.

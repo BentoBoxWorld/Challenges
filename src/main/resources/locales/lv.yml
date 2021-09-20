@@ -748,6 +748,12 @@ challenges:
       environment_element:
         name: "&f&l [environment]"
         description: "[description]"
+      search:
+        name: "&f&l Meklēt"
+        description: |-
+          &7 Ļauj ievadīt meklēšanas
+          &7 tekstu.
+        search: "&b Vērtība: [value]"
     tips:
       click-to-select: "&e Klikšķini, &7 lai atlasītu."
       click-to-choose: "&e Klikšķini, &7 lai izvēlētos."
@@ -823,6 +829,18 @@ challenges:
       click-on-item: |-
         &e Klikšķini, &7 uz priekšmeta
         &7 tavā inventārā.
+      left-click-to-edit: |-
+        &e Kreisais klikšķis,
+        &7 lai labotu.
+      right-click-to-clear: |-
+        &e Labais klikšķis,
+        &7 lai notīrītu.
+      click-to-previous: |-
+        &e Klikšķini, &7 lai
+        &7 skatītu iepriekšējo.
+      click-to-next: |-
+        &e Klikšķini, &7 lai
+        &7 skatītu nākošo.
     descriptions:
       # This part generates description text for challenges object in all GUI's.
       challenge:
@@ -1094,6 +1112,10 @@ challenges:
     database-export-completed: "&a Veiksmīgi eksportēti uzdevumi no [world]. Fails [file] ir izveidots."
     # Message that appears if input file name is already taken.
     file-name-exist: "&c Faila nosaukums '[id]' jau eksistē. Nevar pārrakstīt."
+    # Message that asks for search value input.
+    write-search: "&e Lūdzu ievadi meklēšanas vērtību. (vai 'atcelt', lai izietu)"
+    # Message that appears after updating search value.
+    search-updated: "&a Meklēšanas vērtība atjaunota."
 
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
