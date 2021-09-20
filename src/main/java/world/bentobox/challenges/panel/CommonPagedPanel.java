@@ -130,6 +130,9 @@ public abstract class CommonPagedPanel extends CommonPanel
             description.add(this.user.getTranslation(reference + "description",
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex + 2)));
 
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-next"));
+
             icon = new ItemStack(Material.OAK_SIGN, this.pageIndex + 2);
             clickHandler = (panel, user, clickType, slot) ->
             {
@@ -142,6 +145,9 @@ public abstract class CommonPagedPanel extends CommonPanel
         {
             description.add(this.user.getTranslation(reference + "description",
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex)));
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-previous"));
 
             icon = new ItemStack(Material.OAK_SIGN, Math.max(1, this.pageIndex));
             clickHandler = (panel, user, clickType, slot) ->
