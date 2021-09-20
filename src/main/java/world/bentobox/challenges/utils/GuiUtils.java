@@ -254,12 +254,27 @@ public class GuiUtils
 		if (material.name().contains("WALL_"))
 		{
 			// Materials that is attached to wall cannot be showed in GUI. But they should be in list.
-			itemStack = new ItemStack(Material.getMaterial(material.name().replace("WALL_", "")));
+
+			Material newMaterial = Material.getMaterial(material.name().replace("WALL_", ""));
+			itemStack = new ItemStack(Objects.requireNonNullElse(newMaterial, material));
+		}
+		else if (material.equals(Material.POTTED_AZALEA_BUSH))
+		{
+			return new ItemStack(Material.AZALEA);
+		}
+		else if (material.equals(Material.POTTED_FLOWERING_AZALEA_BUSH))
+		{
+			return new ItemStack(Material.FLOWERING_AZALEA);
 		}
 		else if (material.name().startsWith("POTTED_"))
 		{
 			// Materials Potted elements cannot be in inventory.
-			itemStack = new ItemStack(Material.getMaterial(material.name().replace("POTTED_", "")));
+			Material newMaterial = Material.getMaterial(material.name().replace("POTTED_", ""));
+			itemStack = new ItemStack(Objects.requireNonNullElse(newMaterial, material));
+		}
+		else if (material.name().endsWith("CAULDRON"))
+		{
+			itemStack = new ItemStack(Material.CAULDRON);
 		}
 		else if (material.equals(Material.MELON_STEM) || material.equals(Material.ATTACHED_MELON_STEM))
 		{
@@ -289,9 +304,16 @@ public class GuiUtils
 		{
 			itemStack = new ItemStack(Material.COCOA_BEANS);
 		}
-		else if (material.equals(Material.KELP_PLANT))
+		else if (material.equals(Material.CAVE_VINES) || material.equals(Material.CAVE_VINES_PLANT))
 		{
-			itemStack = new ItemStack(Material.KELP);
+			// Process cave vines as they are glow berries
+			itemStack = new ItemStack(Material.GLOW_BERRIES);
+		}
+		else if (material.name().endsWith("_PLANT"))
+		{
+			// Plants cannot be displayed in GUI's.
+			Material newMaterial = Material.getMaterial(material.name().replace("_PLANT", ""));
+			itemStack = new ItemStack(Objects.requireNonNullElse(newMaterial, material));
 		}
 		else if (material.equals(Material.REDSTONE_WIRE))
 		{
@@ -328,6 +350,26 @@ public class GuiUtils
 		else if (material.equals(Material.PISTON_HEAD) || material.equals(Material.MOVING_PISTON))
 		{
 			itemStack = new ItemStack(Material.PISTON);
+		}
+		else if (material.equals(Material.BAMBOO_SAPLING))
+		{
+			itemStack = new ItemStack(Material.BAMBOO);
+		}
+		else if (material.equals(Material.SWEET_BERRY_BUSH))
+		{
+			itemStack = new ItemStack(Material.SWEET_BERRIES);
+		}
+		else if (material.name().contains("CANDLE_CAKE"))
+		{
+			itemStack = new ItemStack(Material.CAKE);
+		}
+		else if (material.equals(Material.POWDER_SNOW))
+		{
+			itemStack = new ItemStack(Material.POWDER_SNOW_BUCKET);
+		}
+		else if (material.equals(Material.BIG_DRIPLEAF_STEM))
+		{
+			itemStack = new ItemStack(Material.BIG_DRIPLEAF);
 		}
 		else
 		{
