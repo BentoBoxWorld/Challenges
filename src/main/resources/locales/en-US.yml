@@ -1091,50 +1091,30 @@ challenges:
         level-title: 'Successfully completed'
         level-subtitle: '[friendlyName]'
     messages:
-        admin:
-            hit-things: 'Click the things to add them to the list of required things. Right click when done.'
-            you-added: 'You added one [thing] to the challenge'
-            challenge-created: '[challenge]&r  created!'
-            complete-wipe: '&c Hopefully you have backups, because you just erased all the Challenges Addon databases!'
-
-            challenge-wipe: '&c Hopefully you have backups, because you just erased all the Challenges and their levels!'
-            players-wipe: '&c Hopefully you have backups, because you just erase all the player completed challenges!'
-
-            completed: '&2 You completed challenge [name] for [player]!'
-            already-completed: '&2 This challenge was already completed!'
-            reset: '&2 You reset challenge [name] for [player]!'
-            reset-all: '&2 All [player] challenges were reset!'
-            not-completed: '&2 This challenge is not completed yet!'
-
-            migrate-start: '&2 Start migrating challenges addon data.'
-            migrate-end: '&2 Challenges addon data updated to new format.'
-            migrate-not: '&2 All data is valid.'
-
-            start-downloading: '&5 Starting to download and import Challenges Library.'
+        completed: '&2 You completed challenge [name] for [player]!'
+        already-completed: '&2 This challenge was already completed!'
+        reset: '&2 You reset challenge [name] for [player]!'
+        reset-all: '&2 All [player] challenges were reset!'
+        not-completed: '&2 This challenge is not completed yet!'
+        migrate-start: '&2 Start migrating challenges addon data.'
+        migrate-end: '&2 Challenges addon data updated to new format.'
+        migrate-not: '&2 All data is valid.'
+        start-downloading: '&5 Starting to download and import Challenges Library.'
         you-completed-challenge: '&2 You completed the [value] &r &2 challenge!'
         you-repeated-challenge: '&2 You repeated the [value] &r &2 challenge!'
         you-repeated-challenge-multiple: '&2 You repeated the [value] &r &2 challenge [count] times!'
         you-completed-level: '&2 You completed the [value] &r &2 level!'
         name-has-completed-challenge: '&5 [name] has completed the [value] &r &5 challenge!'
         name-has-completed-level: '&5 [name] has completed the [value] &r &5 level!'
-        import-levels: 'Start importing Levels'
-        import-challenges: 'Start importing Challenges'
-        no-levels: 'Warning: No levels defined in challenges.yml'
-        import-number: 'Imported [number] challenges'
         load-skipping: '"[value]" already exists - skipping'
         load-overwriting: 'Overwriting "[value]"'
         load-add: 'Adding new object: [value]'
-        defaults-file-overwrite: 'defaults.json exists. It will be overwritten.'
-        defaults-file-completed: 'defaults.json file is populated with challenges from [world]!'
     errors:
         no-name: '&c Missing challenge name'
         unknown-challenge: '&c Unknown challenge'
-        unique-id: '&c UniqueID "[id]" is not valid.'
-        wrong-icon: '&c Given material "[value]" is not valid and cannot be used as icon.'
         not-valid-integer: |-
             &c Given integer "[value]" is not valid!
             Value should be between [min] and [max].
-        not-a-integer: '&c Given value "[value]" is not an integer!'
         not-deployed: '&c Challenge is not deployed!'
         not-on-island: '&c You must be on your island to do that!'
         challenge-level-not-available: '&c You have not unlocked the required level to complete this challenge.'
@@ -1148,24 +1128,19 @@ challenges:
         not-enough-money: '&c It is necessary to have [value] on your account to complete the challenge.'
         not-enough-experience: '&c It is necessary to have [value] EXP to complete this challenge.'
         island-level: '&c Your island must be level [number] or greater to complete this challenge!'
-        import-no-file: '&c Could not find challenges.yml file to import!'
-        no-load: '&c Error: Could not load challenges.yml. [message]'
+        no-load: '&c Error: Could not load file. [message]'
         load-error: '&c Error: Cannot load [value].'
         no-rank: "&c You do not have rank that is high enough to do that."
         cannot-remove-items: '&c Some items cannot be removed from your inventory!'
         exist-challenges-or-levels: '&c Challenges already exist in your world. Cannot proceed!'
-        defaults-file-exist: '&c defaults.json already exists. Use overwrite mode to replace it!'
-        defaults-file-error: '&c There was an error while creating defaults.json file! Check console!'
         no-challenges: '&c Challenges are not implemented in this world yet!'
         no-challenges-admin: '&c Challenges are not implemented in this world yet! Use &5 /[command] &c to add them!'
-        missing-level: '&c Challenge Level [level] is not defined in the database. It may cause errors!'
         missing-arguments: '&c Command is missing arguments.'
         no-multiple-permission: "&c You do not have permission to complete this challenge multiple times at once."
         invalid-level: "&c Level [level] contains invalid data. It will not be loaded from database!"
         invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
         no-library-entries: "&c Cannot find any library entries. Nothing to show."
         not-hooked: "&c Challenges Addon could not find any GameMode."
-
     # Showcase for manual material translation
     materials:
         # Names should be lowercase.
