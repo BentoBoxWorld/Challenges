@@ -139,9 +139,16 @@ public abstract class CommonPanel
 
         final String reference = Constants.DESCRIPTIONS + "challenge.";
 
-        // Get description in single string
-        String description = Util.translateColorCodes(String.join("\n",
-            challenge.getDescription()));
+        // Get description from custom translations
+        String description = this.user.getTranslationOrNothing(
+            "challenges.challenges."  + challenge.getUniqueId() + ".description");
+
+        if (description.isEmpty())
+        {
+            // Get data from object in single string.
+            description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
+        }
+
         // Non-memory optimal code used for easier debugging and nicer code layout for my eye :)
         // Get status in single string
         String status = this.generateChallengeStatus(isCompletedOnce,
@@ -678,8 +685,16 @@ public abstract class CommonPanel
             return "";
         }
 
+        String rewardText = this.user.getTranslationOrNothing(
+            "challenges.challenges."  + challenge.getUniqueId() + ".repeat-reward-text");
+
+        if (rewardText.isEmpty())
+        {
+            rewardText = Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText()));
+        }
+
         return this.user.getTranslationOrNothing(reference + "lore",
-            "[text]", Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText())),
+            "[text]", rewardText,
             "[items]", items,
             "[experience]", experience,
             "[money]", money,
@@ -771,8 +786,16 @@ public abstract class CommonPanel
             return "";
         }
 
+        String rewardText = this.user.getTranslationOrNothing(
+            "challenges.challenges."  + challenge.getUniqueId() + ".reward-text");
+
+        if (rewardText.isEmpty())
+        {
+            rewardText = Util.translateColorCodes(String.join("\n", challenge.getRewardText()));
+        }
+
         return this.user.getTranslationOrNothing(reference + "lore",
-            "[text]", Util.translateColorCodes(String.join("\n", challenge.getRewardText())),
+            "[text]", rewardText,
             "[items]", items,
             "[experience]", experience,
             "[money]", money,
@@ -834,8 +857,16 @@ public abstract class CommonPanel
         // Get rewards in single string
         String rewards = !levelStatus.isUnlocked() ? "" : this.generateReward(level);
 
+        String description = this.user.getTranslationOrNothing(
+            "challenges.levels."  + level.getUniqueId() + ".description");
+
+        if (description.isEmpty())
+        {
+            description = Util.translateColorCodes(String.join("\n", level.getUnlockMessage()));
+        }
+
         String returnString = this.user.getTranslation(reference + "lore",
-            "[text]", Util.translateColorCodes(levelStatus.getLevel().getUnlockMessage()),
+            "[text]", description,
             "[waiver]", waiver,
             "[rewards]", rewards,
            "[status]", status);
@@ -966,14 +997,21 @@ public abstract class CommonPanel
             return "";
         }
 
+        String rewardText = this.user.getTranslationOrNothing(
+            "challenges.levels."  + level.getUniqueId() + ".reward-text");
+
+        if (rewardText.isEmpty())
+        {
+            rewardText = Util.translateColorCodes(String.join("\n", level.getRewardText()));
+        }
+
         return this.user.getTranslationOrNothing(reference + "lore",
-            "[text]", Util.translateColorCodes(String.join("\n", level.getRewardText())),
+            "[text]", rewardText,
             "[items]", items,
             "[experience]", experience,
             "[money]", money,
             "[commands]", commands);
     }
-
 
 
 // ---------------------------------------------------------------------
