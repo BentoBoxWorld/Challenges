@@ -193,7 +193,7 @@ public class LibraryPanel extends CommonPagedPanel
         PanelItemBuilder itemBuilder = new PanelItemBuilder().
             name(this.user.getTranslation(reference + "name")).
             description(description).
-            icon(Material.HOPPER).
+            icon(Material.COBWEB).
             glow(this.clearCache);
 
         itemBuilder.clickHandler((panel, user1, clickType, slot) ->
