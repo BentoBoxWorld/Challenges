@@ -28,7 +28,7 @@ main_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-previous
       2: challenge_button
       3: challenge_button
       4: challenge_button
@@ -46,7 +46,7 @@ main_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-next
     5:
       1:
         icon: TIPPED_ARROW:INSTANT_HEAL::::1
@@ -58,7 +58,7 @@ main_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-previous
       2: level_button
       3: level_button
       4: level_button
@@ -76,7 +76,7 @@ main_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-next
     6:
       5:
         icon: IRON_BARS

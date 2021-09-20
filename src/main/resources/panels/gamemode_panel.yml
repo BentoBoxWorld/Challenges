@@ -20,7 +20,7 @@ gamemode_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-previous
       2: gamemode
       3: gamemode
       4: gamemode
@@ -38,7 +38,7 @@ gamemode_panel:
           indexing: true
         action:
           left:
-            tooltip: challenges.gui.tips.click-to-select
+            tooltip: challenges.gui.tips.click-to-next
   reusable:
     gamemode:
       data:
