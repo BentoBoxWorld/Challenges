@@ -1158,46 +1158,46 @@ challenges:
     invalid-challenge: "&c Uzdevums [challenge] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
     no-library-entries: "&c Nevar atrast bibliotēkas ierakstus. Nav ko rādīt."
     not-hooked: "&c Uzdevumu Papildinājumam neizdevās atrast Spēles Režīmu."
-  # Showcase for manual material translation
-  materials:
-    # Names should be lowercase.
-    cobblestone: "Mūrakmens"
-    # Also supports descriptions.
-    stone:
-      name: "Akmens"
-      description: ""
-  item-stacks:
-    # Non-specific item meta translations.
-    # TYPE is the item type
-    # META is a content of item meta.
-    generic: "[type] [meta]"
-    # Non-specific meta translations. Will replace [meta]
-    meta:
-      upgraded: "Uzlabots"
-      extended: "Pagarināts"
-      potion-meta: "&e [type] [upgraded] [extended]"
-      # Be aware, enchants are always listed below item in separate line.
-      enchant-meta: "    &7 - &e [type] [level]"
-      skull-meta: ": &e [player-name]"
-      book-meta: "&e [title] [author]"
-    # Custom Enchantment Translation.
-    enchant:
-      menting: "Lāpīšana"
-      unbreaking: "Nelūztošs"
-    # Custom Potion Translation.
-    potion-effect:
-      water_breathing: "Zemūdens Elpošanas"
-    # You can also create specific item translations
-    # Like translate all potions.
-    potion:
-      # This will overwrite generic translation.
-      name: "[type] [upgraded] [extended]"
-      # Type is either specific translation or potion effect.
-      water_breathing: "Zemūdens Elpošanas Dzira"
-    stone_shovel:
-      # This will mean that only stone shovels will not show
-      # meta information.
-      name: "[type]"
+#  # Showcase for manual material translation
+#  materials:
+#    # Names should be lowercase.
+#    cobblestone: "Mūrakmens"
+#    # Also supports descriptions.
+#    stone:
+#      name: "Akmens"
+#      description: ""
+#  item-stacks:
+#    # Non-specific item meta translations.
+#    # TYPE is the item type
+#    # META is a content of item meta.
+#    generic: "[type] [meta]"
+#    # Non-specific meta translations. Will replace [meta]
+#    meta:
+#      upgraded: "Uzlabots"
+#      extended: "Pagarināts"
+#      potion-meta: "&e [type] [upgraded] [extended]"
+#      # Be aware, enchants are always listed below item in separate line.
+#      enchant-meta: "    &7 - &e [type] [level]"
+#      skull-meta: ": &e [player-name]"
+#      book-meta: "&e [title] [author]"
+#    # Custom Enchantment Translation.
+#    enchant:
+#      menting: "Lāpīšana"
+#      unbreaking: "Nelūztošs"
+#    # Custom Potion Translation.
+#    potion-effect:
+#      water_breathing: "Zemūdens Elpošanas"
+#    # You can also create specific item translations
+#    # Like translate all potions.
+#    potion:
+#      # This will overwrite generic translation.
+#      name: "[type] [upgraded] [extended]"
+#      # Type is either specific translation or potion effect.
+#      water_breathing: "Zemūdens Elpošanas Dzira"
+#    stone_shovel:
+#      # This will mean that only stone shovels will not show
+#      # meta information.
+#      name: "[type]"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
