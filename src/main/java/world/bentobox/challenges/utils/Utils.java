@@ -1,6 +1,7 @@
 package world.bentobox.challenges.utils;
 
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -877,5 +878,44 @@ public class Utils
 		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
 			"[type]", prettifyObject(itemType, user),
 			"[meta]", meta);
+	}
+
+
+	/**
+	 * This method parses duration to a readable format.
+	 * @param duration that needs to be parsed.
+	 * @return parsed duration string.
+	 */
+	public static String parseDuration(Duration duration, User user)
+	{
+		final String reference = Constants.DESCRIPTIONS + "challenge.cooldown.";
+
+		String returnString = "";
+
+		if (duration.toDays() > 0)
+		{
+			returnString += user.getTranslationOrNothing(reference + "in-days",
+				Constants.PARAMETER_NUMBER, String.valueOf(duration.toDays()));
+		}
+
+		if (duration.toHoursPart() > 0)
+		{
+			returnString += user.getTranslationOrNothing(reference + "in-hours",
+				Constants.PARAMETER_NUMBER, String.valueOf(duration.toHoursPart()));
+		}
+
+		if (duration.toMinutesPart() > 0)
+		{
+			returnString += user.getTranslationOrNothing(reference + "in-minutes",
+				Constants.PARAMETER_NUMBER, String.valueOf(duration.toMinutesPart()));
+		}
+
+		if (duration.toSecondsPart() > 0 || returnString.isBlank())
+		{
+			returnString += user.getTranslationOrNothing(reference + "in-seconds",
+				Constants.PARAMETER_NUMBER, String.valueOf(duration.toSecondsPart()));
+		}
+
+		return returnString;
 	}
 }

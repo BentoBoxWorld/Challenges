@@ -3,6 +3,8 @@ package world.bentobox.challenges.tasks;
 
 
 import com.google.common.collect.UnmodifiableIterator;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -228,7 +230,8 @@ public class TryToComplete
             int maxTimes)
     {
         return new TryToComplete(addon, user, challenge, world, topLabel, permissionPrefix).
-                build(maxTimes).meetsRequirements;
+            build(maxTimes).
+            meetsRequirements;
     }
 
 
@@ -713,6 +716,17 @@ public class TryToComplete
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-repeatable"));
             result = EMPTY_RESULT;
         }
+        // Check if timeout is not broken
+        else if (this.manager.isBreachingTimeOut(this.user, this.world, this.challenge))
+        {
+            long missing = this.manager.getLastCompletionDate(this.user, this.world, challenge) +
+                this.challenge.getTimeout() - System.currentTimeMillis();
+
+            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.timeout",
+                "[timeout]", Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user),
+                "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user)));
+            result = EMPTY_RESULT;
+        }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
                 !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
@@ -776,7 +790,7 @@ public class TryToComplete
      */
     private int getAvailableCompletionTimes(int vantedTimes)
     {
-        if (!this.challenge.isRepeatable())
+        if (!this.challenge.isRepeatable() || this.challenge.getTimeout() > 0)
         {
             // Challenge is not repeatable
             vantedTimes = 1;
@@ -1513,7 +1527,7 @@ public class TryToComplete
      *
      * @author tastybento
      */
-    class ChallengeResult
+    static class ChallengeResult
     {
         /**
          * This method sets that challenge meets all requirements at least once.

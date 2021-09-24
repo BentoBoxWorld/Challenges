@@ -1398,6 +1398,43 @@ public class ChallengesManager
 
 
     /**
+     * This method returns if given user breached timeout for given challenge.
+     * @param user - User that must be checked.
+     * @param world - World where challenge operates.
+     * @param challenge - Challenge that must be checked.
+     * @return True, if challenge is breached timeout, otherwise - false.
+     */
+    public boolean isBreachingTimeOut(User user, World world, Challenge challenge)
+    {
+        if (challenge.getTimeout() <= 0)
+        {
+            // Challenge does not have a timeout.
+            return false;
+        }
+
+        return System.currentTimeMillis() <
+            this.getLastCompletionDate(user, world, challenge) + challenge.getTimeout();
+    }
+
+
+    /**
+     * Gets last completion date for given challenge.
+     *
+     * @param user the user
+     * @param world the world
+     * @param challenge the challenge
+     * @return the last completion date
+     */
+    public long getLastCompletionDate(User user, World world, Challenge challenge)
+    {
+        String userId = this.getDataUniqueID(user, Util.getWorld(world));
+        this.addPlayerData(userId);
+
+        return this.playerCacheData.get(userId).getLastCompletionTime(challenge.getUniqueId());
+    }
+
+
+    /**
      * This method sets given challenge as completed.
      * @param user - Targeted user.
      * @param world - World where completion must be called.

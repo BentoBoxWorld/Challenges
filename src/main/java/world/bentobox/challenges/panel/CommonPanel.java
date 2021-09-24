@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -159,13 +160,17 @@ public abstract class CommonPanel
         String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);
         // Get rewards in single string
         String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce);
+        // Get coolDown in singe string
+        String coolDown = isCompletedAll || challenge.getTimeout() <= 0 ? "" :
+            this.generateCoolDown(challenge, target);
 
         if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty())
         {
             String returnString = this.user.getTranslationOrNothing(reference + "lore",
                 "[requirements]", requirements,
                 "[rewards]", rewards,
-                "[status]", status);
+                "[status]", status,
+                "[cooldown]", coolDown);
 
             // remove empty lines from the generated text.
             List<String> collect =
@@ -191,7 +196,8 @@ public abstract class CommonPanel
                 Constants.PARAMETER_DESCRIPTION, description,
                 "[requirements]", requirements,
                 "[rewards]", rewards,
-                "[status]", status);
+                "[status]", status,
+                "[cooldown]", coolDown);
 
             // Remove empty lines and returns as a list.
 
@@ -199,6 +205,43 @@ public abstract class CommonPanel
                     split("\n")).
                 collect(Collectors.toList());
         }
+    }
+
+
+    /**
+     * Generate cool down string.
+     *
+     * @param challenge the challenge
+     * @param target the target
+     * @return the string
+     */
+    private String generateCoolDown(Challenge challenge, @Nullable User target)
+    {
+        final String reference = Constants.DESCRIPTIONS + "challenge.cooldown.";
+
+        String coolDown;
+
+        if (target != null && this.manager.isBreachingTimeOut(target, this.world, challenge))
+        {
+            long missing = this.manager.getLastCompletionDate(this.user, this.world, challenge) +
+                challenge.getTimeout() - System.currentTimeMillis();
+
+            coolDown = this.user.getTranslation(reference + "wait-time",
+                "[time]",
+                Utils.parseDuration(Duration.ofMillis(missing), this.user));
+        }
+        else
+        {
+            coolDown = "";
+        }
+
+        String timeout = this.user.getTranslation(reference + "timeout",
+            "[time]",
+            Utils.parseDuration(Duration.ofMillis(challenge.getTimeout()), this.user));
+
+        return this.user.getTranslation(reference + "lore",
+            "[timeout]", timeout,
+            "[wait-time]", coolDown);
     }
 
 

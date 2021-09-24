@@ -849,6 +849,7 @@ challenges:
         lore: |-
           [description]
           [status]
+          [cooldown]
           [requirements]
           [rewards]
         # Contains a text generated inside [status] lore
@@ -861,6 +862,23 @@ challenges:
           completed-times-of: "&2 Izpildīts &7&l [number] &r&2 no &7&l [max] &r&2 reizēm"
           # Status message that indicates that max completion count reached for repeatable challenge
           completed-times-reached: "&2&l Izpildīts visas &7 [max] &2 reizes"
+        # Contains a text generated inside [cooldown] lore
+        cooldown:
+          lore: |-
+            [timeout]
+            [wait-time]
+          # Text message that shows challenges timeout.
+          timeout: "&7&l Taimauts: &r&7 [time]"
+          # Text message that shows challenges wait time if it is larger than 0.
+          wait-time: "&c&l Jānogaida: &r&c [time]"
+          # Text message that replaces days if number > 1
+          in-days: "[number] d, "
+          # Text message that replaces hours if number > 1
+          in-hours: "[number] h, "
+          # Text message that replaces minutes if number > 1
+          in-minutes: "[number] min, "
+          # Text message that replaces seconds if number > 1
+          in-seconds: "[number] s"
         # Contains a text generated inside [requirements] lore
         requirements:
           lore: |-
@@ -1180,6 +1198,7 @@ challenges:
     invalid-challenge: "&c Uzdevums [challenge] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
     no-library-entries: "&c Nevar atrast bibliotēkas ierakstus. Nav ko rādīt."
     not-hooked: "&c Uzdevumu Papildinājumam neizdevās atrast Spēles Režīmu."
+    timeout: "&c Šim uzdevumam ir uzstādīts [timeout] taimauts starp izpildēm. Tev vēl ir jāgaida [wait-time], lai varētu pildīt uzdevumu."
 #  # Showcase for manual material translation
 #  materials:
 #    # Names should be lowercase.

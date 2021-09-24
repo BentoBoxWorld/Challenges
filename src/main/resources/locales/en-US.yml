@@ -829,6 +829,7 @@ challenges:
                 lore: |-
                     [description]
                     [status]
+                    [cooldown]
                     [requirements]
                     [rewards]
                 # Contains a text generated inside [status] lore
@@ -841,6 +842,23 @@ challenges:
                     completed-times-of: "&2 Completed &7&l [number] &r&2 out of &7&l [max] &r&2 times"
                     # Status message that indicates that max completion count reached for repeatable challenge
                     completed-times-reached: "&2&l Completed all &7 [max] &2 times"
+                # Contains a text generated inside [cooldown] lore
+                cooldown:
+                    lore: |-
+                        [timeout]
+                        [wait-time]
+                    # Text message that shows challenges timeout.
+                    timeout: "&7&l Cool down: &r&7 [time]"
+                    # Text message that shows challenges wait time if it is larger than 0.
+                    wait-time: "&c&l Available after: &r&c [time]"
+                    # Text message that replaces days if number > 1
+                    in-days: "[number] d, "
+                    # Text message that replaces hours if number > 1
+                    in-hours: "[number] h, "
+                    # Text message that replaces minutes if number > 1
+                    in-minutes: "[number] min, "
+                    # Text message that replaces seconds if number > 1
+                    in-seconds: "[number] s"
                 # Contains a text generated inside [requirements] lore
                 requirements:
                     lore: |-
@@ -1156,6 +1174,7 @@ challenges:
         invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
         no-library-entries: "&c Cannot find any library entries. Nothing to show."
         not-hooked: "&c Challenges Addon could not find any GameMode."
+        timeout: "&c This challenge requires to wait [timeout] between completions. You must wait [wait-time] till complete it again."
 #    # Showcase for manual material translation
 #    materials:
 #        # Names should be lowercase.

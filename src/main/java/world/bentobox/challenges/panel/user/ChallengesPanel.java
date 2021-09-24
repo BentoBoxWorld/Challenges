@@ -303,6 +303,12 @@ public class ChallengesPanel extends CommonPanel
                                         this.createChallengeButton(template, challenge).getItem());
                                 }
                             }
+                            else if (challenge.isRepeatable() && challenge.getTimeout() > 0)
+                            {
+                                // Update timeout after clicking.
+                                panel.getInventory().setItem(i,
+                                    this.createChallengeButton(template, challenge).getItem());
+                            }
                             break;
                         case "COMPLETE_MAX":
                             if (challenge.isRepeatable())
@@ -327,6 +333,12 @@ public class ChallengesPanel extends CommonPanel
                                         panel.getInventory().setItem(i,
                                             this.createChallengeButton(template, challenge).getItem());
                                     }
+                                }
+                                else if (challenge.getTimeout() > 0)
+                                {
+                                    // Update timeout after clicking.
+                                    panel.getInventory().setItem(i,
+                                        this.createChallengeButton(template, challenge).getItem());
                                 }
                             }
                             break;

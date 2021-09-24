@@ -251,10 +251,22 @@ public class ChallengesPlayerData implements DataObject
      * @param challengeName - unique challenge name
      * @param times - the number of times to set
      */
-    public void setChallengeTimes(@NonNull String challengeName, @NonNull int times)
+    public void setChallengeTimes(@NonNull String challengeName, int times)
     {
         challengeStatus.put(challengeName, times);
         challengesTimestamp.put(challengeName, System.currentTimeMillis());
+    }
+
+
+    /**
+     * Gets last completion time.
+     *
+     * @param challengeName the unique id
+     * @return the last completion time
+     */
+    public long getLastCompletionTime(@NonNull String challengeName)
+    {
+        return this.challengesTimestamp.getOrDefault(challengeName, 0L);
     }
 
 
