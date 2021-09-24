@@ -35,7 +35,7 @@
         <java.version>16</java.version>
         <powermock.version>2.0.9</powermock.version>
         <!-- More visible way how to change dependency versions -->
-        <spigot.version>1.17-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
         <spigot-annotations.version>1.2.3-SNAPSHOT</spigot-annotations.version>
         <bentobox.version>1.17.3</bentobox.version>
         <level.version>2.6.3</level.version>
@@ -93,13 +93,14 @@
         </repository>
     </distributionManagement>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <repositories>
-        <repository>
-            <!-- This is a temporary reference as the Maven Shade plugin
-				that supports Java 16 is not released yet -->
-            <id>maven-snapshots</id>
-            <url>https://repository.apache.org/content/repositories/snapshots/</url>
-        </repository>
         <!-- Spigot Repo -->
         <repository>
             <id>spigot-repo</id>
@@ -123,13 +124,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Mojang Auth-->
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.21</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -156,7 +150,7 @@
             <version>${vault.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--   BentoBox dependencies.     -->
+        <!-- BentoBox dependencies. -->
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
@@ -194,6 +188,14 @@
             <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Mojang Auth -->
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.21</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
