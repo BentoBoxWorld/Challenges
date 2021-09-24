@@ -11,10 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -95,6 +92,7 @@ public class UtilsTest {
     @Test
     public void testGroupEqualItems() {
         List<ItemStack> requiredItems = new ArrayList<>();
+        Set<Material> ignoreMeta = Collections.singleton(Material.ACACIA_FENCE);
         // First item
         ItemStack is = mock(ItemStack.class);
         when(is.getAmount()).thenReturn(1);
@@ -112,7 +110,7 @@ public class UtilsTest {
             when(is2.clone()).thenReturn(is);
             requiredItems.add(is2);
         }
-        List<ItemStack> list = Utils.groupEqualItems(requiredItems, Collections.emptySet());
+        List<ItemStack> list = Utils.groupEqualItems(requiredItems, ignoreMeta);
         // Result should be two stacks stack of 64 doors and 36 doors
         assertEquals(1, list.size());
         verify(is, times(9)).setAmount(2);
