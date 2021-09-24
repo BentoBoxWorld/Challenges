@@ -202,7 +202,10 @@ public class TryToCompleteTest {
         // User has all perms by default
         when(user.hasPermission(anyString())).thenReturn(true);
         when(user.getPlayer()).thenReturn(player);
+        UUID uniqueId = UUID.randomUUID();
+        when(user.getUniqueId()).thenReturn(uniqueId);
         when(user.getTranslation(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslationOrNothing(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
         when(user.getName()).thenReturn("tastybento");
         @Nullable
         Location userLoc = mock(Location.class);
