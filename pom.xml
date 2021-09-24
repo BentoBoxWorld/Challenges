@@ -35,7 +35,7 @@
         <java.version>16</java.version>
         <powermock.version>2.0.9</powermock.version>
         <!-- More visible way how to change dependency versions -->
-        <spigot.version>1.17-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
         <spigot-annotations.version>1.2.3-SNAPSHOT</spigot-annotations.version>
         <bentobox.version>1.17.3</bentobox.version>
         <level.version>2.6.3</level.version>
@@ -110,11 +110,6 @@
         <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public</url>
-        </repository>
-        <!-- Vault Repo -->
-        <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
         <!-- Minecraft Lib Repo -->
         <repository>
