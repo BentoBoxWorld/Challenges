@@ -61,7 +61,7 @@ import world.bentobox.challenges.utils.Utils;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Bukkit.class, BentoBox.class, ChatColor.class, Utils.class, TryToComplete.class, Util.class})
 public class CompleteChallengeCommandTest {
-    
+
     @Mock
     private CompositeCommand ic;
     private UUID uuid;
@@ -73,7 +73,7 @@ public class CompleteChallengeCommandTest {
     private Island island;
     @Mock
     private ChallengesAddon addon;
-    
+
     private CompleteChallengeCommand cc;
     @Mock
     private World world;
@@ -83,7 +83,7 @@ public class CompleteChallengeCommandTest {
     private IslandWorldManager iwm;
     @Mock
     private GameModeAddon gameModeAddon;
-    @Mock
+
     private Settings settings;
     @Mock
     private Challenge challenge;
@@ -117,7 +117,7 @@ public class CompleteChallengeCommandTest {
         when(iwm.getAddon(any())).thenReturn(optionalAddon);
         when(plugin.getIWM()).thenReturn(iwm);
 
-        // Game Mode Addon        
+        // Game Mode Addon
         @NonNull
         Optional<CompositeCommand> optionalAdmin = Optional.of(ic);
         when(gameModeAddon.getAdminCommand()).thenReturn(optionalAdmin);
@@ -152,33 +152,34 @@ public class CompleteChallengeCommandTest {
         when(chm.getChallenge(anyString())).thenReturn(challenge);
         List<String> nameList = Arrays.asList("world_maker", "world_placer", "bad_challenge_name", "world_breaker");
         when(chm.getAllChallengesNames(any())).thenReturn(nameList);
-                
+
 
         // ChatColor
         PowerMockito.mockStatic(ChatColor.class);
         when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
 
         // Settings
+        settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
-        when(settings.getVisibilityMode()).thenReturn(VisibilityMode.VISIBLE);
+        settings.setVisibilityMode(VisibilityMode.VISIBLE);
 
         // Island
         when(plugin.getIslands()).thenReturn(im);
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
-        
+
         // Utils
         PowerMockito.mockStatic(Utils.class);
         when(Utils.getGameMode(any())).thenReturn("world");
-        
+
         // Try to complete
-        PowerMockito.mockStatic(TryToComplete.class);       
+        PowerMockito.mockStatic(TryToComplete.class);
         // All challenges are successful!
         when(TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt())).thenReturn(true);
-        
+
         // Util
         PowerMockito.mockStatic(Util.class);
         when(Util.tabLimit(any(), any())).thenAnswer((Answer<List<String>>) invocation -> (List<String>)invocation.getArgument(0, List.class));
-        
+
         // Command under test
         cc = new CompleteChallengeCommand(addon, ic);
     }
@@ -217,10 +218,10 @@ public class CompleteChallengeCommandTest {
     @Test
     public void testExecuteUserStringListOfStringNoArgs() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
-        verify(user).sendMessage(eq("challenges.errors.no-name"));
+        verify(user).getTranslation(eq("challenges.errors.no-name"));
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -228,10 +229,10 @@ public class CompleteChallengeCommandTest {
     public void testExecuteUserStringListOfStringUnknownChallenge() {
         when(chm.getChallenge(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
-        verify(user).sendMessage(eq("challenges.errors.unknown-challenge"));
+        verify(user).getTranslation(eq("challenges.errors.unknown-challenge"));
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -241,7 +242,7 @@ public class CompleteChallengeCommandTest {
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
         verify(user, never()).sendMessage(any());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -250,16 +251,16 @@ public class CompleteChallengeCommandTest {
         assertTrue(cc.execute(user, "complete", Collections.singletonList("mychal")));
         verify(user, never()).sendMessage(any());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesNoPerm() {
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
-        verify(user).sendMessage(eq("challenges.error.no-multiple-permission"));
+        verify(user).getTranslation(eq("challenges.error.no-multiple-permission"));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -269,7 +270,7 @@ public class CompleteChallengeCommandTest {
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
         verify(user, never()).sendMessage(any());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -277,7 +278,7 @@ public class CompleteChallengeCommandTest {
     public void testTabCompleteUserStringListOfStringNoArgs() {
         cc.tabComplete(user, "complete", Collections.emptyList());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -287,7 +288,7 @@ public class CompleteChallengeCommandTest {
         assertFalse(list.isEmpty());
         assertEquals("help", list.get(0));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -297,7 +298,7 @@ public class CompleteChallengeCommandTest {
         assertFalse(list.isEmpty());
         assertEquals("help", list.get(0));
     }
-        
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -309,7 +310,7 @@ public class CompleteChallengeCommandTest {
         assertEquals("placer", list.get(1));
         assertEquals("breaker", list.get(2));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -318,7 +319,7 @@ public class CompleteChallengeCommandTest {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "arg4")).get();
         assertTrue(list.isEmpty());
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
@@ -328,7 +329,7 @@ public class CompleteChallengeCommandTest {
         assertFalse(list.isEmpty());
         assertEquals("<number>", list.get(0));
     }
-    
+
     /**
      * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
