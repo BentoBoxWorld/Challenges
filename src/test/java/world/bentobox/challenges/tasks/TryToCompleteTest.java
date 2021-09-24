@@ -287,7 +287,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringNotDeployed() {
         challenge.setDeployed(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-deployed");
+        verify(user).getTranslation("challenges.errors.not-deployed");
     }
 
     /**
@@ -297,7 +297,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringWrongWorld() {
         challenge.setUniqueId("test");
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("general.errors.wrong-world");
+        verify(user).getTranslation("general.errors.wrong-world");
     }
 
     /**
@@ -308,7 +308,7 @@ public class TryToCompleteTest {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-on-island");
+        verify(user).getTranslation("challenges.errors.not-on-island");
     }
 
     /**
@@ -319,7 +319,7 @@ public class TryToCompleteTest {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, false);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -329,7 +329,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringLevelNotUnlocked() {
         when(cm.isLevelUnlocked(any(), any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.challenge-level-not-available");
+        verify(user).getTranslation("challenges.errors.challenge-level-not-available");
     }
 
     /**
@@ -340,7 +340,7 @@ public class TryToCompleteTest {
         challenge.setRepeatable(false);
         when(cm.isChallengeComplete(any(User.class), any(), any())).thenReturn(true);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-repeatable");
+        verify(user).getTranslation("challenges.errors.not-repeatable");
     }
 
     /**
@@ -352,7 +352,7 @@ public class TryToCompleteTest {
         challenge.setMaxTimes(0);
         when(cm.getChallengeTimes(any(), any(), any(Challenge.class))).thenReturn(0L);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -362,7 +362,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringNoRank() {
         when(island.isAllowed(any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.no-rank");
+        verify(user).getTranslation("challenges.errors.no-rank");
     }
 
     /**
@@ -371,7 +371,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntZero() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 0));
-        verify(user).sendMessage("challenges.errors.not-valid-integer");
+        verify(user).getTranslation("challenges.errors.not-valid-integer");
     }
 
     /**
@@ -380,7 +380,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntNegative() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, -10));
-        verify(user).sendMessage("challenges.errors.not-valid-integer");
+        verify(user).getTranslation("challenges.errors.not-valid-integer");
     }
 
     /**
@@ -390,7 +390,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveWrongEnvinonment() {
         challenge.setEnvironment(Collections.singleton(Environment.NETHER));
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 100));
-        verify(user).sendMessage("challenges.errors.wrong-environment");
+        verify(user).getTranslation("challenges.errors.wrong-environment");
     }
 
     /**
@@ -403,7 +403,7 @@ public class TryToCompleteTest {
         when(user.hasPermission(anyString())).thenReturn(false);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 100));
-        verify(user).sendMessage("general.errors.no-permission");
+        verify(user).getTranslation("general.errors.no-permission");
     }
 
     /**
@@ -412,7 +412,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccess() {
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -424,7 +424,7 @@ public class TryToCompleteTest {
         req.setRequiredItems(Collections.singletonList(new ItemStack(Material.EMERALD_BLOCK)));
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-enough-items", "[items]", "Emerald Block");
+        verify(user).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.emerald_block");
     }
 
     /**
@@ -459,9 +459,9 @@ public class TryToCompleteTest {
 
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         // Sufficient emerald blocks
-        verify(user, never()).sendMessage("challenges.errors.not-enough-items", "[items]", "Emerald Block");
+        verify(user, never()).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.emerald_block");
         // Not enough books
-        verify(user).sendMessage("challenges.errors.not-enough-items", "[items]", "Enchanted Book");
+        verify(user).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.enchanted_book");
     }
 
     /**
@@ -471,7 +471,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
         when(player.getGameMode()).thenReturn(GameMode.CREATIVE);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -501,7 +501,7 @@ public class TryToCompleteTest {
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
 
     }
 
@@ -517,7 +517,7 @@ public class TryToCompleteTest {
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
 
     }
 
@@ -536,9 +536,9 @@ public class TryToCompleteTest {
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "5", "[item]", "challenges.entities.chicken.name");
 
     }
 
@@ -563,9 +563,9 @@ public class TryToCompleteTest {
         List<Entity> list = Collections.singletonList(ent);
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
-        verify(user, never()).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
+        verify(user, never()).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "5", "[item]", "challenges.entities.chicken.name");
 
     }
 
@@ -588,7 +588,7 @@ public class TryToCompleteTest {
         List<Entity> list = Collections.singletonList(ent);
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -616,7 +616,7 @@ public class TryToCompleteTest {
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         when(netherWorld.getNearbyEntities(any(BoundingBox.class))).thenReturn(Collections.emptyList());
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
     }
 
     /**
@@ -626,7 +626,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntMultipleTimesPositiveSuccess() {
         // Try to complete 10 times. Already done 3 times, and max is 10, so it should be only done 7 times
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 10));
-        verify(user).sendMessage("challenges.messages.you-repeated-challenge-multiple", "[value]", "name", "[count]", "7");
+        verify(user).getTranslation("challenges.messages.you-repeated-challenge-multiple", "[value]", "name", "[count]", "7");
     }
 
     /**

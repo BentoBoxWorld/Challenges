@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -113,7 +114,7 @@ public class ChallengesAddonTest {
         // Command manager
         CommandsManager cm = mock(CommandsManager.class);
         when(plugin.getCommandsManager()).thenReturn(cm);
-        
+
         // Placeholders manager
         when(plugin.getPlaceholdersManager()).thenReturn(phm);
 
@@ -155,17 +156,12 @@ public class ChallengesAddonTest {
         Path path = Paths.get("config.yml");
         Files.write(path, lines, Charset.forName("UTF-8"));
         try (JarOutputStream tempJarOutputStream = new JarOutputStream(new FileOutputStream(jFile))) {
-            //Added the new files to the jar.
-            try (FileInputStream fis = new FileInputStream(path.toFile())) {
-
-                byte[] buffer = new byte[1024];
-                int bytesRead = 0;
-                JarEntry entry = new JarEntry(path.toString());
-                tempJarOutputStream.putNextEntry(entry);
-                while((bytesRead = fis.read(buffer)) != -1) {
-                    tempJarOutputStream.write(buffer, 0, bytesRead);
-                }
-            }
+            addToJar(tempJarOutputStream, path);
+            addToJar(tempJarOutputStream, Paths.get("src/main/resources/panels/gamemode_panel.yml"));
+            addToJar(tempJarOutputStream, Paths.get("src/main/resources/panels/main_panel.yml"));
+            addToJar(tempJarOutputStream, Paths.get("src/main/resources/panels/multiple_panel.yml"));
+            addToJar(tempJarOutputStream, Paths.get("src/main/resources/template.yml"));
+            addToJar(tempJarOutputStream, Paths.get("src/main/resources/default.json"));
         }
         File dataFolder = new File("addons/Challenges");
         addon.setDataFolder(dataFolder);
@@ -208,6 +204,20 @@ public class ChallengesAddonTest {
         when(Bukkit.getUnsafe()).thenReturn(unsafe);
 
 
+    }
+
+    private void addToJar(JarOutputStream tempJarOutputStream, Path path) throws FileNotFoundException, IOException {
+        //Added the new files to the jar.
+        try (FileInputStream fis = new FileInputStream(path.toFile())) {
+
+            byte[] buffer = new byte[1024];
+            int bytesRead = 0;
+            JarEntry entry = new JarEntry(path.toString().replace("src/main/resources/", ""));
+            tempJarOutputStream.putNextEntry(entry);
+            while((bytesRead = fis.read(buffer)) != -1) {
+                tempJarOutputStream.write(buffer, 0, bytesRead);
+            }
+        }
     }
 
     /**
@@ -290,8 +300,6 @@ public class ChallengesAddonTest {
         when(plugin.isEnabled()).thenReturn(true);
         addon.setState(State.LOADED);
         addon.onEnable();
-        verify(plugin).logWarning("[challenges] Level add-on not found so level challenges will not work!");
-        verify(plugin).logWarning("[challenges] Vault plugin not found. Economy will not work!");
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin, never()).logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
 
