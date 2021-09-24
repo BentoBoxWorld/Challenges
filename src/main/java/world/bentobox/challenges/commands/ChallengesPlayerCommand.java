@@ -16,9 +16,9 @@ public class ChallengesPlayerCommand extends CompositeCommand
     public ChallengesPlayerCommand(ChallengesAddon addon, CompositeCommand cmd)
     {
         super(addon,
-            cmd,
-            addon.getChallengesSettings().getPlayerMainCommand().split(" ")[0],
-            addon.getChallengesSettings().getPlayerMainCommand().split(" "));
+                cmd,
+                addon.getChallengesSettings().getPlayerMainCommand().split(" ")[0],
+                addon.getChallengesSettings().getPlayerMainCommand().split(" "));
     }
 
 
@@ -29,7 +29,7 @@ public class ChallengesPlayerCommand extends CompositeCommand
     public boolean canExecute(User user, String label, List<String> args)
     {
         if (!this.getIWM().inWorld(user.getWorld()) ||
-            Util.getWorld(this.getWorld()) != Util.getWorld(user.getWorld())) {
+                !Util.sameWorld(this.getWorld(), user.getWorld())) {
             // Not a GameMode world.
             Utils.sendMessage(user, user.getTranslation("general.errors.wrong-world"));
             return false;
@@ -44,12 +44,12 @@ public class ChallengesPlayerCommand extends CompositeCommand
             if (user.isOp() || user.hasPermission(this.getPermissionPrefix() + "admin.challenges"))
             {
                 String topLabel = this.getIWM().getAddon(this.getWorld()).
-                    map(GameModeAddon::getAdminCommand).
-                    map(optionalAdminCommand -> optionalAdminCommand.map(CompositeCommand::getTopLabel).orElse(this.getTopLabel())).
-                    orElse(this.getTopLabel());
+                        map(GameModeAddon::getAdminCommand).
+                        map(optionalAdminCommand -> optionalAdminCommand.map(CompositeCommand::getTopLabel).orElse(this.getTopLabel())).
+                        orElse(this.getTopLabel());
                 Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges-admin",
-                    "[command]",
-                    topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
+                        "[command]",
+                        topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
 
             }
             else
@@ -66,7 +66,7 @@ public class ChallengesPlayerCommand extends CompositeCommand
             Utils.sendMessage(user, user.getTranslation("general.errors.no-island"));
             return false;
         } else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.getWorld()) &&
-            !this.getIslands().locationIsOnIsland(user.getPlayer(), user.getLocation()))
+                !this.getIslands().locationIsOnIsland(user.getPlayer(), user.getLocation()))
         {
             // Do not open gui if player is not on the island, but challenges requires island for
             // completion.
@@ -85,10 +85,10 @@ public class ChallengesPlayerCommand extends CompositeCommand
         if (user.isPlayer())
         {
             ChallengesPanel.open(this.getAddon(),
-                this.getWorld(),
-                user,
-                this.getTopLabel(),
-                this.getPermissionPrefix());
+                    this.getWorld(),
+                    user,
+                    this.getTopLabel(),
+                    this.getPermissionPrefix());
 
             return true;
         }

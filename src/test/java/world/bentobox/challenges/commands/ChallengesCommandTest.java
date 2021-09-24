@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -42,6 +43,7 @@ import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.CommandsManager;
 import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.config.Settings;
@@ -52,7 +54,7 @@ import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, ChatColor.class})
+@PrepareForTest({Bukkit.class, BentoBox.class, ChatColor.class, Util.class})
 public class ChallengesCommandTest {
 
     @Mock
@@ -75,7 +77,7 @@ public class ChallengesCommandTest {
     private IslandWorldManager iwm;
     @Mock
     private GameModeAddon gameModeAddon;
-    @Mock
+
     private Settings settings;
 
     /**
@@ -106,7 +108,7 @@ public class ChallengesCommandTest {
         when(iwm.getAddon(any())).thenReturn(optionalAddon);
         when(plugin.getIWM()).thenReturn(iwm);
 
-        // Game Mode Addon        
+        // Game Mode Addon
         @NonNull
         Optional<CompositeCommand> optionalAdmin = Optional.of(ic);
         when(gameModeAddon.getAdminCommand()).thenReturn(optionalAdmin);
@@ -124,6 +126,8 @@ public class ChallengesCommandTest {
         when(user.getName()).thenReturn("tastybento");
         when(user.getPermissionValue(anyString(), anyInt())).thenReturn(-1);
         when(user.isPlayer()).thenReturn(true);
+        when(user.getTranslationOrNothing(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getWorld()).thenReturn(world);
 
         // Mock item factory (for itemstacks)
         PowerMockito.mockStatic(Bukkit.class);
@@ -143,13 +147,17 @@ public class ChallengesCommandTest {
         when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
 
         // Settings
+        settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
-        when(settings.getVisibilityMode()).thenReturn(VisibilityMode.VISIBLE);
+        settings.setVisibilityMode(VisibilityMode.VISIBLE);
 
         // Island
         when(plugin.getIslands()).thenReturn(im);
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
 
+        // Util
+        PowerMockito.mockStatic(Util.class, Mockito.RETURNS_MOCKS);
+        when(Util.sameWorld(any(), any())).thenReturn(true);
         // Command under test
         cc = new ChallengesPlayerCommand(addon, ic);
     }
@@ -161,7 +169,7 @@ public class ChallengesCommandTest {
     public void testCanExecuteWrongWorld() {
         when(iwm.inWorld(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
-        verify(user).sendMessage("general.errors.wrong-world");
+        verify(user).getTranslation("general.errors.wrong-world");
     }
 
     /**
@@ -169,10 +177,11 @@ public class ChallengesCommandTest {
      */
     @Test
     public void testCanExecuteNoChallenges() {
+        when(iwm.inWorld(any(World.class))).thenReturn(true);
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).sendMessage("challenges.errors.no-challenges");
+        verify(user).getTranslation("challenges.errors.no-challenges");
     }
 
     /**
@@ -184,8 +193,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).sendMessage("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).sendMessage("challenges.errors.no-challenges");
+        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation("challenges.errors.no-challenges");
     }
 
     /**
@@ -197,8 +206,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).sendMessage("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).sendMessage("challenges.errors.no-challenges");
+        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation("challenges.errors.no-challenges");
     }
 
     /**
@@ -211,8 +220,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).sendMessage("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).sendMessage("challenges.errors.no-challenges");
+        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation("challenges.errors.no-challenges");
     }
 
     /**
@@ -222,16 +231,16 @@ public class ChallengesCommandTest {
     public void testCanExecuteNoIsland() {
         when(im.getIsland(any(), any(User.class))).thenReturn(null);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
-        verify(user).sendMessage("general.errors.no-island");       
+        verify(user).getTranslation("general.errors.no-island");
     }
-    
+
     /**
      * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
     public void testCanExecuteSuccess() {
         assertTrue(cc.canExecute(user, "challenges", Collections.emptyList()));
-        verify(user, never()).sendMessage(anyString());       
+        verify(user, never()).sendMessage(anyString());
     }
 
     /**
@@ -248,7 +257,7 @@ public class ChallengesCommandTest {
      * Test method for {@link ChallengesPlayerCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
      */
     @Test
-    public void testExecuteUserStringListOfStringUser() {        
+    public void testExecuteUserStringListOfStringUser() {
         assertTrue(cc.execute(user, "challenges", Collections.emptyList()));
     }
 
