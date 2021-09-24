@@ -14,6 +14,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -149,6 +150,9 @@ public class ChallengesPanel extends CommonPanel
     }
 
 
+    /**
+     * Updates level status list and selects last unlocked level.
+     */
     private void updateLevelList()
     {
         this.levelList = this.manager.getAllChallengeLevelStatus(this.user, this.world);
@@ -163,6 +167,35 @@ public class ChallengesPanel extends CommonPanel
             {
                 break;
             }
+        }
+    }
+
+
+    /**
+     * Updates level status list and returns if any new level has been unlocked.
+     * @return {code true} if a new level was unlocked, {@code false} otherwise.
+     */
+    private boolean updateLevelListSilent()
+    {
+        Optional<LevelStatus> firstLockedLevel =
+            this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
+
+        if (firstLockedLevel.isPresent())
+        {
+            // If there still exist any locked level, update level status list.
+            this.levelList = this.manager.getAllChallengeLevelStatus(this.user, this.world);
+
+            // Find a new first locked level.
+            Optional<LevelStatus> newLockedLevel =
+                this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
+
+            return newLockedLevel.isEmpty() ||
+                firstLockedLevel.get().getLevel() != newLockedLevel.get().getLevel();
+        }
+        else
+        {
+            // If locked level is not present, return false.
+            return false;
         }
     }
 
@@ -257,8 +290,18 @@ public class ChallengesPanel extends CommonPanel
                                 this.topLabel,
                                 this.permissionPrefix))
                             {
-                                panel.getInventory().setItem(i,
-                                    this.createChallengeButton(template, challenge).getItem());
+                                if (this.updateLevelListSilent())
+                                {
+                                    // Need to rebuild all because completing a challenge
+                                    // may unlock a new level. #187
+                                    this.build();
+                                }
+                                else
+                                {
+                                    // There was no unlocked levels.
+                                    panel.getInventory().setItem(i,
+                                        this.createChallengeButton(template, challenge).getItem());
+                                }
                             }
                             break;
                         case "COMPLETE_MAX":
@@ -272,8 +315,18 @@ public class ChallengesPanel extends CommonPanel
                                     this.permissionPrefix,
                                     Integer.MAX_VALUE))
                                 {
-                                    panel.getInventory().setItem(i,
-                                        this.createChallengeButton(template, challenge).getItem());
+                                    if (this.updateLevelListSilent())
+                                    {
+                                        // Need to rebuild all because completing a challenge
+                                        // may unlock a new level. #187
+                                        this.build();
+                                    }
+                                    else
+                                    {
+                                        // There was no unlocked levels.
+                                        panel.getInventory().setItem(i,
+                                            this.createChallengeButton(template, challenge).getItem());
+                                    }
                                 }
                             }
                             break;
@@ -290,6 +343,7 @@ public class ChallengesPanel extends CommonPanel
                                         this.permissionPrefix,
                                         value);
 
+                                    this.updateLevelListSilent();
                                     this.build();
                                 });
                             }
