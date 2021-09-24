@@ -1677,6 +1677,21 @@ public class ChallengesManager
     }
 
 
+    /**
+     * Returns if the given level is last leve in given world.
+     *
+     * @param level the level
+     * @param world the world
+     * @return the boolean
+     */
+    public boolean isLastLevel(ChallengeLevel level, World world)
+    {
+        List<ChallengeLevel> levels = this.getLevels(world);
+
+        return levels.get(levels.size() - 1) == level;
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Challenges related methods
     // ---------------------------------------------------------------------

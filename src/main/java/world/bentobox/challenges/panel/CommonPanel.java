@@ -816,8 +816,9 @@ public abstract class CommonPanel
         // Get status in single string
         String status = "";
         // Get requirements in single string
-        String waiver = this.user.getTranslationOrNothing(reference + "waiver",
-            "[number]", String.valueOf(level.getWaiverAmount()));
+        String waiver = this.manager.isLastLevel(level, this.world) ? "" :
+            this.user.getTranslationOrNothing(reference + "waiver",
+                "[number]", String.valueOf(level.getWaiverAmount()));
         // Get rewards in single string
         String rewards = this.generateReward(level);
 
@@ -851,9 +852,11 @@ public abstract class CommonPanel
         // Get status in single string
         String status = this.generateLevelStatus(levelStatus);
         // Get requirements in single string
-        String waiver = !levelStatus.isUnlocked() || levelStatus.isComplete() ? "" :
-            this.user.getTranslationOrNothing(reference + "waiver",
-                "[number]", String.valueOf(level.getWaiverAmount()));
+        String waiver = this.manager.isLastLevel(level, this.world) ||
+            !levelStatus.isUnlocked() ||
+            levelStatus.isComplete() ?
+            "" : this.user.getTranslationOrNothing(reference + "waiver",
+            "[number]", String.valueOf(level.getWaiverAmount()));
         // Get rewards in single string
         String rewards = !levelStatus.isUnlocked() ? "" : this.generateReward(level);
 
