@@ -82,15 +82,15 @@ public class UtilsTest {
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItemsEmpty() {
-        assertTrue(Utils.groupEqualItems(Collections.emptyList()).isEmpty());
+        assertTrue(Utils.groupEqualItems(Collections.emptyList(), Collections.emptySet()).isEmpty());
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItems() {
@@ -112,14 +112,14 @@ public class UtilsTest {
             when(is2.clone()).thenReturn(is);
             requiredItems.add(is2);
         }
-        List<ItemStack> list = Utils.groupEqualItems(requiredItems);
+        List<ItemStack> list = Utils.groupEqualItems(requiredItems, Collections.emptySet());
         // Result should be two stacks stack of 64 doors and 36 doors
         assertEquals(1, list.size());
         verify(is, times(9)).setAmount(2);
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItemsUnique() {
@@ -141,22 +141,10 @@ public class UtilsTest {
             when(is2.clone()).thenReturn(is);
             requiredItems.add(is2);
         }
-        List<ItemStack> list = Utils.groupEqualItems(requiredItems);
+        List<ItemStack> list = Utils.groupEqualItems(requiredItems, Collections.emptySet());
         // Result should be two stacks stack of 64 doors and 36 doors
         assertEquals(10, list.size());
         verify(is, never()).setAmount(2);
-    }
-
-    /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#canIgnoreMeta(org.bukkit.Material)}.
-     */
-    @Test
-    public void testCanIgnoreMeta() {
-        assertTrue(Utils.canIgnoreMeta(Material.FIREWORK_ROCKET));
-        assertTrue(Utils.canIgnoreMeta(Material.ENCHANTED_BOOK));
-        assertTrue(Utils.canIgnoreMeta(Material.WRITTEN_BOOK));
-        assertTrue(Utils.canIgnoreMeta(Material.FILLED_MAP));
-        assertFalse(Utils.canIgnoreMeta(Material.CHISELED_RED_SANDSTONE));
     }
 
     /**
@@ -195,5 +183,4 @@ public class UtilsTest {
         assertEquals(VisibilityMode.VISIBLE, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.HIDDEN));
         assertEquals(VisibilityMode.HIDDEN, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.TOGGLEABLE));
     }
-
 }

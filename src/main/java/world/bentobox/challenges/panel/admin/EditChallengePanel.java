@@ -4,6 +4,7 @@ package world.bentobox.challenges.panel.admin;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -206,6 +207,16 @@ public class EditChallengePanel extends CommonPanel
     {
         panelBuilder.item(10, this.createRequirementButton(RequirementButton.REQUIRED_ITEMS));
         panelBuilder.item(19, this.createRequirementButton(RequirementButton.REMOVE_ITEMS));
+
+        if (!this.challenge.<InventoryRequirements>getRequirements().getRequiredItems().isEmpty())
+        {
+            panelBuilder.item(12, this.createRequirementButton(RequirementButton.ADD_IGNORED_META));
+
+            if (!this.challenge.<InventoryRequirements>getRequirements().getIgnoreMetaData().isEmpty())
+            {
+                panelBuilder.item(21, this.createRequirementButton(RequirementButton.REMOVE_IGNORED_META));
+            }
+        }
 
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
     }
@@ -683,7 +694,7 @@ public class EditChallengePanel extends CommonPanel
                 return this.createIslandRequirementButton(button);
             }
             // Buttons for Inventory Requirements
-            case REQUIRED_ITEMS, REMOVE_ITEMS -> {
+            case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
                 return this.createInventoryRequirementButton(button);
             }
             // Buttons for Other Requirements
@@ -882,7 +893,8 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(requirements.getRequiredItems()).stream().
+                    Utils.groupEqualItems(requirements.getRequiredItems(), requirements.getIgnoreMetaData()).
+                        stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
@@ -922,6 +934,90 @@ public class EditChallengePanel extends CommonPanel
 
                 description.add("");
                 description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+            }
+            case ADD_IGNORED_META -> {
+                if (requirements.getIgnoreMetaData().isEmpty())
+                {
+                    description.add(this.user.getTranslation(reference + "none"));
+                }
+                else
+                {
+                    description.add(this.user.getTranslation(reference + "title"));
+
+                    requirements.getIgnoreMetaData().stream().
+                        sorted(Comparator.comparing(Material::name)).
+                        forEach(itemStack ->
+                            description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                }
+
+                icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (requirements.getRequiredItems().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    requirements.getRequiredItems().stream().
+                        map(ItemStack::getType).
+                        forEach(collection::remove);
+                    collection.addAll(requirements.getIgnoreMetaData());
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                requirements.setIgnoreMetaData(new HashSet<>(materials));
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            }
+            case REMOVE_IGNORED_META -> {
+                icon = new ItemStack(Material.RED_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (requirements.getIgnoreMetaData().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    collection.removeAll(requirements.getIgnoreMetaData());
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                requirements.getIgnoreMetaData().removeAll(materials);
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
             }
             default -> {
                 icon = new ItemStack(Material.PAPER);
@@ -1346,7 +1442,8 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challenge.getRewardItems()).stream().
+                    Utils.groupEqualItems(this.challenge.getRewardItems(), Collections.emptySet()).
+                        stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
@@ -1597,7 +1694,8 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challenge.getRepeatItemReward()).stream().
+                    Utils.groupEqualItems(this.challenge.getRepeatItemReward(), Collections.emptySet()).
+                        stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
@@ -1869,6 +1967,8 @@ public class EditChallengePanel extends CommonPanel
         REQUIRED_PERMISSIONS,
         REQUIRED_ITEMS,
         REMOVE_ITEMS,
+        ADD_IGNORED_META,
+        REMOVE_IGNORED_META,
         REQUIRED_EXPERIENCE,
         REMOVE_EXPERIENCE,
         REQUIRED_LEVEL,

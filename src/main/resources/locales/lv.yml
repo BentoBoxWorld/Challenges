@@ -325,7 +325,24 @@ challenges:
           &7 uzdevuma izpildei.
         title: "&7 Priekšmeti: "
         list: " &8 - [item]"
-        none: "&7 Priekšmeti nav uzstādītas."
+        none: "&7 Priekšmeti nav uzstādīti."
+      add_ignored_meta:
+        name: "&f&l Pievienot Meta-datu Ignorēšanu"
+        description: |-
+          &7 Ļauj uzstādīt, kuriem
+          &7 priekšmetiem drīkst
+          &7 ignorēt meta-datus, kā
+          &7 bojājumi, vārdi, uzlabojumi.
+        title: "&7 Priekšmeti: "
+        list: " &8 - [item]"
+        none: "&7 Priekšmeti nav uzstādīti."
+      remove_ignored_meta:
+        name: "&f&l Noņemt Meta-datu Ignorēšanu"
+        description: |-
+          &7 Ļauj noņemt, kuriem
+          &7 priekšmetiem drīkst
+          &7 ignorēt meta-datus, kā
+          &7 bojājumi, vārdi, uzlabojumi.
       remove_experience:
         name: "&f&l Noņemt Pieredzi"
         description: |-

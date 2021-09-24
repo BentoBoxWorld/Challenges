@@ -387,7 +387,8 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challengeLevel.getRewardItems()).stream().
+                    Utils.groupEqualItems(this.challengeLevel.getRewardItems(), Collections.emptySet()).
+                        stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",

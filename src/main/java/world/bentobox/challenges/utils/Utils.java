@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,9 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
@@ -37,7 +36,7 @@ public class Utils
 	 * @param requiredItems Input item list
 	 * @return List that contains unique items that cannot be grouped.
 	 */
-	public static List<ItemStack> groupEqualItems(List<ItemStack> requiredItems)
+	public static List<ItemStack> groupEqualItems(List<ItemStack> requiredItems, Set<Material> ignoreMetaData)
 	{
 		List<ItemStack> returnItems = new ArrayList<>(requiredItems.size());
 
@@ -55,8 +54,7 @@ public class Utils
 				ItemStack required = returnItems.get(i);
 
 				// Merge items which meta can be ignored or is similar to item in required list.
-				if (Utils.canIgnoreMeta(item.getType()) && item.getType().equals(required.getType()) ||
-					required.isSimilar(item))
+				if (ignoreMetaData.contains(item.getType()) && item.getType().equals(required.getType()))
 				{
 					required.setAmount(required.getAmount() + item.getAmount());
 					isUnique = false;
@@ -73,29 +71,6 @@ public class Utils
 		}
 
 		return returnItems;
-	}
-
-
-	/**
-	 * This method returns if meta data of these items can be ignored. It means, that items will be searched
-	 * and merged by they type instead of using ItemStack#isSimilar(ItemStack) method.
-	 *
-	 * This limits custom Challenges a lot. It comes from ASkyBlock times, and that is the reason why it is
-	 * still here. It would be a great Challenge that could be completed by collecting 4 books, that cannot
-	 * be crafted. Unfortunately, this prevents it.
-	 * The same happens with firework rockets, enchanted books and filled maps.
-	 * In future it should be able to specify, which items meta should be ignored when adding item in required
-	 * item list.
-	 *
-	 * @param material Material that need to be checked.
-	 * @return True if material meta can be ignored, otherwise false.
-	 */
-	public static boolean canIgnoreMeta(Material material)
-	{
-		return material.equals(Material.FIREWORK_ROCKET) ||
-			material.equals(Material.ENCHANTED_BOOK) ||
-			material.equals(Material.WRITTEN_BOOK) ||
-			material.equals(Material.FILLED_MAP);
 	}
 
 

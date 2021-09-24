@@ -888,30 +888,29 @@ public class TryToComplete
         // Players in creative game mode has got all items. No point to search for them.
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
-            requiredItems = Utils.groupEqualItems(this.getInventoryRequirements().getRequiredItems());
+            requiredItems = Utils.groupEqualItems(this.getInventoryRequirements().getRequiredItems(),
+                this.getInventoryRequirements().getIgnoreMetaData());
 
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
             {
                 int numInInventory;
 
-                if (Utils.canIgnoreMeta(required.getType()))
+                if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
                 {
-                    numInInventory =
-                            Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).
-                            filter(i -> i.getType().equals(required.getType())).
-                            mapToInt(ItemStack::getAmount).
-                            sum();
+                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
+                        filter(Objects::nonNull).
+                        filter(i -> i.getType().equals(required.getType())).
+                        mapToInt(ItemStack::getAmount).
+                        sum();
                 }
                 else
                 {
-                    numInInventory =
-                            Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).
-                            filter(i -> i.isSimilar(required)).
-                            mapToInt(ItemStack::getAmount).
-                            sum();
+                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
+                        filter(Objects::nonNull).
+                        filter(i -> i.isSimilar(required)).
+                        mapToInt(ItemStack::getAmount).
+                        sum();
                 }
 
                 if (numInInventory < required.getAmount())
@@ -952,22 +951,23 @@ public class TryToComplete
             int amountToBeRemoved = required.getAmount() * factor;
             List<ItemStack> itemsInInventory;
 
-            if (Utils.canIgnoreMeta(required.getType()))
+            if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
             {
                 // Use collecting method that ignores item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).
-                        filter(i -> i.getType().equals(required.getType())).
-                        collect(Collectors.toList());
+                    filter(Objects::nonNull).
+                    filter(i -> i.getType().equals(required.getType())).
+                    collect(Collectors.toList());
             }
             else
             {
                 // Use collecting method that compares item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).
-                        filter(i -> i.isSimilar(required)).
-                        collect(Collectors.toList());
+                    filter(Objects::nonNull).
+                    filter(i -> i.isSimilar(required)).
+                    collect(Collectors.toList());
             }
+
             for (ItemStack itemStack : itemsInInventory)
             {
                 if (amountToBeRemoved > 0)

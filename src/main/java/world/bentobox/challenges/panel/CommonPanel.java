@@ -436,7 +436,7 @@ public abstract class CommonPanel
         {
             StringBuilder builder = new StringBuilder();
             builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
-            Utils.groupEqualItems(requirement.getRequiredItems()).stream().
+            Utils.groupEqualItems(requirement.getRequiredItems(), requirement.getIgnoreMetaData()).stream().
                 sorted(Comparator.comparing(ItemStack::getType)).
                 forEach(itemStack ->
                 {
@@ -659,7 +659,7 @@ public abstract class CommonPanel
         {
             StringBuilder builder = new StringBuilder();
             builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
-            Utils.groupEqualItems(challenge.getRepeatItemReward()).stream().
+            Utils.groupEqualItems(challenge.getRepeatItemReward(), Collections.emptySet()).stream().
                 sorted(Comparator.comparing(ItemStack::getType)).
                 forEach(itemStack ->
                 {
@@ -760,7 +760,7 @@ public abstract class CommonPanel
         {
             StringBuilder builder = new StringBuilder();
             builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
-            Utils.groupEqualItems(challenge.getRewardItems()).stream().
+            Utils.groupEqualItems(challenge.getRewardItems(), Collections.emptySet()).stream().
                 sorted(Comparator.comparing(ItemStack::getType)).
                 forEach(itemStack ->
                 {
@@ -974,7 +974,7 @@ public abstract class CommonPanel
         {
             StringBuilder builder = new StringBuilder();
             builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
-            Utils.groupEqualItems(level.getRewardItems()).stream().
+            Utils.groupEqualItems(level.getRewardItems(), Collections.emptySet()).stream().
                 sorted(Comparator.comparing(ItemStack::getType)).
                 forEach(itemStack ->
                 {
