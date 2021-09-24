@@ -511,6 +511,15 @@ challenges:
           &7 daudz reižu uzdevumu
           &7 varēs izpildīt.
         value: "&7 Vērtība: &e [number]"
+      cool_down:
+        name: "&f&l Taimouts"
+        description: |-
+          &7 Ļauj uzstādīt sekunžu
+          &7 daudzumu, kas jānogaida
+          &7 starp sekunžu izpildīšanu
+          &7 starp atkārtojamajiem
+          &7 uzdevumiem.
+        value: "&7 Current value: &e [time]"
       challenges:
         name: "&f&l Uzdevumi"
         description: |-
@@ -872,11 +881,11 @@ challenges:
           # Text message that shows challenges wait time if it is larger than 0.
           wait-time: "&c&l Jānogaida: &r&c [time]"
           # Text message that replaces days if number > 1
-          in-days: "[number] d, "
+          in-days: "[number] d "
           # Text message that replaces hours if number > 1
-          in-hours: "[number] h, "
+          in-hours: "[number] h "
           # Text message that replaces minutes if number > 1
-          in-minutes: "[number] min, "
+          in-minutes: "[number] min "
           # Text message that replaces seconds if number > 1
           in-seconds: "[number] s"
         # Contains a text generated inside [requirements] lore
@@ -1058,6 +1067,8 @@ challenges:
     cancelled: "&c Saruna pārtraukta!"
     # Message that appears when admin clicks on number editing button.
     input-number: "&e Lūdzu ieraksti skaitli sarakstē!"
+    # Message that appears when admin clicks on seconds editing button.
+    input-seconds: "&e Lūdzu ieraksti sekunžu skaitu sarakstē!"
     # Error message that is showed if user input a value that is not a number.
     numeric-only: "&c Šis `[value]` nav skaitlis!"
     # Error message that is showed if user input a number that is smaller or larger that allowed.

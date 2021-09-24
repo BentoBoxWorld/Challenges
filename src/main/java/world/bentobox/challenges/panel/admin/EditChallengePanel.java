@@ -1,6 +1,7 @@
 package world.bentobox.challenges.panel.admin;
 
 
+import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -272,6 +273,8 @@ public class EditChallengePanel extends CommonPanel
 
         if (this.challenge.isRepeatable())
         {
+            panelBuilder.item(13, this.createRewardButton(RewardButton.COOL_DOWN));
+
             panelBuilder.item(31, this.createRewardButton(RewardButton.REPEAT_COUNT));
 
             panelBuilder.item(15, this.createRewardButton(RewardButton.REPEAT_REWARD_TEXT));
@@ -1511,6 +1514,34 @@ public class EditChallengePanel extends CommonPanel
                 description.add("");
                 description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
             }
+            case COOL_DOWN -> {
+                description.add(this.user.getTranslation(reference + "value",
+                    "[time]",
+                    Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user)));
+                icon = new ItemStack(Material.CLOCK);
+                clickHandler = (panel, user, clickType, i) -> {
+                    Consumer<Number> numberConsumer = number -> {
+                        if (number != null)
+                        {
+                            this.challenge.setTimeout(number.longValue() * 1000);
+                        }
+
+                        // reopen panel
+                        this.build();
+                    };
+                    ConversationUtils.createNumericInput(numberConsumer,
+                        this.user,
+                        this.user.getTranslation(Constants.CONVERSATIONS + "input-seconds"),
+                        0,
+                        Integer.MAX_VALUE);
+
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            }
             case REPEAT_REWARD_TEXT -> {
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
@@ -1815,6 +1846,7 @@ public class EditChallengePanel extends CommonPanel
 
         REPEATABLE,
         REPEAT_COUNT,
+        COOL_DOWN,
 
         REPEAT_REWARD_TEXT,
         REPEAT_REWARD_ITEMS,

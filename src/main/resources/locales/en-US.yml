@@ -522,6 +522,15 @@ challenges:
                     &7 number of repeats
                     &7 for the challenge.
                 value: "&7 Current value: &e [number]"
+            cool_down:
+                name: "&f&l Cool Down"
+                description: |-
+                    &7 Allows to change the
+                    &7 cool down seconds that
+                    &7 must be waited between
+                    &7 repeatable challenge
+                    &7 completions.
+                value: "&7 Current value: &e [time]"
             challenges:
                 name: "&f&l Challenges"
                 description: |-
@@ -852,11 +861,11 @@ challenges:
                     # Text message that shows challenges wait time if it is larger than 0.
                     wait-time: "&c&l Available after: &r&c [time]"
                     # Text message that replaces days if number > 1
-                    in-days: "[number] d, "
+                    in-days: "[number] d "
                     # Text message that replaces hours if number > 1
-                    in-hours: "[number] h, "
+                    in-hours: "[number] h "
                     # Text message that replaces minutes if number > 1
-                    in-minutes: "[number] min, "
+                    in-minutes: "[number] min "
                     # Text message that replaces seconds if number > 1
                     in-seconds: "[number] s"
                 # Contains a text generated inside [requirements] lore
@@ -1035,6 +1044,8 @@ challenges:
         cancelled: "&c Conversation cancelled!"
         # Message that appears when admin clicks on number editing button.
         input-number: "&e Please enter a number in chat."
+        # Message that appears when admin clicks on seconds editing button.
+        input-seconds: "&e Please enter a seconds in chat."
         # Error message that is showed if user input a value that is not a number.
         numeric-only: "&c The given [value] is not a number!"
         # Error message that is showed if user input a number that is smaller or larger that allowed.
