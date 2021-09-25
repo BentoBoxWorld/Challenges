@@ -315,43 +315,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.1-SNAPSHOT</version>
-                <configuration>
-                    <minimizeJar>true</minimizeJar>
-                    <relocations>
-                        <relocation>
-                            <pattern>io.github.TheBusyBiscuit.GitHubWebAPI4Java</pattern>
-                            <shadedPattern>world.bentobox.bentobox.api.github</shadedPattern>
-                        </relocation>
-                    </relocations>
-                    <artifactSet>
-                        <excludes>
-                            <exclude>com.googlecode.json-simple:json-simple</exclude>
-                            <exclude>org.jetbrains:annotations</exclude>
-                            <exclude>com.google.guava:*</exclude>
-                            <exclude>commons-lang:commons-lang</exclude>
-                            <exclude>org.yaml:snakeyaml</exclude>
-                            <exclude>org.apache.maven.shared:*</exclude>
-                            <exclude>org.bukkit:*</exclude>
-                            <exclude>org.apache.maven:*</exclude>
-                            <exclude>com.google.code.gson:*</exclude>
-                            <exclude>junit:*</exclude>
-                            <exclude>org.eclipse.jdt:*</exclude>
-                        </excludes>
-                    </artifactSet>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
             </plugin>
