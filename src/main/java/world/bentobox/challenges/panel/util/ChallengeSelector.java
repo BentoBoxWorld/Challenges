@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -19,7 +20,6 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 
 
 /**
@@ -61,7 +61,7 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user);
 		panelBuilder.name(this.user.getTranslation(Constants.TITLE + "challenge-selector"));
 
-		GuiUtils.fillBorder(panelBuilder, this.border);
+		PanelUtils.fillBorder(panelBuilder, this.border);
 
 		this.populateElements(panelBuilder, this.filterElements);
 

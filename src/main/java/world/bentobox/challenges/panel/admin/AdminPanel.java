@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -20,7 +21,6 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.ChallengeTypeSelector;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 import world.bentobox.challenges.web.WebManager;
 
@@ -84,7 +84,7 @@ public class AdminPanel extends CommonPanel
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
             this.user.getTranslation(Constants.TITLE + "admin-gui"));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         panelBuilder.item(10, this.createButton(Button.COMPLETE_USER_CHALLENGES));
         panelBuilder.item(19, this.createButton(Button.RESET_USER_CHALLENGES));

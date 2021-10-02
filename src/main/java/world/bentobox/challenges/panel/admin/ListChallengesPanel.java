@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -19,7 +20,6 @@ import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -119,11 +119,11 @@ public class ListChallengesPanel extends CommonPagedPanel<Challenge>
 
         if (this.currentMode.equals(Mode.DELETE))
         {
-            GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
+            PanelUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
         }
         else
         {
-            GuiUtils.fillBorder(panelBuilder);
+            PanelUtils.fillBorder(panelBuilder);
         }
 
         List<Challenge> challengeList = this.addon.getChallengesManager().getAllChallenges(this.world).

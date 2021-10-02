@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -22,7 +23,6 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.MultiEntitySelector;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -91,7 +91,7 @@ public class ManageEntitiesPanel extends CommonPagedPanel<EntityType>
 			name(this.user.getTranslation(Constants.TITLE + "manage-entities"));
 
 		// create border
-		GuiUtils.fillBorder(panelBuilder);
+		PanelUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(3, this.createButton(Button.ADD_ENTITY));
 		panelBuilder.item(5, this.createButton(Button.REMOVE_ENTITY));
@@ -244,8 +244,8 @@ public class ManageEntitiesPanel extends CommonPagedPanel<EntityType>
 			name(this.user.getTranslation(reference + "name", "[entity]",
 				Utils.prettifyObject(entity, this.user))).
 			icon(this.asEggs ?
-				GuiUtils.getEntityEgg(entity, this.requiredEntities.get(entity)) :
-				GuiUtils.getEntityHead(entity, this.requiredEntities.get(entity))).
+				PanelUtils.getEntityEgg(entity, this.requiredEntities.get(entity)) :
+				PanelUtils.getEntityHead(entity, this.requiredEntities.get(entity))).
 			description(description).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.

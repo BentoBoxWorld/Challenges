@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -24,7 +25,6 @@ import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.util.ChallengeSelector;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -135,7 +135,7 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
             this.user.getTranslation(Constants.TITLE + "choose-player"));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         this.populateElements(panelBuilder, this.filterElements);
 

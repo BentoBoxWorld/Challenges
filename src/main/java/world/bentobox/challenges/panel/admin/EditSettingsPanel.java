@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -23,7 +24,6 @@ import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -105,7 +105,7 @@ public class EditSettingsPanel extends CommonPanel
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
             this.user.getTranslation(Constants.TITLE + "settings"));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         panelBuilder.item(10, this.getSettingsButton(Button.SHOW_TITLE));
 

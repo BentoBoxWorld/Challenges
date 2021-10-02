@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -104,7 +104,7 @@ public class MultiBlockSelector extends PagedSelector<Material>
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user);
 		panelBuilder.name(this.user.getTranslation(Constants.TITLE + "block-selector"));
 
-		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
+		PanelUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
 		this.populateElements(panelBuilder, this.filterElements);
 
@@ -233,7 +233,7 @@ public class MultiBlockSelector extends PagedSelector<Material>
 		return new PanelItemBuilder().
 			name(this.user.getTranslation(reference + "name", "[material]",
 				Utils.prettifyObject(material, this.user))).
-			icon(GuiUtils.getMaterialItem(material)).
+			icon(PanelUtils.getMaterialItem(material)).
 			description(description).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.

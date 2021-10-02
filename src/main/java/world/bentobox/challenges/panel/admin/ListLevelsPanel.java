@@ -8,19 +8,18 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -120,11 +119,11 @@ public class ListLevelsPanel extends CommonPagedPanel<ChallengeLevel>
 
         if (this.currentMode.equals(Mode.DELETE))
         {
-            GuiUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
+            PanelUtils.fillBorder(panelBuilder, Material.RED_STAINED_GLASS_PANE);
         }
         else
         {
-            GuiUtils.fillBorder(panelBuilder);
+            PanelUtils.fillBorder(panelBuilder);
         }
 
         List<ChallengeLevel> levelList = this.addon.getChallengesManager().getLevels(this.world).

@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -28,7 +29,6 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.*;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -125,7 +125,7 @@ public class EditChallengePanel extends CommonPanel
             this.user.getTranslation(Constants.TITLE + "edit-challenge",
                 "[challenge]", this.challenge.getFriendlyName()));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         panelBuilder.item(2, this.createMenuButton(MenuType.PROPERTIES));
         panelBuilder.item(4, this.createMenuButton(MenuType.REQUIREMENTS));
@@ -1330,7 +1330,7 @@ public class EditChallengePanel extends CommonPanel
 
                 icon = requirements.getEntity() == null ?
                     new ItemStack(Material.BARRIER) :
-                    new ItemStack(GuiUtils.getEntityEgg(requirements.getEntity()));
+                    new ItemStack(PanelUtils.getEntityEgg(requirements.getEntity()));
                 clickHandler = (panel, user, clickType, slot) -> {
                     SingleEntitySelector.open(this.user,
                         true,

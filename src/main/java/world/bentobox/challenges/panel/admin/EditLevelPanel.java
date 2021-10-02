@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -27,7 +28,6 @@ import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.ChallengeSelector;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -131,7 +131,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
             this.user.getTranslation(Constants.TITLE + "edit-level",
                 "[level]", this.challengeLevel.getFriendlyName()));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         panelBuilder.item(2, this.createMenuButton(MenuType.PROPERTIES));
         panelBuilder.item(4, this.createMenuButton(MenuType.REWARDS));

@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.scheduler.BukkitTask;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -24,7 +25,6 @@ import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 import world.bentobox.challenges.web.object.LibraryEntry;
 
@@ -182,7 +182,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
             this.user.getTranslation(Constants.TITLE + "library"));
 
-        GuiUtils.fillBorder(panelBuilder);
+        PanelUtils.fillBorder(panelBuilder);
 
         this.populateElements(panelBuilder, this.filterElements);
 

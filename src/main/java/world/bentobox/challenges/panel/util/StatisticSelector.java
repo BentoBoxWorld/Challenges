@@ -3,19 +3,17 @@ package world.bentobox.challenges.panel.util;
 
 import org.bukkit.Material;
 import org.bukkit.Statistic;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -70,7 +68,7 @@ public class StatisticSelector extends PagedSelector<Statistic>
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user);
 		panelBuilder.name(this.user.getTranslation(Constants.TITLE + "statistic-selector"));
 
-		GuiUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
+		PanelUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
 		this.populateElements(panelBuilder, this.filterElements);
 

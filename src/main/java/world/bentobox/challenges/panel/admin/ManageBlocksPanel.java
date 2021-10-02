@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -21,7 +22,6 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -93,7 +93,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 			name(this.user.getTranslation(Constants.TITLE + "manage-blocks"));
 
 		// Create nice border.
-		GuiUtils.fillBorder(panelBuilder);
+		PanelUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(3, this.createButton(Button.ADD_BLOCK));
 		panelBuilder.item(5, this.createButton(Button.REMOVE_BLOCK));
@@ -233,7 +233,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 		return new PanelItemBuilder().
 			name(this.user.getTranslation(reference + "name", "[material]",
 				Utils.prettifyObject(material, this.user))).
-			icon(GuiUtils.getMaterialItem(material, this.materialMap.get(material))).
+			icon(PanelUtils.getMaterialItem(material, this.materialMap.get(material))).
 			description(description).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.

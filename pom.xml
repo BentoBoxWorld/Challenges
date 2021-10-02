@@ -40,6 +40,7 @@
         <bentobox.version>1.17.3</bentobox.version>
         <level.version>2.6.3</level.version>
         <vault.version>1.7</vault.version>
+        <panelutils.version>1.0.0</panelutils.version>
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
@@ -136,7 +137,7 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>plugin-annotations</artifactId>
             <version>1.2.3-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <!-- Vault API -->
         <dependency>
@@ -158,11 +159,19 @@
             <version>${level.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- PanelUtils -->
+        <dependency>
+            <groupId>lv.id.bonne</groupId>
+            <artifactId>panelutils</artifactId>
+            <version>${panelutils.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Annotations -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>21.0.1</version>
+            <version>22.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Mockito (Unit testing) -->
         <dependency>
@@ -190,7 +199,6 @@
             <version>1.5.21</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -236,6 +244,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <release>${java.version}</release>
                 </configuration>
             </plugin>
@@ -346,6 +356,38 @@
                         <id>post-unit-test</id>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.1-SNAPSHOT</version>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                    <artifactSet>
+                        <includes>
+                            <include>lv.id.bonne:panelutils:*</include>
+                        </includes>
+                    </artifactSet>
+                    <transformers>
+                        <!-- Add a transformer to exclude any other manifest files (possibly from dependencies). -->
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+                            <resource>MANIFEST.MF</resource>
+                        </transformer>
+                        <!-- Add a transformer to include your custom manifest file. -->
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                            <resource>META-INF/MANIFEST.MF</resource>
+                            <file>src/main/resources/META-INF/MANIFEST.MF</file>
+                        </transformer>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
