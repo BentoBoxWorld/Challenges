@@ -2,12 +2,13 @@
 # This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
 # the one at http://yaml-online-parser.appspot.com                                        #
 ###########################################################################################
-#
 # This is a template file that allows to create challenges in YAML format.
 # Be aware, some features are not supported in YAML so some things may not be able to do with this
 # file.
-# After importing challenges, you can modify them via Admin GUI.
-# File must contain `challenges:` and `levels`
+# Note that this is just a template. All challenges are stored and taken from the database.
+# Template is used just for importing challenges in gamemode.
+# Information about setup for the Template File are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
 challenges:
   # Each challenge starts withs it ID.
   # Everything for challenge must be inside it.

@@ -1,3 +1,7 @@
+# Panels are read once upon first GUI open.
+# Changes in configuration will be taken only if server is restarted or panels are reloaded.
+# Information about setup for the Panels are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
 main_panel:
   title: challenges.gui.titles.player-gui
   type: INVENTORY
