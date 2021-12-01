@@ -11,13 +11,15 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class allows to reload challenges addon.
+ * This class allows reloading challenges addon.
  */
 public class ReloadChallenges extends CompositeCommand
 {
     /**
-     * Admin command to reloads challenges addon.
-     * @param parent
+     * Instantiates a new Reload challenges command.
+     *
+     * @param addon the addon
+     * @param parent the parent
      */
     public ReloadChallenges(Addon addon, CompositeCommand parent)
     {
@@ -69,5 +71,8 @@ public class ReloadChallenges extends CompositeCommand
     // ---------------------------------------------------------------------
 
 
-    private ChallengesManager manager;
+    /**
+     * Addon Manager instance.
+     */
+    private final ChallengesManager manager;
 }

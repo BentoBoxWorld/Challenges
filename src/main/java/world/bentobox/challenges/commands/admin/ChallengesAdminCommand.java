@@ -10,11 +10,11 @@ import world.bentobox.challenges.panel.admin.AdminPanel;
 
 public class ChallengesAdminCommand extends CompositeCommand
 {
-
     /**
-     * Admin command for challenges
+     * Instantiates a new Challenges' admin command.
      *
-     * @param parent
+     * @param addon the addon
+     * @param parent the parent
      */
     public ChallengesAdminCommand(ChallengesAddon addon, CompositeCommand parent)
     {

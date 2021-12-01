@@ -120,10 +120,9 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 				if (!this.selectedElements.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.selectedElements.forEach(challenge -> {
+					this.selectedElements.forEach(challenge ->
 						description.add(this.user.getTranslation(reference + "element",
-							"[element]", challenge.getFriendlyName()));
-					});
+							"[element]", challenge.getFriendlyName())));
 				}
 
 				icon = new ItemStack(Material.COMMAND_BLOCK);

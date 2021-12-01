@@ -16,7 +16,7 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This command allows to complete challenges without a gui.
+ * This command allows completing challenges without a gui.
  */
 public class CompleteChallengeCommand extends CompositeCommand
 {

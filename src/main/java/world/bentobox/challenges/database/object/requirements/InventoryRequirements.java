@@ -126,12 +126,12 @@ public class InventoryRequirements extends Requirements
 
 
 	/**
-	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
+	 * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
 	 * to use it.
-	 * @return InventoryRequirements clone
+	 * @return InventoryRequirements copy
 	 */
 	@Override
-	public Requirements clone()
+	public Requirements copy()
 	{
 		InventoryRequirements clone = new InventoryRequirements();
 		clone.setRequiredPermissions(new HashSet<>(this.getRequiredPermissions()));

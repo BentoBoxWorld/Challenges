@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.annotations.Expose;
 
@@ -449,7 +450,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(ChallengeLevel o)
+    public int compareTo(@NotNull ChallengeLevel o)
     {
         if (this.equals(o))
         {
@@ -501,12 +502,10 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
             return true;
         }
 
-        if (!(obj instanceof ChallengeLevel))
+        if (!(obj instanceof ChallengeLevel other))
         {
             return false;
         }
-
-        ChallengeLevel other = (ChallengeLevel) obj;
 
         if (uniqueId == null)
         {
@@ -542,8 +541,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * Clone method that returns clone of current challengeLevel.
      * @return ChallengeLevel that is cloned from current object.
      */
-    @Override
-    public ChallengeLevel clone()
+    public ChallengeLevel copy()
     {
         ChallengeLevel clone = new ChallengeLevel();
 

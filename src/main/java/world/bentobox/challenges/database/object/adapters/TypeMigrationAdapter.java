@@ -42,7 +42,6 @@ public class TypeMigrationAdapter implements JsonSerializer<Challenge.ChallengeT
 
 		return switch (primitive.getAsString())
 		{
-			case "ISLAND", "ISLAND_TYPE" -> Challenge.ChallengeType.ISLAND_TYPE;
 			case "INVENTORY", "INVENTORY_TYPE" -> Challenge.ChallengeType.INVENTORY_TYPE;
 			case "OTHER", "OTHER_TYPE" -> Challenge.ChallengeType.OTHER_TYPE;
 			case "STATISTIC", "STATISTIC_TYPE" -> Challenge.ChallengeType.STATISTIC_TYPE;

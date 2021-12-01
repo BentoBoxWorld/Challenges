@@ -20,7 +20,7 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This command allows to complete challenges without a gui.
+ * This command allows completing challenges without a gui.
  */
 public class CompleteCommand extends CompositeCommand
 {
@@ -99,24 +99,26 @@ public class CompleteCommand extends CompositeCommand
 			// Add world name back at the start
 			String challengeName = Utils.getGameMode(this.getWorld()) + "_" + args.get(1);
 			Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
+			User target = User.getInstance(targetUUID);
 
-			if (challenge != null)
+			if (challenge != null && target != null)
 			{
 				if (!this.addon.getChallengesManager().isChallengeComplete(targetUUID, this.getWorld(), challenge))
 				{
 					this.addon.getChallengesManager().setChallengeComplete(
 						targetUUID, this.getWorld(), challenge, user.getUniqueId());
 
+
 					if (user.isPlayer())
 					{
 						Utils.sendMessage(user, user.getTranslation("challenges.messages.completed",
 							Constants.PARAMETER_NAME, challenge.getFriendlyName(),
-							Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
+							Constants.PARAMETER_PLAYER, target.getName()));
 					}
 					else
 					{
 						this.addon.log("Challenge " + challenge.getFriendlyName() + " completed for player " +
-							User.getInstance(targetUUID).getName());
+							target.getName());
 					}
 				}
 				else
@@ -166,23 +168,16 @@ public class CompleteCommand extends CompositeCommand
 
 		switch (size)
 		{
-			case 3:
+			case 3 ->
 				// Create suggestions with all challenges that is available for users.
-
 				returnList.addAll(Util.getOnlinePlayerList(user));
-				break;
-			case 4:
+			case 4 ->
 				// Create suggestions with all challenges that is available for users.
 				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
 					map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
 					collect(Collectors.toList()));
-
-				break;
-			default:
-			{
+			default ->
 				returnList.addAll(Collections.singletonList("help"));
-				break;
-			}
 		}
 
 		return Optional.of(Util.tabLimit(returnList, lastString));

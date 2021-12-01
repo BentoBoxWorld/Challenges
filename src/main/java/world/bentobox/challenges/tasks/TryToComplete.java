@@ -4,7 +4,6 @@ package world.bentobox.challenges.tasks;
 
 import com.google.common.collect.UnmodifiableIterator;
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -61,7 +60,7 @@ public class TryToComplete
     /**
      * Challenges addon variable.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 
     /**
      * Challenges manager for addon.
@@ -84,11 +83,6 @@ public class TryToComplete
     private String permissionPrefix;
 
     /**
-     * Top command first label.
-     */
-    private String topLabel;
-
-    /**
      * Challenge that should be completed.
      */
     private Challenge challenge;
@@ -102,50 +96,11 @@ public class TryToComplete
     // Section: Builder
     // ---------------------------------------------------------------------
 
-    @Deprecated
-    public TryToComplete label(String label)
-    {
-        this.topLabel = label;
-        return this;
-    }
-
 
     @Deprecated
     public TryToComplete user(User user)
     {
         this.user = user;
-        return this;
-    }
-
-
-    @Deprecated
-    public TryToComplete manager(ChallengesManager manager)
-    {
-        this.manager = manager;
-        return this;
-    }
-
-
-    @Deprecated
-    public TryToComplete challenge(Challenge challenge)
-    {
-        this.challenge = challenge;
-        return this;
-    }
-
-
-    @Deprecated
-    public TryToComplete world(World world)
-    {
-        this.world = world;
-        return this;
-    }
-
-
-    @Deprecated
-    public TryToComplete permPrefix(String prefix)
-    {
-        this.permissionPrefix = prefix;
         return this;
     }
 
@@ -185,7 +140,6 @@ public class TryToComplete
         // To avoid any modifications that may occur to challenges in current completion
         // just clone it.
         this.challenge = challenge.clone();
-        this.topLabel = topLabel;
     }
 
 
@@ -254,6 +208,13 @@ public class TryToComplete
             return result;
         }
 
+        if (this.user.getLocation() == null || this.user.getInventory() == null)
+        {
+            // This is just a cleaning check. There is no situations where location or inventory
+            // could be null at this point of code.
+            return result;
+        }
+
         this.fullFillRequirements(result);
 
         // Validation to avoid rewarding if something goes wrong in removing requirements.
@@ -314,23 +275,21 @@ public class TryToComplete
                     filter(player -> this.user.getUniqueId().equals(player.getUniqueId())).
                     map(User::getInstance).
                     filter(Objects::nonNull).
-                    forEach(user -> {
-                        Utils.sendMessage(user, user.getTranslation(
-                            "challenges.messages.name-has-completed-challenge",
-                            Constants.PARAMETER_NAME, this.user.getName(),
-                            "[value]", this.challenge.getFriendlyName()));
-                    });
+                    forEach(user -> Utils.sendMessage(user, user.getTranslation(
+                        "challenges.messages.name-has-completed-challenge",
+                        Constants.PARAMETER_NAME, this.user.getName(),
+                        "[value]", this.challenge.getFriendlyName())));
             }
 
             // sends title to player on challenge completion
             if (this.addon.getChallengesSettings().isShowCompletionTitle())
             {
                 this.user.getPlayer().sendTitle(
-                        this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"), this.challenge),
-                        this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"), this.challenge),
-                        10,
-                        this.addon.getChallengesSettings().getTitleShowtime(),
-                        20);
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"), this.challenge),
+                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"), this.challenge),
+                    10,
+                    this.addon.getChallengesSettings().getTitleShowtime(),
+                    20);
             }
         }
 
@@ -355,7 +314,7 @@ public class TryToComplete
             if (this.addon.isEconomyProvided())
             {
                 this.addon.getEconomyProvider().deposit(this.user,
-                        (double)this.challenge.getRepeatMoneyReward() * rewardFactor);
+                    this.challenge.getRepeatMoneyReward() * rewardFactor);
             }
 
             // Experience Repeat Reward
@@ -424,12 +383,10 @@ public class TryToComplete
                             filter(player -> this.user.getUniqueId().equals(player.getUniqueId())).
                             map(User::getInstance).
                             filter(Objects::nonNull).
-                            forEach(user -> {
-                                Utils.sendMessage(user, user.getTranslation(
-                                    "challenges.messages.name-has-completed-level",
-                                    Constants.PARAMETER_NAME, this.user.getName(),
-                                    "[value]", level.getFriendlyName()));
-                            });
+                            forEach(user -> Utils.sendMessage(user, user.getTranslation(
+                                "challenges.messages.name-has-completed-level",
+                                Constants.PARAMETER_NAME, this.user.getName(),
+                                "[value]", level.getFriendlyName())));
                     }
 
                     this.manager.setLevelComplete(this.user, this.world, level);
@@ -453,7 +410,7 @@ public class TryToComplete
 
 
     /**
-     * This method full fills all challenge type requirements, that is not full filled yet.
+     * This method fulfills all challenge type requirements, that is not fulfilled yet.
      * @param result Challenge Results
      */
     private void fullFillRequirements(ChallengeResult result)
@@ -520,7 +477,7 @@ public class TryToComplete
             case STATISTIC_TYPE -> {
                 StatisticRequirements requirements = this.challenge.getRequirements();
 
-                if (requirements.isReduceStatistic())
+                if (requirements.isReduceStatistic() && requirements.getStatistic() != null)
                 {
                     int removeAmount = result.getFactor() * requirements.getAmount();
 
@@ -544,7 +501,12 @@ public class TryToComplete
                         case ITEM, BLOCK -> {
                             int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
 
-                            if (removeAmount >= statistic)
+                            if (requirements.getMaterial() == null)
+                            {
+                                // Just a sanity check. Material cannot be null at this point of code.
+                                removeAmount = 0;
+                            }
+                            else if (removeAmount >= statistic)
                             {
                                 this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
                                 removeAmount -= statistic;
@@ -560,7 +522,12 @@ public class TryToComplete
                         case ENTITY -> {
                             int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
 
-                            if (removeAmount >= statistic)
+                            if (requirements.getEntity() == null)
+                            {
+                                // Just a sanity check. Entity cannot be null at this point of code.
+                                removeAmount = 0;
+                            }
+                            else if (removeAmount >= statistic)
                             {
                                 this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
                                 removeAmount -= statistic;
@@ -616,7 +583,12 @@ public class TryToComplete
                                 case ITEM, BLOCK -> {
                                     int statistic = player.getStatistic(requirements.getStatistic());
 
-                                    if (removeAmount >= statistic)
+                                    if (requirements.getMaterial() == null)
+                                    {
+                                        // Just a sanity check. Entity cannot be null at this point of code.
+                                        removeAmount = 0;
+                                    }
+                                    else if (removeAmount >= statistic)
                                     {
                                         removeAmount -= statistic;
                                         player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
@@ -632,7 +604,12 @@ public class TryToComplete
                                 case ENTITY -> {
                                     int statistic = player.getStatistic(requirements.getStatistic());
 
-                                    if (removeAmount >= statistic)
+                                    if (requirements.getEntity() == null)
+                                    {
+                                        // Just a sanity check. Entity cannot be null at this point of code.
+                                        removeAmount = 0;
+                                    }
+                                    else if (removeAmount >= statistic)
                                     {
                                         removeAmount -= statistic;
                                         player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
@@ -676,13 +653,14 @@ public class TryToComplete
             result = EMPTY_RESULT;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
-                !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
+            !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
         {
             Utils.sendMessage(this.user, this.user.getTranslation("general.errors.wrong-world"));
             result = EMPTY_RESULT;
         }
         // Player is not on island
-        else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
+        else if (this.user.getLocation() == null ||
+            ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
                 !this.addon.getIslands().locationIsOnIsland(this.user.getPlayer(), this.user.getLocation()))
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-on-island"));
@@ -690,22 +668,22 @@ public class TryToComplete
         }
         // Check player permission
         else if (!this.addon.getIslands().getIslandAt(this.user.getLocation()).
-                map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).
-                orElse(false))
+            map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).
+            orElse(false))
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.no-rank"));
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
-                !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
+            !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.challenge-level-not-available"));
             result = EMPTY_RESULT;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
-                this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
+            this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-repeatable"));
             result = EMPTY_RESULT;
@@ -729,7 +707,7 @@ public class TryToComplete
         }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
-                !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
+            !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.wrong-environment"));
             result = EMPTY_RESULT;
@@ -827,7 +805,7 @@ public class TryToComplete
             {
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
-                cmd = cmd.substring(6, cmd.length()).replace(Constants.PARAMETER_PLAYER, this.user.getName()).trim();
+                cmd = cmd.substring(6).replace(Constants.PARAMETER_PLAYER, this.user.getName()).trim();
                 try
                 {
                     if (!user.performCommand(cmd))
@@ -896,7 +874,12 @@ public class TryToComplete
             {
                 int numInInventory;
 
-                if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
+                if (this.user.getInventory() == null)
+                {
+                    // Sanity check. User always has inventory at this point of code.
+                    numInInventory = 0;
+                }
+                else if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
                 {
                     numInInventory = Arrays.stream(this.user.getInventory().getContents()).
                         filter(Objects::nonNull).
@@ -951,7 +934,12 @@ public class TryToComplete
             int amountToBeRemoved = required.getAmount() * factor;
             List<ItemStack> itemsInInventory;
 
-            if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
+            if (this.user.getInventory() == null)
+            {
+                // Sanity check. User always has inventory at this point of code.
+                itemsInInventory = Collections.emptyList();
+            }
+            else if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
             {
                 // Use collecting method that ignores item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
@@ -1065,14 +1053,14 @@ public class TryToComplete
 
             // Protection code. Do not allow to select too large region for completing challenge.
             if (boundingBox.getWidthX() > distance * 2 + 3 ||
-                    boundingBox.getWidthZ() > distance * 2 + 3 ||
-                    boundingBox.getHeight() > distance * 2 + 3)
+                boundingBox.getWidthZ() > distance * 2 + 3 ||
+                boundingBox.getHeight() > distance * 2 + 3)
             {
                 this.addon.logError("BoundingBox is larger than SearchRadius. " +
-                        " | BoundingBox: " + boundingBox.toString() +
+                        " | BoundingBox: " + boundingBox +
                         " | Search Distance: " + requirements.getSearchRadius() +
-                        " | Location: " + this.user.getLocation().toString() +
-                        " | Center: " + island.getCenter().toString() +
+                        " | Location: " + this.user.getLocation() +
+                        " | Center: " + island.getCenter() +
                         " | Range: " + range);
 
                 return EMPTY_RESULT;
@@ -1110,10 +1098,10 @@ public class TryToComplete
 
         // This queue will contain only blocks whit required type ordered by distance till player.
         Queue<Block> blockFromWorld = new PriorityQueue<>((o1, o2) -> {
-            if (o1.getType().equals(o2.getType()))
+            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null)
             {
                 return Double.compare(o1.getLocation().distance(this.user.getLocation()),
-                        o2.getLocation().distance(this.user.getLocation()));
+                    o2.getLocation().distance(this.user.getLocation()));
             }
             else
             {
@@ -1210,10 +1198,10 @@ public class TryToComplete
 
         // Create queue that contains all required entities ordered by distance till player.
         Queue<Entity> entityQueue = new PriorityQueue<>((o1, o2) -> {
-            if (o1.getType().equals(o2.getType()))
+            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null)
             {
                 return Double.compare(o1.getLocation().distance(this.user.getLocation()),
-                        o2.getLocation().distance(this.user.getLocation()));
+                    o2.getLocation().distance(this.user.getLocation()));
             }
             else
             {
@@ -1408,6 +1396,12 @@ public class TryToComplete
 
         int currentValue;
 
+        if (requirements.getStatistic() == null)
+        {
+            // Sanity check.
+            return EMPTY_RESULT;
+        }
+
         switch (requirements.getStatistic().getType())
         {
             case UNTYPED -> currentValue =
@@ -1454,7 +1448,10 @@ public class TryToComplete
         if (inputMessage.contains("[") && inputMessage.contains("]"))
         {
             outputMessage = outputMessage.replace("[friendlyName]", challenge.getFriendlyName());
-            outputMessage = outputMessage.replace("[level]", challenge.getLevel().isEmpty() ? "" : this.manager.getLevel(challenge.getLevel()).getFriendlyName());
+
+            ChallengeLevel level = challenge.getLevel().isEmpty() ? null : this.manager.getLevel(challenge.getLevel());
+            outputMessage = outputMessage.replace("[level]", level == null ? "" : level.getFriendlyName());
+
             outputMessage = outputMessage.replace("[rewardText]", challenge.getRewardText());
         }
 

@@ -158,10 +158,9 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 				if (!this.selectedMaterials.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.selectedMaterials.forEach(material -> {
+					this.selectedMaterials.forEach(material ->
 						description.add(this.user.getTranslation(reference + "material",
-							"[material]", Utils.prettifyObject(material, this.user)));
-					});
+							"[material]", Utils.prettifyObject(material, this.user))));
 				}
 
 				icon = new ItemStack(Material.LAVA_BUCKET);

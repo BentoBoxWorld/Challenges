@@ -155,10 +155,9 @@ public class ManageEntitiesPanel extends CommonPagedPanel<EntityType>
 				if (!this.selectedEntities.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.selectedEntities.forEach(entity -> {
+					this.selectedEntities.forEach(entity ->
 						description.add(this.user.getTranslation(reference + "entity",
-							"[entity]", Utils.prettifyObject(entity, this.user)));
-					});
+							"[entity]", Utils.prettifyObject(entity, this.user))));
 				}
 
 				icon = new ItemStack(Material.LAVA_BUCKET);

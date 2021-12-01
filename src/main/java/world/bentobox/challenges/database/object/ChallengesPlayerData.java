@@ -65,7 +65,7 @@ public class ChallengesPlayerData implements DataObject
     private Map<String, Integer> challengeStatus = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     /**
-     * Map of challenges completion time where key is challenges unique id and value is
+     * Map of challenges completion time when key is challenges unique id and value is
      * timestamp when challenge was completed last time.
      */
     @Expose
@@ -353,12 +353,10 @@ public class ChallengesPlayerData implements DataObject
             return true;
         }
 
-        if (!(obj instanceof ChallengesPlayerData))
+        if (!(obj instanceof ChallengesPlayerData other))
         {
             return false;
         }
-
-        ChallengesPlayerData other = (ChallengesPlayerData) obj;
 
         if (uniqueId == null)
         {

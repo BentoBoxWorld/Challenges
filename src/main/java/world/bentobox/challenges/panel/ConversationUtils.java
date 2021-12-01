@@ -41,9 +41,9 @@ public class ConversationUtils
      * @param user User who is targeted with current confirmation.
      */
     public static void createConfirmation(Consumer<Boolean> consumer,
-            User user,
-            @NotNull String question,
-            @Nullable String successMessage)
+        User user,
+        @NotNull String question,
+        @Nullable String successMessage)
     {
         ValidatingPrompt confirmationPrompt = new ValidatingPrompt()
         {
@@ -77,7 +77,6 @@ public class ConversationUtils
              * @return the prompt
              */
             @Override
-            @Nullable
             protected Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input)
             {
                 String validEntry = user.getTranslation(Constants.CONVERSATIONS + "confirm-string").toLowerCase();
@@ -105,7 +104,8 @@ public class ConversationUtils
              * @see Prompt#getPromptText(ConversationContext)
              */
             @Override
-            public @NotNull String getPromptText(@NotNull ConversationContext conversationContext)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext conversationContext)
             {
                 // Close input GUI.
                 user.closeInventory();
@@ -137,11 +137,11 @@ public class ConversationUtils
      * @param user User who is targeted with current confirmation.
      */
     public static void createIDStringInput(Consumer<String> consumer,
-            Function<String, Boolean> validation,
-            User user,
-            @NotNull String question,
-            @Nullable String successMessage,
-            @Nullable String failTranslationLocation)
+        Function<String, Boolean> validation,
+        User user,
+        @NotNull String question,
+        @Nullable String successMessage,
+        @Nullable String failTranslationLocation)
     {
         ValidatingPrompt validatingPrompt = new ValidatingPrompt()
         {
@@ -154,7 +154,8 @@ public class ConversationUtils
              * @return The text to display.
              */
             @Override
-            public String getPromptText(ConversationContext context)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext context)
             {
                 // Close input GUI.
                 user.closeInventory();
@@ -175,7 +176,7 @@ public class ConversationUtils
              * validity of the input.
              */
             @Override
-            protected boolean isInputValid(ConversationContext context, String input)
+            protected boolean isInputValid(@NotNull ConversationContext context, @NotNull String input)
             {
                 return validation.apply(input);
             }
@@ -194,8 +195,8 @@ public class ConversationUtils
              * correct the input.
              */
             @Override
-            protected String getFailedValidationText(ConversationContext context,
-                    String invalidInput)
+            protected String getFailedValidationText(@NotNull ConversationContext context,
+                @NotNull String invalidInput)
             {
                 return user.getTranslation(failTranslationLocation,
                         Constants.PARAMETER_ID,
@@ -216,7 +217,7 @@ public class ConversationUtils
              * @return The next Prompt in the prompt graph.
              */
             @Override
-            protected Prompt acceptValidatedInput(ConversationContext context, String input)
+            protected Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input)
             {
                 // Add answer to consumer.
                 consumer.accept(input);
@@ -247,10 +248,10 @@ public class ConversationUtils
      * @param question Message that will be displayed in chat when player triggers conversion.
      */
     public static void createNumericInput(Consumer<Number> consumer,
-            @NotNull User user,
-            @NotNull String question,
-            Number minValue,
-            Number maxValue)
+        @NotNull User user,
+        @NotNull String question,
+        Number minValue,
+        Number maxValue)
     {
         // Create NumericPromt instance that will validate and process input.
         NumericPrompt numberPrompt = new NumericPrompt()
@@ -267,7 +268,7 @@ public class ConversationUtils
              * graph.
              */
             @Override
-            protected Prompt acceptValidatedInput(ConversationContext context, Number input)
+            protected Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull Number input)
             {
                 // Add answer to consumer.
                 consumer.accept(input);
@@ -285,7 +286,7 @@ public class ConversationUtils
              * @return The validity of the player's input.
              */
             @Override
-            protected boolean isNumberValid(ConversationContext context, Number input)
+            protected boolean isNumberValid(@NotNull ConversationContext context, Number input)
             {
                 return input.doubleValue() >= minValue.doubleValue() &&
                         input.doubleValue() <= maxValue.doubleValue();
@@ -301,7 +302,7 @@ public class ConversationUtils
              * @return A message explaining how to correct the input.
              */
             @Override
-            protected String getInputNotNumericText(ConversationContext context, String invalidInput)
+            protected String getInputNotNumericText(@NotNull ConversationContext context, @NotNull String invalidInput)
             {
                 return user.getTranslation(Constants.CONVERSATIONS + "numeric-only", Constants.PARAMETER_VALUE, invalidInput);
             }
@@ -316,7 +317,7 @@ public class ConversationUtils
              * @return A message explaining how to correct the input.
              */
             @Override
-            protected String getFailedValidationText(ConversationContext context, Number invalidInput)
+            protected String getFailedValidationText(@NotNull ConversationContext context, Number invalidInput)
             {
                 return user.getTranslation(Constants.CONVERSATIONS + "not-valid-value",
                         Constants.PARAMETER_VALUE, invalidInput.toString(),
@@ -329,7 +330,8 @@ public class ConversationUtils
              * @see Prompt#getPromptText(ConversationContext)
              */
             @Override
-            public String getPromptText(ConversationContext conversationContext)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext conversationContext)
             {
                 // Close input GUI.
                 user.closeInventory();
@@ -363,9 +365,9 @@ public class ConversationUtils
      * @param user User who is targeted with current confirmation.
      */
     public static void createStringListInput(Consumer<List<String>> consumer,
-            User user,
-            @NotNull String question,
-            @NotNull String successMessage)
+        User user,
+        @NotNull String question,
+        @NotNull String successMessage)
     {
         final String SESSION_CONSTANT = Constants.CONVERSATIONS + user.getUniqueId();
 
@@ -373,13 +375,12 @@ public class ConversationUtils
         MessagePrompt messagePrompt = new MessagePrompt()
         {
             @Override
-            public @NotNull String getPromptText(@NotNull ConversationContext context)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext context)
             {
-                List<String> description = (List<String>) context.getSessionData(SESSION_CONSTANT);
-
-                if (description != null)
+                if (context.getSessionData(SESSION_CONSTANT) instanceof List description)
                 {
-                    consumer.accept(description);
+                    consumer.accept((List<String>) description);
                     return successMessage;
                 }
                 else
@@ -400,7 +401,8 @@ public class ConversationUtils
         StringPrompt stringPrompt = new StringPrompt()
         {
             @Override
-            public @NotNull String getPromptText(@NotNull ConversationContext context)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext context)
             {
                 user.closeInventory();
 
@@ -424,7 +426,7 @@ public class ConversationUtils
 
 
             @Override
-            public @Nullable Prompt acceptInput(@NotNull ConversationContext context, @Nullable String input)
+            public Prompt acceptInput(@NotNull ConversationContext context, @Nullable String input)
             {
                 String[] exit = user.getTranslation(Constants.CONVERSATIONS + "exit-string").
                         toLowerCase().replaceAll("\\s", "").
@@ -437,9 +439,9 @@ public class ConversationUtils
 
                 List<String> desc = new ArrayList<>();
 
-                if (context.getSessionData(SESSION_CONSTANT) != null)
+                if (context.getSessionData(SESSION_CONSTANT) instanceof List list)
                 {
-                    desc = ((List<String>) context.getSessionData(SESSION_CONSTANT));
+                    desc = (List<String>) list;
                 }
                 if (input != null) {
                     desc.add(ChatColor.translateAlternateColorCodes('&', input));
@@ -471,15 +473,16 @@ public class ConversationUtils
      * @param user User who is targeted with current confirmation.
      */
     public static void createStringInput(Consumer<String> consumer,
-            User user,
-            @NotNull String question,
-            @Nullable String successMessage)
+        User user,
+        @NotNull String question,
+        @Nullable String successMessage)
     {
         // Text input message.
         StringPrompt stringPrompt = new StringPrompt()
         {
             @Override
-            public @NotNull String getPromptText(@NotNull ConversationContext context)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext context)
             {
                 user.closeInventory();
                 return question;
@@ -487,7 +490,8 @@ public class ConversationUtils
 
 
             @Override
-            public @NotNull Prompt acceptInput(@NotNull ConversationContext context, @Nullable String input)
+            @NotNull
+            public Prompt acceptInput(@NotNull ConversationContext context, @Nullable String input)
             {
                 consumer.accept(input);
                 return ConversationUtils.endMessagePrompt(successMessage);
@@ -519,14 +523,16 @@ public class ConversationUtils
         return new MessagePrompt()
         {
             @Override
-            public @NotNull String getPromptText(@NotNull ConversationContext context)
+            @NotNull
+            public String getPromptText(@NotNull ConversationContext context)
             {
                 return message == null ? "" : message;
             }
 
 
             @Override
-            protected @Nullable Prompt getNextPrompt(@NotNull ConversationContext context)
+            @Nullable
+            protected Prompt getNextPrompt(@NotNull ConversationContext context)
             {
                 return Prompt.END_OF_CONVERSATION;
             }

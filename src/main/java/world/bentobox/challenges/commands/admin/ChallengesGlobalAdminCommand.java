@@ -6,7 +6,6 @@ import java.util.List;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
-import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.GameModePanel;
 import world.bentobox.challenges.utils.Constants;
@@ -19,7 +18,7 @@ import world.bentobox.challenges.utils.Utils;
 public class ChallengesGlobalAdminCommand extends CompositeCommand
 {
 	/**
-	 * Constructor that inits command with given string.
+	 * Constructor that init command with given string.
 	 * @param addon Challenges Addon
 	 * @param gameModeAddons List with GameModes where challenges addon operates.
 	 */

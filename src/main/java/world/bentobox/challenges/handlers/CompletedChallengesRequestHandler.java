@@ -50,24 +50,27 @@ public class CompletedChallengesRequestHandler extends AddonRequestHandler
          */
 
         if (metaData == null ||
-                metaData.isEmpty() ||
-                metaData.get("world-name") == null ||
-                !(metaData.get("world-name") instanceof String) ||
-                metaData.get("player") == null ||
-                !(metaData.get("player") instanceof UUID) ||
-                Bukkit.getWorld((String) metaData.get("world-name")) == null)
+            metaData.isEmpty() ||
+            metaData.get("world-name") == null ||
+            !(metaData.get("world-name") instanceof String) ||
+            metaData.get("player") == null ||
+            !(metaData.get("player") instanceof UUID player))
         {
             return Collections.emptySet();
         }
 
         World world = Bukkit.getWorld((String) metaData.get("world-name"));
-        UUID player = (UUID) metaData.get("player");
+
+        if (world == null)
+        {
+            return Collections.emptySet();
+        }
 
         ChallengesManager manager = this.addon.getChallengesManager();
 
         return manager.getAllChallengesNames(world).stream().
-                filter(challenge -> manager.isChallengeComplete(player, world, challenge)).
-                collect(Collectors.toSet());
+            filter(challenge -> manager.isChallengeComplete(player, world, challenge)).
+            collect(Collectors.toSet());
     }
 
 
@@ -79,5 +82,5 @@ public class CompletedChallengesRequestHandler extends AddonRequestHandler
     /**
      * Variable stores challenges addon.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 }

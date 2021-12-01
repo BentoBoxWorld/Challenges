@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
 
@@ -16,7 +15,6 @@ import com.google.gson.annotations.JsonAdapter;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.database.objects.Table;
-import world.bentobox.challenges.database.object.adapters.EntityCompatibilityAdapter;
 import world.bentobox.challenges.database.object.adapters.RequirementsAdapter;
 import world.bentobox.challenges.database.object.adapters.TypeMigrationAdapter;
 import world.bentobox.challenges.database.object.requirements.Requirements;
@@ -838,7 +836,7 @@ public class Challenge implements DataObject
             clone.setEnvironment(new HashSet<>(this.environment));
             clone.setLevel(this.level);
             clone.setRemoveWhenCompleted(this.removeWhenCompleted);
-            clone.setRequirements(this.requirements.clone());
+            clone.setRequirements(this.requirements.copy());
             clone.setRewardText(this.rewardText);
             clone.setRewardItems(
                 this.rewardItems.stream().

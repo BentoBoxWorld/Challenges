@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
@@ -44,16 +45,21 @@ public class LevelListRequestHandler extends AddonRequestHandler
          */
 
         if (metaData == null ||
-                metaData.isEmpty() ||
-                metaData.get("world-name") == null ||
-                !(metaData.get("world-name") instanceof String) ||
-                Bukkit.getWorld((String) metaData.get("world-name")) == null)
+            metaData.isEmpty() ||
+            metaData.get("world-name") == null ||
+            !(metaData.get("world-name") instanceof String))
         {
             return Collections.emptyList();
         }
 
-        return this.addon.getChallengesManager().getLevelNames(
-            Bukkit.getWorld((String) metaData.get("world-name")));
+        World world = Bukkit.getWorld((String) metaData.get("world-name"));
+
+        if (world == null)
+        {
+            return Collections.emptyList();
+        }
+
+        return this.addon.getChallengesManager().getLevelNames(world);
     }
 
 
@@ -65,5 +71,5 @@ public class LevelListRequestHandler extends AddonRequestHandler
     /**
      * Variable stores challenges addon.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 }

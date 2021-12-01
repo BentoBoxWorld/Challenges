@@ -19,7 +19,7 @@ public class LevelStatus {
      * @param previousLevel - previous level
      * @param numberOfChallengesStillToDo - number of challenges still to do on this level
      * @param complete - whether complete or not
-     * @param isUnlocked 
+     * @param isUnlocked - if level is unlocked or not.
      */
     public LevelStatus(ChallengeLevel level, ChallengeLevel previousLevel, int numberOfChallengesStillToDo, boolean complete, boolean isUnlocked) {
         super();

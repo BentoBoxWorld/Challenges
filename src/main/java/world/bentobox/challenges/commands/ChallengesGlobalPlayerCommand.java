@@ -19,7 +19,7 @@ import world.bentobox.challenges.utils.Utils;
 public class ChallengesGlobalPlayerCommand extends CompositeCommand
 {
 	/**
-	 * Constructor that inits command with given string.
+	 * Constructor that init command with given string.
 	 * @param addon Challenges Addon
 	 * @param gameModeAddons List with GameModes where challenges addon operates.
 	 */

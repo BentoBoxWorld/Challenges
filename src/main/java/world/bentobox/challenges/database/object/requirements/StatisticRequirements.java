@@ -11,7 +11,6 @@ import com.google.gson.annotations.Expose;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
-import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 
@@ -27,11 +26,11 @@ public class StatisticRequirements extends Requirements
 
 
     /**
-     * This method clones given statistic object.
-     * @return Clone of this object.
+     * This method copies given statistic object.
+     * @return Copy of this object.
      */
     @Override
-    public Requirements clone()
+    public Requirements copy()
     {
         StatisticRequirements requirements = new StatisticRequirements();
         requirements.setStatistic(this.statistic);
@@ -96,7 +95,7 @@ public class StatisticRequirements extends Requirements
      *
      * @param statistic the statistic
      */
-    public void setStatistic(@NonNull Statistic statistic)
+    public void setStatistic(@Nullable Statistic statistic)
     {
         this.statistic = statistic;
     }

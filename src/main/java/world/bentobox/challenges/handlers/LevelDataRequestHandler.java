@@ -94,5 +94,5 @@ public class LevelDataRequestHandler extends AddonRequestHandler
     /**
      * Variable stores challenges addon.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 }

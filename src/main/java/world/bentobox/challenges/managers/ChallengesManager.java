@@ -12,7 +12,6 @@ import org.bukkit.entity.EntityType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
-import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.logs.LogEntry;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
@@ -24,9 +23,6 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.database.object.ChallengesPlayerData;
-import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
-import world.bentobox.challenges.database.object.requirements.IslandRequirements;
-import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.Requirements;
 import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
@@ -57,7 +53,7 @@ public class ChallengesManager
     private final Database<ChallengeLevel> levelDatabase;
 
     /**
-     * This database allows to access player challenge data.
+     * This database allows accessing player challenge data.
      */
     private final Database<ChallengesPlayerData> playersDatabase;
 
@@ -77,17 +73,17 @@ public class ChallengesManager
     private final Map<String, ChallengesPlayerData> playerCacheData;
 
     /**
-     * This variable allows to access ChallengesAddon.
+     * This variable allows accessing ChallengesAddon.
      */
     private final ChallengesAddon addon;
 
     /**
-     * This variable allows to access ChallengesAddon settings.
+     * This variable allows accessing ChallengesAddon settings.
      */
     private final Settings settings;
 
     /**
-     * Island world manager allows to detect which world refferes to which gamemode addon.
+     * Island world manager allows detecting which world refers to which gamemode addon.
      */
     private final IslandWorldManager islandWorldManager;
 
@@ -121,7 +117,7 @@ public class ChallengesManager
         {
             if (o1.getOrder() == o2.getOrder())
             {
-                // If orders are equal, sort by unique Id
+                // If orders are equal, sort by unique id
                 return o1.getUniqueId().compareToIgnoreCase(o2.getUniqueId());
             }
             else
@@ -139,9 +135,18 @@ public class ChallengesManager
             }
             else
             {
-                // Sort by challenges level order numbers
-                return Integer.compare(this.getLevel(o1.getLevel()).getOrder(),
-                        this.getLevel(o2.getLevel()).getOrder());
+                ChallengeLevel o1Level = this.getLevel(o1.getLevel());
+                ChallengeLevel o2Level = this.getLevel(o2.getLevel());
+
+                if (o1Level == null || o2Level == null)
+                {
+                    return Boolean.compare(o1Level == null, o2Level == null);
+                }
+                else
+                {
+                    // Sort by challenges level order numbers
+                    return Integer.compare(o1Level.getOrder(), o2Level.getOrder());
+                }
             }
         }
     };
@@ -166,7 +171,7 @@ public class ChallengesManager
         // Set up the configs
         this.challengeDatabase = new Database<>(addon, Challenge.class);
         this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
-        // Players is where all the player history will be stored
+        // playersDatabase is where all the player history will be stored
         this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
 
         // Init all cache objects.
@@ -226,9 +231,10 @@ public class ChallengesManager
             // store player data before cleaning.
             this.savePlayersData();
         }
-        //this.challengeDatabase = new Database<>(addon, Challenge.class);
-        //this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
-        //this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
+
+        // this.challengeDatabase = new Database<>(addon, Challenge.class);
+        // this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
+        // this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
 
         this.loadAndValidate();
     }
@@ -417,26 +423,6 @@ public class ChallengesManager
 
         this.levelCacheData.put(level.getUniqueId(), level);
         return true;
-    }
-
-
-    /**
-     * This method stores PlayerData into local cache.
-     *
-     * @param playerData ChallengesPlayerData that must be loaded.
-     *
-     * TODO: Remove this unused method?
-     */
-    private void loadPlayerData(@NonNull ChallengesPlayerData playerData)
-    {
-        try
-        {
-            this.playerCacheData.put(playerData.getUniqueId(), playerData);
-        }
-        catch (Exception e)
-        {
-            this.addon.getLogger().severe("UUID for player in challenge data file is invalid!");
-        }
     }
 
 

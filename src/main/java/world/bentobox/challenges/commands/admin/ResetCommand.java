@@ -20,7 +20,7 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This command allows to reset challenges without a gui.
+ * This command allows resetting challenges without a gui.
  */
 public class ResetCommand extends CompositeCommand
 {
@@ -79,8 +79,9 @@ public class ResetCommand extends CompositeCommand
         else if (!args.get(1).isEmpty())
         {
             UUID targetUUID = this.getPlayers().getUUID(args.get(0));
+            User target = User.getInstance(targetUUID);
 
-            if (targetUUID == null)
+            if (targetUUID == null || target == null)
             {
                 if (user.isPlayer())
                 {
@@ -104,12 +105,11 @@ public class ResetCommand extends CompositeCommand
                 if (user.isPlayer())
                 {
                     Utils.sendMessage(user, user.getTranslation("challenges.messages.reset-all",
-                        Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
+                        Constants.PARAMETER_PLAYER, target.getName()));
                 }
                 else
                 {
-                    this.addon.log("All challenges for user " +
-                        User.getInstance(targetUUID).getName() + " was reset!");
+                    this.addon.log("All challenges for user " + target.getName() + " was reset!");
                 }
 
                 return true;
@@ -129,12 +129,12 @@ public class ResetCommand extends CompositeCommand
                         {
                             Utils.sendMessage(user, user.getTranslation("challenges.messages.reset",
                                 Constants.PARAMETER_NAME, challenge.getFriendlyName(),
-                                Constants.PARAMETER_PLAYER, User.getInstance(targetUUID).getName()));
+                                Constants.PARAMETER_PLAYER, target.getName()));
                         }
                         else
                         {
                             this.addon.log("Challenge " + challenge.getFriendlyName() + " was reset for player " +
-                                    User.getInstance(targetUUID).getName());
+                                target.getName());
                         }
                     }
                     else
@@ -185,25 +185,18 @@ public class ResetCommand extends CompositeCommand
 
         switch (size)
         {
-            case 3:
+            case 3 ->
                 // Create suggestions with all challenges that is available for users.
-
                 returnList.addAll(Util.getOnlinePlayerList(user));
-                break;
-            case 4:
+            case 4 -> {
                 // Create suggestions with all challenges that is available for users.
                 returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
                     map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
                     collect(Collectors.toList()));
-
                 returnList.add("all");
-
-                break;
-            default:
-            {
-                returnList.addAll(Collections.singletonList("help"));
-                break;
             }
+            default ->
+                returnList.addAll(Collections.singletonList("help"));
         }
 
         return Optional.of(Util.tabLimit(returnList, lastString));
@@ -217,5 +210,5 @@ public class ResetCommand extends CompositeCommand
     /**
      * Variable that holds challenge addon. Single casting.
      */
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 }

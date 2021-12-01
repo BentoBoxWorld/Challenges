@@ -50,5 +50,5 @@ public class SaveListener implements Listener
     // ---------------------------------------------------------------------
 
 
-    private ChallengesAddon addon;
+    private final ChallengesAddon addon;
 }

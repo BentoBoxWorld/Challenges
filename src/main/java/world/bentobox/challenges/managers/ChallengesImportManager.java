@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
+import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
@@ -661,14 +662,21 @@ public class ChallengesImportManager
      */
     public void importDatabaseFile(User user, World world, String fileName)
     {
+        World correctWorld = Util.getWorld(world);
+
+        if (correctWorld == null)
+        {
+            this.addon.logError("Given world is not part of BentoBox");
+            return;
+        }
+
         ChallengesManager manager = this.addon.getChallengesManager();
 
         // If exist any generator that is bound to current world, then do not load generators.
         if (manager.hasAnyChallengeData(world.getName()))
         {
-            this.addon.getPlugin().getIWM().getAddon(world).ifPresent(gameModeAddon -> {
-                manager.wipeDatabase(gameModeAddon.getDescription().getName().toLowerCase());
-            });
+            this.addon.getPlugin().getIWM().getAddon(world).ifPresent(gameModeAddon ->
+                manager.wipeDatabase(gameModeAddon.getDescription().getName().toLowerCase()));
         }
 
         try
@@ -700,7 +708,7 @@ public class ChallengesImportManager
                 // Set correct level ID
                 challengeLevel.setUniqueId(uniqueIDPrefix + challengeLevel.getUniqueId());
                 // Set correct world name
-                challengeLevel.setWorld(Util.getWorld(world).getName());
+                challengeLevel.setWorld(correctWorld.getName());
                 // Reset names for all challenges.
                 challengeLevel.setChallenges(challengeLevel.getChallenges().stream().
                     map(challenge -> uniqueIDPrefix + challenge).
@@ -728,6 +736,14 @@ public class ChallengesImportManager
      */
     public void loadDownloadedChallenges(User user, World world, String downloadString)
     {
+        World correctWorld = Util.getWorld(world);
+
+        if (correctWorld == null)
+        {
+            this.addon.logError("Given world is not part of BentoBox");
+            return;
+        }
+
         ChallengesManager manager = this.addon.getChallengesManager();
 
         // If exist any challenge or level that is bound to current world, then do not load default challenges.
@@ -769,7 +785,7 @@ public class ChallengesImportManager
                 // Set correct level ID
                 challengeLevel.setUniqueId(uniqueIDPrefix + challengeLevel.getUniqueId());
                 // Set correct world name
-                challengeLevel.setWorld(Util.getWorld(world).getName());
+                challengeLevel.setWorld(correctWorld.getName());
                 // Reset names for all challenges.
                 challengeLevel.setChallenges(challengeLevel.getChallenges().stream().
                         map(challenge -> uniqueIDPrefix + challenge).
@@ -840,7 +856,7 @@ public class ChallengesImportManager
                     stream().
                     map(challengeLevel -> {
                         // Use clone to avoid any changes in existing levels.
-                        ChallengeLevel clone = challengeLevel.clone();
+                        ChallengeLevel clone = challengeLevel.copy();
                         // Remove world name from level ID.
                         clone.setUniqueId(challengeLevel.getUniqueId().replaceFirst(replacementString, ""));
                         // Remove world name.

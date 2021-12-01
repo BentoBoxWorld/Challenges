@@ -144,10 +144,9 @@ public class MultiEntitySelector extends PagedSelector<EntityType>
 				if (!this.selectedElements.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.selectedElements.forEach(material -> {
+					this.selectedElements.forEach(material ->
 						description.add(this.user.getTranslation(reference + "element",
-							"[element]", Utils.prettifyObject(material, this.user)));
-					});
+							"[element]", Utils.prettifyObject(material, this.user))));
 				}
 
 				icon = new ItemStack(Material.COMMAND_BLOCK);

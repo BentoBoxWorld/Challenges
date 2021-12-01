@@ -143,10 +143,9 @@ public record EnvironmentSelector(User user, Set<World.Environment> values, BiCo
 				if (!this.values.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.values.forEach(element -> {
+					this.values.forEach(element ->
 						description.add(this.user.getTranslation(reference + "element",
-							"[element]", Utils.prettifyObject(element, this.user)));
-					});
+							"[element]", Utils.prettifyObject(element, this.user))));
 				}
 
 				icon = new ItemStack(Material.COMMAND_BLOCK);

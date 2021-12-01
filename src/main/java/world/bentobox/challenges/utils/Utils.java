@@ -63,7 +63,7 @@ public class Utils
 				i++;
 			}
 
-			if (isUnique && item != null)
+			if (isUnique)
 			{
 				// The same issue as in other places. Clone prevents from changing original item.
 				returnItems.add(item.clone());
@@ -95,7 +95,7 @@ public class Utils
 	 * @param <T> Instance of given object.
 	 * @return Next value after currentValue in values array.
 	 */
-	public static <T extends Object> T getNextValue(T[] values, T currentValue)
+	public static <T> T getNextValue(T[] values, T currentValue)
 	{
 		for (int i = 0; i < values.length; i++)
 		{
@@ -123,7 +123,7 @@ public class Utils
 	 * @param <T> Instance of given object.
 	 * @return Previous value before currentValue in values array.
 	 */
-	public static <T extends Object> T getPreviousValue(T[] values, T currentValue)
+	public static <T> T getPreviousValue(T[] values, T currentValue)
 	{
 		for (int i = 0; i < values.length; i++)
 		{
@@ -544,19 +544,15 @@ public class Utils
 		String translation;
 		switch (object.getType())
 		{
-			case POTION, SPLASH_POTION, LINGERING_POTION, TIPPED_ARROW -> {
+			case POTION, SPLASH_POTION, LINGERING_POTION, TIPPED_ARROW ->
 				// Get Potion Meta
 				translation = prettifyObject(object, (PotionMeta) object.getItemMeta(), user);
-			}
-			case PLAYER_HEAD, PLAYER_WALL_HEAD -> {
+			case PLAYER_HEAD, PLAYER_WALL_HEAD ->
 				translation = prettifyObject(object, (SkullMeta) object.getItemMeta(), user);
-			}
-			case ENCHANTED_BOOK -> {
+			case ENCHANTED_BOOK ->
 				translation = prettifyObject(object, (EnchantmentStorageMeta) object.getItemMeta(), user);
-			}
-			case WRITTEN_BOOK, WRITABLE_BOOK -> {
+			case WRITTEN_BOOK, WRITABLE_BOOK ->
 				translation = prettifyObject(object, (BookMeta) object.getItemMeta(), user);
-			}
 			case LEATHER_BOOTS,LEATHER_CHESTPLATE,LEATHER_HELMET,LEATHER_LEGGINGS,LEATHER_HORSE_ARMOR,
 				TRIDENT,CROSSBOW,CHAINMAIL_HELMET,CHAINMAIL_CHESTPLATE,CHAINMAIL_LEGGINGS,CHAINMAIL_BOOTS,IRON_HELMET,
 				IRON_CHESTPLATE,IRON_LEGGINGS,IRON_BOOTS,DIAMOND_HELMET,DIAMOND_CHESTPLATE,DIAMOND_LEGGINGS,DIAMOND_BOOTS,
@@ -565,9 +561,8 @@ public class Utils
 				STONE_SWORD,STONE_SHOVEL,STONE_PICKAXE,STONE_AXE,STONE_HOE,GOLDEN_SWORD,GOLDEN_SHOVEL,GOLDEN_PICKAXE,
 				GOLDEN_AXE,GOLDEN_HOE,IRON_SWORD,IRON_SHOVEL,IRON_PICKAXE,IRON_AXE,IRON_HOE,DIAMOND_SWORD,DIAMOND_SHOVEL,
 				DIAMOND_PICKAXE,DIAMOND_AXE,DIAMOND_HOE,NETHERITE_SWORD,NETHERITE_SHOVEL,NETHERITE_PICKAXE,NETHERITE_AXE,
-				NETHERITE_HOE,TURTLE_HELMET,SHEARS,SHIELD,FLINT_AND_STEEL,BOW -> {
+				NETHERITE_HOE,TURTLE_HELMET,SHEARS,SHIELD,FLINT_AND_STEEL,BOW ->
 				translation = prettifyObject(object, object.getItemMeta(), user);
-			}
 			default ->
 				translation = "";
 		}

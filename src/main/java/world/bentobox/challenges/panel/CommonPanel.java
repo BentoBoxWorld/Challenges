@@ -528,11 +528,9 @@ public abstract class CommonPanel
 
         switch (requirement.getStatistic().getType())
         {
-            case UNTYPED -> {
-                statistic = this.user.getTranslationOrNothing(reference + "statistic",
-                    "[statistic]", Utils.prettifyObject(requirement.getStatistic(), this.user),
-                    "[number]", String.valueOf(requirement.getAmount()));
-            }
+            case UNTYPED -> statistic = this.user.getTranslationOrNothing(reference + "statistic",
+                "[statistic]", Utils.prettifyObject(requirement.getStatistic(), this.user),
+                "[number]", String.valueOf(requirement.getAmount()));
             case ITEM, BLOCK -> {
                 if (requirement.getAmount() > 1)
                 {
@@ -563,9 +561,7 @@ public abstract class CommonPanel
                         "[target]", Utils.prettifyObject(requirement.getEntity(), this.user));
                 }
             }
-            default -> {
-                statistic = "";
-            }
+            default -> statistic = "";
         }
 
         String warning = requirement.isReduceStatistic() ?

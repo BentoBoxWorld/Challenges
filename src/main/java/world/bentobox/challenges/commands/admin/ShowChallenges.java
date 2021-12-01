@@ -7,27 +7,32 @@ import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 
-public class ShowChallenges extends CompositeCommand {
-
-
+public class ShowChallenges extends CompositeCommand
+{
     /**
-     * Admin command to show challenges and manage them
-     * @param parent
+     * Instantiates a new Show challenges command.
+     *
+     * @param addon the addon
+     * @param parent the parent
      */
-    public ShowChallenges(Addon addon, CompositeCommand parent) {
+    public ShowChallenges(Addon addon, CompositeCommand parent)
+    {
         super(addon, parent, "show");
     }
 
+
     @Override
-    public void setup() {
+    public void setup()
+    {
         this.setPermission("admin.challenges");
         this.setParametersHelp("challenges.commands.admin.show.parameters");
         this.setDescription("challenges.commands.admin.show.description");
-
     }
 
+
     @Override
-    public boolean execute(User user, String label, List<String> args) {
+    public boolean execute(User user, String label, List<String> args)
+    {
         if (user.isPlayer())
         {
             ((ChallengesAddon) getAddon()).getChallengesManager().
@@ -40,7 +45,5 @@ public class ShowChallenges extends CompositeCommand {
         }
 
         return true;
-
     }
-
 }
