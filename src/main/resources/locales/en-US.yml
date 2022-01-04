@@ -328,7 +328,7 @@ challenges:
                     &7 items for this
                     &7 challenge to be completable.
                 title: "&7 Items: "
-                list: " &8 - [item]"
+                list: " &8 - [number] x [item]"
                 none: "&7 Items are not added."
             add_ignored_meta:
                 name: "&f&l Add Ignore Metadata"
@@ -338,7 +338,7 @@ challenges:
                     &7 any meta-data that
                     &7 is assigned to them.
                 title: "&7 Items: "
-                list: " &8 - [item]"
+                list: " &8 - [number] x [item]"
                 none: "&7 Items are not added."
             remove_ignored_meta:
                 name: "&f&l Remove Ignore Metadata"
@@ -449,7 +449,7 @@ challenges:
                     &7 Allows to change reward
                     &7 items.
                 title: "&7 Items: "
-                list: " &8 - [item]"
+                list: " &8 - [number] x [item]"
                 none: "&7 Items are not added."
             repeat_reward_items:
                 name: "&f&l Repeat Reward Items"
@@ -458,7 +458,7 @@ challenges:
                     &7 reward items for this
                     &7 challenge.
                 title: "&7 Items: "
-                list: " &8 - [item]"
+                list: " &8 - [number] x [item]"
                 none: "&7 Items are not added."
             reward_experience:
                 name: "&f&l Reward Experience"

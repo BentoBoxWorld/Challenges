@@ -403,6 +403,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[number]", String.valueOf(itemStack.getAmount()),
                                 "[item]", Utils.prettifyObject(itemStack, this.user))));
                 }
 

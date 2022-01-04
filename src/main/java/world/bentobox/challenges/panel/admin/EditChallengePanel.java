@@ -907,6 +907,7 @@ public class EditChallengePanel extends CommonPanel
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[number]", String.valueOf(itemStack.getAmount()),
                                 "[item]", Utils.prettifyObject(itemStack, this.user))));
                 }
 
@@ -1463,6 +1464,7 @@ public class EditChallengePanel extends CommonPanel
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[number]", String.valueOf(itemStack.getAmount()),
                                 "[item]", Utils.prettifyObject(itemStack, this.user))));
                 }
 
@@ -1715,6 +1717,7 @@ public class EditChallengePanel extends CommonPanel
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
                             description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[number]", String.valueOf(itemStack.getAmount()),
                                 "[item]", Utils.prettifyObject(itemStack, this.user))));
                 }
 
