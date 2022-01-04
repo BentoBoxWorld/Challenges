@@ -324,7 +324,7 @@ challenges:
           &7 priekšmeti, kas nepieciešamas
           &7 uzdevuma izpildei.
         title: "&7 Priekšmeti: "
-        list: " &8 - [item]"
+        list: " &8 - [number] x [item]"
         none: "&7 Priekšmeti nav uzstādīti."
       add_ignored_meta:
         name: "&f&l Pievienot Meta-datu Ignorēšanu"
@@ -443,7 +443,7 @@ challenges:
           &7 Ļauj uzstādīt atlīdzības
           &7 priekšmetus.
         title: "&7 Priekšmeti: "
-        list: " &8 - [item]"
+        list: " &8 - [number] x [item]"
         none: "&7 Priekšmeti nav uzstādīti."
       repeat_reward_items:
         name: "&f&l Atkārtotas Atlīdzības Priekšmeti"
@@ -451,7 +451,7 @@ challenges:
           &7 Ļauj uzstādīt atkārtotās
           &7 atlīdzības priekšmetus.
         title: "&7 Priekšmeti: "
-        list: " &8 - [item]"
+        list: " &8 - [number] x [item]"
         none: "&7 Priekšmeti nav uzstādīti."
       reward_experience:
         name: "&f&l Atlīdzības Pieredze"
