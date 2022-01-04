@@ -27,6 +27,7 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.ChallengeSelector;
+import world.bentobox.challenges.panel.util.MultiBlockSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -191,6 +192,16 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
         panelBuilder.item(13, this.createButton(Button.REWARD_ITEMS));
         panelBuilder.item(22, this.createButton(Button.REWARD_EXPERIENCE));
         panelBuilder.item(31, this.createButton(Button.REWARD_MONEY));
+
+        if (!this.challengeLevel.getRewardItems().isEmpty())
+        {
+            panelBuilder.item(33, this.createButton(Button.ADD_IGNORED_META));
+        }
+
+        if (!this.challengeLevel.getIgnoreRewardMetaData().isEmpty())
+        {
+            panelBuilder.item(34, this.createButton(Button.REMOVE_IGNORED_META));
+        }
     }
 
 
@@ -387,7 +398,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challengeLevel.getRewardItems(), Collections.emptySet()).
+                    Utils.groupEqualItems(this.challengeLevel.getRewardItems(), this.challengeLevel.getIgnoreRewardMetaData()).
                         stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
@@ -513,6 +524,97 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 {
                     description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
                 }
+            }
+            case ADD_IGNORED_META -> {
+                if (this.challengeLevel.getIgnoreRewardMetaData().isEmpty())
+                {
+                    description.add(this.user.getTranslation(reference + "none"));
+                }
+                else
+                {
+                    description.add(this.user.getTranslation(reference + "title"));
+
+                    this.challengeLevel.getIgnoreRewardMetaData().stream().
+                        sorted(Comparator.comparing(Material::name)).
+                        forEach(itemStack ->
+                            description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                }
+
+                icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (this.challengeLevel.getRewardItems().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    this.challengeLevel.getRewardItems().stream().
+                        map(ItemStack::getType).
+                        forEach(collection::remove);
+                    collection.addAll(this.challengeLevel.getIgnoreRewardMetaData());
+
+                    if (Material.values().length == collection.size())
+                    {
+                        // If all materials are blocked, then do not allow to open gui.
+                        return true;
+                    }
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                materials.addAll(this.challengeLevel.getIgnoreRewardMetaData());
+                                this.challengeLevel.setIgnoreRewardMetaData(new HashSet<>(materials));
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            }
+            case REMOVE_IGNORED_META -> {
+                icon = new ItemStack(Material.RED_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (this.challengeLevel.getIgnoreRewardMetaData().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    collection.removeAll(this.challengeLevel.getIgnoreRewardMetaData());
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                this.challengeLevel.getIgnoreRewardMetaData().removeAll(materials);
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
             }
             case NAME -> {
                 description.add(this.user.getTranslation(reference + "value",
@@ -857,6 +959,9 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
         REWARD_EXPERIENCE,
         REWARD_MONEY,
         REWARD_COMMANDS,
+
+        ADD_IGNORED_META,
+        REMOVE_IGNORED_META,
 
         ADD_CHALLENGES,
         REMOVE_CHALLENGES

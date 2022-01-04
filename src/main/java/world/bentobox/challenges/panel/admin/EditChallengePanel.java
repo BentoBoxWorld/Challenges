@@ -282,11 +282,20 @@ public class EditChallengePanel extends CommonPanel
 
         panelBuilder.item(22, this.createRewardButton(RewardButton.REPEATABLE));
 
+        if (!this.challenge.getRewardItems().isEmpty() || !this.challenge.getRepeatItemReward().isEmpty())
+        {
+            panelBuilder.item(31, this.createRewardButton(RewardButton.ADD_IGNORED_META));
+        }
+
+        if (!this.challenge.getIgnoreRewardMetaData().isEmpty())
+        {
+            panelBuilder.item(32, this.createRewardButton(RewardButton.REMOVE_IGNORED_META));
+        }
+
         if (this.challenge.isRepeatable())
         {
             panelBuilder.item(13, this.createRewardButton(RewardButton.COOL_DOWN));
-
-            panelBuilder.item(31, this.createRewardButton(RewardButton.REPEAT_COUNT));
+            panelBuilder.item(23, this.createRewardButton(RewardButton.REPEAT_COUNT));
 
             panelBuilder.item(15, this.createRewardButton(RewardButton.REPEAT_REWARD_TEXT));
             panelBuilder.item(24, this.createRewardButton(RewardButton.REPEAT_REWARD_COMMANDS));
@@ -967,6 +976,12 @@ public class EditChallengePanel extends CommonPanel
                         forEach(collection::remove);
                     collection.addAll(requirements.getIgnoreMetaData());
 
+                    if (Material.values().length == collection.size())
+                    {
+                        // If there are no items anymore, then do not allow opening gui.
+                        return true;
+                    }
+
                     MultiBlockSelector.open(this.user,
                         MultiBlockSelector.Mode.ANY,
                         collection,
@@ -974,6 +989,7 @@ public class EditChallengePanel extends CommonPanel
                         {
                             if (status)
                             {
+                                materials.addAll(requirements.getIgnoreMetaData());
                                 requirements.setIgnoreMetaData(new HashSet<>(materials));
                             }
 
@@ -1442,7 +1458,7 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challenge.getRewardItems(), Collections.emptySet()).
+                    Utils.groupEqualItems(this.challenge.getRewardItems(), this.challenge.getIgnoreRewardMetaData()).
                         stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
@@ -1694,7 +1710,7 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(this.challenge.getRepeatItemReward(), Collections.emptySet()).
+                    Utils.groupEqualItems(this.challenge.getRepeatItemReward(), this.challenge.getIgnoreRewardMetaData()).
                         stream().
                         sorted(Comparator.comparing(ItemStack::getType)).
                         forEach(itemStack ->
@@ -1820,6 +1836,101 @@ public class EditChallengePanel extends CommonPanel
                 {
                     description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
                 }
+            }
+            case ADD_IGNORED_META -> {
+                if (this.challenge.getIgnoreRewardMetaData().isEmpty())
+                {
+                    description.add(this.user.getTranslation(reference + "none"));
+                }
+                else
+                {
+                    description.add(this.user.getTranslation(reference + "title"));
+
+                    this.challenge.getIgnoreRewardMetaData().stream().
+                        sorted(Comparator.comparing(Material::name)).
+                        forEach(itemStack ->
+                            description.add(this.user.getTranslationOrNothing(reference + "list",
+                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                }
+
+                icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (this.challenge.getRewardItems().isEmpty() &&
+                        this.challenge.getRepeatItemReward().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    this.challenge.getRewardItems().stream().
+                        map(ItemStack::getType).
+                        forEach(collection::remove);
+                    this.challenge.getRepeatItemReward().stream().
+                        map(ItemStack::getType).
+                        forEach(collection::remove);
+                    collection.addAll(this.challenge.getIgnoreRewardMetaData());
+
+                    if (Material.values().length == collection.size())
+                    {
+                        // If there are no items anymore, then do not allow opening gui.
+                        return true;
+                    }
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                materials.addAll(this.challenge.getIgnoreRewardMetaData());
+                                this.challenge.setIgnoreRewardMetaData(new HashSet<>(materials));
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            }
+            case REMOVE_IGNORED_META -> {
+                icon = new ItemStack(Material.RED_SHULKER_BOX);
+
+                clickHandler = (panel, user, clickType, slot) -> {
+                    if (this.challenge.getIgnoreRewardMetaData().isEmpty())
+                    {
+                        // Do nothing if no requirements are set.
+                        return true;
+                    }
+
+                    // Allow choosing only from inventory items.
+                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                    collection.removeAll(this.challenge.getIgnoreRewardMetaData());
+
+                    MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                        {
+                            if (status)
+                            {
+                                this.challenge.getIgnoreRewardMetaData().removeAll(materials);
+                            }
+
+                            this.build();
+                        });
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
             }
             default -> {
                 icon = new ItemStack(Material.PAPER);
@@ -1951,6 +2062,9 @@ public class EditChallengePanel extends CommonPanel
         REPEAT_REWARD_EXPERIENCE,
         REPEAT_REWARD_MONEY,
         REPEAT_REWARD_COMMANDS,
+
+        ADD_IGNORED_META,
+        REMOVE_IGNORED_META,
     }
 
 

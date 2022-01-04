@@ -177,6 +177,11 @@ public class Challenge implements DataObject
     @Expose
     private List<String> rewardCommands = new ArrayList<>();
 
+    /**
+     * Set of item stacks that should ignore metadata.
+     */
+    @Expose
+    private Set<Material> ignoreRewardMetaData = new HashSet<>();
 
     // ---------------------------------------------------------------------
     // Section: Repeat Rewards
@@ -457,6 +462,17 @@ public class Challenge implements DataObject
     }
 
 
+    /**
+     * Gets ignore reward meta data.
+     *
+     * @return the ignore reward meta data
+     */
+    public Set<Material> getIgnoreRewardMetaData()
+    {
+        return ignoreRewardMetaData;
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Setters
     // ---------------------------------------------------------------------
@@ -724,6 +740,17 @@ public class Challenge implements DataObject
     }
 
 
+    /**
+     * Sets ignore reward meta data.
+     *
+     * @param ignoreRewardMetaData the ignore reward meta data
+     */
+    public void setIgnoreRewardMetaData(Set<Material> ignoreRewardMetaData)
+    {
+        this.ignoreRewardMetaData = ignoreRewardMetaData;
+    }
+
+
     // ---------------------------------------------------------------------
     // Section: Other methods
     // ---------------------------------------------------------------------
@@ -856,6 +883,7 @@ public class Challenge implements DataObject
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
             clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
             clone.setTimeout(this.timeout);
+            clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
         }
         catch (Exception e)
         {

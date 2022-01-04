@@ -115,6 +115,10 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     @Expose
     private Set<String> challenges = new HashSet<>();
 
+    @ConfigComment("")
+    @ConfigComment("Set of materials which metadata can be ignored.")
+    @Expose
+    private Set<Material> ignoreRewardMetaData = new HashSet<>();
 
 // ---------------------------------------------------------------------
 // Section: Getters
@@ -260,6 +264,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public Set<String> getChallenges()
     {
         return challenges;
+    }
+
+
+    /**
+     * Gets ignore reward meta data.
+     *
+     * @return the ignore reward meta data
+     */
+    public Set<Material> getIgnoreRewardMetaData()
+    {
+        return ignoreRewardMetaData;
     }
 
 
@@ -424,6 +439,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     }
 
 
+    /**
+     * Sets ignore reward meta data.
+     *
+     * @param ignoreRewardMetaData the ignore reward meta data
+     */
+    public void setIgnoreRewardMetaData(Set<Material> ignoreRewardMetaData)
+    {
+        this.ignoreRewardMetaData = ignoreRewardMetaData;
+    }
+
+
 // ---------------------------------------------------------------------
 // Section: Other methods
 // ---------------------------------------------------------------------
@@ -564,6 +590,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
             clone.setRewardMoney(this.rewardMoney);
             clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
             clone.setChallenges(new HashSet<>(this.challenges));
+            clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
         }
         catch (Exception e)
         {
