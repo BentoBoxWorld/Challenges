@@ -1230,7 +1230,7 @@ challenges:
 #            menting: "Mending"
 #            unbreaking: "Unbreaking"
 #        # Custom Potion Translation.
-#        potion-effect:
+#        potion-type:
 #            water_breathing: "Water Breathing"
 #        # You can also create specific item translations
 #        # Like translate all potions.

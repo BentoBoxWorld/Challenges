@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
@@ -629,27 +630,27 @@ public class Utils
 
 
 	/**
-	 * Prettify effect string.
+	 * Prettify type string.
 	 *
-	 * @param effect the enchantment
+	 * @param type the potion type
 	 * @param user the user
 	 * @return the string
 	 */
-	public static String prettifyObject(PotionEffectType effect, User user)
+	public static String prettifyObject(PotionType type, User user)
 	{
-		if (effect == null)
+		if (type == null)
 		{
 			return "";
 		}
 
-		String type = user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion-effect." + effect.getName().toLowerCase());
+		String text = user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion-type." + type.name().toLowerCase());
 
-		if (type.isEmpty())
+		if (text.isEmpty())
 		{
-			type = LangUtilsHook.getPotionEffectName(effect, user);
+			text = LangUtilsHook.getPotionBaseEffectName(type, user);
 		}
 
-		return type;
+		return text;
 	}
 
 
@@ -681,7 +682,7 @@ public class Utils
 		if (type.isEmpty())
 		{
 			// Check potion types translation.
-			type = prettifyObject(potionData.getType().getEffectType(), user);
+			type = prettifyObject(potionData.getType(), user);
 		}
 
 		String upgraded = user.getTranslationOrNothing(metaReference + "upgraded");
