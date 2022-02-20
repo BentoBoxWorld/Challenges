@@ -272,7 +272,6 @@ public class TryToComplete
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
                 Bukkit.getOnlinePlayers().stream().
-                    filter(player -> this.user.getUniqueId().equals(player.getUniqueId())).
                     map(User::getInstance).
                     filter(Objects::nonNull).
                     forEach(user -> Utils.sendMessage(user, user.getTranslation(
@@ -380,7 +379,6 @@ public class TryToComplete
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
                         Bukkit.getOnlinePlayers().stream().
-                            filter(player -> this.user.getUniqueId().equals(player.getUniqueId())).
                             map(User::getInstance).
                             filter(Objects::nonNull).
                             forEach(user -> Utils.sendMessage(user, user.getTranslation(
