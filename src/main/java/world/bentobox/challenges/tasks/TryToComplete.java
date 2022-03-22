@@ -771,7 +771,7 @@ public class TryToComplete
             // Challenge is not repeatable
             vantedTimes = 1;
         }
-        else if (this.challenge.getMaxTimes() != 0)
+        else if (this.challenge.getMaxTimes() > 0)
         {
             // Challenge has limitations
             long availableTimes = this.challenge.getMaxTimes() - this.manager.getChallengeTimes(this.user, this.world, this.challenge);
@@ -858,6 +858,11 @@ public class TryToComplete
      */
     private ChallengeResult checkInventory(int maxTimes)
     {
+        if (maxTimes <= 0)
+        {
+            return EMPTY_RESULT;
+        }
+
         // Run through inventory
         List<ItemStack> requiredItems;
 
@@ -1000,6 +1005,11 @@ public class TryToComplete
      */
     private ChallengeResult checkSurrounding(int factor)
     {
+        if (factor <= 0)
+        {
+            return EMPTY_RESULT;
+        }
+
         // Init location in player position.
         BoundingBox boundingBox = this.user.getPlayer().getBoundingBox().clone();
 
@@ -1316,6 +1326,11 @@ public class TryToComplete
      */
     private ChallengeResult checkOthers(int factor)
     {
+        if (factor <= 0)
+        {
+            return EMPTY_RESULT;
+        }
+
         OtherRequirements requirements = this.getOtherRequirements();
 
         if (!this.addon.isLevelProvided() && requirements.getRequiredIslandLevel() != 0)
@@ -1390,6 +1405,11 @@ public class TryToComplete
      */
     private ChallengeResult checkStatistic(int factor)
     {
+        if (factor <= 0)
+        {
+            return EMPTY_RESULT;
+        }
+
         StatisticRequirements requirements = this.challenge.getRequirements();
 
         int currentValue;
