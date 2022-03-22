@@ -7,16 +7,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Statistic;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -31,6 +27,31 @@ import world.bentobox.bentobox.util.Util;
  */
 public class Utils
 {
+	/**
+	 * This method checks if 2 given item stacks are similar without durability check.
+	 * @param input First item.
+	 * @param stack Second item.
+	 * @return {@code true} if items are equal, {@code false} otherwise.
+	 */
+	public static boolean isSimilarNoDurability(@Nullable ItemStack input, @Nullable ItemStack stack)
+	{
+		if (stack == null || input == null)
+		{
+			return false;
+		}
+		else if (stack == input)
+		{
+			return true;
+		}
+		else
+		{
+			return input.getType() == stack.getType() &&
+				input.hasItemMeta() == stack.hasItemMeta() &&
+				(!input.hasItemMeta() || Bukkit.getItemFactory().equals(input.getItemMeta(), stack.getItemMeta()));
+		}
+	}
+
+
 	/**
 	 * This method groups input items in single itemstack with correct amount and returns it.
 	 * Allows to remove duplicate items from list.
@@ -55,7 +76,8 @@ public class Utils
 				ItemStack required = returnItems.get(i);
 
 				// Merge items which meta can be ignored or is similar to item in required list.
-				if (ignoreMetaData.contains(item.getType()) && item.getType().equals(required.getType()))
+				if (Utils.isSimilarNoDurability(required, item) ||
+					ignoreMetaData.contains(item.getType()) && item.getType().equals(required.getType()))
 				{
 					required.setAmount(required.getAmount() + item.getAmount());
 					isUnique = false;
