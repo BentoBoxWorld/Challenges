@@ -33,6 +33,7 @@ challenges:
   gui:
     titles:
       player-gui: "&0&l Herausforderungsmenü"
+      gamemode-gui: "&0&l Spielmodus auswählen"
       multiple-gui: "&0&l Wie oft?"
       admin-gui: "&0&l Herausforderung Admin Menu"
       edit-challenge: "&0&l Herausforderung [challenge]"
