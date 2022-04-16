@@ -179,7 +179,7 @@ public abstract class PagedSelector<T>
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-edit"));
 
-            if (!this.searchString.isEmpty())
+            if (this.searchString != null && !this.searchString.isEmpty())
             {
                 description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
             }
