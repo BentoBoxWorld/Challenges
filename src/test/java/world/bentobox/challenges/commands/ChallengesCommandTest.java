@@ -159,6 +159,8 @@ public class ChallengesCommandTest {
         // Island
         when(plugin.getIslands()).thenReturn(im);
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
+        // Default to player being on the island
+        when(im.locationIsOnIsland(any(Player.class), any())).thenReturn(true);
 
         // Util
         PowerMockito.mockStatic(Util.class, Mockito.RETURNS_MOCKS);

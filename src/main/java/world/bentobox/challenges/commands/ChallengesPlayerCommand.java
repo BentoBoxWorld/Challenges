@@ -50,7 +50,6 @@ public class ChallengesPlayerCommand extends CompositeCommand
                 Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges-admin",
                         "[command]",
                         topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
-
             }
             else
             {
