@@ -561,8 +561,8 @@ public class TryToComplete
                                 // cannot punish null or player who already was punished.
                                 continue;
                             }
-
-                            switch (requirements.getStatistic().getType())
+                            
+                            switch (Objects.requireNonNull(requirements.getStatistic()).getType())
                             {
                                 case UNTYPED -> {
                                     int statistic = player.getStatistic(requirements.getStatistic());
@@ -877,12 +877,7 @@ public class TryToComplete
             {
                 int numInInventory;
 
-                if (this.user.getInventory() == null)
-                {
-                    // Sanity check. User always has inventory at this point of code.
-                    numInInventory = 0;
-                }
-                else if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
+                if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
                 {
                     numInInventory = Arrays.stream(this.user.getInventory().getContents()).
                         filter(Objects::nonNull).
@@ -1420,7 +1415,7 @@ public class TryToComplete
             return EMPTY_RESULT;
         }
 
-        switch (requirements.getStatistic().getType())
+        switch (Objects.requireNonNull(requirements.getStatistic()).getType())
         {
             case UNTYPED -> currentValue =
                 this.manager.getStatisticData(this.user, this.world, requirements.getStatistic());
