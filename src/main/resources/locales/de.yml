@@ -1031,12 +1031,14 @@ challenges:
     level-title: Erfolgreich abgeschlossen
     level-subtitle: "[friendlyName]"
   messages:
+    completed: "&2 Sie haben die Herausforderung [name] für [player] abgeschlossen!"
     already-completed: "&2 Diese Herausforderung wurde bereits abgeschlossen!"
     reset: "&2 Sie haben die Herausforderung [name] für [player] zurückgesetzt!"
     reset-all: "&2 Alle [player]-Herausforderungen wurden zurückgesetzt!"
     not-completed: "&2 Diese Herausforderung ist noch nicht abgeschlossen!"
     migrate-start: "&2 Starten Sie die Migration von Challenges-Addon-Daten."
     migrate-end: "&2 Challenges-Addon-Daten auf neues Format aktualisiert."
+    migrate-not: "&2 Alle Daten sind gültig."
     start-downloading: "&5 Herunterladen und Importieren der Challenges-Bibliothek
       beginnen."
     you-completed-challenge: "&2Du hast die [value] &r&2Herausforderungen abgeschlossen!"
