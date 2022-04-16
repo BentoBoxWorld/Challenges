@@ -37,6 +37,7 @@ import org.powermock.reflect.Whitebox;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.configuration.WorldSettings;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
@@ -107,6 +108,10 @@ public class ChallengesCommandTest {
         Optional<GameModeAddon> optionalAddon = Optional.of(gameModeAddon);
         when(iwm.getAddon(any())).thenReturn(optionalAddon);
         when(plugin.getIWM()).thenReturn(iwm);
+        
+        @NonNull
+        WorldSettings ws = new TestWorldSetting();
+        when(iwm.getWorldSettings(any())).thenReturn(ws);
 
         // Game Mode Addon
         @NonNull
