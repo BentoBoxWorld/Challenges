@@ -582,12 +582,12 @@ public class AdminPanel extends CommonPanel
     // ---------------------------------------------------------------------
 
     /**
-     * This indicate if Reset Challenges must work as reset all.
+     * This indicates if Reset Challenges must work as reset all.
      */
     private boolean resetAllMode;
 
     /**
-     * This indicate if wipe button should clear all data, or only challenges.
+     * This indicates if wipe button should clear all data, or only challenges.
      */
     private boolean wipeAll;
 }

@@ -288,9 +288,8 @@ public abstract class CommonPanel
         {
             // Yes list duplication for complete menu.
             List<String> missingPermissions = challenge.getRequirements().getRequiredPermissions().stream().
-                filter(permission -> target == null || !target.hasPermission(permission)).
-                sorted().
-                collect(Collectors.toList());
+                    filter(permission -> target == null || !target.hasPermission(permission)).
+                    sorted().toList();
 
             StringBuilder permissionBuilder = new StringBuilder();
 

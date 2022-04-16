@@ -232,10 +232,6 @@ public class ChallengesManager
             this.savePlayersData();
         }
 
-        // this.challengeDatabase = new Database<>(addon, Challenge.class);
-        // this.levelDatabase = new Database<>(addon, ChallengeLevel.class);
-        // this.playersDatabase = new Database<>(addon, ChallengesPlayerData.class);
-
         this.loadAndValidate();
     }
 
@@ -434,12 +430,6 @@ public class ChallengesManager
     public void removeFromCache(UUID playerID)
     {
 // Remove due possible issues with saving... (#246)
-//        if (!this.settings.isStoreAsIslandData() && this.playerCacheData.containsKey(playerID.toString()))
-//        {
-//            // save before remove
-//            this.savePlayerData(playerID.toString());
-//            this.playerCacheData.remove(playerID.toString());
-//        }
 
         this.savePlayerData(playerID.toString());
 
@@ -841,8 +831,6 @@ public class ChallengesManager
     {
         // Challenges and Levels are saved on modifications only to avoid issues with
         // NULL's in data after interrupting server while in saving stage.
-        // this.saveChallenges();
-        // this.saveLevels();
 
         this.savePlayersData();
     }

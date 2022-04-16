@@ -52,11 +52,11 @@ public class EditChallengePanel extends CommonPanel
      * @param challenge - challenge that needs editing
      */
     private EditChallengePanel(ChallengesAddon addon,
-        User user,
-        World world,
-        String topLabel,
-        String permissionPrefix,
-        Challenge challenge)
+            User user,
+            World world,
+            String topLabel,
+            String permissionPrefix,
+            Challenge challenge)
     {
         super(addon, user, world, topLabel, permissionPrefix);
         this.challenge = challenge;
@@ -88,11 +88,11 @@ public class EditChallengePanel extends CommonPanel
      * @param challenge - challenge that needs editing
      */
     public static void open(ChallengesAddon addon,
-        User user,
-        World world,
-        String topLabel,
-        String permissionPrefix,
-        Challenge challenge)
+            User user,
+            World world,
+            String topLabel,
+            String permissionPrefix,
+            Challenge challenge)
     {
         new EditChallengePanel(addon, user, world, topLabel, permissionPrefix, challenge).build();
     }
@@ -122,8 +122,8 @@ public class EditChallengePanel extends CommonPanel
     protected void build()
     {
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
-            this.user.getTranslation(Constants.TITLE + "edit-challenge",
-                "[challenge]", this.challenge.getFriendlyName()));
+                this.user.getTranslation(Constants.TITLE + "edit-challenge",
+                        "[challenge]", this.challenge.getFriendlyName()));
 
         PanelUtils.fillBorder(panelBuilder);
 
@@ -139,10 +139,10 @@ public class EditChallengePanel extends CommonPanel
         {
             switch (this.challenge.getChallengeType())
             {
-                case INVENTORY_TYPE -> this.buildInventoryRequirementsPanel(panelBuilder);
-                case ISLAND_TYPE -> this.buildIslandRequirementsPanel(panelBuilder);
-                case OTHER_TYPE -> this.buildOtherRequirementsPanel(panelBuilder);
-                case STATISTIC_TYPE -> this.buildStatisticRequirementsPanel(panelBuilder);
+            case INVENTORY_TYPE -> this.buildInventoryRequirementsPanel(panelBuilder);
+            case ISLAND_TYPE -> this.buildIslandRequirementsPanel(panelBuilder);
+            case OTHER_TYPE -> this.buildOtherRequirementsPanel(panelBuilder);
+            case STATISTIC_TYPE -> this.buildStatisticRequirementsPanel(panelBuilder);
             }
         }
         else if (this.currentMenuType.equals(MenuType.REWARDS))
@@ -257,9 +257,10 @@ public class EditChallengePanel extends CommonPanel
         {
             switch (requirements.getStatistic().getType())
             {
-                case ITEM -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ITEMS));
-                case BLOCK -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_BLOCKS));
-                case ENTITY -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ENTITIES));
+            case ITEM -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ITEMS));
+            case BLOCK -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_BLOCKS));
+            case ENTITY -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ENTITIES));
+            default -> {}
             }
         }
 
@@ -333,50 +334,50 @@ public class EditChallengePanel extends CommonPanel
 
         switch (menuType)
         {
-            case PROPERTIES -> {
-                icon = new ItemStack(Material.CRAFTING_TABLE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.PROPERTIES;
-                    this.build();
+        case PROPERTIES -> {
+            icon = new ItemStack(Material.CRAFTING_TABLE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.PROPERTIES;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.PROPERTIES);
-            }
-            case REQUIREMENTS -> {
-                icon = new ItemStack(Material.HOPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.REQUIREMENTS;
-                    this.build();
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.PROPERTIES);
+        }
+        case REQUIREMENTS -> {
+            icon = new ItemStack(Material.HOPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.REQUIREMENTS;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.REQUIREMENTS);
-            }
-            case REWARDS -> {
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.currentMenuType = MenuType.REWARDS;
-                    this.build();
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.REQUIREMENTS);
+        }
+        case REWARDS -> {
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.currentMenuType = MenuType.REWARDS;
+                this.build();
 
-                    return true;
-                };
-                glow = this.currentMenuType.equals(MenuType.REWARDS);
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+                return true;
+            };
+            glow = this.currentMenuType.equals(MenuType.REWARDS);
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -399,173 +400,173 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case NAME -> {
-                description.add(this.user.getTranslation(reference + "value",
+        case NAME -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NAME, this.challenge.getFriendlyName()));
 
-                icon = new ItemStack(Material.NAME_TAG);
+            icon = new ItemStack(Material.NAME_TAG);
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<String> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<String> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setFriendlyName(value);
-                        }
+                        this.challenge.setFriendlyName(value);
+                    }
 
-                        this.build();
-                    };
+                    this.build();
+                };
 
-                    // start conversation
-                    ConversationUtils.createStringInput(consumer,
+                // start conversation
+                ConversationUtils.createStringInput(consumer,
                         user,
                         user.getTranslation(Constants.CONVERSATIONS + "write-name"),
                         user.getTranslation(Constants.CONVERSATIONS + "name-changed"));
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case DEPLOYED -> {
-                description.add(this.user.getTranslation(reference +
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case DEPLOYED -> {
+            description.add(this.user.getTranslation(reference +
                     (this.challenge.isDeployed() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (this.challenge.isValid())
-                    {
-                        this.challenge.setDeployed(!this.challenge.isDeployed());
-                    }
-                    else
-                    {
-                        Utils.sendMessage(this.user,
-                            this.user.getTranslation(Constants.CONVERSATIONS + "invalid-challenge",
-                                "[challenge]", this.challenge.getFriendlyName()));
-                        this.challenge.setDeployed(false);
-                    }
-
-                    this.build();
-                    return true;
-                };
-                glow = this.challenge.isDeployed();
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            case ICON -> {
-                icon = this.challenge.getIcon();
-                clickHandler = (panel, user, clickType, i) ->
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (this.challenge.isValid())
                 {
-                    this.selectedButton = button;
-                    this.build();
-                    return true;
-                };
-                glow = this.selectedButton == button;
-
-                if (this.selectedButton != button)
-                {
-                    description.add("");
-                    description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                    this.challenge.setDeployed(!this.challenge.isDeployed());
                 }
                 else
                 {
-                    description.add("");
-                    description.add(this.user.getTranslation(Constants.TIPS + "click-on-item"));
+                    Utils.sendMessage(this.user,
+                            this.user.getTranslation(Constants.CONVERSATIONS + "invalid-challenge",
+                                    "[challenge]", this.challenge.getFriendlyName()));
+                    this.challenge.setDeployed(false);
                 }
+
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isDeployed();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case ICON -> {
+            icon = this.challenge.getIcon();
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                this.selectedButton = button;
+                this.build();
+                return true;
+            };
+            glow = this.selectedButton == button;
+
+            if (this.selectedButton != button)
+            {
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
             }
-            case DESCRIPTION -> {
-                icon = new ItemStack(Material.WRITTEN_BOOK);
+            else
+            {
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-on-item"));
+            }
+        }
+        case DESCRIPTION -> {
+            icon = new ItemStack(Material.WRITTEN_BOOK);
 
-                description.add(this.user.getTranslation(reference + "value"));
-                this.challenge.getDescription().forEach(line -> description.add(Util.translateColorCodes(line)));
+            description.add(this.user.getTranslation(reference + "value"));
+            this.challenge.getDescription().forEach(line -> description.add(Util.translateColorCodes(line)));
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setDescription(value);
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getDescription().isEmpty() && clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
+                        this.challenge.setDescription(value);
                     }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
+
+                    this.build();
+                };
+
+                if (!this.challenge.getDescription().isEmpty() && clickType.isShiftClick())
+                {
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
+                }
+                else
+                {
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
                             user,
                             user.getTranslation(Constants.CONVERSATIONS + "write-description"),
                             user.getTranslation(Constants.CONVERSATIONS + "description-changed"));
-                    }
-
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getDescription().isEmpty())
-                {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
                 }
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getDescription().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
             }
-            case ORDER -> {
-                description.add(this.user.getTranslation(reference + "value",
+        }
+        case ORDER -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getOrder())));
 
-                icon = new ItemStack(Material.HOPPER, Math.max(1, this.challenge.getOrder()));
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setOrder(number.intValue());
-                        }
+            icon = new ItemStack(Material.HOPPER, Math.max(1, this.challenge.getOrder()));
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setOrder(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
+                    // reopen panel
+                    this.build();
+                };
 
-                    ConversationUtils.createNumericInput(numberConsumer,
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         2000);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case ENVIRONMENT -> {
-                description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.NORMAL) ?
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case ENVIRONMENT -> {
+            description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.NORMAL) ?
                     reference + "enabled" : reference + "disabled") +
                     Utils.prettifyObject(World.Environment.NORMAL, this.user));
-                description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.NETHER) ?
+            description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.NETHER) ?
                     reference + "enabled" : reference + "disabled") +
                     Utils.prettifyObject(World.Environment.NETHER, this.user));
-                description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.THE_END) ?
+            description.add(this.user.getTranslation(this.challenge.getEnvironment().contains(World.Environment.THE_END) ?
                     reference + "enabled" : reference + "disabled") +
                     Utils.prettifyObject(World.Environment.THE_END, this.user));
 
-                icon = new ItemStack(Material.DROPPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    EnvironmentSelector.open(this.user,
+            icon = new ItemStack(Material.DROPPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                EnvironmentSelector.open(this.user,
                         this.challenge.getEnvironment(),
                         (status, value) -> {
                             if (status)
@@ -576,39 +577,39 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
-            }
-            case REMOVE_ON_COMPLETE -> {
-                description.add(this.user.getTranslation(reference +
+                return true;
+            };
+            glow = false;
+        }
+        case REMOVE_ON_COMPLETE -> {
+            description.add(this.user.getTranslation(reference +
                     (this.challenge.isRemoveWhenCompleted() ? "enabled" : "disabled")));
 
-                if (this.challenge.isRemoveWhenCompleted())
-                {
-                    icon = new ItemStack(Material.LAVA_BUCKET);
-                }
-                else
-                {
-                    icon = new ItemStack(Material.BUCKET);
-                }
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.challenge.setRemoveWhenCompleted(!this.challenge.isRemoveWhenCompleted());
-                    this.build();
-
-                    return true;
-                };
-                glow = this.challenge.isRemoveWhenCompleted();
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+            if (this.challenge.isRemoveWhenCompleted())
+            {
+                icon = new ItemStack(Material.LAVA_BUCKET);
             }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
+            else
+            {
+                icon = new ItemStack(Material.BUCKET);
             }
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setRemoveWhenCompleted(!this.challenge.isRemoveWhenCompleted());
+                this.build();
+
+                return true;
+            };
+            glow = this.challenge.isRemoveWhenCompleted();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
@@ -630,94 +631,94 @@ public class EditChallengePanel extends CommonPanel
     {
         switch (button)
         {
-            case REQUIRED_PERMISSIONS -> {
-                String reference = Constants.BUTTON + button.name().toLowerCase() + ".";
+        case REQUIRED_PERMISSIONS -> {
+            String reference = Constants.BUTTON + button.name().toLowerCase() + ".";
 
-                String name = this.user.getTranslation(reference + "name");
-                final List<String> description = new ArrayList<>(3);
-                description.add(this.user.getTranslation(reference + "description"));
+            String name = this.user.getTranslation(reference + "name");
+            final List<String> description = new ArrayList<>(3);
+            description.add(this.user.getTranslation(reference + "description"));
 
-                if (this.challenge.getRequirements().getRequiredPermissions().isEmpty())
+            if (this.challenge.getRequirements().getRequiredPermissions().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
+            }
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                this.challenge.getRequirements().getRequiredPermissions().forEach(permission ->
+                description.add(this.user.getTranslation(reference + "permission",
+                        "[permission]", permission)));
+            }
+
+            ItemStack icon = new ItemStack(Material.REDSTONE_LAMP);
+
+            PanelItem.ClickHandler clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    description.add(this.user.getTranslation(reference + "none"));
+                    if (value != null)
+                    {
+                        this.challenge.getRequirements().setRequiredPermissions(new HashSet<>(value));
+                    }
+
+                    this.build();
+                };
+
+                if (!this.challenge.getRequirements().getRequiredPermissions().isEmpty() &&
+                        clickType.isShiftClick())
+                {
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
                 }
                 else
                 {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    this.challenge.getRequirements().getRequiredPermissions().forEach(permission ->
-                        description.add(this.user.getTranslation(reference + "permission",
-                            "[permission]", permission)));
-                }
-
-                ItemStack icon = new ItemStack(Material.REDSTONE_LAMP);
-
-                PanelItem.ClickHandler clickHandler = (panel, user, clickType, i) ->
-                {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
-                    {
-                        if (value != null)
-                        {
-                            this.challenge.getRequirements().setRequiredPermissions(new HashSet<>(value));
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getRequirements().getRequiredPermissions().isEmpty() &&
-                        clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
-                    }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
                             user,
                             user.getTranslation(Constants.CONVERSATIONS + "write-permissions"),
                             user.getTranslation(Constants.CONVERSATIONS + "permissions-changed"));
-                    }
-
-                    return true;
-                };
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getRequirements().getRequiredPermissions().isEmpty())
-                {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
                 }
 
-                return new PanelItemBuilder().
+                return true;
+            };
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getRequirements().getRequiredPermissions().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+            }
+
+            return new PanelItemBuilder().
                     icon(icon).
                     name(name).
                     description(description).
                     clickHandler(clickHandler).
                     build();
-            }
-            // Buttons for Island Requirements
-            case REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS -> {
-                return this.createIslandRequirementButton(button);
-            }
-            // Buttons for Inventory Requirements
-            case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
-                return this.createInventoryRequirementButton(button);
-            }
-            // Buttons for Other Requirements
-            case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY -> {
-                return this.createOtherRequirementButton(button);
-            }
-            // Buttons for Statistic Requirements
-            case STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS, STATISTIC_ENTITIES, STATISTIC_AMOUNT, REMOVE_STATISTIC -> {
-                return this.createStatisticRequirementButton(button);
-            }
-            // Default behaviour.
-            default -> {
-                return PanelItem.empty();
-            }
+        }
+        // Buttons for Island Requirements
+        case REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS -> {
+            return this.createIslandRequirementButton(button);
+        }
+        // Buttons for Inventory Requirements
+        case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
+            return this.createInventoryRequirementButton(button);
+        }
+        // Buttons for Other Requirements
+        case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY -> {
+            return this.createOtherRequirementButton(button);
+        }
+        // Buttons for Statistic Requirements
+        case STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS, STATISTIC_ENTITIES, STATISTIC_AMOUNT, REMOVE_STATISTIC -> {
+            return this.createStatisticRequirementButton(button);
+        }
+        // Default behaviour.
+        default -> {
+            return PanelItem.empty();
+        }
         }
     }
 
@@ -743,132 +744,132 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case REQUIRED_ENTITIES -> {
-                if (requirements.getRequiredEntities().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
-                }
-                else
-                {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    requirements.getRequiredEntities().forEach((entity, count) ->
-                        description.add(this.user.getTranslation(reference + "list",
-                            "[entity]", Utils.prettifyObject(entity, this.user),
-                            "[number]", String.valueOf(count))));
-                }
-
-                icon = new ItemStack(Material.CREEPER_HEAD);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    ManageEntitiesPanel.open(this, requirements.getRequiredEntities());
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        case REQUIRED_ENTITIES -> {
+            if (requirements.getRequiredEntities().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
             }
-            case REMOVE_ENTITIES -> {
-                description.add(this.user.getTranslation(reference +
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                requirements.getRequiredEntities().forEach((entity, count) ->
+                description.add(this.user.getTranslation(reference + "list",
+                        "[entity]", Utils.prettifyObject(entity, this.user),
+                        "[number]", String.valueOf(count))));
+            }
+
+            icon = new ItemStack(Material.CREEPER_HEAD);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ManageEntitiesPanel.open(this, requirements.getRequiredEntities());
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_ENTITIES -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isRemoveEntities() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setRemoveEntities(!requirements.isRemoveEntities());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isRemoveEntities();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setRemoveEntities(!requirements.isRemoveEntities());
+                this.build();
+                return true;
+            };
+            glow = requirements.isRemoveEntities();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case REQUIRED_BLOCKS -> {
+            if (requirements.getRequiredBlocks().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
             }
-            case REQUIRED_BLOCKS -> {
-                if (requirements.getRequiredBlocks().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
-                }
-                else
-                {
-                    description.add(this.user.getTranslation(reference + "title"));
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
 
-                    requirements.getRequiredBlocks().forEach((block, count) ->
-                        description.add(this.user.getTranslation(reference + "list",
-                            "[block]", Utils.prettifyObject(block, this.user),
-                            "[number]", String.valueOf(count))));
-                }
-
-                icon = new ItemStack(Material.STONE);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    ManageBlocksPanel.open(this, requirements.getRequiredBlocks());
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                requirements.getRequiredBlocks().forEach((block, count) ->
+                description.add(this.user.getTranslation(reference + "list",
+                        "[block]", Utils.prettifyObject(block, this.user),
+                        "[number]", String.valueOf(count))));
             }
-            case REMOVE_BLOCKS -> {
-                description.add(this.user.getTranslation(reference +
+
+            icon = new ItemStack(Material.STONE);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ManageBlocksPanel.open(this, requirements.getRequiredBlocks());
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_BLOCKS -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isRemoveBlocks() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setRemoveBlocks(!requirements.isRemoveBlocks());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isRemoveBlocks();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setRemoveBlocks(!requirements.isRemoveBlocks());
+                this.build();
+                return true;
+            };
+            glow = requirements.isRemoveBlocks();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            case SEARCH_RADIUS -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case SEARCH_RADIUS -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(requirements.getSearchRadius())));
-                icon = new ItemStack(Material.COBBLESTONE_WALL);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            requirements.setSearchRadius(number.intValue());
-                        }
+            icon = new ItemStack(Material.COBBLESTONE_WALL);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        requirements.setSearchRadius(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
+                    // reopen panel
+                    this.build();
+                };
 
-                    int maxSearchDistance =
+                int maxSearchDistance =
                         this.addon.getPlugin().getIWM().getAddon(this.world).map(gameModeAddon ->
-                            gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
+                        gameModeAddon.getWorldSettings().getIslandDistance()).orElse(100);
 
-                    ConversationUtils.createNumericInput(numberConsumer,
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         1,
                         maxSearchDistance);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -893,27 +894,27 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case REQUIRED_ITEMS -> {
-                if (requirements.getRequiredItems().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
-                }
-                else
-                {
-                    description.add(this.user.getTranslation(reference + "title"));
+        case REQUIRED_ITEMS -> {
+            if (requirements.getRequiredItems().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
+            }
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
 
-                    Utils.groupEqualItems(requirements.getRequiredItems(), requirements.getIgnoreMetaData()).
-                        stream().
-                        sorted(Comparator.comparing(ItemStack::getType)).
-                        forEach(itemStack ->
-                            description.add(this.user.getTranslationOrNothing(reference + "list",
-                                "[number]", String.valueOf(itemStack.getAmount()),
-                                "[item]", Utils.prettifyObject(itemStack, this.user))));
-                }
+                Utils.groupEqualItems(requirements.getRequiredItems(), requirements.getIgnoreMetaData()).
+                stream().
+                sorted(Comparator.comparing(ItemStack::getType)).
+                forEach(itemStack ->
+                description.add(this.user.getTranslationOrNothing(reference + "list",
+                        "[number]", String.valueOf(itemStack.getAmount()),
+                        "[item]", Utils.prettifyObject(itemStack, this.user))));
+            }
 
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    ItemSelector.open(this.user,
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ItemSelector.open(this.user,
                         requirements.getRequiredItems(),
                         (status, value) -> {
                             if (status)
@@ -923,133 +924,133 @@ public class EditChallengePanel extends CommonPanel
 
                             this.build();
                         });
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REMOVE_ITEMS -> {
-                description.add(this.user.getTranslation(reference +
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_ITEMS -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isTakeItems() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeItems(!requirements.isTakeItems());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isTakeItems();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeItems(!requirements.isTakeItems());
+                this.build();
+                return true;
+            };
+            glow = requirements.isTakeItems();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case ADD_IGNORED_META -> {
+            if (requirements.getIgnoreMetaData().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
             }
-            case ADD_IGNORED_META -> {
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                requirements.getIgnoreMetaData().stream().
+                sorted(Comparator.comparing(Material::name)).
+                forEach(itemStack ->
+                description.add(this.user.getTranslationOrNothing(reference + "list",
+                        "[item]", Utils.prettifyObject(itemStack, this.user))));
+            }
+
+            icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (requirements.getRequiredItems().isEmpty())
+                {
+                    // Do nothing if no requirements are set.
+                    return true;
+                }
+
+                // Allow choosing only from inventory items.
+                Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                requirements.getRequiredItems().stream().
+                map(ItemStack::getType).
+                forEach(collection::remove);
+                collection.addAll(requirements.getIgnoreMetaData());
+
+                if (Material.values().length == collection.size())
+                {
+                    // If there are no items anymore, then do not allow opening gui.
+                    return true;
+                }
+
+                MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
+                {
+                    if (status)
+                    {
+                        materials.addAll(requirements.getIgnoreMetaData());
+                        requirements.setIgnoreMetaData(new HashSet<>(materials));
+                    }
+
+                    this.build();
+                });
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+        }
+        case REMOVE_IGNORED_META -> {
+            icon = new ItemStack(Material.RED_SHULKER_BOX);
+
+            clickHandler = (panel, user, clickType, slot) -> {
                 if (requirements.getIgnoreMetaData().isEmpty())
                 {
-                    description.add(this.user.getTranslation(reference + "none"));
+                    // Do nothing if no requirements are set.
+                    return true;
                 }
-                else
+
+                // Allow choosing only from inventory items.
+                Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                collection.removeAll(requirements.getIgnoreMetaData());
+
+                MultiBlockSelector.open(this.user,
+                        MultiBlockSelector.Mode.ANY,
+                        collection,
+                        (status, materials) ->
                 {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    requirements.getIgnoreMetaData().stream().
-                        sorted(Comparator.comparing(Material::name)).
-                        forEach(itemStack ->
-                            description.add(this.user.getTranslationOrNothing(reference + "list",
-                                "[item]", Utils.prettifyObject(itemStack, this.user))));
-                }
-
-                icon = new ItemStack(Material.GREEN_SHULKER_BOX);
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (requirements.getRequiredItems().isEmpty())
+                    if (status)
                     {
-                        // Do nothing if no requirements are set.
-                        return true;
+                        requirements.getIgnoreMetaData().removeAll(materials);
                     }
 
-                    // Allow choosing only from inventory items.
-                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
-                    requirements.getRequiredItems().stream().
-                        map(ItemStack::getType).
-                        forEach(collection::remove);
-                    collection.addAll(requirements.getIgnoreMetaData());
+                    this.build();
+                });
+                return true;
+            };
+            glow = false;
 
-                    if (Material.values().length == collection.size())
-                    {
-                        // If there are no items anymore, then do not allow opening gui.
-                        return true;
-                    }
-
-                    MultiBlockSelector.open(this.user,
-                        MultiBlockSelector.Mode.ANY,
-                        collection,
-                        (status, materials) ->
-                        {
-                            if (status)
-                            {
-                                materials.addAll(requirements.getIgnoreMetaData());
-                                requirements.setIgnoreMetaData(new HashSet<>(materials));
-                            }
-
-                            this.build();
-                        });
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
-            }
-            case REMOVE_IGNORED_META -> {
-                icon = new ItemStack(Material.RED_SHULKER_BOX);
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (requirements.getIgnoreMetaData().isEmpty())
-                    {
-                        // Do nothing if no requirements are set.
-                        return true;
-                    }
-
-                    // Allow choosing only from inventory items.
-                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
-                    collection.removeAll(requirements.getIgnoreMetaData());
-
-                    MultiBlockSelector.open(this.user,
-                        MultiBlockSelector.Mode.ANY,
-                        collection,
-                        (status, materials) ->
-                        {
-                            if (status)
-                            {
-                                requirements.getIgnoreMetaData().removeAll(materials);
-                            }
-
-                            this.build();
-                        });
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -1074,131 +1075,131 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case REQUIRED_EXPERIENCE -> {
-                description.add(this.user.getTranslation(reference + "value",
+        case REQUIRED_EXPERIENCE -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredExperience())));
-                icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            requirements.setRequiredExperience(number.intValue());
-                        }
+            icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        requirements.setRequiredExperience(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REMOVE_EXPERIENCE -> {
-                description.add(this.user.getTranslation(reference +
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_EXPERIENCE -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isTakeExperience() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeExperience(!requirements.isTakeExperience());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isTakeExperience();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeExperience(!requirements.isTakeExperience());
+                this.build();
+                return true;
+            };
+            glow = requirements.isTakeExperience();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            case REQUIRED_LEVEL -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case REQUIRED_LEVEL -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredIslandLevel())));
-                icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            requirements.setRequiredIslandLevel(number.longValue());
-                        }
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.BEACON : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        requirements.setRequiredIslandLevel(number.longValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REQUIRED_MONEY -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REQUIRED_MONEY -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(requirements.getRequiredMoney())));
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            requirements.setRequiredMoney(number.doubleValue());
-                        }
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        requirements.setRequiredMoney(number.doubleValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Double.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REMOVE_MONEY -> {
-                description.add(this.user.getTranslation(reference +
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_MONEY -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isTakeMoney() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setTakeMoney(!requirements.isTakeMoney());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isTakeMoney();
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.LEVER : Material.BARRIER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setTakeMoney(!requirements.isTakeMoney());
+                this.build();
+                return true;
+            };
+            glow = requirements.isTakeMoney();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -1223,81 +1224,81 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case STATISTIC -> {
-                description.add(this.user.getTranslation(reference + "value",
+        case STATISTIC -> {
+            description.add(this.user.getTranslation(reference + "value",
                     "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user)));
 
-                icon = new ItemStack(requirements.getStatistic() == null ? Material.BARRIER : Material.PAPER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    StatisticSelector.open(this.user, (status, statistic) -> {
-                        if (status)
-                        {
-                            requirements.setStatistic(statistic);
-                            requirements.setMaterial(null);
-                            requirements.setEntity(null);
-                            requirements.setAmount(0);
-                        }
+            icon = new ItemStack(requirements.getStatistic() == null ? Material.BARRIER : Material.PAPER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                StatisticSelector.open(this.user, (status, statistic) -> {
+                    if (status)
+                    {
+                        requirements.setStatistic(statistic);
+                        requirements.setMaterial(null);
+                        requirements.setEntity(null);
+                        requirements.setAmount(0);
+                    }
 
-                        this.build();
-                    });
-                    return true;
-                };
-                glow = false;
+                    this.build();
+                });
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case STATISTIC_AMOUNT -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case STATISTIC_AMOUNT -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(requirements.getAmount())));
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            requirements.setAmount(number.intValue());
-                        }
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        requirements.setAmount(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REMOVE_STATISTIC -> {
-                description.add(this.user.getTranslation(reference +
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REMOVE_STATISTIC -> {
+            description.add(this.user.getTranslation(reference +
                     (requirements.isReduceStatistic() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    requirements.setReduceStatistic(!requirements.isReduceStatistic());
-                    this.build();
-                    return true;
-                };
-                glow = requirements.isReduceStatistic();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                requirements.setReduceStatistic(!requirements.isReduceStatistic());
+                this.build();
+                return true;
+            };
+            glow = requirements.isReduceStatistic();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            case STATISTIC_BLOCKS -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case STATISTIC_BLOCKS -> {
+            description.add(this.user.getTranslation(reference + "value",
                     "[block]", Utils.prettifyObject(requirements.getMaterial(), this.user)));
 
-                icon = requirements.getMaterial() == null ?
+            icon = requirements.getMaterial() == null ?
                     new ItemStack(Material.BARRIER) :
-                    new ItemStack(requirements.getMaterial());
-                clickHandler = (panel, user, clickType, slot) -> {
-                    SingleBlockSelector.open(this.user,
+                        new ItemStack(requirements.getMaterial());
+            clickHandler = (panel, user, clickType, slot) -> {
+                SingleBlockSelector.open(this.user,
                         SingleBlockSelector.Mode.BLOCKS,
                         (status, block) -> {
                             if (status)
@@ -1308,22 +1309,22 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case STATISTIC_ITEMS -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case STATISTIC_ITEMS -> {
+            description.add(this.user.getTranslation(reference + "value",
                     "[item]", Utils.prettifyObject(requirements.getMaterial(), this.user)));
 
-                icon = requirements.getMaterial() == null ?
+            icon = requirements.getMaterial() == null ?
                     new ItemStack(Material.BARRIER) :
-                    new ItemStack(requirements.getMaterial());
-                clickHandler = (panel, user, clickType, slot) -> {
-                    SingleBlockSelector.open(this.user,
+                        new ItemStack(requirements.getMaterial());
+            clickHandler = (panel, user, clickType, slot) -> {
+                SingleBlockSelector.open(this.user,
                         SingleBlockSelector.Mode.ITEMS,
                         (status, block) -> {
                             if (status)
@@ -1334,22 +1335,22 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case STATISTIC_ENTITIES -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case STATISTIC_ENTITIES -> {
+            description.add(this.user.getTranslation(reference + "value",
                     "[entity]", Utils.prettifyObject(requirements.getEntity(), this.user)));
 
-                icon = requirements.getEntity() == null ?
+            icon = requirements.getEntity() == null ?
                     new ItemStack(Material.BARRIER) :
-                    new ItemStack(PanelUtils.getEntityEgg(requirements.getEntity()));
-                clickHandler = (panel, user, clickType, slot) -> {
-                    SingleEntitySelector.open(this.user,
+                        new ItemStack(PanelUtils.getEntityEgg(requirements.getEntity()));
+            clickHandler = (panel, user, clickType, slot) -> {
+                SingleEntitySelector.open(this.user,
                         true,
                         (status, entity) -> {
                             if (status)
@@ -1360,27 +1361,27 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
 
@@ -1403,74 +1404,74 @@ public class EditChallengePanel extends CommonPanel
 
         switch (button)
         {
-            case REWARD_TEXT -> {
-                icon = new ItemStack(Material.WRITTEN_BOOK);
+        case REWARD_TEXT -> {
+            icon = new ItemStack(Material.WRITTEN_BOOK);
 
-                description.add(this.user.getTranslation(reference + "value"));
-                description.add(Util.translateColorCodes(this.challenge.getRewardText()));
+            description.add(this.user.getTranslation(reference + "value"));
+            description.add(Util.translateColorCodes(this.challenge.getRewardText()));
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setRewardText(String.join("\n", value));
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getRewardText().isEmpty() && clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
-                    }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
-                            user,
-                            user.getTranslation(Constants.CONVERSATIONS + "write-reward-text"),
-                            user.getTranslation(Constants.CONVERSATIONS + "reward-text-changed"));
+                        this.challenge.setRewardText(String.join("\n", value));
                     }
 
-
-                    return true;
+                    this.build();
                 };
-                glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getRewardText().isEmpty())
+                if (!this.challenge.getRewardText().isEmpty() && clickType.isShiftClick())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
-                }
-            }
-            case REWARD_ITEMS -> {
-
-                if (this.challenge.getRewardItems().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
                 }
                 else
                 {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    Utils.groupEqualItems(this.challenge.getRewardItems(), this.challenge.getIgnoreRewardMetaData()).
-                        stream().
-                        sorted(Comparator.comparing(ItemStack::getType)).
-                        forEach(itemStack ->
-                            description.add(this.user.getTranslationOrNothing(reference + "list",
-                                "[number]", String.valueOf(itemStack.getAmount()),
-                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
+                            user,
+                            user.getTranslation(Constants.CONVERSATIONS + "write-reward-text"),
+                            user.getTranslation(Constants.CONVERSATIONS + "reward-text-changed"));
                 }
 
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    ItemSelector.open(this.user,
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getRewardText().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+            }
+        }
+        case REWARD_ITEMS -> {
+
+            if (this.challenge.getRewardItems().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
+            }
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                Utils.groupEqualItems(this.challenge.getRewardItems(), this.challenge.getIgnoreRewardMetaData()).
+                stream().
+                sorted(Comparator.comparing(ItemStack::getType)).
+                forEach(itemStack ->
+                description.add(this.user.getTranslationOrNothing(reference + "list",
+                        "[number]", String.valueOf(itemStack.getAmount()),
+                        "[item]", Utils.prettifyObject(itemStack, this.user))));
+            }
+
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ItemSelector.open(this.user,
                         this.challenge.getRewardItems(),
                         (status, value) -> {
                             if (status)
@@ -1481,249 +1482,249 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REWARD_EXPERIENCE -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REWARD_EXPERIENCE -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRewardExperience())));
-                icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setRewardExperience(number.intValue());
-                        }
+            icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setRewardExperience(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REWARD_MONEY -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REWARD_MONEY -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRewardMoney())));
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setRewardMoney(number.doubleValue());
-                        }
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setRewardMoney(number.doubleValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Double.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REWARD_COMMANDS -> {
-                icon = new ItemStack(Material.COMMAND_BLOCK);
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REWARD_COMMANDS -> {
+            icon = new ItemStack(Material.COMMAND_BLOCK);
 
-                description.add(this.user.getTranslation(reference + "value"));
-                description.addAll(this.challenge.getRewardCommands());
+            description.add(this.user.getTranslation(reference + "value"));
+            description.addAll(this.challenge.getRewardCommands());
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setRewardCommands(value);
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getRewardCommands().isEmpty() && clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
+                        this.challenge.setRewardCommands(value);
                     }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
+
+                    this.build();
+                };
+
+                if (!this.challenge.getRewardCommands().isEmpty() && clickType.isShiftClick())
+                {
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
+                }
+                else
+                {
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
                             user,
                             user.getTranslation(Constants.CONVERSATIONS + "write-reward-commands"),
                             user.getTranslation(Constants.CONVERSATIONS + "reward-commands-changed"));
-                    }
-
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getRewardCommands().isEmpty())
-                {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
                 }
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getRewardCommands().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
             }
-            case REPEATABLE -> {
-                description.add(this.user.getTranslation(reference +
+        }
+        case REPEATABLE -> {
+            description.add(this.user.getTranslation(reference +
                     (this.challenge.isRepeatable() ? "enabled" : "disabled")));
 
-                icon = new ItemStack(Material.LEVER);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    this.challenge.setRepeatable(!this.challenge.isRepeatable());
-                    this.build();
-                    return true;
-                };
-                glow = this.challenge.isRepeatable();
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setRepeatable(!this.challenge.isRepeatable());
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isRepeatable();
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-            }
-            case REPEAT_COUNT -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+        }
+        case REPEAT_COUNT -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getMaxTimes())));
-                icon = new ItemStack(Material.COBBLESTONE_WALL);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setMaxTimes(number.intValue());
-                        }
+            icon = new ItemStack(Material.COBBLESTONE_WALL);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setMaxTimes(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case COOL_DOWN -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case COOL_DOWN -> {
+            description.add(this.user.getTranslation(reference + "value",
                     "[time]",
                     Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user)));
-                icon = new ItemStack(Material.CLOCK);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setTimeout(number.longValue() * 1000);
-                        }
+            icon = new ItemStack(Material.CLOCK);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setTimeout(number.longValue() * 1000);
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-seconds"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REPEAT_REWARD_TEXT -> {
-                icon = new ItemStack(Material.WRITTEN_BOOK);
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REPEAT_REWARD_TEXT -> {
+            icon = new ItemStack(Material.WRITTEN_BOOK);
 
-                description.add(this.user.getTranslation(reference + "value"));
-                description.add(Util.translateColorCodes(this.challenge.getRepeatRewardText()));
+            description.add(this.user.getTranslation(reference + "value"));
+            description.add(Util.translateColorCodes(this.challenge.getRepeatRewardText()));
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setRepeatRewardText(String.join("\n", value));
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getRepeatRewardText().isEmpty() && clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
-                    }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
-                            user,
-                            user.getTranslation(Constants.CONVERSATIONS + "write-repeat-reward-text"),
-                            user.getTranslation(Constants.CONVERSATIONS + "repeat-reward-text-changed"));
+                        this.challenge.setRepeatRewardText(String.join("\n", value));
                     }
 
-                    return true;
+                    this.build();
                 };
-                glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getRepeatRewardText().isEmpty())
+                if (!this.challenge.getRepeatRewardText().isEmpty() && clickType.isShiftClick())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
-                }
-            }
-            case REPEAT_REWARD_ITEMS -> {
-
-                if (this.challenge.getRepeatItemReward().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
                 }
                 else
                 {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    Utils.groupEqualItems(this.challenge.getRepeatItemReward(), this.challenge.getIgnoreRewardMetaData()).
-                        stream().
-                        sorted(Comparator.comparing(ItemStack::getType)).
-                        forEach(itemStack ->
-                            description.add(this.user.getTranslationOrNothing(reference + "list",
-                                "[number]", String.valueOf(itemStack.getAmount()),
-                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
+                            user,
+                            user.getTranslation(Constants.CONVERSATIONS + "write-repeat-reward-text"),
+                            user.getTranslation(Constants.CONVERSATIONS + "repeat-reward-text-changed"));
                 }
 
-                icon = new ItemStack(Material.CHEST);
-                clickHandler = (panel, user, clickType, slot) -> {
-                    ItemSelector.open(this.user,
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getRepeatRewardText().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+            }
+        }
+        case REPEAT_REWARD_ITEMS -> {
+
+            if (this.challenge.getRepeatItemReward().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
+            }
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                Utils.groupEqualItems(this.challenge.getRepeatItemReward(), this.challenge.getIgnoreRewardMetaData()).
+                stream().
+                sorted(Comparator.comparing(ItemStack::getType)).
+                forEach(itemStack ->
+                description.add(this.user.getTranslationOrNothing(reference + "list",
+                        "[number]", String.valueOf(itemStack.getAmount()),
+                        "[item]", Utils.prettifyObject(itemStack, this.user))));
+            }
+
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ItemSelector.open(this.user,
                         this.challenge.getRewardItems(),
                         (status, value) -> {
                             if (status)
@@ -1734,221 +1735,221 @@ public class EditChallengePanel extends CommonPanel
                             this.build();
                         });
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REPEAT_REWARD_EXPERIENCE -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REPEAT_REWARD_EXPERIENCE -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRepeatExperienceReward())));
-                icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setRepeatExperienceReward(number.intValue());
-                        }
+            icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setRepeatExperienceReward(number.intValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Integer.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REPEAT_REWARD_MONEY -> {
-                description.add(this.user.getTranslation(reference + "value",
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REPEAT_REWARD_MONEY -> {
+            description.add(this.user.getTranslation(reference + "value",
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challenge.getRepeatMoneyReward())));
-                icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
-                clickHandler = (panel, user, clickType, i) -> {
-                    Consumer<Number> numberConsumer = number -> {
-                        if (number != null)
-                        {
-                            this.challenge.setRepeatMoneyReward(number.doubleValue());
-                        }
+            icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_NUGGET : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null)
+                    {
+                        this.challenge.setRepeatMoneyReward(number.doubleValue());
+                    }
 
-                        // reopen panel
-                        this.build();
-                    };
-                    ConversationUtils.createNumericInput(numberConsumer,
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
                         0,
                         Double.MAX_VALUE);
 
-                    return true;
-                };
-                glow = false;
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-            }
-            case REPEAT_REWARD_COMMANDS -> {
-                icon = new ItemStack(Material.COMMAND_BLOCK);
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REPEAT_REWARD_COMMANDS -> {
+            icon = new ItemStack(Material.COMMAND_BLOCK);
 
-                description.add(this.user.getTranslation(reference + "value"));
-                description.addAll(this.challenge.getRepeatRewardCommands());
+            description.add(this.user.getTranslation(reference + "value"));
+            description.addAll(this.challenge.getRepeatRewardCommands());
 
-                clickHandler = (panel, user, clickType, i) ->
+            clickHandler = (panel, user, clickType, i) ->
+            {
+                // Create consumer that process description change
+                Consumer<List<String>> consumer = value ->
                 {
-                    // Create consumer that process description change
-                    Consumer<List<String>> consumer = value ->
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            this.challenge.setRepeatRewardCommands(value);
-                        }
-
-                        this.build();
-                    };
-
-                    if (!this.challenge.getRepeatRewardCommands().isEmpty() && clickType.isShiftClick())
-                    {
-                        // Reset to the empty value
-                        consumer.accept(Collections.emptyList());
-                    }
-                    else
-                    {
-                        // start conversation
-                        ConversationUtils.createStringListInput(consumer,
-                            user,
-                            user.getTranslation(Constants.CONVERSATIONS + "write-repeat-reward-commands"),
-                            user.getTranslation(Constants.CONVERSATIONS + "repeat-reward-commands-changed"));
+                        this.challenge.setRepeatRewardCommands(value);
                     }
 
-                    return true;
+                    this.build();
                 };
-                glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-
-                if (!this.challenge.getRepeatRewardCommands().isEmpty())
+                if (!this.challenge.getRepeatRewardCommands().isEmpty() && clickType.isShiftClick())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
-                }
-            }
-            case ADD_IGNORED_META -> {
-                if (this.challenge.getIgnoreRewardMetaData().isEmpty())
-                {
-                    description.add(this.user.getTranslation(reference + "none"));
+                    // Reset to the empty value
+                    consumer.accept(Collections.emptyList());
                 }
                 else
                 {
-                    description.add(this.user.getTranslation(reference + "title"));
-
-                    this.challenge.getIgnoreRewardMetaData().stream().
-                        sorted(Comparator.comparing(Material::name)).
-                        forEach(itemStack ->
-                            description.add(this.user.getTranslationOrNothing(reference + "list",
-                                "[item]", Utils.prettifyObject(itemStack, this.user))));
+                    // start conversation
+                    ConversationUtils.createStringListInput(consumer,
+                            user,
+                            user.getTranslation(Constants.CONVERSATIONS + "write-repeat-reward-commands"),
+                            user.getTranslation(Constants.CONVERSATIONS + "repeat-reward-commands-changed"));
                 }
 
-                icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+                return true;
+            };
+            glow = false;
 
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (this.challenge.getRewardItems().isEmpty() &&
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+
+            if (!this.challenge.getRepeatRewardCommands().isEmpty())
+            {
+                description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+            }
+        }
+        case ADD_IGNORED_META -> {
+            if (this.challenge.getIgnoreRewardMetaData().isEmpty())
+            {
+                description.add(this.user.getTranslation(reference + "none"));
+            }
+            else
+            {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                this.challenge.getIgnoreRewardMetaData().stream().
+                sorted(Comparator.comparing(Material::name)).
+                forEach(itemStack ->
+                description.add(this.user.getTranslationOrNothing(reference + "list",
+                        "[item]", Utils.prettifyObject(itemStack, this.user))));
+            }
+
+            icon = new ItemStack(Material.GREEN_SHULKER_BOX);
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (this.challenge.getRewardItems().isEmpty() &&
                         this.challenge.getRepeatItemReward().isEmpty())
-                    {
-                        // Do nothing if no requirements are set.
-                        return true;
-                    }
+                {
+                    // Do nothing if no requirements are set.
+                    return true;
+                }
 
-                    // Allow choosing only from inventory items.
-                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
-                    this.challenge.getRewardItems().stream().
-                        map(ItemStack::getType).
-                        forEach(collection::remove);
-                    this.challenge.getRepeatItemReward().stream().
-                        map(ItemStack::getType).
-                        forEach(collection::remove);
-                    collection.addAll(this.challenge.getIgnoreRewardMetaData());
+                // Allow choosing only from inventory items.
+                Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                this.challenge.getRewardItems().stream().
+                map(ItemStack::getType).
+                forEach(collection::remove);
+                this.challenge.getRepeatItemReward().stream().
+                map(ItemStack::getType).
+                forEach(collection::remove);
+                collection.addAll(this.challenge.getIgnoreRewardMetaData());
 
-                    if (Material.values().length == collection.size())
-                    {
-                        // If there are no items anymore, then do not allow opening gui.
-                        return true;
-                    }
+                if (Material.values().length == collection.size())
+                {
+                    // If there are no items anymore, then do not allow opening gui.
+                    return true;
+                }
 
-                    MultiBlockSelector.open(this.user,
+                MultiBlockSelector.open(this.user,
                         MultiBlockSelector.Mode.ANY,
                         collection,
                         (status, materials) ->
-                        {
-                            if (status)
-                            {
-                                materials.addAll(this.challenge.getIgnoreRewardMetaData());
-                                this.challenge.setIgnoreRewardMetaData(new HashSet<>(materials));
-                            }
-
-                            this.build();
-                        });
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
-            }
-            case REMOVE_IGNORED_META -> {
-                icon = new ItemStack(Material.RED_SHULKER_BOX);
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (this.challenge.getIgnoreRewardMetaData().isEmpty())
+                {
+                    if (status)
                     {
-                        // Do nothing if no requirements are set.
-                        return true;
+                        materials.addAll(this.challenge.getIgnoreRewardMetaData());
+                        this.challenge.setIgnoreRewardMetaData(new HashSet<>(materials));
                     }
 
-                    // Allow choosing only from inventory items.
-                    Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
-                    collection.removeAll(this.challenge.getIgnoreRewardMetaData());
+                    this.build();
+                });
+                return true;
+            };
+            glow = false;
 
-                    MultiBlockSelector.open(this.user,
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+        }
+        case REMOVE_IGNORED_META -> {
+            icon = new ItemStack(Material.RED_SHULKER_BOX);
+
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (this.challenge.getIgnoreRewardMetaData().isEmpty())
+                {
+                    // Do nothing if no requirements are set.
+                    return true;
+                }
+
+                // Allow choosing only from inventory items.
+                Set<Material> collection = Arrays.stream(Material.values()).collect(Collectors.toSet());
+                collection.removeAll(this.challenge.getIgnoreRewardMetaData());
+
+                MultiBlockSelector.open(this.user,
                         MultiBlockSelector.Mode.ANY,
                         collection,
                         (status, materials) ->
-                        {
-                            if (status)
-                            {
-                                this.challenge.getIgnoreRewardMetaData().removeAll(materials);
-                            }
+                {
+                    if (status)
+                    {
+                        this.challenge.getIgnoreRewardMetaData().removeAll(materials);
+                    }
 
-                            this.build();
-                        });
-                    return true;
-                };
-                glow = false;
+                    this.build();
+                });
+                return true;
+            };
+            glow = false;
 
-                description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
-            }
-            default -> {
-                icon = new ItemStack(Material.PAPER);
-                clickHandler = null;
-                glow = false;
-            }
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
+        }
+        default -> {
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+            glow = false;
+        }
         }
 
         return new PanelItemBuilder().
-            icon(icon).
-            name(name).
-            description(description).
-            glow(glow).
-            clickHandler(clickHandler).
-            build();
+                icon(icon).
+                name(name).
+                description(description).
+                glow(glow).
+                clickHandler(clickHandler).
+                build();
     }
 
     // ---------------------------------------------------------------------
@@ -1973,9 +1974,9 @@ public class EditChallengePanel extends CommonPanel
         {
             // Handle icon changing
             if (EditChallengePanel.this.selectedButton != null &&
-                event.getCurrentItem() != null &&
-                !event.getCurrentItem().getType().equals(Material.AIR) &&
-                event.getRawSlot() > 44)
+                    event.getCurrentItem() != null &&
+                    !event.getCurrentItem().getType().equals(Material.AIR) &&
+                    event.getRawSlot() > 44)
             {
                 // set material and amount only. Other data should be removed.
 

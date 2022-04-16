@@ -56,20 +56,18 @@ public class StatisticRequirements extends Requirements
             return false;
         }
 
-        switch (this.statistic.getType())
+        return switch (this.statistic.getType())
         {
-            case ITEM -> {
-                return this.material != null && this.material.isItem();
-            }
-            case BLOCK -> {
-                return this.material != null && this.material.isBlock();
-            }
-            case ENTITY -> {
-                return this.entity != null;
-            }
-        }
+            case ITEM -> this.material != null && this.material.isItem();
+            
+            case BLOCK -> this.material != null && this.material.isBlock();
+            
+            case ENTITY -> this.entity != null;
+            
+            case UNTYPED -> true;
+        
+        };
 
-        return true;
     }
 
 

@@ -36,7 +36,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.BoundingBox;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,17 +85,15 @@ public class TryToCompleteTest {
 
     private TryToComplete ttc;
     private Challenge challenge;
-    private @NonNull ChallengeLevel level;
     @Mock
     private ChallengesAddon addon;
     @Mock
     private User user;
     @Mock
     private World world;
-    private String topLabel = "island";
-    private String permissionPrefix = "perm.";
+    private final String topLabel = "island";
+    private final String permissionPrefix = "perm.";
 
-    private String levelName;
     @Mock
     private ChallengesManager cm;
     @Mock
@@ -115,18 +112,16 @@ public class TryToCompleteTest {
     private Settings settings;
     @Mock
     private WorldSettings mySettings;
-    private Map<String, Boolean> map;
     @Mock
     private @Nullable PlayerInventory inv;
-    private ItemStack[] contents = {};
+    private final ItemStack[] contents = {};
     @Mock
     private BoundingBox bb;
 
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
         when(addon.getPlugin()).thenReturn(plugin);
@@ -143,8 +138,8 @@ public class TryToCompleteTest {
         when(gameMode.getDescription()).thenReturn(desc2);
 
         // Challenge Level
-        level = new ChallengeLevel();
-        levelName = GAME_MODE_NAME + "_novice";
+        @NonNull ChallengeLevel level = new ChallengeLevel();
+        String levelName = GAME_MODE_NAME + "_novice";
         level.setUniqueId(levelName);
         level.setFriendlyName("Novice");
         // Set up challenge
@@ -239,19 +234,19 @@ public class TryToCompleteTest {
         Map<UUID, String> online = new HashMap<>();
 
         Set<Player> onlinePlayers = new HashSet<>();
-        for (int j = 0; j < NAMES.length; j++) {
+        for (String name : NAMES) {
             Player p1 = mock(Player.class);
             UUID uuid2 = UUID.randomUUID();
             when(p1.getUniqueId()).thenReturn(uuid2);
-            when(p1.getName()).thenReturn(NAMES[j]);
-            online.put(uuid2, NAMES[j]);
+            when(p1.getName()).thenReturn(name);
+            online.put(uuid2, name);
             onlinePlayers.add(p1);
         }
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getOnlinePlayers()).then((Answer<Set<Player>>) invocation -> onlinePlayers);
 
         // World settings
-        map = new HashMap<>();
+        Map<String, Boolean> map = new HashMap<>();
         when(mySettings.getWorldFlags()).thenReturn(map);
         when(iwm.getWorldSettings(any())).thenReturn(mySettings);
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
@@ -263,13 +258,6 @@ public class TryToCompleteTest {
         // ChatColor
         PowerMockito.mockStatic(ChatColor.class, Mockito.RETURNS_MOCKS);
         when(ChatColor.stripColor(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
     }
 
     /**

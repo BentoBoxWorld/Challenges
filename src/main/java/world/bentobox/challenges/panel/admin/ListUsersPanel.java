@@ -334,13 +334,12 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
                 if (clickType.isRightClick())
                 {
                     this.mode = Utils.getPreviousValue(ViewMode.values(), this.mode);
-                    this.onlineUsers = this.collectUsers(this.mode);
                 }
                 else
                 {
                     this.mode = Utils.getNextValue(ViewMode.values(), this.mode);
-                    this.onlineUsers = this.collectUsers(this.mode);
                 }
+                this.onlineUsers = this.collectUsers(this.mode);
 
                 // Reset search
                 this.searchString = "";

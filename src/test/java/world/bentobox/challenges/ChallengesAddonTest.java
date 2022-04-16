@@ -14,10 +14,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -154,7 +153,7 @@ public class ChallengesAddonTest {
         File jFile = new File("addon.jar");
         List<String> lines = Arrays.asList("# ChallengesAddon Configuration", "uniqueId: config");
         Path path = Paths.get("config.yml");
-        Files.write(path, lines, Charset.forName("UTF-8"));
+        Files.write(path, lines, StandardCharsets.UTF_8);
         try (JarOutputStream tempJarOutputStream = new JarOutputStream(new FileOutputStream(jFile))) {
             addToJar(tempJarOutputStream, path);
             addToJar(tempJarOutputStream, Paths.get("src/main/resources/panels/gamemode_panel.yml"));
@@ -206,7 +205,7 @@ public class ChallengesAddonTest {
 
     }
 
-    private void addToJar(JarOutputStream tempJarOutputStream, Path path) throws FileNotFoundException, IOException {
+    private void addToJar(JarOutputStream tempJarOutputStream, Path path) throws IOException {
         //Added the new files to the jar.
         try (FileInputStream fis = new FileInputStream(path.toFile())) {
 

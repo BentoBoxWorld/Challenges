@@ -273,7 +273,6 @@ public class TryToComplete
             {
                 Bukkit.getOnlinePlayers().stream().
                     map(User::getInstance).
-                    filter(Objects::nonNull).
                     forEach(user -> Utils.sendMessage(user, user.getTranslation(
                         "challenges.messages.name-has-completed-challenge",
                         Constants.PARAMETER_NAME, this.user.getName(),
@@ -380,7 +379,6 @@ public class TryToComplete
                     {
                         Bukkit.getOnlinePlayers().stream().
                             map(User::getInstance).
-                            filter(Objects::nonNull).
                             forEach(user -> Utils.sendMessage(user, user.getTranslation(
                                 "challenges.messages.name-has-completed-level",
                                 Constants.PARAMETER_NAME, this.user.getName(),

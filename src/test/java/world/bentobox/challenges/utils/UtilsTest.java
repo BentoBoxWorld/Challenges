@@ -1,7 +1,6 @@
 package world.bentobox.challenges.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,10 +47,9 @@ public class UtilsTest {
 
 
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
@@ -69,13 +66,6 @@ public class UtilsTest {
         when(iwm.getAddon(any())).thenReturn(optionalAddon);
         when(plugin.getIWM()).thenReturn(iwm);
 
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
     }
 
     /**

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -105,10 +104,9 @@ public class ChallengesManagerTest {
     // Variable fields
     private ChallengesManager cm;
     private File database;
-    private String uuid;
     private Challenge challenge;
     private @NonNull ChallengeLevel level;
-    private UUID playerID = UUID.randomUUID();
+    private final UUID playerID = UUID.randomUUID();
     private String cName;
     private String levelName;
 
@@ -159,7 +157,7 @@ public class ChallengesManagerTest {
 
         // Challenge
         challenge = new Challenge();
-        uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();
         challenge.setUniqueId(GAME_MODE_NAME + "_" + uuid);
         challenge.setFriendlyName("name");
         challenge.setLevel(GAME_MODE_NAME + "_novice");
@@ -438,7 +436,7 @@ public class ChallengesManagerTest {
         removeLine(check);
     }
 
-    private boolean removeLine(File inputFile) {
+    private void removeLine(File inputFile) {
         File tempFile = new File("myTempFile.json");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
@@ -454,13 +452,11 @@ public class ChallengesManagerTest {
                     writer.write(currentLine + System.getProperty("line.separator"));
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return tempFile.renameTo(inputFile);
+        tempFile.renameTo(inputFile);
     }
     /**
      * Test method for {@link ChallengesManager#saveLevel(world.bentobox.challenges.database.object.ChallengeLevel)}.

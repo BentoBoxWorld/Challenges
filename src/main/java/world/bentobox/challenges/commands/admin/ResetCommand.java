@@ -2,11 +2,9 @@ package world.bentobox.challenges.commands.admin;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
@@ -191,12 +189,11 @@ public class ResetCommand extends CompositeCommand
             case 4 -> {
                 // Create suggestions with all challenges that is available for users.
                 returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-                    map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
-                    collect(Collectors.toList()));
+                        map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).toList());
                 returnList.add("all");
             }
             default ->
-                returnList.addAll(Collections.singletonList("help"));
+                returnList.add("help");
         }
 
         return Optional.of(Util.tabLimit(returnList, lastString));

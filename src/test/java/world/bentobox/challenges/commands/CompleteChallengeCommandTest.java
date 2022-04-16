@@ -25,7 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eclipse.jdt.annotation.NonNull;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +63,6 @@ public class CompleteChallengeCommandTest {
 
     @Mock
     private CompositeCommand ic;
-    private UUID uuid;
     @Mock
     private User user;
     @Mock
@@ -84,16 +82,14 @@ public class CompleteChallengeCommandTest {
     @Mock
     private GameModeAddon gameModeAddon;
 
-    private Settings settings;
     @Mock
     private Challenge challenge;
 
     /**
-     * @throws java.lang.Exception
      */
     @SuppressWarnings("unchecked")
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
@@ -129,7 +125,7 @@ public class CompleteChallengeCommandTest {
         Player p = mock(Player.class);
         // Sometimes use Mockito.withSettings().verboseLogging()
         when(user.isOp()).thenReturn(false);
-        uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
         when(user.getPlayer()).thenReturn(p);
         when(user.getName()).thenReturn("tastybento");
@@ -159,7 +155,7 @@ public class CompleteChallengeCommandTest {
         when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
 
         // Settings
-        settings = new Settings();
+        Settings settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
         settings.setVisibilityMode(VisibilityMode.VISIBLE);
 
@@ -182,13 +178,6 @@ public class CompleteChallengeCommandTest {
 
         // Command under test
         cc = new CompleteChallengeCommand(addon, ic);
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
     }
 
     /**

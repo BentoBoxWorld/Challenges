@@ -4,7 +4,6 @@ package world.bentobox.challenges.commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
@@ -115,11 +114,10 @@ public class CompleteChallengeCommand extends CompositeCommand
             
             // Create suggestions with all challenges that is available for users.
             returnList.addAll(this.<ChallengesAddon>getAddon().getChallengesManager().getAllChallengesNames(this.getWorld()).
-                stream().
-                filter(challenge -> challenge.startsWith(Utils.getGameMode(this.getWorld()) + "_") ||
-                    challenge.startsWith(Utils.getGameMode(this.getWorld()).toLowerCase() + "_")).
-                map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
-                collect(Collectors.toList()));
+                    stream().
+                    filter(challenge -> challenge.startsWith(Utils.getGameMode(this.getWorld()) + "_") ||
+                            challenge.startsWith(Utils.getGameMode(this.getWorld()).toLowerCase() + "_")).
+                    map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).toList());
             break;
         case 4:
             // Suggest a number of completions.

@@ -15,7 +15,7 @@ import world.bentobox.bentobox.api.flags.Flag;
 
 public class TestWorldSetting implements WorldSettings {
 
-    private Map<String, Boolean> flags = new HashMap<>();
+    private final Map<String, Boolean> flags = new HashMap<>();
 
     @Override
     public GameMode getDefaultGameMode() {

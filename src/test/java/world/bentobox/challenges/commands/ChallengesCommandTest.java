@@ -60,7 +60,6 @@ public class ChallengesCommandTest {
 
     @Mock
     private CompositeCommand ic;
-    private UUID uuid;
     @Mock
     private User user;
     @Mock
@@ -79,13 +78,10 @@ public class ChallengesCommandTest {
     @Mock
     private GameModeAddon gameModeAddon;
 
-    private Settings settings;
-
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
@@ -125,7 +121,7 @@ public class ChallengesCommandTest {
         Player p = mock(Player.class);
         // Sometimes use Mockito.withSettings().verboseLogging()
         when(user.isOp()).thenReturn(false);
-        uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
         when(user.getPlayer()).thenReturn(p);
         when(user.getName()).thenReturn("tastybento");
@@ -152,7 +148,7 @@ public class ChallengesCommandTest {
         when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
 
         // Settings
-        settings = new Settings();
+        Settings settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
         settings.setVisibilityMode(VisibilityMode.VISIBLE);
 
