@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,7 +77,7 @@ import world.bentobox.challenges.utils.Utils;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, Util.class, Utils.class})
+@PrepareForTest({Bukkit.class, BentoBox.class, Util.class, Utils.class, ChatColor.class})
 public class TryToCompleteTest {
 
     // Constants
@@ -204,8 +205,9 @@ public class TryToCompleteTest {
         when(user.getPlayer()).thenReturn(player);
         UUID uniqueId = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uniqueId);
-        when(user.getTranslation(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
-        when(user.getTranslationOrNothing(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslation(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslation(anyString(), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslationOrNothing(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
         when(user.getName()).thenReturn("tastybento");
         @Nullable
         Location userLoc = mock(Location.class);
@@ -256,6 +258,10 @@ public class TryToCompleteTest {
         // ItemFactory
         ItemFactory itemFactory = mock(ItemFactory.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
+        
+        // ChatColor
+        PowerMockito.mockStatic(ChatColor.class, Mockito.RETURNS_MOCKS);
+        when(ChatColor.stripColor(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
     }
 
     /**
