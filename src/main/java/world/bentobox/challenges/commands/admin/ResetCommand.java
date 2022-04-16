@@ -79,9 +79,8 @@ public class ResetCommand extends CompositeCommand
         else if (!args.get(1).isEmpty())
         {
             UUID targetUUID = this.getPlayers().getUUID(args.get(0));
-            User target = User.getInstance(targetUUID);
 
-            if (targetUUID == null || target == null)
+            if (targetUUID == null)
             {
                 if (user.isPlayer())
                 {
@@ -95,7 +94,8 @@ public class ResetCommand extends CompositeCommand
 
                 return false;
             }
-
+            
+            User target = User.getInstance(targetUUID);
             // Add world name back at the start
 
             if (args.get(1).equals("all"))
