@@ -176,6 +176,7 @@ public class TryToCompleteTest {
         Optional<GameModeAddon> optionalGameMode = Optional.of(gameMode);
         when(iwm.getAddon(any())).thenReturn(optionalGameMode);
         when(iwm.getIslandDistance(any())).thenReturn(400);
+        when(iwm.inWorld(any(World.class))).thenReturn(true);
 
         // Island Manager
         when(addon.getIslands()).thenReturn(im);

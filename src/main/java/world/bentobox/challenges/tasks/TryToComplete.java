@@ -637,7 +637,7 @@ public class TryToComplete
     private ChallengeResult checkIfCanCompleteChallenge(int maxTimes)
     {
         ChallengeResult result;
-
+        
         ChallengeType type = this.challenge.getChallengeType();
         // Check the world
         if (!this.challenge.isDeployed())
