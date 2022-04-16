@@ -656,7 +656,11 @@ public class ChallengesManager
     public void migrateDatabase(User user, World world)
     {
         world = Util.getWorld(world);
-
+        if (world == null) {
+            this.addon.logError("No such world!");
+            return;
+        }
+        
         if (user.isPlayer())
         {
             Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-start"));
