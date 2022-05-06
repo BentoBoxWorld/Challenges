@@ -1,0 +1,53 @@
+# Panels are read once upon first GUI open.
+# Changes in configuration will be taken only if server is restarted or panels are reloaded.
+# Information about setup for the Panels are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
+gamemode_panel:
+  title: challenges.gui.titles.gamemode-gui
+  type: INVENTORY
+  background:
+    icon: BLACK_STAINED_GLASS_PANE
+    title: "&b&r" # Empty text
+  border:
+    icon: BLACK_STAINED_GLASS_PANE
+    title: "&b&r"  # Empty text
+  force-shown: []
+  content:
+    2:
+      1:
+        icon: TIPPED_ARROW:INSTANT_HEAL::::1
+        title: challenges.gui.buttons.previous.name
+        description: challenges.gui.buttons.previous.description
+        data:
+          type: PREVIOUS
+          target: GAMEMODE
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-previous
+      2: gamemode
+      3: gamemode
+      4: gamemode
+      5: gamemode
+      6: gamemode
+      7: gamemode
+      8: gamemode
+      9:
+        icon: TIPPED_ARROW:JUMP::::1
+        title: challenges.gui.buttons.next.name
+        description: challenges.gui.buttons.next.description
+        data:
+          type: NEXT
+          target: GAMEMODE
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-next
+  reusable:
+    gamemode:
+      data:
+        type: GAMEMODE
+      actions:
+        left:
+          type: SELECT
+          tooltip: challenges.gui.tips.click-to-select

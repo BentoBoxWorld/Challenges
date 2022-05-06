@@ -39,7 +39,7 @@ public class IslandRequirements extends Requirements
 	/**
 	 * Method IslandRequirements#getRequiredBlocks returns the requiredBlocks of this object.
 	 *
-	 * @return the requiredBlocks (type Map<Material, Integer>) of this object.
+	 * @return the requiredBlocks (type {@code Map<Material, Integer>}) of this object.
 	 */
 	public Map<Material, Integer> getRequiredBlocks()
 	{
@@ -83,7 +83,7 @@ public class IslandRequirements extends Requirements
 	/**
 	 * Method IslandRequirements#getRequiredEntities returns the requiredEntities of this object.
 	 *
-	 * @return the requiredEntities (type Map<EntityType, Integer>) of this object.
+	 * @return the requiredEntities (type {@code Map<EntityType, Integer>}) of this object.
 	 */
 	public Map<EntityType, Integer> getRequiredEntities()
 	{
@@ -165,12 +165,12 @@ public class IslandRequirements extends Requirements
 
 
 	/**
-	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
+	 * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
 	 * to use it.
-	 * @return IslandRequirements clone
+	 * @return IslandRequirements copy
 	 */
 	@Override
-	public Requirements clone()
+	public Requirements copy()
 	{
 		IslandRequirements clone = new IslandRequirements();
 		clone.setRequiredPermissions(new HashSet<>(this.getRequiredPermissions()));

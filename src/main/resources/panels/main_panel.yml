@@ -1,0 +1,114 @@
+# Panels are read once upon first GUI open.
+# Changes in configuration will be taken only if server is restarted or panels are reloaded.
+# Information about setup for the Panels are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
+main_panel:
+  title: challenges.gui.titles.player-gui
+  type: INVENTORY
+  background:
+    icon: BLACK_STAINED_GLASS_PANE
+    title: "&b&r" # Empty text
+  border:
+    icon: BLACK_STAINED_GLASS_PANE
+    title: "&b&r"  # Empty text
+  force-shown: [4]
+  content:
+    2:
+      2: challenge_button
+      3: challenge_button
+      4: challenge_button
+      5: challenge_button
+      6: challenge_button
+      7: challenge_button
+      8: challenge_button
+    3:
+      1:
+        icon: TIPPED_ARROW:INSTANT_HEAL::::1
+        title: challenges.gui.buttons.previous.name
+        description: challenges.gui.buttons.previous.description
+        data:
+          type: PREVIOUS
+          target: CHALLENGE
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-previous
+      2: challenge_button
+      3: challenge_button
+      4: challenge_button
+      5: challenge_button
+      6: challenge_button
+      7: challenge_button
+      8: challenge_button
+      9:
+        icon: TIPPED_ARROW:JUMP::::1
+        title: challenges.gui.buttons.next.name
+        description: challenges.gui.buttons.next.description
+        data:
+          type: NEXT
+          target: CHALLENGE
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-next
+    5:
+      1:
+        icon: TIPPED_ARROW:INSTANT_HEAL::::1
+        title: challenges.gui.buttons.previous.name
+        description: challenges.gui.buttons.previous.description
+        data:
+          type: PREVIOUS
+          target: LEVEL
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-previous
+      2: level_button
+      3: level_button
+      4: level_button
+      5: level_button
+      6: level_button
+      7: level_button
+      8: level_button
+      9:
+        icon: TIPPED_ARROW:JUMP::::1
+        title: challenges.gui.buttons.next.name
+        description: challenges.gui.buttons.next.description
+        data:
+          type: NEXT
+          target: LEVEL
+          indexing: true
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-next
+    6:
+      5:
+        icon: IRON_BARS
+        title: challenges.gui.buttons.free-challenges.name
+        description: challenges.gui.buttons.free-challenges.description
+        data:
+          type: UNASSIGNED_CHALLENGES
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-select
+  reusable:
+    challenge_button:
+      data:
+        type: CHALLENGE
+      actions:
+        left:
+          type: COMPLETE
+          tooltip: challenges.gui.tips.click-to-complete
+        right:
+          type: MULTIPLE_PANEL
+          tooltip: challenges.gui.tips.right-click-multiple-open
+        shift_left:
+          type: COMPLETE_MAX
+          tooltip: challenges.gui.tips.shift-left-click-to-complete-all
+    level_button:
+      data:
+        type: LEVEL
+      actions:
+        left:
+          type: SELECT
+          tooltip: challenges.gui.tips.click-to-select

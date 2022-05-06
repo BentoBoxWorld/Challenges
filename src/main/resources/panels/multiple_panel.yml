@@ -1,0 +1,62 @@
+# Panels are read once upon first GUI open.
+# Changes in configuration will be taken only if server is restarted or panels are reloaded.
+# Information about setup for the Panels are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
+multiple_panel:
+  title: challenges.gui.titles.multiple-gui
+  type: HOPPER
+  content:
+    1:
+      1:
+        icon: RED_STAINED_GLASS_PANE
+        title: challenges.gui.buttons.reduce.name
+        description: challenges.gui.buttons.reduce.description
+        data:
+          type: REDUCE
+          value: 5
+        actions:
+          left:
+            tooltip: challenges.gui.tips.click-to-reduce
+      2:
+        icon: ORANGE_STAINED_GLASS_PANE
+        title: challenges.gui.buttons.reduce.name
+        description: challenges.gui.buttons.reduce.description
+        data:
+          type: REDUCE
+          value: 1
+        actions:
+          left:
+            tooltip: challenges.gui.tips.click-to-reduce
+      3:
+        icon: GREEN_STAINED_GLASS_PANE
+        title: challenges.gui.buttons.accept.name
+        description: challenges.gui.buttons.accept.description
+        data:
+          type: ACCEPT
+        actions:
+          left:
+            type: ACCEPT
+            tooltip: challenges.gui.tips.left-click-to-accept
+          right:
+            type: INPUT
+            tooltip: challenges.gui.tips.right-click-to-write
+      4:
+        icon: BLUE_STAINED_GLASS_PANE
+        title: challenges.gui.buttons.increase.name
+        description: challenges.gui.buttons.increase.description
+        data:
+          type: INCREASE
+          value: 1
+        actions:
+          left:
+            tooltip: challenges.gui.tips.click-to-increase
+      5:
+        icon: MAGENTA_STAINED_GLASS_PANE
+        title: challenges.gui.buttons.increase.name
+        description: challenges.gui.buttons.increase.description
+        data:
+          type: INCREASE
+          value: 5
+        actions:
+          left:
+            tooltip: challenges.gui.tips.click-to-increase

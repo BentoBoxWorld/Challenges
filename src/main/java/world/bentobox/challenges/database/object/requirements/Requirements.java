@@ -70,12 +70,11 @@ public abstract class Requirements
 
 
 	/**
-	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
+	 * Method Requirements#copy allows to copy Requirements object, to avoid changing content when it is necessary
 	 * to use it.
-	 * @return Requirements clone
+	 * @return Requirements copy
 	 */
-	@Override
-	public abstract Requirements clone();
+	public abstract Requirements copy();
 
 
 // ---------------------------------------------------------------------

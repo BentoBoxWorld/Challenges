@@ -2,11 +2,9 @@ package world.bentobox.challenges.commands.admin;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
@@ -15,11 +13,12 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This command allows to complete challenges without a gui.
+ * This command allows completing challenges without a gui.
  */
 public class CompleteCommand extends CompositeCommand
 {
@@ -57,7 +56,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				user.sendMessage("challenges.errors.no-name");
+				Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
 			}
 			else
 			{
@@ -68,7 +67,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				user.sendMessage("challenges.errors.missing-arguments");
+				Utils.sendMessage(user, user.getTranslation("challenges.errors.missing-arguments"));
 			}
 			else
 			{
@@ -83,9 +82,9 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					user.sendMessage("general.errors.unknown-player",
+					Utils.sendMessage(user, user.getTranslation("general.errors.unknown-player",
 						TextVariables.NAME,
-						args.get(0));
+						args.get(0)));
 				}
 				else
 				{
@@ -98,6 +97,7 @@ public class CompleteCommand extends CompositeCommand
 			// Add world name back at the start
 			String challengeName = Utils.getGameMode(this.getWorld()) + "_" + args.get(1);
 			Challenge challenge = this.addon.getChallengesManager().getChallenge(challengeName);
+			User target = User.getInstance(targetUUID);
 
 			if (challenge != null)
 			{
@@ -106,23 +106,24 @@ public class CompleteCommand extends CompositeCommand
 					this.addon.getChallengesManager().setChallengeComplete(
 						targetUUID, this.getWorld(), challenge, user.getUniqueId());
 
+
 					if (user.isPlayer())
 					{
-						user.sendMessage("challenges.messages.admin.completed",
-							"[name]", challenge.getFriendlyName(),
-							"[player]", User.getInstance(targetUUID).getName());
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.completed",
+							Constants.PARAMETER_NAME, challenge.getFriendlyName(),
+							Constants.PARAMETER_PLAYER, target.getName()));
 					}
 					else
 					{
 						this.addon.log("Challenge " + challenge.getFriendlyName() + " completed for player " +
-							User.getInstance(targetUUID).getName());
+							target.getName());
 					}
 				}
 				else
 				{
 					if (user.isPlayer())
 					{
-						user.sendMessage("challenges.messages.admin.already-completed");
+						Utils.sendMessage(user, user.getTranslation("challenges.messages.already-completed"));
 					}
 					else
 					{
@@ -136,7 +137,7 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					user.sendMessage("challenges.errors.unknown-challenge");
+					Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
 				}
 				else
 				{
@@ -165,23 +166,15 @@ public class CompleteCommand extends CompositeCommand
 
 		switch (size)
 		{
-			case 3:
+			case 3 ->
 				// Create suggestions with all challenges that is available for users.
-
 				returnList.addAll(Util.getOnlinePlayerList(user));
-				break;
-			case 4:
+			case 4 ->
 				// Create suggestions with all challenges that is available for users.
 				returnList.addAll(this.addon.getChallengesManager().getAllChallengesNames(this.getWorld()).stream().
-					map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).
-					collect(Collectors.toList()));
-
-				break;
-			default:
-			{
-				returnList.addAll(Collections.singletonList("help"));
-				break;
-			}
+						map(challenge -> challenge.substring(Utils.getGameMode(this.getWorld()).length() + 1)).toList());
+			default ->
+				returnList.add("help");
 		}
 
 		return Optional.of(Util.tabLimit(returnList, lastString));
@@ -195,5 +188,5 @@ public class CompleteCommand extends CompositeCommand
 	/**
 	 * Variable that holds challenge addon. Single casting.
 	 */
-	private ChallengesAddon addon;
+	private final ChallengesAddon addon;
 }

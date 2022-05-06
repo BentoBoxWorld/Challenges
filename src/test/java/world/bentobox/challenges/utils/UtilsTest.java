@@ -1,7 +1,6 @@
 package world.bentobox.challenges.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,17 +10,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,10 +47,9 @@ public class UtilsTest {
 
 
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
@@ -75,26 +69,20 @@ public class UtilsTest {
     }
 
     /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItemsEmpty() {
-        assertTrue(Utils.groupEqualItems(Collections.emptyList()).isEmpty());
+        assertTrue(Utils.groupEqualItems(Collections.emptyList(), Collections.emptySet()).isEmpty());
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItems() {
         List<ItemStack> requiredItems = new ArrayList<>();
+        Set<Material> ignoreMeta = Collections.singleton(Material.ACACIA_FENCE);
         // First item
         ItemStack is = mock(ItemStack.class);
         when(is.getAmount()).thenReturn(1);
@@ -112,14 +100,14 @@ public class UtilsTest {
             when(is2.clone()).thenReturn(is);
             requiredItems.add(is2);
         }
-        List<ItemStack> list = Utils.groupEqualItems(requiredItems);
+        List<ItemStack> list = Utils.groupEqualItems(requiredItems, ignoreMeta);
         // Result should be two stacks stack of 64 doors and 36 doors
         assertEquals(1, list.size());
         verify(is, times(9)).setAmount(2);
     }
 
     /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List)}.
+     * Test method for {@link world.bentobox.challenges.utils.Utils#groupEqualItems(java.util.List, java.util.Set)}.
      */
     @Test
     public void testGroupEqualItemsUnique() {
@@ -141,22 +129,10 @@ public class UtilsTest {
             when(is2.clone()).thenReturn(is);
             requiredItems.add(is2);
         }
-        List<ItemStack> list = Utils.groupEqualItems(requiredItems);
+        List<ItemStack> list = Utils.groupEqualItems(requiredItems, Collections.emptySet());
         // Result should be two stacks stack of 64 doors and 36 doors
         assertEquals(10, list.size());
         verify(is, never()).setAmount(2);
-    }
-
-    /**
-     * Test method for {@link world.bentobox.challenges.utils.Utils#canIgnoreMeta(org.bukkit.Material)}.
-     */
-    @Test
-    public void testCanIgnoreMeta() {
-        assertTrue(Utils.canIgnoreMeta(Material.FIREWORK_ROCKET));
-        assertTrue(Utils.canIgnoreMeta(Material.ENCHANTED_BOOK));
-        assertTrue(Utils.canIgnoreMeta(Material.WRITTEN_BOOK));
-        assertTrue(Utils.canIgnoreMeta(Material.FILLED_MAP));
-        assertFalse(Utils.canIgnoreMeta(Material.CHISELED_RED_SANDSTONE));
     }
 
     /**
@@ -195,5 +171,4 @@ public class UtilsTest {
         assertEquals(VisibilityMode.VISIBLE, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.HIDDEN));
         assertEquals(VisibilityMode.HIDDEN, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.TOGGLEABLE));
     }
-
 }

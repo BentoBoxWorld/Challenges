@@ -65,7 +65,7 @@ public class ChallengesPlayerData implements DataObject
     private Map<String, Integer> challengeStatus = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     /**
-     * Map of challenges completion time where key is challenges unique id and value is
+     * Map of challenges completion time when key is challenges unique id and value is
      * timestamp when challenge was completed last time.
      */
     @Expose
@@ -251,10 +251,22 @@ public class ChallengesPlayerData implements DataObject
      * @param challengeName - unique challenge name
      * @param times - the number of times to set
      */
-    public void setChallengeTimes(@NonNull String challengeName, @NonNull int times)
+    public void setChallengeTimes(@NonNull String challengeName, int times)
     {
         challengeStatus.put(challengeName, times);
         challengesTimestamp.put(challengeName, System.currentTimeMillis());
+    }
+
+
+    /**
+     * Gets last completion time.
+     *
+     * @param challengeName the unique id
+     * @return the last completion time
+     */
+    public long getLastCompletionTime(@NonNull String challengeName)
+    {
+        return this.challengesTimestamp.getOrDefault(challengeName, 0L);
     }
 
 
@@ -341,12 +353,10 @@ public class ChallengesPlayerData implements DataObject
             return true;
         }
 
-        if (!(obj instanceof ChallengesPlayerData))
+        if (!(obj instanceof ChallengesPlayerData other))
         {
             return false;
         }
-
-        ChallengesPlayerData other = (ChallengesPlayerData) obj;
 
         if (uniqueId == null)
         {

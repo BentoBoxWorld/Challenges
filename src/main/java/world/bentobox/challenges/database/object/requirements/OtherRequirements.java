@@ -147,12 +147,12 @@ public class OtherRequirements extends Requirements
 
 
 	/**
-	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
+	 * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
 	 * to use it.
-	 * @return OtherRequirements clone
+	 * @return OtherRequirements copy
 	 */
 	@Override
-	public Requirements clone()
+	public Requirements copy()
 	{
 		OtherRequirements clone = new OtherRequirements();
 		clone.setRequiredPermissions(new HashSet<>(this.getRequiredPermissions()));

@@ -33,10 +33,7 @@ public class EntityCompatibilityAdapter implements
 	{
 		JsonObject jsonArray = new JsonObject();
 
-		src.forEach((entity, number) ->
-		{
-			jsonArray.addProperty(entity.name(), number);
-		});
+		src.forEach((entity, number) -> jsonArray.addProperty(entity.name(), number));
 
 		return jsonArray;
 	}
@@ -46,7 +43,6 @@ public class EntityCompatibilityAdapter implements
 	 * This method deserializes json object that stores Entity Name and amount as integer.
 	 * @param json Json element that must be parsed.
 	 * @return EnumMap that contains EntityType as key and Integer as value.
-	 * @throws JsonParseException
 	 */
 	@Override
 	public Map<EntityType, Integer> deserialize(JsonElement json,

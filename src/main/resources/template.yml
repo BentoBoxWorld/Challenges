@@ -1,0 +1,562 @@
+###########################################################################################
+# This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
+# the one at http://yaml-online-parser.appspot.com                                        #
+###########################################################################################
+# This is a template file that allows to create challenges in YAML format.
+# Be aware, some features are not supported in YAML so some things may not be able to do with this
+# file.
+# Note that this is just a template. All challenges are stored and taken from the database.
+# Template is used just for importing challenges in gamemode.
+# Information about setup for the Template File are available at:
+# https://docs.bentobox.world/en/latest/addons/Challenges/
+challenges:
+  # Each challenge starts withs it ID.
+  # Everything for challenge must be inside it.
+  example_inventory_challenge:
+    # Name of the Challenge. If it is not present, name will be set to the challenge id.
+    # Supports ColorCodes.
+    name: "&2 Example Inventory Challenge"
+    # Icon for the Challenge
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    icon: CHEST
+    # Each challenge can have an extra text in their lore that is only for this challenge.
+    # Text has its own Color Codes.
+    description: |-
+      &7 Description of inventory
+      &7 challenge
+    # This allows to set that challenge is completable by players. If challenge is not
+    # deployed, then players cannot complete it until deployed status is set to true.
+    deployed: true
+    # This allows to set the ordering of the challenges inside same level.
+    # If 2 challenges has the same order number, they will be ordered by their unique_id.
+    order: 0
+    # You can set that challenge is limited to a specific environment. Or leave it empty
+    # as it will indicate that challenge can be completed in every dimension.
+    # Supported values: NORMAL, NETHER, THE_END.
+    environments:
+      - NORMAL
+      - NETHER
+      - THE_END
+    # This option allows to auto-hide challenge after player completes it.
+    # It does not work for infinitely repeatable challenges.
+    remove-completed: false
+    # Type of the Challenge allows defining which requirements will be used.
+    # Challenge cannot exist without type or requirements.
+    # Each requirement has its own set of rules.
+    # Currently, addon has 4 types:
+    #    INVENTORY_TYPE - checks items in player inventory.
+    #    ISLAND_TYPE - checks for blocks or entities on player island.
+    #    OTHER_TYPE - checks different things like, experience, island level, balance.
+    #    STATISTIC_TYPE - checks specific player statistic value.
+    type: INVENTORY_TYPE
+    # Requirements are the section that defines what challenge will require to do.
+    requirements:
+      # All requirements supports to define a list of permissions that player must have.
+      # If permission is not set for the player, he will not be able to compete the
+      # challenge.
+      permissions:
+        - permission.value.1
+        - permission.value.2
+      # Take items allows to set that items will be removed from player inventory
+      # after challenge completion.
+      take-items: true
+      items:
+        - DIRT:220
+    # Rewards section allows defining what player will receive after completing challenge
+    # for the first time.
+    rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Some Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - STONE:6
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+    # Repeatable allows to define if challenge is repeatable or not.
+    # Repeat Rewards are stored only if repeatable is set to true.
+    repeatable: true
+    # Repeat times allow defining how many times challenge can be repeated.
+    # If the value is 0 or smaller, it means that challenge is not limited.
+    repeat-times: -1
+    # Repeat-rewards section allows defining what player will receive after completing challenge
+    # each repeating time.
+    repeat-rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Repeat Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - PLAYER_HEAD:BONNe1704
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+  # There are no specific requirements for challenge ID format.
+  example_island_challenge:
+    # Name of the Challenge. If it is not present, name will be set to the challenge id.
+    # Supports ColorCodes.
+    name: "&2 Example Island Challenge"
+    # Icon for the Challenge
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    icon: GRASS_BLOCK:3
+    # Each challenge can have an extra text in their lore that is only for this challenge.
+    # Text has its own Color Codes.
+    description: |-
+      &7 Description of island
+      &7 challenge
+    # This allows to set that challenge is completable by players. If challenge is not
+    # deployed, then players cannot complete it until deployed status is set to true.
+    deployed: true
+    # This allows to set the ordering of the challenges inside same level.
+    # If 2 challenges has the same order number, they will be ordered by their unique_id.
+    order: 0
+    # You can set that challenge is limited to a specific environment. Or leave it empty
+    # as it will indicate that challenge can be completed in every dimension.
+    # Supported values: NORMAL, NETHER, THE_END.
+    environments:
+      - NORMAL
+      - NETHER
+      - THE_END
+    # This option allows to auto-hide challenge after player completes it.
+    # It does not work for infinitely repeatable challenges.
+    remove-completed: false
+    # Type of the Challenge allows defining which requirements will be used.
+    # Challenge cannot exist without type or requirements.
+    # Each requirement has its own set of rules.
+    # Currently, addon has 4 types:
+    #    INVENTORY_TYPE - checks items in player inventory.
+    #    ISLAND_TYPE - checks for blocks or entities on player island.
+    #    OTHER_TYPE - checks different things like, experience, island level, balance.
+    #    STATISTIC_TYPE - checks specific player statistic value.
+    type: ISLAND_TYPE
+    # Requirements are the section that defines what challenge will require to do.
+    requirements:
+      # All requirements supports to define a list of permissions that player must have.
+      # If permission is not set for the player, he will not be able to compete the
+      # challenge.
+      permissions:
+        - permission.value.1
+        - permission.value.2
+      # Remove Blocks indicate that all required blocks will be removed from world
+      # after challenge is completed.
+      remove-blocks: true
+      # Section `blocks` follows format: `MATERIAL_NAME: <number>` That indicate which block and
+      # how many of them must be checked.
+      # You can find all material names in https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      blocks:
+        DIRT: 220
+        STONE: 2
+      # Remove Entities indicate that all required entities will be removed from world
+      # after challenge is completed.
+      remove-entities: true
+      # Section `entities` follows format: `ENTITY_NAME: <number>` That indicate which entities and
+      # how many of them must be checked.
+      # You can find all entity names in https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      entities:
+        CAT: 1
+        BAT: 2
+      # With search distance you can define how far player should stand to detect blocks.
+      # Be aware that setting it too large will take a time to detect.
+      # Also, by default this will be capped at island border. So if player stands next to a border,
+      # only blocks inside his island will be taken into account.
+      search-distance: 10
+    # Rewards section allows defining what player will receive after completing challenge
+    # for the first time.
+    rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Some Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - STONE:6
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+    # Repeatable allows to define if challenge is repeatable or not.
+    # Repeat Rewards are stored only if repeatable is set to true.
+    repeatable: true
+    # Repeat times allow defining how many times challenge can be repeated.
+    # If the value is 0 or smaller, it means that challenge is not limited.
+    repeat-times: -1
+    # Repeat-rewards section allows defining what player will receive after completing challenge
+    # each repeating time.
+    repeat-rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Repeat Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - PLAYER_HEAD:BONNe1704
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+  # There are no specific requirements for challenge ID format.
+  example_other_challenge:
+    # Name of the Challenge. If it is not present, name will be set to the challenge id.
+    # Supports ColorCodes.
+    name: "&2 Example Other Challenge"
+    # Icon for the Challenge
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    icon: EXPERIENCE_BOTTLE
+    # Each challenge can have an extra text in their lore that is only for this challenge.
+    # Text has its own Color Codes.
+    description: |-
+      &7 Description of other
+      &7 challenge
+    # This allows to set that challenge is completable by players. If challenge is not
+    # deployed, then players cannot complete it until deployed status is set to true.
+    deployed: true
+    # This allows to set the ordering of the challenges inside same level.
+    # If 2 challenges has the same order number, they will be ordered by their unique_id.
+    order: 0
+    # You can set that challenge is limited to a specific environment. Or leave it empty
+    # as it will indicate that challenge can be completed in every dimension.
+    # Supported values: NORMAL, NETHER, THE_END.
+    environments:
+      - NORMAL
+      - NETHER
+      - THE_END
+    # This option allows to auto-hide challenge after player completes it.
+    # It does not work for infinitely repeatable challenges.
+    remove-completed: false
+    # Type of the Challenge allows defining which requirements will be used.
+    # Challenge cannot exist without type or requirements.
+    # Each requirement has its own set of rules.
+    # Currently, addon has 4 types:
+    #    INVENTORY_TYPE - checks items in player inventory.
+    #    ISLAND_TYPE - checks for blocks or entities on player island.
+    #    OTHER_TYPE - checks different things like, experience, island level, balance.
+    #    STATISTIC_TYPE - checks specific player statistic value.
+    type: OTHER_TYPE
+    # Requirements are the section that defines what challenge will require to do.
+    requirements:
+      # All requirements supports to define a list of permissions that player must have.
+      # If permission is not set for the player, he will not be able to compete the
+      # challenge.
+      permissions:
+        - permission.value.1
+        - permission.value.2
+      # Indicate that experience will be removed after challenge completion.
+      take-experience: true
+      # How much experience points player must have. It is not an experience level, but a points.
+      experience: 10
+      # Indicate that money will be removed after challenge completion.
+      take-money: true
+      # How much money player must have.
+      money: 10.0
+      # Allows requesting specific minimal island level for challenge completion.
+      level: 10
+    # Rewards section allows defining what player will receive after completing challenge
+    # for the first time.
+    rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Some Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - STONE:6
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+    # Repeatable allows to define if challenge is repeatable or not.
+    # Repeat Rewards are stored only if repeatable is set to true.
+    repeatable: true
+    # Repeat times allow defining how many times challenge can be repeated.
+    # If the value is 0 or smaller, it means that challenge is not limited.
+    repeat-times: -1
+    # Repeat-rewards section allows defining what player will receive after completing challenge
+    # each repeating time.
+    repeat-rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Repeat Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - PLAYER_HEAD:BONNe1704
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+  # There are no specific requirements for challenge ID format.
+  example_statistic_challenge:
+    # Name of the Challenge. If it is not present, name will be set to the challenge id.
+    # Supports ColorCodes.
+    name: "&2 Example Statistic Challenge"
+    # Icon for the Challenge
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    icon: MAP:3
+    # Each challenge can have an extra text in their lore that is only for this challenge.
+    # Text has its own Color Codes.
+    description: |-
+      &7 Description of Statistic
+      &7 challenge
+    # This allows to set that challenge is completable by players. If challenge is not
+    # deployed, then players cannot complete it until deployed status is set to true.
+    deployed: true
+    # This allows to set the ordering of the challenges inside same level.
+    # If 2 challenges has the same order number, they will be ordered by their unique_id.
+    order: 0
+    # You can set that challenge is limited to a specific environment. Or leave it empty
+    # as it will indicate that challenge can be completed in every dimension.
+    # Supported values: NORMAL, NETHER, THE_END.
+    environments:
+      - NORMAL
+      - NETHER
+      - THE_END
+    # This option allows to auto-hide challenge after player completes it.
+    # It does not work for infinitely repeatable challenges.
+    remove-completed: false
+    # Type of the Challenge allows defining which requirements will be used.
+    # Challenge cannot exist without type or requirements.
+    # Each requirement has its own set of rules.
+    # Currently, addon has 4 types:
+    #    INVENTORY_TYPE - checks items in player inventory.
+    #    ISLAND_TYPE - checks for blocks or entities on player island.
+    #    OTHER_TYPE - checks different things like, experience, island level, balance.
+    #    STATISTIC_TYPE - checks specific player statistic value.
+    type: STATISTIC_TYPE
+    # Requirements are the section that defines what challenge will require to do.
+    requirements:
+      # All requirements supports to define a list of permissions that player must have.
+      # If permission is not set for the player, he will not be able to compete the
+      # challenge.
+      permissions:
+        - permission.value.1
+        - permission.value.2
+      # Statistic allows defining which stats thing must be checked. There are a lot of statistic
+      # items. You can find them all via: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Statistic.html
+      statistic: ANIMALS_BRED
+      # There are different types of statistics.
+      # Some requires items, some materials and others entities.
+      # With admin GUI there is separation for them. Here you just need to know which one requires
+      # which extra data.
+      # Entity accepts names from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      entity: CAW
+      # Indicate that money will be removed after challenge completion.
+      # Material accepts names from: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      material: STONE
+      # Allows defining how many things should be checked for the statistic field.
+      amount: 5
+      # Allows to set that statistic will be reduced after challenge completion.
+      reduce: false
+    # Rewards section allows defining what player will receive after completing challenge
+    # for the first time.
+    rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Some Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - STONE:6
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+    # Repeatable allows to define if challenge is repeatable or not.
+    # Repeat Rewards are stored only if repeatable is set to true.
+    repeatable: true
+    # Repeat times allow defining how many times challenge can be repeated.
+    # If the value is 0 or smaller, it means that challenge is not limited.
+    repeat-times: -1
+    # Repeat-rewards section allows defining what player will receive after completing challenge
+    # each repeating time.
+    repeat-rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Repeat Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - PLAYER_HEAD:BONNe1704
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+levels:
+  # Levels also must contain level-id as a name.
+  example_level:
+    # Name of the level. If it is not present, name will be set to the level id.
+    # Supports ColorCodes.
+    name: "&2 Example Level"
+    # Icon for the Level. Will be displayed only for unlocked levels.
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    icon: BOOK
+    # Locked level icon. Will be displayed if level is locked.
+    # It uses BentoBox ItemParser.
+    # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+    locked-icon: BOOK
+    # Each level can have an extra text in their lore that is only for this level.
+    # Text has its own Color Codes.
+    description: |-
+      &7 Description of Level
+    # This allows to set the ordering for levels.
+    # If 2 level has the same order number, they will be ordered by their unique_id.
+    order: 1
+    # This allows to set the how many challenges can be skipped to unlock next level.
+    # This will not affect level completion status. Players will still need complete
+    # every challenge to receive rewards.
+    waiver: 1
+    # Rewards section allows defining what player will receive after completing challenge
+    # for the first time.
+    rewards:
+      # The reward text is a message in challenge "lore" that will be specific for
+      # this challenge.
+      text: "&7 Some Reward Text"
+      # Items contains a list of rewards that player will receive.
+      # It uses BentoBox ItemParser.
+      # Write format can be found in: https://docs.bentobox.world/en/latest/BentoBox/ItemParser/
+      items:
+        - STONE:6
+      # Experience allows defining player experience that he will receive for
+      # completing the challenge.
+      experience: 5
+      # Money allows defining player money that he will receive for
+      # completing the challenge.
+      money: 1.6
+      # Commands contains a list of commands that will be executed after player
+      # completes a challenge.
+      # If command starts with `[SELF]` it will indicate that player will execute this command.
+      # The command supports [player] placeholder that will be replaced with a player name who
+      # completed the challenge.
+      # It is not necessary to writhe `/`.
+      # This examples first command will force player to execute `/island` command,
+      # While second command will run `/kill [player]` from the server console.
+      commands:
+        - island
+        - kill [player]
+    # Allows to define the list of challenges that will be linked to this level.
+    challenges:
+      - example_inventory_challenge
+      - example_island_challenge
+      - example_other_challenge
+      - example_statistic_challenge

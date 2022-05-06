@@ -7,12 +7,10 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.annotations.Expose;
@@ -81,6 +79,34 @@ public class InventoryRequirements extends Requirements
 	}
 
 
+	/**
+	 * Gets ignore meta data.
+	 *
+	 * @return the ignore meta data
+	 */
+	public Set<Material> getIgnoreMetaData()
+	{
+		if (this.ignoreMetaData == null)
+		{
+			// Fixes null-pointer, that should not be possible, but may be.
+			this.ignoreMetaData = new HashSet<>();
+		}
+
+		return this.ignoreMetaData;
+	}
+
+
+	/**
+	 * Sets ignore meta data.
+	 *
+	 * @param ignoreMetaData the ignore meta data
+	 */
+	public void setIgnoreMetaData(Set<Material> ignoreMetaData)
+	{
+		this.ignoreMetaData = ignoreMetaData;
+	}
+
+
 // ---------------------------------------------------------------------
 // Section: Other methods
 // ---------------------------------------------------------------------
@@ -100,12 +126,12 @@ public class InventoryRequirements extends Requirements
 
 
 	/**
-	 * Method Requirements#clone allows to clone Requirements object, to avoid changing content when it is necessary
+	 * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
 	 * to use it.
-	 * @return InventoryRequirements clone
+	 * @return InventoryRequirements copy
 	 */
 	@Override
-	public Requirements clone()
+	public Requirements copy()
 	{
 		InventoryRequirements clone = new InventoryRequirements();
 		clone.setRequiredPermissions(new HashSet<>(this.getRequiredPermissions()));
@@ -114,6 +140,7 @@ public class InventoryRequirements extends Requirements
 			map(ItemStack::clone).
 			collect(Collectors.toCollection(() -> new ArrayList<>(this.requiredItems.size()))));
 		clone.setTakeItems(this.takeItems);
+		clone.setIgnoreMetaData(new HashSet<>(this.ignoreMetaData));
 
 		return clone;
 	}
@@ -128,6 +155,12 @@ public class InventoryRequirements extends Requirements
 	 */
 	@Expose
 	private List<ItemStack> requiredItems = new ArrayList<>();
+
+	/**
+	 * Set of item stacks that should ignore metadata.
+	 */
+	@Expose
+	private Set<Material> ignoreMetaData = new HashSet<>();
 
 	/**
 	 * Boolean that indicate if challenge completion should remove items from inventory.

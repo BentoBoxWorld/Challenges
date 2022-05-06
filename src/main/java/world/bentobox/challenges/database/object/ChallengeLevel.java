@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.annotations.Expose;
 
@@ -13,7 +14,7 @@ import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.database.objects.Table;
-import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.managers.ChallengesManager;
 
 
 /**
@@ -100,7 +101,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     @ConfigComment("")
     @ConfigComment("Money reward. Economy plugin or addon required for this option.")
     @Expose
-    private int rewardMoney = 0;
+    private double rewardMoney = 0;
 
     @ConfigComment("")
     @ConfigComment("Commands to run when the player completes all challenges in current")
@@ -114,6 +115,10 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     @Expose
     private Set<String> challenges = new HashSet<>();
 
+    @ConfigComment("")
+    @ConfigComment("Set of materials which metadata can be ignored.")
+    @Expose
+    private Set<Material> ignoreRewardMetaData = new HashSet<>();
 
 // ---------------------------------------------------------------------
 // Section: Getters
@@ -236,7 +241,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * This method returns the rewardMoney value.
      * @return the value of rewardMoney.
      */
-    public int getRewardMoney()
+    public double getRewardMoney()
     {
         return rewardMoney;
     }
@@ -259,6 +264,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public Set<String> getChallenges()
     {
         return challenges;
+    }
+
+
+    /**
+     * Gets ignore reward meta data.
+     *
+     * @return the ignore reward meta data
+     */
+    public Set<Material> getIgnoreRewardMetaData()
+    {
+        return ignoreRewardMetaData;
     }
 
 
@@ -395,7 +411,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * @param rewardMoney the rewardMoney new value.
      *
      */
-    public void setRewardMoney(int rewardMoney)
+    public void setRewardMoney(double rewardMoney)
     {
         this.rewardMoney = rewardMoney;
     }
@@ -420,6 +436,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public void setChallenges(Set<String> challenges)
     {
         this.challenges = challenges;
+    }
+
+
+    /**
+     * Sets ignore reward meta data.
+     *
+     * @param ignoreRewardMetaData the ignore reward meta data
+     */
+    public void setIgnoreRewardMetaData(Set<Material> ignoreRewardMetaData)
+    {
+        this.ignoreRewardMetaData = ignoreRewardMetaData;
     }
 
 
@@ -449,7 +476,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(ChallengeLevel o)
+    public int compareTo(@NotNull ChallengeLevel o)
     {
         if (this.equals(o))
         {
@@ -501,12 +528,10 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
             return true;
         }
 
-        if (!(obj instanceof ChallengeLevel))
+        if (!(obj instanceof ChallengeLevel other))
         {
             return false;
         }
-
-        ChallengeLevel other = (ChallengeLevel) obj;
 
         if (uniqueId == null)
         {
@@ -542,8 +567,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
      * Clone method that returns clone of current challengeLevel.
      * @return ChallengeLevel that is cloned from current object.
      */
-    @Override
-    public ChallengeLevel clone()
+    public ChallengeLevel copy()
     {
         ChallengeLevel clone = new ChallengeLevel();
 
@@ -566,6 +590,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
             clone.setRewardMoney(this.rewardMoney);
             clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
             clone.setChallenges(new HashSet<>(this.challenges));
+            clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
         }
         catch (Exception e)
         {

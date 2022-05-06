@@ -1,9 +1,7 @@
 package world.bentobox.challenges.config;
 
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -13,15 +11,13 @@ import world.bentobox.bentobox.api.configuration.ConfigComment;
 import world.bentobox.bentobox.api.configuration.ConfigEntry;
 import world.bentobox.bentobox.api.configuration.ConfigObject;
 import world.bentobox.bentobox.api.configuration.StoreAt;
-import world.bentobox.bentobox.database.objects.adapters.Adapter;
-import world.bentobox.challenges.config.SettingsUtils.ChallengeLore;
 import world.bentobox.challenges.config.SettingsUtils.GuiMode;
-import world.bentobox.challenges.config.SettingsUtils.LevelLore;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
-import world.bentobox.challenges.database.object.adapters.ChallengeLoreAdapter;
-import world.bentobox.challenges.database.object.adapters.LevelLoreAdapter;
 
 
+/**
+ * The type Settings.
+ */
 @StoreAt(filename="config.yml", path="addons/Challenges")
 @ConfigComment("Challenges [version] Configuration")
 @ConfigComment("This config file is dynamic and saved when the server is shutdown.")
@@ -31,35 +27,58 @@ import world.bentobox.challenges.database.object.adapters.LevelLoreAdapter;
 public class Settings implements ConfigObject
 {
     @ConfigComment("")
-    @ConfigComment("Allows to define common challenges command that will open User GUI")
-    @ConfigComment("with all GameMode selection or Challenges from user world.")
-    @ConfigComment("This will not affect /{gamemode_user} challenges command.")
-    @ConfigEntry(path = "commands.user", needsRestart = true)
-    private String userCommand = "challenges c";
-
-    @ConfigComment("")
-    @ConfigComment("Allows to define common challenges command that will open Admin GUI")
-    @ConfigComment("with all GameMode selection.")
-    @ConfigComment("This will not affect /{gamemode_admin} challenges command.")
-    @ConfigEntry(path = "commands.admin", needsRestart = true)
-    private String adminCommand = "challengesadmin chadmin";
-
-    @ConfigComment("")
     @ConfigComment("This enables/disables common command that will be independent from")
     @ConfigComment("all GameModes. For admins it will open selection with all GameModes")
     @ConfigComment("(unless there is one), but for users it will open GUI that corresponds")
     @ConfigComment("to their world (unless it is specified other way in Admin GUI).")
-    @ConfigEntry(path = "commands.single-gui", needsRestart = true)
+    @ConfigComment("This means that writing `/[user_global]` will open Challenges GUI's")
+    @ConfigComment("and `/[admin_global]` will open Admin GUI's")
+    @ConfigEntry(path = "commands.global-command", needsRestart = true)
     private boolean useCommonGUI = false;
 
     @ConfigComment("")
-    @ConfigComment("This allows for admins to define which GUI will be opened for admins")
-    @ConfigComment("when users calls single-gui command.")
+    @ConfigComment("This allows to define which GUI will be opened when `single-gui` is enabled.")
+    @ConfigComment("This option is ignored if `single-gui` is disabled.")
     @ConfigComment("Acceptable values:")
     @ConfigComment("   - CURRENT_WORLD - will open GUI that corresponds to user location.")
     @ConfigComment("   - GAMEMODE_LIST - will open GUI with all installed game modes.")
-    @ConfigEntry(path = "commands.single-gamemode")
+    @ConfigEntry(path = "commands.global-view-mode")
     private GuiMode userGuiMode = GuiMode.CURRENT_WORLD;
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define a global challenges user command. This command will work")
+    @ConfigComment("only if `global-commands` is enabled. This allows to execute `/challenges`")
+    @ConfigComment("without referring to the gamemode.")
+    @ConfigEntry(path = "commands.player.global", needsRestart = true)
+    private String playerGlobalCommand = "challenges c";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define user command for opening challenges GUI's.")
+    @ConfigComment("Unlike `global` command, this requires to have gamemode player command before it.")
+    @ConfigComment("This will look like: `/[player_cmd] challenges`")
+    @ConfigEntry(path = "commands.player.main", needsRestart = true)
+    private String playerMainCommand = "challenges";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define complete command.")
+    @ConfigComment("This will look like: `/[player_cmd] challenges complete`")
+    @ConfigEntry(path = "commands.player.complete", needsRestart = true)
+    private String playerCompleteCommand = "complete";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define a global challenges admin command. This command will work")
+    @ConfigComment("only if `global-commands` is enabled. This allows to execute `/chadmin`")
+    @ConfigComment("without referring to the gamemode.")
+    @ConfigComment("Note, this must not be the same as user global command.")
+    @ConfigEntry(path = "commands.admin.global", needsRestart = true)
+    private String adminGlobalCommand = "challengesadmin chadmin";
+
+    @ConfigComment("")
+    @ConfigComment("Allows to define admin command for opening challenges GUI's.")
+    @ConfigComment("Unlike `global` command, this requires to have gamemode admin command before it.")
+    @ConfigComment("This will look like: `/[admin_cmd] challenges`")
+    @ConfigEntry(path = "commands.admin.main", needsRestart = true)
+    private String adminMainCommand = "challenges";
 
     @ConfigComment("")
     @ConfigComment("This indicate if player challenges data history will be stored or not.")
@@ -100,61 +119,9 @@ public class Settings implements ConfigObject
     private ItemStack lockedLevelIcon = new ItemStack(Material.BOOK);
 
     @ConfigComment("")
-    @ConfigComment("This indicate if free challenges must be at the start (true) or at the end (false) of list.")
-    @ConfigEntry(path = "gui-settings.free-challenges-first")
-    private boolean freeChallengesFirst = true;
-
-    @ConfigComment("")
-    @ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
-    @ConfigComment("owners may like it to be larger.")
-    @ConfigEntry(path = "gui-settings.lore-length")
-    private int loreLineLength = 25;
-
-    @ConfigComment("")
-    @ConfigComment("This string allows to change element order in Challenge description. Each letter represents")
-    @ConfigComment("one object from challenge description. If letter is not used, then its represented part")
-    @ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
-    @ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.challenge-description'.")
-    @ConfigComment("List of values and their meaning: ")
-    @ConfigComment(" - LEVEL - Level String: '*.level'")
-    @ConfigComment(" - STATUS - Status String: '*.completed'")
-    @ConfigComment(" - COUNT - Times String: '*.completed-times', '*.completed-times-of' or '*.maxed-reached'")
-    @ConfigComment(" - DESCRIPTION - Description String: defined in challenge object - challenge.description")
-    @ConfigComment(" - WARNINGS - Warning String: '*.warning-items-take', '*.objects-close-by', '*.warning-entities-kill', '*.warning-blocks-remove'")
-    @ConfigComment(" - ENVIRONMENT - Environment String: defined in challenge object - challenge.environment")
-    @ConfigComment(" - REQUIREMENTS - Requirement String: '*.required-level', '*.required-money', '*.required-experience' and items, blocks or entities")
-    @ConfigComment(" - REWARD_TEXT - Reward String: message that is defined in challenge.rewardTest and challenge.repeatRewardText")
-    @ConfigComment(" - REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward', '*.not-repeatable'")
-    @ConfigComment(" - REWARD_ITEMS - Reward Items: List of items that will be rewarded.")
-    @ConfigComment(" - REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.")
-    @ConfigComment("Requirement and reward items, blocks and entities that are defined in challenge and can be customized under 'challenges.gui.item-description.*'")
-    @ConfigEntry(path = "gui-settings.challenge-lore")
-    @Adapter(ChallengeLoreAdapter.class)
-    private List<ChallengeLore> challengeLoreMessage = Arrays.asList(ChallengeLore.values());
-
-    @ConfigComment("")
-    @ConfigComment("This string allows to change element order in Level description. Each letter represents")
-    @ConfigComment("one object from level description. If letter is not used, then its represented part")
-    @ConfigComment("will not be in description. If use any letter that is not recognized, then it will be")
-    @ConfigComment("ignored. Some strings can be customized via lang file under 'challenges.gui.level-description'.")
-    @ConfigComment("List of values and their meaning: ")
-    @ConfigComment(" - LEVEL_STATUS - Status String: '*.completed'")
-    @ConfigComment(" - CHALLENGE_COUNT - Count of completed challenges String: '*.completed-challenges-of'")
-    @ConfigComment(" - UNLOCK_MESSAGE - Description String: defined in level object - challengeLevel.unlockMessage")
-    @ConfigComment(" - WAIVER_AMOUNT - WaiverAmount String: '*.waver-amount'")
-    @ConfigComment(" - LEVEL_REWARD_TEXT - Reward String: message that is defined in challengeLevel.rewardText.")
-    @ConfigComment(" - LEVEL_REWARD_OTHER - Reward extra String: '*.experience-reward', '*.money-reward'")
-    @ConfigComment(" - LEVEL_REWARD_ITEMS - Reward Items: List of items that will be rewarded.")
-    @ConfigComment(" - LEVEL_REWARD_COMMANDS - Reward Commands: List of commands that will be rewarded.")
-    @ConfigComment("Reward items that are defined in challenge level and can be customized under 'challenges.gui.item-description.*'")
-    @ConfigEntry(path = "gui-settings.level-lore")
-    @Adapter(LevelLoreAdapter.class)
-    private List<LevelLore> levelLoreMessage = Arrays.asList(LevelLore.values());
-
-    @ConfigComment("")
     @ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
     @ConfigEntry(path = "store-island-data")
-    private boolean storeAsIslandData = false;
+    private boolean storeAsIslandData = true;
 
     @ConfigComment("")
     @ConfigComment("Reset Challenges - if this is true, player's challenges will reset when users")
@@ -204,17 +171,6 @@ public class Settings implements ConfigObject
 // ---------------------------------------------------------------------
 // Section: Getters
 // ---------------------------------------------------------------------
-
-
-    /**
-     * This method returns the challengeLoreMessage object.
-     * @return the challengeLoreMessage object.
-     */
-    public List<ChallengeLore> getChallengeLoreMessage()
-    {
-        return challengeLoreMessage;
-    }
-
 
     /**
      * This method returns the configVersion object.
@@ -272,35 +228,6 @@ public class Settings implements ConfigObject
 
 
     /**
-     * @return freeChallengesFirst value.
-     */
-    public boolean isFreeChallengesFirst()
-    {
-        return this.freeChallengesFirst;
-    }
-
-
-    /**
-     * This method returns the loreLineLength object.
-     * @return the loreLineLength object.
-     */
-    public int getLoreLineLength()
-    {
-        return loreLineLength;
-    }
-
-
-    /**
-     * This method returns the levelLoreMessage object.
-     * @return the levelLoreMessage object.
-     */
-    public List<LevelLore> getLevelLoreMessage()
-    {
-        return levelLoreMessage;
-    }
-
-
-    /**
      * This method returns the storeAsIslandData object.
      * @return the storeAsIslandData object.
      */
@@ -324,9 +251,42 @@ public class Settings implements ConfigObject
      * This method returns the userCommand value.
      * @return the value of userCommand.
      */
-    public String getUserCommand()
+    public String getPlayerGlobalCommand()
     {
-        return userCommand;
+        return playerGlobalCommand;
+    }
+
+
+    /**
+     * Gets main user command.
+     *
+     * @return the main user command
+     */
+    public String getPlayerMainCommand()
+    {
+        return playerMainCommand;
+    }
+
+
+    /**
+     * Gets complete user command.
+     *
+     * @return the complete user command
+     */
+    public String getPlayerCompleteCommand()
+    {
+        return playerCompleteCommand;
+    }
+
+
+    /**
+     * Gets main admin command.
+     *
+     * @return the main admin command
+     */
+    public String getAdminMainCommand()
+    {
+        return adminMainCommand;
     }
 
 
@@ -334,9 +294,9 @@ public class Settings implements ConfigObject
      * This method returns the adminCommand value.
      * @return the value of adminCommand.
      */
-    public String getAdminCommand()
+    public String getAdminGlobalCommand()
     {
-        return adminCommand;
+        return adminGlobalCommand;
     }
 
 
@@ -490,26 +450,6 @@ public class Settings implements ConfigObject
 
 
     /**
-     * This method sets the challengeLoreMessage object value.
-     * @param challengeLoreMessage the challengeLoreMessage object new value.
-     */
-    public void setChallengeLoreMessage(List<ChallengeLore> challengeLoreMessage)
-    {
-        this.challengeLoreMessage = challengeLoreMessage;
-    }
-
-
-    /**
-     * This method sets the levelLoreMessage object value.
-     * @param levelLoreMessage the levelLoreMessage object new value.
-     */
-    public void setLevelLoreMessage(List<LevelLore> levelLoreMessage)
-    {
-        this.levelLoreMessage = levelLoreMessage;
-    }
-
-
-    /**
      * @param resetChallenges new resetChallenges value.
      */
     public void setResetChallenges(boolean resetChallenges)
@@ -555,25 +495,6 @@ public class Settings implements ConfigObject
 
 
     /**
-     * @param freeChallengesFirst new freeChallengesFirst value.
-     */
-    public void setFreeChallengesFirst(boolean freeChallengesFirst)
-    {
-        this.freeChallengesFirst = freeChallengesFirst;
-    }
-
-
-    /**
-     * This method sets the loreLineLength object value.
-     * @param loreLineLength the loreLineLength object new value.
-     */
-    public void setLoreLineLength(int loreLineLength)
-    {
-        this.loreLineLength = loreLineLength;
-    }
-
-
-    /**
      * This method sets the storeAsIslandData object value.
      * @param storeAsIslandData the storeAsIslandData object new value.
      */
@@ -595,21 +516,54 @@ public class Settings implements ConfigObject
 
     /**
      * This method sets the userCommand value.
-     * @param userCommand the userCommand new value.
+     * @param playerGlobalCommand the userCommand new value.
      */
-    public void setUserCommand(String userCommand)
+    public void setPlayerGlobalCommand(String playerGlobalCommand)
     {
-        this.userCommand = userCommand;
+        this.playerGlobalCommand = playerGlobalCommand;
+    }
+
+
+    /**
+     * Sets main user command.
+     *
+     * @param playerMainCommand the main user command
+     */
+    public void setPlayerMainCommand(String playerMainCommand)
+    {
+        this.playerMainCommand = playerMainCommand;
+    }
+
+
+    /**
+     * Sets complete user command.
+     *
+     * @param playerCompleteCommand the complete user command
+     */
+    public void setPlayerCompleteCommand(String playerCompleteCommand)
+    {
+        this.playerCompleteCommand = playerCompleteCommand;
+    }
+
+
+    /**
+     * Sets main admin command.
+     *
+     * @param adminMainCommand the main admin command
+     */
+    public void setAdminMainCommand(String adminMainCommand)
+    {
+        this.adminMainCommand = adminMainCommand;
     }
 
 
     /**
      * This method sets the adminCommand value.
-     * @param adminCommand the adminCommand new value.
+     * @param adminGlobalCommand the adminCommand new value.
      */
-    public void setAdminCommand(String adminCommand)
+    public void setAdminGlobalCommand(String adminGlobalCommand)
     {
-        this.adminCommand = adminCommand;
+        this.adminGlobalCommand = adminGlobalCommand;
     }
 
 

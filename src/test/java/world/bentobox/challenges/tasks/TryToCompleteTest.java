@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,7 +36,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.BoundingBox;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +60,7 @@ import world.bentobox.bentobox.managers.LocalesManager;
 import world.bentobox.bentobox.managers.PlaceholdersManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
@@ -76,7 +76,7 @@ import world.bentobox.challenges.utils.Utils;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, Util.class, Utils.class})
+@PrepareForTest({Bukkit.class, BentoBox.class, Util.class, Utils.class, ChatColor.class})
 public class TryToCompleteTest {
 
     // Constants
@@ -85,17 +85,15 @@ public class TryToCompleteTest {
 
     private TryToComplete ttc;
     private Challenge challenge;
-    private @NonNull ChallengeLevel level;
     @Mock
     private ChallengesAddon addon;
     @Mock
     private User user;
     @Mock
     private World world;
-    private String topLabel = "island";
-    private String permissionPrefix = "perm.";
+    private final String topLabel = "island";
+    private final String permissionPrefix = "perm.";
 
-    private String levelName;
     @Mock
     private ChallengesManager cm;
     @Mock
@@ -114,18 +112,16 @@ public class TryToCompleteTest {
     private Settings settings;
     @Mock
     private WorldSettings mySettings;
-    private Map<String, Boolean> map;
     @Mock
     private @Nullable PlayerInventory inv;
-    private ItemStack[] contents = {};
+    private final ItemStack[] contents = {};
     @Mock
     private BoundingBox bb;
 
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Set up plugin
         Whitebox.setInternalState(BentoBox.class, "instance", plugin);
         when(addon.getPlugin()).thenReturn(plugin);
@@ -142,8 +138,8 @@ public class TryToCompleteTest {
         when(gameMode.getDescription()).thenReturn(desc2);
 
         // Challenge Level
-        level = new ChallengeLevel();
-        levelName = GAME_MODE_NAME + "_novice";
+        @NonNull ChallengeLevel level = new ChallengeLevel();
+        String levelName = GAME_MODE_NAME + "_novice";
         level.setUniqueId(levelName);
         level.setFriendlyName("Novice");
         // Set up challenge
@@ -153,7 +149,7 @@ public class TryToCompleteTest {
         challenge.setFriendlyName("name");
         challenge.setLevel(GAME_MODE_NAME + "_novice");
         challenge.setDescription(Collections.singletonList("A description"));
-        challenge.setChallengeType(ChallengeType.INVENTORY);
+        challenge.setChallengeType(ChallengeType.INVENTORY_TYPE);
         challenge.setDeployed(true);
         challenge.setIcon(new ItemStack(Material.EMERALD));
         challenge.setEnvironment(Collections.singleton(World.Environment.NORMAL));
@@ -175,6 +171,7 @@ public class TryToCompleteTest {
         Optional<GameModeAddon> optionalGameMode = Optional.of(gameMode);
         when(iwm.getAddon(any())).thenReturn(optionalGameMode);
         when(iwm.getIslandDistance(any())).thenReturn(400);
+        when(iwm.inWorld(any(World.class))).thenReturn(true);
 
         // Island Manager
         when(addon.getIslands()).thenReturn(im);
@@ -202,7 +199,11 @@ public class TryToCompleteTest {
         // User has all perms by default
         when(user.hasPermission(anyString())).thenReturn(true);
         when(user.getPlayer()).thenReturn(player);
-        when(user.getTranslation(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        UUID uniqueId = UUID.randomUUID();
+        when(user.getUniqueId()).thenReturn(uniqueId);
+        when(user.getTranslation(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslation(anyString(), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+        when(user.getTranslationOrNothing(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
         when(user.getName()).thenReturn("tastybento");
         @Nullable
         Location userLoc = mock(Location.class);
@@ -233,19 +234,19 @@ public class TryToCompleteTest {
         Map<UUID, String> online = new HashMap<>();
 
         Set<Player> onlinePlayers = new HashSet<>();
-        for (int j = 0; j < NAMES.length; j++) {
+        for (String name : NAMES) {
             Player p1 = mock(Player.class);
             UUID uuid2 = UUID.randomUUID();
             when(p1.getUniqueId()).thenReturn(uuid2);
-            when(p1.getName()).thenReturn(NAMES[j]);
-            online.put(uuid2, NAMES[j]);
+            when(p1.getName()).thenReturn(name);
+            online.put(uuid2, name);
             onlinePlayers.add(p1);
         }
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getOnlinePlayers()).then((Answer<Set<Player>>) invocation -> onlinePlayers);
 
         // World settings
-        map = new HashMap<>();
+        Map<String, Boolean> map = new HashMap<>();
         when(mySettings.getWorldFlags()).thenReturn(map);
         when(iwm.getWorldSettings(any())).thenReturn(mySettings);
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
@@ -253,13 +254,10 @@ public class TryToCompleteTest {
         // ItemFactory
         ItemFactory itemFactory = mock(ItemFactory.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
+        
+        // ChatColor
+        PowerMockito.mockStatic(ChatColor.class, Mockito.RETURNS_MOCKS);
+        when(ChatColor.stripColor(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
     }
 
     /**
@@ -284,7 +282,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringNotDeployed() {
         challenge.setDeployed(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-deployed");
+        verify(user).getTranslation("challenges.errors.not-deployed");
     }
 
     /**
@@ -294,7 +292,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringWrongWorld() {
         challenge.setUniqueId("test");
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("general.errors.wrong-world");
+        verify(user).getTranslation("general.errors.wrong-world");
     }
 
     /**
@@ -305,7 +303,7 @@ public class TryToCompleteTest {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-on-island");
+        verify(user).getTranslation("challenges.errors.not-on-island");
     }
 
     /**
@@ -316,7 +314,7 @@ public class TryToCompleteTest {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, false);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -326,7 +324,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringLevelNotUnlocked() {
         when(cm.isLevelUnlocked(any(), any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.challenge-level-not-available");
+        verify(user).getTranslation("challenges.errors.challenge-level-not-available");
     }
 
     /**
@@ -337,7 +335,7 @@ public class TryToCompleteTest {
         challenge.setRepeatable(false);
         when(cm.isChallengeComplete(any(User.class), any(), any())).thenReturn(true);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-repeatable");
+        verify(user).getTranslation("challenges.errors.not-repeatable");
     }
 
     /**
@@ -349,7 +347,7 @@ public class TryToCompleteTest {
         challenge.setMaxTimes(0);
         when(cm.getChallengeTimes(any(), any(), any(Challenge.class))).thenReturn(0L);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -359,7 +357,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringNoRank() {
         when(island.isAllowed(any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.no-rank");
+        verify(user).getTranslation("challenges.errors.no-rank");
     }
 
     /**
@@ -368,7 +366,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntZero() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 0));
-        verify(user).sendMessage("challenges.errors.not-valid-integer");
+        verify(user).getTranslation("challenges.errors.not-valid-integer");
     }
 
     /**
@@ -377,7 +375,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntNegative() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, -10));
-        verify(user).sendMessage("challenges.errors.not-valid-integer");
+        verify(user).getTranslation("challenges.errors.not-valid-integer");
     }
 
     /**
@@ -387,7 +385,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveWrongEnvinonment() {
         challenge.setEnvironment(Collections.singleton(Environment.NETHER));
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 100));
-        verify(user).sendMessage("challenges.errors.wrong-environment");
+        verify(user).getTranslation("challenges.errors.wrong-environment");
     }
 
     /**
@@ -400,7 +398,7 @@ public class TryToCompleteTest {
         when(user.hasPermission(anyString())).thenReturn(false);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 100));
-        verify(user).sendMessage("general.errors.no-permission");
+        verify(user).getTranslation("general.errors.no-permission");
     }
 
     /**
@@ -409,7 +407,7 @@ public class TryToCompleteTest {
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccess() {
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -421,7 +419,7 @@ public class TryToCompleteTest {
         req.setRequiredItems(Collections.singletonList(new ItemStack(Material.EMERALD_BLOCK)));
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.not-enough-items", "[items]", "Emerald Block");
+        verify(user).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.emerald_block");
     }
 
     /**
@@ -456,9 +454,9 @@ public class TryToCompleteTest {
 
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         // Sufficient emerald blocks
-        verify(user, never()).sendMessage("challenges.errors.not-enough-items", "[items]", "Emerald Block");
+        verify(user, never()).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.emerald_block");
         // Not enough books
-        verify(user).sendMessage("challenges.errors.not-enough-items", "[items]", "Enchanted Book");
+        verify(user).getTranslation("challenges.errors.not-enough-items", "[items]", "challenges.materials.enchanted_book");
     }
 
     /**
@@ -468,7 +466,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
         when(player.getGameMode()).thenReturn(GameMode.CREATIVE);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -476,7 +474,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandBBTooLarge() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
         challenge.setRequirements(req);
@@ -493,12 +491,12 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccessNoEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
 
     }
 
@@ -507,14 +505,14 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = Collections.singletonMap(EntityType.GHAST, 3);
         req.setRequiredEntities(requiredEntities);
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
 
     }
 
@@ -523,7 +521,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.GHAST, 3);
@@ -533,9 +531,9 @@ public class TryToCompleteTest {
         req.setSearchRadius(1);
         challenge.setRequirements(req);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "5", "[item]", "challenges.entities.chicken.name");
 
     }
 
@@ -544,7 +542,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.GHAST, 3);
@@ -560,9 +558,9 @@ public class TryToCompleteTest {
         List<Entity> list = Collections.singletonList(ent);
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "3", "[item]", "Ghast");
-        verify(user, never()).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "5", "[item]", "Chicken");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "3", "[item]", "challenges.entities.ghast.name");
+        verify(user, never()).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "5", "[item]", "challenges.entities.chicken.name");
 
     }
 
@@ -571,7 +569,7 @@ public class TryToCompleteTest {
      */
     @Test
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -585,7 +583,7 @@ public class TryToCompleteTest {
         List<Entity> list = Collections.singletonList(ent);
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.messages.you-completed-challenge", "[value]", "name");
+        verify(user).getTranslation("challenges.messages.you-completed-challenge", "[value]", "name");
     }
 
     /**
@@ -598,7 +596,7 @@ public class TryToCompleteTest {
         when(user.getWorld()).thenReturn(netherWorld);
         when(netherWorld.getName()).thenReturn("world_nether");
         when(netherWorld.getEnvironment()).thenReturn(Environment.NETHER);
-        challenge.setChallengeType(ChallengeType.ISLAND);
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = new HashMap<>();
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -613,7 +611,7 @@ public class TryToCompleteTest {
         when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(list);
         when(netherWorld.getNearbyEntities(any(BoundingBox.class))).thenReturn(Collections.emptyList());
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).sendMessage("challenges.errors.you-still-need", "[amount]", "1", "[item]", "Pufferfish");
+        verify(user).getTranslation("challenges.errors.you-still-need", "[amount]", "1", "[item]", "challenges.entities.pufferfish.name");
     }
 
     /**
@@ -623,7 +621,7 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringIntMultipleTimesPositiveSuccess() {
         // Try to complete 10 times. Already done 3 times, and max is 10, so it should be only done 7 times
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 10));
-        verify(user).sendMessage("challenges.messages.you-repeated-challenge-multiple", "[value]", "name", "[count]", "7");
+        verify(user).getTranslation("challenges.messages.you-repeated-challenge-multiple", "[value]", "name", "[count]", "7");
     }
 
     /**

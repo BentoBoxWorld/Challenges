@@ -6,17 +6,20 @@ import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.ChallengesManager;
+import world.bentobox.challenges.managers.ChallengesManager;
+import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class allows to reload challenges addon.
+ * This class allows reloading challenges addon.
  */
 public class ReloadChallenges extends CompositeCommand
 {
     /**
-     * Admin command to reloads challenges addon.
-     * @param parent
+     * Instantiates a new Reload challenges command.
+     *
+     * @param addon the addon
+     * @param parent the parent
      */
     public ReloadChallenges(Addon addon, CompositeCommand parent)
     {
@@ -46,13 +49,13 @@ public class ReloadChallenges extends CompositeCommand
         if (args.isEmpty())
         {
             this.manager.load();
-            user.sendMessage("general.success");
+            Utils.sendMessage(user, user.getTranslation("general.success"));
             return true;
         }
         else if (args.get(0).equalsIgnoreCase("hard"))
         {
             this.manager.reload();
-            user.sendMessage("general.success");
+            Utils.sendMessage(user, user.getTranslation("general.success"));
             return true;
         }
         else
@@ -68,5 +71,8 @@ public class ReloadChallenges extends CompositeCommand
     // ---------------------------------------------------------------------
 
 
-    private ChallengesManager manager;
+    /**
+     * Addon Manager instance.
+     */
+    private final ChallengesManager manager;
 }

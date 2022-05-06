@@ -51,20 +51,18 @@ public class TryToCompleteTestOld {
     };
     List<ItemStack> required;
     private ChallengesAddon addon;
-    private PlayerInventory inv;
 
     /**
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Server server = mock(Server.class);
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getServer()).thenReturn(server);
         when(Bukkit.getBukkitVersion()).thenReturn("1.13.2");
 
         user = mock(User.class);
-        inv = mock(PlayerInventory.class);
+        PlayerInventory inv = mock(PlayerInventory.class);
         when(inv.getContents()).thenReturn(stacks);
         when(user.getInventory()).thenReturn(inv);
         addon = mock(ChallengesAddon.class);
