@@ -39,7 +39,7 @@ public class ChallengesGlobalPlayerCommand extends CompositeCommand
 	public void setup()
 	{
 		this.setOnlyPlayer(true);
-		this.setPermission("addon.challenges");
+		this.setPermission("challenges");
 		this.setParametersHelp("challenges.commands.user.main.parameters");
 		this.setDescription("challenges.commands.user.main.description");
 	}
