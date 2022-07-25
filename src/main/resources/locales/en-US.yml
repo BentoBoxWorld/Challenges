@@ -1189,7 +1189,7 @@ challenges:
         not-enough-money: '&c It is necessary to have [value] on your account to complete the challenge.'
         not-enough-experience: '&c It is necessary to have [value] EXP to complete this challenge.'
         island-level: '&c Your island must be level [number] or greater to complete this challenge!'
-        no-load: '&c Error: Could not load file. [message]'
+        no-load: '&c Error: Could not load [file]. Error [message]'
         load-error: '&c Error: Cannot load [value].'
         no-rank: "&c You do not have rank that is high enough to do that."
         cannot-remove-items: '&c Some items cannot be removed from your inventory!'
