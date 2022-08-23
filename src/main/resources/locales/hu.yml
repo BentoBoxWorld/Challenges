@@ -22,7 +22,8 @@ challenges:
         description: A jelenlegi játékvilág migrálása 0.8.0 tárolási formátumba próbálja
           ki az adatokat.
     user:
-      main: {}
+      main:
+        description: Megnyitja a küldetéseket
       complete:
         description: Teljes kihívás.
         parameters: "<challenge_id> [count]"
