@@ -25,18 +25,36 @@ challenges:
       migrate:
         description: Migruj aktualne wyzwania świata gry do formatu pamięci 0.8.0.
     user:
-      main: {}
+      main:
+        description: Otwórz GUI wyzwań.
       complete:
         description: Ukończ wyzwanie.
         parameters: "<challenge_id> [ilość]"
   gui:
     titles:
+      admin-gui: "&0&l Wyzwania - Menu administratora"
       edit-challenge: "&0&l Edytuj [challenge]"
       edit-level: "&0&l Edytuj [level]"
+      settings: "&0&l Ustawienia"
       library: "&0&l Biblioteka"
+      manage-entities: "&0&l Zarządzaj bytami"
+      type-selector: "&0&l Selektor typu wyzwania"
+      item-selector: "&0&l Selektor przedmiotu"
+      block-selector: "&0&l Selektor bloku"
+      entity-selector: "&0&l Selektor bytów"
+      challenge-selector: "&0&l Selektor wyzwań"
+      environment-selector: "&0&l Selektor środowiska"
     buttons:
-      free-challenges: {}
-      return: {}
+      free-challenges:
+        name: "&f&l Wyzwania bez kategorii"
+        description: |-
+          &7 Wyświetla listę
+          &7 wyzwań, które nie
+          &7 mają kategorii
+      return:
+        description: |-
+          &7 Powrót do poprzedniego menu
+          &7 lub wyjście z GUI
       previous: {}
       next:
         description: "&7 Przełącz na &e [number] &7 stronę"
@@ -45,18 +63,40 @@ challenges:
       increase:
         description: "&7 Zwiększenie o &e [number]"
       accept:
+        name: "&f&l Ukończono"
         description: |-
           &7 Ukończ wyzwanie &e [number]
           &7 razy(-y)
-      quit: {}
-      complete_user_challenges: {}
-      reset_user_challenges: {}
+      quit:
+        name: "&f&l Wyjdź"
+      complete_user_challenges:
+        description: "&7 Pozwala wybrać użytkownika i\n&7 zakończyć wyzwanie(-a) \n&7
+          za niego"
+      reset_user_challenges:
+        description: |-
+          &7 Pozwala wybrać użytkownika i
+          &7 zresetować jego wyzwania
       add_challenge: {}
-      add_level: {}
-      edit_challenge: {}
-      edit_level: {}
-      delete_challenge: {}
-      delete_level: {}
+      add_level:
+        description: |-
+          &7 Rozpoczyna proces
+          &7 tworzenia nowego poziomu.
+      edit_challenge:
+        description: |-
+          &7 Pozwala wybrać i
+          &7 edytować wyzwanie.
+      edit_level:
+        description: |-
+          &7 Pozwala wybrać i
+          &7 edytować poziom.
+      delete_challenge:
+        description: |-
+          &7 Pozwala wybrać i
+          &7 usunąć wyzwanie.
+      delete_level:
+        description: |-
+          &7 Pozwala wybrać i
+          &7 usunąć poziom.
       edit_settings: {}
       complete_wipe:
         description: |-
@@ -64,24 +104,52 @@ challenges:
           &7 zadań, w tym
           &7 dane użytkownika.
       challenge_wipe: {}
-      user_wipe: {}
-      library: {}
+      user_wipe:
+        description: |-
+          &7 Całkowicie czyści dane
+          &7 użytkownika z bazy danych.
+      library:
+        description: |-
+          &7 Otwiera publiczną
+          &7 bibliotekę wyzwań.
       import_database:
         description: |-
           &7 Pozwala na import i eksport
           &7 bazy wyzwań.
-      import_template: {}
-      export_challenges: {}
+      import_template:
+        description: "&7 Pozwala zaimportować \n&7 szablon z wyzwaniami."
+      export_challenges:
+        name: "&f&l Eksport wyzwań"
       properties: {}
-      requirements: {}
+      requirements:
+        description: "&7 Wyświetla wymagania."
       rewards: {}
-      deployed: {}
+      deployed:
+        description: |-
+          &7 Przełącz, jeśli wyzwanie jest
+          &7 skończone i użytkownicy
+          &7 mogą je wykonywać.
       name:
+        description: |-
+          &7 Pozwala na zmianę
+          &7 wyświetlanej nazwy.
         value: "&7 Obecnie: &r [name]"
-      remove_on_complete: {}
-      description: {}
-      environment: {}
+      remove_on_complete:
+        description: |-
+          &7 Przełącz, jeśli wyzwanie
+          &7 powinno być ukryte przed
+          &7 graczem po zakończeniu.
+      description:
+        description: |-
+          &7 Szczegółowy opis
+          &7 wyzwania. Można użyć
+          &7 kolorów.
+      environment:
+        name: "&f&l Świat"
+        description: "&7 Pozwala ograniczyć, w \n&7 których światach wyzwanie\n&7
+          można ukończyć."
       order:
+        name: "&f&l Kolejność"
         description: |-
           &7 Pozwala zmienić kolejność
           &7 obiektów.
@@ -89,22 +157,71 @@ challenges:
           &7 zostaną ułożone zgodnie
           &7 z ich systemowym ID
         value: "&7 Bieżąca kolejność: &e [number]"
-      icon: {}
-      locked_icon: {}
-      required_permissions: {}
-      remove_entities: {}
+      icon:
+        name: "&f&l Ikona"
+      locked_icon:
+        description: |-
+          &7 Pozwala zmienić ikonę
+          &7 zablokowanego poziomu.
+      required_permissions:
+        description: |-
+          &7 Pozwala na zmianę
+          &7 wymaganej permisji
+          &7 do tego wyzwania.
+          &7 (aby zostało zakończone)
+        permission: " &8 - [permisja]"
+        none: "&7 Permisje nie są ustawione."
+      remove_entities:
+        description: |-
+          &7 Pozwala na przełączanie:
+          &7 Wymagany byt zostanie
+          &7 usunięty ze świata po
+          &7 ukończeniu wyzwania.
       required_entities:
+        name: "&f&l Wymagane byty"
+        description: |-
+          &7 Pozwala na zmianę
+          &7 wymaganych bytów,
+          &7 aby zakończyć wyzwanie.
+        title: "&7 Byty:"
         list: " &8 - [number] x [entity]"
-      remove_blocks: {}
+        none: "&7 Byty nie są dodawane."
+      remove_blocks:
+        description: |-
+          &7 Pozwala na przełączanie:
+          &7 Wymagane bloki zostaną
+          &7 usunięte z wyspy po
+          &7 zakończeniu wyzwania.
       required_blocks:
+        description: "&7 Pozwala na zmianę \n&7 wymaganych bloków\n&7 do tego wyzwania."
+        title: "&7 Bloki:"
         list: " &8 - [number] x [block]"
+        none: "&7 Bloki nie są dodane."
       search_radius:
+        description: |-
+          &7 Pozwala zmienić promień
+          &7 wokół gracza, gdzie bloki
+          &7 oraz byty zostaną wykryte.
         value: "&7 Aktualna odległość: &e [number]"
-      remove_items: {}
+      remove_items:
+        name: "&f&l Usuń przedmioty"
+        description: |-
+          &7 Pozwala na przełączanie:
+          &7 Wymagane przedmioty
+          &7 zostaną usunięte z
+          &7 ekwipunku po zakończeniu
+          &7 wyzwania.
       required_items:
+        name: "&f&l Wymagane przedmioty"
+        description: "&7 Pozwala na zmianę \n&7 wymaganych przedmiotów \n&7 do tego
+          wyzwania."
         list: " &8 - [number] x [item]"
+        none: "&7 Przedmioty nie są dodane."
       add_ignored_meta:
+        description: "&7 Pozwala dodać, w których\n&7 przedmiotach należy \n&7 zignorować
+          wszelkie\n&7 metadane, które zostały\n&7 do nich przypisane."
         list: " &8 - [number] x [item]"
+        none: "&7 Przedmioty nie są dodane."
       remove_ignored_meta:
         description: |-
           &7 Pozwala usunąć na której
