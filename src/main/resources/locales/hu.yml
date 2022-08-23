@@ -1064,6 +1064,7 @@ challenges:
     island-level: "& c A szigetnek [szám] szintnek vagy magasabbnak kell lennie a
       kihívás teljesítéséhez!"
     no-load: "& c Hiba: Nem sikerült betölteni a fájlt. [üzenet]"
+    load-error: "& c Hiba: Nem lehet betölteni az [value] értéket."
     no-rank: "& c Nincs elég magas rangod ahhoz."
     cannot-remove-items: "& c Néhány elem nem távolítható el a készletből!"
     exist-challenges-or-levels: "& c A világban már léteznek kihívások. Nem lehet
