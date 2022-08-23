@@ -1,0 +1,152 @@
+---
+meta:
+  authors:
+  - 
+challenges:
+  commands:
+    admin:
+      main:
+        description: Elsődleges admin parancs. Megnyitja a GUI-t
+      reload: {}
+      show: {}
+      complete:
+        parameters: "<player> <challenge_id>"
+      reset:
+        parameters: "<player> <challenge_id>"
+      migrate: {}
+    user:
+      main: {}
+      complete:
+        parameters: "<challenge_id> [count]"
+  gui:
+    titles: {}
+    buttons:
+      free-challenges: {}
+      return: {}
+      previous: {}
+      next: {}
+      reduce: {}
+      increase: {}
+      accept: {}
+      quit: {}
+      complete_user_challenges: {}
+      reset_user_challenges: {}
+      add_challenge: {}
+      add_level: {}
+      edit_challenge: {}
+      edit_level: {}
+      delete_challenge: {}
+      delete_level: {}
+      edit_settings: {}
+      complete_wipe: {}
+      challenge_wipe: {}
+      user_wipe: {}
+      library: {}
+      import_database: {}
+      import_template: {}
+      export_challenges: {}
+      properties: {}
+      requirements: {}
+      rewards: {}
+      deployed: {}
+      name: {}
+      remove_on_complete: {}
+      description: {}
+      environment: {}
+      order: {}
+      icon: {}
+      locked_icon: {}
+      required_permissions: {}
+      remove_entities: {}
+      required_entities: {}
+      remove_blocks: {}
+      required_blocks: {}
+      search_radius: {}
+      remove_items: {}
+      required_items: {}
+      add_ignored_meta: {}
+      remove_ignored_meta: {}
+      remove_experience: {}
+      required_experience: {}
+      required_level: {}
+      remove_money: {}
+      required_money: {}
+      statistic: {}
+      statistic_amount: {}
+      remove_statistic: {}
+      statistic_blocks: {}
+      statistic_items: {}
+      statistic_entities: {}
+      reward_text: {}
+      repeat_reward_text: {}
+      reward_items: {}
+      repeat_reward_items: {}
+      reward_experience: {}
+      repeat_reward_experience: {}
+      reward_money: {}
+      repeat_reward_money: {}
+      reward_commands: {}
+      repeat_reward_commands: {}
+      repeatable: {}
+      repeat_count: {}
+      cool_down: {}
+      challenges: {}
+      waiver_amount: {}
+      add_challenges: {}
+      remove_challenges: {}
+      reset_on_new: {}
+      broadcast: {}
+      remove_completed: {}
+      glow_completed: {}
+      store_history: {}
+      data_per_island: {}
+      show_title: {}
+      gamemode_gui: {}
+      locked_level_icon: {}
+      purge_history: {}
+      title_showtime: {}
+      active_world_list: {}
+      visibility_mode: {}
+      download: {}
+      player: {}
+      player_list: {}
+      add_block: {}
+      remove_block: {}
+      material: {}
+      add_entity: {}
+      switch_entity: {}
+      remove_entity: {}
+      entity: {}
+      inventory_type: {}
+      island_type: {}
+      other_type: {}
+      statistic_type: {}
+      save: {}
+      cancel: {}
+      accept_selected: {}
+      statistic_element: {}
+      environment_element: {}
+      search: {}
+    tips: {}
+    descriptions:
+      challenge:
+        status: {}
+        cooldown: {}
+        requirements:
+          island: {}
+          inventory: {}
+          other: {}
+          statistic: {}
+        rewards: {}
+      level:
+        status: {}
+        rewards: {}
+      library: {}
+  conversations: {}
+  titles: {}
+  messages: {}
+  errors: {}
+protection:
+  flags:
+    CHALLENGES_ISLAND_PROTECTION: {}
+    CHALLENGES_WORLD_PROTECTION: {}
