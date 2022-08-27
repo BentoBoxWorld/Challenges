@@ -8,10 +8,7 @@ challenges:
       main:
         description: Główna komenda Administratora. Otwiera GUI.
       reload:
-        description: |2-
-
-          Załaduj ponownie wyzwania z bazy danych
-          Parameter hard oznacza, że ​​wyzwania  zresetują połączenie z bazą danych.
+        description: Odświeżenie zadań z bazy danych
       show:
         description: Wyświetla wszystkie wyzwania na czacie, które istnieją na tym
           świecie.
@@ -233,7 +230,7 @@ challenges:
           &7 do tego wyzwania.
           &7 (aby zostało zakończone)
         title: "&7 Uprawnienia:"
-        permission: " &8 - [permisja]"
+        permission: " &8 - [permission]"
         none: "&7 Permisje nie są ustawione."
       remove_entities:
         name: "&f&l Usuń elementy"
@@ -998,8 +995,8 @@ challenges:
     no-name: "&cNieprawidłowa nazwa wyzwania"
     unknown-challenge: "&cNieznane wyzwanie"
     not-valid-integer: |-
-      &c Podana liczba całkowita „[value]” jest nieprawidłowa!
-      Wartość powinna zawierać się w przedziale od [min] do [max].
+      &c Podana liczba całkowita "[value]" jest nieprawidłowa!
+      Wartość powinna mieścić się w zakresie od [min] do [maks].
     not-deployed: "&c Challenge nie został wdrożony!"
     not-on-island: "&cMusisz być na swojej wyspie by to zrobic!"
     challenge-level-not-available: "&c  Nie odblokowałeś wymaganego poziomu, aby ukończyć
