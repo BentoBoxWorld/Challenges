@@ -1,0 +1,381 @@
+---
+meta:
+  authors:
+  - |-
+    BONNe
+    Tradução por: MojangProgrammer
+challenges:
+  commands:
+    admin:
+      main:
+        description: "Comando administrativo principal. \nAbre o GUI."
+      reload:
+        description: Recarregar desafios a partir da base de dados
+      show: {}
+      complete: {}
+      reset: {}
+      migrate: {}
+    user:
+      main:
+        description: Abrir menu de Desafios
+      complete:
+        description: Desafio completo.
+        parameters: "<challenge_id> [count]"
+  gui:
+    titles:
+      player-gui: "&0&lMenu de Desafios"
+      gamemode-gui: "&0&lSeleccionar GameMode"
+      edit-level: "&0&l Editar [level]"
+    buttons:
+      free-challenges: {}
+      return: {}
+      previous:
+        name: "&f&lPágina Anterior"
+        description: "&7 Mudar para &e [number] &7 página"
+      next:
+        description: "&7 Mudar para &e [number] &7 página"
+      reduce:
+        name: "&f&lReduzir"
+        description: "&7 Reduzir por &e [number]"
+      increase:
+        description: "&7 Aumento de &e [number]"
+      accept:
+        description: |-
+          &7 Completar desafio &e [number]
+          &7 vezes(-s)
+      quit: {}
+      complete_user_challenges: {}
+      reset_user_challenges: {}
+      add_challenge: {}
+      add_level: {}
+      edit_challenge:
+        name: "&f&lEditar Desafio"
+      edit_level: {}
+      delete_challenge: {}
+      delete_level: {}
+      edit_settings: {}
+      complete_wipe: {}
+      challenge_wipe: {}
+      user_wipe: {}
+      library: {}
+      import_database: {}
+      import_template: {}
+      export_challenges: {}
+      properties: {}
+      requirements: {}
+      rewards: {}
+      deployed: {}
+      name:
+        value: "&7 Atualmente: &r [name]"
+      remove_on_complete: {}
+      description: {}
+      environment: {}
+      order:
+        value: "&7 Ordem atual: &e [number]"
+      icon: {}
+      locked_icon: {}
+      required_permissions:
+        permission: " &8 - [permission]"
+      remove_entities: {}
+      required_entities:
+        list: " &8 - [number] x [entity]"
+      remove_blocks: {}
+      required_blocks:
+        list: " &8 - [number] x [block]"
+      search_radius:
+        value: "&7 Distância atual: &e [number]"
+      remove_items: {}
+      required_items: {}
+      add_ignored_meta:
+        list: " &8 - [number] x [item]"
+      remove_ignored_meta: {}
+      remove_experience: {}
+      required_experience:
+        value: "&7 Experiência atual: &e [number]"
+      required_level:
+        value: "&7 Nível atual: &e [number]"
+      remove_money: {}
+      required_money:
+        value: "&7 Valor atual: &e [number]"
+      statistic:
+        value: "&7 Valor atual: &e [statistic]"
+      statistic_amount:
+        value: "&7 Valor atual: &e [number]"
+      remove_statistic: {}
+      statistic_blocks:
+        value: "&7 Bloco atual: &e [block]"
+      statistic_items: {}
+      statistic_entities:
+        value: "&7 Entidade atual: &e [entity]"
+      reward_text: {}
+      repeat_reward_text: {}
+      reward_items:
+        list: " &8 - [number] x [item]"
+      repeat_reward_items:
+        list: " &8 - [number] x [item]"
+      reward_experience:
+        value: "&7 Experiência de recompensa: &e [number]"
+      repeat_reward_experience:
+        value: "&7 Experiência de recompensa: &e [number]"
+      reward_money:
+        value: "&7 Valor atual: &e [number]"
+      repeat_reward_money:
+        value: "&7 Valor atual: &e [number]"
+      reward_commands:
+        description: |-
+          &7 Os comandos de recompensa específicos.
+          &8 Dica:
+          &8 O comando não requer
+          &8 escrevendo primeiro `/` como será
+          &8 ser aplicado automaticamente.
+          &8 Por padrão, os comandos serão
+          &8 executado pelo servidor. No entanto
+          &8 adicionando `[SELF]` no início
+          &8 permitirá que o comando seja
+          &8 executado pelo jogador. Isso também
+          &8 suporta um marcador de posição
+          &8 `[player]` que será
+          &8 substituído por um nome de jogador
+          &8 que completaram o desafio.
+      repeat_reward_commands:
+        description: |-
+          &7 A recompensa de repetição específica
+          &7 comandos para o desafio.
+          &8 Dica:
+          &8 O comando não requer
+          &8 escrevendo primeiro `/` como será
+          &8 ser aplicado automaticamente.
+          &8 Por padrão, os comandos serão
+          &8 executado pelo servidor. No entanto
+          &8 adicionando `[SELF]` no início
+          &8 permitirá que o comando seja
+          &8 executado pelo jogador. Isso também
+          &8 suporta um marcador de posição
+          &8 `[player]` que será
+          &8 substituído por um nome de jogador
+          &8 que completaram o desafio.
+      repeatable: {}
+      repeat_count:
+        value: "&7 Valor atual: &e [number]"
+      cool_down:
+        value: "&7 Valor atual: &e [time]"
+      challenges: {}
+      waiver_amount:
+        value: "&7 Valor atual: &e [number]"
+      add_challenges: {}
+      remove_challenges: {}
+      reset_on_new: {}
+      broadcast: {}
+      remove_completed: {}
+      glow_completed:
+        name: "&f&lBrilho concluído"
+      store_history: {}
+      data_per_island: {}
+      show_title: {}
+      gamemode_gui: {}
+      locked_level_icon: {}
+      purge_history:
+        value: "&7 Valor atual: &e [number]"
+      title_showtime:
+        value: "&7 Valor atual: &e [number]"
+      active_world_list: {}
+      visibility_mode: {}
+      download: {}
+      player:
+        name: "&f&l [name]"
+        member: "&8 - [name]"
+      player_list: {}
+      add_block: {}
+      remove_block:
+        material: "&8 - [material]"
+      material: {}
+      add_entity: {}
+      switch_entity: {}
+      remove_entity:
+        entity: "&8 - [entity]"
+      entity:
+        name: "&f&l [entity]"
+      inventory_type: {}
+      island_type: {}
+      other_type: {}
+      statistic_type: {}
+      save: {}
+      cancel: {}
+      accept_selected:
+        element: "&8 - [element]"
+      statistic_element:
+        name: "&f&l [statistic]"
+        description: "[description]"
+      environment_element:
+        name: "&f&l [environment]"
+        description: "[description]"
+      search:
+        search: "&b Valor: [value]"
+    tips:
+      click-to-complete: "&eClique &7para concluir."
+    descriptions:
+      challenge:
+        lore: |-
+          [description]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
+        status:
+          completed-times: "&2 Concluído &7&l [number] &r&2 vezes(-s)"
+          completed-times-of: "&2 Concluído &7&l [number] &r&2 de &7&l [máx.] &r&2
+            vezes"
+        cooldown:
+          lore: |-
+            [timeout]
+            [wait-time]
+          timeout: "&7&l Resfriamento: &r&7 [time]"
+          wait-time: "&c&l Disponível após: &r&c [time]"
+          in-days: "[number] d"
+          in-hours: "[number] h"
+          in-seconds: "[number] s"
+        requirements:
+          lore: |-
+            [environment]
+            [type-requirement]
+            [permissions]
+          environment-single: "&7 Limitado a [environment]"
+          environment-list: "  &7 - &e [environment]"
+          permissions-list: "  &c - [permission]"
+          island:
+            lore: |-
+              [blocks]
+              [entities]
+              [search-radius]
+              [warning-block]
+              [warning-entity]
+            blocks-value: "  &7 - &e [number] x [material]"
+            entity-value: "  &7 - &e [entity]"
+            entities-value: "  &7 - &e [number] x [entity]"
+            search-radius: "&7 Não além de &e [number] &7 metros"
+          inventory:
+            lore: |-
+              [Items]
+              [warning]
+            items-value: "  &7 - &e [number] x [item]"
+          other:
+            lore: |-
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
+            experience: "&7&l Experiência necessária: &r&e [number]"
+            money: "&7&l Dinheiro necessário: &r&e [number]"
+            level: "&7&l Nível de ilha necessário: &r&e [number]"
+          statistic:
+            lore: |-
+              [statistic]
+              [warning]
+            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
+            single-target: "&7&l [statistic]: &r&e [target]"
+            statistic: "&7&l [statistic] &r&e [number]"
+        rewards:
+          lore: |-
+            &7&l Recompensas:
+            [text]
+            [Items]
+            [experience]
+            [money]
+            [commands]
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Experiência: &r&e [number]"
+          money: "&7 Dinheiro: &r&e [number]"
+          command: "  &7 - &e [command]"
+      level:
+        lore: |-
+          [text]
+          [status]
+          [waiver]
+          [rewards]
+        status:
+          completed-challenges-of: |-
+            &2 Concluído &7&l [number] &r&2 de
+            &7&l [max] &r&2 desafios.
+        waiver: |-
+          &7&l [number] desafio(-s) &r&7 pode ser
+          &7 pulou para desbloquear o próximo nível.
+        rewards:
+          lore: |-
+            &7&l Recompensas:
+            [text]
+            [Items]
+            [experience]
+            [money]
+            [commands]
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Experiência: &r&e [number]"
+          money: "&7 Dinheiro: &r&e [number]"
+          command: "  &7 - &e [command]"
+      library:
+        author: "&7 por &e [author]"
+        version: "&7 Feito com Desafios &e [version]"
+        gamemode: "&7 Primário para &e [gamemode]"
+  conversations:
+    numeric-only: "&c O [value] dado não é um número!"
+    write-permissions: "&e Por favor, insira as permissões necessárias, uma por linha
+      no chat, e 'quit' em uma linha por si só para terminar."
+    write-reward-text: "&e Por favor, digite um novo texto de recompensa no chat e
+      'quit' em uma linha para terminar."
+    write-repeat-reward-text: "&e Por favor, digite um novo texto de recompensa de
+      repetição no chat e 'quit' em uma linha por si só para terminar."
+    write-reward-commands: "&e Por favor, digite um novo comando de recompensa por
+      linha no chat e 'quit' em uma linha por si só para terminar."
+    write-repeat-reward-commands: "&e Por favor, digite um novo comando de repetição
+      de recompensa por linha no chat e 'quit' em uma linha por si só para terminar."
+    exported-file-name: "&e Insira um nome de arquivo para o arquivo de banco de dados
+      exportado. (escreva 'cancel' para sair)"
+    database-export-completed: "&a Sucesso, a exportação do banco de dados para [world]
+      foi concluída. Arquivo [file] gerado."
+    write-search: "&e Por favor, escreva um valor de pesquisa. (escreva 'cancel' para
+      sair)"
+  titles:
+    challenge-title: Completado com sucesso
+    challenge-subtitle: "[friendlyName]"
+    level-title: Completado com sucesso
+    level-subtitle: "[friendlyName]"
+  messages:
+    completed: "&2 Você completou o desafio [name] para [player]!"
+    reset: "&2 Você redefiniu o desafio [name] para [player]!"
+    reset-all: "&2 Todos os desafios do [player] foram reiniciados!"
+    you-completed-challenge: "&2Você completou [value] o desafio&2!"
+    you-repeated-challenge: "& Você repetiu o desafio [value]&2!"
+    you-repeated-challenge-multiple: |-
+      &2Você repetiu o [value]
+      &2desafio [count] vezes!
+    name-has-completed-challenge: "&5[name] completou [value] o desafio&5!"
+    name-has-completed-level: "&5[name] completou o nível [value]&5!"
+    load-skipping: '"[value]" já existe - pulando'
+    load-overwriting: Substituindo "[value]"
+    load-add: 'Adicionando novo objeto: [value]'
+  errors:
+    unknown-challenge: "&cDesafio desconhecido"
+    not-valid-integer: |-
+      &c O inteiro "[value]" fornecido não é válido!
+      O valor deve estar entre [min] e [max].
+    wrong-environment: "&cVocê está no ambiente errado!"
+    not-enough-items: "&c Você não tem [items] suficientes para completar este desafio!"
+    not-close-enough: "&c Você deve estar dentro de [number] blocos de todos os itens
+      necessários."
+    you-still-need: "&c Você ainda precisa de [amount] x [item]"
+    missing-addon: "&cNão é possível concluir o desafio: o complemento ou plug-in
+      necessário está ausente."
+    not-enough-money: "&c É necessário ter [value] em sua conta para completar o desafio."
+    not-enough-experience: "&c É necessário ter [value] EXP para completar este desafio."
+    no-load: "&c Erro: Não foi possível carregar [file]. [message]"
+    load-error: "&cErro: Não é possível carregar [value]."
+    no-challenges-admin: "&c Os desafios ainda não foram implementados neste mundo!
+      Use &5 /[command] &c para adicioná-los!"
+    invalid-level: "&c O nível [level] contém dados inválidos. Ele não será carregado
+      do banco de dados!"
+    timeout: "&c Este desafio requer esperar [timeout] entre as conclusões. Você deve
+      esperar [wait-time] até completá-lo novamente."
+protection:
+  flags:
+    CHALLENGES_ISLAND_PROTECTION: {}
+    CHALLENGES_WORLD_PROTECTION: {}
