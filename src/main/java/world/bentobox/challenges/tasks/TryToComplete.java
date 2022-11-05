@@ -1428,6 +1428,7 @@ public class TryToComplete
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met",
                 TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
                 "[value]", String.valueOf(currentValue)));
         }
         else
