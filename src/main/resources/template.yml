@@ -88,6 +88,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -122,6 +126,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -220,6 +228,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -254,6 +266,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -339,6 +355,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -373,6 +393,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -464,6 +488,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -498,6 +526,10 @@ challenges:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
@@ -551,6 +583,10 @@ levels:
       # It is not necessary to writhe `/`.
       # This examples first command will force player to execute `/island` command,
       # While second command will run `/kill [player]` from the server console.
+      # There are 3 available parameters for commands:
+      #    - [player] - player who completed the challenge
+      #    - [owner] - the island owner
+      #    - [name] - the name of the island.
       commands:
         - island
         - kill [player]
