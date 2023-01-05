@@ -37,14 +37,14 @@
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
         <spigot-annotations.version>1.2.3-SNAPSHOT</spigot-annotations.version>
-        <bentobox.version>1.20.0</bentobox.version>
+        <bentobox.version>1.21.0</bentobox.version>
         <level.version>2.6.3</level.version>
         <vault.version>1.7</vault.version>
-        <panelutils.version>1.0.0</panelutils.version>
+        <panelutils.version>1.1.0</panelutils.version>
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
-        <build.version>1.0.0</build.version>
+        <build.version>1.1.0</build.version>
         <build.number>-LOCAL</build.number>
         <!-- Sonar Cloud -->
         <sonar.projectKey>BentoBoxWorld_Challenges</sonar.projectKey>

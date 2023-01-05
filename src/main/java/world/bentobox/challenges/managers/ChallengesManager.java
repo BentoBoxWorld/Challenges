@@ -113,41 +113,28 @@ public class ChallengesManager
      * This comparator orders challenges by their level, order and name.
      */
     private final Comparator<Challenge> challengeComparator = (o1, o2) -> {
-        if (o1.getLevel().equals(o2.getLevel()))
+        ChallengeLevel o1Level = this.getLevel(o1.getLevel());
+        ChallengeLevel o2Level = this.getLevel(o2.getLevel());
+
+        if (o1Level == null && o2Level == null)
         {
-            if (o1.getOrder() == o2.getOrder())
-            {
-                // If orders are equal, sort by unique id
-                return o1.getUniqueId().compareToIgnoreCase(o2.getUniqueId());
-            }
-            else
-            {
-                // If levels are equal, sort them by order numbers.
-                return Integer.compare(o1.getOrder(), o2.getOrder());
-            }
+            return Integer.compare(o1.getOrder(), o2.getOrder());
+        }
+        else if (o1Level == null)
+        {
+            return -1;
+        }
+        else if (o2Level == null)
+        {
+            return 1;
+        }
+        else if (o1Level.equals(o2Level))
+        {
+            return Integer.compare(o1.getOrder(), o2.getOrder());
         }
         else
         {
-            if (o1.getLevel().isEmpty() || o2.getLevel().isEmpty())
-            {
-                // If exist free level challenge, then it should be at the start.
-                return Boolean.compare(o2.getLevel().isEmpty(), o1.getLevel().isEmpty());
-            }
-            else
-            {
-                ChallengeLevel o1Level = this.getLevel(o1.getLevel());
-                ChallengeLevel o2Level = this.getLevel(o2.getLevel());
-
-                if (o1Level == null || o2Level == null)
-                {
-                    return Boolean.compare(o1Level == null, o2Level == null);
-                }
-                else
-                {
-                    // Sort by challenges level order numbers
-                    return Integer.compare(o1Level.getOrder(), o2Level.getOrder());
-                }
-            }
+            return Integer.compare(o1Level.getOrder(), o2Level.getOrder());
         }
     };
 

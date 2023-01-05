@@ -496,7 +496,7 @@ public abstract class CommonPanel
             this.user.getTranslationOrNothing(reference + "money-warning") : "";
 
         String level = !this.addon.isLevelProvided() || requirement.getRequiredIslandLevel() <= 0 ? "" :
-            this.user.getTranslationOrNothing(reference,
+            this.user.getTranslationOrNothing(reference + "level",
                 "[number]", String.valueOf(requirement.getRequiredIslandLevel()));
 
         return this.user.getTranslationOrNothing(reference + "lore",

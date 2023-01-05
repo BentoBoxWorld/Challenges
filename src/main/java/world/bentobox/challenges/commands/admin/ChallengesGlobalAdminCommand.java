@@ -37,7 +37,7 @@ public class ChallengesGlobalAdminCommand extends CompositeCommand
 	@Override
 	public void setup()
 	{
-		this.setPermission("addon.admin.challenges");
+		this.setPermission("admin.challenges");
 		this.setParametersHelp("challenges.commands.admin.main.parameters");
 		this.setDescription("challenges.commands.admin.main.description");
 	}

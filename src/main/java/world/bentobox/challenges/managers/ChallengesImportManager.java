@@ -101,10 +101,8 @@ public class ChallengesImportManager
                 Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-load",
                     Constants.PARAMETER_FILE, file, TextVariables.DESCRIPTION, e.getMessage()));
             }
-            else
-            {
-                this.addon.logError("Exception when loading file. " + e.getMessage());
-            }
+
+            this.addon.logError("Exception when loading file. " + e.getMessage());
 
             return;
         }
@@ -119,10 +117,8 @@ public class ChallengesImportManager
                     user.getTranslation(Constants.ERRORS + "not-a-gamemode-world",
                         Constants.PARAMETER_WORLD, world.getName()));
             }
-            else
-            {
-                this.addon.logWarning("Given world is not a gamemode world.");
-            }
+
+            this.addon.logWarning("Given world is not a gamemode world.");
 
             return;
         }

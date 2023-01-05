@@ -791,17 +791,25 @@ public class TryToComplete
     private void runCommands(List<String> commands)
     {
         // Ignore commands with this perm
-        if (user.hasPermission(this.permissionPrefix + "command.challengeexempt") && !user.isOp())
+        if (this.user.hasPermission(this.permissionPrefix + "command.challengeexempt") && !this.user.isOp())
         {
             return;
         }
+
+        final Island island = this.addon.getIslandsManager().getIsland(this.world, this.user);
+        final String owner = island == null ? "" : this.addon.getPlayers().getName(island.getOwner());
+
         for (String cmd : commands)
         {
             if (cmd.startsWith("[SELF]"))
             {
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
-                cmd = cmd.substring(6).replace(Constants.PARAMETER_PLAYER, this.user.getName()).trim();
+                cmd = cmd.substring(6).
+                    replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                    trim();
                 try
                 {
                     if (!user.performCommand(cmd))
@@ -816,11 +824,17 @@ public class TryToComplete
 
                 continue;
             }
+
             // Substitute in any references to player
+
             try
             {
-                if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(),
-                    cmd.replace(Constants.PARAMETER_PLAYER, this.user.getName())))
+                cmd = cmd.replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                    trim();
+
+                if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
                 {
                     this.showError(cmd);
                 }
@@ -1428,6 +1442,7 @@ public class TryToComplete
         {
             Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met",
                 TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
                 "[value]", String.valueOf(currentValue)));
         }
         else

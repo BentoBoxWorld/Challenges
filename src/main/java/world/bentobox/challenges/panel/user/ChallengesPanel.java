@@ -8,6 +8,7 @@ package world.bentobox.challenges.panel.user;
 
 
 import org.bukkit.World;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -274,11 +275,43 @@ public class ChallengesPanel extends CommonPanel
             builder.description(this.generateChallengeDescription(challenge, this.user));
         }
 
+        // If challenge is not repeatable, remove all other actions beside "COMPLETE".
+        // If challenge is completed all possible times, remove action.
+
+        List<ItemTemplateRecord.ActionRecords> actions = template.actions().stream().
+            filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
+            filter(action ->
+            {
+                boolean isCompletedOnce =
+                    this.manager.isChallengeComplete(this.user.getUniqueId(), this.world, challenge);
+
+                if (!isCompletedOnce)
+                {
+                    // Is not completed once, then it must appear.
+                    return true;
+                }
+                else if (challenge.isRepeatable() && challenge.getMaxTimes() <= 0)
+                {
+                    // Challenge is unlimited. Must appear in the list.
+                    return true;
+                }
+                else
+                {
+                    // Challenge still have some opened slots.
+
+                    long doneTimes = challenge.isRepeatable() ?
+                        this.manager.getChallengeTimes(this.user, this.world, challenge) : 1;
+
+                    return challenge.isRepeatable() && doneTimes < challenge.getMaxTimes();
+                }
+            }).
+            toList();
+
         // Add Click handler
         builder.clickHandler((panel, user, clickType, i) -> {
-            for (ItemTemplateRecord.ActionRecords action : template.actions())
+            for (ItemTemplateRecord.ActionRecords action : actions)
             {
-                if (clickType == action.clickType())
+                if (clickType == action.clickType() || clickType.equals(ClickType.UNKNOWN))
                 {
                     switch (action.actionType().toUpperCase())
                     {
@@ -368,9 +401,8 @@ public class ChallengesPanel extends CommonPanel
         });
 
         // Collect tooltips.
-        List<String> tooltips = template.actions().stream().
+        List<String> tooltips = actions.stream().
             filter(action -> action.tooltip() != null).
-            filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
             map(action -> this.user.getTranslation(this.world, action.tooltip())).
             filter(text -> !text.isBlank()).
             collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));

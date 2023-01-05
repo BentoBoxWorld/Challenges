@@ -1189,7 +1189,7 @@ challenges:
         not-enough-money: '&c It is necessary to have [value] on your account to complete the challenge.'
         not-enough-experience: '&c It is necessary to have [value] EXP to complete this challenge.'
         island-level: '&c Your island must be level [number] or greater to complete this challenge!'
-        no-load: '&c Error: Could not load file. [message]'
+        no-load: '&c Error: Could not load [file]. Error [message]'
         load-error: '&c Error: Cannot load [value].'
         no-rank: "&c You do not have rank that is high enough to do that."
         cannot-remove-items: '&c Some items cannot be removed from your inventory!'
@@ -1203,6 +1203,7 @@ challenges:
         no-library-entries: "&c Cannot find any library entries. Nothing to show."
         not-hooked: "&c Challenges Addon could not find any GameMode."
         timeout: "&c This challenge requires to wait [timeout] between completions. You must wait [wait-time] till complete it again."
+        requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
 #    # Showcase for manual material translation
 #    materials:
 #        # Names should be lowercase.
@@ -1238,7 +1239,27 @@ challenges:
 #            # This will overwrite generic translation.
 #            name: "[type] [upgraded] [extended]"
 #            # Type is either specific translation or potion effect.
+#            uncraftable: "Uncraftable"
+#            water: "Water"
+#            mundane: "Mundane"
+#            thick: "Thick"
+#            awkward: "Awkward"
+#            night_vision: "Potion of Night Vision"
+#            invisibility: "Potion of Invisibility"
+#            jump: "Potion of Leaping"
+#            fire_resistance: "Potion of Fire Resistance"
+#            speed: "Potion of Swiftness"
+#            slowness: "Potion of Slowness"
 #            water_breathing: "Potion of Water Breathing"
+#            instant_heal: "Potion of Healing"
+#            instant_damage: "Potion of Harming"
+#            poison: "Potion of Poison"
+#            regen: "Potion of Regeneration"
+#            strength: "Potion of Strength"
+#            weakness: "Potion of Weakness"
+#            luck: "Potion of Luck"
+#            turtle_master: "Potion of Turtle Master"
+#            slow_falling: "Potion of Slow Falling"
 #        stone_shovel:
 #            # This will mean that only stone shovels will not show
 #            # meta information.
