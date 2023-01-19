@@ -33,8 +33,8 @@ challenges:
       gamemode-gui: "&0&l 选择游戏模式"
       multiple-gui: "&0&l 多少次？"
       admin-gui: "&0&l 挑战管理菜单"
-      edit-challenge: "&0&l 编辑 [挑战]"
-      edit-level: "&0&l 编辑 [等级]"
+      edit-challenge: "&0&l 编辑 [challenge]"
+      edit-level: "&0&l 编辑 [level]"
       settings: "&0&l 设置"
       choose-challenge: "&0&l 选择挑战"
       choose-level: "&0&l 选择级别"
@@ -62,20 +62,20 @@ challenges:
           &7 或退出 GUI
       previous:
         name: "&f&l 上一页"
-        description: "&7 切换到 &e [数字] &7 页面"
+        description: "&7 切换到 &e [number] &7 页面"
       next:
         name: "&f&l 下一页"
-        description: "&7 切换到 &e [数字] &7 页面"
+        description: "&7 切换到 &e [number] &7 页面"
       reduce:
         name: "&f&l 减少"
-        description: "&7 减少 &e [数字]"
+        description: "&7 减少 &e [number]"
       increase:
         name: "&f&l 增加"
-        description: "&7 增加 &e [数字]"
+        description: "&7 增加 &e [number]"
       accept:
         name: "&f&l 完成"
         description: |-
-          &7 完成挑战 &e [数字]
+          &7 完成挑战 &e [number]
           &7次(-s)
       quit:
         name: "&f&l 退出"
@@ -184,7 +184,7 @@ challenges:
         description: |-
           &7 允许更改
           &7 显示名称。
-        value: "&7 当前：&r [名称]"
+        value: "&7 当前：&r [name]"
       remove_on_complete:
         name: "&f&l 完成后隐藏"
         description: |-
@@ -216,7 +216,7 @@ challenges:
           &7 相同数量的对象
           &7 将由他们订购
           &7 唯一 ID 名称。
-        value: "&7 当前订单：&e [数字]"
+        value: "&7 当前订单：&e [number]"
       icon:
         name: "&f&l 图标"
         description: |-
@@ -234,7 +234,7 @@ challenges:
           &7 权限
           &7 挑战是可完成的。
         title: "&7 权限："
-        permission: " &8 - [权限]"
+        permission: " &8 - [permission]"
         none: "&7 权限未设置。"
       remove_entities:
         name: "&f&l 删除实体"
@@ -253,7 +253,7 @@ challenges:
           &7 实体为此
           &7 挑战是可完成的。
         title: "&7 实体："
-        list: " &8 - [数字] x [实体]"
+        list: " &8 - [number] x [entity]"
         none: "&7 不添加实体。"
       remove_blocks:
         name: "&f&l 移除方块"
@@ -272,7 +272,7 @@ challenges:
           &7 块为此
           &7 挑战是可完成的。
         title: "&7 块："
-        list: " &8 - [数量] x [块]"
+        list: " &8 - [number] x [block]"
         none: "&7 块不被添加。"
       search_radius:
         name: "&f&l 搜索半径"
@@ -281,7 +281,7 @@ challenges:
           &7 周围的玩家
           &7 块和/或实体是
           &7 检测到。
-        value: "&7 当前距离：&e [数字]"
+        value: "&7 当前距离：&e [number]"
       remove_items:
         name: "&f&l 删除项目"
         description: |-
@@ -299,7 +299,7 @@ challenges:
           &7 项为此
           &7 挑战是可完成的。
         title: "&7 项："
-        list: " &8 - [数量] x [项目]"
+        list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       add_ignored_meta:
         name: "&f&l 添加忽略元数据"
@@ -309,7 +309,7 @@ challenges:
           &7 任何元数据
           &7 分配给他们。
         title: "&7 项："
-        list: " &8 - [数量] x [项目]"
+        list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       remove_ignored_meta:
         name: "&f&l 删除忽略元数据"
@@ -334,14 +334,14 @@ challenges:
           &7 允许更改
           &7 所需经验
           &7 播放器。
-        value: "&7 当前经验：&e [数字]"
+        value: "&7 当前经验：&e [number]"
       required_level:
         name: "&f&l 所需岛屿等级"
         description: |-
           &7 允许更改
           &7 所需岛屿等级
           &7 挑战。
-        value: "&7 当前级别：&e [数字]"
+        value: "&7 当前级别：&e [number]"
       remove_money:
         name: "&f&l 移除金钱"
         description: |-
@@ -358,21 +358,21 @@ challenges:
           &7 允许更改
           &7 玩家需要的钱
           &7 说明了挑战。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       statistic:
         name: "&f&l 统计"
         description: |-
           &7 允许更改
           &7 统计类型是
           &7 签入了这个挑战。
-        value: "&7 当前值：&e [统计]"
+        value: "&7 当前值：&e [statistic]"
       statistic_amount:
         name: "&f&l 目标值"
         description: |-
           &7 允许更改
           &7 统计目标值
           &7 必须满足。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       remove_statistic:
         name: "&f&l 减少统计量"
         description: |-
@@ -387,19 +387,19 @@ challenges:
         description: |-
           &7 允许更改
           &7 统计目标块。
-        value: "&7 当前块：&e [块]"
+        value: "&7 当前块：&e [block]"
       statistic_items:
         name: "&f&l 目标项目"
         description: |-
           &7 允许更改
           &7 统计目标项。
-        value: "&7 当前项目：&e [项目]"
+        value: "&7 当前项目：&e [item]"
       statistic_entities:
         name: "&f&l 目标实体"
         description: |-
           &7 允许更改
           &7 统计目标实体。
-        value: "&7 当前实体：&e [实体]"
+        value: "&7 当前实体：&e [entity]"
       reward_text:
         name: "&f&l 奖励文本"
         description: |-
@@ -420,7 +420,7 @@ challenges:
           &7 允许更改奖励
           &7 项。
         title: "&7 项："
-        list: " &8 - [数量] x [项目]"
+        list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       repeat_reward_items:
         name: "&f&l 重复奖励项目"
@@ -429,7 +429,7 @@ challenges:
           &7 奖励物品
           &7 挑战。
         title: "&7 项："
-        list: " &8 - [数量] x [项目]"
+        list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       reward_experience:
         name: "&f&l 奖励体验"
@@ -437,27 +437,27 @@ challenges:
           &7 允许更改
           &7 奖励经验
           &7 播放器。
-        value: "&7 奖励经验：&e [数字]"
+        value: "&7 奖励经验：&e [number]"
       repeat_reward_experience:
         name: "&f&l 重复奖励体验"
         description: |-
           &7 允许更改
           &7 重复奖励经验
           &7 为播放器。
-        value: "&7 奖励经验：&e [数字]"
+        value: "&7 奖励经验：&e [number]"
       reward_money:
         name: "&f&l 奖励金"
         description: |-
           &7 允许更改
           &7 奖励金钱。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       repeat_reward_money:
         name: "&f&l 重复奖励金"
         description: |-
           &7 允许更改
           &7 重复奖励金
           &7 挑战。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       reward_commands:
         name: "&f&l 奖励命令"
         description: |-
@@ -509,7 +509,7 @@ challenges:
           &7 允许更改
           &7 重复次数
           &7 挑战。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       cool_down:
         name: "&f&l 冷却"
         description: |-
@@ -518,7 +518,7 @@ challenges:
           &7 之间必须等待
           &7 可重复挑战
           &7 完成。
-        value: "&7 当前值：&e [时间]"
+        value: "&7 当前值：&e [time]"
       challenges:
         name: "&f&l 挑战"
         description: |-
@@ -531,7 +531,7 @@ challenges:
           &7 的挑战
           &7 未完成
           &7 解锁下一个级别。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       add_challenges:
         name: "&f&l 添加挑战(-s)"
         description: |-
@@ -626,13 +626,13 @@ challenges:
           &7 在用户数据中。
           &7 0 表示数据将
           &7 不会被删除。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       title_showtime:
         name: "&f&l 标题放映时间"
         description: |-
           &7 该标题的刻度数
           &7 将显示给玩家。
-        value: "&7 当前值：&e [数字]"
+        value: "&7 当前值：&e [number]"
       active_world_list:
         name: "&f&l 仅显示活跃世界"
         description: |-
@@ -662,10 +662,10 @@ challenges:
         enabled: "&2 清除缓存"
         disabled: "&c 不清除缓存"
       player:
-        name: "&f&l [名称]"
-        description: "&7 岛主：[所有者]"
+        name: "&f&l [name]"
+        description: "&7 岛主：[owner]"
         members: "&7 岛成员："
-        member: "&8 - [名称]"
+        member: "&8 - [name]"
         no-island: |-
           &c 播放器没有
           &c 一个岛屿。
@@ -691,9 +691,9 @@ challenges:
           &7 个选定的块
           &7 来自列表。
         title: "&7 精选材料："
-        material: "&8 - [材质]"
+        material: "&8 - [material]"
       material:
-        name: "&f&l [材质]"
+        name: "&f&l [material]"
         description: "&7 材质 ID：[id]"
         selected: "&2 已选择"
       add_entity:
@@ -713,9 +713,9 @@ challenges:
           &7 个选定的实体
           &7 来自列表。
         title: "&7 选定实体："
-        entity: "&8 - [实体]"
+        entity: "&8 - [entity]"
       entity:
-        name: "&f&l [实体]"
+        name: "&f&l [entity]"
         description: "&7 实体 ID：[id]"
         selected: "&2 已选择"
       inventory_type:
@@ -756,20 +756,20 @@ challenges:
           &7 返回选中的元素
           &7 并打开以前的 GUI。
         title: "&7 已选择："
-        element: "&8 - [元素]"
+        element: "&8 - [element]"
       statistic_element:
-        name: "&f&l [统计]"
-        description: "[描述]"
+        name: "&f&l [statistic]"
+        description: "[description]"
       environment_element:
-        name: "&f&l [环境]"
-        description: "[描述]"
+        name: "&f&l [environment]"
+        description: "[description]"
       search:
         name: "&f&l 搜索"
         description: |-
           &7 允许搜索
           &7 元素与输入
           &7 文本值。
-        search: "&b 值：[值]"
+        search: "&b 值：[value]"
     tips:
       click-to-select: "&e 单击 &7 进行选择。"
       click-to-choose: "&e 单击 &7 进行选择。"
@@ -818,110 +818,110 @@ challenges:
     descriptions:
       challenge:
         lore: |-
-          [描述]
-          [地位]
-          [冷却]
-          [要求]
-          [奖励]
+          [description]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
         status:
           completed: "&2&l 已完成"
-          completed-times: "&2 完成 &7&l [数字] &r&2 时间(-s)"
-          completed-times-of: "&2 已完成 &7&l [次数] &r&2 共 &7&l [最多] &r&2 次"
-          completed-times-reached: "&2&l 全部完成 &7 [最多] &2 次"
+          completed-times: "&2 完成 &7&l [number] &r&2 时间(-s)"
+          completed-times-of: "&2 已完成 &7&l [number] &r&2 共 &7&l [max] &r&2 次"
+          completed-times-reached: "&2&l 全部完成 &7 [max] &2 次"
         cooldown:
           lore: |-
-            [超时]
-            [等待时间]
-          timeout: "&7&l 冷却时间：&r&7 [时间]"
-          wait-time: "&c&l 可用时间：&r&c [时间]"
-          in-days: "[数量] d"
-          in-hours: "[数量]小时"
-          in-minutes: "[数量] 分钟"
-          in-seconds: "[数字] s"
+            [timeout]
+            [wait-time]
+          timeout: "&7&l 冷却时间：&r&7 [time]"
+          wait-time: "&c&l 可用时间：&r&c [time]"
+          in-days: "[number] d"
+          in-hours: "[number]小时"
+          in-minutes: "[number] 分钟"
+          in-seconds: "[number] s"
         requirements:
           lore: |-
-            [环境]
-            [类型要求]
-            [权限]
-          environment-single: "&7 限于 [环境]"
+            [environment]
+            [type-requirement]
+            [permission]
+          environment-single: "&7 限于 [environment]"
           environment-title: "&7 限于："
-          environment-list: "  &7 - &e [环境]"
+          environment-list: "  &7 - &e [environment]"
           permission-single: "&c 需要 [permissions] 权限"
           permissions-title: "&c 需要权限："
-          permissions-list: "  &c - [权限]"
+          permissions-list: "  &c - [permission]"
           island:
             lore: |-
-              [块]
-              [实体]
-              [搜索半径]
-              [警告块]
-              [警告实体]
+              [blocks]
+              [entities]
+              [search-radius]
+              [warning-block]
+              [warning-entity]
             blocks-title: "&7&l 所需块："
-            block-value: "  &7 - &e [材质]"
-            blocks-value: "  &7 - &e [数量] x [材料]"
+            block-value: "  &7 - &e [material]"
+            blocks-value: "  &7 - &e [number] x [material]"
             entities-title: "&7&l 所需实体："
-            entity-value: "  &7 - &e [实体]"
-            entities-value: "  &7 - &e [数字] x [实体]"
-            search-radius: "&7 不超过 &e [数字] &7 米"
+            entity-value: "  &7 - &e [entity]"
+            entities-value: "  &7 - &e [number] x [entity]"
+            search-radius: "&7 不超过 &e [number] &7 米"
             warning-block: "&e 块将被 &c 删除"
             warning-entity: "&e 实体将被 &c 删除"
           inventory:
             lore: |-
-              [项目]
-              [警告]
+              [items]
+              [warning]
             item-title: "&7&l 必填项目："
-            item-value: "  &7 - &e [项目]"
-            items-value: "  &7 - &e [数字] x [项目]"
+            item-value: "  &7 - &e [item]"
+            items-value: "  &7 - &e [number] x [item]"
             warning: "&e 项目（-s）将被 &c 删除"
           other:
             lore: |-
-              [经验]
-              [经验警告]
-              [钱]
-              [金钱警告]
-              [等级]
-            experience: "&7&l 所需经验：&r&e [数量]"
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
+            experience: "&7&l 所需经验：&r&e [number]"
             experience-warning: "&e 经验将被 &c 移除"
-            money: "&7&l 所需资金：&r&e [数字]"
+            money: "&7&l 所需资金：&r&e [number]"
             money-warning: "&e 钱将被 &c 移除"
-            level: "&7&l 所需岛屿等级：&r&e [数字]"
+            level: "&7&l 所需岛屿等级：&r&e [number]"
           statistic:
             lore: |-
-              [统计]
-              [警告]
-            multiple-target: "&7&l [统计]: &r&e [数字] x [目标]"
-            single-target: "&7&l [统计]: &r&e [目标]"
-            statistic: "&7&l [统计] &r&e [数字]"
+              [statistic]
+              [warning]
+            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
+            single-target: "&7&l [statistic]: &r&e [target]"
+            statistic: "&7&l [statistic] &r&e [number]"
             warning: "&e 统计数据将 &c 减少"
         rewards:
           lore: |-
             &7&l 奖励：
-            [文本]
-            [项目]
-            [经验]
-            [钱]
-            [命令]
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
           item-title: "&7 项："
-          item-value: "  &7 - &e [项目]"
-          items-value: "  &7 - &e [数字] x [项目]"
-          experience: "&7 经验：&r&e [数字]"
-          money: "&7 金钱：&r&e [数字]"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 经验：&r&e [number]"
+          money: "&7 金钱：&r&e [number]"
           commands-title: "&7 命令："
-          command: "  &7 - &e [命令]"
+          command: "  &7 - &e [command]"
       level:
         lore: |-
-          [文本]
-          [地位]
-          [放弃]
-          [奖励]
+          [text]
+          [status]
+          [waiver]
+          [rewards]
         status:
           completed: "&2&l 已完成"
           completed-challenges-of: |-
-            &2 已完成 &7&l [数量] &r&2 出
+            &2 已完成 &7&l [number] &r&2 出
             &7&l [max] &r&2 挑战。
           locked: "&c&l 锁定"
           missing-challenges: |-
-            &7 [数字] 更多的挑战必须是
+            &7 [number] 更多的挑战必须是
             &7 完成以解锁此级别。
         waiver: |-
           &7&l [number] 挑战(-s) &r&7 可以
@@ -929,23 +929,23 @@ challenges:
         rewards:
           lore: |-
             &7&l 奖励：
-            [文本]
-            [项目]
-            [经验]
-            [钱]
-            [命令]
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
           item-title: "&7 项："
-          item-value: "  &7 - &e [项目]"
-          items-value: "  &7 - &e [数字] x [项目]"
-          experience: "&7 经验：&r&e [数字]"
-          money: "&7 金钱：&r&e [数字]"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 经验：&r&e [number]"
+          money: "&7 金钱：&r&e [number]"
           commands-title: "&7 命令："
-          command: "  &7 - &e [命令]"
+          command: "  &7 - &e [command]"
       library:
-        author: "&7 作者 &e [作者]"
-        version: "&7 Made with Challenges &e [版本]"
+        author: "&7 作者 &e [author]"
+        version: "&7 Made with Challenges &e [version]"
         lang: "&7 语言：&e [lang]"
-        gamemode: "&7 主要用于 &e [游戏模式]"
+        gamemode: "&7 主要用于 &e [gamemode]"
   conversations:
     prefix: "&l&6 [便当盒]: &r"
     confirm-string: true, on, yes, 确认, y, 有效, 正确
@@ -956,17 +956,17 @@ challenges:
     input-number: "&e 请在聊天中输入一个号码。"
     input-seconds: "&e 请在聊天中输入秒。"
     numeric-only: "&c 给定的 [value] 不是数字！"
-    not-valid-value: "&c 给定的数字 [值] 无效。它必须大于 [min] 并且小于 [max]！"
-    user-data-removed: "&a [游戏模式] 的所有用户数据都从数据库中清除。"
-    confirm-user-data-deletion: "&e 请确认您要清除 [游戏模式] 的用户数据库。"
-    challenge-data-removed: "&a [游戏模式] 的所有挑战数据都从数据库中清除。"
-    confirm-challenge-data-deletion: "&e 请确认您要清除 [游戏模式] 的挑战数据库。"
-    all-data-removed: "&a [游戏模式] 的所有插件数据都从数据库中清除。"
-    confirm-all-data-deletion: "&e 请确认您要清除 [游戏模式] 的插件数据。"
+    not-valid-value: "&c 给定的数字 [value] 无效。它必须大于 [min] 并且小于 [max]！"
+    user-data-removed: "&a [gamemode] 的所有用户数据都从数据库中清除。"
+    confirm-user-data-deletion: "&e 请确认您要清除 [gamemode] 的用户数据库。"
+    challenge-data-removed: "&a [gamemode] 的所有挑战数据都从数据库中清除。"
+    confirm-challenge-data-deletion: "&e 请确认您要清除 [gamemode] 的挑战数据库。"
+    all-data-removed: "&a [gamemode] 的所有插件数据都从数据库中清除。"
+    confirm-all-data-deletion: "&e 请确认您要清除 [gamemode] 的插件数据。"
     write-name: "&e 请在聊天中写一个名字。"
     new-object-created: "&a 为 [gamemode] 创建了一个新对象。"
     object-already-exists: "&c 对象 &7 [id] &c 已经存在。选择不同的名称。"
-    invalid-challenge: "&c 挑战 [挑战] 包含无效数据。无法部署！"
+    invalid-challenge: "&c 挑战 [challenge] 包含无效数据。无法部署！"
     name-changed: "&a 成功，名称已更新。"
     write-description: "&e 请在聊天中输入新的描述，然后在一行中自行“退出”以完成。"
     description-changed: "&a 成功，说明已更新。"
@@ -987,7 +987,7 @@ challenges:
     start-downloading: "&a 开始下载和导入挑战库。"
     written-text: "&a 输入文本："
     confirm-data-replacement: "&e 请确认您想用新的挑战替换当前的挑战。"
-    new-challenges-imported: "&a 成功，[游戏模式] 的新挑战已导入。"
+    new-challenges-imported: "&a 成功，[gamemode] 的新挑战已导入。"
     exported-file-name: "&e 请输入导出的数据库文件的文件名。 （写“取消”退出）"
     database-export-completed: "&a 成功，[world] 的数据库导出完成。文件[文件]生成。"
     file-name-exist: "&c 名称为“[id]”的文件存在。无法覆盖。"
@@ -999,10 +999,10 @@ challenges:
     level-title: "&a已完成"
     level-subtitle: "[friendlyName]"
   messages:
-    completed: "&2 你为[玩家]完成了挑战[名字]！"
+    completed: "&2 你为[player]完成了挑战[name]！"
     already-completed: "&2 这个挑战已经完成了！"
-    reset: "&2 你为 [玩家] 重置挑战 [名称]！"
-    reset-all: "&2 所有[玩家]挑战均已重置！"
+    reset: "&2 你为 [player] 重置挑战 [name]！"
+    reset-all: "&2 所有[player]挑战均已重置！"
     not-completed: "&2 此挑战尚未完成！"
     migrate-start: "&2 开始迁移挑战插件数据。"
     migrate-end: "&2 挑战插件数据更新为新格式。"
@@ -1047,7 +1047,8 @@ challenges:
     invalid-challenge: "&c挑战项 [challenge] &c包含错误，它不会从数据库中加载！"
     no-library-entries: "&c 找不到任何库条目。没什么可显示的。"
     not-hooked: "&c Challenges Addon 找不到任何游戏模式。"
-    timeout: "&c 此挑战需要在完成之间等待 [超时]。您必须等待 [wait-time] 才能再次完成。"
+    timeout: "&c 此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
+    requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
