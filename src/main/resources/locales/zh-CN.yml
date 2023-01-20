@@ -2,6 +2,9 @@
 meta:
   authors:
   - BONNe
+  # Attention for Chinese translation
+  # 中文翻译须知，在本人2023年1月19日接手前，上一位翻译者疑似用机翻软件翻译了全文包括变量在内的所有文字。
+  # 感谢原作者BONNe进行了修改，同时笔者对管理员部分的翻译和玩家全部的翻译进行了订正。时间仓促，请君斧正。
 challenges:
   commands:
     admin:
@@ -38,9 +41,9 @@ challenges:
       settings: "&0&l 设置"
       choose-challenge: "&0&l 选择挑战"
       choose-level: "&0&l 选择级别"
-      choose-player: "&0&l 选择播放器"
+      choose-player: "&0&l 选择玩家"
       library: "&0&l 库"
-      manage-blocks: "&0&l 管理块"
+      manage-blocks: "&0&l 管理方块"
       manage-entities: "&0&l 管理实体"
       type-selector: "&0&l 挑战类型选择器"
       item-selector: "&0&l 项目选择器"
@@ -51,10 +54,10 @@ challenges:
       environment-selector: "&0&l 环境选择器"
     buttons:
       free-challenges:
-        name: "&f&l 免费挑战"
+        name: "&f&l 自由挑战"
         description: |-
           &7 显示列表
-          &7 个免费挑战
+          &7 个自由挑战
       return:
         name: "&f&l 返回"
         description: |-
@@ -62,10 +65,10 @@ challenges:
           &7 或退出 GUI
       previous:
         name: "&f&l 上一页"
-        description: "&7 切换到 &e [number] &7 页面"
+        description: "&7 切换到 &e [number] &7 页"
       next:
         name: "&f&l 下一页"
-        description: "&7 切换到 &e [number] &7 页面"
+        description: "&7 切换到 &e [number] &7 页"
       reduce:
         name: "&f&l 减少"
         description: "&7 减少 &e [number]"
@@ -97,10 +100,10 @@ challenges:
           &7 启动一个进程
           &7 创造了一个新的挑战。
       add_level:
-        name: "&f&l 创建关卡"
+        name: "&f&l 创建级别"
         description: |-
           &7 启动一个进程
-          &7 创造了一个新的水平。
+          &7 创造了一个新的级别。
       edit_challenge:
         name: "&f&l 编辑挑战"
         description: |-
@@ -117,7 +120,7 @@ challenges:
           &7 允许选择和删除
           &7 挑战。
       delete_level:
-        name: "&f&l 删除层级"
+        name: "&f&l 删除级别"
         description: |-
           &7 允许选择和删除
           &7 一个级别。
@@ -146,7 +149,7 @@ challenges:
         name: "&f&l 库"
         description: |-
           &7 打开公共
-          &7 挑战图书馆。
+          &7 挑战库。
       import_database:
         name: "&f&l 导入数据库"
         description: |-
@@ -158,7 +161,7 @@ challenges:
           &7 允许导入模板
           &7 文件有挑战。
       export_challenges:
-        name: "&f&l 出口挑战"
+        name: "&f&l 导出挑战"
         description: |-
           &7 允许导出数据库
           &7 到本地文件。
@@ -209,14 +212,14 @@ challenges:
         enabled: "&2"
         disabled: "＆C"
       order:
-        name: "&f&l 订单"
+        name: "&f&l 顺序"
         description: |-
           &7 允许改变顺序
           &7 个对象。
           &7 相同数量的对象
           &7 将由他们订购
           &7 唯一 ID 名称。
-        value: "&7 当前订单：&e [number]"
+        value: "&7 当前顺序：&e [number]"
       icon:
         name: "&f&l 图标"
         description: |-
@@ -240,18 +243,18 @@ challenges:
         name: "&f&l 删除实体"
         description: |-
           &7 允许切换
-          &7 所需实体将
-          &7 从世界中移除
-          &7 完成后
-          &7 挑战。
+          &7 所需要的
+          &7 在完成挑战
+          &7 后，
+          &7 从世界中移除的实体
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_entities:
         name: "&f&l 必需的实体"
         description: |-
-          &7 允许根据需要进行更改
-          &7 实体为此
-          &7 挑战是可完成的。
+          &7 允许对
+          &7 为完成这个挑战。
+          &7 所需要的实体进行更改
         title: "&7 实体："
         list: " &8 - [number] x [entity]"
         none: "&7 不添加实体。"
@@ -259,41 +262,41 @@ challenges:
         name: "&f&l 移除方块"
         description: |-
           &7 允许切换
-          &7 所需的块将
-          &7 从世界中移除
-          &7 完成后
-          &7 挑战。
+          &7 所需要的
+          &7 在完成挑战
+          &7 后，
+          &7 从世界中移除的方块
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_blocks:
-        name: "&f&l 所需块"
+        name: "&f&l 所需方块"
         description: |-
-          &7 允许根据需要进行更改
-          &7 块为此
-          &7 挑战是可完成的。
+          &7 允许更改
+          &7 为完成挑战所需要的
+          &7 方块
         title: "&7 块："
         list: " &8 - [number] x [block]"
         none: "&7 块不被添加。"
       search_radius:
         name: "&f&l 搜索半径"
         description: |-
-          &7 允许改变半径
-          &7 周围的玩家
-          &7 块和/或实体是
-          &7 检测到。
+          &7 允许更改任务所需的方块
+          &7 或实体的检测半径。
+          &7 (部分任务需要玩家周围
+          &7 有一定数量的方块/实体)
         value: "&7 当前距离：&e [number]"
       remove_items:
-        name: "&f&l 删除项目"
+        name: "&f&l 删除道具"
         description: |-
           &7 允许切换
-          &7 项必填项
-          &7 从库存中移除
-          &7 完成后
-          &7 挑战。
+          &7 挑战所需道具
+          &7 在挑战完成后
+          &7 是否从背包中
+          &7 移除。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_items:
-        name: "&f&l 必填项目"
+        name: "&f&l 需求道具"
         description: |-
           &7 允许根据需要进行更改
           &7 项为此
@@ -303,6 +306,7 @@ challenges:
         none: "&7 项目未添加。"
       add_ignored_meta:
         name: "&f&l 添加忽略元数据"
+        #翻译到这了，下面的都是没有人工翻译的，cirno看了也无语
         description: |-
           &7 允许添加哪个
           &7 项应忽略
@@ -323,7 +327,7 @@ challenges:
         description: |-
           &7 允许切换
           &7 所需经验将
-          &7 从播放器中移除
+          &7 从玩家中移除
           &7 完成后
           &7 挑战。
         enabled: "&2 已启用"
@@ -333,7 +337,7 @@ challenges:
         description: |-
           &7 允许更改
           &7 所需经验
-          &7 播放器。
+          &7 玩家。
         value: "&7 当前经验：&e [number]"
       required_level:
         name: "&f&l 所需岛屿等级"
@@ -347,7 +351,7 @@ challenges:
         description: |-
           &7 允许切换
           &7 所需资金将
-          &7 从播放器中移除
+          &7 从玩家中移除
           &7 帐号完成后
           &7 挑战。
         enabled: "&2 已启用"
@@ -436,14 +440,14 @@ challenges:
         description: |-
           &7 允许更改
           &7 奖励经验
-          &7 播放器。
+          &7 玩家。
         value: "&7 奖励经验：&e [number]"
       repeat_reward_experience:
         name: "&f&l 重复奖励体验"
         description: |-
           &7 允许更改
           &7 重复奖励经验
-          &7 为播放器。
+          &7 为玩家。
         value: "&7 奖励经验：&e [number]"
       reward_money:
         name: "&f&l 奖励金"
@@ -658,7 +662,7 @@ challenges:
         name: "&f&l 下载库"
         description: |-
           &7 可手动更新
-          &7 挑战图书馆。
+          &7 挑战库。
         enabled: "&2 清除缓存"
         disabled: "&c 不清除缓存"
       player:
@@ -667,7 +671,7 @@ challenges:
         members: "&7 岛成员："
         member: "&8 - [name]"
         no-island: |-
-          &c 播放器没有
+          &c 玩家没有
           &c 一个岛屿。
       player_list:
         name: "&f&l 选择用户列表"
@@ -705,7 +709,7 @@ challenges:
         name: "&f&l 换鸡蛋"
         description: |-
           &7 允许从
-          &7 鸡蛋给暴徒头。
+          &7 鸡蛋给怪物头。
       remove_entity:
         name: "&f&l 删除实体"
         description: |-
@@ -728,7 +732,7 @@ challenges:
         description: |-
           &7 检查的挑战
           &7 周围的方块或实体
-          &7 播放器。
+          &7 玩家。
       other_type:
         name: "&f&l 其他类型"
         description: |-
@@ -770,26 +774,27 @@ challenges:
           &7 元素与输入
           &7 文本值。
         search: "&b 值：[value]"
+        #上面的都是没有翻译的,cirno看了直摇头
     tips:
       click-to-select: "&e 单击 &7 进行选择。"
       click-to-choose: "&e 单击 &7 进行选择。"
-      click-to-complete: "&e 点击 &7 完成。"
-      right-click-multiple-open: "&e 右击 &7 选择完成计数。"
-      shift-left-click-to-complete-all: "&e Shift 单击 &7 完成所有操作。"
-      left-click-to-accept: "&e 左键单击 &7 完成。"
+      click-to-complete: "&e 单击 &7 完成。"
+      right-click-multiple-open: "&e 右击 &7 选择完成挑战的次数。"
+      shift-left-click-to-complete-all: "&e 按住Shift并左击 &7 一键完成(根据背包中所需道具数量)。"
+      left-click-to-accept: "&e 左击 &7 接受。"
       right-click-to-write: "&e 右击 &7 写入。"
       click-to-reduce: "&e 点击 &7 减少。"
       click-to-increase: "&e 点击 &7 增加。"
       click-to-return: "&e 单击 &7 返回。"
       click-to-quit: "&e 点击 &7 退出。"
-      click-to-wipe: "&e 单击 &7 擦除。"
-      left-click-to-wipe: "&e 左键单击 &7 擦除。"
+      click-to-wipe: "&e 单击 &7 清除。"
+      left-click-to-wipe: "&e 左键单击 &7 清除。"
       right-click-to-switch: "&e 右键 &7 切换。"
       click-to-open: "&e 点击 &7 打开。"
       click-to-export: "&e 点击 &7 导出。"
       click-to-create: "&e 点击 &7 创建。"
       left-click-to-open: "&e 左键单击 &7 打开。"
-      right-click-to-reset-all: "&e 右键单击 &7 擦除所有内容。"
+      right-click-to-reset-all: "&e 右键单击 &7 重置所有内容。"
       click-to-toggle: "&e 单击 &7 进行切换。"
       click-to-change: "&e 单击 &7 进行更改。"
       shift-click-to-reset: "&e Shift 单击 &7 进行重置。"
@@ -825,7 +830,8 @@ challenges:
           [rewards]
         status:
           completed: "&2&l 已完成"
-          completed-times: "&2 完成 &7&l [number] &r&2 时间(-s)"
+          #原来的time(-s)意思是如果完成复数次就是times，不是时间里秒的含义
+          completed-times: "&2 完成 &7&l [number] &r&2 次"
           completed-times-of: "&2 已完成 &7&l [number] &r&2 共 &7&l [max] &r&2 次"
           completed-times-reached: "&2&l 全部完成 &7 [max] &2 次"
         cooldown:
@@ -833,7 +839,7 @@ challenges:
             [timeout]
             [wait-time]
           timeout: "&7&l 冷却时间：&r&7 [time]"
-          wait-time: "&c&l 可用时间：&r&c [time]"
+          wait-time: "&c&l 等待时间：&r&c [time]"
           in-days: "[number] d"
           in-hours: "[number]小时"
           in-minutes: "[number] 分钟"
@@ -856,14 +862,14 @@ challenges:
               [search-radius]
               [warning-block]
               [warning-entity]
-            blocks-title: "&7&l 所需块："
+            blocks-title: "&7&l 所需方块："
             block-value: "  &7 - &e [material]"
             blocks-value: "  &7 - &e [number] x [material]"
             entities-title: "&7&l 所需实体："
             entity-value: "  &7 - &e [entity]"
             entities-value: "  &7 - &e [number] x [entity]"
             search-radius: "&7 不超过 &e [number] &7 米"
-            warning-block: "&e 块将被 &c 删除"
+            warning-block: "&e 方块将被 &c 删除"
             warning-entity: "&e 实体将被 &c 删除"
           inventory:
             lore: |-
@@ -946,8 +952,9 @@ challenges:
         version: "&7 Made with Challenges &e [version]"
         lang: "&7 语言：&e [lang]"
         gamemode: "&7 主要用于 &e [gamemode]"
+        #后面没人工翻译了
   conversations:
-    prefix: "&l&6 [便当盒]: &r"
+    prefix: "&l&6 [BentoBox]: &r"
     confirm-string: true, on, yes, 确认, y, 有效, 正确
     deny-string: 假，关闭，否，拒绝，n，无效，不正确
     cancel-string: 取消
@@ -963,7 +970,7 @@ challenges:
     confirm-challenge-data-deletion: "&e 请确认您要清除 [gamemode] 的挑战数据库。"
     all-data-removed: "&a [gamemode] 的所有插件数据都从数据库中清除。"
     confirm-all-data-deletion: "&e 请确认您要清除 [gamemode] 的插件数据。"
-    write-name: "&e 请在聊天中写一个名字。"
+    write-name: "&e 请在聊天中输入一个名字。"
     new-object-created: "&a 为 [gamemode] 创建了一个新对象。"
     object-already-exists: "&c 对象 &7 [id] &c 已经存在。选择不同的名称。"
     invalid-challenge: "&c 挑战 [challenge] 包含无效数据。无法部署！"
@@ -998,6 +1005,7 @@ challenges:
     challenge-subtitle: "[friendlyName]"
     level-title: "&a已完成"
     level-subtitle: "[friendlyName]"
+    #上面没翻译了
   messages:
     completed: "&2 你为[player]完成了挑战[name]！"
     already-completed: "&2 这个挑战已经完成了！"
@@ -1031,7 +1039,7 @@ challenges:
     you-still-need: "&c你还差 &f[amount] &c个 &f[item] &c才能完成挑战。"
     missing-addon: "&c无法完成挑战：缺少必需的组件或插件。"
     incorrect: "&c无法完成挑战：必要条件设定错误。"
-    not-enough-money: "&c你必须有 &f[value] &c游戏币才能完成任务。"
+    not-enough-money: "&c你必须有 &f[value] &c金钱才能完成任务。"
     not-enough-experience: "&c你必须有 &f[value] &c经验值才能完成任务。"
     island-level: "&c你的岛屿等级必须达到 &flv[number] &c才能完成任务！"
     no-load: "&c错误： 无法载入 &fchallenges.yml&c. [message]"
@@ -1049,17 +1057,104 @@ challenges:
     not-hooked: "&c Challenges Addon 找不到任何游戏模式。"
     timeout: "&c 此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
     requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
+    #    # Showcase for manual material translation
+#    materials:
+#        # Names should be lowercase.
+#        cobblestone: "Cobblestone"
+#        # Also supports descriptions.
+#        stone:
+#            name: "Stone"
+#            description: ""
+#    item-stacks:
+#        # Non-specific item meta translations.
+#        # TYPE is the item type
+#        # META is a content of item meta.
+#        generic: "[type] [meta]"
+#        # Non-specific meta translations. Will replace [meta]
+#        meta:
+#            upgraded: "Upgraded"
+#            extended: "Extended"
+#            potion-meta: "&e [type] [upgraded] [extended]"
+#            # Be aware, enchants are always listed below item in separate line.
+#            enchant-meta: "    &7 - &e [type] [level]"
+#            skull-meta: ": &e [player-name]"
+#            book-meta: "&e [title] [author]"
+#        # Custom Enchantment Translation.
+#        enchant:
+#            menting: "Mending"
+#            unbreaking: "Unbreaking"
+#        # Custom Potion Translation.
+#        potion-type:
+#            water_breathing: "Water Breathing"
+#        # You can also create specific item translations
+#        # Like translate all potions.
+#        potion:
+#            # This will overwrite generic translation.
+#            name: "[type] [upgraded] [extended]"
+#            # Type is either specific translation or potion effect.
+#            uncraftable: "Uncraftable"
+#            water: "Water"
+#            mundane: "Mundane"
+#            thick: "Thick"
+#            awkward: "Awkward"
+#            night_vision: "Potion of Night Vision"
+#            invisibility: "Potion of Invisibility"
+#            jump: "Potion of Leaping"
+#            fire_resistance: "Potion of Fire Resistance"
+#            speed: "Potion of Swiftness"
+#            slowness: "Potion of Slowness"
+#            water_breathing: "Potion of Water Breathing"
+#            instant_heal: "Potion of Healing"
+#            instant_damage: "Potion of Harming"
+#            poison: "Potion of Poison"
+#            regen: "Potion of Regeneration"
+#            strength: "Potion of Strength"
+#            weakness: "Potion of Weakness"
+#            luck: "Potion of Luck"
+#            turtle_master: "Potion of Turtle Master"
+#            slow_falling: "Potion of Slow Falling"
+#        stone_shovel:
+#            # This will mean that only stone shovels will not show
+#            # meta information.
+#            name: "[type]"
+#
+#    # Showcase how to support multi-linguistic challenges
+#    challenges:
+#        # Database ID name.
+#        example_challenge_id:
+#            name: "&2 Translated Name"
+#            description: |-
+#                &7 Translated Custom
+#                &7 description
+#            reward-text: |-
+#                &7 Translated Reward
+#                &7 text
+#            repeat-reward-text: |-
+#                &7 Translated Repeat
+#                &7 Reward text
+#    levels:
+#        # Database ID name.
+#        example_level_id:
+#            name: "&2 Translated Name"
+#            description: |-
+#                &7 Translated Custom
+#                &7 description
+#            reward-text: |-
+#                &7 Translated Reward
+#                &7 text
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: 允许/禁止 在岛屿上完成挑战
-      name: 挑战权限
+      description: |-
+        &5 &o 切换谁可以
+        &5 &o 完成挑战
+      name: 挑战保护
     CHALLENGES_WORLD_PROTECTION:
       description: |-
-        &7允许/禁止 限制玩家只能在自己岛
-        &7上才能完成挑战。
-        &c允许时，玩家只能在自己岛上进行
-        &c和完成挑战。
-      name: 挑战岛屿限制
-      hint: "&c已被禁止在岛屿范围外进行挑战"
+        &5 &o 启用 / 禁用
+        &5 &o 玩家们在自己
+        &5 &o 岛屿中完成挑
+        &5 &o 战的需求。
+      name: 岛屿挑战限制
+      hint: 岛屿外无挑战
 version: 11
