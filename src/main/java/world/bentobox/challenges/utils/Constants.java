@@ -223,4 +223,9 @@ public class Constants
      * Reference string to challenge parameter in translations.
      */
     public static final String PARAMETER_CHALLENGE = "[challenge]";
+
+    /**
+     * Regex escape chars.
+     */
+    public static final String ESC = "\\";
 }

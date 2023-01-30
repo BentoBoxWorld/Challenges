@@ -806,9 +806,9 @@ public class TryToComplete
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
                 cmd = cmd.substring(6).
-                    replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
                     trim();
                 try
                 {
@@ -829,9 +829,9 @@ public class TryToComplete
 
             try
             {
-                cmd = cmd.replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                cmd = cmd.replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
                     trim();
 
                 if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
