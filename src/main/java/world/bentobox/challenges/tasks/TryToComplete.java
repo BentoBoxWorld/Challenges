@@ -1461,10 +1461,29 @@ public class TryToComplete
 
         if (currentValue < requirements.getAmount())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met",
-                TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
-                "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
-                "[value]", String.valueOf(currentValue)));
+            switch (Objects.requireNonNull(requirements.getStatistic()).getType())
+            {
+                case ITEM, BLOCK -> {
+                    Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met-material",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        "[material]", Utils.prettifyObject(requirements.getMaterial(), this.user),
+                        "[value]", String.valueOf(currentValue)));
+                }
+                case ENTITY -> {
+                    Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met-entity",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        "[entity]", Utils.prettifyObject(requirements.getEntity(), this.user),
+                        "[value]", String.valueOf(currentValue)));
+                }
+                default -> {
+                    Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        "[value]", String.valueOf(currentValue)));
+                }
+            }
         }
         else
         {

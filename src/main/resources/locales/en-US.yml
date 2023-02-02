@@ -1204,6 +1204,8 @@ challenges:
         not-hooked: "&c Challenges Addon could not find any GameMode."
         timeout: "&c This challenge requires to wait [timeout] between completions. You must wait [wait-time] till complete it again."
         requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
+        requirement-not-met-entity: "&c This challenge requires [statistic] [entity] to have [number]. You have only [value]. "
+        requirement-not-met-material: "&c This challenge requires [statistic] [material] to have [number]. You have only [value]. "
 #    # Showcase for manual material translation
 #    materials:
 #        # Names should be lowercase.
