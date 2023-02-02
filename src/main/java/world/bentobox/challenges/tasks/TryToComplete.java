@@ -495,45 +495,54 @@ public class TryToComplete
                             }
                         }
                         case ITEM, BLOCK -> {
-                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
-
                             if (requirements.getMaterial() == null)
                             {
                                 // Just a sanity check. Material cannot be null at this point of code.
                                 removeAmount = 0;
                             }
-                            else if (removeAmount >= statistic)
-                            {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
-                                removeAmount -= statistic;
-                            }
                             else
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                    requirements.getMaterial(),
-                                    statistic - removeAmount);
-                                removeAmount = 0;
+                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                    requirements.getMaterial());
+
+                                if (removeAmount >= statistic)
+                                {
+                                    this.user.getPlayer()
+                                        .setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
+                                    removeAmount -= statistic;
+                                }
+                                else
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                        requirements.getMaterial(),
+                                        statistic - removeAmount);
+                                    removeAmount = 0;
+                                }
                             }
                         }
                         case ENTITY -> {
-                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
-
                             if (requirements.getEntity() == null)
                             {
                                 // Just a sanity check. Entity cannot be null at this point of code.
                                 removeAmount = 0;
                             }
-                            else if (removeAmount >= statistic)
-                            {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
-                                removeAmount -= statistic;
-                            }
                             else
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                    requirements.getEntity(),
-                                    statistic - removeAmount);
-                                removeAmount = 0;
+                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                    requirements.getEntity());
+
+                                if (removeAmount >= statistic)
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
+                                    removeAmount -= statistic;
+                                }
+                                else
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                        requirements.getEntity(),
+                                        statistic - removeAmount);
+                                    removeAmount = 0;
+                                }
                             }
                         }
                     }
@@ -577,45 +586,57 @@ public class TryToComplete
                                     }
                                 }
                                 case ITEM, BLOCK -> {
-                                    int statistic = player.getStatistic(requirements.getStatistic());
-
                                     if (requirements.getMaterial() == null)
                                     {
                                         // Just a sanity check. Entity cannot be null at this point of code.
                                         removeAmount = 0;
                                     }
-                                    else if (removeAmount >= statistic)
-                                    {
-                                        removeAmount -= statistic;
-                                        player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
-                                    }
                                     else
                                     {
-                                        player.setStatistic(requirements.getStatistic(),
-                                            requirements.getMaterial(),
-                                            statistic - removeAmount);
-                                        removeAmount = 0;
+                                        int statistic = player.getStatistic(requirements.getStatistic(),
+                                            requirements.getMaterial());
+
+                                        if (removeAmount >= statistic)
+                                        {
+                                            removeAmount -= statistic;
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getMaterial(),
+                                                0);
+                                        }
+                                        else
+                                        {
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getMaterial(),
+                                                statistic - removeAmount);
+                                            removeAmount = 0;
+                                        }
                                     }
                                 }
                                 case ENTITY -> {
-                                    int statistic = player.getStatistic(requirements.getStatistic());
-
                                     if (requirements.getEntity() == null)
                                     {
                                         // Just a sanity check. Entity cannot be null at this point of code.
                                         removeAmount = 0;
                                     }
-                                    else if (removeAmount >= statistic)
-                                    {
-                                        removeAmount -= statistic;
-                                        player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
-                                    }
                                     else
                                     {
-                                        player.setStatistic(requirements.getStatistic(),
-                                            requirements.getEntity(),
-                                            statistic - removeAmount);
-                                        removeAmount = 0;
+                                        int statistic = player.getStatistic(requirements.getStatistic(),
+                                            requirements.getEntity());
+
+                                        if (removeAmount >= statistic)
+                                        {
+                                            removeAmount -= statistic;
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getEntity(),
+                                                0);
+                                        }
+                                        else
+                                        {
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getEntity(),
+                                                statistic - removeAmount);
+                                            removeAmount = 0;
+                                        }
                                     }
                                 }
                             }
