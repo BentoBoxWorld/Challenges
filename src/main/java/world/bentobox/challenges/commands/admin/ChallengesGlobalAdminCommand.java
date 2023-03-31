@@ -53,7 +53,7 @@ public class ChallengesGlobalAdminCommand extends CompositeCommand
 
 		if (this.gameModeAddons.isEmpty())
 		{
-			Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "not-hooked"));
+			Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "not-hooked");
 			return false;
 		}
 		else if (this.gameModeAddons.size() == 1)

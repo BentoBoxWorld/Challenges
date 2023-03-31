@@ -28,6 +28,7 @@ import world.bentobox.challenges.events.ChallengeCompletedEvent;
 import world.bentobox.challenges.events.ChallengeResetAllEvent;
 import world.bentobox.challenges.events.ChallengeResetEvent;
 import world.bentobox.challenges.events.LevelCompletedEvent;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.LevelStatus;
 import world.bentobox.challenges.utils.Utils;
 
@@ -97,7 +98,6 @@ public class ChallengesManager
      * String for free Challenge Level.
      */
     public static final String FREE = "";
-    public static final String VALUE = "[value]";
     public static final String USER_ID = "user-id";
     public static final String CHALLENGE_ID = "challenge-id";
     public static final String ADMIN_ID = "admin-id";
@@ -230,7 +230,7 @@ public class ChallengesManager
      */
     private void loadChallenge(@NonNull Challenge challenge)
     {
-        this.loadChallenge(challenge, true, null, true);
+        this.loadChallenge(challenge, null, true, null, true);
     }
 
 
@@ -244,9 +244,10 @@ public class ChallengesManager
      * @return - true if imported
      */
     public boolean loadChallenge(@Nullable Challenge challenge,
-            boolean overwrite,
-            User user,
-            boolean silent)
+        World world,
+        boolean overwrite,
+        User user,
+        boolean silent)
     {
         // This may happen if database somehow failed to load challenge and return
         // null as input.
@@ -254,7 +255,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("load-error", "[value]", "NULL"));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "load-error",
+                    Constants.PARAMETER_VALUE, "NULL");
             }
 
             return false;
@@ -264,8 +268,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.invalid-challenge",
-                    "[challenge]", challenge.getUniqueId()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "invalid-challenge",
+                    Constants.PARAMETER_CHALLENGE, challenge.getUniqueId());
             }
 
             this.addon.logWarning("Data for challenge `" + challenge.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
@@ -280,8 +286,10 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-skipping",
-                        VALUE, challenge.getFriendlyName()));
+                    Utils.sendMessage(user,
+                        world,
+                        Constants.MESSAGES + "load-skipping",
+                        Constants.PARAMETER_VALUE, challenge.getFriendlyName());
                 }
 
                 return false;
@@ -290,8 +298,10 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-overwriting",
-                        VALUE, challenge.getFriendlyName()));
+                    Utils.sendMessage(user,
+                        world,
+                        Constants.MESSAGES + "load-overwriting",
+                        Constants.PARAMETER_VALUE, challenge.getFriendlyName());
                 }
             }
         }
@@ -299,8 +309,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.load-add",
-                    VALUE, challenge.getFriendlyName()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.MESSAGES + "load-add",
+                    Constants.PARAMETER_VALUE, challenge.getFriendlyName());
             }
         }
 
@@ -316,7 +328,7 @@ public class ChallengesManager
      */
     private void loadLevel(@NonNull ChallengeLevel level)
     {
-        this.loadLevel(level, true, null, true);
+        this.loadLevel(level, null, true, null, true);
     }
 
 
@@ -331,6 +343,7 @@ public class ChallengesManager
      * @return boolean that indicate about load status.
      */
     public boolean loadLevel(@Nullable ChallengeLevel level,
+            World world,
             boolean overwrite,
             User user,
             boolean silent)
@@ -341,7 +354,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("load-error", "[value]", "NULL"));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "load-error",
+                    Constants.PARAMETER_VALUE, "NULL");
             }
 
             return false;
@@ -351,8 +367,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.invalid-level",
-                    "[level]", level.getUniqueId()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "invalid-level",
+                    "[level]", level.getUniqueId());
             }
 
             this.addon.logWarning("Data for level `" + level.getUniqueId() + "` is not valid. It could be NULL element in item-stack!");
@@ -363,8 +381,10 @@ public class ChallengesManager
         {
             if (user != null)
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.load-error",
-                    VALUE, level.getFriendlyName()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "load-error",
+                    Constants.PARAMETER_VALUE, level.getFriendlyName());
             }
             else
             {
@@ -380,8 +400,10 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-skipping",
-                        VALUE, level.getFriendlyName()));
+                    Utils.sendMessage(user,
+                        world,
+                        Constants.MESSAGES + "load-skipping",
+                        Constants.PARAMETER_VALUE, level.getFriendlyName());
                 }
 
                 return false;
@@ -390,8 +412,10 @@ public class ChallengesManager
             {
                 if (!silent)
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.load-overwriting",
-                        VALUE, level.getFriendlyName()));
+                    Utils.sendMessage(user,
+                        world,
+                        Constants.MESSAGES + "load-overwriting",
+                        Constants.PARAMETER_VALUE, level.getFriendlyName());
                 }
             }
         }
@@ -399,8 +423,10 @@ public class ChallengesManager
         {
             if (!silent)
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.load-add",
-                    VALUE, level.getFriendlyName()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.MESSAGES + "load-add",
+                    Constants.PARAMETER_VALUE, level.getFriendlyName());
             }
         }
 
@@ -486,7 +512,7 @@ public class ChallengesManager
             if (!this.challengeCacheData.containsKey(uniqueID))
             {
                 if (!this.challengeDatabase.objectExists(uniqueID) ||
-                    !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), false, null, true))
+                    !this.loadChallenge(this.challengeDatabase.loadObject(uniqueID), Bukkit.getWorld(level.getWorld()), false, null, true))
                 {
                     this.addon.logError("Cannot find " + uniqueID + " challenge for " + level.getUniqueId());
                     return false;
@@ -640,7 +666,9 @@ public class ChallengesManager
         
         if (user.isPlayer())
         {
-            Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-start"));
+            Utils.sendMessage(user,
+                world,
+                Constants.MESSAGES + "migrate-start");
         }
         else
         {
@@ -656,7 +684,9 @@ public class ChallengesManager
 
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-end"));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.MESSAGES + "migrate-end");
             }
             else
             {
@@ -667,7 +697,9 @@ public class ChallengesManager
         {
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.messages.migrate-not"));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.MESSAGES + "migrate-not");
             }
             else
             {

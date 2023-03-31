@@ -49,13 +49,13 @@ public class ReloadChallenges extends CompositeCommand
         if (args.isEmpty())
         {
             this.manager.load();
-            Utils.sendMessage(user, user.getTranslation("general.success"));
+            Utils.sendMessage(user, this.getWorld(), "general.success");
             return true;
         }
         else if (args.get(0).equalsIgnoreCase("hard"))
         {
             this.manager.reload();
-            Utils.sendMessage(user, user.getTranslation("general.success"));
+            Utils.sendMessage(user, this.getWorld(), "general.success");
             return true;
         }
         else

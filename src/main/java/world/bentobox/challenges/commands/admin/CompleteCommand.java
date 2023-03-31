@@ -56,7 +56,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
+				Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-name");
 			}
 			else
 			{
@@ -67,7 +67,7 @@ public class CompleteCommand extends CompositeCommand
 		{
 			if (user.isPlayer())
 			{
-				Utils.sendMessage(user, user.getTranslation("challenges.errors.missing-arguments"));
+				Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "missing-arguments");
 			}
 			else
 			{
@@ -82,9 +82,11 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					Utils.sendMessage(user, user.getTranslation("general.errors.unknown-player",
+					Utils.sendMessage(user,
+						this.getWorld(),
+						"general.errors.unknown-player",
 						TextVariables.NAME,
-						args.get(0)));
+						args.get(0));
 				}
 				else
 				{
@@ -109,9 +111,11 @@ public class CompleteCommand extends CompositeCommand
 
 					if (user.isPlayer())
 					{
-						Utils.sendMessage(user, user.getTranslation("challenges.messages.completed",
+						Utils.sendMessage(user,
+							this.getWorld(),
+							Constants.MESSAGES + "completed",
 							Constants.PARAMETER_NAME, challenge.getFriendlyName(),
-							Constants.PARAMETER_PLAYER, target.getName()));
+							Constants.PARAMETER_PLAYER, target.getName());
 					}
 					else
 					{
@@ -123,7 +127,9 @@ public class CompleteCommand extends CompositeCommand
 				{
 					if (user.isPlayer())
 					{
-						Utils.sendMessage(user, user.getTranslation("challenges.messages.already-completed"));
+						Utils.sendMessage(user,
+							this.getWorld(),
+							Constants.MESSAGES + "already-completed");
 					}
 					else
 					{
@@ -137,7 +143,9 @@ public class CompleteCommand extends CompositeCommand
 			{
 				if (user.isPlayer())
 				{
-					Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
+					Utils.sendMessage(user,
+						this.getWorld(),
+						Constants.ERRORS + "unknown-challenge");
 				}
 				else
 				{

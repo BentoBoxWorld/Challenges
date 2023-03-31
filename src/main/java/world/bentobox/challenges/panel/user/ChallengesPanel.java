@@ -77,7 +77,7 @@ public class ChallengesPanel extends CommonPanel
         if (!this.containsChallenges)
         {
             this.addon.logError("There are no challenges set up!");
-            Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-challenges"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-challenges");
             return;
         }
 

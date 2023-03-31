@@ -11,6 +11,7 @@ import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.tasks.TryToComplete;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -54,7 +55,7 @@ public class CompleteChallengeCommand extends CompositeCommand
     {
         if (args.isEmpty())
         {
-            Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
+            Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-name");
             this.showHelp(this, user);
             return false;
         }
@@ -73,7 +74,7 @@ public class CompleteChallengeCommand extends CompositeCommand
 
                 if (!canMultipleTimes && count > 1)
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.error.no-multiple-permission"));
+                    Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-multiple-permission");
                     count = 1;
                 }
 
@@ -87,7 +88,7 @@ public class CompleteChallengeCommand extends CompositeCommand
             }
             else
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
+                Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "unknown-challenge");
                 this.showHelp(this, user);
                 return false;
             }

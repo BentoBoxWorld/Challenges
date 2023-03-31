@@ -56,7 +56,7 @@ public class ResetCommand extends CompositeCommand
         {
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-name"));
+                Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-name");
             }
             else
             {
@@ -67,7 +67,7 @@ public class ResetCommand extends CompositeCommand
         {
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.missing-arguments"));
+                Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "missing-arguments");
             }
             else
             {
@@ -82,8 +82,11 @@ public class ResetCommand extends CompositeCommand
             {
                 if (user.isPlayer())
                 {
-                    Utils.sendMessage(user, user.getTranslation("general.errors.unknown-player",
-                        TextVariables.NAME, args.get(0)));
+                    Utils.sendMessage(user,
+                        this.getWorld(),
+                        Constants.ERRORS + "unknown-player",
+                        TextVariables.NAME,
+                        args.get(0));
                 }
                 else
                 {
@@ -102,8 +105,11 @@ public class ResetCommand extends CompositeCommand
 
                 if (user.isPlayer())
                 {
-                    Utils.sendMessage(user, user.getTranslation("challenges.messages.reset-all",
-                        Constants.PARAMETER_PLAYER, target.getName()));
+                    Utils.sendMessage(user,
+                        this.getWorld(),
+                        Constants.MESSAGES + "reset-all",
+                        Constants.PARAMETER_PLAYER,
+                        target.getName());
                 }
                 else
                 {
@@ -125,9 +131,11 @@ public class ResetCommand extends CompositeCommand
 
                         if (user.isPlayer())
                         {
-                            Utils.sendMessage(user, user.getTranslation("challenges.messages.reset",
+                            Utils.sendMessage(user,
+                                this.getWorld(),
+                                Constants.MESSAGES + "reset",
                                 Constants.PARAMETER_NAME, challenge.getFriendlyName(),
-                                Constants.PARAMETER_PLAYER, target.getName()));
+                                Constants.PARAMETER_PLAYER, target.getName());
                         }
                         else
                         {
@@ -139,7 +147,9 @@ public class ResetCommand extends CompositeCommand
                     {
                         if (user.isPlayer())
                         {
-                            Utils.sendMessage(user, user.getTranslation("challenges.messages.not-completed"));
+                            Utils.sendMessage(user,
+                                this.getWorld(),
+                                Constants.MESSAGES + "not-completed");
                         }
                         else
                         {
@@ -153,7 +163,9 @@ public class ResetCommand extends CompositeCommand
                 {
                     if (user.isPlayer())
                     {
-                        Utils.sendMessage(user, user.getTranslation("challenges.errors.unknown-challenge"));
+                        Utils.sendMessage(user,
+                            this.getWorld(),
+                            Constants.ERRORS + "unknown-challenge");
                     }
                     else
                     {

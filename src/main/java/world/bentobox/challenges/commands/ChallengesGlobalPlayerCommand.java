@@ -55,7 +55,7 @@ public class ChallengesGlobalPlayerCommand extends CompositeCommand
 
 		if (this.gameModeAddons.isEmpty())
 		{
-			Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "not-hooked"));
+			Utils.sendMessage(user, user.getWorld(), Constants.ERRORS + "not-hooked");
 			return false;
 		}
 		else if (this.gameModeAddons.size() == 1)
@@ -80,7 +80,7 @@ public class ChallengesGlobalPlayerCommand extends CompositeCommand
 				}
 			}
 
-			Utils.sendMessage(user, user.getTranslation("general.errors.wrong-world"));
+			Utils.sendMessage(user, user.getWorld(), "general.errors.wrong-world");
 		}
 		else if (this.<ChallengesAddon>getAddon().getChallengesSettings().getUserGuiMode() == GuiMode.GAMEMODE_LIST)
 		{
