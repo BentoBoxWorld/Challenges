@@ -1126,11 +1126,20 @@ public class ChallengesManager
             // know how many challenges there were and how many has been done. Then
             // remove waiver amount to get count of challenges that still necessary to do.
 
+            List<Challenge> previousChallengeList = previousLevel == null ?
+                Collections.emptyList() :
+                this.getLevelChallenges(previousLevel);
+
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - doneChallengeCount - previousLevel.getWaiverAmount());
+                (previousChallengeList.size() - doneChallengeCount - previousLevel.getWaiverAmount());
+
+            List<Challenge> challengeList = this.getLevelChallenges(level);
 
             // As level already contains unique ids of challenges, just iterate through them.
-            doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+            doneChallengeCount = (int) challengeList.stream().
+                map(Challenge::getUniqueId).
+                filter(playerData::isChallengeDone).
+                count();
 
             // Mark if level is unlocked
             boolean unlocked = previousUnlocked && challengesToDo <= 0;
@@ -1139,7 +1148,7 @@ public class ChallengesManager
                     level,
                     previousLevel,
                     challengesToDo,
-                    level.getChallenges().size() == doneChallengeCount,
+                challengeList.size() == doneChallengeCount,
                     unlocked));
 
             previousLevel = level;
@@ -1175,18 +1184,27 @@ public class ChallengesManager
         {
             ChallengeLevel previousLevel = levelIndex < 1 ? null : challengeLevelList.get(levelIndex - 1);
 
+            List<Challenge> previousChallengeList = previousLevel == null ? Collections.emptyList() :
+                this.getLevelChallenges(previousLevel);
+
             int challengesToDo = previousLevel == null ? 0 :
-                (previousLevel.getChallenges().size() - previousLevel.getWaiverAmount()) -
-                (int) previousLevel.getChallenges().stream().filter(playerData::isChallengeDone).count();
+                (previousChallengeList.size() - previousLevel.getWaiverAmount()) -
+                (int) previousChallengeList.stream().map(Challenge::getUniqueId).
+                    filter(playerData::isChallengeDone).count();
+
+            List<Challenge> challengeList = this.getLevelChallenges(level);
 
             // As level already contains unique ids of challenges, just iterate through them.
-            int doneChallengeCount = (int) level.getChallenges().stream().filter(playerData::isChallengeDone).count();
+            int doneChallengeCount = (int) challengeList.stream().
+                map(Challenge::getUniqueId).
+                filter(playerData::isChallengeDone).
+                count();
 
             return new LevelStatus(
                     level,
                     previousLevel,
                     challengesToDo,
-                    level.getChallenges().size() == doneChallengeCount,
+                challengeList.size() == doneChallengeCount,
                     challengesToDo <= 0);
         }
     }
@@ -1214,9 +1232,15 @@ public class ChallengesManager
     {
         this.addPlayerData(storageDataID);
         ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
-        long doneChallengeCount = level.getChallenges().stream().filter(playerData::isChallengeDone).count();
 
-        return level.getChallenges().size() == doneChallengeCount;
+        List<Challenge> challengeList = this.getLevelChallenges(level);
+
+        long doneChallengeCount = challengeList.stream().
+            map(Challenge::getUniqueId).
+            filter(playerData::isChallengeDone).
+            count();
+
+        return challengeList.size() == doneChallengeCount;
     }
 
 
@@ -1775,11 +1799,11 @@ public class ChallengesManager
     {
         // Free Challenges hides under FREE level.
         return this.islandWorldManager.getAddon(world).map(gameMode ->
-        this.challengeCacheData.values().stream().
-        filter(challenge -> challenge.getLevel().equals(FREE) &&
-                challenge.matchGameMode(gameMode.getDescription().getName())).
-        sorted(Comparator.comparing(Challenge::getOrder)).
-        collect(Collectors.toList())).
+            this.challengeCacheData.values().stream().
+                filter(challenge -> challenge.getLevel().equals(FREE) &&
+                    challenge.matchGameMode(gameMode.getDescription().getName())).
+                sorted(Comparator.comparing(Challenge::getOrder)).
+                collect(Collectors.toList())).
                 orElse(Collections.emptyList());
     }
 
@@ -1791,9 +1815,23 @@ public class ChallengesManager
      */
     public List<Challenge> getLevelChallenges(ChallengeLevel level)
     {
+        return this.getLevelChallenges(level,
+            this.addon.getChallengesSettings().isIncludeUndeployed());
+    }
+
+
+    /**
+     * Level which challenges must be received
+     * @param level Challenge level.
+     * @param includeUndeployed if true, then include challenges that are not deployed.
+     * @return List with challenges in given level.
+     */
+    public List<Challenge> getLevelChallenges(ChallengeLevel level, boolean includeUndeployed)
+    {
         return level.getChallenges().stream().
                 map(this::getChallenge).
                 filter(Objects::nonNull).
+                filter(challenge -> includeUndeployed || challenge.isDeployed()).
                 sorted(Comparator.comparing(Challenge::getOrder)).
                 collect(Collectors.toList());
     }
@@ -1912,7 +1950,9 @@ public class ChallengesManager
      */
     public int getChallengeCount(World world)
     {
-        return this.getAllChallenges(world).size();
+        return (int) this.getAllChallenges(world).stream().
+            filter(challenge -> this.settings.isIncludeUndeployed() || challenge.isDeployed()).
+            count();
     }
 
 

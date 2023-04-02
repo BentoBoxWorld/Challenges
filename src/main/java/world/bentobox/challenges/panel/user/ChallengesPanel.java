@@ -130,7 +130,7 @@ public class ChallengesPanel extends CommonPanel
     {
         if (this.lastSelectedLevel != null)
         {
-            this.challengeList = this.manager.getLevelChallenges(this.lastSelectedLevel.getLevel());
+            this.challengeList = this.manager.getLevelChallenges(this.lastSelectedLevel.getLevel(), true);
 
             if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
             {

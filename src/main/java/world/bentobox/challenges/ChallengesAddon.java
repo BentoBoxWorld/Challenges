@@ -408,8 +408,18 @@ public class ChallengesAddon extends Addon {
             addonName + "_latest_level_uncompleted_count",
             user -> {
                 ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
-                return String.valueOf(level != null ?
-                    level.getChallenges().size() - this.challengesManager.getLevelCompletedChallengeCount(user, world, level) : 0);
+
+                if (level == null)
+                {
+                    return "0";
+                }
+
+                int challengeCount = this.getChallengesSettings().isIncludeUndeployed() ?
+                    level.getChallenges().size() :
+                    this.challengesManager.getLevelChallenges(level, false).size();
+
+                return String.valueOf(challengeCount -
+                    this.challengesManager.getLevelCompletedChallengeCount(user, world, level));
             });
     }
 

@@ -119,6 +119,7 @@ public class EditSettingsPanel extends CommonPanel
         panelBuilder.item(11, this.getSettingsButton(Button.GLOW_COMPLETED));
         panelBuilder.item(20, this.getSettingsButton(Button.REMOVE_COMPLETED));
         panelBuilder.item(29, this.getSettingsButton(Button.VISIBILITY_MODE));
+        panelBuilder.item(30, this.getSettingsButton(Button.INCLUDE_UNDEPLOYED));
 
         panelBuilder.item(21, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
 
@@ -414,9 +415,6 @@ public class EditSettingsPanel extends CommonPanel
                 description.add(this.user.getTranslation(reference +
                     (this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN) ? "enabled" : "disabled")) +
                     this.user.getTranslation(reference + "hidden"));
-                description.add(this.user.getTranslation(reference +
-                    (this.settings.getVisibilityMode().equals(VisibilityMode.TOGGLEABLE) ? "enabled" : "disabled")) +
-                    this.user.getTranslation(reference + "toggleable"));
 
                 if (this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE))
                 {
@@ -453,6 +451,22 @@ public class EditSettingsPanel extends CommonPanel
                 description.add("");
                 description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-cycle"));
                 description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-cycle"));
+            }
+            case INCLUDE_UNDEPLOYED -> {
+                description.add(this.user.getTranslation(reference +
+                    (this.settings.isIncludeUndeployed() ? "enabled" : "disabled")));
+
+                icon = new ItemStack(Material.BARREL);
+                clickHandler = (panel, user1, clickType, i) -> {
+                    this.settings.setIncludeUndeployed(!this.settings.isIncludeUndeployed());
+                    panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+                    this.addon.saveSettings();
+                    return true;
+                };
+                glow = this.settings.isIncludeUndeployed();
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
             }
             default -> {
                 icon = new ItemStack(Material.PAPER);
@@ -557,6 +571,10 @@ public class EditSettingsPanel extends CommonPanel
         LOCKED_LEVEL_ICON,
         SHOW_TITLE,
         TITLE_SHOWTIME,
+        /**
+         * This allows to switch between counting/not couting undeployed challenges.
+         */
+        INCLUDE_UNDEPLOYED,
         /**
          * This allows to switch between different challenges visibility modes.
          */

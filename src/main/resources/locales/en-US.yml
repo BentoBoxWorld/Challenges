@@ -683,6 +683,15 @@ challenges:
                 visible: "Show visible challenges"
                 hidden: "Show all challenges"
                 toggleable: "Allow toggling"
+            include_undeployed:
+                name: "&f&l Include Undeployed Challenges"
+                description: |-
+                    &7 Indicates if undeployed 
+                    &7 challenges should be 
+                    &7 counted towards level 
+                    &7 completion.
+                enabled: "&2 Enabled"
+                disabled: "&c Disabled"
             download:
                 name: "&f&l Download Libraries"
                 description: |-
