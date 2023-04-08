@@ -127,12 +127,6 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>plugin-annotations</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Vault API -->
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
