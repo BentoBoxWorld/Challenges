@@ -166,8 +166,9 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
     {
         if (this.libraryEntries.isEmpty())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation(
-                Constants.ERRORS + "no-library-entries"));
+            Utils.sendMessage(this.user,
+                this.world,
+                Constants.ERRORS + "no-library-entries");
             return;
         }
 
@@ -311,8 +312,9 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
                         {
                             this.blockedForDownland = true;
 
-                            Utils.sendMessage(this.user, this.user.getTranslation(
-                                Constants.MESSAGES + "start-downloading"));
+                            Utils.sendMessage(this.user,
+                                this.world,
+                                Constants.MESSAGES + "start-downloading");
 
                             // Run download task after 5 ticks.
                             this.updateTask = this.addon.getPlugin().getServer().getScheduler().

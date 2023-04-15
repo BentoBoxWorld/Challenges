@@ -156,7 +156,7 @@ public class EditChallengePanel extends CommonPanel
         // This will ensure that all main things will be always stored
         this.addon.getChallengesManager().saveChallenge(this.challenge);
         // If for some reason challenge is not loaded, do it.
-        this.addon.getChallengesManager().loadChallenge(this.challenge, false, null, true);
+        this.addon.getChallengesManager().loadChallenge(this.challenge, this.world,false, null, true);
 
         panelBuilder.build();
     }
@@ -445,8 +445,10 @@ public class EditChallengePanel extends CommonPanel
                 else
                 {
                     Utils.sendMessage(this.user,
-                            this.user.getTranslation(Constants.CONVERSATIONS + "invalid-challenge",
-                                    "[challenge]", this.challenge.getFriendlyName()));
+                        this.world,
+                        Constants.CONVERSATIONS + "invalid-challenge",
+                        Constants.PARAMETER_CHALLENGE,
+                        this.challenge.getFriendlyName());
                     this.challenge.setDeployed(false);
                 }
 

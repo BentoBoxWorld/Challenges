@@ -82,7 +82,11 @@ public class ChallengesImportManager
         {
             if (user != null)
             {
-                Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-file", Constants.PARAMETER_FILE, file));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "no-file",
+                    Constants.PARAMETER_FILE,
+                    file);
             }
 
             return;
@@ -98,8 +102,11 @@ public class ChallengesImportManager
         {
             if (user != null)
             {
-                Utils.sendMessage(user, user.getTranslation(Constants.ERRORS + "no-load",
-                    Constants.PARAMETER_FILE, file, TextVariables.DESCRIPTION, e.getMessage()));
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "no-load",
+                    Constants.PARAMETER_FILE, file,
+                    TextVariables.DESCRIPTION, e.getMessage());
             }
 
             this.addon.logError("Exception when loading file. " + e.getMessage());
@@ -114,8 +121,9 @@ public class ChallengesImportManager
             if (user != null)
             {
                 Utils.sendMessage(user,
-                    user.getTranslation(Constants.ERRORS + "not-a-gamemode-world",
-                        Constants.PARAMETER_WORLD, world.getName()));
+                    world,
+                    Constants.ERRORS + "not-a-gamemode-world",
+                    Constants.PARAMETER_WORLD, world.getName());
             }
 
             this.addon.logWarning("Given world is not a gamemode world.");
@@ -151,6 +159,7 @@ public class ChallengesImportManager
                challengeCount = reader.getKeys(false).stream().
                    mapToInt(challengeId -> this.createChallenge(challengeId,
                        prefix,
+                       world,
                        reader.getConfigurationSection(challengeId))).
                    sum();
             }
@@ -174,9 +183,10 @@ public class ChallengesImportManager
         if (user != null)
         {
             Utils.sendMessage(user,
-                user.getTranslation(Constants.MESSAGES + "import-count",
-                    "[levels]", String.valueOf(levelCount),
-                    "[challenges]", String.valueOf(challengeCount)));
+                world,
+                Constants.MESSAGES + "import-count",
+                "[levels]", String.valueOf(levelCount),
+                "[challenges]", String.valueOf(challengeCount));
         }
 
         this.addon.log("Imported " + challengeCount + " challenges and " +
@@ -188,11 +198,13 @@ public class ChallengesImportManager
      * This method creates challenge from given config section.
      * @param challengeId Challenge ID.
      * @param prefix GameMode prefix.
+     * @param world world where challenge is created.
      * @param section Configuration Section that contains information.
      * @return 1 if challenge is created, otherwise 0.
      */
     private int createChallenge(String challengeId,
         String prefix,
+        World world,
         @Nullable ConfigurationSection section)
     {
         if (section == null)
@@ -266,7 +278,7 @@ public class ChallengesImportManager
             }
 
             this.addon.getChallengesManager().saveChallenge(challenge);
-            this.addon.getChallengesManager().loadChallenge(challenge, true, null, true);
+            this.addon.getChallengesManager().loadChallenge(challenge, world, true, null, true);
         }
         catch (Exception e)
         {
@@ -632,7 +644,7 @@ public class ChallengesImportManager
             }
 
             this.addon.getChallengesManager().saveLevel(level);
-            this.addon.getChallengesManager().loadLevel(level, true, null, true);
+            this.addon.getChallengesManager().loadLevel(level, world,true, null, true);
         }
         catch (Exception ignored)
         {
@@ -696,7 +708,7 @@ public class ChallengesImportManager
                     challenge.setLevel(uniqueIDPrefix + challenge.getLevel());
                 }
                 // Load challenge in memory
-                manager.loadChallenge(challenge, false, user, user == null);
+                manager.loadChallenge(challenge, world, false, user, user == null);
             });
 
             downloadedChallenges.getLevelList().forEach(challengeLevel -> {
@@ -709,7 +721,7 @@ public class ChallengesImportManager
                     map(challenge -> uniqueIDPrefix + challenge).
                     collect(Collectors.toSet()));
                 // Load level in memory
-                manager.loadLevel(challengeLevel, false, user, user == null);
+                manager.loadLevel(challengeLevel, world, false, user, user == null);
             });
         }
         catch (Exception e)
@@ -746,7 +758,7 @@ public class ChallengesImportManager
         {
             if (user.isPlayer())
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.exist-challenges-or-levels"));
+                Utils.sendMessage(user, world, Constants.ERRORS + "exist-challenges-or-levels");
             }
             else
             {
@@ -773,7 +785,7 @@ public class ChallengesImportManager
                     challenge.setLevel(uniqueIDPrefix + challenge.getLevel());
                 }
                 // Load challenge in memory
-                manager.loadChallenge(challenge, false, user, user == null);
+                manager.loadChallenge(challenge, world, false, user, user == null);
             });
 
             downloadedChallenges.getLevelList().forEach(challengeLevel -> {
@@ -786,7 +798,7 @@ public class ChallengesImportManager
                         map(challenge -> uniqueIDPrefix + challenge).
                         collect(Collectors.toSet()));
                 // Load level in memory
-                manager.loadLevel(challengeLevel, false, user, user == null);
+                manager.loadLevel(challengeLevel, world, false, user, user == null);
             });
         }
         catch (Exception e)
@@ -815,8 +827,9 @@ public class ChallengesImportManager
             if (user.isPlayer())
             {
                 Utils.sendMessage(user,
-                    user.getTranslation(Constants.ERRORS + "file-exist",
-                        Constants.PARAMETER_FILE, fileName));
+                    world,
+                    Constants.ERRORS + "file-exist",
+                    Constants.PARAMETER_FILE, fileName);
             }
             else
             {
@@ -882,9 +895,10 @@ public class ChallengesImportManager
             if (user.isPlayer())
             {
                 Utils.sendMessage(user,
-                    user.getTranslation(Constants.ERRORS + "no-load",
-                        Constants.PARAMETER_FILE, fileName,
-                        TextVariables.DESCRIPTION, e.getMessage()));
+                    world,
+                    Constants.ERRORS + "no-load",
+                    Constants.PARAMETER_FILE, fileName,
+                    TextVariables.DESCRIPTION, e.getMessage());
             }
 
             this.addon.logError("Could not save json file: " + e.getMessage());
@@ -894,9 +908,10 @@ public class ChallengesImportManager
             if (user.isPlayer())
             {
                 Utils.sendMessage(user,
-                    user.getTranslation(Constants.CONVERSATIONS + "database-export-completed",
-                        Constants.PARAMETER_WORLD, world.getName(),
-                        Constants.PARAMETER_FILE, fileName));
+                    world,
+                    Constants.CONVERSATIONS + "database-export-completed",
+                    Constants.PARAMETER_WORLD, world.getName(),
+                    Constants.PARAMETER_FILE, fileName);
             }
             else
             {

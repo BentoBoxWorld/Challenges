@@ -186,11 +186,14 @@ public class Utils
 	 * Send given message to user and add prefix to the start of the message.
 	 *
 	 * @param user User who need to receive message.
-	 * @param message String of message that must be send.
+	 * @param world Reference to world where message must be send.
+	 * @param translation String of message that must be send.
+	 * @param parameters Parameters that must be added to translation.
 	 */
-	public static void sendMessage(User user, String message)
+	public static void sendMessage(User user, World world, String translation, String... parameters)
 	{
-		user.sendMessage(user.getTranslation(Constants.CONVERSATIONS + "prefix") + message);
+		user.sendMessage(user.getTranslation(world, Constants.CONVERSATIONS + "prefix") +
+			user.getTranslation(world, translation, parameters));
 	}
 
 

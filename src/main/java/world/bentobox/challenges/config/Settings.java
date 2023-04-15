@@ -106,10 +106,9 @@ public class Settings implements ConfigObject
     @ConfigComment("Valid values are:")
     @ConfigComment("    'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.")
     @ConfigComment("    'HIDDEN' - shows only deployed challenges.")
-    @ConfigComment("    'TOGGLEABLE' - there will be button in GUI that allows users to switch from ALL modes.")
-    @ConfigComment("TOGGLEABLE - Currently not implemented.")
     @ConfigEntry(path = "gui-settings.undeployed-view-mode")
     private VisibilityMode visibilityMode = VisibilityMode.VISIBLE;
+
 
     @ConfigComment("")
     @ConfigComment("This allows to change default locked level icon. This option may be")
@@ -129,6 +128,13 @@ public class Settings implements ConfigObject
     @ConfigComment("challenges by doing them repeatedly.")
     @ConfigEntry(path = "reset-challenges")
     private boolean resetChallenges = true;
+
+    @ConfigComment("")
+    @ConfigComment("This option indicates if undepolyed challenges should be counted to level completion.")
+    @ConfigComment("Disabling this option will make it so that only deployed challenges will be counted.")
+    @ConfigComment("Default: true")
+    @ConfigEntry(path = "include-undeployed")
+    private boolean includeUndeployed = true;
 
     @ConfigComment("")
     @ConfigComment("Broadcast 1st time challenge completion messages to all players.")
@@ -165,7 +171,7 @@ public class Settings implements ConfigObject
      * Configuration version
      */
     @ConfigComment("")
-    private String configVersion = "v3";
+    private String configVersion = "v4";
 
 
 // ---------------------------------------------------------------------
@@ -596,5 +602,27 @@ public class Settings implements ConfigObject
     public void setVisibilityMode(VisibilityMode visibilityMode)
     {
         this.visibilityMode = visibilityMode;
+    }
+
+
+    /**
+     * Is count undeployed to completion boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isIncludeUndeployed()
+    {
+        return includeUndeployed;
+    }
+
+
+    /**
+     * Sets count undeployed to completion.
+     *
+     * @param includeUndeployed the count undeployed to completion
+     */
+    public void setIncludeUndeployed(boolean includeUndeployed)
+    {
+        this.includeUndeployed = includeUndeployed;
     }
 }

@@ -8,6 +8,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.panel.user.ChallengesPanel;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -31,7 +32,7 @@ public class ChallengesPlayerCommand extends CompositeCommand
         if (!this.getIWM().inWorld(user.getWorld()) ||
                 !Util.sameWorld(this.getWorld(), user.getWorld())) {
             // Not a GameMode world.
-            Utils.sendMessage(user, user.getTranslation("general.errors.wrong-world"));
+            Utils.sendMessage(user, user.getWorld(), "general.errors.wrong-world");
             return false;
         }
 
@@ -47,13 +48,13 @@ public class ChallengesPlayerCommand extends CompositeCommand
                         map(GameModeAddon::getAdminCommand).
                         map(optionalAdminCommand -> optionalAdminCommand.map(CompositeCommand::getTopLabel).orElse(this.getTopLabel())).
                         orElse(this.getTopLabel());
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges-admin",
+                Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-challenges-admin",
                         "[command]",
-                        topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
+                        topLabel + " " + this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]);
             }
             else
             {
-                Utils.sendMessage(user, user.getTranslation("challenges.errors.no-challenges"));
+                Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "no-challenges");
             }
 
             return false;
@@ -62,14 +63,14 @@ public class ChallengesPlayerCommand extends CompositeCommand
         if (this.getIslands().getIsland(this.getWorld(), user) == null)
         {
             // Do not open gui if there is no island for this player.
-            Utils.sendMessage(user, user.getTranslation("general.errors.no-island"));
+            Utils.sendMessage(user, this.getWorld(), "general.errors.no-island");
             return false;
         } else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.getWorld()) &&
                 !this.getIslands().locationIsOnIsland(user.getPlayer(), user.getLocation()))
         {
             // Do not open gui if player is not on the island, but challenges requires island for
             // completion.
-            Utils.sendMessage(user, user.getTranslation("challenges.errors.not-on-island"));
+            Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "not-on-island");
             return false;
         }
 

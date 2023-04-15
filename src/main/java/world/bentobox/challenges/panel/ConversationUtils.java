@@ -7,12 +7,12 @@
 package world.bentobox.challenges.panel;
 
 
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -65,7 +65,7 @@ public class ConversationUtils
 
                 // Split and check if they exist in valid entries.
                 String[] accepted = validEntry.toLowerCase().replaceAll("\\s", "").split(",");
-                return ArrayUtils.contains(accepted, input.toLowerCase());
+                return Arrays.asList(accepted).contains(input.toLowerCase());
             }
 
 
@@ -81,7 +81,7 @@ public class ConversationUtils
             {
                 String validEntry = user.getTranslation(Constants.CONVERSATIONS + "confirm-string").toLowerCase();
 
-                if (ArrayUtils.contains(validEntry.replaceAll("\\s", "").split(","), input.toLowerCase()))
+                if (Arrays.asList(validEntry.replaceAll("\\s", "").split(",")).contains(input.toLowerCase()))
                 {
                     // Add answer to consumer.
                     consumer.accept(true);
@@ -432,7 +432,7 @@ public class ConversationUtils
                         toLowerCase().replaceAll("\\s", "").
                         split(",");
 
-                if (input != null && ArrayUtils.contains(exit, input.toLowerCase()))
+                if (input != null && Arrays.asList(exit).contains(input.toLowerCase()))
                 {
                     return messagePrompt;
                 }

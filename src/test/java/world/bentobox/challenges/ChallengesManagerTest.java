@@ -245,96 +245,96 @@ public class ChallengesManagerTest {
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeNoOverwriteSilent() {
         // load once
-        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // load twice - no overwrite
-        assertFalse(cm.loadChallenge(challenge, false, user, true));
+        assertFalse(cm.loadChallenge(challenge, world, false, user, true));
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeNoOverwriteNotSilent() {
         // load once
-        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // load twice - no overwrite, not silent
-        assertFalse(cm.loadChallenge(challenge, false, user, false));
+        assertFalse(cm.loadChallenge(challenge, world, false, user, false));
         verify(user).getTranslation("challenges.messages.load-skipping", "[value]", "name");
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeOverwriteSilent() {
         // load once
-        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // overwrite
-        assertTrue(cm.loadChallenge(challenge, true, user, true));
+        assertTrue(cm.loadChallenge(challenge, world, true, user, true));
         verify(user, never()).getTranslation(anyString(), anyString(), anyString());
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadChallenge(world.bentobox.challenges.database.object.Challenge, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadChallengeOverwriteNotSilent() {
         // load once
-        assertTrue(cm.loadChallenge(challenge, false, user, true));
+        assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // overwrite not silent
-        assertTrue(cm.loadChallenge(challenge, true, user, false));
+        assertTrue(cm.loadChallenge(challenge, world, true, user, false));
         verify(user).getTranslation("challenges.messages.load-overwriting", "[value]", "name");
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelNoOverwriteSilent() {
         // load once
-        assertTrue(cm.loadLevel(level, false, user, true));
+        assertTrue(cm.loadLevel(level, world, false, user, true));
         // load twice - no overwrite
-        assertFalse(cm.loadLevel(level, false, user, true));
+        assertFalse(cm.loadLevel(level, world, false, user, true));
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelNoOverwriteNotSilent() {
         // load once
-        assertTrue(cm.loadLevel(level, false, user, true));
+        assertTrue(cm.loadLevel(level, world, false, user, true));
         // load twice - no overwrite, not silent
-        assertFalse(cm.loadLevel(level, false, user, false));
+        assertFalse(cm.loadLevel(level, world, false, user, false));
         verify(user).getTranslation("challenges.messages.load-skipping", "[value]", "Novice");
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, World,  boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelOverwriteSilent() {
         // load once
-        assertTrue(cm.loadLevel(level, false, user, true));
+        assertTrue(cm.loadLevel(level, world, false, user, true));
         // overwrite
-        assertTrue(cm.loadLevel(level, true, user, true));
+        assertTrue(cm.loadLevel(level, world, true, user, true));
         verify(user, never()).getTranslation(anyString(), anyString(), anyString());
     }
 
     /**
-     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
+     * Test method for {@link ChallengesManager#loadLevel(world.bentobox.challenges.database.object.ChallengeLevel, World, boolean, world.bentobox.bentobox.api.user.User, boolean)}.
      */
     @Test
     public void testLoadLevelOverwriteNotSilent() {
         // load once
-        assertTrue(cm.loadLevel(level, false, user, true));
+        assertTrue(cm.loadLevel(level, world, false, user, true));
         // overwrite not silent
-        assertTrue(cm.loadLevel(level, true, user, false));
+        assertTrue(cm.loadLevel(level, world, true, user, false));
         verify(user).getTranslation("challenges.messages.load-overwriting", "[value]", "Novice");
     }
 
@@ -660,7 +660,7 @@ public class ChallengesManagerTest {
     public void testGetAllChallengesNames() {
         assertTrue(cm.getAllChallengesNames(world).isEmpty());
         cm.saveChallenge(challenge);
-        cm.loadChallenge(challenge, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
         List<String> list = cm.getAllChallengesNames(world);
         assertFalse(list.isEmpty());
         assertEquals(cName, list.get(0));
@@ -673,7 +673,7 @@ public class ChallengesManagerTest {
     public void testGetAllChallenges() {
         assertTrue(cm.getAllChallenges(world).isEmpty());
         cm.saveChallenge(challenge);
-        cm.loadChallenge(challenge, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
         List<Challenge> list = cm.getAllChallenges(world);
         assertFalse(list.isEmpty());
         assertEquals(challenge, list.get(0));
@@ -688,12 +688,12 @@ public class ChallengesManagerTest {
         assertTrue(cm.getFreeChallenges(world).isEmpty());
         // One normal
         cm.saveChallenge(challenge);
-        cm.loadChallenge(challenge, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
         assertTrue(cm.getFreeChallenges(world).isEmpty());
         // One free
         challenge.setLevel("");
         cm.saveChallenge(challenge);
-        cm.loadChallenge(challenge, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
         List<Challenge> list = cm.getFreeChallenges(world);
         assertFalse(list.isEmpty());
         assertEquals(challenge, list.get(0));
@@ -792,7 +792,7 @@ public class ChallengesManagerTest {
     public void testGetLevelString() {
         assertNull(cm.getLevel("dss"));
         cm.saveLevel(level);
-        cm.loadLevel(level, false, user, true);
+        cm.loadLevel(level, world, false, user, true);
         assertEquals(level, cm.getLevel(levelName));
     }
 

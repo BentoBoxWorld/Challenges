@@ -212,7 +212,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
     private void buildChallengesPanel(PanelBuilder panelBuilder)
     {
         List<Challenge> challengeList = this.addon.getChallengesManager().
-            getLevelChallenges(this.challengeLevel).stream().
+            getLevelChallenges(this.challengeLevel, true).stream().
             filter(challenge -> this.searchString.isBlank() ||
                 challenge.getFriendlyName().toLowerCase().contains(this.searchString.toLowerCase()) ||
                 challenge.getUniqueId().toLowerCase().contains(this.searchString.toLowerCase()) ||
@@ -784,7 +784,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
 
                     // Get all challenge that is not in current level.
                     List<Challenge> challengeList = manager.getAllChallenges(this.world);
-                    challengeList.removeAll(manager.getLevelChallenges(this.challengeLevel));
+                    challengeList.removeAll(manager.getLevelChallenges(this.challengeLevel, true));
 
                     // Generate descriptions for these challenges
                     Map<Challenge, List<String>> challengeDescriptionMap = challengeList.stream().
@@ -820,7 +820,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                     ChallengesManager manager = this.addon.getChallengesManager();
 
                     // Get all challenge that is in current level.
-                    List<Challenge> challengeList = manager.getLevelChallenges(this.challengeLevel);
+                    List<Challenge> challengeList = manager.getLevelChallenges(this.challengeLevel, true);
 
                     // Generate descriptions for these challenges
                     Map<Challenge, List<String>> challengeDescriptionMap = challengeList.stream().

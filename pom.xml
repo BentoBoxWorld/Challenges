@@ -32,7 +32,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <powermock.version>2.0.9</powermock.version>
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
@@ -44,7 +44,7 @@
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
-        <build.version>1.1.0</build.version>
+        <build.version>1.2.0</build.version>
         <build.number>-LOCAL</build.number>
         <!-- Sonar Cloud -->
         <sonar.projectKey>BentoBoxWorld_Challenges</sonar.projectKey>
@@ -125,12 +125,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>plugin-annotations</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- Vault API -->
@@ -249,6 +243,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <argLine>
+                        ${argLine}
                         --add-opens java.base/java.lang=ALL-UNNAMED
                         --add-opens java.base/java.math=ALL-UNNAMED
                         --add-opens java.base/java.io=ALL-UNNAMED
@@ -355,34 +350,34 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.1-SNAPSHOT</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
-                    <artifactSet>
-                        <includes>
-                            <include>lv.id.bonne:panelutils:*</include>
-                        </includes>
-                    </artifactSet>
-                    <transformers>
-                        <!-- Add a transformer to exclude any other manifest files (possibly from dependencies). -->
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
-                            <resource>MANIFEST.MF</resource>
-                        </transformer>
-                        <!-- Add a transformer to include your custom manifest file. -->
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                            <resource>META-INF/MANIFEST.MF</resource>
-                            <file>src/main/resources/META-INF/MANIFEST.MF</file>
-                        </transformer>
-                    </transformers>
+                    <append>true</append>
+                    <excludes>
+                        <!-- This is required to prevent Jacoco from adding 
+                            synthetic fields to a JavaBean class (causes errors in testing) -->
+                        <exclude>**/*Names*</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>prepare-agent</id>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>prepare-agent</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

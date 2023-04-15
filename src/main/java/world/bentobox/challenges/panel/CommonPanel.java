@@ -942,14 +942,17 @@ public abstract class CommonPanel
         else
         {
             ChallengeLevel level = levelStatus.getLevel();
+            List<Challenge> challengeList = this.addon.getChallengesManager().getLevelChallenges(level);
+
             // Check if unlock message should appear.
-            int doneChallenges = (int) level.getChallenges().stream().
+            int doneChallenges = (int) challengeList.
+                stream().
                 filter(challenge -> this.addon.getChallengesManager().isChallengeComplete(user.getUniqueId(), world, challenge)).
                 count();
 
             return this.user.getTranslation(reference + "completed-challenges-of",
                 "[number]", String.valueOf(doneChallenges),
-                "[max]", String.valueOf(level.getChallenges().size()));
+                "[max]", String.valueOf(challengeList.size()));
         }
     }
 

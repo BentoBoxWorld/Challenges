@@ -265,18 +265,21 @@ public class TryToComplete
             // Send message about first completion only if it is completed only once.
             if (result.getFactor() == 1)
             {
-                Utils.sendMessage(this.user, this.user.getTranslation("challenges.messages.you-completed-challenge",
-                    "[value]", this.challenge.getFriendlyName()));
+                Utils.sendMessage(this.user, 
+                    this.world,
+                    Constants.MESSAGES + "you-completed-challenge",
+                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName());
             }
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
                 Bukkit.getOnlinePlayers().stream().
                     map(User::getInstance).
-                    forEach(user -> Utils.sendMessage(user, user.getTranslation(
-                        "challenges.messages.name-has-completed-challenge",
+                    forEach(user -> Utils.sendMessage(user,
+                        this.world,
+                        Constants.MESSAGES + "name-has-completed-challenge",
                         Constants.PARAMETER_NAME, this.user.getName(),
-                        "[value]", this.challenge.getFriendlyName())));
+                        Constants.PARAMETER_VALUE, this.challenge.getFriendlyName()));
             }
 
             // sends title to player on challenge completion
@@ -327,14 +330,18 @@ public class TryToComplete
 
             if (result.getFactor() > 1)
             {
-                Utils.sendMessage(this.user, this.user.getTranslation("challenges.messages.you-repeated-challenge-multiple",
-                    "[value]", this.challenge.getFriendlyName(),
-                    "[count]", Integer.toString(result.getFactor())));
+                Utils.sendMessage(this.user,
+                    this.world,
+                    Constants.MESSAGES + "you-repeated-challenge-multiple",
+                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName(),
+                    "[count]", Integer.toString(result.getFactor()));
             }
             else
             {
-                Utils.sendMessage(this.user, this.user.getTranslation("challenges.messages.you-repeated-challenge",
-                    "[value]", this.challenge.getFriendlyName()));
+                Utils.sendMessage(this.user,
+                    this.world,
+                    Constants.MESSAGES + "you-repeated-challenge",
+                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName());
             }
         }
 
@@ -372,17 +379,20 @@ public class TryToComplete
                     // Run commands
                     this.runCommands(level.getRewardCommands());
 
-                    Utils.sendMessage(this.user, this.user.getTranslation("challenges.messages.you-completed-level",
-                        "[value]", level.getFriendlyName()));
+                    Utils.sendMessage(this.user,
+                        this.world,
+                        Constants.MESSAGES + "you-completed-level",
+                        Constants.PARAMETER_VALUE, level.getFriendlyName());
 
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
                         Bukkit.getOnlinePlayers().stream().
                             map(User::getInstance).
-                            forEach(user -> Utils.sendMessage(user, user.getTranslation(
-                                "challenges.messages.name-has-completed-level",
+                            forEach(user -> Utils.sendMessage(user,
+                                this.world,
+                                Constants.MESSAGES + "name-has-completed-level",
                                 Constants.PARAMETER_NAME, this.user.getName(),
-                                "[value]", level.getFriendlyName())));
+                                Constants.PARAMETER_VALUE, level.getFriendlyName()));
                     }
 
                     this.manager.setLevelComplete(this.user, this.world, level);
@@ -447,7 +457,8 @@ public class TryToComplete
                     if (sumEverything != removedAmount)
                     {
                         Utils.sendMessage(this.user,
-                            this.user.getTranslation("challenges.errors.cannot-remove-items"));
+                            this.world,
+                            Constants.ERRORS + "cannot-remove-items");
 
                         result.removedItems = removedItems;
                         result.meetsRequirements = false;
@@ -495,45 +506,54 @@ public class TryToComplete
                             }
                         }
                         case ITEM, BLOCK -> {
-                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
-
                             if (requirements.getMaterial() == null)
                             {
                                 // Just a sanity check. Material cannot be null at this point of code.
                                 removeAmount = 0;
                             }
-                            else if (removeAmount >= statistic)
-                            {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
-                                removeAmount -= statistic;
-                            }
                             else
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                    requirements.getMaterial(),
-                                    statistic - removeAmount);
-                                removeAmount = 0;
+                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                    requirements.getMaterial());
+
+                                if (removeAmount >= statistic)
+                                {
+                                    this.user.getPlayer()
+                                        .setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
+                                    removeAmount -= statistic;
+                                }
+                                else
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                        requirements.getMaterial(),
+                                        statistic - removeAmount);
+                                    removeAmount = 0;
+                                }
                             }
                         }
                         case ENTITY -> {
-                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
-
                             if (requirements.getEntity() == null)
                             {
                                 // Just a sanity check. Entity cannot be null at this point of code.
                                 removeAmount = 0;
                             }
-                            else if (removeAmount >= statistic)
-                            {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
-                                removeAmount -= statistic;
-                            }
                             else
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                    requirements.getEntity(),
-                                    statistic - removeAmount);
-                                removeAmount = 0;
+                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                    requirements.getEntity());
+
+                                if (removeAmount >= statistic)
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
+                                    removeAmount -= statistic;
+                                }
+                                else
+                                {
+                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
+                                        requirements.getEntity(),
+                                        statistic - removeAmount);
+                                    removeAmount = 0;
+                                }
                             }
                         }
                     }
@@ -577,45 +597,57 @@ public class TryToComplete
                                     }
                                 }
                                 case ITEM, BLOCK -> {
-                                    int statistic = player.getStatistic(requirements.getStatistic());
-
                                     if (requirements.getMaterial() == null)
                                     {
                                         // Just a sanity check. Entity cannot be null at this point of code.
                                         removeAmount = 0;
                                     }
-                                    else if (removeAmount >= statistic)
-                                    {
-                                        removeAmount -= statistic;
-                                        player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
-                                    }
                                     else
                                     {
-                                        player.setStatistic(requirements.getStatistic(),
-                                            requirements.getMaterial(),
-                                            statistic - removeAmount);
-                                        removeAmount = 0;
+                                        int statistic = player.getStatistic(requirements.getStatistic(),
+                                            requirements.getMaterial());
+
+                                        if (removeAmount >= statistic)
+                                        {
+                                            removeAmount -= statistic;
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getMaterial(),
+                                                0);
+                                        }
+                                        else
+                                        {
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getMaterial(),
+                                                statistic - removeAmount);
+                                            removeAmount = 0;
+                                        }
                                     }
                                 }
                                 case ENTITY -> {
-                                    int statistic = player.getStatistic(requirements.getStatistic());
-
                                     if (requirements.getEntity() == null)
                                     {
                                         // Just a sanity check. Entity cannot be null at this point of code.
                                         removeAmount = 0;
                                     }
-                                    else if (removeAmount >= statistic)
-                                    {
-                                        removeAmount -= statistic;
-                                        player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
-                                    }
                                     else
                                     {
-                                        player.setStatistic(requirements.getStatistic(),
-                                            requirements.getEntity(),
-                                            statistic - removeAmount);
-                                        removeAmount = 0;
+                                        int statistic = player.getStatistic(requirements.getStatistic(),
+                                            requirements.getEntity());
+
+                                        if (removeAmount >= statistic)
+                                        {
+                                            removeAmount -= statistic;
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getEntity(),
+                                                0);
+                                        }
+                                        else
+                                        {
+                                            player.setStatistic(requirements.getStatistic(),
+                                                requirements.getEntity(),
+                                                statistic - removeAmount);
+                                            removeAmount = 0;
+                                        }
                                     }
                                 }
                             }
@@ -640,18 +672,18 @@ public class TryToComplete
         // Check the world
         if (!this.challenge.isDeployed())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-deployed"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-deployed");
             result = EMPTY_RESULT;
         }
         else if (maxTimes < 1)
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-valid-integer"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-valid-integer");
             result = EMPTY_RESULT;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
             !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("general.errors.wrong-world"));
+            Utils.sendMessage(this.user, this.world, "general.errors.wrong-world");
             result = EMPTY_RESULT;
         }
         // Player is not on island
@@ -659,7 +691,7 @@ public class TryToComplete
             ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
                 !this.addon.getIslands().locationIsOnIsland(this.user.getPlayer(), this.user.getLocation()))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-on-island"));
+            Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "not-on-island");
             result = EMPTY_RESULT;
         }
         // Check player permission
@@ -667,27 +699,27 @@ public class TryToComplete
             map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).
             orElse(false))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.no-rank"));
+            Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "no-rank");
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
             !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.challenge-level-not-available"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "challenge-level-not-available");
             result = EMPTY_RESULT;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
             this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-repeatable"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-repeatable");
             result = EMPTY_RESULT;
         }
         // Check repeatability
         else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.world, this.challenge))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-repeatable"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-repeatable");
             result = EMPTY_RESULT;
         }
         // Check if timeout is not broken
@@ -696,22 +728,22 @@ public class TryToComplete
             long missing = this.manager.getLastCompletionDate(this.user, this.world, challenge) +
                 this.challenge.getTimeout() - System.currentTimeMillis();
 
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.timeout",
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "timeout",
                 "[timeout]", Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user),
-                "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user)));
+                "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user));
             result = EMPTY_RESULT;
         }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
             !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.wrong-environment"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "wrong-environment");
             result = EMPTY_RESULT;
         }
         // Check permission
         else if (!this.checkPermissions())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("general.errors.no-permission"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-permission");
             result = EMPTY_RESULT;
         }
         else if (type.equals(ChallengeType.INVENTORY_TYPE))
@@ -806,9 +838,9 @@ public class TryToComplete
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
                 cmd = cmd.substring(6).
-                    replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
                     trim();
                 try
                 {
@@ -829,9 +861,9 @@ public class TryToComplete
 
             try
             {
-                cmd = cmd.replaceAll(Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
+                cmd = cmd.replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
                     trim();
 
                 if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
@@ -908,9 +940,9 @@ public class TryToComplete
 
                 if (numInInventory < required.getAmount())
                 {
-                    Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-enough-items",
+                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-items",
                         "[items]",
-                        Utils.prettifyObject(required, this.user)));
+                        Utils.prettifyObject(required, this.user));
                     return EMPTY_RESULT;
                 }
 
@@ -1173,13 +1205,16 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
         }
 
-        Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-close-enough",
-            "[number]", String.valueOf(this.getIslandRequirements().getSearchRadius())));
+        Utils.sendMessage(this.user,
+            this.world,
+            Constants.ERRORS + "not-close-enough",
+            Constants.PARAMETER_NUMBER, String.valueOf(this.getIslandRequirements().getSearchRadius()));
 
         blocks.forEach((k, v) -> Utils.sendMessage(this.user,
-            this.user.getTranslation("challenges.errors.you-still-need",
-                "[amount]", String.valueOf(v),
-                "[item]", Utils.prettifyObject(k, this.user))));
+            this.world,
+            Constants.ERRORS + "you-still-need",
+            "[amount]", String.valueOf(v),
+            "[item]", Utils.prettifyObject(k, this.user)));
 
 
         // kick garbage collector
@@ -1259,9 +1294,11 @@ public class TryToComplete
         }
 
         minimalRequirements.forEach((reqEnt, amount) ->
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.you-still-need",
+            Utils.sendMessage(this.user,
+                this.world,
+                Constants.ERRORS + "you-still-need",
                 "[amount]", String.valueOf(amount),
-                "[item]", Utils.prettifyObject(reqEnt, this.user))));
+                "[item]", Utils.prettifyObject(reqEnt, this.user)));
 
         // Kick garbage collector
         entitiesFound.clear();
@@ -1342,42 +1379,47 @@ public class TryToComplete
 
         if (!this.addon.isLevelProvided() && requirements.getRequiredIslandLevel() != 0)
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.missing-addon"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "missing-addon");
         }
         else if (!this.addon.isEconomyProvided() &&
                 requirements.getRequiredMoney() != 0)
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.missing-addon"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "missing-addon");
         }
         else if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() < 0)
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.incorrect"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
         }
         else if (this.addon.isEconomyProvided() &&
             !this.addon.getEconomyProvider().has(this.user, requirements.getRequiredMoney()))
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-enough-money",
-                "[value]",
-                Double.toString(requirements.getRequiredMoney())));
+            Utils.sendMessage(this.user,
+                this.world,
+                Constants.ERRORS + "not-enough-money",
+                Constants.PARAMETER_VALUE, Double.toString(requirements.getRequiredMoney()));
         }
         else if (requirements.getRequiredExperience() < 0)
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.incorrect"));
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
         }
         else if (this.user.getPlayer().getTotalExperience() < requirements.getRequiredExperience() &&
             this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
             // Players in creative gamemode has infinite amount of EXP.
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.not-enough-experience",
-                "[value]",
-                Integer.toString(requirements.getRequiredExperience())));
+            Utils.sendMessage(this.user,
+                this.world,
+                Constants.ERRORS + "not-enough-experience",
+                Constants.PARAMETER_VALUE,
+                Integer.toString(requirements.getRequiredExperience()));
         }
         else if (this.addon.isLevelProvided() &&
                 this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < requirements.getRequiredIslandLevel())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.island-level",
+            Utils.sendMessage(this.user,
+                this.world,
+                Constants.ERRORS + "island-level",
                 TextVariables.NUMBER,
-                String.valueOf(requirements.getRequiredIslandLevel())));
+                String.valueOf(requirements.getRequiredIslandLevel()));
         }
         else
         {
@@ -1440,10 +1482,35 @@ public class TryToComplete
 
         if (currentValue < requirements.getAmount())
         {
-            Utils.sendMessage(this.user, this.user.getTranslation("challenges.errors.requirement-not-met",
-                TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
-                "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
-                "[value]", String.valueOf(currentValue)));
+            switch (Objects.requireNonNull(requirements.getStatistic()).getType())
+            {
+                case ITEM, BLOCK -> {
+                    Utils.sendMessage(this.user,
+                        this.world,
+                        Constants.ERRORS + "requirement-not-met-material",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        "[material]", Utils.prettifyObject(requirements.getMaterial(), this.user),
+                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
+                }
+                case ENTITY -> {
+                    Utils.sendMessage(this.user,
+                        this.world,
+                        Constants.ERRORS + "requirement-not-met-entity",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        "[entity]", Utils.prettifyObject(requirements.getEntity(), this.user),
+                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
+                }
+                default -> {
+                    Utils.sendMessage(this.user,
+                        this.world,
+                        Constants.ERRORS + "requirement-not-met",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
+                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
+                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
+                }
+            }
         }
         else
         {
