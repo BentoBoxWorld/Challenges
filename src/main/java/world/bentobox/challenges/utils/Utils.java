@@ -868,8 +868,8 @@ public class Utils
 		final String metaReference = Constants.ITEM_STACKS + "meta.";
 
 		String meta = user.getTranslationOrNothing(metaReference + "book-meta",
-			"[title]", bookMeta.getTitle(),
-			"[author]", bookMeta.getAuthor());
+			"[title]", bookMeta.hasTitle() ? bookMeta.getTitle() : "",
+			"[author]", bookMeta.hasAuthor() ? bookMeta.getAuthor() : "");
 
 		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
 			"[type]", prettifyObject(itemType, user),
