@@ -29,1074 +29,1074 @@ challenges:
         parameters: "<challenge_id> [count]"
   gui:
     titles:
-      player-gui: "& 0 & l Kihívások menü"
-      gamemode-gui: "& 0 & l Válassza a GameMode lehetőséget"
-      multiple-gui: "& 0 & l Hányszor?"
-      admin-gui: "& 0 & l Challenges Admin menü"
-      edit-challenge: "& 0 & l Szerkesztés [kihívás]"
-      edit-level: "& 0 & l Szerkesztés [szint]"
-      settings: "& 0 & l Beállítások"
-      choose-challenge: "& 0 & l Válassza ki a kihívást"
-      choose-level: "& 0 & l Válassza ki a szintet"
-      choose-player: "& 0 & l Válassza ki a lejátszót"
-      library: "& 0 & l Könyvtár"
-      manage-blocks: "& 0 & l Blokkok kezelése"
-      manage-entities: "& 0 & l Entitások kezelése"
-      type-selector: "& 0 & l Kihívás típusválasztó"
-      item-selector: "& 0 & l Elemválasztó"
-      block-selector: "& 0 & l Blokkválasztó"
-      entity-selector: "& 0 & l entitásválasztó"
-      challenge-selector: "& 0 & l Kihívásválasztó"
-      statistic-selector: "& 0 & l statisztikaválasztó"
-      environment-selector: "& 0 & l Környezetválasztó"
+      player-gui: "&0 &l Kihívások menü"
+      gamemode-gui: "&0 &l Válassza a GameMode lehetőséget"
+      multiple-gui: "&0 &l Hányszor?"
+      admin-gui: "&0 &l Challenges Admin menü"
+      edit-challenge: "&0 &l Szerkesztés [challenge]"
+      edit-level: "&0 &l Szerkesztés [level]"
+      settings: "&0 &l Beállítások"
+      choose-challenge: "&0 &l Válassza ki a kihívást"
+      choose-level: "&0 &l Válassza ki a szintet"
+      choose-player: "&0 &l Válassza ki a lejátszót"
+      library: "&0 &l Könyvtár"
+      manage-blocks: "&0 &l Blokkok kezelése"
+      manage-entities: "&0 &l Entitások kezelése"
+      type-selector: "&0 &l Kihívás típusválasztó"
+      item-selector: "&0 &l Elemválasztó"
+      block-selector: "&0 &l Blokkválasztó"
+      entity-selector: "&0 &l entitásválasztó"
+      challenge-selector: "&0 &l Kihívásválasztó"
+      statistic-selector: "&0 &l statisztikaválasztó"
+      environment-selector: "&0 &l Környezetválasztó"
     buttons:
       free-challenges:
-        name: "& f & l Ingyenes kihívások"
+        name: "&f &l Ingyenes kihívások"
         description: |-
-          & 7 Megjeleníti a listát
-          & 7 ingyenes kihívás
+          &7 Megjeleníti a listát
+          &7 ingyenes kihívás
       return:
-        name: "& f & l Vissza"
+        name: "&f &l Vissza"
         description: |-
-          & 7 Visszatérés az előző menübe
-          & 7 vagy lépjen ki a GUI -ból
+          &7 Visszatérés az előző menübe
+          &7 vagy lépjen ki a GUI -ból
       previous:
-        name: "& f & l Előző oldal"
-        description: "& 7 Váltás & e [szám] és 7 oldalra"
+        name: "&f &l Előző oldal"
+        description: "&7 Váltás &e [number] és 7 oldalra"
       next:
-        name: "& f & l Következő oldal"
-        description: "& 7 Váltás & e [szám] és 7 oldalra"
+        name: "&f &l Következő oldal"
+        description: "&7 Váltás &e [number] és 7 oldalra"
       reduce:
-        name: "& f & l Csökkent"
-        description: "& 7 Csökkentés & e -vel [szám]"
+        name: "&f &l Csökkent"
+        description: "&7 Csökkentés &e -vel [number]"
       increase:
-        name: "& f & l Növelés"
-        description: "& 7 Növelés & e -vel [szám]"
+        name: "&f &l Növelés"
+        description: "&7 Növelés &e -vel [number]"
       accept:
-        name: "& f & l Teljes"
+        name: "&f &l Teljes"
         description: |-
-          & 7 Teljesítsd a kihívást és e [szám]
-          & 7 alkalom
+          &7 Teljesítsd a kihívást és e [number]
+          &7 alkalom
       quit:
-        name: "& f & l Kilépés"
-        description: "& 7 Kilépés a GUI -ból."
+        name: "&f &l Kilépés"
+        description: "&7 Kilépés a GUI -ból."
       complete_user_challenges:
-        name: "& f & l Teljes felhasználói kihívás (ok)"
+        name: "&f &l Teljes felhasználói kihívás (ok)"
         description: |-
-          & 7 Lehetővé teszi a felhasználó és a kiválasztását
-          & 7 teljes kihívás
-          & 7 őt
+          &7 Lehetővé teszi a felhasználó és a kiválasztását
+          &7 teljes kihívás
+          &7 őt
       reset_user_challenges:
-        name: "& f & l Felhasználói kihívások visszaállítása"
+        name: "&f &l Felhasználói kihívások visszaállítása"
         description: |-
-          & 7 Lehetővé teszi a felhasználó és a kiválasztását
-          & 7 visszaállítja a kihívásait
+          &7 Lehetővé teszi a felhasználó és a kiválasztását
+          &7 visszaállítja a kihívásait
       add_challenge:
-        name: "& f & l Kihívás létrehozása"
+        name: "&f &l Kihívás létrehozása"
         description: |-
-          & 7 Elindít egy folyamatot
-          & 7 új kihívást jelent.
+          &7 Elindít egy folyamatot
+          &7 új kihívást jelent.
       add_level:
-        name: "& f & l Szint létrehozása"
+        name: "&f &l Szint létrehozása"
         description: |-
-          & 7 Elindít egy folyamatot
-          & 7 új szint létrehozása.
+          &7 Elindít egy folyamatot
+          &7 új szint létrehozása.
       edit_challenge:
-        name: "& f & l Kihívás szerkesztése"
+        name: "&f &l Kihívás szerkesztése"
         description: |-
-          & 7 Lehetővé teszi a választást és a szerkesztést
-          & 7 kihívás.
+          &7 Lehetővé teszi a választást és a szerkesztést
+          &7 kihívás.
       edit_level:
-        name: "& f & l Szint szerkesztése"
+        name: "&f &l Szint szerkesztése"
         description: |-
-          & 7 Lehetővé teszi a választást és a szerkesztést
-          & 7 szinten.
+          &7 Lehetővé teszi a választást és a szerkesztést
+          &7 szinten.
       delete_challenge:
-        name: "& f & l Kihívás törlése"
+        name: "&f &l Kihívás törlése"
         description: |-
-          & 7 Lehetővé teszi a választást és a törlést
-          & 7 kihívás.
+          &7 Lehetővé teszi a választást és a törlést
+          &7 kihívás.
       delete_level:
-        name: "& f & l Szint törlése"
+        name: "&f &l Szint törlése"
         description: |-
-          & 7 Lehetővé teszi a választást és a törlést
-          & 7 szinten.
+          &7 Lehetővé teszi a választást és a törlést
+          &7 szinten.
       edit_settings:
-        name: "& f & l Beállítások"
+        name: "&f &l Beállítások"
         description: |-
-          & 7 Lehetővé teszi a megtekintést és a szerkesztést
-          & 7 és a kiegészítő beállítások.
+          &7 Lehetővé teszi a megtekintést és a szerkesztést
+          &7 és a kiegészítő beállítások.
       complete_wipe:
-        name: "& f & l Teljes törlés"
+        name: "&f &l Teljes törlés"
         description: |-
-          & 7 Teljesen elhárítja a kihívásokat
-          & 7 addon adatbázis, beleértve
-          & 7 felhasználói adat.
+          &7 Teljesen elhárítja a kihívásokat
+          &7 addon adatbázis, beleértve
+          &7 felhasználói adat.
       challenge_wipe:
-        name: "& f & l Challenge Wipe"
+        name: "&f &l Challenge Wipe"
         description: |-
-          & 7 Teljesen elhárítja a kihívásokat
-          & 7 és szintek az adatbázisból.
+          &7 Teljesen elhárítja a kihívásokat
+          &7 és szintek az adatbázisból.
       user_wipe:
-        name: "& f & l Felhasználói törlés"
+        name: "&f &l Felhasználói törlés"
         description: |-
-          & 7 Teljesen törli a felhasználót
-          & 7 adat az adatbázisból.
+          &7 Teljesen törli a felhasználót
+          &7 adat az adatbázisból.
       library:
-        name: "& f & l Könyvtár"
+        name: "&f &l Könyvtár"
         description: |-
-          & 7 Nyit egy nyilvánosságot
-          & 7 kihívások könyvtár.
+          &7 Nyit egy nyilvánosságot
+          &7 kihívások könyvtár.
       import_database:
-        name: "& f & l Adatbázis importálása"
+        name: "&f &l Adatbázis importálása"
         description: |-
-          & 7 Lehetővé teszi az exportált importálást
-          & 7 kihívások adatbázis.
+          &7 Lehetővé teszi az exportált importálást
+          &7 kihívások adatbázis.
       import_template:
-        name: "& f & l Sablon importálása"
+        name: "&f &l Sablon importálása"
         description: |-
-          & 7 Lehetővé teszi sablon importálását
-          & 7 fájl kihívásokkal.
+          &7 Lehetővé teszi sablon importálását
+          &7 fájl kihívásokkal.
       export_challenges:
-        name: "& f & l Export kihívások"
+        name: "&f &l Export kihívások"
         description: |-
-          & 7 Lehetővé teszi az adatbázis exportálását
-          & 7 helyi fájlba.
+          &7 Lehetővé teszi az adatbázis exportálását
+          &7 helyi fájlba.
       properties:
-        name: "& f & l Tulajdonságok"
-        description: "& 7 Az összes fő tulajdonság megtekintése."
+        name: "&f &l Tulajdonságok"
+        description: "&7 Az összes fő tulajdonság megtekintése."
       requirements:
-        name: "& f & l Követelmények"
-        description: "& 7 A követelmények tulajdonságainak megtekintése."
+        name: "&f &l Követelmények"
+        description: "&7 A követelmények tulajdonságainak megtekintése."
       rewards:
-        name: "& f & l Jutalmak"
-        description: "& 7 A jutalmak tulajdonságainak megtekintése."
+        name: "&f &l Jutalmak"
+        description: "&7 A jutalmak tulajdonságainak megtekintése."
       deployed:
-        name: "& f & l Telepítés"
+        name: "&f &l Telepítés"
         description: |-
-          & 7 Váltás ha kihívás
-          & 7 telepítve van, és a felhasználók is
-          & 7 fejezze be.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Váltás ha kihívás
+          &7 telepítve van, és a felhasználók is
+          &7 fejezze be.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       name:
-        name: "& f & l Név"
+        name: "&f &l Név"
         description: |-
-          & 7 Lehetővé teszi a változtatást
-          & 7 a megjelenített név.
-        value: "& 7 Jelenleg: & r [név]"
+          &7 Lehetővé teszi a változtatást
+          &7 a megjelenített név.
+        value: "&7 Jelenleg: &r [name]"
       remove_on_complete:
-        name: "& f & l Elrejtés a befejezés után"
+        name: "&f &l Elrejtés a befejezés után"
         description: |-
-          & 7 Váltás, ha a kihívás szükséges
-          & 7 rejtve a játékos után
-          & 7 befejeződött.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Váltás, ha a kihívás szükséges
+          &7 rejtve a játékos után
+          &7 befejeződött.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       description:
-        name: "& f & l Leírás"
+        name: "&f &l Leírás"
         description: |-
-          & 7 A konkrét leírás
-          & 7 a kihíváshoz. A szín
-          & 7 kódot kell alkalmazni rá.
-        value: "& 7 Aktuális leírás:"
+          &7 A konkrét leírás
+          &7 a kihíváshoz. A szín
+          &7 kódot kell alkalmazni rá.
+        value: "&7 Aktuális leírás:"
       environment:
-        name: "& f & l Dimenzió"
+        name: "&f &l Dimenzió"
         description: |-
-          & 7 Lehetővé teszi annak korlátozását
-          & 7 dimenzió a kihívás
-          & 7 befejezhető.
-        enabled: "& 2"
+          &7 Lehetővé teszi annak korlátozását
+          &7 dimenzió a kihívás
+          &7 befejezhető.
+        enabled: "&2"
         disabled: és c
       order:
-        name: "& f & l Rendelés"
+        name: "&f &l Rendelés"
         description: |-
-          & 7 Lehetővé teszi a sorrend megváltoztatását
-          & 7 objektum.
-          & 7 Egyenlő számú objektum
-          & 7 -et ők rendelik
-          & 7 egyedi azonosító név.
-        value: "& 7 Jelenlegi sorrend: & e [szám]"
+          &7 Lehetővé teszi a sorrend megváltoztatását
+          &7 objektum.
+          &7 Egyenlő számú objektum
+          &7 -et ők rendelik
+          &7 egyedi azonosító név.
+        value: "&7 Jelenlegi sorrend: &e [number]"
       icon:
-        name: "& f & l ikon"
+        name: "&f &l ikon"
         description: |-
-          & 7 Lehetővé teszi az ikon megváltoztatását
-          & 7 erre a kihívásra.
+          &7 Lehetővé teszi az ikon megváltoztatását
+          &7 erre a kihívásra.
       locked_icon:
-        name: "& f & l Zárolt ikon"
+        name: "&f &l Zárolt ikon"
         description: |-
-          & 7 Lehetővé teszi a zárolt módosítást
-          & 7 szint ikon.
+          &7 Lehetővé teszi a zárolt módosítást
+          &7 szint ikon.
       required_permissions:
-        name: "& f & l Szükséges engedélyek"
+        name: "&f &l Szükséges engedélyek"
         description: |-
-          & 7 Lehetővé teszi a szükséges módosítást
-          & 7 engedély erre
-          & 7 kihívás teljesíthető.
-        title: "& 7 engedély:"
-        permission: " & 8 - [engedély]"
-        none: "& 7 Az engedélyek nincsenek beállítva."
+          &7 Lehetővé teszi a szükséges módosítást
+          &7 engedély erre
+          &7 kihívás teljesíthető.
+        title: "&7 engedély:"
+        permission: " &8 - [permission]"
+        none: "&7 Az engedélyek nincsenek beállítva."
       remove_entities:
-        name: "& f & l Entitások eltávolítása"
+        name: "&f &l Entitások eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 szükséges entitás
-          & 7 távolítsa el a világból
-          & 7 befejezése után
-          & 7 kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 szükséges entitás
+          &7 távolítsa el a világból
+          &7 befejezése után
+          &7 kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       required_entities:
-        name: "& f & l Kötelező entitások"
+        name: "&f &l Kötelező entitások"
         description: |-
-          & 7 Lehetővé teszi a szükséges módosítást
-          & 7 entitás ehhez
-          & 7 kihívás teljesíthető.
-        title: "& 7 entitás:"
-        list: " & 8 - [szám] x [entitás]"
-        none: "& 7 Entitások nincsenek hozzáadva."
+          &7 Lehetővé teszi a szükséges módosítást
+          &7 entitás ehhez
+          &7 kihívás teljesíthető.
+        title: "&7 entitás:"
+        list: " &8 - [number] x [block]"
+        none: "&7 Entitások nincsenek hozzáadva."
       remove_blocks:
-        name: "& f & l Blokkok eltávolítása"
+        name: "&f &l Blokkok eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 szükséges blokk lesz
-          & 7 távolítsa el a világból
-          & 7 befejezése után
-          & 7 kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 szükséges blokk lesz
+          &7 távolítsa el a világból
+          &7 befejezése után
+          &7 kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       required_blocks:
-        name: "& f & l Kötelező blokkok"
+        name: "&f &l Kötelező blokkok"
         description: |-
-          & 7 Lehetővé teszi a szükséges módosítást
-          & 7 blokk erre
-          & 7 kihívás teljesíthető.
-        title: "& 7 blokk:"
-        list: " & 8 - [szám] x [blokk]"
-        none: "& 7 Blokkok nincsenek hozzáadva."
+          &7 Lehetővé teszi a szükséges módosítást
+          &7 blokk erre
+          &7 kihívás teljesíthető.
+        title: "&7 blokk:"
+        list: " &8 - [number] x [block]"
+        none: "&7 Blokkok nincsenek hozzáadva."
       search_radius:
-        name: "& f & l Keresési sugár"
+        name: "&f &l Keresési sugár"
         description: |-
-          & 7 Lehetővé teszi a sugár megváltoztatását
-          & 7 körül játékos, ahonnan
-          & 7 blokk és/vagy entitás
-          & 7 észlelve.
-        value: "& 7 Jelenlegi távolság: & e [szám]"
+          &7 Lehetővé teszi a sugár megváltoztatását
+          &7 körül játékos, ahonnan
+          &7 blokk és/vagy entitás
+          &7 észlelve.
+        value: "&7 Jelenlegi távolság: &e [number]"
       remove_items:
-        name: "& f & l Elemek eltávolítása"
+        name: "&f &l Elemek eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 kötelező elem lesz
-          & 7 eltávolításra kerül a készletből
-          & 7 befejezése után
-          & 7 kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 kötelező elem lesz
+          &7 eltávolításra kerül a készletből
+          &7 befejezése után
+          &7 kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       required_items:
-        name: "& f & l Kötelező elemek"
+        name: "&f &l Kötelező elemek"
         description: |-
-          & 7 Lehetővé teszi a szükséges módosítást
-          & 7 elem ehhez
-          & 7 kihívás teljesíthető.
-        title: "& 7 elem:"
-        list: " & 8 - [elem]"
-        none: "& 7 Elemek nincsenek hozzáadva."
+          &7 Lehetővé teszi a szükséges módosítást
+          &7 elem ehhez
+          &7 kihívás teljesíthető.
+        title: "&7 elem:"
+        list: " &8 - [item]"
+        none: "&7 Elemek nincsenek hozzáadva."
       add_ignored_meta:
-        name: "& f & l Metaadatok figyelmen kívül hagyása"
+        name: "&f &l Metaadatok figyelmen kívül hagyása"
         description: |-
-          & 7 Lehetővé teszi, hogy melyiket adja hozzá
-          & 7 elemet figyelmen kívül kell hagyni
-          & 7 minden olyan metaadat
-          & 7 van hozzárendelve.
-        title: "& 7 elem:"
-        list: " & 8 - [elem]"
-        none: "& 7 Elemek nincsenek hozzáadva."
+          &7 Lehetővé teszi, hogy melyiket adja hozzá
+          &7 elemet figyelmen kívül kell hagyni
+          &7 minden olyan metaadat
+          &7 van hozzárendelve.
+        title: "&7 elem:"
+        list: " &8 - [item]"
+        none: "&7 Elemek nincsenek hozzáadva."
       remove_ignored_meta:
-        name: "& f & l A metaadatok figyelmen kívül hagyásának eltávolítása"
+        name: "&f &l A metaadatok figyelmen kívül hagyásának eltávolítása"
         description: |-
-          & 7 Lehetővé teszi annak eltávolítását
-          & 7 elemet figyelmen kívül kell hagyni
-          & 7 minden olyan metaadat
-          & 7 van hozzárendelve.
+          &7 Lehetővé teszi annak eltávolítását
+          &7 elemet figyelmen kívül kell hagyni
+          &7 minden olyan metaadat
+          &7 van hozzárendelve.
       remove_experience:
-        name: "& f & l Tapasztalat eltávolítása"
+        name: "&f &l Tapasztalat eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 szükséges tapasztalat lesz
-          & 7 eltávolításra kerül a lejátszóból
-          & 7 befejezése után
-          & 7 kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 szükséges tapasztalat lesz
+          &7 eltávolításra kerül a lejátszóból
+          &7 befejezése után
+          &7 kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       required_experience:
-        name: "& f & l Szükséges tapasztalat"
+        name: "&f &l Szükséges tapasztalat"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 szükséges tapasztalat
-          & 7 a lejátszó.
-        value: "& 7 Jelenlegi tapasztalat: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 szükséges tapasztalat
+          &7 a lejátszó.
+        value: "&7 Jelenlegi tapasztalat: &e [number]"
       required_level:
-        name: "& f & l Kötelező szigetszint"
+        name: "&f &l Kötelező szigetszint"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 szükséges sziget szint
-          & 7 a kihíváshoz.
-        value: "& 7 Jelenlegi szint: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 szükséges sziget szint
+          &7 a kihíváshoz.
+        value: "&7 Jelenlegi szint: &e [number]"
       remove_money:
-        name: "& f & l Pénz eltávolítása"
+        name: "&f &l Pénz eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 szükséges pénz lesz
-          & 7 eltávolításra kerül a lejátszóból
-          & 7 fiók befejezése után
-          & 7 a kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 szükséges pénz lesz
+          &7 eltávolításra kerül a lejátszóból
+          &7 fiók befejezése után
+          &7 a kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       required_money:
-        name: "& f & l Szükséges pénz"
+        name: "&f &l Szükséges pénz"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 szükséges pénz a játékosra
-          & 7 figyelembe veszi a kihívást.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 szükséges pénz a játékosra
+          &7 figyelembe veszi a kihívást.
+        value: "&7 Jelenlegi érték: &e [number]"
       statistic:
-        name: "& f & l Statisztika"
+        name: "&f &l Statisztika"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 statisztikai típus
-          & 7 ellenőrizte ezt a kihívást.
-        value: "& 7 Jelenlegi érték: & e [statisztika]"
+          &7 Lehetővé teszi a
+          &7 statisztikai típus
+          &7 ellenőrizte ezt a kihívást.
+        value: "&7 Jelenlegi érték: &e [statistic]"
       statistic_amount:
-        name: "& f & l Célérték"
+        name: "&f &l Célérték"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 statisztikai célérték
-          & 7, amit teljesíteni kell.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 statisztikai célérték
+          &7, amit teljesíteni kell.
+        value: "&7 Jelenlegi érték: &e [number]"
       remove_statistic:
-        name: "& f & l Statisztika csökkentése"
+        name: "&f &l Statisztika csökkentése"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 statisztikai érték lesz
-          & 7 befejezése után csökkenteni kell
-          & 7 a kihívás.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 statisztikai érték lesz
+          &7 befejezése után csökkenteni kell
+          &7 a kihívás.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       statistic_blocks:
-        name: "& f & l céltábla"
+        name: "&f &l céltábla"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 statisztikai célblokk.
-        value: "& 7 Aktuális blokk: & e [blokk]"
+          &7 Lehetővé teszi a
+          &7 statisztikai célblokk.
+        value: "&7 Aktuális blokk: &e [block]"
       statistic_items:
-        name: "& f & l Célpont"
+        name: "&f &l Célpont"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 statisztikai célpont.
-        value: "& 7 Jelenlegi tétel: & e [tétel]"
+          &7 Lehetővé teszi a
+          &7 statisztikai célpont.
+        value: "&7 Jelenlegi tétel: &e [item]"
       statistic_entities:
-        name: "& f & l Cél Entitás"
+        name: "&f &l Cél Entitás"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 statisztikai cél entitást.
-        value: "& 7 Jelenlegi entitás: & e [entitás]"
+          &7 Lehetővé teszi a
+          &7 statisztikai cél entitást.
+        value: "&7 Jelenlegi entitás: &e [block]"
       reward_text:
-        name: "& f & l Jutalomszöveg"
+        name: "&f &l Jutalomszöveg"
         description: |-
-          & 7 A konkrét jutalomszöveg.
-          & 7 A színkódoknak meg kell lenniük
-          & 7 vonatkozik rá.
-        value: "& 7 Jelenlegi szöveg:"
+          &7 A konkrét jutalomszöveg.
+          &7 A színkódoknak meg kell lenniük
+          &7 vonatkozik rá.
+        value: "&7 Jelenlegi szöveg:"
       repeat_reward_text:
-        name: "& f & l Jutalomszöveg ismétlése"
+        name: "&f &l Jutalomszöveg ismétlése"
         description: |-
-          & 7 Az adott ismétlődő jutalomszöveg
-          & 7 a kihíváshoz. A szín
-          & 7 kódot kell alkalmazni rá.
-        value: "& 7 Jelenlegi szöveg:"
+          &7 Az adott ismétlődő jutalomszöveg
+          &7 a kihíváshoz. A szín
+          &7 kódot kell alkalmazni rá.
+        value: "&7 Jelenlegi szöveg:"
       reward_items:
-        name: "& f & l Jutalom"
+        name: "&f &l Jutalom"
         description: |-
-          & 7 Lehetővé teszi a jutalom megváltoztatását
-          & 7 elem.
-        title: "& 7 elem:"
-        list: " & 8 - [elem]"
-        none: "& 7 Elemek nincsenek hozzáadva."
+          &7 Lehetővé teszi a jutalom megváltoztatását
+          &7 elem.
+        title: "&7 elem:"
+        list: " &8 - [item]"
+        none: "&7 Elemek nincsenek hozzáadva."
       repeat_reward_items:
-        name: "& f & l Ismételje meg a jutalom tételeit"
+        name: "&f &l Ismételje meg a jutalom tételeit"
         description: |-
-          & 7 Lehetővé teszi az ismétlés megváltoztatását
-          & 7 jutalom elemet ezért
-          & 7 kihívás.
-        title: "& 7 elem:"
-        list: " & 8 - [elem]"
-        none: "& 7 Elemek nincsenek hozzáadva."
+          &7 Lehetővé teszi az ismétlés megváltoztatását
+          &7 jutalom elemet ezért
+          &7 kihívás.
+        title: "&7 elem:"
+        list: " &8 - [item]"
+        none: "&7 Elemek nincsenek hozzáadva."
       reward_experience:
-        name: "& f & l Jutalomélmény"
+        name: "&f &l Jutalomélmény"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 jutalmazási élmény
-          & 7 a lejátszó.
-        value: "& 7 Jutalomélmény: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 jutalmazási élmény
+          &7 a lejátszó.
+        value: "&7 Jutalomélmény: &e [number]"
       repeat_reward_experience:
-        name: "& f & l Ismétlődő jutalomélmény"
+        name: "&f &l Ismétlődő jutalomélmény"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 ismétlődő jutalomélmény
-          & 7 a játékos számára.
-        value: "& 7 Jutalomélmény: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 ismétlődő jutalomélmény
+          &7 a játékos számára.
+        value: "&7 Jutalomélmény: &e [number]"
       reward_money:
-        name: "& f & l Pénzjutalom"
+        name: "&f &l Pénzjutalom"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 jutalompénz.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 jutalompénz.
+        value: "&7 Jelenlegi érték: &e [number]"
       repeat_reward_money:
-        name: "& f & l Ismételje meg a jutalompénzt"
+        name: "&f &l Ismételje meg a jutalompénzt"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 ismételt jutalompénz
-          & 7 a kihíváshoz.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 ismételt jutalompénz
+          &7 a kihíváshoz.
+        value: "&7 Jelenlegi érték: &e [number]"
       reward_commands:
-        name: "& f & l Jutalomparancsok"
+        name: "&f &l Jutalomparancsok"
         description: |-
-          & 7 A specifikus jutalmazási parancsok.
-          & 8 Tipp:
-          & 8 A parancs nem követeli meg
-          & 8 először írni "/", ahogy akarja
-          & 8 automatikusan alkalmazásra kerül.
-          & 8 Alapértelmezés szerint a parancsok lesznek
-          & 8 szerver hajtja végre. azonban
-          & 8 a "[SELF]" hozzáadása az elején
-          & 8 lehetővé teszi a parancsok megadását
-          & 8 végrehajtja a játékos. Az is
-          & 8 egy helyőrzőt támogat
-          & 8 `[játékos]` lesz
-          & 8 játékos névvel helyettesítve
-          & 8, aki teljesítette a kihívást.
-        value: "& 7 Aktuális parancsok:"
+          &7 A specifikus jutalmazási parancsok.
+          &8 Tipp:
+          &8 A parancs nem követeli meg
+          &8 először írni "/", ahogy akarja
+          &8 automatikusan alkalmazásra kerül.
+          &8 Alapértelmezés szerint a parancsok lesznek
+          &8 szerver hajtja végre. azonban
+          &8 a "[SELF]" hozzáadása az elején
+          &8 lehetővé teszi a parancsok megadását
+          &8 végrehajtja a játékos. Az is
+          &8 egy helyőrzőt támogat
+          &8 `[player]` lesz
+          &8 játékos névvel helyettesítve
+          &8, aki teljesítette a kihívást.
+        value: "&7 Aktuális parancsok:"
       repeat_reward_commands:
-        name: "& f & l Ismételje meg a jutalmazási parancsokat"
+        name: "&f &l Ismételje meg a jutalmazási parancsokat"
         description: |-
-          & 7 A konkrét ismétlődő jutalom
-          & 7 parancs a kihíváshoz.
-          & 8 Tipp:
-          & 8 A parancs nem követeli meg
-          & 8 először írni "/", ahogy akarja
-          & 8 automatikusan alkalmazásra kerül.
-          & 8 Alapértelmezés szerint a parancsok lesznek
-          & 8 szerver hajtja végre. azonban
-          & 8 a "[SELF]" hozzáadása az elején
-          & 8 lehetővé teszi a parancsok megadását
-          & 8 végrehajtja a játékos. Az is
-          & 8 egy helyőrzőt támogat
-          & 8 `[játékos]` lesz
-          & 8 játékos névvel helyettesítve
-          & 8, aki teljesítette a kihívást.
-        value: "& 7 Aktuális parancsok:"
+          &7 A konkrét ismétlődő jutalom
+          &7 parancs a kihíváshoz.
+          &8 Tipp:
+          &8 A parancs nem követeli meg
+          &8 először írni "/", ahogy akarja
+          &8 automatikusan alkalmazásra kerül.
+          &8 Alapértelmezés szerint a parancsok lesznek
+          &8 szerver hajtja végre. azonban
+          &8 a "[SELF]" hozzáadása az elején
+          &8 lehetővé teszi a parancsok megadását
+          &8 végrehajtja a játékos. Az is
+          &8 egy helyőrzőt támogat
+          &8 `[player]` lesz
+          &8 játékos névvel helyettesítve
+          &8, aki teljesítette a kihívást.
+        value: "&7 Aktuális parancsok:"
       repeatable:
-        name: "& f & l Ismételhető"
+        name: "&f &l Ismételhető"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 a kihívás
-          & 7 megismételhető.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 a kihívás
+          &7 megismételhető.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       repeat_count:
-        name: "& f & l Ismétlés Count"
+        name: "&f &l Ismétlés Count"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 ismétlésszám
-          & 7 a kihíváshoz.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi a
+          &7 ismétlésszám
+          &7 a kihíváshoz.
+        value: "&7 Jelenlegi érték: &e [number]"
       cool_down:
-        name: "& f & l Lehűlni"
+        name: "&f &l Lehűlni"
         description: |-
-          & 7 Lehetővé teszi a
-          & 7 lehűlési másodperc
-          & 7 között várni kell
-          & 7 megismételhető kihívás
-          & 7 befejezés.
-        value: "& 7 Jelenlegi érték: & e [idő]"
+          &7 Lehetővé teszi a
+          &7 lehűlési másodperc
+          &7 között várni kell
+          &7 megismételhető kihívás
+          &7 befejezés.
+        value: "&7 Jelenlegi érték: &e [time]"
       challenges:
-        name: "& f & l Kihívások"
+        name: "&f &l Kihívások"
         description: |-
-          & 7 A hozzárendelt kihívások megtekintése
-          & 7 szintre.
+          &7 A hozzárendelt kihívások megtekintése
+          &7 szintre.
       waiver_amount:
-        name: "& f & l Lemondási összeg"
+        name: "&f &l Lemondási összeg"
         description: |-
-          & 7 Lehetővé teszi szám beállítását
-          & 7 kihívás, amely képes
-          & 7 befejezetlen marad
-          & 7 a következő szint felszabadítása.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Lehetővé teszi szám beállítását
+          &7 kihívás, amely képes
+          &7 befejezetlen marad
+          &7 a következő szint felszabadítása.
+        value: "&7 Jelenlegi érték: &e [number]"
       add_challenges:
-        name: "& f & l Kihívás hozzáadása"
+        name: "&f &l Kihívás hozzáadása"
         description: |-
-          & 7 Lehetővé teszi a és kiválasztását
-          & 7 további kihívásokat jelent a
-          & 7 szint.
+          &7 Lehetővé teszi a és kiválasztását
+          &7 további kihívásokat jelent a
+          &7 szint.
       remove_challenges:
-        name: "& f & l Kihívás (ok) eltávolítása"
+        name: "&f &l Kihívás (ok) eltávolítása"
         description: |-
-          & 7 Lehetővé teszi a és kiválasztását
-          & 7 távolítsa el a kihívásokat
-          & 7 szint.
+          &7 Lehetővé teszi a és kiválasztását
+          &7 távolítsa el a kihívásokat
+          &7 szint.
       reset_on_new:
-        name: "& f & l Reset On New"
+        name: "&f &l Reset On New"
         description: |-
-          & 7 Lehetővé teszi a váltást, ha
-          & 7 kihívásnak kell lennie
-          & 7 alaphelyzetbe állítás, amikor a felhasználó távozik
-          & 7 szigeten, vagy létrehoz egy újat
-          & 7 sziget.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Lehetővé teszi a váltást, ha
+          &7 kihívásnak kell lennie
+          &7 alaphelyzetbe állítás, amikor a felhasználó távozik
+          &7 szigeten, vagy létrehoz egy újat
+          &7 sziget.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       broadcast:
-        name: "& f & l Közvetítés"
+        name: "&f &l Közvetítés"
         description: |-
-          & 7 Adások kihívása és
-          & 7 szintű első befejezés
-          & 7 mindenkinek.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Adások kihívása és
+          &7 szintű első befejezés
+          &7 mindenkinek.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       remove_completed:
-        name: "& f & l Elrejtés befejezve"
+        name: "&f &l Elrejtés befejezve"
         description: |-
-          & 7 Elrejti a befejezett kihívásokat
-          & 7 a menüből.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Elrejti a befejezett kihívásokat
+          &7 a menüből.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       glow_completed:
-        name: "& f & l Ragyogás befejezve"
+        name: "&f &l Ragyogás befejezve"
         description: |-
-          & 7 Varázslatos ragyogást kölcsönöz
-          & 7 a befejezett kihívásokra.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Varázslatos ragyogást kölcsönöz
+          &7 a befejezett kihívásokra.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       store_history:
-        name: "& f & l Store History"
+        name: "&f &l Store History"
         description: |-
-          & 7 Belső előzményeket tárol
-          & 7, amikor minden kihívás
-          & 7 elkészült.
-          & 7 Jelenleg csak megtekinthető
-          & 7 az adatbázisban.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Belső előzményeket tárol
+          &7, amikor minden kihívás
+          &7 elkészült.
+          &7 Jelenleg csak megtekinthető
+          &7 az adatbázisban.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       data_per_island:
-        name: "& f & l Store Per Island"
+        name: "&f &l Store Per Island"
         description: |-
-          & 7 A befejezettet tárolja
-          & 7 kihívás szigetenként.
-          & 7 A haladás megosztásra kerül
-          & 7 a csapat összes játékosával.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 A befejezettet tárolja
+          &7 kihívás szigetenként.
+          &7 A haladás megosztásra kerül
+          &7 a csapat összes játékosával.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       show_title:
-        name: "& f & l Cím megjelenítése"
+        name: "&f &l Cím megjelenítése"
         description: |-
-          & 7 Megjeleníti a címet, amikor a
-          & 7 kihívás vagy szint
-          & 7 befejeződött.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Megjeleníti a címet, amikor a
+          &7 kihívás vagy szint
+          &7 befejeződött.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       gamemode_gui:
-        name: "& f & l GameMode Selection GUI"
+        name: "&f &l GameMode Selection GUI"
         description: |-
-          & 7 Engedélyezi az egyetlen GUI -t
-          & 7 a /kihívásokon keresztül érhető el
-          & 7 parancsot.
-          & c A szerver újraindítását igényli.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Engedélyezi az egyetlen GUI -t
+          &7 a /kihívásokon keresztül érhető el
+          &7 parancsot.
+          &c A szerver újraindítását igényli.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       locked_level_icon:
-        name: "& f & l Alapértelmezett zárolt szint ikon"
+        name: "&f &l Alapértelmezett zárolt szint ikon"
         description: |-
-          & 7 Az összes zárolt alapértelmezett ikonja
-          & 7 szint. Minden szint változhat
-          & 7 ezt az ikont.
+          &7 Az összes zárolt alapértelmezett ikonja
+          &7 szint. Minden szint változhat
+          &7 ezt az ikont.
       purge_history:
-        name: "& f & l Történelem Élettartam"
+        name: "&f &l Történelem Élettartam"
         description: |-
-          & 7 Napok száma, mennyi ideig
-          & 7 előzményadat tárolódik
-          & 7 a felhasználói adatok között.
-          & 7 0 azt jelenti, hogy az adatok fognak
-          & 7 nem távolítható el.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 Napok száma, mennyi ideig
+          &7 előzményadat tárolódik
+          &7 a felhasználói adatok között.
+          &7 0 azt jelenti, hogy az adatok fognak
+          &7 nem távolítható el.
+        value: "&7 Jelenlegi érték: &e [number]"
       title_showtime:
-        name: "& f & l Cím Showtime"
+        name: "&f &l Cím Showtime"
         description: |-
-          & 7 A címkék száma
-          & 7 jelenik meg a játékosnak.
-        value: "& 7 Jelenlegi érték: & e [szám]"
+          &7 A címkék száma
+          &7 jelenik meg a játékosnak.
+        value: "&7 Jelenlegi érték: &e [number]"
       active_world_list:
-        name: "& f & l Csak aktív világ megjelenítése"
+        name: "&f &l Csak aktív világ megjelenítése"
         description: |-
-          & 7 Ha a GameMode Selection GUI
-          & 7 engedélyezve van, ez válthat
-          & 7, ha a grafikus felhasználói felület megjeleníti a GameMode választást
-          & 7 vagy kihívások a jelenlegi világ számára.
-          & c A szerver újraindítását igényli.
-        enabled: "& 2 Engedélyezve"
-        disabled: "& c Letiltva"
+          &7 Ha a GameMode Selection GUI
+          &7 engedélyezve van, ez válthat
+          &7, ha a grafikus felhasználói felület megjeleníti a GameMode választást
+          &7 vagy kihívások a jelenlegi világ számára.
+          &c A szerver újraindítását igényli.
+        enabled: "&2 Engedélyezve"
+        disabled: "&c Letiltva"
       visibility_mode:
-        name: "& f & l Láthatósági mód"
+        name: "&f &l Láthatósági mód"
         description: |-
-          & 7 Láthatósági mód
-          & 7 kihívás
-          & 7 hiddend.
-        enabled: "& 2"
+          &7 Láthatósági mód
+          &7 kihívás
+          &7 hiddend.
+        enabled: "&2"
         disabled: és c
         visible: Látható kihívások megjelenítése
         hidden: Mutasd meg az összes kihívást
         toggleable: Váltás engedélyezése
       download:
-        name: "& f & l Könyvtárak letöltése"
+        name: "&f &l Könyvtárak letöltése"
         description: |-
-          & 7 Manuális frissítés érhető el
-          & 7 kihívást jelent a könyvtáraknak.
-        enabled: "& 2 A gyorsítótár üres"
-        disabled: "& c Gyorsítótár nélkül törölje"
+          &7 Manuális frissítés érhető el
+          &7 kihívást jelent a könyvtáraknak.
+        enabled: "&2 A gyorsítótár üres"
+        disabled: "&c Gyorsítótár nélkül törölje"
       player:
-        name: "& f & l [név]"
-        description: "& 7 szigettulajdonos: [tulajdonos]"
-        members: "& 7 szigettag:"
-        member: "& 8 - [név]"
+        name: "&f &l [name]"
+        description: "&7 szigettulajdonos: [owner]"
+        members: "&7 szigettag:"
+        member: "&8 - [name]"
         no-island: |-
-          & c Player nem rendelkezik
+          &c Player nem rendelkezik
           és c egy sziget.
       player_list:
-        name: "& f & l Válassza ki a Felhasználói listát"
+        name: "&f &l Válassza ki a Felhasználói listát"
         description: |-
-          & 7 Válassza ki a felhasználói listát
-          & 7 -et kell mutatni.
-        enabled: "& 2"
+          &7 Válassza ki a felhasználói listát
+          &7 -et kell mutatni.
+        enabled: "&2"
         disabled: és c
         online: Online játékosok
         with_island: Játékosok szigetekkel
         in_world: Játékosok a világban
       add_block:
-        name: "& f & l Blokk hozzáadása"
+        name: "&f &l Blokk hozzáadása"
         description: |-
-          & 7 Lehetővé teszi újak hozzáadását
-          & 7 blokk a listához.
+          &7 Lehetővé teszi újak hozzáadását
+          &7 blokk a listához.
       remove_block:
-        name: "& f & l Blokk eltávolítása"
+        name: "&f &l Blokk eltávolítása"
         description: |-
-          & 7 Lehetővé teszi az eltávolítást
-          & 7 kiválasztott blokk
-          & 7 a listákból.
-        title: "& 7 kiválasztott anyag:"
-        material: "& 8 - [anyag]"
+          &7 Lehetővé teszi az eltávolítást
+          &7 kiválasztott blokk
+          &7 a listákból.
+        title: "&7 kiválasztott anyag:"
+        material: "&8 - [material]"
       material:
-        name: "& f & l [anyag]"
-        description: "& 7 Anyag -azonosító: [id]"
-        selected: "& 2 Kiválasztva"
+        name: "&f &l [material]"
+        description: "&7 Anyag -azonosító: [id]"
+        selected: "&2 Kiválasztva"
       add_entity:
-        name: "& f & l Entitás hozzáadása"
+        name: "&f &l Entitás hozzáadása"
         description: |-
-          & 7 Lehetővé teszi újak hozzáadását
-          & 7 entitás a listában.
+          &7 Lehetővé teszi újak hozzáadását
+          &7 entitás a listában.
       switch_entity:
-        name: "& f & l Tojásváltás"
+        name: "&f &l Tojásváltás"
         description: |-
-          & 7 Lehetővé teszi a váltást
-          & 7 tojás a csőcselékfejekhez.
+          &7 Lehetővé teszi a váltást
+          &7 tojás a csőcselékfejekhez.
       remove_entity:
-        name: "& f & l Entitás eltávolítása"
+        name: "&f &l Entitás eltávolítása"
         description: |-
-          & 7 Lehetővé teszi az eltávolítást
-          & 7 kiválasztott entitás
-          & 7 a listákból.
-        title: "& 7 kiválasztott entitás:"
-        entity: "& 8 - [entitás]"
+          &7 Lehetővé teszi az eltávolítást
+          &7 kiválasztott entitás
+          &7 a listákból.
+        title: "&7 kiválasztott entitás:"
+        entity: "&8 - [block]"
       entity:
-        name: "& f & l [entitás]"
-        description: "& 7 Entitás azonosító: [id]"
-        selected: "& 2 Kiválasztva"
+        name: "&f &l [block]"
+        description: "&7 Entitás azonosító: [id]"
+        selected: "&2 Kiválasztva"
       inventory_type:
-        name: "& f & l Készlet típusa"
+        name: "&f &l Készlet típusa"
         description: |-
-          & 7 Kihívás, amely ellenőrzi
-          & 7 elem a játékosok készletében
+          &7 Kihívás, amely ellenőrzi
+          &7 elem a játékosok készletében
       island_type:
-        name: "& f & l Sziget típusa"
+        name: "&f &l Sziget típusa"
         description: |-
-          & 7 Kihívás, amely ellenőrzi
-          & 7 blokk vagy entitás körül
-          & 7 játékos.
+          &7 Kihívás, amely ellenőrzi
+          &7 blokk vagy entitás körül
+          &7 játékos.
       other_type:
-        name: "& f & l Egyéb típus"
+        name: "&f &l Egyéb típus"
         description: |-
-          & 7 Kihívás
-          & 7 bővítmény vagy kiegészítő,
-          & 7, mint a szint és a pénz.
+          &7 Kihívás
+          &7 bővítmény vagy kiegészítő,
+          &7, mint a szint és a pénz.
       statistic_type:
-        name: "& f & l Statisztika típusa"
+        name: "&f &l Statisztika típusa"
         description: |-
-          & 7 Kihívás, amely ellenőrzi
-          & 7 játékos statisztikai adatai.
+          &7 Kihívás, amely ellenőrzi
+          &7 játékos statisztikai adatai.
       save:
-        name: "& f & l Mentés"
+        name: "&f &l Mentés"
         description: |-
-          & 7 Menti a változtatásokat és
-          & 7 visszatér.
+          &7 Menti a változtatásokat és
+          &7 visszatér.
       cancel:
-        name: "& f & l Mégse"
+        name: "&f &l Mégse"
         description: |-
-          & 7 Elveti a módosításokat és
-          & 7 visszatér.
+          &7 Elveti a módosításokat és
+          &7 visszatér.
       accept_selected:
-        name: "& f & l Kiválasztott elfogadása"
+        name: "&f &l Kiválasztott elfogadása"
         description: |-
-          & 7 Visszaadja a kijelölt elemeket
-          & 7 és megnyitja az előző GUI -t.
-        title: "& 7 kiválasztva:"
-        element: "& 8 - [elem]"
+          &7 Visszaadja a kijelölt elemeket
+          &7 és megnyitja az előző GUI -t.
+        title: "&7 kiválasztva:"
+        element: "&8 - [item]"
       statistic_element:
-        name: "& f & l [statisztika]"
-        description: "[leírás]"
+        name: "&f &l [statistic]"
+        description: "[description]"
       environment_element:
-        name: "& f & l [környezet]"
-        description: "[leírás]"
+        name: "&f &l [environment]"
+        description: "[description]"
       search:
-        name: "& f & l Keresés"
+        name: "&f &l Keresés"
         description: |-
-          & 7 Lehetővé teszi a keresést egy
-          & 7 elem bemenettel
-          & 7 szövegérték.
-        search: "& b Érték: [érték]"
+          &7 Lehetővé teszi a keresést egy
+          &7 elem bemenettel
+          &7 szövegérték.
+        search: "&b Érték: [value]"
     tips:
-      click-to-select: "& e Kattintson a & 7 gombra a kiválasztáshoz."
-      click-to-choose: "& e Kattintson a & 7 gombra a kiválasztáshoz."
-      click-to-complete: "& e Kattintson a & 7 gombra a befejezéshez."
-      right-click-multiple-open: "& e Kattintson a jobb egérgombbal és a 7 gombbal
+      click-to-select: "&e Kattintson a &7 gombra a kiválasztáshoz."
+      click-to-choose: "&e Kattintson a &7 gombra a kiválasztáshoz."
+      click-to-complete: "&e Kattintson a &7 gombra a befejezéshez."
+      right-click-multiple-open: "&e Kattintson a jobb egérgombbal és a 7 gombbal
         a befejezés számának kiválasztásához."
-      shift-left-click-to-complete-all: "& e Shift Kattintson a & 7 gombra az összes
+      shift-left-click-to-complete-all: "&e Shift Kattintson a &7 gombra az összes
         befejezéséhez."
-      left-click-to-accept: "& e A bal egérgombbal & 7 a befejezéshez."
-      right-click-to-write: "& e Íráshoz kattintson a jobb gombbal & 7."
-      click-to-reduce: "& e Kattintson a & 7 gombra a kicsinyítéshez."
-      click-to-increase: "& e Kattintson a & 7 gombra a növeléshez."
-      click-to-return: "& e Kattintson a & 7 gombra a visszatéréshez."
-      click-to-quit: "& e Kilépéshez kattintson a & 7 gombra."
-      click-to-wipe: "& e Törléshez kattintson a & 7 gombra."
-      left-click-to-wipe: "& e Bal kattintás & 7 a törléshez."
-      right-click-to-switch: "& e A jobb egérgombbal & 7 váltani."
-      click-to-open: "& e Kattintson a & 7 gombra a megnyitáshoz."
-      click-to-export: "& e Kattintson a & 7 gombra az exportáláshoz."
-      click-to-create: "& e Kattintson a & 7 gombra a létrehozáshoz."
-      left-click-to-open: "& e A bal egérgombbal & 7 megnyitásához."
-      right-click-to-reset-all: "& e Az összes törléséhez kattintson a jobb gombbal
-        & 7."
-      click-to-toggle: "& e A & 7 gombra kattintva válthat."
-      click-to-change: "& e Kattintson a & 7 gombra a változtatáshoz."
-      shift-click-to-reset: "& e Shift Kattintson a & 7 gombra a visszaállításhoz."
-      click-to-add: "& e Kattintson a & 7 gombra a hozzáadáshoz."
-      click-to-remove: "& e Az eltávolításhoz kattintson a & 7 gombra."
-      left-click-to-cycle: "& e Bal egérgombbal & 7 a lefelé léptetéshez."
-      right-click-to-cycle: "& e A jobb egérgombbal és a 7 gombbal válthat."
-      click-to-edit: "& e Kattintson a & 7 gombra a szerkesztéshez."
-      left-click-to-download: "& e Bal kattintás és 7 a letöltéshez."
-      right-click-to-toggle: "& e A jobb egérgombbal & 7 a váltáshoz."
-      click-to-install: "& e Kattintson a & 7 gombra a telepítéshez."
-      click-to-reset-all: "& e Kattintson az & 7 gombra az összes visszaállításához."
-      right-click-to-select: "& e A jobb egérgombbal és a 7 gombbal választhat."
-      right-click-to-deselect: "& e Kattintson a jobb egérgombbal és a 7 gombbal a
+      left-click-to-accept: "&e A bal egérgombbal &7 a befejezéshez."
+      right-click-to-write: "&e Íráshoz kattintson a jobb gombbal &7."
+      click-to-reduce: "&e Kattintson a &7 gombra a kicsinyítéshez."
+      click-to-increase: "&e Kattintson a &7 gombra a növeléshez."
+      click-to-return: "&e Kattintson a &7 gombra a visszatéréshez."
+      click-to-quit: "&e Kilépéshez kattintson a &7 gombra."
+      click-to-wipe: "&e Törléshez kattintson a &7 gombra."
+      left-click-to-wipe: "&e Bal kattintás &7 a törléshez."
+      right-click-to-switch: "&e A jobb egérgombbal &7 váltani."
+      click-to-open: "&e Kattintson a &7 gombra a megnyitáshoz."
+      click-to-export: "&e Kattintson a &7 gombra az exportáláshoz."
+      click-to-create: "&e Kattintson a &7 gombra a létrehozáshoz."
+      left-click-to-open: "&e A bal egérgombbal &7 megnyitásához."
+      right-click-to-reset-all: "&e Az összes törléséhez kattintson a jobb gombbal
+        &7."
+      click-to-toggle: "&e A &7 gombra kattintva válthat."
+      click-to-change: "&e Kattintson a &7 gombra a változtatáshoz."
+      shift-click-to-reset: "&e Shift Kattintson a &7 gombra a visszaállításhoz."
+      click-to-add: "&e Kattintson a &7 gombra a hozzáadáshoz."
+      click-to-remove: "&e Az eltávolításhoz kattintson a &7 gombra."
+      left-click-to-cycle: "&e Bal egérgombbal &7 a lefelé léptetéshez."
+      right-click-to-cycle: "&e A jobb egérgombbal és a 7 gombbal válthat."
+      click-to-edit: "&e Kattintson a &7 gombra a szerkesztéshez."
+      left-click-to-download: "&e Bal kattintás és 7 a letöltéshez."
+      right-click-to-toggle: "&e A jobb egérgombbal &7 a váltáshoz."
+      click-to-install: "&e Kattintson a &7 gombra a telepítéshez."
+      click-to-reset-all: "&e Kattintson az &7 gombra az összes visszaállításához."
+      right-click-to-select: "&e A jobb egérgombbal és a 7 gombbal választhat."
+      right-click-to-deselect: "&e Kattintson a jobb egérgombbal és a 7 gombbal a
         kijelölés megszüntetéséhez."
-      left-click-to-choose: "& e Bal egérgombbal & 7 a kiválasztáshoz."
-      click-to-cancel: "& e Kattintson a & 7 gombra a törléshez."
-      click-to-save: "& e Kattintson a & 7 gombra a mentéshez."
-      click-to-deselect: "& e Kattintson a & 7 gombra a kijelölés megszüntetéséhez."
+      left-click-to-choose: "&e Bal egérgombbal &7 a kiválasztáshoz."
+      click-to-cancel: "&e Kattintson a &7 gombra a törléshez."
+      click-to-save: "&e Kattintson a &7 gombra a mentéshez."
+      click-to-deselect: "&e Kattintson a &7 gombra a kijelölés megszüntetéséhez."
       click-on-item: |-
-        & e Kattintson a & 7 -re az elemen
-        & 7 a készletét.
-      left-click-to-edit: "& e Bal kattintás & 7 a szerkesztéshez."
-      right-click-to-clear: "& e A jobb egérgombbal és a 7 törléshez."
-      click-to-previous: "& e Kattintson a & 7 gombra az előző oldal megtekintéséhez."
-      click-to-next: "& e Kattintson a & 7 gombra a következő oldal megtekintéséhez."
+        &e Kattintson a &7 -re az elemen
+        &7 a készletét.
+      left-click-to-edit: "&e Bal kattintás &7 a szerkesztéshez."
+      right-click-to-clear: "&e A jobb egérgombbal és a 7 törléshez."
+      click-to-previous: "&e Kattintson a &7 gombra az előző oldal megtekintéséhez."
+      click-to-next: "&e Kattintson a &7 gombra a következő oldal megtekintéséhez."
     descriptions:
       challenge:
         lore: |-
-          [leírás]
-          [állapot]
-          [Nyugodj le]
-          [követelmények]
-          [jutalmak]
+          [description]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
         status:
-          completed: "& 2 & l Befejezve"
-          completed-times: "& 2 befejezve & 7 & l [szám] & r & 2 idő (k)"
-          completed-times-of: "& 2 befejezve & 7 & l [szám] & r & 2 / & 7 & l [max]
-            & r & 2 alkalommal"
-          completed-times-reached: "& 2 & l Összes & 7 [max] és 2 alkalommal befejezve"
+          completed: "&2 &l Befejezve"
+          completed-times: "&2 befejezve &7 &l [number] &r &2 idő (k)"
+          completed-times-of: "&2 befejezve &7 &l [number] &r &2 / &7 &l [max]
+            &r &2 alkalommal"
+          completed-times-reached: "&2 &l Összes &7 [max] és 2 alkalommal befejezve"
         cooldown:
           lore: |-
-            [időtúllépés]
-            [várakozási idő]
-          timeout: "& 7 & l Lehűlés: & r & 7 [idő]"
-          wait-time: "& c & l Elérhető: & r & c [időpont]"
-          in-days: "[szám] d"
-          in-hours: "[szám] h"
-          in-minutes: "[szám] perc"
-          in-seconds: "[szám] s"
+            [timeout]
+            [wait-time]
+          timeout: "&7 &l Lehűlés: &r &7 [time]"
+          wait-time: "&c &l Elérhető: &r&c [time]"
+          in-days: "[number] d"
+          in-hours: "[number] h"
+          in-minutes: "[number] perc"
+          in-seconds: "[number] s"
         requirements:
           lore: |-
-            [környezet]
-            [típus-követelmény]
-            [engedélyek]
-          environment-single: "& 7 Korlátozott: [környezet]"
-          environment-title: "& 7 Korlátozott:"
-          environment-list: "  & 7 - & e [környezet]"
-          permission-single: "& c [Engedélyek] engedély szükséges"
-          permissions-title: "& c Engedélyek szükségesek:"
-          permissions-list: "  & c - [engedély]"
+            [environment]
+            [type-requirement]
+            [permissions]
+          environment-single: "&7 Korlátozott: [environment]"
+          environment-title: "&7 Korlátozott:"
+          environment-list: "  &7 - &e [environment]"
+          permission-single: "&c [permissions] engedély szükséges"
+          permissions-title: "&c Engedélyek szükségesek:"
+          permissions-list: "  &c - [permission]"
           island:
             lore: |-
-              [blokkok]
-              [entitások]
-              [keresési sugár]
-              [figyelmeztető blokk]
-              [figyelmeztető entitás]
-            blocks-title: "& 7 & l Kötelező blokkok:"
-            block-value: "  & 7 - & e [anyag]"
-            blocks-value: "  & 7 - & e [szám] x [anyag]"
-            entities-title: "& 7 & l Kötelező entitások:"
-            entity-value: "  & 7 - & e [entitás]"
-            entities-value: "  & 7 - & e [szám] x [entitás]"
-            search-radius: "& 7 Legfeljebb & e [szám] & 7 méternél"
-            warning-block: "& e Blokkok & c eltávolításra kerülnek"
-            warning-entity: "& e Az entitások eltávolításra kerülnek"
+              [blocks]
+              [entities]
+              [search-radius]
+              [warning-block]
+              [warning-entity]
+            blocks-title: "&7 &l Kötelező blokkok:"
+            block-value: "  &7 - &e [material]"
+            blocks-value: "  &7 - &e [number] x [material]"
+            entities-title: "&7 &l Kötelező entitások:"
+            entity-value: "  &7 - &e [block]"
+            entities-value: "  &7 - &e [number] x [block]"
+            search-radius: "&7 Legfeljebb &e [number] &7 méternél"
+            warning-block: "&e Blokkok &c eltávolításra kerülnek"
+            warning-entity: "&e Az entitások eltávolításra kerülnek"
           inventory:
             lore: |-
-              [tételek]
-              [Figyelem]
-            item-title: "& 7 & l Kötelező elemek:"
-            item-value: "  & 7 - & e [elem]"
-            items-value: "  & 7 - & e [szám] x [tétel]"
-            warning: "& e Elem (ek) eltávolításra kerülnek"
+              [items]
+              [warning]
+            item-title: "&7 &l Kötelező elemek:"
+            item-value: "  &7 - &e [item]"
+            items-value: "  &7 - &e [number] x [item]"
+            warning: "&e Elem (ek) eltávolításra kerülnek"
           other:
             lore: |-
-              [tapasztalat]
-              [tapasztalat-figyelmeztetés]
-              [pénz]
-              [pénz-figyelmeztetés]
-              [szint]
-            experience: "& 7 & l Szükséges tapasztalat: & r & e [szám]"
-            experience-warning: "& e A tapasztalatok eltávolításra kerülnek"
-            money: "& 7 & l Szükséges pénz: & r & e [szám]"
-            money-warning: "& e A pénz eltávolításra kerül"
-            level: "& 7 & l Kötelező szigetszint: & r & e [szám]"
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
+            experience: "&7 &l Szükséges tapasztalat: &r &e [number]"
+            experience-warning: "&e A tapasztalatok eltávolításra kerülnek"
+            money: "&7 &l Szükséges pénz: &r &e [number]"
+            money-warning: "&e A pénz eltávolításra kerül"
+            level: "&7 &l Kötelező szigetszint: &r &e [number]"
           statistic:
             lore: |-
-              [statisztikai]
-              [Figyelem]
-            multiple-target: "& 7 & l [statisztika]: & r & e [szám] x [cél]"
-            single-target: "& 7 & l [statisztika]: & r & e [cél]"
-            statistic: "& 7 & l [statisztika] & r & e [szám]"
-            warning: "& e A statisztikai adatok csökkennek"
+              [statistic]
+              [warning]
+            multiple-target: "&7 &l [statistic]: &r &e [number] x [target]"
+            single-target: "&7 &l [statistic]: &r &e [target]"
+            statistic: "&7 &l [statistic] &r &e [number]"
+            warning: "&e A statisztikai adatok csökkennek"
         rewards:
           lore: |-
-            & 7 & l jutalmak:
-            [szöveg]
-            [tételek]
-            [tapasztalat]
-            [pénz]
-            [parancsok]
-          item-title: "& 7 elem:"
-          item-value: "  & 7 - & e [elem]"
-          items-value: "  & 7 - & e [szám] x [tétel]"
-          experience: "& 7 Tapasztalat: & r & e [szám]"
-          money: "& 7 Pénz: & r & e [szám]"
-          commands-title: "& 7 parancs:"
-          command: "  & 7 - & e [parancs]"
+            &7 &l jutalmak:
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
+          item-title: "&7 elem:"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Tapasztalat: &r &e [number]"
+          money: "&7 Pénz: &r &e [number]"
+          commands-title: "&7 parancs:"
+          command: "  &7 - &e [command]"
       level:
         lore: |-
-          [szöveg]
-          [állapot]
-          [lemondás]
-          [jutalmak]
+          [text]
+          [status]
+          [waiver]
+          [rewards]
         status:
-          completed: "& 2 & l Befejezve"
+          completed: "&2 &l Befejezve"
           completed-challenges-of: |-
-            & 2 Befejezve & 7 & l [szám] & r & 2 ki
-            & 7 & l [max] & r & 2 kihívások.
-          locked: "& c & l zárolva"
+            &2 Befejezve &7 &l [number] &r &2 ki
+            &7 &l [max] &r &2 kihívások.
+          locked: "&c &l zárolva"
           missing-challenges: |-
-            & 7 [szám] több kihívás kell
-            & 7 befejeződött ennek a szintnek a feloldásához.
+            &7 [number] több kihívás kell
+            &7 befejeződött ennek a szintnek a feloldásához.
         waiver: |-
-          & 7 & l [szám] kihívás (ok) & r & 7 lehet
-          & 7 átugrott a következő szint feloldásához.
+          &7 &l [number] kihívás (ok) &r &7 lehet
+          &7 átugrott a következő szint feloldásához.
         rewards:
           lore: |-
-            & 7 & l jutalmak:
-            [szöveg]
-            [tételek]
-            [tapasztalat]
-            [pénz]
-            [parancsok]
-          item-title: "& 7 elem:"
-          item-value: "  & 7 - & e [elem]"
-          items-value: "  & 7 - & e [szám] x [tétel]"
-          experience: "& 7 Tapasztalat: & r & e [szám]"
-          money: "& 7 Pénz: & r & e [szám]"
-          commands-title: "& 7 parancs:"
-          command: "  & 7 - & e [parancs]"
+            &7 &l jutalmak:
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
+          item-title: "&7 elem:"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Tapasztalat: &r &e [number]"
+          money: "&7 Pénz: &r &e [number]"
+          commands-title: "&7 parancs:"
+          command: "  &7 - &e [command]"
       library:
-        author: "& 7 [szerző]"
-        version: "& 7 Kihívásokkal készült és e [verzió]"
-        lang: "& 7 Nyelv: & e [lang]"
-        gamemode: "& 7 Elsődleges & e [gamemode]"
+        author: "&7 [author]"
+        version: "&7 Kihívásokkal készült és e [version]"
+        lang: "&7 Nyelv: &e [lang]"
+        gamemode: "&7 Elsődleges &e [gamemode]"
   conversations:
-    prefix: "& l & 6 [BentoBox]: & r"
+    prefix: "&l &6 [BentoBox]: &r"
     confirm-string: igaz, be, igen, megerősítés, y, érvényes, helyes
     deny-string: hamis, ki, nem, tagad, n, érvénytelen, helytelen
     cancel-string: megszünteti
     exit-string: törlés, kilépés, kilépés
-    cancelled: "& c A beszélgetés megszakítva!"
-    input-number: "& e Kérjük, adjon meg egy számot a chatben."
-    input-seconds: "& e Kérjük, adjon meg egy másodpercet a csevegésben."
-    numeric-only: "& c A megadott [érték] nem szám!"
-    not-valid-value: "& c A megadott szám [érték] nem érvényes. Nagyobbnak kell lennie,
+    cancelled: "&c A beszélgetés megszakítva!"
+    input-number: "&e Kérjük, adjon meg egy számot a chatben."
+    input-seconds: "&e Kérjük, adjon meg egy másodpercet a csevegésben."
+    numeric-only: "&c A megadott [value] nem szám!"
+    not-valid-value: "&c A megadott szám [value] nem érvényes. Nagyobbnak kell lennie,
       mint [min] és kisebbnek, mint [max]!"
-    user-data-removed: "& a A [gamemode] összes felhasználói adata törlődik az adatbázisból."
-    confirm-user-data-deletion: "& e Kérjük, erősítse meg, hogy törölni szeretné a
+    user-data-removed: "&a A [gamemode] összes felhasználói adata törlődik az adatbázisból."
+    confirm-user-data-deletion: "&e Kérjük, erősítse meg, hogy törölni szeretné a
       [gamemode] felhasználói adatbázisát."
-    challenge-data-removed: "& a [kihívás] adatai törlődnek az adatbázisból."
-    confirm-challenge-data-deletion: "& e Kérjük, erősítse meg, hogy törölni szeretné
+    challenge-data-removed: "&a [gamemode] adatai törlődnek az adatbázisból."
+    confirm-challenge-data-deletion: "&e Kérjük, erősítse meg, hogy törölni szeretné
       a [gamemode] kihívások adatbázisát."
-    all-data-removed: "& a A [gamemode] összes kiegészítő adata törlődik az adatbázisból."
-    confirm-all-data-deletion: "& e Kérjük, erősítse meg, hogy törölni szeretné a
+    all-data-removed: "&a A [gamemode] összes kiegészítő adata törlődik az adatbázisból."
+    confirm-all-data-deletion: "&e Kérjük, erősítse meg, hogy törölni szeretné a
       [gamemode] addon adatait."
-    write-name: "& e Kérjük, írjon nevet a chatbe."
-    new-object-created: "& Új objektum jön létre a [gamemode] számára."
-    object-already-exists: "& c Az objektum & 7 [id] & c már létezik. Válasszon másik
+    write-name: "&e Kérjük, írjon nevet a chatbe."
+    new-object-created: "&Új objektum jön létre a [gamemode] számára."
+    object-already-exists: "&c Az objektum &7 [id] &c már létezik. Válasszon másik
       nevet."
-    invalid-challenge: "& c Challenge [kihívás] érvénytelen adatokat tartalmaz. Nem
+    invalid-challenge: "&c Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem
       telepíthető!"
-    name-changed: "& a siker, a név frissült."
-    write-description: "& e Kérjük, írjon be egy új leírást a chat -be, és a befejezéshez
+    name-changed: "&a siker, a név frissült."
+    write-description: "&e Kérjük, írjon be egy új leírást a chat -be, és a befejezéshez
       'kilép' egy sorban."
-    description-changed: "& a siker, a leírás frissült."
-    write-permissions: "& e Kérjük, adja meg a szükséges jogosultságokat, egyet soronként
+    description-changed: "&a siker, a leírás frissült."
+    write-permissions: "&e Kérjük, adja meg a szükséges jogosultságokat, egyet soronként
       a csevegésben, és 'kilép' egy soron a befejezéshez."
-    permissions-changed: "& a siker, a kihívási jogosultságok frissültek."
-    write-reward-text: "& e Kérjük, írjon be egy új jutalomszöveget a csevegésbe,
+    permissions-changed: "&a siker, a kihívási jogosultságok frissültek."
+    write-reward-text: "&e Kérjük, írjon be egy új jutalomszöveget a csevegésbe,
       és a befejezéshez 'kilép' egy sorban."
-    reward-text-changed: "& a siker, a jutalom szövege frissült."
-    write-repeat-reward-text: "& e Kérjük, írjon be egy új ismétlődő jutalomszöveget
+    reward-text-changed: "&a siker, a jutalom szövege frissült."
+    write-repeat-reward-text: "&e Kérjük, írjon be egy új ismétlődő jutalomszöveget
       a csevegésbe, és a befejezéshez 'kilép' egy sorban."
-    repeat-reward-text-changed: "& a siker, az ismételt jutalom szövege frissült."
-    write-reward-commands: "& e Kérjük, írjon be egy új jutalmazási parancsot a csevegés
+    repeat-reward-text-changed: "&a siker, az ismételt jutalom szövege frissült."
+    write-reward-commands: "&e Kérjük, írjon be egy új jutalmazási parancsot a csevegés
       minden sorába, és a befejezéshez 'kilép' egy soron."
-    reward-commands-changed: "& a siker, a jutalmazási parancsok frissültek."
-    write-repeat-reward-commands: "& e Kérjük, írjon be egy új ismétlési jutalmazási
+    reward-commands-changed: "&a siker, a jutalmazási parancsok frissültek."
+    write-repeat-reward-commands: "&e Kérjük, írjon be egy új ismétlési jutalmazási
       parancsot a csevegés minden sorába, és a befejezéshez 'kilép' egy soron."
-    repeat-reward-commands-changed: "& a siker, az ismétlődő jutalmazási parancsok
+    repeat-reward-commands-changed: "&a siker, az ismétlődő jutalmazási parancsok
       frissültek."
-    challenge-removed: "& a [kihívás] a [gamemode] számára eltávolításra kerül az
+    challenge-removed: "&a [gamemode] a [gamemode] számára eltávolításra kerül az
       adatbázisból."
-    confirm-challenge-deletion: "& e Kérjük, erősítse meg, hogy el szeretné távolítani
-      a [gamemode] [kihívást] az adatbázisból."
-    level-removed: "& A [gamemode] szint [level] eltávolításra kerül az adatbázisból."
-    confirm-level-deletion: "& e Kérjük, erősítse meg, hogy el szeretné távolítani
+    confirm-challenge-deletion: "&e Kérjük, erősítse meg, hogy el szeretné távolítani
+      a [gamemode] [challenge] az adatbázisból."
+    level-removed: "&A [gamemode] szint [level] eltávolításra kerül az adatbázisból."
+    confirm-level-deletion: "&e Kérjük, erősítse meg, hogy el szeretné távolítani
       a [gamemode] [level] szintjét az adatbázisból."
-    start-downloading: "& a A kihívások könyvtárának letöltése és importálása."
-    written-text: "& beviteli szöveg:"
-    confirm-data-replacement: "& e Kérjük, erősítse meg, hogy a jelenlegi kihívásokat
+    start-downloading: "&a A kihívások könyvtárának letöltése és importálása."
+    written-text: "&beviteli szöveg:"
+    confirm-data-replacement: "&e Kérjük, erősítse meg, hogy a jelenlegi kihívásokat
       újakra kívánja cserélni."
-    new-challenges-imported: "& a siker, új kihívásokat importált a [gamemode] számára."
-    exported-file-name: "& e Kérjük, adja meg az exportált adatbázis fájl fájlnevét.
+    new-challenges-imported: "&a siker, új kihívásokat importált a [gamemode] számára."
+    exported-file-name: "&e Kérjük, adja meg az exportált adatbázis fájl fájlnevét.
       (a kilépéshez írja be: „Mégse”)"
-    database-export-completed: "& a siker, a [világ] adatbázis -exportálása befejeződött.
-      Fájl [fájl] létrehozva."
-    file-name-exist: "& c Létezik „[id]” nevű fájl. Nem írható felül."
-    write-search: "& e Kérjük, írjon be egy keresési értéket. (a kilépéshez írja be:
+    database-export-completed: "&a siker, a [world] adatbázis -exportálása befejeződött.
+      Fájl [file] létrehozva."
+    file-name-exist: "&c Létezik „[id]” nevű fájl. Nem írható felül."
+    write-search: "&e Kérjük, írjon be egy keresési értéket. (a kilépéshez írja be:
       „Mégse”)"
-    search-updated: "& a keresési érték frissítve."
+    search-updated: "&a keresési érték frissítve."
   titles:
     challenge-title: Sikeresen teljesítve
-    challenge-subtitle: "[barátságos név]"
+    challenge-subtitle: "[friendlyName]"
     level-title: Sikeresen teljesítve
-    level-subtitle: "[barátságos név]"
+    level-subtitle: "[friendlyName]"
   messages:
-    completed: "& 2 Befejezte a [játékos] kihívását [név] a [játékos] számára!"
-    already-completed: "& 2 Ez a kihívás már befejeződött!"
-    reset: "& 2 Visszaállítja a [játékos] kihívását [név]!"
-    reset-all: "& 2 Minden [játékos] kihívás visszaállt!"
-    not-completed: "& 2 Ez a kihívás még nem fejeződött be!"
-    migrate-start: "& 2 Kezdje el a kihívások bővítési adatainak áttelepítését."
-    migrate-end: "& 2 Challenges addon adatok új formátumba frissítve."
-    migrate-not: "& 2 Minden adat érvényes."
-    start-downloading: "& 5 A kihívások könyvtárának letöltése és importálása."
-    you-completed-challenge: "& 2 Teljesítette a [value] & r & 2 kihívást!"
-    you-repeated-challenge: "& 2 Megismételte a [value] & r & 2 kihívást!"
-    you-repeated-challenge-multiple: "& 2 Ismételted a [value] & r & 2 kihívást [count]!"
-    you-completed-level: "& 2 Elérted az [value] & r & 2 szintet!"
-    name-has-completed-challenge: "& 5 [név] teljesítette a [value] & r & 5 kihívást!"
-    name-has-completed-level: "& 5 [név] befejezte az [value] & r & 5 szintet!"
+    completed: "&2 Befejezte a [player] kihívását [name] a [player] számára!"
+    already-completed: "&2 Ez a kihívás már befejeződött!"
+    reset: "&2 Visszaállítja a [player] kihívását [name]!"
+    reset-all: "&2 Minden [player] kihívás visszaállt!"
+    not-completed: "&2 Ez a kihívás még nem fejeződött be!"
+    migrate-start: "&2 Kezdje el a kihívások bővítési adatainak áttelepítését."
+    migrate-end: "&2 Challenges addon adatok új formátumba frissítve."
+    migrate-not: "&2 Minden adat érvényes."
+    start-downloading: "&5 A kihívások könyvtárának letöltése és importálása."
+    you-completed-challenge: "&2 Teljesítette a [value] &r &2 kihívást!"
+    you-repeated-challenge: "&2 Megismételte a [value] &r &2 kihívást!"
+    you-repeated-challenge-multiple: "&2 Ismételted a [value] &r &2 kihívást [count]!"
+    you-completed-level: "&2 Elérted az [value] &r &2 szintet!"
+    name-has-completed-challenge: "&5 [name] teljesítette a [value] &r &5 kihívást!"
+    name-has-completed-level: "&5 [name] befejezte az [value] &r &5 szintet!"
     load-skipping: '"[value]" már létezik - kihagyás'
     load-overwriting: A "[value]" felülírása
-    load-add: 'Új objektum hozzáadása: [érték]'
+    load-add: 'Új objektum hozzáadása: [value]'
   errors:
-    no-name: "& c Hiányzik a kihívás neve"
-    unknown-challenge: "& c Ismeretlen kihívás"
+    no-name: "&c Hiányzik a kihívás neve"
+    unknown-challenge: "&c Ismeretlen kihívás"
     not-valid-integer: |-
-      & c A megadott "[value]" egész szám nem érvényes!
+      &c A megadott "[value]" egész szám nem érvényes!
       Az értéknek [min] és [max] között kell lennie.
-    not-deployed: "& c Challenge nincs telepítve!"
-    not-on-island: "& c Ehhez a szigeten kell lennie!"
-    challenge-level-not-available: "& c Még nem oldotta fel a kihívás teljesítéséhez
+    not-deployed: "&c Challenge nincs telepítve!"
+    not-on-island: "&c Ehhez a szigeten kell lennie!"
+    challenge-level-not-available: "&c Még nem oldotta fel a kihívás teljesítéséhez
       szükséges szintet."
-    not-repeatable: "& c Ez a kihívás nem ismételhető!"
-    wrong-environment: "& c Rossz környezetben van!"
-    not-enough-items: "& c Nincs elég [elem] a kihívás teljesítéséhez!"
-    not-close-enough: "& c Az összes szükséges tétel [szám] mondatán belül kell állnia."
-    you-still-need: "& c Továbbra is szüksége van [összeg] x [tétel]"
-    missing-addon: "& c Nem lehet teljesíteni a kihívást: Hiányzik a szükséges kiegészítő
+    not-repeatable: "&c Ez a kihívás nem ismételhető!"
+    wrong-environment: "&c Rossz környezetben van!"
+    not-enough-items: "&c Nincs elég [item] a kihívás teljesítéséhez!"
+    not-close-enough: "&c Az összes szükséges tétel [number] mondatán belül kell állnia."
+    you-still-need: "&c Továbbra is szüksége van [amount] x [item]"
+    missing-addon: "&c Nem lehet teljesíteni a kihívást: Hiányzik a szükséges kiegészítő
       vagy bővítmény."
-    incorrect: "& c Nem lehet teljesíteni a kihívást: A követelmények helytelenek."
-    not-enough-money: "& c A kihívás teljesítéséhez fiókjában [value] szükséges."
-    not-enough-experience: "& c A kihívás teljesítéséhez [érték] EXP szükséges."
-    island-level: "& c A szigetnek [szám] szintnek vagy magasabbnak kell lennie a
+    incorrect: "&c Nem lehet teljesíteni a kihívást: A követelmények helytelenek."
+    not-enough-money: "&c A kihívás teljesítéséhez fiókjában [value] szükséges."
+    not-enough-experience: "&c A kihívás teljesítéséhez [value] EXP szükséges."
+    island-level: "&c A szigetnek [number] szintnek vagy magasabbnak kell lennie a
       kihívás teljesítéséhez!"
-    no-load: "& c Hiba: Nem sikerült betölteni a fájlt. [üzenet]"
-    load-error: "& c Hiba: Nem lehet betölteni az [value] értéket."
-    no-rank: "& c Nincs elég magas rangod ahhoz."
-    cannot-remove-items: "& c Néhány elem nem távolítható el a készletből!"
-    exist-challenges-or-levels: "& c A világban már léteznek kihívások. Nem lehet
+    no-load: "&c Hiba: Nem sikerült betölteni a fájlt. [message]"
+    load-error: "&c Hiba: Nem lehet betölteni az [value] értéket."
+    no-rank: "&c Nincs elég magas rangod ahhoz."
+    cannot-remove-items: "&c Néhány elem nem távolítható el a készletből!"
+    exist-challenges-or-levels: "&c A világban már léteznek kihívások. Nem lehet
       folytatni!"
-    no-challenges: "& c A kihívások még nem valósultak meg ezen a világon!"
-    no-challenges-admin: "& c A kihívások még nem valósultak meg ezen a világon! Használja
-      a & 5 /[parancs] & c billentyűket a hozzáadásukhoz!"
-    missing-arguments: "& c A parancsból hiányoznak az argumentumok."
-    no-multiple-permission: "& c Nincs engedélye arra, hogy ezt a kihívást egyszerre
+    no-challenges: "&c A kihívások még nem valósultak meg ezen a világon!"
+    no-challenges-admin: "&c A kihívások még nem valósultak meg ezen a világon! Használja
+      a &5 /[command] &c billentyűket a hozzáadásukhoz!"
+    missing-arguments: "&c A parancsból hiányoznak az argumentumok."
+    no-multiple-permission: "&c Nincs engedélye arra, hogy ezt a kihívást egyszerre
       többször teljesítse."
-    invalid-level: "& c A [szint] szint érvénytelen adatokat tartalmaz. Nem töltődik
+    invalid-level: "&c A [level] szint érvénytelen adatokat tartalmaz. Nem töltődik
       be az adatbázisból!"
-    invalid-challenge: "& c Challenge [kihívás] érvénytelen adatokat tartalmaz. Nem
+    invalid-challenge: "&c Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem
       töltődik be az adatbázisból!"
-    no-library-entries: "& c Nem találhatók könyvtári bejegyzések. Nincs mit mutatni."
-    not-hooked: "& c Challenges Az Addon nem talált GameMode módot."
-    timeout: "& c Ehhez a kihíváshoz várni kell [timeout] a befejezések között. Meg
-      kell várnia [várakozási idő], amíg újra befejezi."
+    no-library-entries: "&c Nem találhatók könyvtári bejegyzések. Nincs mit mutatni."
+    not-hooked: "&c Challenges Az Addon nem talált GameMode módot."
+    timeout: "&c Ehhez a kihíváshoz várni kell [timeout] a befejezések között. Meg
+      kell várnia [wait-time], amíg újra befejezi."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
       description: |-
-        & 5 & o Váltás ki teheti
-        & 5 & o teljes kihívások
+        &5 &o Váltás ki teheti
+        &5 &o teljes kihívások
       name: Kihívja a védelmet
     CHALLENGES_WORLD_PROTECTION:
       description: |-
-        & 5 & o Engedélyezés/letiltás
-        & 5 & o követelmény a játékosoknak
-        & 5 & o legyen a szigetükön
-        & 5 & o teljesít egy kihívást.
+        &5 &o Engedélyezés/letiltás
+        &5 &o követelmény a játékosoknak
+        &5 &o legyen a szigetükön
+        &5 &o teljesít egy kihívást.
       name: Kihívások a sziget korlátozására
       hint: Nincs kihívás a szigeten kívül
 version: 12
