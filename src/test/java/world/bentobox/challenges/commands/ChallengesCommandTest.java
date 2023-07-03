@@ -104,7 +104,7 @@ public class ChallengesCommandTest {
         Optional<GameModeAddon> optionalAddon = Optional.of(gameModeAddon);
         when(iwm.getAddon(any())).thenReturn(optionalAddon);
         when(plugin.getIWM()).thenReturn(iwm);
-        
+
         @NonNull
         WorldSettings ws = new TestWorldSetting();
         when(iwm.getWorldSettings(any())).thenReturn(ws);
@@ -172,7 +172,7 @@ public class ChallengesCommandTest {
     public void testCanExecuteWrongWorld() {
         when(iwm.inWorld(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
-        verify(user).getTranslation("general.errors.wrong-world");
+        verify(user).getTranslation(world, "general.errors.wrong-world");
     }
 
     /**
@@ -184,7 +184,7 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).getTranslation("challenges.errors.no-challenges");
+        verify(user).getTranslation(world, "challenges.errors.no-challenges");
     }
 
     /**
@@ -196,8 +196,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).getTranslation("challenges.errors.no-challenges");
+        verify(user).getTranslation(world, "challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
     /**
@@ -209,8 +209,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).getTranslation("challenges.errors.no-challenges");
+        verify(user).getTranslation(world, "challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
     /**
@@ -223,8 +223,8 @@ public class ChallengesCommandTest {
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(addon).logError("There are no challenges set up in world!");
-        verify(user).getTranslation("challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
-        verify(user, never()).getTranslation("challenges.errors.no-challenges");
+        verify(user).getTranslation(world, "challenges.errors.no-challenges-admin", "[command]", "bsb challenges");
+        verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
     /**
@@ -234,7 +234,7 @@ public class ChallengesCommandTest {
     public void testCanExecuteNoIsland() {
         when(im.getIsland(any(), any(User.class))).thenReturn(null);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
-        verify(user).getTranslation("general.errors.no-island");
+        verify(user).getTranslation(world, "general.errors.no-island");
     }
 
     /**

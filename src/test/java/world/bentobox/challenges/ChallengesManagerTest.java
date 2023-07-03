@@ -82,7 +82,7 @@ public class ChallengesManagerTest {
     // Mocks
     @Mock
     private ChallengesAddon addon;
-    @Mock
+
     private Settings settings;
     @Mock
     private IslandWorldManager iwm;
@@ -134,9 +134,11 @@ public class ChallengesManagerTest {
         when(s.getDatabaseType()).thenReturn(DatabaseType.JSON);
 
         // Addon Settings
+        settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
-        when(settings.isStoreHistory()).thenReturn(true);
-        when(settings.getLifeSpan()).thenReturn(10);
+        settings.setStoreAsIslandData(false);
+        settings.setStoreHistory(true);
+        settings.setLifeSpan(10);
 
         // Database
         database = new File("database");
@@ -264,7 +266,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // load twice - no overwrite, not silent
         assertFalse(cm.loadChallenge(challenge, world, false, user, false));
-        verify(user).getTranslation("challenges.messages.load-skipping", "[value]", "name");
+        verify(user).getTranslation(world, "challenges.messages.load-skipping", "[value]", "name");
     }
 
     /**
@@ -276,7 +278,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // overwrite
         assertTrue(cm.loadChallenge(challenge, world, true, user, true));
-        verify(user, never()).getTranslation(anyString(), anyString(), anyString());
+        verify(user, never()).getTranslation(any(World.class), anyString(), anyString(), anyString());
     }
 
     /**
@@ -288,7 +290,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         // overwrite not silent
         assertTrue(cm.loadChallenge(challenge, world, true, user, false));
-        verify(user).getTranslation("challenges.messages.load-overwriting", "[value]", "name");
+        verify(user).getTranslation(world, "challenges.messages.load-overwriting", "[value]", "name");
     }
 
     /**
@@ -311,7 +313,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         // load twice - no overwrite, not silent
         assertFalse(cm.loadLevel(level, world, false, user, false));
-        verify(user).getTranslation("challenges.messages.load-skipping", "[value]", "Novice");
+        verify(user).getTranslation(world, "challenges.messages.load-skipping", "[value]", "Novice");
     }
 
     /**
@@ -323,7 +325,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         // overwrite
         assertTrue(cm.loadLevel(level, world, true, user, true));
-        verify(user, never()).getTranslation(anyString(), anyString(), anyString());
+        verify(user, never()).getTranslation(any(World.class), anyString(), anyString(), anyString());
     }
 
     /**
@@ -335,7 +337,7 @@ public class ChallengesManagerTest {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         // overwrite not silent
         assertTrue(cm.loadLevel(level, world, true, user, false));
-        verify(user).getTranslation("challenges.messages.load-overwriting", "[value]", "Novice");
+        verify(user).getTranslation(world, "challenges.messages.load-overwriting", "[value]", "Novice");
     }
 
     /**

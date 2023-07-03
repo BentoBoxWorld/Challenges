@@ -51,6 +51,7 @@ import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.tasks.TryToComplete;
+import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
 /**
@@ -207,7 +208,8 @@ public class CompleteChallengeCommandTest {
     @Test
     public void testExecuteUserStringListOfStringNoArgs() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
-        verify(user).getTranslation(eq("challenges.errors.no-name"));
+        PowerMockito.verifyStatic(Utils.class);
+        Utils.sendMessage(user, world, Constants.ERRORS + "no-name");
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
@@ -218,7 +220,8 @@ public class CompleteChallengeCommandTest {
     public void testExecuteUserStringListOfStringUnknownChallenge() {
         when(chm.getChallenge(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
-        verify(user).getTranslation(eq("challenges.errors.unknown-challenge"));
+        PowerMockito.verifyStatic(Utils.class);
+        Utils.sendMessage(user, world, Constants.ERRORS + "unknown-challenge");
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
@@ -247,7 +250,8 @@ public class CompleteChallengeCommandTest {
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesNoPerm() {
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
-        verify(user).getTranslation(eq("challenges.error.no-multiple-permission"));
+        PowerMockito.verifyStatic(Utils.class);
+        Utils.sendMessage(user, world, Constants.ERRORS + "no-multiple-permission");
     }
 
     /**
