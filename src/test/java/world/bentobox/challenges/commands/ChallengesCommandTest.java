@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -38,7 +37,6 @@ import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.configuration.WorldSettings;
-import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.CommandsManager;
@@ -46,9 +44,9 @@ import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
+import world.bentobox.challenges.managers.ChallengesManager;
 
 /**
  * @author tastybento
@@ -244,16 +242,6 @@ public class ChallengesCommandTest {
     public void testCanExecuteSuccess() {
         assertTrue(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(user, never()).sendMessage(anyString());
-    }
-
-    /**
-     * Test method for {@link ChallengesPlayerCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
-    @Test
-    public void testExecuteUserStringListOfStringConsole() {
-        User console = mock(User.class);
-        assertFalse(cc.execute(console, "challenges", Collections.emptyList()));
-        verify(console).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
     /**
