@@ -37,7 +37,7 @@
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.20.1-R0.1-SNAPSHOT</spigot.version>
         <spigot-annotations.version>1.2.3-SNAPSHOT</spigot-annotations.version>
-        <bentobox.version>1.24.0</bentobox.version>
+        <bentobox.version>2.0.0-SNAPSHOT</bentobox.version>
         <level.version>2.6.3</level.version>
         <vault.version>1.7</vault.version>
         <panelutils.version>1.1.0</panelutils.version>
