@@ -216,7 +216,7 @@ challenges:
           &7 Об’єкти з рівними номерами
           &7 замовлять їх
           &7 унікальних імен ідентифікаторів.
-        value: "&7 Поточне замовлення: &e [номер]"
+        value: "&7 Поточне замовлення: &e [number]"
       icon:
         name: "&f&l Значок"
         description: |-
@@ -281,7 +281,7 @@ challenges:
           &7 навколо гравця, з якого
           &7 блоків та/або сутностей
           &7 виявлено.
-        value: "&7 Поточна відстань: &e [число]"
+        value: "&7 Поточна відстань: &e [number]"
       remove_items:
         name: "&f&l Видалити елементи"
         description: |-
@@ -966,7 +966,7 @@ challenges:
     cancelled: "&c Розмова скасована!"
     input-number: "&e Будь ласка, введіть номер у чаті."
     input-seconds: "&e Будь ласка, введіть секунди в чаті."
-    numeric-only: "&c Дане [значення] не є числом!"
+    numeric-only: "&c Дане [value] не є числом!"
     not-valid-value: "&c Дане число [value] недійсне. Він має бути більшим за [min]
       і меншим за [max]!"
     user-data-removed: "&a Усі дані користувача для [gamemode] видалено з бази даних."
@@ -1040,7 +1040,7 @@ challenges:
     you-repeated-challenge-multiple: "&2 Ви повторили завдання [value] &r &2 [count]
       разів!"
     you-completed-level: "&2 Ви завершили рівень [value] &r &2!"
-    name-has-completed-challenge: "&5 [ім’я] виконав завдання [value] &r &5!"
+    name-has-completed-challenge: "&5 [name] виконав завдання [value] &r &5!"
     name-has-completed-level: "&5 [name] завершив рівень [value] &r &5!"
     load-skipping: '"[value]" вже існує - пропуск'
     load-overwriting: Перезапис "[value]"
