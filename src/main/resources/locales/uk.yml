@@ -184,7 +184,7 @@ challenges:
         description: |-
           &7 Дозволяє змінювати
           &7 відображуване ім'я.
-        value: "&7 Зараз: &r [name]"
+        value: "&7 Зараз: &r [nane]"
       remove_on_complete:
         name: "&f&l Приховати після завершення"
         description: |-
