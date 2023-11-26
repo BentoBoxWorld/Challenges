@@ -1,0 +1,1113 @@
+---
+meta:
+  authors:
+  - BONNe
+challenges:
+  commands:
+    admin:
+      main:
+        description: Основна команда адміністратора. Відкриває GUI.
+      reload:
+        description: Перезавантажте завдання з бази даних
+      show:
+        description: Друкує всі виклики в чаті, які існують у цьому світі.
+      complete:
+        description: Виконайте завдання для гравця.
+        parameters: "<player> <challenge_id>"
+      reset:
+        description: Скинути виклик для гравця. Якщо для «challenge_id» встановлено
+          значення «all», усі виклики буде скинуто.
+        parameters: "<player> <challenge_id>"
+      migrate:
+        description: Перенесіть поточні дані викликів ігрового світу у формат зберігання
+          0.8.0.
+    user:
+      main:
+        description: Графічний інтерфейс Open Challenges.
+      complete:
+        description: Повний виклик.
+        parameters: "<challenge_id> [count]"
+  gui:
+    titles:
+      player-gui: "&0&l Меню викликів"
+      gamemode-gui: "&0&l Виберіть GameMode"
+      multiple-gui: "&0&l Скільки разів?"
+      admin-gui: "&0&l Меню адміністратора завдань"
+      edit-challenge: "&0&l Редагувати [challenge]"
+      edit-level: "&0&l Редагувати [level]"
+      settings: "&0&l Налаштування"
+      choose-challenge: "&0&l Виберіть завдання"
+      choose-level: "&0&l Виберіть рівень"
+      choose-player: "&0&l Виберіть програвач"
+      library: Бібліотека &0&l
+      manage-blocks: "&0&l Керувати блоками"
+      manage-entities: "&0&l Керувати сутностями"
+      type-selector: "&0&l Вибір типу завдання"
+      item-selector: "&0&l Вибір елементів"
+      block-selector: "&0&l Вибір блоку"
+      entity-selector: "&0&l Вибір сутності"
+      challenge-selector: "&0&l Вибір викликів"
+      statistic-selector: "&0&l Селектор статистики"
+      environment-selector: "&0&l Вибір середовища"
+    buttons:
+      free-challenges:
+        name: "&f&l Безкоштовні виклики"
+        description: |-
+          &7 Відображає список
+          &7 безкоштовних завдань
+      return:
+        name: "&f&l Повернути"
+        description: |-
+          &7 Повернення до попереднього меню
+          &7 або вийти з GUI
+      previous:
+        name: "&f&l Попередня сторінка"
+        description: "&7 Перейти на сторінку &e [number] &7"
+      next:
+        name: "&f&l Наступна сторінка"
+        description: "&7 Перейти на сторінку &e [number] &7"
+      reduce:
+        name: "&f&l Зменшити"
+        description: "&7 Зменшити на &e [number]"
+      increase:
+        name: "&f&l Збільшити"
+        description: "&7 Зменшити на &e [number]"
+      accept:
+        name: "&f&l Завершено"
+        description: |-
+          &7 Виконати завдання &e [number]
+          &7 раз(ів)
+      quit:
+        name: "&f&l Вийти"
+        description: "&7 Вийти з GUI."
+      complete_user_challenges:
+        name: "&f&l Виконайте завдання користувача(-и)"
+        description: |-
+          &7 Дозволяє вибрати користувача та
+          &7 завершити виклик(и) для
+          &7 його
+      reset_user_challenges:
+        name: "&f&l Скинути виклики користувача"
+        description: |-
+          &7 Дозволяє вибрати користувача та
+          &7 скинути його виклики
+      add_challenge:
+        name: "&f&l Створити виклик"
+        description: |-
+          &7 Запускає процес для
+          &7 створення нового виклику.
+      add_level:
+        name: "&f&l Створити рівень"
+        description: |-
+          &7 Запускає процес для
+          &7 створення нового рівня.
+      edit_challenge:
+        name: "&f&l Редагувати завдання"
+        description: |-
+          &7 Дозволяє вибирати та редагувати
+          &7 виклик.
+      edit_level:
+        name: "&f&l Редагувати рівень"
+        description: |-
+          &7 Дозволяє вибирати та редагувати
+          &7 рівень.
+      delete_challenge:
+        name: "&f&l Видалити завдання"
+        description: |-
+          &7 Дозволяє вибирати та видаляти
+          &7 виклик.
+      delete_level:
+        name: "&f&l Видалити рівень"
+        description: |-
+          &7 Дозволяє вибирати та видаляти
+          &7 рівень.
+      edit_settings:
+        name: "&f&l Налаштування"
+        description: |-
+          &7 Дозволяє переглядати та редагувати
+          &7 налаштування аддона.
+      complete_wipe:
+        name: "&f&l Повне очищення"
+        description: |-
+          &7 Повністю усуває проблеми
+          &7 база даних аддонів, у тому числі
+          &7 даних користувача.
+      challenge_wipe:
+        name: "&f&l Витирання виклику"
+        description: |-
+          &7 Повністю усуває проблеми
+          &7 та рівні з бази даних.
+      user_wipe:
+        name: "&f&l Стирання користувача"
+        description: |-
+          &7 Повністю очищає користувача
+          &7 дані з бази даних.
+      library:
+        name: "&f&l Бібліотека"
+        description: |-
+          &7 Відкриває паблік
+          Бібліотека &7 викликів.
+      import_database:
+        name: "&f&l Імпорт бази даних"
+        description: |-
+          &7 Дозволяє імпортувати експортовані
+          База даних викликів &7.
+      import_template:
+        name: "&f&l Імпортувати шаблон"
+        description: |-
+          &7 Дозволяє імпортувати шаблон
+          &7 файл із викликами.
+      export_challenges:
+        name: "&f&l Виклики експорту"
+        description: |-
+          &7 Дозволяє експортувати базу даних
+          &7 до локального файлу.
+      properties:
+        name: "&f&l властивості"
+        description: "&7 Переглянути всі основні властивості."
+      requirements:
+        name: "&f&l Вимоги"
+        description: "&7 Переглянути властивості вимог."
+      rewards:
+        name: "&f&l Нагороди"
+        description: "&7 Переглянути властивості нагород."
+      deployed:
+        name: "&f&l Розгортання"
+        description: |-
+          &7 Перемкнути, якщо виклик є
+          &7 розгорнуто, і користувачі можуть
+          &7 завершити його.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      name:
+        name: "&f&l Ім'я"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 відображуване ім'я.
+        value: "&7 Зараз: &r [nane]"
+      remove_on_complete:
+        name: "&f&l Приховати після завершення"
+        description: |-
+          &7 Перемкнути, якщо виклик повинен
+          &7 прихований від гравця після
+          &7 це завершено.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      description:
+        name: "&f&l Опис"
+        description: |-
+          &7 Конкретний опис
+          &7 за виклик. Колір
+          До нього необхідно застосувати коди &7.
+        value: "&7 Поточний опис:"
+      environment:
+        name: "&f&l Розмір"
+        description: |-
+          &7 Дозволяє обмежити, у якому
+          &7 оцініть завдання
+          &7 можна завершити.
+        enabled: "&2"
+        disabled: і c
+      order:
+        name: "&f&l Порядок"
+        description: |-
+          &7 Дозволяє змінювати порядок
+          &7 об'єктів.
+          &7 Об’єкти з рівними номерами
+          &7 замовлять їх
+          &7 унікальних імен ідентифікаторів.
+        value: "&7 Поточне замовлення: &e [номер]"
+      icon:
+        name: "&f&l Значок"
+        description: |-
+          &7 Дозволяє змінити значок
+          &7 за цей виклик.
+      locked_icon:
+        name: "&f&l Заблокований значок"
+        description: |-
+          &7 Дозволяє змінювати заблоковані
+          значок рівня &7.
+      required_permissions:
+        name: "&f&l Необхідні дозволи"
+        description: |-
+          &7 Дозволяє змінювати потрібні
+          &7 дозволів для цього
+          &7 завдання, яке потрібно виконати.
+        title: "&7 Дозволи:"
+        permission: " &8 - [permission]"
+        none: "&7 Дозволи не встановлено."
+      remove_entities:
+        name: "&f&l Видалити сутності"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 необхідних сутностей будуть
+          &7 бути видаленим зі світу
+          &7 після завершення
+          &7 завдання.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      required_entities:
+        name: "&f&l Обов'язкові сутності"
+        description: |-
+          &7 Дозволяє змінювати потрібні
+          &7 сутностей для цього
+          &7 завдання, яке потрібно виконати.
+        title: "&7 Сутності:"
+        list: " &8 - [number] x [entity]"
+        none: "&7 Сутності не додано."
+      remove_blocks:
+        name: "&f&l Видалити блоки"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 необхідних блоків буде
+          &7 буде видалено зі світу
+          &7 після завершення
+          &7 завдання.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      required_blocks:
+        name: "&f&l Необхідні блоки"
+        description: |-
+          &7 Дозволяє змінювати потрібні
+          &7 блоків для цього
+          &7 завдання, яке потрібно виконати.
+        title: "&7 блоків:"
+        list: "&8 - [number] x [entity]"
+        none: "&7 Блоки не додаються."
+      search_radius:
+        name: "&f&l Радіус пошуку"
+        description: |-
+          &7 Дозволяє змінювати радіус
+          &7 навколо гравця, з якого
+          &7 блоків та/або сутностей
+          &7 виявлено.
+        value: "&7 Поточна відстань: &e [число]"
+      remove_items:
+        name: "&f&l Видалити елементи"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 обов'язкових елементів будуть
+          &7 буде видалено з інвентарю
+          &7 після завершення
+          &7 завдання.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      required_items:
+        name: "&f&l Обов'язкові елементи"
+        description: |-
+          &7 Дозволяє змінювати потрібні
+          &7 елементів для цього
+          &7 завдання, яке потрібно виконати.
+        title: "&7 елементів:"
+        list: " &8 - [number] x [entity]"
+        none: "&7 Елементи не додано."
+      add_ignored_meta:
+        name: "&f&l Додати ігнорувати метадані"
+        description: |-
+          &7 Дозволяє додати which
+          &7 елементів слід ігнорувати
+          &7 будь-які метадані, які
+          Їм призначається &7.
+        title: "&7 елементів:"
+        list: " &8 - [number] x [entity]"
+        none: "&7 Елементи не додано."
+      remove_ignored_meta:
+        name: "&f&l Видалити ігнорувати метадані"
+        description: |-
+          &7 Дозволяє видалити які
+          &7 елементів слід ігнорувати
+          &7 будь-які метадані, які
+          Їм призначається &7.
+      remove_experience:
+        name: "&f&l Видалити досвід"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 необхідний досвід буде
+          &7 буде видалено з гравця
+          &7 після завершення
+          &7 завдання.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      required_experience:
+        name: "&f&l Необхідний досвід"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 необхідний досвід для
+          &7 гравець.
+        value: "&7 Поточний досвід: &e [number]"
+      required_level:
+        name: "&f&l Необхідний рівень острова"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 необхідний рівень острова
+          &7 за виклик.
+        value: "&7 Поточний рівень: &e [number]"
+      remove_money:
+        name: "&f&l Видалити гроші"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 потрібні гроші будуть
+          &7 буде видалено з гравця
+          &7 обліковий запис після завершення
+          &7 виклик.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      required_money:
+        name: "&f&l Необхідні гроші"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 потрібні гроші для гравця
+          &7 рахунок для виклику.
+        value: "&7 Поточне значення: &e [number]"
+      statistic:
+        name: "&f&l Статистика"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 тип статистики
+          &7 перевірив у цьому виклику.
+        value: "&7 Поточне значення: &e [statistic]"
+      statistic_amount:
+        name: "&f&l Цільове значення"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 статистичне цільове значення
+          &7, які повинні бути виконані.
+        value: "&7 Поточне значення: &e [number]"
+      remove_statistic:
+        name: "&f&l Зменшити статистику"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 статистичне значення буде
+          &7 буде зменшено після завершення
+          &7 виклик.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      statistic_blocks:
+        name: "&f&l Цільовий блок"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 статистичний цільовий блок.
+        value: "&7 Поточний блок: &e [block]"
+      statistic_items:
+        name: "&f&l Цільовий елемент"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 статистичний цільовий елемент.
+        value: "&7 Поточний елемент: &e [item]"
+      statistic_entities:
+        name: "&f&l Цільова сутність"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 статистична цільова сутність.
+        value: "&7 Поточна сутність: &e [entity]"
+      reward_text:
+        name: "&f&l Текст винагороди"
+        description: |-
+          &7 Конкретний текст винагороди.
+          &7 Кольорові коди мають бути
+          &7 застосовано до нього.
+        value: "&7 Поточний текст:"
+      repeat_reward_text:
+        name: "&f&l Повторити текст винагороди"
+        description: |-
+          &7 Конкретний повторний текст винагороди
+          &7 за виклик. Колір
+          До нього необхідно застосувати коди &7.
+        value: "&7 Поточний текст:"
+      reward_items:
+        name: "&f&l Нагородні предмети"
+        description: |-
+          &7 Дозволяє змінювати винагороду
+          &7 предметів.
+        title: "&7 елементів:"
+        list: " &8 - [number] x [item]"
+        none: "&7 Елементи не додано."
+      repeat_reward_items:
+        name: "&f&l Повторюйте елементи винагороди"
+        description: |-
+          &7 Дозволяє змінити повтор
+          &7 предметів нагороди за це
+          &7 завдання.
+        title: "&7 елементів:"
+        list: " &8 - [number] x [item]"
+        none: "&7 Елементи не додано."
+      reward_experience:
+        name: "&f&l Досвід винагороди"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 винагорода за досвід
+          &7 гравець.
+        value: "&7 Поточний рівень: &e [number]"
+      repeat_reward_experience:
+        name: "&f&l Повторіть нагороду"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 повторний досвід винагороди
+          &7 для гравця.
+        value: "&7 Поточний рівень: &e [number]"
+      reward_money:
+        name: "&f&l Гроші винагороди"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 грошова винагорода.
+        value: "&7 Поточне значення: &e [number]"
+      repeat_reward_money:
+        name: "&f&l Повторити винагороду"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 повторити грошову винагороду
+          &7 за виклик.
+        value: "&7 Поточне значення: &e [number]"
+      reward_commands:
+        name: "&f&l Команди винагороди"
+        description: |-
+          &7 Конкретні команди винагороди.
+          &8 Порада:
+          &8 Команда не вимагає
+          &8 написання першого `/` як буде
+          &8 буде застосовано автоматично.
+          &8 За замовчуванням команди будуть
+          &8 виконується сервером. Проте
+          &8 додавання `[SELF]` на початку
+          &8 дозволить команді бути
+          &8 виконується гравцем. Він також
+          &8 підтримує один заповнювач
+          &8 `[player]` це буде
+          &8 замінено іменем гравця
+          &8, який виконав завдання.
+        value: "&7 Поточні команди:"
+      repeat_reward_commands:
+        name: "&f&l Повторити команди винагороди"
+        description: |-
+          &7 Конкретна повторна винагорода
+          &7 команд для завдання.
+          &8 Порада:
+          &8 Команда не вимагає
+          &8 написання першого `/` як буде
+          &8 буде застосовано автоматично.
+          &8 За замовчуванням команди будуть
+          &8 виконується сервером. Проте
+          &8 додавання `[SELF]` на початку
+          &8 дозволить команді бути
+          &8 виконується гравцем. Він також
+          &8 підтримує один заповнювач
+          &8 `[player]` це буде
+          &8 замінено іменем гравця
+          &8, який виконав завдання.
+        value: "&7 Поточні команди:"
+      repeatable:
+        name: "&f&l Повторюється"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 виклик полягає в тому
+          &7 повторюється.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      repeat_count:
+        name: "&f&l Підрахунок повторів"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 кількість повторень
+          &7 за виклик.
+        value: "&7 Поточне значення: &e [number]"
+      cool_down:
+        name: "&f&l Охолодження"
+        description: |-
+          &7 Дозволяє змінювати
+          &7 охолонути секунд, що
+          &7 потрібно почекати між
+          &7 повторюване завдання
+          &7 завершень.
+        value: "&7 Поточне значення: &e [time]"
+      challenges:
+        name: "&f&l Виклики"
+        description: |-
+          &7 Перегляньте призначені завдання
+          &7 до рівня.
+      waiver_amount:
+        name: "&f&l Сума відмови"
+        description: |-
+          &7 Дозволяє встановити число
+          &7 викликів, які можуть
+          &7 залишити незавершеним для
+          &7 розблокування наступного рівня.
+        value: "&7 Поточне значення: &e [number]"
+      add_challenges:
+        name: "&f&l Додати виклик(и)"
+        description: |-
+          &7 Дозволяє вибрати та
+          &7 додає виклики
+          &7 рівень.
+      remove_challenges:
+        name: "&f&l Видалити виклик(и)"
+        description: |-
+          &7 Дозволяє вибрати та
+          &7 видалити виклики для
+          &7 рівень.
+      reset_on_new:
+        name: "&f&l Скинути на новий"
+        description: |-
+          &7 Дозволяє перемикати якщо
+          &7 проблем має бути
+          &7 скидання, коли користувач залишає
+          &7 острів або створює новий
+          &7 острів.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      broadcast:
+        name: "&f&l Трансляція"
+        description: |-
+          &7 Трансляції виклик і
+          &7 рівень перше завершення
+          &7 кожному.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      remove_completed:
+        name: "&f&l Приховати завершено"
+        description: |-
+          &7 Приховує виконані завдання
+          &7 з меню.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      glow_completed:
+        name: "&f&l Світіння завершено"
+        description: |-
+          &7 Додає чарівне сяйво
+          &7 до виконаних завдань.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      store_history:
+        name: "&f&l Історія магазину"
+        description: |-
+          &7 Зберігає внутрішню історію
+          &7, коли є кожне завдання
+          &7 завершено.
+          &7 Наразі лише для перегляду
+          &7 у базі даних.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      data_per_island:
+        name: "&f&l Магазин для кожного острова"
+        description: |-
+          &7 Зберігає виконане
+          &7 викликів на острів.
+          &7 Буде надано спільний доступ до прогресу
+          &7 з усіма гравцями в команді.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      show_title:
+        name: "&f&l Показати назву"
+        description: |-
+          &7 Показує назву, коли a
+          &7 виклик або рівень
+          &7 завершено.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      gamemode_gui:
+        name: "&f&l Графічний інтерфейс вибору GameMode"
+        description: |-
+          &7 Вмикає один GUI, який
+          &7 доступний через /challenges
+          &7 команда.
+          &c Вимагає перезавантаження сервера.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      locked_level_icon:
+        name: "&f&l Значок заблокованого рівня за умовчанням"
+        description: |-
+          &7 Значок за умовчанням для всіх заблокованих
+          &7 рівнів. Кожен рівень може змінюватися
+          &7 цей значок.
+      purge_history:
+        name: "&f&l Історія життя"
+        description: |-
+          &7 Кількість днів як довго
+          &7 дані історії зберігаються
+          &7 у даних користувача.
+          &7 0 означає, що дані будуть
+          &7 не видаляти.
+        value: "&7 Поточне значення: &e [number]"
+      title_showtime:
+        name: "&f&l Час показу заголовка"
+        description: |-
+          &7 Кількість позначок цієї назви
+          &7 буде показано гравцеві.
+        value: "&7 Поточне значення: &e [number]"
+      active_world_list:
+        name: "&f&l Показати лише активний світ"
+        description: |-
+          &7 Якщо графічний інтерфейс вибору GameMode
+          &7 увімкнено, це можна перемикати
+          &7, якщо GUI показує вибір GameMode
+          &7 або виклики для сучасного світу.
+          &c Вимагає перезавантаження сервера.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      visibility_mode:
+        name: "&f&l Режим видимості"
+        description: |-
+          &7 Режим видимості для
+          &7 проблем, які є
+          &7 приховано.
+        enabled: "&2"
+        disabled: "&c"
+        visible: Покажіть видимі виклики
+        hidden: Показати всі виклики
+        toggleable: Дозволити перемикання
+      include_undeployed:
+        name: "&f&l Включити нерозгорнуті завдання"
+        description: |-
+          &7 Вказує, якщо не розгорнуто
+          &7 проблем має бути
+          &7 зараховується до рівня
+          &7 завершення.
+        enabled: "&2 Увімкнено"
+        disabled: "&c Вимкнено"
+      download:
+        name: "&f&l Бібліотеки завантажень"
+        description: |-
+          &7 Доступне оновлення вручну
+          &7 викликів бібліотек.
+        enabled: "&2 З очищенням кешу"
+        disabled: "&c Без очищення кешу"
+      player:
+        name: "&f&l [name]"
+        description: 'Власник острова &7: [owner]'
+        members: "&7 членів острова:"
+        member: "&8 - [name]"
+        no-island: |-
+          &c Гравець не має
+          &c острів.
+      player_list:
+        name: "&f&l Виберіть список користувачів"
+        description: |-
+          &7 Виберіть список користувачів
+          Має бути показано &7.
+        enabled: "&2"
+        disabled: "&c"
+        online: Онлайн гравці
+        with_island: Гравці з островами
+        in_world: Гравці у світі
+      add_block:
+        name: "&f&l Додати блок"
+        description: |-
+          &7 Дозволяє додати новий
+          &7 блок до списку.
+      remove_block:
+        name: "&f&l Видалити блок"
+        description: |-
+          &7 Дозволяє видалити
+          &7 вибраних блоків
+          &7 зі списків.
+        title: "&7 Вибрані матеріали:"
+        material: "&8 - [material]"
+      material:
+        name: "&8 - [material]"
+        description: "&7 Ідентифікатор матеріалу: [id]"
+        selected: "&2 Вибрано"
+      add_entity:
+        name: "&f&l Додати сутність"
+        description: |-
+          &7 Дозволяє додати новий
+          &7 сутність до списку.
+      switch_entity:
+        name: "&f&l Зміна яєць"
+        description: |-
+          &7 Дозволяє перемикатися з
+          &7 яєць головам натовпу.
+      remove_entity:
+        name: "&f&l Видалити сутність"
+        description: |-
+          &7 Дозволяє видалити
+          &7 вибраних сутностей
+          &7 зі списків.
+        title: "&7 Вибрані сутності:"
+        entity: "&8 - [entity]"
+      entity:
+        name: "&f&l [entity]"
+        description: "&7 Ідентифікатор організації: [id]"
+        selected: "&2 Вибрано"
+      inventory_type:
+        name: "&f&l Тип запасів"
+        description: |-
+          &7 Виклик, який перевіряє
+          &7 предметів в інвентарі гравця
+      island_type:
+        name: "&f&l Тип острова"
+        description: |-
+          &7 Виклик, який перевіряє
+          &7 блоків або сутностей навколо
+          &7 гравець.
+      other_type:
+        name: "&f&l Інший тип"
+        description: |-
+          &7 Виклик, який використовує
+          &7 плагінів або додаткових речей,
+          &7 як рівень і гроші.
+      statistic_type:
+        name: "&f&l Тип статистики"
+        description: |-
+          &7 Виклик, який перевіряє
+          &7 статистичні дані гравців.
+      save:
+        name: "&f&l Зберегти"
+        description: |-
+          &7 Зберігає зміни та
+          &7 повертає.
+      cancel:
+        name: "&f&l Скасувати"
+        description: |-
+          &7 Скасування змін і
+          &7 повертає.
+      accept_selected:
+        name: "&f&l Прийняти вибране"
+        description: |-
+          &7 Повертає вибрані елементи
+          &7 і відкриває попередній графічний інтерфейс.
+        title: "&7 Вибрано:"
+        element: "&8 - [element]"
+      statistic_element:
+        name: "&f&l [statistic]"
+        description: "[description]"
+      environment_element:
+        name: "&f&l [environment]"
+        description: "[description]"
+      search:
+        name: "&f&l Пошук"
+        description: |-
+          &7 Дозволяє шукати
+          &7 елемент із введенням
+          &7 текстове значення.
+        search: "&b Значення: [value]"
+    tips:
+      click-to-select: "&e Натисніть &7, щоб вибрати."
+      click-to-choose: "&e Натисніть &7, щоб вибрати."
+      click-to-complete: "&e Натисніть &7, щоб завершити."
+      right-click-multiple-open: "&e Клацніть правою кнопкою миші &7, щоб вибрати
+        кількість завершень."
+      shift-left-click-to-complete-all: "&e Shift Натисніть &7, щоб завершити все."
+      left-click-to-accept: "&e Клацніть лівою кнопкою миші &7, щоб завершити."
+      right-click-to-write: "&e Клацніть правою кнопкою миші &7, щоб написати."
+      click-to-reduce: "&e Натисніть &7, щоб зменшити."
+      click-to-increase: "&e Натисніть &7, щоб збільшити."
+      click-to-return: "&e Натисніть &7, щоб повернутися."
+      click-to-quit: "&e Натисніть &7, щоб вийти."
+      click-to-wipe: "&e Натисніть &7, щоб стерти."
+      left-click-to-wipe: "&e Клацніть лівою кнопкою миші &7, щоб стерти."
+      right-click-to-switch: "&e Клацніть правою кнопкою миші &7, щоб переключитися."
+      click-to-open: "&e Натисніть &7, щоб відкрити."
+      click-to-export: "&e Натисніть &7, щоб експортувати."
+      click-to-create: "&e Натисніть &7, щоб створити."
+      left-click-to-open: "&e Клацніть лівою кнопкою миші &7, щоб відкрити."
+      right-click-to-reset-all: "&e Клацніть правою кнопкою миші &7, щоб стерти все."
+      click-to-toggle: "&e Натисніть &7, щоб перемкнути."
+      click-to-change: "&e Натисніть &7, щоб змінити."
+      shift-click-to-reset: "&e Shift Натисніть &7, щоб скинути."
+      click-to-add: "&e Натисніть &7, щоб додати."
+      click-to-remove: "&e Натисніть &7, щоб видалити."
+      left-click-to-cycle: "&e Клацніть лівою кнопкою миші &7, щоб перейти вниз."
+      right-click-to-cycle: "&e Клацніть правою кнопкою миші &7, щоб перейти вгору."
+      click-to-edit: "&e Натисніть &7, щоб редагувати."
+      left-click-to-download: "&e Клацніть лівою кнопкою миші &7, щоб завантажити."
+      right-click-to-toggle: "&e Клацніть правою кнопкою миші &7 для перемикання."
+      click-to-install: "&e Натисніть &7, щоб установити."
+      click-to-reset-all: "&e Натисніть &7, щоб скинути все."
+      right-click-to-select: "&e Клацніть правою кнопкою миші &7, щоб вибрати."
+      right-click-to-deselect: "&e Клацніть правою кнопкою миші &7, щоб скасувати
+        вибір."
+      left-click-to-choose: "&e Клацніть лівою кнопкою миші &7, щоб вибрати."
+      click-to-cancel: "&e Натисніть &7, щоб скасувати."
+      click-to-save: "&e Натисніть &7, щоб зберегти."
+      click-to-deselect: "&e Натисніть &7, щоб скасувати вибір."
+      click-on-item: |-
+        &e Клацніть &7 на елементі в
+        &7 ваш інвентар.
+      left-click-to-edit: "&e Клацніть лівою кнопкою миші &7 для редагування."
+      right-click-to-clear: "&e Клацніть правою кнопкою миші &7, щоб очистити."
+      click-to-previous: "&e Натисніть &7, щоб переглянути попередню сторінку."
+      click-to-next: "&e Натисніть &7, щоб переглянути наступну сторінку."
+    descriptions:
+      challenge:
+        lore: |-
+          [description]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
+        status:
+          completed: "&2&l Завершено"
+          completed-times: "&2 Виконано &7&l [number] &r&2 раз(ів)"
+          completed-times-of: "&2 Виконано &7&l [number] &r&2 із &7&l [max] &r&2 разів"
+          completed-times-reached: "&2&l Виконано всі &7 [max] &2 рази"
+        cooldown:
+          lore: |-
+            [timeout]
+            [wait-time]
+          timeout: "&7&l Охолодження: &r&7 [time]"
+          wait-time: "&c&l Доступно після: &r&c [time]"
+          in-days: "[number] дн "
+          in-hours: "[number] год "
+          in-minutes: "[number] хв"
+          in-seconds: "[number] с"
+        requirements:
+          lore: |-
+            [environment]
+            [type-requirement]
+            [permissions]
+          environment-single: "&7 Обмежено [environment]"
+          environment-title: "&7 Обмежується:"
+          environment-list: "  &7 - &e [environment]"
+          permission-single: "&c Потрібен дозвіл [permissions]."
+          permissions-title: "&c Потрібні дозволи:"
+          permissions-list: "  &c - [permission]"
+          island:
+            lore: |-
+              [blocks]
+              [entities]
+              [search-radius]
+              [warning-block]
+              [warning-entity]
+            blocks-title: "&7&l Необхідні блоки:"
+            block-value: "  &7 - &e [material]"
+            blocks-value: "  &7 - &e [number] x [material]"
+            entities-title: "&7&l Необхідні сутності:"
+            entity-value: "  &7 - &e [entity]"
+            entities-value: "  &7 - &e [number] x [entity]"
+            search-radius: "&7 Не далі &e [number] &7 метрів"
+            warning-block: "&e Блоки будуть &c видалені"
+            warning-entity: "&e Сутності будуть &c видалені"
+          inventory:
+            lore: |-
+              [items]
+              [warning]
+            item-title: "&7&l Необхідні елементи:"
+            item-value: "  &7 - &e [item]"
+            items-value: "  &7 - &e [number] x [item]"
+            warning: "&e Елемент(и) буде &c видалено"
+          other:
+            lore: |-
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
+            experience: "&7&l Необхідний досвід: &r&e [number]"
+            experience-warning: "&e Досвід буде &c видалено"
+            money: "&7&l Необхідні гроші: &r&e [number]"
+            money-warning: "&e Гроші будуть &c видалені"
+            level: "&7&l Необхідний рівень острова: &r&e [number]"
+          statistic:
+            lore: |-
+              [statistic]
+              [warning]
+            multiple-target: "&7&l [статистика]: &r&e [number] x [target]"
+            single-target: "&7&l [statistic]: &r&e [terget]"
+            statistic: "&7&l [statistic] &r&e [number]"
+            warning: "&e Статистичні дані будуть &c зменшені"
+        rewards:
+          lore: |-
+            &7&l Нагороди:
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
+          item-title: "&7 елементів:"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Досвід: &r&e [номер]"
+          money: "&7 Гроші: &r&e [number]"
+          commands-title: "&7 Команди:"
+          command: "  &7 - &e [command]"
+      level:
+        lore: |-
+          [text]
+          [status]
+          [waiver]
+          [rewards]
+        status:
+          completed: "&2&l Завершено"
+          completed-challenges-of: |-
+            &2 Завершено &7&l [number] &r&2 з
+            &7&l [max] &r&2 виклики.
+          locked: "&c&l Заблоковано"
+          missing-challenges: |-
+            &7 [number] має бути більше викликів
+            &7 завершено, щоб розблокувати цей рівень.
+        waiver: |-
+          &7&l [number] завдання(-и) &r&7 може бути
+          &7 пропущено, щоб розблокувати наступний рівень.
+        rewards:
+          lore: |-
+            &7&l Нагороди:
+            [text]
+            [items]
+            [experience]
+            [money]
+            [commands]
+          item-title: "&7 елементів:"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Досвід: &r&e [number]"
+          money: "&7 Гроші: &r&e [number]"
+          commands-title: "&7 Команди:"
+          command: "  &7 - &e [command]"
+      library:
+        author: "&7 від &e [author]"
+        version: "&7 Made with Challenges &e [version]"
+        lang: "&7 Мова: &e [lang]"
+        gamemode: "&7 Основний для &e [gamemode]"
+  conversations:
+    prefix: "&l&6 [BentoBox]: &r"
+    confirm-string: true, on, yes, confirm, y, valid, correct
+    deny-string: false, off, no, deny, n, invalid, incorrect
+    cancel-string: скасувати
+    exit-string: скасувати, вийти, вийти
+    cancelled: "&c Розмова скасована!"
+    input-number: "&e Будь ласка, введіть номер у чаті."
+    input-seconds: "&e Будь ласка, введіть секунди в чаті."
+    numeric-only: "&c Дане [значення] не є числом!"
+    not-valid-value: "&c Дане число [value] недійсне. Він має бути більшим за [min]
+      і меншим за [max]!"
+    user-data-removed: "&a Усі дані користувача для [gamemode] видалено з бази даних."
+    confirm-user-data-deletion: "&e Підтвердьте, що ви бажаєте очистити базу даних
+      користувачів для [gamemode]."
+    challenge-data-removed: "&a Усі дані викликів для [gamemode] видалено з бази даних."
+    confirm-challenge-data-deletion: "&e Будь ласка, підтвердьте, що ви хочете очистити
+      базу даних викликів для [gamemode]."
+    all-data-removed: "&a Усі дані аддонів для [gamemode] видалено з бази даних."
+    confirm-all-data-deletion: "&e Будь ласка, підтвердьте, що ви хочете очистити
+      дані аддонів для [gamemode]."
+    write-name: "&e Будь ласка, напишіть ім'я в чаті."
+    new-object-created: "&Створено новий об’єкт для [gamemode]."
+    object-already-exists: "&c Об'єкт &7 [id] &c вже існує. Виберіть інше ім'я."
+    invalid-challenge: "&c Завдання [challenge] містить недійсні дані. Його не можна
+      розгортати!"
+    name-changed: "&a Успіх, назву оновлено."
+    write-description: "&e Будь ласка, введіть новий опис у чаті та 'quit' у окремому
+      рядку, щоб завершити."
+    description-changed: "&a Успіх, опис оновлено."
+    write-permissions: "&e Будь ласка, введіть необхідні дозволи, по одному на рядок
+      у чаті, і 'quit' на окремому рядку, щоб завершити."
+    permissions-changed: "&a Успіх, дозволи на виклик оновлено."
+    write-reward-text: "&e Будь ласка, введіть новий текст винагороди в чаті та 'quit'
+      в окремому рядку, щоб завершити."
+    reward-text-changed: "&a Успіх, текст нагороди оновлено."
+    write-repeat-reward-text: "&e Будь ласка, введіть новий повторний текст винагороди
+      в чаті та 'quit' в окремому рядку, щоб завершити."
+    repeat-reward-text-changed: "&a Успіх, текст повторної винагороди оновлено."
+    write-reward-commands: "&e Будь ласка, введіть нову команду винагороди для кожного
+      рядка в чаті та 'quit' в окремому рядку, щоб завершити."
+    reward-commands-changed: "&a Успіх, команди винагород оновлено."
+    write-repeat-reward-commands: "&e Будь ласка, введіть нову повторну команду винагороди
+      для кожного рядка в чаті та 'quit' в окремому рядку, щоб завершити."
+    repeat-reward-commands-changed: "&a Успіх, повторні команди винагороди оновлено."
+    challenge-removed: "&a Challenges [challenge] для [gamemode] видалено з бази даних."
+    confirm-challenge-deletion: "&e Будь ласка, підтвердьте, що ви хочете видалити
+      [challenge] для [gamemode] з бази даних."
+    level-removed: "&a Рівень [level] для [gamemode] видалено з бази даних."
+    confirm-level-deletion: "&e Будь ласка, підтвердьте, що ви хочете видалити [level]
+      для [gamemode] з бази даних."
+    start-downloading: "&a Початок завантаження та імпорту бібліотеки завдань."
+    written-text: "&a Текст введення:"
+    confirm-data-replacement: "&e Будь ласка, підтвердьте, що ви бажаєте замінити
+      свої поточні завдання новими."
+    new-challenges-imported: "&a Успіху, нові завдання для [gamemode] імпортовано."
+    exported-file-name: "&e Будь ласка, введіть назву файлу для експортованого файлу
+      бази даних. (напишіть 'cancel', щоб вийти)"
+    database-export-completed: "&a Успіх, експорт бази даних для [world] завершено.
+      Файл [file] створено."
+    file-name-exist: "&c Файл із назвою '[id]' існує. Неможливо перезаписати."
+    write-search: "&e Введіть пошукове значення. (напишіть 'cancel', щоб вийти)"
+    search-updated: "&a Значення пошуку оновлено."
+  titles:
+    challenge-title: Успішно завершено
+    challenge-subtitle: "[friendlyName]"
+    level-title: Успішно завершено
+    level-subtitle: "[friendlyName]"
+  messages:
+    completed: "&2 Ви виконали виклик [name] для [player]!"
+    already-completed: "&2 Це завдання вже виконано!"
+    reset: "&2 Ви скинули виклик [name] для [player]!"
+    reset-all: "&2 Усі завдання [player] скинуто!"
+    not-completed: "&2 Це завдання ще не завершено!"
+    migrate-start: "&2 Розпочати міграцію даних аддонів викликів."
+    migrate-end: "&2 Дані надбудови Challenges оновлено до нового формату."
+    migrate-not: "&2 Усі дані дійсні."
+    start-downloading: "&5 Початок завантаження та імпорту бібліотеки завдань."
+    you-completed-challenge: "&2 Ви завершили завдання [value] &r &2!"
+    you-repeated-challenge: "&2 Ви повторили завдання [value] &r &2!"
+    you-repeated-challenge-multiple: "&2 Ви повторили завдання [value] &r &2 [count]
+      разів!"
+    you-completed-level: "&2 Ви завершили рівень [value] &r &2!"
+    name-has-completed-challenge: "&5 [ім’я] виконав завдання [value] &r &5!"
+    name-has-completed-level: "&5 [name] завершив рівень [value] &r &5!"
+    load-skipping: '"[value]" вже існує - пропуск'
+    load-overwriting: Перезапис "[value]"
+    load-add: 'Додавання нового об''єкта: [value]'
+  errors:
+    no-name: "&c Відсутня назва завдання"
+    unknown-challenge: "&c Невідомий виклик"
+    not-valid-integer: |-
+      &c Дане ціле число "[value]" недійсне!
+      Значення має бути між [min] і [max].
+    not-deployed: "&c Challenge не розгорнуто!"
+    not-on-island: "&c Для цього ви повинні бути на своєму острові!"
+    challenge-level-not-available: "&c Ви не розблокували необхідний рівень для виконання
+      цього завдання."
+    not-repeatable: "&c Цей виклик неможливо повторити!"
+    wrong-environment: "&c Ви перебуваєте в неправильному середовищі!"
+    not-enough-items: "&c У вас недостатньо [items], щоб виконати це завдання!"
+    not-close-enough: "&c Ви повинні знаходитися в межах [number] блоків від усіх
+      необхідних елементів."
+    you-still-need: "&c Вам все ще потрібно [amount] x [item]"
+    missing-addon: "&c Неможливо виконати завдання: відсутній необхідний аддон або
+      плагін."
+    incorrect: "&c Неможливо завершити завдання: вимоги неправильні."
+    not-enough-money: "&c Щоб виконати завдання, у вашому обліковому записі необхідно
+      мати [value]."
+    not-enough-experience: "&c Щоб виконати це завдання, необхідно мати [value] досвіду."
+    island-level: "&c Ваш острів має бути рівня [number] або вище, щоб виконати це
+      завдання!"
+    no-load: "&c Помилка: Не вдалося завантажити [file]. [message]"
+    load-error: "&c Помилка: неможливо завантажити [value]."
+    no-rank: "&c Ви не маєте достатньо високого рангу, щоб це зробити."
+    cannot-remove-items: "&c Деякі предмети не можна видалити з вашого інвентарю!"
+    exist-challenges-or-levels: "&c Проблеми вже існують у вашому світі. Неможливо
+      продовжити!"
+    no-challenges: "&c Виклики ще не реалізовані в цьому світі!"
+    no-challenges-admin: "&c Виклики ще не реалізовані в цьому світі! Використовуйте
+      &5 /[command] &c, щоб додати їх!"
+    missing-arguments: У команді &c відсутні аргументи.
+    no-multiple-permission: "&c Ви не маєте дозволу виконувати це завдання кілька
+      разів одночасно."
+    invalid-level: "&c Рівень [level] містить недійсні дані. Він не буде завантажений
+      з бази даних!"
+    invalid-challenge: "&c Завдання [challenge] містить недійсні дані. Він не буде
+      завантажений з бази даних!"
+    no-library-entries: "&c Не вдається знайти жодного запису бібліотеки. Нічого показати."
+    not-hooked: "&c Challenges Addon не вдалося знайти режим гри."
+    timeout: "&c Цей виклик вимагає очікування [timeout] між завершеннями. Ви повинні
+      зачекати [wait-time], поки завершите його знову."
+    requirement-not-met: "&c Цей виклик вимагає [statistic] мати [number]. У вас є
+      лише [value]."
+    requirement-not-met-entity: "&c Цей виклик вимагає [statistic] [entity] мати [number].
+      У вас є лише [value]."
+    requirement-not-met-material: "&c Цей виклик вимагає, щоб [statistic] [material]
+      мала [number]. У вас є лише [value]."
+protection:
+  flags:
+    CHALLENGES_ISLAND_PROTECTION:
+      description: |-
+        &5 &o Перемкнути, хто може
+        &5 &o завершення завдань
+      name: Захист викликів
+    CHALLENGES_WORLD_PROTECTION:
+      description: |-
+        &5 &o Увімкнути/вимкнути
+        &5 &o вимоги до гравців
+        &5 &o бути на своєму острові, щоб
+        &5 &o виконати завдання.
+      name: Обмеження острова викликів
+      hint: Жодних проблем за межами острова
+version: 12
