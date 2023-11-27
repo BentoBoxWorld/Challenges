@@ -6,12 +6,6 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode. Challenges 
 
 ![Challenges](https://github.com/BentoBoxWorld/Challenges/assets/4407265/9b3c5278-3a9d-45f2-9ee1-2c1fc1199a8d)
 
-## Translations
-
-As most of BentoBox projects, Challenges Addon is translatable into any language. Everyone can contribute, and translate some parts of the addon in their language via [GitLocalize](https://gitlocalize.com/repo/2896).
-If your language is not in the list, please contact the developers via Discord and it will be added there.
-Unfortunately, default challenges come only be in English, but there are different challenges libraries where everyone can share their challenges with their translations.
-
 ## How to use
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
@@ -34,7 +28,13 @@ There also exists a Web Library, where admins can download public challenges. It
 - [x] SkyGrid 
 - [x] CaveBlock
 
-## Information
+## Translations
+
+As with most of BentoBox projects, Challenges Addon is translatable into any language. Everyone can contribute, and translate some parts of the addon in their language via [GitLocalize](https://gitlocalize.com/repo/2896).
+If your language is not in the list, please contact the developers via Discord and it will be added there.
+Unfortunately, default challenges come only be in English, but there are different challenges libraries where everyone can share their challenges with their translations.
+
+## Documentation
 
 More information can be found in the docs: https://docs.bentobox.world/en/latest/addons/Challenges/
 
