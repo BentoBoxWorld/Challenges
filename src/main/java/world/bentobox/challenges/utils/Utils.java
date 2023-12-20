@@ -823,7 +823,7 @@ public class Utils
 
 		StringBuilder builder = new StringBuilder();
 
-		enchantmentMeta.getEnchants().forEach((enchantment, level) -> {
+		enchantmentMeta.getStoredEnchants().forEach((enchantment, level) -> {
 			builder.append("\n");
 			builder.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "meta.enchant-meta",
 				"[type]", prettifyObject(enchantment, user),
