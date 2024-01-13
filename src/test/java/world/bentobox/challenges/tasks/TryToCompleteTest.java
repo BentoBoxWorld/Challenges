@@ -499,7 +499,9 @@ public class TryToCompleteTest {
     public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
         when(player.getGameMode()).thenReturn(GameMode.CREATIVE);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(user).getTranslation(any(World.class), eq("challenges.messages.you-completed-challenge"), eq("[value]"),eq("name"));
+        // Creative players automatically complete inventory challenges twice - they have infinite inventory
+        verify(user).getTranslation(world, "challenges.messages.you-repeated-challenge-multiple", "[value]", "name",
+                "[count]", "2");
     }
 
 	/**
