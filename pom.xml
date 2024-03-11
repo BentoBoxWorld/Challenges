@@ -120,6 +120,12 @@
     </repositories>
 
     <dependencies>
+        <!-- This is required for PowerMockito to work and must be placed before it -->
+        <dependency>
+            <groupId>org.javassist</groupId>
+             <artifactId>javassist</artifactId>
+             <version>3.30.2-GA</version>
+         </dependency>
         <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -390,6 +396,7 @@
                                 <format>XML</format>
                             </formats>
                         </configuration>
+
                     </execution>
                 </executions>
             </plugin>

@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
@@ -46,10 +45,10 @@ import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.tasks.TryToComplete;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
@@ -59,7 +58,7 @@ import world.bentobox.challenges.utils.Utils;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, ChatColor.class, Utils.class, TryToComplete.class, Util.class})
+@PrepareForTest({ Bukkit.class, BentoBox.class, Utils.class, TryToComplete.class, Util.class })
 public class CompleteChallengeCommandTest {
 
     @Mock
@@ -150,11 +149,6 @@ public class CompleteChallengeCommandTest {
         List<String> nameList = Arrays.asList("world_maker", "world_placer", "bad_challenge_name", "world_breaker");
         when(chm.getAllChallengesNames(any())).thenReturn(nameList);
 
-
-        // ChatColor
-        PowerMockito.mockStatic(ChatColor.class);
-        when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
-
         // Settings
         Settings settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
@@ -176,6 +170,8 @@ public class CompleteChallengeCommandTest {
         // Util
         PowerMockito.mockStatic(Util.class);
         when(Util.tabLimit(any(), any())).thenAnswer((Answer<List<String>>) invocation -> (List<String>)invocation.getArgument(0, List.class));
+        when(Util.translateColorCodes(anyString()))
+                .thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 
         // Command under test
         cc = new CompleteChallengeCommand(addon, ic);

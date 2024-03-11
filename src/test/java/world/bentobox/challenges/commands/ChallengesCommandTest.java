@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
@@ -53,7 +52,7 @@ import world.bentobox.challenges.managers.ChallengesManager;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, ChatColor.class, Util.class})
+@PrepareForTest({ Bukkit.class, BentoBox.class, Util.class })
 public class ChallengesCommandTest {
 
     @Mock
@@ -141,10 +140,6 @@ public class ChallengesCommandTest {
         // Challenges exist
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(true);
 
-        // ChatColor
-        PowerMockito.mockStatic(ChatColor.class);
-        when(ChatColor.translateAlternateColorCodes(any(char.class), anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
-
         // Settings
         Settings settings = new Settings();
         when(addon.getChallengesSettings()).thenReturn(settings);
@@ -159,6 +154,9 @@ public class ChallengesCommandTest {
         // Util
         PowerMockito.mockStatic(Util.class, Mockito.RETURNS_MOCKS);
         when(Util.sameWorld(any(), any())).thenReturn(true);
+        when(Util.translateColorCodes(anyString()))
+                .thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
+
         // Command under test
         cc = new ChallengesPlayerCommand(addon, ic);
     }

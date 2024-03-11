@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,14 +70,13 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.tasks.TryToComplete.ChallengeResult;
-import world.bentobox.challenges.utils.Utils;
 
 /**
  * @author tastybento
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ Bukkit.class, BentoBox.class, Util.class, Utils.class, ChatColor.class })
+@PrepareForTest({ Bukkit.class, BentoBox.class, Util.class })
 public class TryToCompleteTest {
 
 	// Constants
@@ -120,6 +118,7 @@ public class TryToCompleteTest {
 	private final ItemStack[] contents = {};
 	@Mock
 	private BoundingBox bb;
+    private Set<Player> onlinePlayers;
 
 	/**
 	 */
@@ -169,6 +168,8 @@ public class TryToCompleteTest {
 		when(Util.getWorld(any())).thenReturn(world);
 		when(Util.prettifyText(anyString())).thenCallRealMethod();
 		when(Util.stripSpaceAfterColorCodes(anyString())).thenCallRealMethod();
+        when(Util.translateColorCodes(anyString()))
+                .thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 
 		// Island World Manager
 		IslandWorldManager iwm = mock(IslandWorldManager.class);
@@ -205,6 +206,7 @@ public class TryToCompleteTest {
 		when(user.hasPermission(anyString())).thenReturn(true);
 		when(user.getPlayer()).thenReturn(player);
 		UUID uniqueId = UUID.randomUUID();
+        when(player.getUniqueId()).thenReturn(uniqueId);
 		when(user.getUniqueId()).thenReturn(uniqueId);
 		when(user.getTranslation(anyString()))
 				.thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
@@ -213,6 +215,7 @@ public class TryToCompleteTest {
 		when(user.getTranslationOrNothing(anyString()))
 				.thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 		when(user.getName()).thenReturn("tastybento");
+        User.getInstance(player);
 		@Nullable
 		Location userLoc = mock(Location.class);
 		when(userLoc.toString()).thenReturn("location");
@@ -227,6 +230,7 @@ public class TryToCompleteTest {
 		LocalesManager lm = mock(LocalesManager.class);
 		when(plugin.getLocalesManager()).thenReturn(lm);
 		when(lm.get(any(), any())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
+        when(lm.get(any(), any())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(1, String.class));
 		PlaceholdersManager phm = mock(PlaceholdersManager.class);
 		when(plugin.getPlaceholdersManager()).thenReturn(phm);
 		when(phm.replacePlaceholders(any(), any()))
@@ -242,7 +246,7 @@ public class TryToCompleteTest {
 		// Bukkit - online players
 		Map<UUID, String> online = new HashMap<>();
 
-		Set<Player> onlinePlayers = new HashSet<>();
+        onlinePlayers = new HashSet<>();
 		for (String name : NAMES) {
 			Player p1 = mock(Player.class);
 			UUID uuid2 = UUID.randomUUID();
@@ -252,7 +256,7 @@ public class TryToCompleteTest {
 			onlinePlayers.add(p1);
 		}
 		PowerMockito.mockStatic(Bukkit.class);
-		when(Bukkit.getOnlinePlayers()).then((Answer<Set<Player>>) invocation -> onlinePlayers);
+        when(Bukkit.getOnlinePlayers()).then((Answer<Set<Player>>) invocation -> Set.of(player));
 
 		// World settings
 		Map<String, Boolean> map = new HashMap<>();
@@ -264,10 +268,6 @@ public class TryToCompleteTest {
 		ItemFactory itemFactory = mock(ItemFactory.class);
 		when(Bukkit.getItemFactory()).thenReturn(itemFactory);
 
-		// ChatColor
-		PowerMockito.mockStatic(ChatColor.class, Mockito.RETURNS_MOCKS);
-		when(ChatColor.stripColor(anyString()))
-				.thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 	}
 
 	@After
