@@ -952,6 +952,8 @@ public class TryToComplete
         else
         {
             requiredItems = Collections.emptyList();
+            // Set maxTime to 2, to not crash client when completing 2147483647 times.
+            maxTimes = 2;
         }
 
         // Return the result

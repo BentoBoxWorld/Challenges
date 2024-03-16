@@ -15,7 +15,7 @@ gamemode_panel:
   content:
     2:
       1:
-        icon: TIPPED_ARROW:INSTANT_HEAL::::1
+        icon: tipped_arrow{CustomPotionColor:11546150}
         title: challenges.gui.buttons.previous.name
         description: challenges.gui.buttons.previous.description
         data:
@@ -33,7 +33,7 @@ gamemode_panel:
       7: gamemode
       8: gamemode
       9:
-        icon: TIPPED_ARROW:JUMP::::1
+        icon: tipped_arrow{CustomPotionColor:8439583}
         title: challenges.gui.buttons.next.name
         description: challenges.gui.buttons.next.description
         data:

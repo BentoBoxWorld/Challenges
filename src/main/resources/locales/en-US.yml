@@ -907,7 +907,7 @@ challenges:
                     # Message that will be added after environment-title-multiple.
                     environment-list: "  &7 - &e [environment]"
                     # Message that will replace [permissions] placeholder if there is just a single permission.
-                    permission-single: "&c Requires [permissions] permission"
+                    permission-single: "&c Requires [permission] permission"
                     # Message that will replace [permissions] placeholder if there are multiple permissions.
                     permissions-title: "&c Requires permissions: "
                     # Message that will be added after permissions-title-multiple.
