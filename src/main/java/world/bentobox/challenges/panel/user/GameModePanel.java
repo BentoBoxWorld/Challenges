@@ -40,7 +40,7 @@ public class GameModePanel extends CommonPanel
         List<GameModeAddon> addonList,
         boolean adminMode)
     {
-        super(addon, user, world, null, null);
+        super(addon, user, user, world, null, null);
         this.addonList = addonList;
         this.adminMode = adminMode;
     }
