@@ -3,9 +3,11 @@ package world.bentobox.challenges.utils;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import org.apache.commons.lang3.text.WordUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -922,4 +924,37 @@ public class Utils
 
 		return returnString;
 	}
+        
+        /**
+         * This method splits a string in lines with a maximum length
+         *
+         * @param maxLength that each line can be.
+         * @return a list of the splitted lines.
+         */
+        public static List<String> stringSplitList(String string, int maxLength) {
+            // Remove all ending lines from string.
+            string = string.replaceAll("([\\r\\n])", "\\|");
+            string = ChatColor.translateAlternateColorCodes('&', string);
+            // Check length of lines
+            List<String> result = new ArrayList<>();
+
+            Arrays.stream(string.split("\\|")).
+                    map(line -> Arrays.asList(WordUtils.wrap(line, maxLength).split(System.getProperty("line.separator")))).
+                    forEach(result::addAll);
+
+            // Fix colors, as splitting my lost that information.
+            for (int i = 0, resultSize = result.size(); i < resultSize; i++) {
+                if (i > 0) {
+                    String lastColor = ChatColor.getLastColors(result.get(i - 1));
+                    result.set(i, lastColor + result.get(i));
+                }
+            }
+
+            return result;
+        }
+
+        public static String stringSplit(String string, int maxLength) {
+            List<String> splitted = stringSplitList(string, maxLength);
+            return String.join("\n", splitted);
+        }
 }

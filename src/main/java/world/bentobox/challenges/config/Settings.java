@@ -111,6 +111,12 @@ public class Settings implements ConfigObject
 
 
     @ConfigComment("")
+    @ConfigComment("This allows to change lore description line length. By default it is 25, but some server")
+    @ConfigComment("owners may like it to be larger. Set it to -1 to disable it.")
+    @ConfigEntry(path = "gui-settings.lore-length")
+    private int loreLength = 25;
+    
+    @ConfigComment("")
     @ConfigComment("This allows to change default locked level icon. This option may be")
     @ConfigComment("overwritten by each challenge level. If challenge level has specified")
     @ConfigComment("their locked level icon, then it will be used, instead of this one.")
@@ -384,6 +390,17 @@ public class Settings implements ConfigObject
     {
         return this.visibilityMode;
     }
+    
+    
+    
+     /**
+     * This method returns the loreLength value.
+     * @return the value of loreLength.
+     */
+    public int getLoreLength()
+    {
+        return this.loreLength;
+    }
 
 
 // ---------------------------------------------------------------------
@@ -602,6 +619,16 @@ public class Settings implements ConfigObject
     public void setVisibilityMode(VisibilityMode visibilityMode)
     {
         this.visibilityMode = visibilityMode;
+    }
+    
+    /**
+     * This method sets the loreLength value.
+     * @param loreLength the loreLength new value.
+     *
+     */
+    public void setLoreLength(int loreLength)
+    {
+        this.loreLength = loreLength;
     }
 
 
