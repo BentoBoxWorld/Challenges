@@ -7,7 +7,10 @@ challenges:
     admin:
       main:
         description: Comando de administrador principal. Abrir GUI.
-      reload: {}
+      reload:
+        description: |-
+          Recargar desafíos desde la base de datos
+          El parámetro hard significa que el addon restablecerá la conexión a la base de datos.
       show:
         description: Imprime todos los desafíos en el chat que existen en este mundo.
       complete:
@@ -1084,6 +1087,7 @@ challenges:
       ítems requeridos."
     you-still-need: "&cTodavía necesitas [amount] x [item]"
     missing-addon: "&cNo se puede completar el desafío: falta un addon o plugin requerido."
+    incorrect: "&cNo se puede completar el desafío: los requisitos son incorrectos."
     not-enough-money: "&cEs necesario tener [value] en tu cuenta para completar el
       desafío."
     not-enough-experience: "&cEs necesario tener [value] EXP para completar este desafío."
