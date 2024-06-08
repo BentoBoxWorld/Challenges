@@ -271,19 +271,24 @@ challenges:
         value: "&7 当前距离：&e [number]"
       remove_items:
         name: "&f&l 删除道具"
+        description: "&7允许切换是否在完成挑战后移除所需物品"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_items:
         name: "&f&l 需求道具"
+        description: "&7 允许更改待完成任务中所需的物品"
         title: "&7 项："
         list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       add_ignored_meta:
         name: "&f&l 添加忽略元数据"
+        description: "&7允许添加忽略所有元数据的物品"
         title: "&7 项："
         list: " &8 - [number] x [item]"
+        none: "&7 物品未添加。"
       remove_ignored_meta:
         name: "&f&l 删除忽略元数据"
+        description: "&7允许移除忽略所有元数据的物品"
       remove_experience:
         name: "&f&l 移除经验"
         description: |-
@@ -310,6 +315,7 @@ challenges:
         value: "&7 当前级别：&e [number]"
       remove_money:
         name: "&f&l 移除金钱"
+        description: "&7允许切换是否在玩家完成任务后移除所需金额"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_money:
@@ -321,6 +327,7 @@ challenges:
         value: "&7 当前值：&e [number]"
       statistic:
         name: "&f&l 统计"
+        description: "&7允许修改该挑战所检查的统计类型"
         value: "&7 当前值：&e [statistic]"
       statistic_amount:
         name: "&f&l 目标值"
