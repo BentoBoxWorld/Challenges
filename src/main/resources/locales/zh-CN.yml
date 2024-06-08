@@ -617,7 +617,15 @@ challenges:
         visible: 显示可见的挑战
         hidden: 显示所有挑战
         toggleable: 允许切换
-      include_undeployed: {}
+      include_undeployed:
+        name: "&f&l 包括未部署的挑战"
+        description: |-
+          &7 表示是否未部署
+          &7 挑战应该是
+          &7 计入等级
+          &7 完成。
+        enabled: "&2 启用"
+        disabled: "&c 禁用"
       download:
         name: "&f&l 下载库"
         description: |-
