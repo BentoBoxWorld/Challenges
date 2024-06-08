@@ -137,14 +137,19 @@ challenges:
           &7 及挑战等级数据。
       user_wipe:
         name: "&f&l 清除玩家数据"
+        description: "&7 彻底清除玩家数据。"
       library:
         name: "&f&l 库"
+        description: "&7 打开公共挑战库。"
       import_database:
         name: "&f&l 导入数据"
+        description: "&7 导入或导出挑战扩展数据。"
       import_template:
         name: "&f&l 导入模板"
+        description: "&7 点击导入挑战模板文件。"
       export_challenges:
         name: "&f&l 导出挑战"
+        description: "&7 导出挑战数据到本地文件。"
       properties:
         name: "&f&l 属性"
         description: "&7 查看所有主要属性。"
@@ -689,8 +694,10 @@ challenges:
           &7 喜欢等级和金钱。
       statistic_type:
         name: "&f&l 统计类型"
+        description: "&7 检查的挑战玩家统计数据。"
       save:
         name: "&f&l 保存"
+        description: "&7 保存更改并返回。"
       cancel:
         name: "&f&l 取消"
         description: |-
