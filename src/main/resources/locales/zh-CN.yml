@@ -806,6 +806,7 @@ challenges:
           environment-single: "&7 仅限在 [environment] 完成"
           environment-title: "&7 仅限在这些维度完成："
           environment-list: "  &7 - &e [environment]"
+          permission-single: "&c 需要 [permission] 权限"
           permissions-title: "&c 需要权限："
           permissions-list: "  &c - [permission]"
           island:
