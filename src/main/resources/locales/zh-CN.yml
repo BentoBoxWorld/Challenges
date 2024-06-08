@@ -2,31 +2,26 @@
 meta:
   authors:
   - BONNe
-  # Attention for Chinese translation
-  # 中文翻译须知，在本人2023年1月19日接手前，上一位翻译者疑似用机翻软件翻译了全文包括变量在内的所有文字。
-  # 感谢原作者BONNe进行了修改，同时笔者对管理员部分的翻译和玩家全部的翻译进行了订正。时间仓促，请君斧正。
 challenges:
   commands:
     admin:
       main:
-        description: 打开管理员面板。
+        description: 管理员主指令。打开管理员菜单。
       reload:
-        description: |-
-          从数据库中重载挑战
-          如果使用了 hard 参数，将重置与数据库的连接。
+        description: 重新加载挑战数据
       show:
-        description: 在聊天框中列出这个世界适用的所有挑战。
+        description: 在聊天栏中显示此世界可用的所有挑战。
       complete:
-        description: 完成一个玩家的挑战。
+        description: 强制为玩家完成挑战
         parameters: "<player> <challenge_id>"
       reset:
-        description: 重设玩家的挑战。如果将参数 <challenge_id> 设置为 "all"， 则将重置该玩家所有挑战。
+        description: 为玩家重置挑战。如果 "challenge_id" 填写为 "all"，则将为该玩家重置所有挑战。
         parameters: "<player> <challenge_id>"
       migrate:
-        description: 迁移当前游戏世界的挑战数据到 0.8.0 存储格式。
+        description: 将当前世界的挑战数据转换为 0.8.0 的存储格式。
     user:
       main:
-        description: 打开挑战界面。
+        description: 打开挑战菜单。
       complete:
         description: 完成挑战。
         parameters: "<challenge_id> [count]"
@@ -35,222 +30,206 @@ challenges:
       player-gui: "&0&l 挑战菜单"
       gamemode-gui: "&0&l 选择游戏模式"
       multiple-gui: "&0&l 多少次？"
-      admin-gui: "&0&l 挑战管理菜单"
+      admin-gui: "&0&l 管理员挑战菜单"
       edit-challenge: "&0&l 编辑 [challenge]"
       edit-level: "&0&l 编辑 [level]"
       settings: "&0&l 设置"
       choose-challenge: "&0&l 选择挑战"
-      choose-level: "&0&l 选择级别"
+      choose-level: "&0&l 选择挑战等级"
       choose-player: "&0&l 选择玩家"
       library: "&0&l 库"
       manage-blocks: "&0&l 管理方块"
       manage-entities: "&0&l 管理实体"
-      type-selector: "&0&l 挑战类型选择器"
-      item-selector: "&0&l 项目选择器"
-      block-selector: "&0&l 块选择器"
-      entity-selector: "&0&l 实体选择器"
-      challenge-selector: "&0&l 挑战选择器"
-      statistic-selector: "&0&l 统计选择器"
-      environment-selector: "&0&l 环境选择器"
+      type-selector: "&0&l 选择挑战类型"
+      item-selector: "&0&l 选择物品"
+      block-selector: "&0&l 选择方块"
+      entity-selector: "&0&l 选择实体"
+      challenge-selector: "&0&l 选择挑战"
+      statistic-selector: "&0&l 选择统计数据"
+      environment-selector: "&0&l 选择环境条件"
     buttons:
       free-challenges:
         name: "&f&l 自由挑战"
         description: |-
-          &7 显示列表
-          &7 个自由挑战
+          &7 显示自由
+          &7 挑战列表
       return:
         name: "&f&l 返回"
         description: |-
           &7 返回上一级菜单
-          &7 或退出 GUI
+          &7 或关闭菜单
       previous:
         name: "&f&l 上一页"
-        description: "&7 切换到 &e [number] &7 页"
+        description: "&7 跳转到 &e [number] &7 页"
       next:
         name: "&f&l 下一页"
-        description: "&7 切换到 &e [number] &7 页"
+        description: "&7 跳转到 &e [number] &7 页"
       reduce:
         name: "&f&l 减少"
-        description: "&7 减少 &e [number]"
+        description: "&7 已减少 &e [number]"
       increase:
         name: "&f&l 增加"
-        description: "&7 增加 &e [number]"
+        description: "&7 已增加 &e [number]"
       accept:
         name: "&f&l 完成"
         description: |-
-          &7 完成挑战 &e [number]
-          &7次(-s)
+          &7 已完成该挑战
+          &e [number] &7次
       quit:
         name: "&f&l 退出"
-        description: "&7 退出 GUI。"
+        description: "&7 关闭菜单。"
       complete_user_challenges:
-        name: "&f&l 完成用户挑战(-s)"
+        name: "&f&l 完成玩家的挑战"
         description: |-
-          &7 允许选择用户和
-          &7 完成挑战（-s）
-          &7 他
+          &7 在这里选择
+          &7 玩家并为他
+          &7 完成挑战
       reset_user_challenges:
-        name: "&f&l 重置用户挑战"
+        name: "&f&l 重置玩家的挑战"
         description: |-
-          &7 允许选择用户和
+          &7 在这里选择玩家并
           &7 重置他的挑战
       add_challenge:
         name: "&f&l 创建挑战"
         description: |-
-          &7 启动一个进程
-          &7 创造了一个新的挑战。
+          &7 进入挑战
+          &7 创建模式。
       add_level:
-        name: "&f&l 创建级别"
+        name: "&f&l 创建挑战等级"
         description: |-
-          &7 启动一个进程
-          &7 创造了一个新的级别。
+          &7 进入挑战等级
+          &7 创建模式。
       edit_challenge:
         name: "&f&l 编辑挑战"
         description: |-
-          &7 允许选择和编辑
-          &7 挑战。
+          &7 在这里选择和
+          &7 编辑挑战。
       edit_level:
-        name: "&f&l 编辑级别"
+        name: "&f&l 编辑挑战等级"
         description: |-
-          &7 允许选择和编辑
-          &7 一个级别。
+          &7 在这里选择和
+          &7 编辑挑战等级。
       delete_challenge:
         name: "&f&l 删除挑战"
         description: |-
-          &7 允许选择和删除
+          &7 在这里选择并删除
           &7 挑战。
       delete_level:
-        name: "&f&l 删除级别"
+        name: "&f&l 删除挑战等级"
         description: |-
-          &7 允许选择和删除
-          &7 一个级别。
+          &7 在这里选择并删除
+          &7 某个挑战等级。
       edit_settings:
         name: "&f&l 设置"
         description: |-
-          &7 允许查看和编辑
-          &7 插件设置。
+          &7 在这里查看和编辑
+          &7 扩展设置。
       complete_wipe:
-        name: "&f&l 完全擦除"
+        name: "&f&l 清除所有数据"
         description: |-
           &7 彻底清除挑战
-          &7 插件数据库，包括
+          &7 扩展数据，包括
           &7 用户数据。
       challenge_wipe:
-        name: "&f&l 挑战擦除"
+        name: "&f&l 清除挑战数据"
         description: |-
           &7 彻底清除挑战
-          &7 和来自数据库的级别。
+          &7 及挑战等级数据。
       user_wipe:
-        name: "&f&l 用户擦除"
-        description: |-
-          &7 完全清除用户
-          &7 来自数据库的数据。
+        name: "&f&l 清除玩家数据"
       library:
         name: "&f&l 库"
-        description: |-
-          &7 打开公共
-          &7 挑战库。
       import_database:
-        name: "&f&l 导入数据库"
-        description: |-
-          &7 允许导入导出
-          &7 挑战数据库。
+        name: "&f&l 导入数据"
       import_template:
         name: "&f&l 导入模板"
-        description: |-
-          &7 允许导入模板
-          &7 文件有挑战。
       export_challenges:
         name: "&f&l 导出挑战"
-        description: |-
-          &7 允许导出数据库
-          &7 到本地文件。
       properties:
         name: "&f&l 属性"
         description: "&7 查看所有主要属性。"
       requirements:
         name: "&f&l 要求"
-        description: "&7 查看需求属性。"
+        description: "&7 查看要求。"
       rewards:
         name: "&f&l 奖励"
-        description: "&7 查看奖励属性。"
+        description: "&7 查看奖励。"
       deployed:
-        name: "&f&l 部署"
+        name: "&f&l 发布"
         description: |-
-          &7 切换是否挑战
-          &7 已部署，用户可以
+          &7 发布挑战后，
+          &7 用户才可以
           &7 完成它。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       name:
         name: "&f&l 名称"
         description: |-
-          &7 允许更改
-          &7 显示名称。
-        value: "&7 当前：&r [name]"
+          &7 在这里修改
+          &7 挑战名称。
+        value: "&7 当前名称：&r [name]"
       remove_on_complete:
         name: "&f&l 完成后隐藏"
         description: |-
-          &7 切换是否应该挑战
-          &7 之后对玩家隐藏
-          &7 完成。
+          &7 切换挑战是否
+          &7 对已完成的玩家
+          &7 隐藏。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       description:
         name: "&f&l 说明"
         description: |-
-          &7 具体说明
-          &7 挑战。颜色
-          &7 代码必须应用于它。
-        value: "&7 当前说明："
+          &7 关于该挑战的
+          &7 详细描述。必须
+          &7 使用颜色代码。
+        value: "&7 当前描述："
       environment:
         name: "&f&l 维度"
         description: |-
-          &7 允许限制
-          &7 维度挑战
-          &7 可以完成。
+          &7 在这里限制
+          &7 哪些维度
+          &7 可以完成此挑战。
         enabled: "&2"
-        disabled: "＆C"
+        disabled: "&c"
       order:
-        name: "&f&l 顺序"
+        name: "&f&l 位置"
         description: |-
-          &7 允许改变顺序
-          &7 个对象。
-          &7 相同数量的对象
-          &7 将由他们订购
-          &7 唯一 ID 名称。
-        value: "&7 当前顺序：&e [number]"
+          &7 修改挑战显示
+          &7 的位置。
+          &7 使用相同位置值
+          &7 的挑战将根据它们的
+          &7 ID 来排序。
+        value: "&7 当前位置值：&e [number]"
       icon:
         name: "&f&l 图标"
         description: |-
-          &7 允许更改图标
-          &7 对于这个挑战。
+          &7 修改此挑战
+          &7 的图标。
       locked_icon:
-        name: "&f&l 锁定图标"
+        name: "&f&l 未解锁图标"
         description: |-
-          &7 允许更改锁定
-          &7 级图标。
+          &7 修改未解锁
+          &7 挑战等级的图标。
       required_permissions:
         name: "&f&l 所需权限"
         description: |-
-          &7 允许根据需要进行更改
-          &7 权限
-          &7 挑战是可完成的。
+          &7 修改完成此
+          &7 挑战
+          &7 的权限。
         title: "&7 权限："
         permission: " &8 - [permission]"
-        none: "&7 权限未设置。"
+        none: "&7 未设置权限。"
       remove_entities:
-        name: "&f&l 删除实体"
+        name: "&f&l 移除实体"
         description: |-
-          &7 允许切换
-          &7 所需要的
-          &7 在完成挑战
-          &7 后，
-          &7 从世界中移除的实体
+          &7 是否在完成
+          &7 挑战后移除
+          &7 所需的
+          &7 实体
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_entities:
-        name: "&f&l 必需的实体"
+        name: "&f&l 所需实体"
         description: |-
           &7 允许对
           &7 为完成这个挑战。
@@ -287,41 +266,19 @@ challenges:
         value: "&7 当前距离：&e [number]"
       remove_items:
         name: "&f&l 删除道具"
-        description: |-
-          &7 允许切换
-          &7 挑战所需道具
-          &7 在挑战完成后
-          &7 是否从背包中
-          &7 移除。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_items:
         name: "&f&l 需求道具"
-        description: |-
-          &7 允许根据需要进行更改
-          &7 项为此
-          &7 挑战是可完成的。
         title: "&7 项："
         list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       add_ignored_meta:
         name: "&f&l 添加忽略元数据"
-        #翻译到这了，下面的都是没有人工翻译的，cirno看了也无语
-        description: |-
-          &7 允许添加哪个
-          &7 项应忽略
-          &7 任何元数据
-          &7 分配给他们。
         title: "&7 项："
         list: " &8 - [number] x [item]"
-        none: "&7 项目未添加。"
       remove_ignored_meta:
         name: "&f&l 删除忽略元数据"
-        description: |-
-          &7 允许删除
-          &7 项应忽略
-          &7 任何元数据
-          &7 分配给他们。
       remove_experience:
         name: "&f&l 移除经验"
         description: |-
@@ -348,12 +305,6 @@ challenges:
         value: "&7 当前级别：&e [number]"
       remove_money:
         name: "&f&l 移除金钱"
-        description: |-
-          &7 允许切换
-          &7 所需资金将
-          &7 从玩家中移除
-          &7 帐号完成后
-          &7 挑战。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_money:
@@ -365,10 +316,6 @@ challenges:
         value: "&7 当前值：&e [number]"
       statistic:
         name: "&f&l 统计"
-        description: |-
-          &7 允许更改
-          &7 统计类型是
-          &7 签入了这个挑战。
         value: "&7 当前值：&e [statistic]"
       statistic_amount:
         name: "&f&l 目标值"
@@ -658,6 +605,7 @@ challenges:
         visible: 显示可见的挑战
         hidden: 显示所有挑战
         toggleable: 允许切换
+      include_undeployed: {}
       download:
         name: "&f&l 下载库"
         description: |-
@@ -741,14 +689,8 @@ challenges:
           &7 喜欢等级和金钱。
       statistic_type:
         name: "&f&l 统计类型"
-        description: |-
-          &7 检查的挑战
-          &7 球员统计数据。
       save:
         name: "&f&l 保存"
-        description: |-
-          &7 保存更改并
-          &7 返回。
       cancel:
         name: "&f&l 取消"
         description: |-
@@ -774,7 +716,6 @@ challenges:
           &7 元素与输入
           &7 文本值。
         search: "&b 值：[value]"
-        #上面的都是没有翻译的,cirno看了直摇头
     tips:
       click-to-select: "&e 单击 &7 进行选择。"
       click-to-choose: "&e 单击 &7 进行选择。"
@@ -830,29 +771,27 @@ challenges:
           [rewards]
         status:
           completed: "&2&l 已完成"
-          #原来的time(-s)意思是如果完成复数次就是times，不是时间里秒的含义
-          completed-times: "&2 完成 &7&l [number] &r&2 次"
-          completed-times-of: "&2 已完成 &7&l [number] &r&2 共 &7&l [max] &r&2 次"
-          completed-times-reached: "&2&l 全部完成 &7 [max] &2 次"
+          completed-times: "&2 已完成&7&l [number] &r&2次"
+          completed-times-of: "&2 已完成&7&l [number] &r&2次，最多完成&7&l [max] &r&2次"
+          completed-times-reached: "&2&l 你最多只能完成&7 [max] &2次"
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
-          timeout: "&7&l 冷却时间：&r&7 [time]"
-          wait-time: "&c&l 等待时间：&r&c [time]"
-          in-days: "[number] d"
-          in-hours: "[number]小时"
+          timeout: "&7&l 冷却时间：&r&7[time]"
+          wait-time: "&c&l 冷却中：&r&c[time]"
+          in-days: "[number] 天"
+          in-hours: "[number] 小时"
           in-minutes: "[number] 分钟"
-          in-seconds: "[number] s"
+          in-seconds: "[number] 秒"
         requirements:
           lore: |-
             [environment]
             [type-requirement]
-            [permission]
-          environment-single: "&7 限于 [environment]"
-          environment-title: "&7 限于："
+            [permissions]
+          environment-single: "&7 仅限在 [environment] 完成"
+          environment-title: "&7 仅限在这些维度完成："
           environment-list: "  &7 - &e [environment]"
-          permission-single: "&c 需要 [permissions] 权限"
           permissions-title: "&c 需要权限："
           permissions-list: "  &c - [permission]"
           island:
@@ -868,17 +807,17 @@ challenges:
             entities-title: "&7&l 所需实体："
             entity-value: "  &7 - &e [entity]"
             entities-value: "  &7 - &e [number] x [entity]"
-            search-radius: "&7 不超过 &e [number] &7 米"
-            warning-block: "&e 方块将被 &c 删除"
-            warning-entity: "&e 实体将被 &c 删除"
+            search-radius: "&7 必须在在&e [number] &7米范围内"
+            warning-block: "&e 所需方块将在完成挑战时&c移除"
+            warning-entity: "&e 所需实体将在完成挑战时&c移除"
           inventory:
             lore: |-
               [items]
               [warning]
-            item-title: "&7&l 必填项目："
+            item-title: "&7&l 所需物品："
             item-value: "  &7 - &e [item]"
             items-value: "  &7 - &e [number] x [item]"
-            warning: "&e 项目（-s）将被 &c 删除"
+            warning: "&e 所需物品将在挑战完成时&c移除"
           other:
             lore: |-
               [experience]
@@ -886,11 +825,11 @@ challenges:
               [money]
               [money-warning]
               [level]
-            experience: "&7&l 所需经验：&r&e [number]"
-            experience-warning: "&e 经验将被 &c 移除"
-            money: "&7&l 所需资金：&r&e [number]"
-            money-warning: "&e 钱将被 &c 移除"
-            level: "&7&l 所需岛屿等级：&r&e [number]"
+            experience: "&7&l 所需经验：&r&e[number]"
+            experience-warning: "&e 所需经验将在挑战完成时&c扣除"
+            money: "&7&l 所需金钱：&r&e[number]"
+            money-warning: "&e 所需金钱将在挑战完成时&c扣除"
+            level: "&7&l 所需岛屿等级：&r&e[number]"
           statistic:
             lore: |-
               [statistic]
@@ -907,12 +846,12 @@ challenges:
             [experience]
             [money]
             [commands]
-          item-title: "&7 项："
+          item-title: "&7 物品："
           item-value: "  &7 - &e [item]"
           items-value: "  &7 - &e [number] x [item]"
           experience: "&7 经验：&r&e [number]"
           money: "&7 金钱：&r&e [number]"
-          commands-title: "&7 命令："
+          commands-title: "&7 指令："
           command: "  &7 - &e [command]"
       level:
         lore: |-
@@ -923,15 +862,15 @@ challenges:
         status:
           completed: "&2&l 已完成"
           completed-challenges-of: |-
-            &2 已完成 &7&l [number] &r&2 出
-            &7&l [max] &r&2 挑战。
-          locked: "&c&l 锁定"
+            &2 已完成&7&l [number] &r&2个挑战，
+            &7&l 共 [max] &r&2个挑战。
+          locked: "&c&l 未解锁"
           missing-challenges: |-
-            &7 [number] 更多的挑战必须是
-            &7 完成以解锁此级别。
+            &7 你需要再完成 [number] 个挑战
+            &7 才能解锁此等级。
         waiver: |-
-          &7&l [number] 挑战(-s) &r&7 可以
-          &7 跳过解锁下一个级别。
+          &7&l 你可以跳过 [number] 个挑战
+          &7 来解锁下一等级。
         rewards:
           lore: |-
             &7&l 奖励：
@@ -940,88 +879,86 @@ challenges:
             [experience]
             [money]
             [commands]
-          item-title: "&7 项："
+          item-title: "&7 物品："
           item-value: "  &7 - &e [item]"
           items-value: "  &7 - &e [number] x [item]"
           experience: "&7 经验：&r&e [number]"
           money: "&7 金钱：&r&e [number]"
-          commands-title: "&7 命令："
+          commands-title: "&7 指令："
           command: "  &7 - &e [command]"
       library:
-        author: "&7 作者 &e [author]"
-        version: "&7 Made with Challenges &e [version]"
+        author: "&7 作者：&e[author]"
+        version: "&7 使用 Challenges &e [version] 制作"
         lang: "&7 语言：&e [lang]"
         gamemode: "&7 主要用于 &e [gamemode]"
-        #后面没人工翻译了
   conversations:
     prefix: "&l&6 [BentoBox]: &r"
-    confirm-string: true, on, yes, 确认, y, 有效, 正确
-    deny-string: 假，关闭，否，拒绝，n，无效，不正确
-    cancel-string: 取消
-    exit-string: 取消，退出，退出
-    cancelled: "&c 对话取消！"
-    input-number: "&e 请在聊天中输入一个号码。"
-    input-seconds: "&e 请在聊天中输入秒。"
-    numeric-only: "&c 给定的 [value] 不是数字！"
-    not-valid-value: "&c 给定的数字 [value] 无效。它必须大于 [min] 并且小于 [max]！"
-    user-data-removed: "&a [gamemode] 的所有用户数据都从数据库中清除。"
-    confirm-user-data-deletion: "&e 请确认您要清除 [gamemode] 的用户数据库。"
-    challenge-data-removed: "&a [gamemode] 的所有挑战数据都从数据库中清除。"
-    confirm-challenge-data-deletion: "&e 请确认您要清除 [gamemode] 的挑战数据库。"
-    all-data-removed: "&a [gamemode] 的所有插件数据都从数据库中清除。"
-    confirm-all-data-deletion: "&e 请确认您要清除 [gamemode] 的插件数据。"
+    confirm-string: true, on, yes, confirm, y, valid, correct, 是, 确认, 对
+    deny-string: false, off, no, deny, n, invalid, incorrect, 否, 错, 不是
+    cancel-string: cancel, 取消
+    exit-string: cancel, exit, quit, 取消, 退出
+    cancelled: "&c 会话已取消！"
+    input-number: "&e 请在聊天中输入一个数字。"
+    input-seconds: "&e 请在聊天中输入秒数。"
+    numeric-only: "&c 你输入的 [value] 不是数字！"
+    not-valid-value: "&c 你输入的的数字 [value] 无效。它必须大于 [min] 且小于 [max]！"
+    user-data-removed: "&a 已清除 [gamemode] 的所有玩家数据。"
+    confirm-user-data-deletion: "&e 请确认您要清除 [gamemode] 的玩家数据。"
+    challenge-data-removed: "&a 已清除 [gamemode] 的所有挑战数据。"
+    confirm-challenge-data-deletion: "&e 请确认您要清除 [gamemode] 的挑战数据。"
+    all-data-removed: "&a 已清除 [gamemode] 的所有扩展数据。"
+    confirm-all-data-deletion: "&e 请确认您要清除 [gamemode] 的扩展数据。"
     write-name: "&e 请在聊天中输入一个名字。"
     new-object-created: "&a 为 [gamemode] 创建了一个新对象。"
     object-already-exists: "&c 对象 &7 [id] &c 已经存在。选择不同的名称。"
-    invalid-challenge: "&c 挑战 [challenge] 包含无效数据。无法部署！"
+    invalid-challenge: "&c 挑战 [challenge] 包含无效数据。无法发布！"
     name-changed: "&a 成功，名称已更新。"
-    write-description: "&e 请在聊天中输入新的描述，然后在一行中自行“退出”以完成。"
-    description-changed: "&a 成功，说明已更新。"
-    write-permissions: "&e 请输入所需的权限，在聊天中每行一个，并在一行中自行“退出”以完成。"
+    write-description: "&e 请在聊天中输入新的描述，可输入多行，输入 'quit' 完成编辑。"
+    description-changed: "&a 成功，描述已更新。"
+    write-permissions: "&e 请输入所需的权限，每次输入一个，输入 'quit' 完成编辑。"
     permissions-changed: "&a 成功，挑战权限已更新。"
-    write-reward-text: "&e 请在聊天中输入新的奖励文本并自行“退出”一行以完成。"
-    reward-text-changed: "&a 成功，奖励文字已更新。"
-    write-repeat-reward-text: "&e 请在聊天中输入新的重复奖励文本，然后在一行中自行“退出”以完成。"
-    repeat-reward-text-changed: "&a 成功，重复奖励文本已更新。"
-    write-reward-commands: "&e 请在聊天中每行输入一个新的奖励命令，然后在一行上自行“退出”以完成。"
+    write-reward-text: "&e 请在聊天中输入新的奖励提示，输入 'quit' 完成编辑。"
+    reward-text-changed: "&a 成功，奖励提示已更新。"
+    write-repeat-reward-text: "&e 请在聊天中输入新的重复奖励提示，输入 'quit' 结束编辑。"
+    repeat-reward-text-changed: "&a 成功，重复奖励提示已更新。"
+    write-reward-commands: "&e 请在聊天中每行输入新的奖励命令，输入 'quit' 结束编辑。"
     reward-commands-changed: "&a 成功，奖励命令已更新。"
-    write-repeat-reward-commands: "&e 请在聊天中每行输入一个新的重复奖励命令，然后单独在一行上“退出”以完成。"
+    write-repeat-reward-commands: "&e 请在聊天中每行输入一个新的重复奖励命令，输入 'quit' 结束编辑。"
     repeat-reward-commands-changed: "&a 成功，重复奖励命令已更新。"
-    challenge-removed: "&a 从数据库中删除 [gamemode] 的挑战 [challenge]。"
-    confirm-challenge-deletion: "&e 请确认您要从数据库中删除 [gamemode] 的 [challenge]。"
-    level-removed: "&a [gamemode] 的级别 [level] 已从数据库中删除。"
-    confirm-level-deletion: "&e 请确认您要从数据库中删除 [gamemode] 的 [level]。"
+    challenge-removed: "&a 已删除 [gamemode] 中的挑战 [challenge]。"
+    confirm-challenge-deletion: "&e 请确认您要删除 [gamemode] 中的 [challenge]。"
+    level-removed: "&a [gamemode] 中的挑战等级 [level] 已删除。"
+    confirm-level-deletion: "&e 请确认您要删除 [gamemode] 中的 [level]。"
     start-downloading: "&a 开始下载和导入挑战库。"
     written-text: "&a 输入文本："
     confirm-data-replacement: "&e 请确认您想用新的挑战替换当前的挑战。"
     new-challenges-imported: "&a 成功，[gamemode] 的新挑战已导入。"
-    exported-file-name: "&e 请输入导出的数据库文件的文件名。 （写“取消”退出）"
-    database-export-completed: "&a 成功，[world] 的数据库导出完成。文件[文件]生成。"
-    file-name-exist: "&c 名称为“[id]”的文件存在。无法覆盖。"
-    write-search: "&e 请写一个搜索值。 （写“取消”退出）"
+    exported-file-name: "&e 请输入导出的数据库文件的文件名。（输入 'cancel ' 退出）"
+    database-export-completed: "&a 成功，[world] 的数据库导出完成。文件 [file] 已生成。"
+    file-name-exist: "&c 名称为 “[id]” 的文件已存在。无法覆盖。"
+    write-search: "&e 请写一个搜索值。（输入 'cancel' 取消）"
     search-updated: "&a 搜索值已更新。"
   titles:
     challenge-title: "&a已完成"
     challenge-subtitle: "[friendlyName]"
     level-title: "&a已完成"
     level-subtitle: "[friendlyName]"
-    #上面没翻译了
   messages:
     completed: "&2 你为[player]完成了挑战[name]！"
     already-completed: "&2 这个挑战已经完成了！"
     reset: "&2 你为 [player] 重置挑战 [name]！"
     reset-all: "&2 所有[player]挑战均已重置！"
     not-completed: "&2 此挑战尚未完成！"
-    migrate-start: "&2 开始迁移挑战插件数据。"
-    migrate-end: "&2 挑战插件数据更新为新格式。"
+    migrate-start: "&2 开始转换挑战扩展数据。"
+    migrate-end: "&2 挑战扩展数据已更新为新格式。"
     migrate-not: "&2 所有数据均有效。"
     start-downloading: "&5 开始下载和导入挑战库。"
     you-completed-challenge: "&2你完成了挑战 &r[value] &2！"
     you-repeated-challenge: "&2你再次完成了挑战 &r[value] &2！"
     you-repeated-challenge-multiple: "&2你完成挑战 &r[value] &r[count] &2次了！"
-    you-completed-level: "&2恭喜，你的挑战等级 &r[value] &2已完成！"
+    you-completed-level: "&2恭喜，你已完成挑战等级 &r[value]&2！"
     name-has-completed-challenge: "&a恭喜！ &r[name] &a完成了挑战 [value] &a！"
-    name-has-completed-level: "&a恭喜！ &r[name] &a的挑战等级 [value] &a已全部完成！"
+    name-has-completed-level: "&a恭喜！ &r[name] &a已完成挑战等级 [value]&a！"
     load-skipping: '&c挑战项 "[value]" &c已存在 - 将跳过'
     load-overwriting: '&6覆盖了已载入的挑战： "[value]"'
     load-add: "&a新增了挑战： [value]"
@@ -1029,15 +966,15 @@ challenges:
     no-name: "&c缺少挑战名称。"
     unknown-challenge: "&c未知的挑战。"
     not-valid-integer: "&c给定整数“[value]”无效！|值应介于[min]和[max]之间。"
-    not-deployed: "&c这项挑战尚未部署！"
+    not-deployed: "&c这个挑战还未发布！"
     not-on-island: "&c您必须在您的岛上才能完成挑战！"
-    challenge-level-not-available: "&c您尚未解锁这项挑战的等级。"
+    challenge-level-not-available: "&c您还未解锁这个挑战等级。"
     not-repeatable: "&c这项挑战不可重复进行！"
-    wrong-environment: "&c你在错误的环境中！"
+    wrong-environment: "&c你不在指定的维度中！"
     not-enough-items: "&c你没有足够的 &r[items] &c来完成这项挑战。"
-    not-close-enough: "&c要完成挑战，你必须站在所需项目 &f[number] &c格范围内。"
+    not-close-enough: "&c要完成挑战，你必须站在所需物品 &f[number] &c格范围内。"
     you-still-need: "&c你还差 &f[amount] &c个 &f[item] &c才能完成挑战。"
-    missing-addon: "&c无法完成挑战：缺少必需的组件或插件。"
+    missing-addon: "&c无法完成挑战：缺少必需的扩展或插件。"
     incorrect: "&c无法完成挑战：必要条件设定错误。"
     not-enough-money: "&c你必须有 &f[value] &c金钱才能完成任务。"
     not-enough-experience: "&c你必须有 &f[value] &c经验值才能完成任务。"
@@ -1056,92 +993,10 @@ challenges:
     no-library-entries: "&c 找不到任何库条目。没什么可显示的。"
     not-hooked: "&c Challenges Addon 找不到任何游戏模式。"
     timeout: "&c 此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
-    requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
-    #    # Showcase for manual material translation
-#    materials:
-#        # Names should be lowercase.
-#        cobblestone: "Cobblestone"
-#        # Also supports descriptions.
-#        stone:
-#            name: "Stone"
-#            description: ""
-#    item-stacks:
-#        # Non-specific item meta translations.
-#        # TYPE is the item type
-#        # META is a content of item meta.
-#        generic: "[type] [meta]"
-#        # Non-specific meta translations. Will replace [meta]
-#        meta:
-#            upgraded: "Upgraded"
-#            extended: "Extended"
-#            potion-meta: "&e [type] [upgraded] [extended]"
-#            # Be aware, enchants are always listed below item in separate line.
-#            enchant-meta: "    &7 - &e [type] [level]"
-#            skull-meta: ": &e [player-name]"
-#            book-meta: "&e [title] [author]"
-#        # Custom Enchantment Translation.
-#        enchant:
-#            menting: "Mending"
-#            unbreaking: "Unbreaking"
-#        # Custom Potion Translation.
-#        potion-type:
-#            water_breathing: "Water Breathing"
-#        # You can also create specific item translations
-#        # Like translate all potions.
-#        potion:
-#            # This will overwrite generic translation.
-#            name: "[type] [upgraded] [extended]"
-#            # Type is either specific translation or potion effect.
-#            uncraftable: "Uncraftable"
-#            water: "Water"
-#            mundane: "Mundane"
-#            thick: "Thick"
-#            awkward: "Awkward"
-#            night_vision: "Potion of Night Vision"
-#            invisibility: "Potion of Invisibility"
-#            jump: "Potion of Leaping"
-#            fire_resistance: "Potion of Fire Resistance"
-#            speed: "Potion of Swiftness"
-#            slowness: "Potion of Slowness"
-#            water_breathing: "Potion of Water Breathing"
-#            instant_heal: "Potion of Healing"
-#            instant_damage: "Potion of Harming"
-#            poison: "Potion of Poison"
-#            regen: "Potion of Regeneration"
-#            strength: "Potion of Strength"
-#            weakness: "Potion of Weakness"
-#            luck: "Potion of Luck"
-#            turtle_master: "Potion of Turtle Master"
-#            slow_falling: "Potion of Slow Falling"
-#        stone_shovel:
-#            # This will mean that only stone shovels will not show
-#            # meta information.
-#            name: "[type]"
-#
-#    # Showcase how to support multi-linguistic challenges
-#    challenges:
-#        # Database ID name.
-#        example_challenge_id:
-#            name: "&2 Translated Name"
-#            description: |-
-#                &7 Translated Custom
-#                &7 description
-#            reward-text: |-
-#                &7 Translated Reward
-#                &7 text
-#            repeat-reward-text: |-
-#                &7 Translated Repeat
-#                &7 Reward text
-#    levels:
-#        # Database ID name.
-#        example_level_id:
-#            name: "&2 Translated Name"
-#            description: |-
-#                &7 Translated Custom
-#                &7 description
-#            reward-text: |-
-#                &7 Translated Reward
-#                &7 text
+    requirement-not-met: "&c 这个挑战需要 [statistic] 至少为 [number]. 你只有 [value]. "
+    requirement-not-met-entity: "&c 这个挑战需要 [number] 个 [statistic] [entity]. 你只有 [value]. "
+    requirement-not-met-material: "&c 这个挑战需要 [number] 个 [statistic] [material]. 你只有
+      [value]. "
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
@@ -1152,9 +1007,9 @@ protection:
     CHALLENGES_WORLD_PROTECTION:
       description: |-
         &5 &o 启用 / 禁用
-        &5 &o 玩家们在自己
-        &5 &o 岛屿中完成挑
-        &5 &o 战的需求。
+        &5 &o 玩家需在
+        &5 &o 自己的岛屿中
+        &5 &o 完成挑战。
       name: 岛屿挑战限制
       hint: 岛屿外无挑战
-version: 11
+version: 12
