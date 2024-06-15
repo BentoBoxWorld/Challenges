@@ -566,6 +566,13 @@ public class Utils
 		{
 			return "";
 		}
+        // Return the display name if it already has one
+        if (object.hasItemMeta()) {
+            ItemMeta im = object.getItemMeta();
+            if (im.hasDisplayName()) {
+                return im.getDisplayName();
+            }
+        }
 
 		// Find addon structure with:
 		// [addon]:
