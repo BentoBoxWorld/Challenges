@@ -9,12 +9,21 @@ challenges:
         description: Commande principale Admin. Ouverture du menu.
       reload: {}
       show: {}
-      complete: {}
-      reset: {}
-      migrate: {}
-    user:
-      main: {}
       complete:
+        description: Terminer un challenge pour un joueur.
+        parameters: "<joueur> <id_du_challenge>"
+      reset:
+        description: Réinitialiser un  challenge pour un joueur. Si "challenge_id"
+          est réglé sur "all", alors il réinitialisera tous les challenges.
+        parameters: "<joueur> <id_du_challenge>"
+      migrate:
+        description: Migrez les données des challenges du monde du jeu actuel au format
+          de stockage 0.8.0.
+    user:
+      main:
+        description: Cette méthode ouvre le menu des Challenges.
+      complete:
+        description: Cette méthode permet de compléter un challenger sans menu.
         parameters: "<challenge_id> [count]"
   gui:
     titles: {}
@@ -164,14 +173,24 @@ challenges:
     not-deployed: "&cLe Challenge ne peut pas être réalisé !"
     not-on-island: "&cVous devez être sur votre île pour faire le Challenge !"
     not-repeatable: "&cCe Challenge n'est pas répétable !"
+    wrong-environment: "&cVous êtes dans le mauvais environnement !"
     not-enough-items: "&cVous n'avez pas assez [items] pour relever ce Challenge !"
     not-close-enough: "&cVous devez vous tenir dans un rayon de [number] blocs autour
       de tous les éléments requis."
     you-still-need: "&cTu as encore besoin [amount] [item]"
+    missing-addon: "&cImpossible de terminer le Challenge. L'addon ou le plugin requis
+      est manquant."
     not-enough-money: "&cIl est nécéssaire d'avoir [value] sur votre compte pour compléter
       le challenge."
     no-load: "&cErreur: Impossible de charger le fichier challenges.yml. [message]"
     load-error: "&cErreur: Impossible de charger [value]."
+    exist-challenges-or-levels: "&cDans votre monde il existe déjà des challenges.
+      Impossible de continuer !"
+    no-challenges: "&cLes challenges ne sont pas actifs dans le monde actuel !"
+    no-challenges-admin: "&cLes Challenges ne sont pas actifs dans le monde actuel
+      ! Vous devez utiliser &5/[command] &cpour ajouter cela !"
+    no-multiple-permission: "&cVous n'avez pas la permission d'accomplir ce challenge
+      plusieurs fois à la fois."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
@@ -180,5 +199,10 @@ protection:
         &5&ocompléter les Challenges
       name: Protection de Challenge
     CHALLENGES_WORLD_PROTECTION:
+      description: |-
+        &5&oCela permet d''activer / désactiver
+        &5&oles prérequis pour les joueurs de
+        &5&oqui doivent être sur leur île pour
+        &5&ocompléter le Challenge.
       name: 'Limite de Challenge sur l''''île '
       hint: Aucun Challenge en dehors de l''île
