@@ -150,6 +150,9 @@ challenges:
           & 7 la base de données de défis.
       import_template:
         name: "&f&l Importer un modèle"
+        description: |-
+          &7 Permet d'importer un modèle
+          &7 fichier avec défis.
       export_challenges:
         name: "&f&l Eporter les Challenges"
         description: |-
@@ -166,24 +169,49 @@ challenges:
         description: "&7 Afficher les propriétés des récompenses."
       deployed:
         name: "&f&l Déploiement"
+        description: |-
+          &7 Basculer si le défi est
+          &7 déployé et les utilisateurs peuvent
+          &7 terminez-le.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       name:
         name: "&f&l Nom"
+        description: |-
+          &7 Permet de modifier
+          &7 le nom d'affichage.
         value: "&7 Actuellement : &r [name]"
       remove_on_complete:
         name: "&f&l Masquer après l'achèvement"
+        description: |-
+          &7 Basculer si le défi doit
+          &7 caché au joueur après
+          &7, il est terminé.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       description:
         name: "&f&l Description"
+        description: |-
+          &7 La description spécifique
+          &7 pour le défi. La couleur
+          Les codes &7 doivent lui être appliqués.
         value: "&7 Descriptif actuel :"
       environment:
         name: "&f&l Dimension"
+        description: |-
+          &7 Permet de limiter dans quels
+          &7 dimensionne le défi
+          &7 peut être complété.
         enabled: "&2"
         disabled: "&c"
       order:
         name: "&f&l Commande"
+        description: |-
+          &7 Permet de modifier l'ordre des
+          &7 objets.
+          &7 Objets avec des nombres égaux
+          &7 sera ordonné par leur
+          &7 noms d'identification uniques.
         value: "&7 Commande en cours : &e [number]"
       icon:
         name: "&f&l Icône"
@@ -206,102 +234,335 @@ challenges:
         none: "&7 Les autorisations ne sont pas définies."
       remove_entities:
         name: "&f&l Supprimer des entités"
+        description: |-
+          &7 Permet de basculer si
+          &7 entités requises
+          &7 être supprimé du monde
+          &7 après avoir terminé le
+          &7 défi.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       required_entities:
         name: "&f&l entités requises"
+        description: |-
+          &7 Permet la modification requise
+          &7 entités pour cela
+          &7 défi à réaliser.
         title: "&7 Entités :"
         list: " &8 - [number] x [entity]"
         none: "&7 Les entités ne sont pas ajoutées."
       remove_blocks:
         name: "&f&l Supprimer des blocs"
+        description: |-
+          &7 Permet de basculer si
+          &7 blocs requis seront
+          &7 soit supprimé du monde
+          &7 après avoir terminé le
+          &7 défi.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       required_blocks:
         name: "&f&l Blocs requis"
+        description: |-
+          &7 Permet la modification requise
+          &7 blocs pour cela
+          &7 défi à réaliser.
         title: "&7 Blocs :"
         list: " &8 - [number] x [block]"
         none: "&7 Les blocs ne sont pas ajoutés."
       search_radius:
         name: "&f&l Rayon de recherche"
+        description: |-
+          &7 Permet de modifier le rayon
+          &7 autour du joueur dont
+          &7 blocs et/ou entités sont
+          &7 détecté.
         value: "&7 Distance actuelle : &e [number]"
       remove_items:
         name: "&f&l Supprimer des éléments"
+        description: |-
+          &7 Permet de basculer si
+          &7 éléments requis seront
+          &7 doit être supprimé du stock
+          &7 après avoir terminé le
+          &7 défi.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       required_items:
         name: "&f&l Éléments requis"
+        description: |-
+          &7 Permet la modification requise
+          &7 articles pour cela
+          &7 défi à réaliser.
         title: "&7 Items:"
         list: " &8 - [number] x [item]"
         none: "&7 Items ne sont pas ajoutés."
       add_ignored_meta:
+        name: "&f&l Ajouter Ignorer les métadonnées"
+        description: |-
+          &7 Permet d'ajouter quel
+          &7 éléments doivent être ignorés
+          &7 toutes les métadonnées qui
+          &7 leur est affecté.
         title: "&7 Items: "
         list: " &8 - [number] x [item]"
         none: "&7 Les éléments ne sont pas ajoutés."
       remove_ignored_meta:
         name: "&f&l Supprimer Ignorer les métadonnées"
+        description: |-
+          &7 Permet de supprimer ce qui
+          &7 éléments doivent être ignorés
+          &7 toutes les métadonnées qui
+          &7 leur est affecté.
       remove_experience:
         name: "&f&l Supprimer l'expérience"
+        description: |-
+          &7 Permet de basculer si
+          &7 expérience requise
+          &7 doit être supprimé du lecteur
+          &7 après avoir terminé le
+          &7 défi.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       required_experience:
         name: "&f&l Expérience requise"
+        description: |-
+          &7 Permet de modifier le
+          &7 expérience requise pour
+          &7 le joueur.
         value: "&7 Expérience actuelle : &e [number]"
       required_level:
         name: "&f&l Niveau d'île requis"
-      remove_money: {}
-      required_money: {}
-      statistic: {}
-      statistic_amount: {}
+        description: |-
+          &7 Permet de modifier le
+          &7 niveau d'îlot requis
+          &7 pour le défi.
+        value: "&7 Niveau actuel : &e [numéro]"
+      remove_money:
+        name: "&f&l Supprimer de l'argent"
+        description: |-
+          &7 Permet de basculer si
+          &7 l'argent requis sera
+          &7 être supprimé du lecteur
+          &7 compte après avoir terminé
+          &7 le défi.
+        enabled: "&2 activé"
+        disabled: "&c Désactivé"
+      required_money:
+        name: "&f&l Argent requis"
+        description: |-
+          &7 Permet de modifier le
+          &7 argent requis sur le joueur
+          &7 représente le défi.
+        value: "&7 Valeur actuelle : &e [numéro]"
+      statistic:
+        name: "&f&l Statistique"
+        description: |-
+          &7 Permet de modifier le
+          &7 type de statistique qui est
+          &7 a vérifié ce défi.
+        value: "&7 Valeur actuelle : &e [statistique]"
+      statistic_amount:
+        name: "&f&l Valeur cible"
+        description: |-
+          &7 Permet de modifier le
+          &7 valeur cible statistique
+          &7 qui doit être respecté.
+        value: "&7 Valeur actuelle : &e [numéro]"
       remove_statistic:
+        name: "&f&l Réduire la statistique"
+        description: |-
+          &7 Permet de basculer si
+          La valeur statistique &7 sera
+          &7 soit réduit une fois terminé
+          &7 le défi.
         enabled: "&2 Activé"
+        disabled: "&c Désactivé"
       statistic_blocks:
+        name: "&f&l Bloc cible"
+        description: |-
+          &7 Permet de modifier le
+          &7 bloc cible statistique.
         value: "&7 Bloc actuel : &e [block]"
-      statistic_items: {}
-      statistic_entities: {}
-      reward_text: {}
-      repeat_reward_text: {}
+      statistic_items:
+        name: "&f&l Article cible"
+        description: |-
+          &7 Permet de modifier le
+          &7 poste cible statistique.
+        value: "&7 Poste actuel : &e [poste]"
+      statistic_entities:
+        name: "&f&l Entité cible"
+        description: |-
+          &7 Permet de modifier le
+          &7 entité cible statistique.
+        value: "&7 Entité actuelle : &e [entité]"
+      reward_text:
+        name: "&f&l Texte de récompense"
+        description: |-
+          &7 Le texte de récompense spécifique.
+          &7 Les codes couleurs doivent être
+          &7 lui est appliqué.
+        value: "&7 Texte actuel :"
+      repeat_reward_text:
+        name: "&f&l Répéter le texte de récompense"
+        description: |-
+          &7 Le texte de récompense de répétition spécifique
+          &7 pour le défi. La couleur
+          Les codes &7 doivent lui être appliqués.
+        value: "&7 Texte actuel :"
       reward_items:
+        name: "&f&l Objets de récompense"
+        description: |-
+          &7 Permet de modifier la récompense
+          &7 articles.
+        title: "&7 articles :"
         list: " &8 - [number] x [item]"
+        none: "&7 Les postes ne sont pas ajoutés."
       repeat_reward_items:
+        name: "&f&l Répéter les objets de récompense"
+        description: |-
+          &7 Permet de modifier la répétition
+          &7 objets de récompense pour cela
+          &7 défi.
+        title: "&7 articles :"
         list: " &8 - [number] x [item]"
+        none: "&7 Les postes ne sont pas ajoutés."
       reward_experience:
+        name: "&f&l Expérience de récompense"
+        description: |-
+          &7 Permet de modifier le
+          &7 expérience de récompense pour
+          &7 le joueur.
         value: "&7 Expérience de récompense : &e [number]"
       repeat_reward_experience:
+        name: "&f&l Répéter l'expérience de récompense"
+        description: |-
+          &7 Permet de modifier le
+          &7 répéter l'expérience de récompense
+          &7 pour le joueur.
         value: "&7 Expérience de récompense : &e [number]"
-      reward_money: {}
+      reward_money:
+        name: "&f&l Récompense en argent"
+        description: |-
+          &7 Permet de modifier le
+          &7 récompense en argent.
+        value: "&7 Valeur actuelle : &e [numéro]"
       repeat_reward_money:
+        name: "&f&l Répéter l'argent de la récompense"
+        description: |-
+          &7 Permet de modifier le
+          &7 répéter l'argent de la récompense
+          &7 pour le défi.
         value: "&7 Valeur actuelle : &e [number]"
-      reward_commands: {}
-      repeat_reward_commands: {}
+      reward_commands:
+        name: "&f&l Commandes de récompense"
+        description: |-
+          &7 Les commandes de récompense spécifiques.
+          &8 Astuce :
+          &8 La commande ne nécessite pas
+          &8 écrivant d'abord `/` comme il le fera
+          &8 soit appliqué automatiquement.
+          &8 Par défaut, les commandes seront
+          &8 exécuté par le serveur. Cependant
+          &8 en ajoutant `[SELF]` au début
+          &8 permettra à la commande d'être
+          &8 exécuté par le joueur. Ça aussi
+          &8 prend en charge un espace réservé
+          &8 `[player]` qui sera
+          &8 remplacé par un nom de joueur
+          &8 qui ont terminé le défi.
+        value: "&7 Commandes actuelles :"
+      repeat_reward_commands:
+        name: "&f&l Répéter les commandes de récompense"
+        description: |-
+          &7 La récompense de répétition spécifique
+          &7 commandes pour le défi.
+          &8 Astuce :
+          &8 La commande ne nécessite pas
+          &8 écrivant d'abord `/` comme il le fera
+          &8 soit appliqué automatiquement.
+          &8 Par défaut, les commandes seront
+          &8 exécuté par le serveur. Cependant
+          &8 en ajoutant `[SELF]` au début
+          &8 permettra à la commande d'être
+          &8 exécuté par le joueur. Ça aussi
+          &8 prend en charge un espace réservé
+          &8 `[player]` qui sera
+          &8 remplacé par un nom de joueur
+          &8 qui ont terminé le défi.
+        value: "&7 Commandes actuelles :"
       repeatable:
         name: "&f&l Répétable"
+        description: |-
+          &7 Permet de basculer si
+          &7 le défi est
+          &7 répétable.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       repeat_count:
         name: "&f&l Nombre de répétitions"
+        description: |-
+          &7 Permet de modifier le
+          &7 nombre de répétitions
+          &7 pour le défi.
         value: "&7 Valeur actuelle : &e [number]"
       cool_down:
+        name: "&f&l Refroidissement"
+        description: |-
+          &7 Permet de modifier le
+          &7 secondes de refroidissement qui
+          &7 doit être attendu entre
+          &7 défi répétable
+          &7 achèvements.
         value: "&7 Valeur actuelle : &e [time]"
       challenges:
         name: "&f&l Défis"
+        description: |-
+          &7 Afficher les défis assignés
+          &7 au niveau.
       waiver_amount:
         name: "&f&l Montant de la renonciation"
+        description: |-
+          &7 Permet de définir un numéro
+          &7 de défis qui peuvent
+          &7 reste inachevé pendant
+          &7 déverrouillant le niveau suivant.
         value: "&7 Valeur actuelle : &e [number]"
       add_challenges:
         name: "&f&l Ajouter des défis"
+        description: |-
+          &7 Permet de sélectionner et
+          &7 ajoute des défis au
+          Niveau &7.
       remove_challenges:
         name: "&f&l Supprimer le(s) défi(s)"
+        description: |-
+          &7 Permet de sélectionner et
+          &7 supprime les défis du
+          Niveau &7.
       reset_on_new:
         name: "&f&l Réinitialiser sur Nouveau"
+        description: |-
+          &7 Permet de basculer si
+          &7 défis devraient être
+          &7 réinitialisé lorsque l'utilisateur quitte
+          &7 ou crée un nouvel îlot
+          &7 île.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       broadcast:
         name: "&f&l Diffuser"
+        description: |-
+          &7 Défi diffusions et
+          Niveau &7 terminé pour la première fois
+          &7 à tout le monde.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       remove_completed:
         name: "&f&l Masquer Terminé"
+        description: |-
+          &7 Masque les défis terminés
+          &7 dans le menu.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       glow_completed:
@@ -313,16 +574,33 @@ challenges:
         disabled: "&c désactivé"
       store_history:
         name: "&f&l Historique de la boutique"
+        description: |-
+          &7 Stocke l'historique interne
+          &7 lorsque chaque défi est
+          &7 terminé.
+          &7 Actuellement visible uniquement
+          &7 dans la base de données.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       data_per_island:
         name: "&f&l Magasin par île"
+        description: |-
+          &7 Stocke le travail terminé
+          &7 défis par île.
+          &7 La progression sera partagée
+          &7 avec tous les joueurs de l'équipe.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       show_title:
+        name: "&f&l Afficher le titre"
+        description: |-
+          &7 Affiche le titre lorsqu'un
+          &7 défi ou niveau
+          &7 est terminé.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       gamemode_gui:
+        name: "&f&l Interface graphique de sélection du mode de jeu"
         description: |-
           &7 Active une interface graphique
           &7 unique disponible via
@@ -330,24 +608,62 @@ challenges:
           &c Nécessite un redémarrage du serveur.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
-      locked_level_icon: {}
+      locked_level_icon:
+        name: "&f&l Icône de niveau verrouillé par défaut"
+        description: |-
+          &7 Icône par défaut pour tous les verrouillés
+          &7 niveaux. Chaque niveau peut changer
+          &7 cette icône.
       purge_history:
+        name: "&f&l Historique à vie"
+        description: |-
+          &7 Nombre de jours combien de temps
+          &7 données d'historique sont stockées
+          &7 dans les données utilisateur.
+          &7 0 signifie que les données seront
+          &7 ne doit pas être supprimé.
         value: "&7 Valeur actuelle : &e [number]"
       title_showtime:
+        name: "&f&l Titre Showtime"
+        description: |-
+          &7 Nombre de ticks pour ce titre
+          &7 sera affiché au joueur.
         value: "&7 Valeur actuelle : &e [number]"
       active_world_list:
+        name: "&f&l Afficher uniquement le monde actif"
+        description: |-
+          &7 Si interface graphique de sélection du mode jeu
+          &7 est activé, cela peut changer
+          &7 si l'interface graphique affiche la sélection GameMode
+          &7 ou défis pour le monde actuel.
+          &c Nécessite le redémarrage du serveur.
         enabled: "&2 Activé"
         disabled: "&c désactivé"
       visibility_mode:
         name: "&f&l Mode de visibilité"
+        description: |-
+          &7 Mode visibilité pour
+          &7 défis qui sont
+          &7 caché.
         enabled: "&2"
         disabled: "&c"
         visible: Afficher les défis visibles
         hidden: Afficher tous les défis
         toggleable: Autoriser le basculement
-      include_undeployed: {}
+      include_undeployed:
+        name: "&f&l Inclure les défis non déployés"
+        description: |-
+          &7 Indique si non déployé
+          &7 défis devraient être
+          &7 comptabilisé pour le niveau
+          &7 achèvement.
+        enabled: "&2 activé"
+        disabled: "&c Désactivé"
       download:
         name: "&f&l Télécharger les bibliothèques"
+        description: |-
+          &7 Mise à jour manuelle disponible
+          &7 défie les bibliothèques.
         enabled: "&2 Avec le cache vide"
         disabled: "&c Sans effacer le cache"
       player:
@@ -360,6 +676,9 @@ challenges:
           &c d' île.
       player_list:
         name: "&f&l Choisir la liste des utilisateurs"
+        description: |-
+          &7 Choisissez quelle liste d'utilisateurs
+          &7 doit être affiché.
         enabled: "&2"
         disabled: "&c"
         online: Joueurs en ligne
@@ -389,8 +708,15 @@ challenges:
           &7 entité à la liste.
       switch_entity:
         name: "&f&l Changer d'œufs"
+        description: |-
+          &7 Permet de passer de
+          &7 œufs aux chefs de la foule.
       remove_entity:
         name: "&f&l Supprimer l'entité"
+        description: |-
+          &7 Permet de supprimer
+          &7 entités sélectionnées
+          &7 à partir des listes.
         title: "&7 Entités sélectionnées :"
         entity: "&8 - [entity]"
       entity:
@@ -399,10 +725,21 @@ challenges:
         selected: "&2 sélectionnés"
       inventory_type:
         name: "&f&l Type d'inventaire"
+        description: |-
+          &7 Défi qui vérifie
+          &7 objets dans l'inventaire du joueur
       island_type:
         name: "&f&l Type d'île"
+        description: |-
+          &7 Défi qui vérifie
+          &7 blocs ou entités autour
+          &7 joueur.
       other_type:
         name: "&f&l Autre Type"
+        description: |-
+          &7 Défi qui utilise
+          &7 plugins ou addons choses,
+          &7 comme le niveau et l'argent.
       statistic_type:
         name: "&f&l Type de statistique"
         description: |-
@@ -440,6 +777,7 @@ challenges:
         search: "&b valeur: [value]"
     tips:
       click-to-select: "&e Cliquez &7 pour sélectionner."
+      click-to-choose: "&e Cliquez sur &7 pour choisir."
       click-to-complete: "&e Cliquez &7 pour terminer."
       right-click-multiple-open: "&e Cliquez avec le bouton droit &7 pour choisir
         le nombre d'achèvements."
@@ -470,6 +808,7 @@ challenges:
       right-click-to-toggle: "&e Cliquez avec le bouton droit &7 pour basculer."
       click-to-install: "&e Cliquez &7 pour installer."
       click-to-reset-all: "&e Cliquez &7 pour tout réinitialiser."
+      right-click-to-select: "&e Cliquez avec le bouton droit sur &7 pour sélectionner."
       right-click-to-deselect: "&e Clic droit &7 pour désélectionner."
       left-click-to-choose: "&e Clic gauche &7 pour choisir."
       click-to-cancel: "&e Cliquez &7 pour annuler."
@@ -484,8 +823,16 @@ challenges:
       click-to-next: "&e Cliquez &7 pour afficher la page suivante."
     descriptions:
       challenge:
+        lore: |-
+          [description]
+          [statut]
+          [refroidir]
+          [exigences]
+          [récompenses]
         status:
           completed: "&2&l Terminé"
+          completed-times: "&2 Terminé &7&l [numéro] &r&2 fois(-s)"
+          completed-times-of: "&2 Terminé &7&l [nombre] &r&2 sur &7&l [max] &r&2 fois"
           completed-times-reached: "&2&l Terminé tout &7 [max] &2 fois"
         cooldown:
           lore: |-
@@ -505,6 +852,7 @@ challenges:
           environment-single: "&7 Limité à [environment]"
           environment-title: "&7 Limité à :"
           environment-list: "  &7 - &e [environment]"
+          permission-single: "&c Nécessite l'autorisation [permission]"
           permissions-title: "&c Nécessite des autorisations :"
           permissions-list: "  &c - [permission]"
           island:
@@ -532,6 +880,12 @@ challenges:
             items-value: "  &7 - &e [number] x [item]"
             warning: "&e Le ou les éléments seront &c supprimés"
           other:
+            lore: |-
+              [expérience]
+              [expérience-avertissement]
+              [argent]
+              [avertissement d'argent]
+              [niveau]
             experience: "&7&l Expérience requise : &r&e [number]"
             experience-warning: "&e L'expérience sera &c supprimée"
             money: "&7&l Argent requis : &r&e [number]"
@@ -568,7 +922,16 @@ challenges:
           [rewards]
         status:
           completed: "&2&l Terminé"
+          completed-challenges-of: |-
+            &2 Terminé &7&l [numéro] &r&2 sur
+            &7&l [max] &r&2 défis.
           locked: "&c&l Verrouillé"
+          missing-challenges: |-
+            &7 [nombre] d'autres défis doivent être relevés
+            &7 terminé pour débloquer ce niveau.
+        waiver: |-
+          &7&l [numéro] défi(s) &r&7 peut être
+          &7 ignoré pour débloquer le niveau suivant.
         rewards:
           lore: |-
             &7&l Récompenses:
@@ -591,12 +954,74 @@ challenges:
         gamemode: "&7 Primaire pour &e [gamemode]"
   conversations:
     prefix: "&l&6 [BentoBox]: &r"
+    confirm-string: vrai, activé, oui, confirmer, oui, valide, correct
+    deny-string: faux, désactivé, non, refuser, n, invalide, incorrect
     cancel-string: annuler
     exit-string: annuler, sortir, quitter
+    cancelled: "&c Conversation annulée !"
     input-number: "&e Veuillez saisir un numéro dans le chat."
+    input-seconds: "&e Veuillez entrer une seconde dans le chat."
+    numeric-only: "&c La [valeur] donnée n'est pas un nombre !"
     not-valid-value: "&c Le nombre donné [value] n'est pas valide. Elle doit être
       supérieure à [min] et inférieure à [max] !"
+    user-data-removed: "&a Toutes les données utilisateur pour [mode de jeu] sont
+      effacées de la base de données."
+    confirm-user-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer
+      la base de données utilisateur pour [mode de jeu]."
+    challenge-data-removed: "&a Toutes les données des défis pour [mode de jeu] sont
+      effacées de la base de données."
+    confirm-challenge-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer
+      la base de données des défis pour [mode de jeu]."
+    all-data-removed: "&a Toutes les données du module complémentaire pour [mode de
+      jeu] sont effacées de la base de données."
+    confirm-all-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer les
+      données du module complémentaire pour [gamemode]."
+    write-name: "&e Veuillez écrire un nom dans le chat."
+    new-object-created: "&a Un nouvel objet pour [mode de jeu] est créé."
+    object-already-exists: "&c L'objet &7 [id] &c existe déjà. Choisissez un nom différent."
+    invalid-challenge: "&c Challenge [challenge] contient des données non valides.
+      Il ne peut pas être déployé !"
+    name-changed: "&a Succès, le nom a été mis à jour."
+    write-description: "&e Veuillez saisir une nouvelle description dans le chat et
+      « quitter » sur une seule ligne pour terminer."
+    description-changed: "&a Succès, la description a été mise à jour."
+    write-permissions: "&e Veuillez saisir les autorisations requises, une par ligne
+      dans le chat, et « quitter » sur une ligne distincte pour terminer."
+    permissions-changed: "&a Succès, les autorisations de défi ont été mises à jour."
+    write-reward-text: "&e Veuillez saisir un nouveau texte de récompense dans le
+      chat et « quitter » sur une seule ligne pour terminer."
+    reward-text-changed: "&a Succès, le texte de la récompense a été mis à jour."
+    write-repeat-reward-text: "&e Veuillez saisir un nouveau texte de récompense répété
+      dans le chat et « quitter » sur une ligne seule pour terminer."
+    repeat-reward-text-changed: "&a Succès, le texte de la récompense répétée a été
+      mis à jour."
+    write-reward-commands: "&e Veuillez saisir une nouvelle commande de récompense
+      par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
+    reward-commands-changed: "&a Succès, les commandes de récompense ont été mises
+      à jour."
+    write-repeat-reward-commands: "&e Veuillez saisir une nouvelle commande de récompense
+      répétée par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
+    repeat-reward-commands-changed: "&a Succès, les commandes de récompense répétées
+      ont été mises à jour."
+    challenge-removed: "&a Les défis [challenge] pour [gamemode] sont supprimés de
+      la base de données."
+    confirm-challenge-deletion: "&e Veuillez confirmer que vous souhaitez supprimer
+      [défi] pour [mode de jeu] de la base de données."
+    level-removed: "&a Le niveau [niveau] pour [mode de jeu] est supprimé de la base
+      de données."
+    confirm-level-deletion: "&e Veuillez confirmer que vous souhaitez supprimer [niveau]
+      pour [mode de jeu] de la base de données."
+    start-downloading: "&a Début du téléchargement et de l'importation de la bibliothèque
+      de défis."
     written-text: "&a Saisir du texte :"
+    confirm-data-replacement: "&e Veuillez confirmer que vous souhaitez remplacer
+      vos défis actuels par de nouveaux."
+    new-challenges-imported: "&a Succès, de nouveaux défis pour [mode de jeu] ont
+      été importés."
+    exported-file-name: "&e Veuillez entrer un nom de fichier pour le fichier de base
+      de données exporté. (écrivez « annuler » pour quitter)"
+    database-export-completed: "&a Succès, l'exportation de la base de données pour
+      [monde] est terminée. Fichier [fichier] généré."
     file-name-exist: "&c Le fichier portant le nom '[id]' existe. Ne peut pas écraser."
     write-search: "&e Veuillez saisir une valeur de recherche. (écrire 'cancel' pour
       quitter)"
@@ -615,6 +1040,8 @@ challenges:
     migrate-start: "&2 Commencer à migrer les données supplémentaires des défis."
     migrate-end: "&2 données d'addon Challenges mises à jour dans un nouveau format."
     migrate-not: "&2 Toutes les données sont valides."
+    start-downloading: "&5 Début du téléchargement et de l'importation de la bibliothèque
+      de défis."
     you-completed-challenge: "&2Vous avez complété le challenge: [value] !"
     you-repeated-challenge: "&2Vous avez répété le challenge: [value] !"
     you-repeated-challenge-multiple: "&2Vous avez répété le challenge: [value] &r&2
@@ -667,6 +1094,17 @@ challenges:
       sera pas chargé à partir de la base de données !"
     invalid-challenge: "&c Challenge [challenge] contient des données non valides.
       Il ne sera pas chargé à partir de la base de données !"
+    no-library-entries: "&c Impossible de trouver des entrées de bibliothèque. Rien
+      à montrer."
+    not-hooked: "&c Challenges Addon n'a trouvé aucun GameMode."
+    timeout: "&c Ce défi nécessite d'attendre [timeout] entre les achèvements. Vous
+      devez attendre [wait-time] pour le terminer à nouveau."
+    requirement-not-met: "&c Ce défi nécessite que [statistique] ait [nombre]. Vous
+      n'avez que [valeur]."
+    requirement-not-met-entity: "&c Ce défi nécessite que [statistique] [entité] ait
+      [nombre]. Vous n'avez que [valeur]."
+    requirement-not-met-material: "&c Ce défi nécessite que [statistique] [matériel]
+      ait [nombre]. Vous n'avez que [valeur]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
