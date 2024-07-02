@@ -15,9 +15,13 @@ import world.bentobox.bentobox.api.addons.Pladdon;
  */
 public class ChallengesPladdon extends Pladdon
 {
+    private Addon addon;
     @Override
     public Addon getAddon()
     {
-        return new ChallengesAddon();
+        if (addon == null) {
+            addon = new ChallengesAddon();
+        }
+        return addon;
     }
 }
