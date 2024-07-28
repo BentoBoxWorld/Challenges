@@ -126,10 +126,7 @@ challenges:
           &7 扩展设置。
       complete_wipe:
         name: "&f&l 清除所有数据"
-        description: |-
-          &7 彻底清除挑战
-          &7 扩展数据，包括
-          &7 用户数据。
+        description: "&7 彻底清除挑战扩展数据，包括用户数据。"
       challenge_wipe:
         name: "&f&l 清除挑战数据"
         description: |-
@@ -162,9 +159,8 @@ challenges:
       deployed:
         name: "&f&l 发布"
         description: |-
-          &7 发布挑战后，
-          &7 用户才可以
-          &7 完成它。
+          &7切换挑战是否部署完成
+          &7从而玩家可以完成它。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       name:
@@ -175,90 +171,68 @@ challenges:
         value: "&7 当前名称：&r [name]"
       remove_on_complete:
         name: "&f&l 完成后隐藏"
-        description: |-
-          &7 切换挑战是否
-          &7 对已完成的玩家
-          &7 隐藏。
+        description: "&7 切换是否隐藏已完成挑战"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       description:
         name: "&f&l 说明"
         description: |-
-          &7 关于该挑战的
-          &7 详细描述。必须
-          &7 使用颜色代码。
+          &7关于该挑战的详细描述。
+          &7必须使用颜色代码。
         value: "&7 当前描述："
       environment:
         name: "&f&l 维度"
         description: |-
-          &7 在这里限制
-          &7 哪些维度
+          &7 限制哪些维度
           &7 可以完成此挑战。
         enabled: "&2"
         disabled: "&c"
       order:
         name: "&f&l 位置"
         description: |-
-          &7 修改挑战显示
-          &7 的位置。
-          &7 使用相同位置值
-          &7 的挑战将根据它们的
-          &7 ID 来排序。
+          &7允许修改挑战的排序
+          &7带有相同序号的挑战会通过ID排序
         value: "&7 当前位置值：&e [number]"
       icon:
         name: "&f&l 图标"
-        description: |-
-          &7 修改此挑战
-          &7 的图标。
+        description: "&7修改此挑战的图标。"
       locked_icon:
         name: "&f&l 未解锁图标"
         description: |-
           &7 修改未解锁
-          &7 挑战等级的图标。
+          &7 等级的图标。
       required_permissions:
         name: "&f&l 所需权限"
-        description: |-
-          &7 修改完成此
-          &7 挑战
-          &7 的权限。
+        description: "&7 修改完成此挑战所需的权限。"
         title: "&7 权限："
         permission: " &8 - [permission]"
         none: "&7 未设置权限。"
       remove_entities:
         name: "&f&l 移除实体"
         description: |-
-          &7 是否在完成
-          &7 挑战后移除
-          &7 所需的
-          &7 实体
+          &7 是否在完成挑战后
+          &7移除所需的实体
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_entities:
         name: "&f&l 所需实体"
-        description: |-
-          &7 允许对
-          &7 为完成这个挑战。
-          &7 所需要的实体进行更改
+        description: "&7允许修改完成挑战所需的实体"
         title: "&7 实体："
         list: " &8 - [number] x [entity]"
         none: "&7 不添加实体。"
       remove_blocks:
         name: "&f&l 移除方块"
         description: |-
-          &7 允许切换
-          &7 所需要的
-          &7 在完成挑战
-          &7 后，
-          &7 从世界中移除的方块
+          &7允许切换是否在挑战完成后
+          &7移除所需方块
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_blocks:
         name: "&f&l 所需方块"
         description: |-
-          &7 允许更改
-          &7 为完成挑战所需要的
-          &7 方块
-        title: "&7 块："
+          &7允许更改为完成挑战
+          &7所需要的方块
+        title: "&7 方块："
         list: " &8 - [number] x [block]"
         none: "&7 块不被添加。"
       search_radius:
@@ -292,11 +266,8 @@ challenges:
       remove_experience:
         name: "&f&l 移除经验"
         description: |-
-          &7 允许切换
-          &7 所需经验将
-          &7 从玩家中移除
-          &7 完成后
-          &7 挑战。
+          &7允许切换是否在挑战完成后
+          &7移除玩家经验
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       required_experience:
@@ -308,10 +279,7 @@ challenges:
         value: "&7 当前经验：&e [number]"
       required_level:
         name: "&f&l 所需岛屿等级"
-        description: |-
-          &7 允许更改
-          &7 所需岛屿等级
-          &7 挑战。
+        description: "&7允许更改挑战所需的岛屿等级"
         value: "&7 当前级别：&e [number]"
       remove_money:
         name: "&f&l 移除金钱"
@@ -321,9 +289,8 @@ challenges:
       required_money:
         name: "&f&l 所需资金"
         description: |-
-          &7 允许更改
-          &7 玩家需要的钱
-          &7 说明了挑战。
+          &7允许更改挑战所需
+          &7玩家账户里的钱
         value: "&7 当前值：&e [number]"
       statistic:
         name: "&f&l 统计"
@@ -331,287 +298,187 @@ challenges:
         value: "&7 当前值：&e [statistic]"
       statistic_amount:
         name: "&f&l 目标值"
-        description: |-
-          &7 允许更改
-          &7 统计目标值
-          &7 必须满足。
+        description: "&7允许更改必须完成的统计目标"
         value: "&7 当前值：&e [number]"
       remove_statistic:
         name: "&f&l 减少统计量"
         description: |-
-          &7 允许切换
-          &7 统计值将
-          &7 完成后减少
-          &7 挑战。
+          &7允许切换是否在完成挑战后
+          &7减少对应数目的统计值
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       statistic_blocks:
-        name: "&f&l 目标块"
-        description: |-
-          &7 允许更改
-          &7 统计目标块。
-        value: "&7 当前块：&e [block]"
+        name: "&f&l 目标方块"
+        description: "&7允许更改方块统计目标。"
+        value: "&7 当前方块：&e [block]"
       statistic_items:
         name: "&f&l 目标项目"
-        description: |-
-          &7 允许更改
-          &7 统计目标项。
+        description: "&7 允许更改物品统计目标"
         value: "&7 当前项目：&e [item]"
       statistic_entities:
         name: "&f&l 目标实体"
-        description: |-
-          &7 允许更改
-          &7 统计目标实体。
+        description: "&7 允许更改实体统计目标"
         value: "&7 当前实体：&e [entity]"
       reward_text:
         name: "&f&l 奖励文本"
         description: |-
           &7 具体奖励文本。
-          &7 颜色代码必须是
-          &7 适用于它。
+          &7 必须应用颜色代码
         value: "&7 当前文本："
       repeat_reward_text:
         name: "&f&l 重复奖励文本"
         description: |-
-          &7 具体重复奖励文字
-          &7 挑战。颜色
-          &7 代码必须应用于它。
+          &7 该挑战特定的重复奖励文本
+          &7 必须使用颜色代码。
         value: "&7 当前文本："
       reward_items:
         name: "&f&l 奖励物品"
-        description: |-
-          &7 允许更改奖励
-          &7 项。
+        description: "&7 允许更改奖励物品"
         title: "&7 项："
         list: " &8 - [number] x [item]"
         none: "&7 项目未添加。"
       repeat_reward_items:
-        name: "&f&l 重复奖励项目"
-        description: |-
-          &7 允许改变重复
-          &7 奖励物品
-          &7 挑战。
-        title: "&7 项："
+        name: "&f&l 重复奖励物品"
+        description: "&7允许更改该挑战的重复奖励物品"
+        title: "&7 物品："
         list: " &8 - [number] x [item]"
-        none: "&7 项目未添加。"
+        none: "&7 物品未添加。"
       reward_experience:
-        name: "&f&l 奖励体验"
-        description: |-
-          &7 允许更改
-          &7 奖励经验
-          &7 玩家。
+        name: "&f&l 奖励经验"
+        description: "&7 允许更改对玩家的经验奖励"
         value: "&7 奖励经验：&e [number]"
       repeat_reward_experience:
         name: "&f&l 重复奖励体验"
-        description: |-
-          &7 允许更改
-          &7 重复奖励经验
-          &7 为玩家。
+        description: "&7 允许更改给玩家的重复经验奖励"
         value: "&7 奖励经验：&e [number]"
       reward_money:
         name: "&f&l 奖励金"
-        description: |-
-          &7 允许更改
-          &7 奖励金钱。
+        description: "&7 允许更改金钱奖励"
         value: "&7 当前值：&e [number]"
       repeat_reward_money:
-        name: "&f&l 重复奖励金"
-        description: |-
-          &7 允许更改
-          &7 重复奖励金
-          &7 挑战。
+        name: "&f&l 重复奖励金钱"
+        description: "&7 允许更改重复挑战的金钱奖励"
         value: "&7 当前值：&e [number]"
       reward_commands:
         name: "&f&l 奖励命令"
         description: |-
           &7 具体奖励命令。
-          &8 提示：
-          &8 该命令不需要
-          &8 先写 `/`
-          &8 会自动应用。
-          &8 默认情况下，命令将是
-          &8 由服务器执行。然而
-          &8 在开头添加 `[SELF]`
-          &8 将允许命令
-          &8 由玩家执行。它也是
-          &8 支持一个占位符
-          &8 `[player]` 那将是
-          &8 替换为玩家姓名
-          &8 谁完成了挑战。
+          &8 该命令不需要输入 `/`
+          &8 默认情况下，命令将由服务器执行。
+          &8 在开头添加 `[SELF]`时，命令由玩家执行。
+          &8 支持占位符`[player]`，代表完成该挑战的玩家
         value: "&7 当前命令："
       repeat_reward_commands:
         name: "&f&l 重复奖励命令"
         description: |-
-          &7 具体重复奖励
-          &7 命令用于挑战。
-          &8 提示：
-          &8 该命令不需要
-          &8 先写 `/`
-          &8 会自动应用。
-          &8 默认情况下，命令将是
-          &8 由服务器执行。然而
-          &8 在开头添加 `[SELF]`
-          &8 将允许命令
-          &8 由玩家执行。它也是
-          &8 支持一个占位符
-          &8 `[player]` 那将是
-          &8 替换为玩家姓名
-          &8 谁完成了挑战。
+          &7 重复奖励命令。
+          &8 该命令不需要输入 `/`
+          &8 默认情况下，命令将由服务器执行。
+          &8 在开头添加 `[SELF]`时，命令由玩家执行。
+          &8 支持占位符`[player]`，代表完成该挑战的玩家
         value: "&7 当前命令："
       repeatable:
         name: "&f&l 可重复"
-        description: |-
-          &7 允许切换
-          &7 挑战是
-          &7 可重复。
+        description: "&7 允许切换挑战是否可重复"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       repeat_count:
         name: "&f&l 重复次数"
-        description: |-
-          &7 允许更改
-          &7 重复次数
-          &7 挑战。
+        description: "&7 允许更改挑战的重复次数"
         value: "&7 当前值：&e [number]"
       cool_down:
         name: "&f&l 冷却"
-        description: |-
-          &7 允许更改
-          &7 冷却秒
-          &7 之间必须等待
-          &7 可重复挑战
-          &7 完成。
+        description: "&7允许更改重复挑战的冷却时间"
         value: "&7 当前值：&e [time]"
       challenges:
         name: "&f&l 挑战"
-        description: |-
-          &7 查看分配的挑战
-          &7 到水平。
+        description: "&7查看当前等级的挑战"
       waiver_amount:
         name: "&f&l 豁免金额"
         description: |-
-          &7 允许设置一个数字
-          &7 的挑战
-          &7 未完成
-          &7 解锁下一个级别。
+          &7 允许设置一些挑战，
+          &7 解锁下一级时，这些挑战可以未完成
         value: "&7 当前值：&e [number]"
       add_challenges:
         name: "&f&l 添加挑战(-s)"
-        description: |-
-          &7 允许选择和
-          &7 增加了挑战
-          &7 级。
+        description: "&7允许向该等级选择并添加挑战"
       remove_challenges:
         name: "&f&l 移除挑战(-s)"
-        description: |-
-          &7 允许选择和
-          &7 消除对
-          &7 级。
+        description: "&7允许向该等级选择并删除挑战"
       reset_on_new:
-        name: "&f&l 重置新"
-        description: |-
-          &7 允许切换
-          &7 挑战应该是
-          &7 用户离开时重置
-          &7 岛或创建一个新的
-          &7岛。
+        name: "&f&l 重置"
+        description: "&7允许切换玩家创建新岛/离开旧岛时是否重置挑战"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       broadcast:
         name: "&f&l 广播"
-        description: |-
-          &7 广播挑战和
-          &7级第一次完成
-          &7 给大家。
+        description: "&7 首次完成挑战与级别时向所有玩家广播"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       remove_completed:
         name: "&f&l 隐藏完成"
-        description: |-
-          &7 隐藏已完成的挑战
-          &7 从菜单中。
+        description: "&7 从菜单中隐藏已完成的挑战"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       glow_completed:
-        name: "&f&l 发光完成"
-        description: |-
-          &7 添加附魔光晕
-          &7 完成的挑战。
+        name: "&f&l 完成后发光"
+        description: "&7 为完成的挑战添加附魔光效"
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       store_history:
         name: "&f&l 商店历史"
         description: |-
-          &7 存储内部历史
-          &7 当每个挑战是
-          &7 完成。
-          &7 目前仅可查看
-          &7 在数据库中。
+          &7 每个挑战被完成时都将其存储
+          &7 当前只能在数据库查看
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       data_per_island:
         name: "&f&l 每岛商店"
         description: |-
-          &7 存储完成的
-          每个岛屿有 &7 个挑战。
-          &7 进度将被分享
-          &7 与团队中的所有玩家。
+          &7存储每个岛屿完成的挑战
+          &7该岛屿团队会共享进度
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       show_title:
         name: "&f&l 显示标题"
         description: |-
-          &7 显示标题
-          &7 挑战或关卡
-          &7 完成。
+          &7 当一个完成挑战或级别时
+          &7 在标题栏展示
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       gamemode_gui:
         name: "&f&l 游戏模式选择界面"
         description: |-
-          &7 启用单一 GUI
-          &7 可通过 /challenges 获得
-          &7 命令。
+          &7允许/challenges开启GUI
           &c 需要重新启动服务器。
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       locked_level_icon:
         name: "&f&l 默认锁定级别图标"
         description: |-
-          &7 全部锁定的默认图标
-          &7 级。每个级别都可以改变
-          &7 这个图标。
+          &7 等级锁定时的默认图标。
+          &7 每个级别都可以单独修改。
       purge_history:
-        name: "&f&l 历史终生"
+        name: "&f&l 数据存储时间"
         description: |-
-          &7 天数 多长时间
-          &7 历史数据存储
-          &7 在用户数据中。
-          &7 0 表示数据将
-          &7 不会被删除。
+          &7用户历史数据存储的时间
+          &70代表永远不会移除老旧数据
         value: "&7 当前值：&e [number]"
       title_showtime:
-        name: "&f&l 标题放映时间"
-        description: |-
-          &7 该标题的刻度数
-          &7 将显示给玩家。
+        name: "&f&l 标题显示时间"
+        description: "&7标题栏显示的时间(以tick计)"
         value: "&7 当前值：&e [number]"
       active_world_list:
         name: "&f&l 仅显示活跃世界"
         description: |-
-          &7 如果游戏模式选择 GUI
-          &7 开启，这个可以切换
-          &7 如果 GUI 显示 GameMode 选择
-          &7 或当前世界的挑战。
-          &c 需要重新启动服务器。
+          &7 如果启用游戏模式选择 GUI，这个可以切换
+          &7 GUI 是否显示游戏模式选择或当前世界的挑战。
+          &c 需要重新启动服务器
         enabled: "&2 已启用"
         disabled: "&c 已禁用"
       visibility_mode:
         name: "&f&l 可见性模式"
-        description: |-
-          &7 可见性模式
-          &7 挑战
-          &7 隐藏。
+        description: "&7隐藏挑战的可见性"
         enabled: "&2"
         disabled: "＆C"
         visible: 显示可见的挑战
@@ -619,18 +486,12 @@ challenges:
         toggleable: 允许切换
       include_undeployed:
         name: "&f&l 包括未部署的挑战"
-        description: |-
-          &7 表示是否未部署
-          &7 挑战应该是
-          &7 计入等级
-          &7 完成。
+        description: "&7是否把未部署挑战纳入对应级别的进度中"
         enabled: "&2 启用"
         disabled: "&c 禁用"
       download:
         name: "&f&l 下载库"
-        description: |-
-          &7 可手动更新
-          &7 挑战库。
+        description: "&7 可手动更新挑战库。"
         enabled: "&2 清除缓存"
         disabled: "&c 不清除缓存"
       player:
@@ -638,52 +499,36 @@ challenges:
         description: "&7 岛主：[owner]"
         members: "&7 岛成员："
         member: "&8 - [name]"
-        no-island: |-
-          &c 玩家没有
-          &c 一个岛屿。
+        no-island: "&c 玩家没有岛屿。"
       player_list:
         name: "&f&l 选择用户列表"
-        description: |-
-          &7 选择哪个用户列表
-          应该显示 &7。
+        description: "&7 选择应该显示哪个用户列表 "
         enabled: "&2"
-        disabled: "＆C"
+        disabled: "&c"
         online: 在线玩家
         with_island: 有岛屿的玩家
         in_world: 世界玩家
       add_block:
-        name: "&f&l 添加块"
-        description: |-
-          &7 允许添加一个新的
-          &7 块到列表中。
+        name: "&f&l 添加方块"
+        description: "&7 允许添加一个新的方块到列表中。"
       remove_block:
-        name: "&f&l 删除块"
-        description: |-
-          &7 允许删除
-          &7 个选定的块
-          &7 来自列表。
-        title: "&7 精选材料："
+        name: "&f&l 删除方块"
+        description: "&7 允许从列表删除选定的方块"
+        title: "&7 已选择材料："
         material: "&8 - [material]"
       material:
         name: "&f&l [material]"
-        description: "&7 材质 ID：[id]"
+        description: "&7 材料 ID：[id]"
         selected: "&2 已选择"
       add_entity:
         name: "&f&l 添加实体"
-        description: |-
-          &7 允许添加一个新的
-          &7 实体到列表中。
+        description: "&7 允许添加一个新的实体到列表中。"
       switch_entity:
-        name: "&f&l 换鸡蛋"
-        description: |-
-          &7 允许从
-          &7 鸡蛋给怪物头。
+        name: "&f&l 交换鸡蛋"
+        description: "&7 允许从鸡蛋转换到怪物头"
       remove_entity:
         name: "&f&l 删除实体"
-        description: |-
-          &7 允许删除
-          &7 个选定的实体
-          &7 来自列表。
+        description: "&7 允许从列表删除选定的实体"
         title: "&7 选定实体："
         entity: "&8 - [entity]"
       entity:
@@ -692,21 +537,13 @@ challenges:
         selected: "&2 已选择"
       inventory_type:
         name: "&f&l 库存类型"
-        description: |-
-          &7 检查的挑战
-          &7 玩家物品栏中的物品
+        description: "&7 检查的玩家物品栏中物品的挑战"
       island_type:
-        name: "&f&l 岛型"
-        description: |-
-          &7 检查的挑战
-          &7 周围的方块或实体
-          &7 玩家。
+        name: "&f&l 空岛类型"
+        description: "&7 检查的周围的方块或实体玩家的挑战。"
       other_type:
         name: "&f&l 其他类型"
-        description: |-
-          &7 挑战使用
-          &7 插件或插件的东西，
-          &7 喜欢等级和金钱。
+        description: "&7使用插件的东西的挑战，如等级和金钱。"
       statistic_type:
         name: "&f&l 统计类型"
         description: "&7 检查的挑战玩家统计数据。"
@@ -715,14 +552,10 @@ challenges:
         description: "&7 保存更改并返回。"
       cancel:
         name: "&f&l 取消"
-        description: |-
-          &7 放弃更改和
-          &7 返回。
+        description: "&7 放弃更改并返回。"
       accept_selected:
         name: "&f&l 接受选择"
-        description: |-
-          &7 返回选中的元素
-          &7 并打开以前的 GUI。
+        description: "&7 返回选中的元素并打开上一个GUI。"
         title: "&7 已选择："
         element: "&8 - [element]"
       statistic_element:
@@ -733,10 +566,7 @@ challenges:
         description: "[description]"
       search:
         name: "&f&l 搜索"
-        description: |-
-          &7 允许搜索
-          &7 元素与输入
-          &7 文本值。
+        description: "&7 允许通过输入文本值搜索元素"
         search: "&b 值：[value]"
     tips:
       click-to-select: "&e 单击 &7 进行选择。"
@@ -1023,16 +853,10 @@ challenges:
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: |-
-        &5 &o 切换谁可以
-        &5 &o 完成挑战
+      description: "&5 &o 切换可以完成挑战的人"
       name: 挑战保护
     CHALLENGES_WORLD_PROTECTION:
-      description: |-
-        &5 &o 启用 / 禁用
-        &5 &o 玩家需在
-        &5 &o 自己的岛屿中
-        &5 &o 完成挑战。
+      description: "&5 &o 启用 / 禁用 玩家在自己空岛完成挑战的要求"
       name: 岛屿挑战限制
       hint: 岛屿外无挑战
 version: 12
