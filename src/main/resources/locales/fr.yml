@@ -775,8 +775,6 @@ challenges:
           &7 élément avec une valeur
           &7 de texte d'entrée.
         search: "&b valeur: [value]"
-      admin:
-        type: Type de Challenge
     tips:
       click-to-select: "&e Cliquez &7 pour sélectionner."
       click-to-choose: "&e Cliquez sur &7 pour choisir."
@@ -954,8 +952,6 @@ challenges:
         version: "&7 Fait avec des défis &e [version]"
         lang: "&7 Langue : &e [lang]"
         gamemode: "&7 Primaire pour &e [gamemode]"
-      admin:
-        type: Permet de changer le type de challenge. Chaque type a ses propres prérequis.
   conversations:
     prefix: "&l&6 [BentoBox]: &r"
     confirm-string: vrai, activé, oui, confirmer, oui, valide, correct
