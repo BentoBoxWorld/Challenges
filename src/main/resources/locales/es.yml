@@ -1,595 +1,1065 @@
 ---
+meta:
+  authors:
+  - BONne
 challenges:
   commands:
     admin:
-      create:
-        description: Abre el GUI que permite crear desafío..
-        parameters: "<unique challenge name>"
       main:
         description: Comando de administrador principal. Abrir GUI.
-      surrounding:
-        description: Crea un desafío envolvente.
-        parameters: "<challenge name>"
-      import:
-        parameters: "[overwrite]"
-        description: |-
-          Importar desafíos desde challenge.yml
-          La sobrescritura de parámetros significa que se sobrescribirán los desafíos o niveles con la misma ID.
-      defaults-generate:
-        parameters: "[overwrite] - permite sobrescribir el archivo existente."
-        description: Exportar los desafíos existentes al archivo default.json.
-      complete:
-        parameters: "<player> <challange_id>"
-        description: Completar un desafío para un jugador.
-      reset:
-        parameters: "<player> <challange_id>"
-        description: Restablecer un desafío para un jugador. Si "challenge_id" se
-          establece en "all", restableceran todos los desafíos.
-      defaults-import:
-        description: Importar los desafíos predeterminados.
       reload:
         description: |-
           Recargar desafíos desde la base de datos
           El parámetro hard significa que el addon restablecerá la conexión a la base de datos.
-        parameters: "[hard]"
-      defaults:
-        parameters: "[command]"
-        description: Muestra subcomandos para importar / exportar los desafíos predeterminados.
+      show:
+        description: Imprime todos los desafíos en el chat que existen en este mundo.
+      complete:
+        description: Completar un desafío para un jugador.
+        parameters: "<player> <challange_id>"
+      reset:
+        description: Restablecer un desafío para un jugador. Si "challenge_id" se
+          establece en "all", restableceran todos los desafíos.
+        parameters: "<player> <challange_id>"
       migrate:
         description: Migrar los datos actuales de los desafíos del mundo del juego
           al formato de almacenamiento 0.8.0.
-      show:
-        description: Imprime todos los desafíos en el chat que existen en este mundo.
+      create:
+        parameters: "<unique challenge name>"
+        description: Abre el GUI que permite crear desafío..
+      surrounding:
+        parameters: "<challenge name>"
+        description: Crea un desafío envolvente.
     user:
-      description: Este método abre el GUI de los desafíos.
-      complete:
-        parameters: "<challenge_id> [count]"
-        description: Completa el desafío.
       main:
         description: Abrir GUI de Desafíos.
-  errors:
-    load-error: "&cError: No se pudo cargar [value]."
-    no-name: "&cFalta el nombre del desafío"
-    unknown-challenge: "&cDesafío desconocido"
-    unique-id: '&cLa UniqueID "[id]" no es valida.'
-    wrong-icon: '&cEl material dado "[value]" no es válido y no puede ser usado como
-      icono.'
-    not-deployed: "&c¡El desafío no está desplegado!"
-    not-on-island: "&c¡Debes estar en tu isla para hacer eso!"
-    not-repeatable: "&c¡Este reto no es repetible!"
-    not-enough-items: "&c¡No tienes [ítems] suficientes para completar este desafío!"
-    not-close-enough: "&cYou must be standing within [number] blocks of all required
-      items."
-    you-still-need: "&cTodavía necesitas [amount] x [item]"
-    not-enough-money: "&cEs necesario tener [value] en tu cuenta para completar el
-      desafío."
-    import-no-file: "&c¡No se puede encontrar el archivo challenge.yml para importar!"
-    no-load: "&cError: No se pudo cargar challenge.yml. [message]"
-    defaults-file-exist: "&cdefaults.json ya existe. ¡Utiliza el modo de sobrescritura
-      para reemplazarlo!"
-    defaults-file-error: "&c¡Se produjo un error al crear el archivo defaults.json!
-      ¡Compruebe la consola!"
-    missing-arguments: "&cFaltan argumentos de comando."
-    wrong-environment: "&c¡Estás en el entorno equivocado!"
-    missing-addon: "&cNo se puede completar el desafío: falta un addon o plugin requerido."
-    exist-challenges-or-levels: "&cLos desafíos ya existen en tu mundo. ¡No se puede
-      proceder!"
-    no-challenges: "&c¡Los desafíos aún no se han implementado en este mundo!"
-    no-challenges-admin: "&c¡Los desafíos aún no se han implementado en este mundo!
-      ¡Usa &5/[command] &cpara agregarlos!"
-    missing-level: "&cEl nivel de desafío [level] no está definido en la base de datos.
-      ¡Puede causar errores!"
-    no-multiple-permission: "&cNo tienes permiso para completar este desafío varias
-      veces a la vez."
-    not-a-integer: '&c¡El valor dado "[value]" no es entero!'
-    challenge-level-not-available: "&cNo has desbloqueado el nivel requerido para
-      completar este desafío."
-    incorrect: "&cNo se puede completar el desafío: los requisitos son incorrectos."
-    not-enough-experience: "&cEs necesario tener [value] EXP para completar este desafío."
-    island-level: "&c¡Tu isla debe ser de nivel [number] o mayor para completar este
-      desafío!"
-    no-rank: "&cNo tienes un rango lo suficientemente alto como para hacer eso."
-    cannot-remove-items: "&c¡Algunos items no se pueden eliminar de tu inventario!"
-    not-valid-integer: |-
-      &cEl número entero "[value]" no es válido.
-      El valor debe estar entre [min] y [max].
+      complete:
+        description: Completa el desafío.
+        parameters: "<challenge_id> [count]"
+      description: Este método abre el GUI de los desafíos.
   gui:
+    titles:
+      player-gui: "&0&l Menú de desafíos"
+      gamemode-gui: "&0&l Seleccionar modo de juego"
+      multiple-gui: "&0&l ¿Cuántas veces?"
+      admin-gui: "&0&l Menú de administración de desafíos"
+      edit-challenge: "&0&l Editar [desafío]"
+      edit-level: "&0&l Editar [nivel]"
+      settings: "&0&l Configuración"
+      choose-challenge: "&0&l Elegir desafío"
+      choose-level: "&0&l Elegir nivel"
+      choose-player: "&0&l Elegir jugador"
+      library: "&0&l Biblioteca"
+      manage-blocks: "&0&l Administrar bloques"
+      manage-entities: "&0&l Administrar entidades"
+      type-selector: "&0&l Selector de tipo de desafío"
+      item-selector: "&0&l Selector de artículos"
+      block-selector: "&0&l Selector de bloque"
+      entity-selector: "&0&l Selector de entidad"
+      challenge-selector: "&0&l Selector de desafío"
+      statistic-selector: "&0&l Selector de estadísticas"
+      environment-selector: "&0&l Selector de entorno"
     buttons:
+      free-challenges:
+        name: "&f&l desafíos gratuitos"
+        description: |-
+          &7 Muestra una lista de
+          &7 desafíos gratuitos
+      return:
+        name: "&f&l Devolución"
+        description: |-
+          &7 Volver al menú anterior
+          &7 o salir de GUI
+      previous:
+        name: "&f&l Página anterior"
+        description: "&7 Cambiar a &e [número] &7 página"
+      next:
+        name: "&f&l Página siguiente"
+        description: "&7 Cambiar a &e [número] &7 página"
+      reduce:
+        name: "&f&l Reducir"
+        description: "&7 Reducir en &e [número]"
+      increase:
+        name: "&f&l Aumento"
+        description: "&7 Aumentar en &e [número]"
+      accept:
+        name: "&f&l completo"
+        description: |-
+          &7 Completa el desafío &e [número]
+          &7 veces)
+      quit:
+        name: "&f&l Salir"
+        description: "&7 Salir de la GUI."
+      complete_user_challenges:
+        name: "&f&l Complete el(los) desafío(s) de usuario"
+        description: |-
+          &7 Permite elegir usuario y
+          &7 desafíos completos para
+          &7 él
+      reset_user_challenges:
+        name: "&f&l Restablecer desafíos de usuario"
+        description: |-
+          &7 Permite elegir usuario y
+          &7 restablecer sus desafíos
+      add_challenge:
+        name: "&f&l Crear desafío"
+        description: |-
+          &7 Inicia un proceso para
+          &7 creando un nuevo desafío.
+      add_level:
+        name: "&f&l Crear nivel"
+        description: |-
+          &7 Inicia un proceso para
+          &7 creando un nuevo nivel.
+      edit_challenge:
+        name: "&f&l Editar desafío"
+        description: |-
+          &7 Permite elegir y editar
+          &7 un desafío.
+      edit_level:
+        name: "&f&l Editar nivel"
+        description: |-
+          &7 Permite elegir y editar
+          &7 un nivel.
+      delete_challenge:
+        name: "&f&l Eliminar desafío"
+        description: |-
+          &7 Permite elegir y eliminar
+          &7 un desafío.
+      delete_level:
+        name: "&f&l Eliminar nivel"
+        description: |-
+          &7 Permite elegir y eliminar
+          &7 un nivel.
+      edit_settings:
+        name: Configuración &f&l
+        description: |-
+          &7 Permite ver y editar
+          &7 configuración de un complemento.
+      complete_wipe:
+        name: "&f&l Limpieza completa"
+        description: |-
+          &7 Elimina completamente los desafíos
+          &7 base de datos adicional, incluida
+          &7 datos de usuario.
+      challenge_wipe:
+        name: "&f&l Desafío Limpiar"
+        description: |-
+          &7 Elimina completamente los desafíos
+          &7 y niveles de la base de datos.
+      user_wipe:
+        name: "&f&l borrado de usuario"
+        description: |-
+          &7 borra completamente al usuario
+          &7 datos de la base de datos.
+      library:
+        name: Biblioteca &f&l
+        description: |-
+          &7 Abre un público
+          &7 biblioteca de desafíos.
+      import_database:
+        name: "&f&l Importar base de datos"
+        description: |-
+          &7 Permite importar exportado
+          &7 base de datos de desafíos.
+      import_template:
+        name: Plantilla de importación &f&l
+        description: |-
+          &7 Permite importar plantilla
+          &7 archivo con desafíos.
+      export_challenges:
+        name: "&f&l Desafíos de Exportación"
+        description: |-
+          &7 Permite exportar base de datos
+          &7 a un archivo local.
+      properties:
+        name: Propiedades &f&l
+        description: "&7 Ver todas las propiedades principales."
+      requirements:
+        name: Requisitos &f&l
+        description: "&7 Ver propiedades de requisitos."
+      rewards:
+        name: Recompensas &f&l
+        description: "&7 Ver propiedades de recompensas."
+      deployed:
+        name: Implementación &f&l
+        description: |-
+          &7 Alternar si el desafío es
+          &7 implementado y los usuarios pueden
+          &7 complétalo.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      name:
+        name: "&f&l Nombre"
+        description: |-
+          &7 Permite cambiar
+          &7 el nombre para mostrar.
+        value: "&7 Actualmente: &r [nombre]"
+      remove_on_complete:
+        name: "&f&l Ocultar después de finalizar"
+        description: |-
+          &7 Alternar si el desafío debe
+          &7 oculto al jugador después
+          &7 está completo.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      description:
+        name: "&f&l descripción"
+        description: |-
+          &7 La descripción específica
+          &7 para el desafío. El color
+          Se le deben aplicar códigos &7.
+        value: "&7 Descripción actual:"
+      environment:
+        name: Dimensión &f&l
+        description: |-
+          &7 Permite limitar en que
+          &7 dimensión del desafío
+          &7 se puede completar.
+        enabled: "&2"
+        disabled: "&C"
+      order:
+        name: "&f&l Orden"
+        description: |-
+          &7 Permite cambiar el orden de
+          &7 objetos.
+          &7 Objetos con números iguales
+          &7 serán ordenados por su
+          &7 nombres de identificación únicos.
+        value: "&7 Orden actual: &e [número]"
+      icon:
+        name: Icono &f&l
+        description: |-
+          &7 Permite cambiar icono
+          &7 para este desafío.
+      locked_icon:
+        name: "&f&l icono bloqueado"
+        description: |-
+          &7 Permite cambiar bloqueado
+          &7 icono de nivel.
+      required_permissions:
+        name: "&f&l Permisos requeridos"
+        description: |-
+          &7 Permite el cambio requerido
+          &7 permisos para esto
+          &7 desafío para ser completable.
+        title: "&7 permisos:"
+        permission: " &8 - [permiso]"
+        none: "&7 Los permisos no están establecidos."
+      remove_entities:
+        name: "&f&l Eliminar entidades"
+        description: |-
+          &7 Permite alternar si
+          &7 entidades requeridas
+          &7 ser eliminado del mundo
+          &7 después de completar el
+          &7 desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      required_entities:
+        name: "&f&l entidades requeridas"
+        description: |-
+          &7 Permite el cambio requerido
+          &7 entidades para esto
+          &7 desafío para ser completable.
+        title: "&7 entidades:"
+        list: " &8 - [número] x [entidad]"
+        none: "&7 Entidades no se agregan."
+      remove_blocks:
+        name: "&f&l Quitar bloques"
+        description: |-
+          &7 Permite alternar si
+          &7 bloques requeridos
+          &7 ser eliminado del mundo
+          &7 después de completar el
+          &7 desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      required_blocks:
+        name: "&f&l Bloques requeridos"
+        description: |-
+          &7 Permite el cambio requerido
+          &7 bloques para esto
+          &7 desafío para ser completable.
+        title: "&7 bloques:"
+        list: " &8 - [número] x [bloque]"
+        none: "&7 bloques no se agregan."
+      search_radius:
+        name: "&f&l Radio de búsqueda"
+        description: |-
+          &7 Permite cambiar el radio
+          &7 alrededor del jugador del cual
+          &7 bloques y/o entidades son
+          &7 detectado.
+        value: "&7 Distancia actual: &e [número]"
+      remove_items:
+        name: "&f&l Eliminar elementos"
+        description: |-
+          &7 Permite alternar si
+          &7 artículos requeridos
+          &7 será eliminado del inventario
+          &7 después de completar el
+          &7 desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      required_items:
+        name: "&f&l Artículos requeridos"
+        description: |-
+          &7 Permite el cambio requerido
+          &7 artículos para esto
+          &7 desafío para ser completable.
+        title: "&7 artículos:"
+        list: " &8 - [número] x [elemento]"
+        none: "&7 Los artículos no se agregan."
+      add_ignored_meta:
+        name: "&f&l Agregar Ignorar metadatos"
+        description: |-
+          &7 Permite agregar cual
+          &7 elementos deben ignorarse
+          &7 cualquier metadato que
+          Se les asigna &7.
+        title: "&7 artículos:"
+        list: " &8 - [número] x [elemento]"
+        none: "&7 Los artículos no se agregan."
+      remove_ignored_meta:
+        name: "&f&l Eliminar Ignorar metadatos"
+        description: |-
+          &7 Permite eliminar qué
+          &7 elementos deben ignorarse
+          &7 cualquier metadato que
+          Se les asigna &7.
+      remove_experience:
+        name: "&f&l Eliminar experiencia"
+        description: |-
+          &7 Permite alternar si
+          &7 experiencia requerida
+          &7 será eliminado del jugador
+          &7 después de completar el
+          &7 desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      required_experience:
+        name: "&f&l Experiencia requerida"
+        description: |-
+          &7 Permite cambiar el
+          &7 experiencia requerida para
+          &7 el jugador.
+        value: "&7 Experiencia actual: &e [número]"
+      required_level:
+        name: "&f&l Nivel de isla requerido"
+        description: |-
+          &7 Permite cambiar el
+          &7 nivel de isla requerido
+          &7 para el desafío.
+        value: "&7 Nivel actual: &e [número]"
+      remove_money:
+        name: "&f&l Quitar dinero"
+        description: |-
+          &7 Permite alternar si
+          &7 dinero requerido
+          &7 será eliminado del jugador
+          &7 cuenta después de completar
+          &7 el desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      required_money:
+        name: "&f&l Dinero requerido"
+        description: |-
+          &7 Permite cambiar el
+          &7 dinero requerido en el jugador
+          &7 explica el desafío.
+        value: "&7 Valor actual: &e [número]"
+      statistic:
+        name: "&f&l estadística"
+        description: |-
+          &7 Permite cambiar el
+          &7 tipo de estadística que es
+          &7 marcó este desafío.
+        value: "&7 Valor actual: &e [estadística]"
+      statistic_amount:
+        name: "&f&l Valor objetivo"
+        description: |-
+          &7 Permite cambiar el
+          &7 valor objetivo estadístico
+          &7 que se debe cumplir.
+        value: "&7 Valor actual: &e [número]"
+      remove_statistic:
+        name: "&f&l Reducir estadística"
+        description: |-
+          &7 Permite alternar si
+          &7 valor estadístico
+          &7 se reducirá después de completar
+          &7 el desafío.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      statistic_blocks:
+        name: Bloque de destino &f&l
+        description: |-
+          &7 Permite cambiar el
+          &7 bloque objetivo estadístico.
+        value: "&7 Bloque actual: &e [bloque]"
+      statistic_items:
+        name: "&f&l Artículo de destino"
+        description: |-
+          &7 Permite cambiar el
+          &7 elemento objetivo estadístico.
+        value: "&7 Artículo actual: &e [artículo]"
+      statistic_entities:
+        name: "&f&l entidad objetivo"
+        description: |-
+          &7 Permite cambiar el
+          &7 entidad objetivo estadística.
+        value: "&7 Entidad actual: &e [entidad]"
+      reward_text:
+        name: "&f&l Texto de recompensa"
+        description: |-
+          &7 El texto de recompensa específico.
+          &7 Los códigos de color deben ser
+          &7 aplicado a él.
+        value: "&7 Texto actual:"
+      repeat_reward_text:
+        name: "&f&l Repetir texto de recompensa"
+        description: |-
+          &7 El texto específico de recompensa repetida
+          &7 para el desafío. El color
+          Se le deben aplicar códigos &7.
+        value: "&7 Texto actual:"
+      reward_items:
+        name: "&f&l artículos de recompensa"
+        description: |-
+          &7 Permite cambiar recompensa
+          &7 artículos.
+        title: "&7 artículos:"
+        list: " &8 - [número] x [elemento]"
+        none: "&7 Los artículos no se agregan."
+      repeat_reward_items:
+        name: "&f&l Repetir artículos de recompensa"
+        description: |-
+          &7 Permite cambiar repetición
+          &7 artículos de recompensa por esto
+          &7 desafío.
+        title: "&7 artículos:"
+        list: " &8 - [número] x [elemento]"
+        none: "&7 Los artículos no se agregan."
+      reward_experience:
+        name: Experiencia de recompensa &f&l
+        description: |-
+          &7 Permite cambiar el
+          &7 experiencia de recompensa para
+          &7 el jugador.
+        value: "&7 Experiencia de recompensa: &e [número]"
+      repeat_reward_experience:
+        name: "&f&l Repetir experiencia de recompensa"
+        description: |-
+          &7 Permite cambiar el
+          &7 repetir experiencia de recompensa
+          &7 para el jugador.
+        value: "&7 Experiencia de recompensa: &e [número]"
+      reward_money:
+        name: "&f&l Recompensa en dinero"
+        description: |-
+          &7 Permite cambiar el
+          &7 dinero de recompensa.
+        value: "&7 Valor actual: &e [número]"
+      repeat_reward_money:
+        name: "&f&l repetir dinero de recompensa"
+        description: |-
+          &7 Permite cambiar el
+          &7 repetir dinero de recompensa
+          &7 para el desafío.
+        value: "&7 Valor actual: &e [número]"
+      reward_commands:
+        name: "&f&l Comandos de recompensa"
+        description: |-
+          &7 Los comandos de recompensa específicos.
+          &8 Consejo:
+          &8 El comando no requiere
+          &8 escribiendo primero `/` como será
+          &8 se aplicará automáticamente.
+          &8 Por defecto los comandos serán
+          &8 ejecutado por el servidor. Sin embargo
+          &8 añadiendo `[SELF]` al inicio
+          &8 permitirá que el comando sea
+          &8 ejecutado por el jugador. También
+          &8 admite un marcador de posición
+          &8 `[jugador]` que será
+          &8 reemplazado con el nombre de un jugador
+          &8 que completó el desafío.
+        value: "&7 Comandos actuales:"
+      repeat_reward_commands:
+        name: "&f&l Repetir comandos de recompensa"
+        description: |-
+          &7 La recompensa repetida específica
+          &7 comandos para el desafío.
+          &8 Consejo:
+          &8 El comando no requiere
+          &8 escribiendo primero `/` como será
+          &8 se aplicará automáticamente.
+          &8 Por defecto los comandos serán
+          &8 ejecutado por el servidor. Sin embargo
+          &8 añadiendo `[SELF]` al principio
+          &8 permitirá que el comando sea
+          &8 ejecutado por el jugador. También
+          &8 admite un marcador de posición
+          &8 `[jugador]` que será
+          &8 reemplazado con el nombre de un jugador
+          &8 que completó el desafío.
+        value: "&7 Comandos actuales:"
+      repeatable:
+        name: "&f&l repetible"
+        description: |-
+          &7 Permite alternar si
+          &7 el desafío es
+          &7 repetible.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      repeat_count:
+        name: "&f&l Recuento de repeticiones"
+        description: |-
+          &7 Permite cambiar el
+          &7 número de repeticiones
+          &7 para el desafío.
+        value: "&7 Valor actual: &e [número]"
+      cool_down:
+        name: "&f&l enfriamiento"
+        description: |-
+          &7 Permite cambiar el
+          &7 segundos de enfriamiento que
+          &7 debe esperarse entre
+          &7 desafío repetible
+          &7 finalizaciones.
+        value: "&7 Valor actual: &e [hora]"
+      challenges:
+        name: Desafíos &f&l
+        description: |-
+          &7 Ver desafíos asignados
+          &7 al nivel.
+      waiver_amount:
+        name: "&f&l Monto de la exención"
+        description: |-
+          &7 Permite establecer un número
+          &7 de desafíos que pueden
+          &7 quedará sin completar durante
+          &7 desbloqueando el siguiente nivel.
+        value: "&7 Valor actual: &e [número]"
+      add_challenges:
+        name: "&f&l Agregar desafío(s)"
+        description: |-
+          &7 Permite seleccionar y
+          &7 añade desafíos al
+          &7 nivel.
+      remove_challenges:
+        name: "&f&l Eliminar desafío(s)"
+        description: |-
+          &7 Permite seleccionar y
+          &7 eliminar desafíos al
+          &7 nivel.
+      reset_on_new:
+        name: "&f&l Restablecer en nuevo"
+        description: |-
+          &7 Permite alternar si
+          &7 desafíos deben ser
+          &7 se reinicia cuando el usuario se va
+          &7 isla o crea una nueva
+          &7 isla.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      broadcast:
+        name: "&f&l Transmisión"
+        description: |-
+          &7 Desafío de transmisiones y
+          &7 nivel completado por primera vez
+          &7 para todos.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      remove_completed:
+        name: "&f&l Ocultar completado"
+        description: |-
+          &7 Oculta desafíos completados
+          &7 del menú.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      glow_completed:
+        name: "&f&l Resplandor completado"
+        description: |-
+          &7 Añade brillo de encantamiento
+          &7 a los desafíos completados.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      store_history:
+        name: Historial de la tienda &f&l
+        description: |-
+          &7 Almacena historial interno
+          &7 cuando cada desafío es
+          &7 completado.
+          &7 Actualmente solo visible
+          &7 en la base de datos.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      data_per_island:
+        name: "&f&l tienda por isla"
+        description: |-
+          &7 Almacena el completado
+          &7 desafíos por isla.
+          &7 Se compartirá el progreso
+          &7 con todos los jugadores del equipo.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      show_title:
+        name: "&f&l Mostrar título"
+        description: |-
+          &7 Muestra el título cuando
+          &7 desafío o nivel
+          &7 está completado.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      gamemode_gui:
+        name: "&f&l GUI de selección de modo de juego"
+        description: |-
+          &7 Habilita una GUI única que
+          &7 está disponible a través de /challenges
+          &7 comando.
+          &c Requiere reiniciar el servidor.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      locked_level_icon:
+        name: "&f&l Icono de nivel bloqueado predeterminado"
+        description: |-
+          &7 Icono predeterminado para todos los bloqueados
+          &7 niveles. Cada nivel puede cambiar
+          &7 este icono.
+      purge_history:
+        name: "&f&l Historial Vida útil"
+        description: |-
+          &7 Número de días cuanto tiempo
+          &7 datos históricos almacenados
+          &7 en datos de usuario.
+          &7 0 significa que los datos
+          &7 no se eliminará.
+        value: "&7 Valor actual: &e [número]"
+      title_showtime:
+        name: "&f&l Título Showtime"
+        description: |-
+          &7 Número de ticks de ese título
+          &7 se mostrará al jugador.
+        value: "&7 Valor actual: &e [número]"
+      active_world_list:
+        name: "&f&l Mostrar sólo mundo activo"
+        description: |-
+          &7 Si GUI de selección de modo de juego
+          &7 está habilitado, esto puede cambiar
+          &7 si la GUI muestra la selección de GameMode
+          &7 o desafíos para el mundo actual.
+          &c Requiere reiniciar el servidor.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      visibility_mode:
+        name: "&f&l Modo de visibilidad"
+        description: |-
+          &7 Modo de visibilidad para
+          &7 desafíos que son
+          &7 oculto.
+        enabled: "&2"
+        disabled: "&C"
+        visible: Mostrar desafíos visibles
+        hidden: Mostrar todos los desafíos
+        toggleable: Permitir alternar
+      include_undeployed:
+        name: "&f&l incluye desafíos no implementados"
+        description: |-
+          &7 Indica si no está implementado
+          &7 desafíos deben ser
+          &7 contado para el nivel
+          &7 finalización.
+        enabled: "&2 habilitado"
+        disabled: etc. deshabilitado
+      download:
+        name: "&f&l Descargar bibliotecas"
+        description: |-
+          &7 Actualización manual disponible
+          &7 desafía las bibliotecas.
+        enabled: "&2 Con borrado de caché"
+        disabled: "&c Sin borrar caché"
+      player:
+        name: "&f&l [nombre]"
+        description: "&7 Propietario de la isla: [propietario]"
+        members: "&7 miembros de la isla:"
+        member: "&8 - [nombre]"
+        no-island: |-
+          &c El jugador no tiene
+          &c una isla.
+      player_list:
+        name: "&f&l Elegir lista de usuarios"
+        description: |-
+          &7 Elige qué lista de usuarios
+          &7 debería mostrarse.
+        enabled: "&2"
+        disabled: "&C"
+        online: Jugadores en línea
+        with_island: Jugadores con islas
+        in_world: jugadores en el mundo
+      add_block:
+        name: "&f&l Agregar bloque"
+        description: |-
+          &7 Permite agregar un nuevo
+          &7 bloque a la lista.
+      remove_block:
+        name: "&f&l Quitar bloque"
+        description: |-
+          &7 Permite eliminar
+          &7 bloques seleccionados
+          &7 de listas.
+        title: "&7 Materiales seleccionados:"
+        material: "&8 - [material]"
+      material:
+        name: "&f&l [material]"
+        description: "&7 ID de material: [id]"
+        selected: "&2 seleccionado"
+      add_entity:
+        name: "&f&l Agregar entidad"
+        description: |-
+          &7 Permite agregar un nuevo
+          &7 entidad a la lista.
+      switch_entity:
+        name: "&f&l cambiar huevos"
+        description: |-
+          &7 Permite cambiar de
+          & 7 huevos para los jefes de la mafia.
+      remove_entity:
+        name: "&f&l Eliminar entidad"
+        description: |-
+          &7 Permite eliminar
+          &7 entidades seleccionadas
+          &7 de listas.
+        title: "&7 entidades seleccionadas:"
+        entity: "&8 - [entidad]"
+      entity:
+        name: "&f&l [entidad]"
+        description: "&7 ID de entidad: [id]"
+        selected: "&2 seleccionado"
+      inventory_type:
+        name: "&f&l Tipo de inventario"
+        description: |-
+          &7 Desafío que verifica
+          &7 artículos en el inventario del jugador
+      island_type:
+        name: "&f&l Tipo de isla"
+        description: |-
+          &7 Desafío que verifica
+          &7 bloques o entidades alrededor
+          &7 jugador.
+      other_type:
+        name: "&f&l Otro tipo"
+        description: |-
+          &7 Desafío que utiliza
+          &7 complementos o complementos,
+          &7 como nivel y dinero.
+      statistic_type:
+        name: "&f&l Tipo de estadística"
+        description: |-
+          &7 Desafío que verifica
+          &7 datos estadísticos de jugadores.
+      save:
+        name: "&f&l Guardar"
+        description: |-
+          &7 Guarda cambios y
+          &7 devuelve.
+      cancel:
+        name: "&f&l Cancelar"
+        description: |-
+          &7 Descarta cambios y
+          &7 devuelve.
+      accept_selected:
+        name: "&f&l Aceptar Seleccionado"
+        description: |-
+          &7 Devuelve elementos seleccionados
+          &7 y abre la GUI anterior.
+        title: "&7 seleccionado:"
+        element: "&8 - [elemento]"
+      statistic_element:
+        name: "&f&l [estadística]"
+        description: "[descripción]"
+      environment_element:
+        name: "&f&l [medio ambiente]"
+        description: "[descripción]"
+      search:
+        name: "&f&l Buscar"
+        description: |-
+          &7 Permite buscar un
+          &7 elemento con entrada
+          &7 valor de texto.
+        search: "&b Valor: [valor]"
       admin:
-        accept: Aceptar
-        add: Agregar
         backward: Importar desafios 0.3.0
         backward-player: Arreglar 0.3.0 PlayerData
-        cancel: Cancelar
-        clear: Limpiar
-        create-level: Agregar nuevo nivel
-        decline: Denegar
-        deployment: Despliegue
-        edit-level: Editar nivel
-        history-lifespan: Historia LifeSpan
-        icon: Icono
-        increase: "+"
-        input: Input
-        line-length: Longitud de la línea del lore
-        multiply: "*"
-        number: "[number]"
-        properties: Propiedades
-        reduce: "-"
-        remove-empty: Remover vacio
-        remove-experience: Remover experiencia
-        remove-money: Remover dinero
-        repeatable: Repetible
-        repeat-count: Tiempos máximos
-        requirements: Requerimientos
-        reward-commands: Comandos de recompensa
-        reward-experience: Experiencia de recompensa
-        reward-items: Items de recompensa
-        reward-money: Dinero de recompensa
-        rewards: Recompensas
-        reward-text: Mensaje de recompensa
-        save: Guardar
-        set: "="
-        value: Valor
-        complete: Completar los desafíos del usuario
-        reset: Reiniciar los desafíos del usuario
-        create-challenge: Agregar nuevo desafío
-        edit-challenge: Editar desafío
-        delete-challenge: Eliminar desafio
-        delete-level: Eliminar nivel
-        challenges: Desafíos
-        locked-icon: Icono bloqueado
-        description: Descripción
-        order: Orden
-        environment: Ambiente
-        remove-on-complete: Remover al finalizar
-        required-experience: Experiencia requerida
-        required-level: Nivel de isla requerido
-        required-money: Dinero requerido
-        repeat-reward-text: Repetir mensaje de recompensa
-        repeat-reward-items: Repetir items de recompensa
-        repeat-reward-experience: Repetir experiencia de recompensa
-        repeat-reward-money: Repetir dinero de recompensa
-        repeat-reward-commands: Repetir comandos de recompensa
-        remove-completed: Remover al completar
-        glow: Brillar (glow) al completar
-        free-at-top: Desafíos libres primero
-        input-mode: Cambiar modo de entrada (input)
-        type:
-          island: "&6Tipo de isla"
-          inventory: "&6Tipo de inventario"
-          other: "&6Otro tipo"
-        required-items: Items requeridos
-        remove-items: Eliminar items
-        gui-mode: GUI de Desafíos individuales
-        complete-wipe: Limpiar bases de datos de addon
-        challenge-wipe: Limpiar base de datos de desafíos
-        players-wipe: Limpiar base de datos del usuario
-        title-enable: Título de finalización
-        library: Biblioteca web
-        download: Descargar bibliotecas
-        import: Importar desafíos ASkyblock
-        settings: Editar configuración
-        name: Nombre amigable
-        required-entities: Entidades requeridas
-        remove-entities: Matar entidades
-        required-blocks: Bloques requeridos
-        remove-blocks: Eliminar bloques
-        search-radius: Radio de búsqueda
-        required-permissions: Permisos requeridos
-        waiver-amount: Cantidad de exención
-        add-challenge: Añadir desafío
-        remove-challenge: Eliminar desafío
-        reset-on-new: Restablecer en nueva isla
-        broadcast: Difusión completada
-        visibility-mode: Modo de visibilidad de desafío
-        toggle-user-list: Lista de usuarios
-        remove-selected: Eliminar selección
-        show-eggs: Cambiar modo de vista
-        level-lore: Descripción del nivel
-        challenge-lore: Descripción del desafío
-        gui-view-mode: Mostrar todos los modos de juego
-        history-store: Desafíos de la historia
-        island-store: Almacenar por isla
-        default-locked-icon: Icono de nivel bloqueado
-        title-showtime: Tiempo de presentación del título
-        default-import: Importar desafíos predeterminados
-        default-export: Exportar desafíos existentes
-      next: Siguiente
-      previous: Anterior
-      return: Volver
-      value: Completar
-      increase: Incrementar
-      reduce: Reducir
-    challenge-description:
-      completed-times: Completado [donetimes]
-      completed-times-of: Completado [donetimes] de [maxtimes]
-      maxed-reached: Completado [donetimes] de [maxtimes]
-      required-blocks: 'Bloques requeridos:'
-      required-island-level: "&6Nivel de isla requerido: [value]"
-      reward-commands: "&6Comandos de recompensa:"
-      objects-close-by: "&c¡Todos los bloques y entidades requeridos deben estar cerca
-        de ti en tu isla!"
-      warning-entities-kill: "&c¡Todas las entidades requeridas serán eliminadas cuando
-        completes este desafío!"
-      warning-blocks-remove: "&c¡Todos los bloques requeridos serán eliminados cuando
-        completes este desafío!"
-      not-repeatable: "&c¡Este desafío no es repetible!"
-      experience-reward: "&6Recompensa de EXP: [value]"
-      money-reward: "&6Recompensa de dinero: [value]$"
-      required-experience: "&6EXP requerida: [value]"
-      required-money: "&6Dinero requerido: [value]$"
-      environment: 'Entornos requeridos:'
-      reward-items: "&6Items de recompensa:"
-      required-items: 'Items requeridos:'
-      required-entities: 'Entidades requeridas:'
-      level: "&fNivel: [level]"
-      completed: "&bCompletado"
-      warning-items-take: "&c¡Todos los items necesarios son tomados de tu inventario
-        cuando se completa este desafío!"
+    tips:
+      click-to-select: "&e Haga clic en &7 para seleccionar."
+      click-to-choose: "&e Haga clic en &7 para elegir."
+      click-to-complete: "&e Haga clic en &7 para completar."
+      right-click-multiple-open: "&e Haga clic derecho en &7 para elegir el recuento
+        de finalización."
+      shift-left-click-to-complete-all: "&e Shift Haga clic en &7 para completar todo."
+      left-click-to-accept: "&e Haga clic izquierdo en &7 para completar."
+      right-click-to-write: "&e Haga clic derecho en &7 para escribir."
+      click-to-reduce: "&e Haga clic en &7 para reducir."
+      click-to-increase: "&e Haga clic en &7 para aumentar."
+      click-to-return: "&e Haga clic en &7 para regresar."
+      click-to-quit: "&e Haga clic en &7 para salir."
+      click-to-wipe: "&e Haga clic en &7 para borrar."
+      left-click-to-wipe: "&e Haga clic izquierdo en &7 para borrar."
+      right-click-to-switch: "&e Haga clic derecho en &7 para cambiar."
+      click-to-open: "&e Haga clic en &7 para abrir."
+      click-to-export: "&e Haga clic en &7 para exportar."
+      click-to-create: "&e Haga clic en &7 para crear."
+      left-click-to-open: "&e Haga clic izquierdo en &7 para abrir."
+      right-click-to-reset-all: "&e Haga clic derecho en &7 para borrar todo."
+      click-to-toggle: "&e Haga clic en &7 para alternar."
+      click-to-change: "&e Haga clic en &7 para cambiar."
+      shift-click-to-reset: "&e Shift Haga clic en &7 para restablecer."
+      click-to-add: "&e Haga clic en &7 para agregar."
+      click-to-remove: "&e Haga clic en &7 para eliminar."
+      left-click-to-cycle: "&e Haga clic izquierdo en &7 para bajar."
+      right-click-to-cycle: "&e Haga clic derecho en &7 para subir."
+      click-to-edit: "&e Haga clic en &7 para editar."
+      left-click-to-download: "&e Haga clic izquierdo en &7 para descargar."
+      right-click-to-toggle: "&e Haga clic derecho en &7 para alternar."
+      click-to-install: "&e Haga clic en &7 para instalar."
+      click-to-reset-all: "&e Haga clic en &7 para restablecer todo."
+      right-click-to-select: "&e Haga clic derecho en &7 para seleccionar."
+      right-click-to-deselect: "&e Haga clic derecho en &7 para anular la selección."
+      left-click-to-choose: "&e Haga clic izquierdo en &7 para elegir."
+      click-to-cancel: "&e Haga clic en &7 para cancelar."
+      click-to-save: "&e Haga clic en &7 para guardar."
+      click-to-deselect: "&e Haga clic en &7 para anular la selección."
+      click-on-item: |-
+        &e Haga clic en &7 en el artículo de
+        &7 tu inventario.
+      left-click-to-edit: "&e Haga clic izquierdo en &7 para editar."
+      right-click-to-clear: "&e Haga clic derecho en &7 para borrar."
+      click-to-previous: "&e Haga clic en &7 para ver la página anterior."
+      click-to-next: "&e Haga clic en &7 para ver la página siguiente."
     descriptions:
+      challenge:
+        lore: |-
+          [descripción]
+          [estado]
+          [enfriarse]
+          [requisitos]
+          [recompensas]
+        status:
+          completed: "&2&l completado"
+          completed-times: "&2 completado &7&l [número] &r&2 vez(-s)"
+          completed-times-of: "&2 completado &7&l [número] &r&2 de &7&l [máx.] &r&2
+            veces"
+          completed-times-reached: "&2&l Completado todo &7 [max] &2 veces"
+        cooldown:
+          lore: |-
+            [se acabó el tiempo]
+            [tiempo de espera]
+          timeout: "&7&l Enfriamiento: &r&7 [tiempo]"
+          wait-time: "&c&l Disponible después de: &r&c [hora]"
+          in-days: "[número] d"
+          in-hours: "[número] h"
+          in-minutes: "[número] min"
+          in-seconds: "[número] s"
+        requirements:
+          lore: |-
+            [ambiente]
+            [tipo-requisito]
+            [permisos]
+          environment-single: "&7 Limitado a [entorno]"
+          environment-title: "&7 Limitado a:"
+          environment-list: "  &7 - &e [entorno]"
+          permission-single: "&c Requiere permiso [permiso]"
+          permissions-title: "&c Requiere permisos:"
+          permissions-list: "  &c - [permiso]"
+          island:
+            lore: |-
+              [bloques]
+              [entidades]
+              [radio de búsqueda]
+              [bloque de advertencia]
+              [entidad de advertencia]
+            blocks-title: "&7&l Bloques requeridos:"
+            block-value: "  &7 - &e [material]"
+            blocks-value: "  &7 - &e [número] x [material]"
+            entities-title: "&7&l Entidades requeridas:"
+            entity-value: "  &7 - &e [entidad]"
+            entities-value: "  &7 - &e [número] x [entidad]"
+            search-radius: "&7 No más allá de &e [número] &7 metros"
+            warning-block: "&e Los bloques serán &c eliminados"
+            warning-entity: "&e Entidades serán &c eliminadas"
+          inventory:
+            lore: |-
+              [elementos]
+              [advertencia]
+            item-title: "&7&l Elementos necesarios:"
+            item-value: "  &7 - &e [artículo]"
+            items-value: "  &7 - &e [número] x [elemento]"
+            warning: "& los artículos serán &c eliminados"
+          other:
+            lore: |-
+              [experiencia]
+              [experiencia-advertencia]
+              [dinero]
+              [advertencia de dinero]
+              [nivel]
+            experience: "&7&l Experiencia requerida: &r&e [número]"
+            experience-warning: "&e experiencia será &c eliminada"
+            money: "&7&l Dinero requerido: &r&e [número]"
+            money-warning: "&e dinero será &c eliminado"
+            level: "&7&l Nivel de isla requerido: &r&e [número]"
+          statistic:
+            lore: |-
+              [estadística]
+              [advertencia]
+            multiple-target: "&7&l [estadística]: &r&e [número] x [objetivo]"
+            single-target: "&7&l [estadística]: &r&e [objetivo]"
+            statistic: "&7&l [estadística] &r&e [número]"
+            warning: "&e Los datos estadísticos serán &c reducidos."
+        rewards:
+          lore: |-
+            &7&l Recompensas:
+            [texto]
+            [elementos]
+            [experiencia]
+            [dinero]
+            [comandos]
+          item-title: "&7 artículos:"
+          item-value: "  &7 - &e [artículo]"
+          items-value: "  &7 - &e [número] x [elemento]"
+          experience: "&7 Experiencia: &r&e [número]"
+          money: "&7 Dinero: &r&e [número]"
+          commands-title: "&7 comandos:"
+          command: "  &7 - &e [comando]"
+      level:
+        lore: |-
+          [texto]
+          [estado]
+          [exención]
+          [recompensas]
+        status:
+          completed: "&2&l completado"
+          completed-challenges-of: |-
+            &2 completado &7&l [número] &r&2 de
+            &7&l [máx.] &r&2 desafíos.
+          locked: "&c&l bloqueado"
+          missing-challenges: |-
+            &7 [número] más desafíos deben ser
+            &7 completado para desbloquear este nivel.
+        waiver: |-
+          &7&l [número] desafío(s) &r&7 puede ser
+          &7 se saltó para desbloquear el siguiente nivel.
+        rewards:
+          lore: |-
+            &7&l Recompensas:
+            [texto]
+            [elementos]
+            [experiencia]
+            [dinero]
+            [comandos]
+          item-title: "&7 artículos:"
+          item-value: "  &7 - &e [artículo]"
+          items-value: "  &7 - &e [número] x [elemento]"
+          experience: "&7 Experiencia: &r&e [número]"
+          money: "&7 Dinero: &r&e [número]"
+          commands-title: "&7 comandos:"
+          command: "  &7 - &e [comando]"
+      library:
+        author: "&7 por &e [autor]"
+        version: "&7 Hecho con desafíos &e [versión]"
+        lang: "&7 Idioma: &e [idioma]"
+        gamemode: "&7 Principal para &e [modo de juego]"
       admin:
         backward: Permite importar desafíos desde 0.3.0 y por debajo de la versión
           adicional.
         backward-player: Permite corregir PlayerData dañado desde la versión 0.3.0|&2ÚSELO
           SOLO SI ES NECESARIO|&2PUEDE NO TRABAJAR EN TODAS LAS SITUACIONES
-        deployment: Permite a los usuarios completar (view) desafio.
-        icon-challenge: Icono que se mostrará en los paneles GUI para este desafío.
-        icon-level: Icono que se mostrará en los paneles GUI para este nivel.
-        input: Abrir entrada de campo de texto.
-        selected: Seleccionado
-        remove-completed: Habilitar / deshabilitar la ocultación de desafíos que se
-          completan y no se pueden repetir.
-        toggle-user-list: Cambiar a una lista de jugadores diferente.
-        show-eggs: Cambiar la vista de entidad entre el modo Huevo o el modo Cabeza.
-        click-to-edit: "&4Haga clic aquí para editar la entrada (input)."
-        input-mode: Cambiar entre los modos de entrada (input) de chat y yunque.
-        library-author: por &e[author]
-        library-lang: "&aIdioma: [lang]"
-        library-gamemode: "&aPrimariamente para [gamemode]"
-        edit-challenge: Editar configuración del desafío.
-        description: Editar descripción.
-        name-challenge: Cambiar el nombre del desafío.
-        name-level: Cambiar el nombre del nivel.
-        remove-entities: Eliminar (kill) entidades al completar el desafío.
-        remove-blocks: Eliminar (reemplazar con aire) bloques al completar el desafío.
-        reward-text: Cambiar el mensaje que se enviará al jugador después de completar
-          los desafíos.
-        repeatable: Definir si el desafío es repetible o no.
-        free-at-top: Cambiar la ubicación de los desafíos gratuitos. Verdadero (true)
-          significa que los desafíos serán los primeros, de lo contrario serán los
-          últimos.
-        line-length: Modificar la longitud máxima de la línea en el "Lore box". No
-          afectará a los objetos almacenados.
-        level-lore: Modificar qué elementos de descripción de nivel deben estar visibles.
-        challenge-lore: Modificar qué elementos de descripción de desafío deben estar
-          visibles.
-        gui-view-mode: Establecer si "/challenges  GUI" debe mostrar Modos de Juego
-          o desafíos en el mundo del jugador.
-        default-export: Exportar los desafíos existentes al archivo defaults.json.
-        complete-wipe: Limpiar completamente todas las bases de datos del addon de
-          desafíos. ¡Incluye datos del jugador!
-        challenge-wipe: "¡Los desafíos y sus bases de datos de nivel han sido completamente
-          limpiados!"
-        players-wipe: La base de datos del jugador se ha limpiado completamente!
-        library: Abrir GUI que muestre todas las bibliotecas públicas de desafíos
-          disponibles.
-        library-version: "&9Hecho en Challenges [versión]"
-        cancel: Volver a la GUI anterior. Los cambios no se guardarán.
-        challenges: Gestionar nivel de desafíos (agregar / eliminar).
-        remove-on-complete: Eliminar un desafío de la GUI del jugador después de completarlo.
-        remove-items: Retirar los items del inventario del jugador después de completar
-          el desafío.
-        required-experience: Definir la experiencia requerida para que un usuario
-          complete el desafío.
-        remove-experience: Eliminar experiencia requerida.
-        reward-experience: Cambiar la recompensa de experiencia por completar por
-          primera vez
-        repeat-reward-text: Cambiar el mensaje que se enviará al jugador después de
-          completar un desafío repetido.
-        repeat-reward-experience: Cambiar la recompensa de experiencia por completar
-          repetido.
-        add-challenge: Agregar un desafío existente al nivel actual.
-        remove-challenge: Eliminar un desafío del nivel actual.
-        reset-on-new: Habilitar / deshabilitar el reinicio de todos los desafíos del
-          jugador si se reinicia, se va o es expulsado de una isla.
-        broadcast: Habilitar / deshabilitar la transmisión sobre la primera vez que
-          se completa el desafío para todos los jugadores en línea.
-        glow: Habilitar / deshabilitar el efecto brillante para los desafíos completados.
-        edit-text-line: "&6¡Editar mensaje de texto!"
-        add-text-line: "&6¡Agregar un nuevo mensaje de texto!"
-        title-enable: Habilitar / deshabilitar el mensaje de título que se mostrará
-          a los jugadores cuando completen un desafío.
-        title-showtime: Modificar cuánto tiempo serán visibles los mensajes de título
-          para el jugador.
-        import: |-
-          Importar desafíos ASkyblock.
-          Al hacer clic derecho, habilitar/deshabilita el modo de sobrescritura.
-          Coloque challenges.yml dentro de la carpeta ./BentoBox/addons/Challenges.
-        complete: |-
-          Completar desafíos para cualquier usuario.
-          El usuario no recibirá ninguna recompensa por completarlo.
-        required-items: |-
-          items necesarios en el inventario del jugador.
-          Items:
-        required-level: |-
-          Definir el nivel de isla requerido para este desafío.
-          &cRequiere el addon Level.
-        required-money: |-
-          Definir el dinero requerido en la cuenta del jugador.
-          &cRequiere Vault y el plugin de Economy.
-        remove-money: |-
-          Retirar el dinero requerido de la cuenta del jugador.
-          &cRequiere Vault y el plugin de Economy.
-        reward-items: |-
-          Cambiar los items de recompensa de finalización por primera vez.
-          Items:
-        reward-money: |-
-          Cambiar el dinero de recompensa de finalización por primera vez.
-          &cRequiere el complemento Vault and Economy.
-        reward-commands: |-
-          Definir los comandos de recompensa que se invocarán una vez que se completen por primera vez.
-          *** Agregar "[SELF]" al comienzo significa que el comando será ejecutado por el jugador, por ejemplo, "/ kill"
-          *** La cadena "[player]" se reemplazará con el nombre del jugador, por ejemplo, "/ kill [player]" se transformará en "/ kill BONNe1704"
-          Comandos:
-        repeat-reward-items: |-
-          Cambiar los items de recompensa de finalización repetida.
-          Items:
-        repeat-reward-money: |-
-          Cambiar la recompensa de dinero por finalización repetida.
-          &cRequiere Vault y el plugin Economy.
-        repeat-reward-commands: |-
-          Definir los comandos de recompensa que se ejecutarán después de completar el desafío repetidamente.
-          *** Agregar "[SELF]" al comienzo significa que el comando será ejecutado por el jugador, por ejemplo, "/ kill"
-          *** La cadena "[player]" se reemplazará con el nombre del jugador, por ejemplo, "/ kill [player]" se transformará en "/ kill BONNe1704"
-          Comandos:
-        history-lifespan: |-
-          Modificar cuántos días deben almacenarse los datos del historial.
-          0 significa para siempre.
-        island-store: |-
-          Habilitar/deshabilitar el almacenamiento de datos de desafíos por isla. Esto significa que los desafíos serán los mismos para todo el equipo si está habilitado.
-          &cNO convertirá datos al hacer clic. EL PROGRESO SE PERDERÁ.
-        default-locked-icon: |-
-          Cambiar el icono de nivel bloqueado predeterminado.
-          Esta opción puede ser sobrescrita por cada nivel.
-        gui-mode: |-
-          Habilitar / deshabilitar GUI de desafíos únicos.
-          &2Requiere reiniciar el servidor.
-        download: |-
-          Actualizar manualmente las bibliotecas de desafíos disponibles.
-          Haz clic derecho para habilitar la limpieza de caché.
-        lore:
-          level: |-
-            Cadena de nivel.
-            Representa la traducción challenges.gui.challenge-description.level
-          status: |-
-            Cadena de estado.
-            Representa la traducción challenges.gui.challenge-description.completed
-          count: |-
-            Cadena de contador de finalizado/completado.
-            Representa la traducción de challenges.gui.challenge-description.completed-times challenges.gui.challenge-description.completed-times-of and challenges.gui.challenge-description.maxed-reached
-          description: |-
-            Cadena de descripción.
-            Definido en el objeto de desafíos - challenge.description.
-          warnings: |-
-            Cadena de advertencia.
-            Representa la traducción para:
-            challenges.gui.challenge-description.warning-items-take challenges.gui.challenge-description.objects-close-by challenges.gui.challenge-description.warning-entities-kill challenges.gui.challenge-description.warning-blocks-remove
-          environment: |-
-            Cadena de entorno.
-            Definido en el objeto de desafíos: challenge.environment.
-          requirements: |-
-            Cadena de requisitos.
-            Representa la traducción para:
-            challenges.gui.challenge-description.required-level challenges.gui.challenge-description.required-money challenges.gui.challenge-description.required-experience challenge.requiredItems' challenge.requiredBlocks' o challenge.requiredEntities.
-          reward_text: |-
-            Cadena de recompensa.
-            Definido en challenge.rewardText y challenge.repeatRewardText
-          reward_other: |-
-            Cadena de otra recompensa.
-            Representa la traducción para:
-            challenges.gui.challenge-description.experience-reward challenges.gui.challenge-description.money-reward challenges.gui.challenge-description.not-repeatable
-          reward_items: |-
-            Items de recompensa.
-            Lista de elementos que se recompensarán definidos en challenge.rewardItems y challenge.repeatRewardItems.
-          reward_commands: |-
-            Comandos de recompensa.
-            Lista de comandos que serán recompensados definidos en challenge.rewardCommands y challenge.repeatRewardCommands.
-          level_status: |-
-            Cadena de estado.
-            Representa la traducción challenges.gui.level-description.completed
-          challenge_count: |-
-            Cadena de contador de desafíos completados.
-            Representa la traducción de challenges.gui.level-description.completed-challenges-of
-          unlock_message: |-
-            Cadena de mensaje desbloqueado.
-            Definido en Nivel de objeto de desafíos - challengeLevel.unlockMessage
-          waiver_amount: |-
-            Cadena de contador de desafíos enviables para desbloquear el siguiente nivel.
-            Representa la traducción de challenges.gui.level-description.waver-amount
-          level_reward_text: |-
-            Cadena de recompensa.
-            Definido en challengeLevel.rewardText
-          level_reward_other: |-
-            Cadena de otra recompensa.
-            Representa la traducción para:
-            challenges.gui.level-description.experience-reward challenges.gui.level-description.money-reward
-          level_reward_items: |-
-            Items de recompensa.
-            Lista de elementos que se recompensarán definidos en challengeLevel.rewardItems
-          level_reward_commands: |-
-            Comandos de recompensa.
-            Lista de comandos que serán recompensados definidos en challengeLevel.rewardCommands
-        download-disabled: El descargador de datos de GitHub está deshabilitado en
-          BentoBox. ¡Sin él, no puedes usar Bibliotecas!
-        create-level: Añadir nuevo nivel.
-        edit-level: Editar configuración de nivel.
-        delete-challenge: Eliminar un desafío.
-        delete-level: Eliminar un nivel.
-        settings: Cambiar ajustes.
-        properties: Cambiar propiedades generales
-        requirements: Administrar requisitos
-        rewards: Administrar recompensas
-        order: Cambiar número de orden.
-        environment: Cambiar el entorno del desafío.
-        search-radius: Radio alrededor de la ubicación del jugador donde se buscarán
-          las entidades y los bloques necesarios.
-        history-store: Habilitar / deshabilitar el almacenamiento del historial de
-          desafíos.
-        default-import: Importar desafíos predeterminados.
-        save: Guardar y volver a la GUI anterior.
-        set: Establecer operación. Al hacer clic en los números cambiará el valor
-          al número seleccionado.
-        increase: Aumentar la operación. Al hacer clic en los números, aumentará el
-          valor en el número seleccionado.
-        reduce: Reduce la operación. Al hacer clic en los números se reducirá el valor
-          en el número seleccionado.
-        multiply: Multiplicar la operación. Al hacer clic en los números, se multiplicará
-          el valor por el número seleccionado.
-        locked-icon: Icono que se mostrará en los paneles de la GUI si el nivel está
-          bloqueado.
-        repeat-count: Definir recuento de repetición máxima. Si el valor se establece
-          en 0, no hay limitaciones.
-        waiver-amount: Establece la cantidad de desafíos que un jugador puede dejar
-          fuera para desbloquear el siguiente nivel.
-        reward-text-level: Cambia el mensaje que se enviará al jugador después de
-          completar todos los desafíos en un nivel.
-        mode-online: Jugadores que están actualmente en línea.
-        mode-in-world: Jugadores en un mundo GameMode.
-        mode-with-island: Jugadores que tienen una isla en un mundo GameMode.
-        visibility-mode: Mostrar / ocultar desafíos no implementados.
-        reset: |-
-          Restablecer desafíos de usuario completados.
-          El clic derecho habilita / deshabilita Restablecer toda la funcionalidad.
-        create-challenge: |-
-          Agrega un nuevo desafío.
-          Estará en la lista de desafíos gratuitos de forma predeterminada.
-        required-entities: |-
-          Agregar / editar / eliminar entidades requeridas.
-          Entidades:
-        required-blocks: |-
-          Agregar / editar / eliminar bloques necesarios.
-          Bloques:
-        required-permissions: |-
-          Permisos requeridos a para que el jugador pueda completar este desafío.
-          Permiso:
-        remove-selected: |-
-          Eliminar elementos seleccionados.
-          Seleccione elementos con el botón derecho del mouse.
-      block: "- [block] : [count]"
-      command: "- [command]"
-      disabled: Desactivado
-      entity: "- [entity] : [count]"
-      item: "- [count] x [item]"
-      item-enchant: "   - [enchant] [level]"
-      item-meta: "  ([meta])"
-      nether: "- Nether"
-      permission: "- [permission]"
-      the-end: "- El End"
-      enabled: Activado
-      normal: "- Overworld"
-      level-unlocked: Click para ver los desafíos de nivel [level]!
-      level-locked: Completa [count] desafíos mas de nivel [level] para desbloquear
-        el siguiente nivel!
-      increase-by: '&aIncrementar contador de "Finalizado" en [valor]'
-      reduce-by: '&cReducir contador de "Finalizado" en [valor]'
-      type:
-        island: "&arequire bloques o mobs alrededor del jugador"
-        other: "&arequiere cosas de otros plugins/addons"
-        inventory: "&aRequiere items en el inventario del jugador"
-      current-value: "&6Valor actual: [value]."
-      visibility:
-        hidden: Solo los desafíos desplegados son visibles.
-        visible: Todos los desafíos son visibles para todos
-        toggleable: Alternar si se deben mostrar desafíos no implementados
-    level-description:
-      reward-commands: "&6Comandos de recompensa:"
-      experience-reward: "&6Recompensa de EXP: [value]"
-      money-reward: "&6Recompensa de dinero: [value]$"
-      reward-items: "&6Items de recompensa:"
-      waver-amount: "&6Se pueden omitir [value] desafíos para desbloquear el siguiente
-        nivel."
-      completed: "&bCompletado"
-      completed-challenges-of: "&3Has completado [number] de [max] desafíos en este
-        nivel."
-    questions:
-      prefix: "&2[SERVER]: "
-      admin:
-        number: Escribie un número en el chat y presiona Entrar.
-        challenge-name: Escribe en el chat el nombre para el desafío actual.
-        level-name: Escribe en el chat el nombre para el nivel actual.
-        unique-id: Escriba el nombre único del objeto y presione Entrar.
-    title:
-      admin:
-        choose-challenge-title: "&aElegir desafío"
-        choose-level-title: "&aElegir nivel"
-        choose-user-title: "&aElegir jugador"
-        confirm-title: "&aConfirmación"
-        edit-level-title: "&aEditar nivel"
-        edit-text-fields: "&aEditar campos de texto"
-        manage-blocks: "&aAdministrar bloques"
-        manage-items: "&aAdministrar items"
-        manage-numbers: "&aTeclado numérico"
-        select-block: "&aSeleccionar bloque"
-        settings-title: "&aEditar configuracion"
-        toggle-environment: "&aModificar ambiente"
-        gui-title: "&aAdministrador de Desafíos"
-        edit-challenge-title: "&aEditar desafío"
-        manage-entities: "&aAdministrar entidades"
-        select-challenge: "&aSeleccionar desafío"
-        select-entity: "&aSelecionar entidad"
-        library-title: "&aBibliotecas descargables"
-        lore-add: "&aAgregar elemento Lore"
-        lore-remove: "&aEliminar Elemento Lore"
-        lore-edit: "&aEditar Lore"
-        type-select: "&aElegir el tipo de desafío"
-      challenges: "&6Desafíos"
-      game-modes: "&6Elegir modo de juego"
-      multiple-complete: "&6¿Cuántas veces?"
-    item-description:
-      item: "- [count] x [item]"
-      item-enchant: "- [enchant] [level]"
-      item-name: "[name]"
-      item-lore: 'Descripción del item:'
-      potion-type-upgraded: "[name] actualizado"
-      potion-type: "[name]"
-      skull-owner: "[owner]"
-      egg-meta: "[mob]"
-      book-meta: "[title] por [author]"
-      recipe-count: "[count] recetas"
-      potion-type-extended-upgraded: Extendido y actualizado [name]
-      potion-type-extended: "[name] extendido"
-      potion-effect: "[effect] x [amplifier] por [duration]t"
-      fish-meta: "[body-color] con [patter-color] [pattern]"
-      item-meta: "([meta])"
-      armor-color: "[color]"
-      custom-effects: 'Efectos personalizados:'
+  conversations:
+    prefix: "&l&6 [BentoBox]: &r"
+    confirm-string: verdadero, activado, sí, confirmar, y, válido, correcto
+    deny-string: falso, apagado, no, negar, n, inválido, incorrecto
+    cancel-string: Cancelar
+    exit-string: cancelar, salir, salir
+    cancelled: "&c ¡Conversación cancelada!"
+    input-number: "&e Por favor ingresa un número en el chat."
+    input-seconds: "&e Por favor ingrese unos segundos en el chat."
+    numeric-only: "&c ¡El [valor] dado no es un número!"
+    not-valid-value: "&c El número dado [valor] no es válido. ¡Debe ser mayor que
+      [min] y menor que [max]!"
+    user-data-removed: "&a Todos los datos del usuario para [modo de juego] se borran
+      de la base de datos."
+    confirm-user-data-deletion: "&e Confirme que desea borrar la base de datos de
+      usuarios para [modo de juego]."
+    challenge-data-removed: "&a Todos los datos de los desafíos para [modo de juego]
+      se borran de la base de datos."
+    confirm-challenge-data-deletion: "&e Confirme que desea borrar la base de datos
+      de desafíos para [modo de juego]."
+    all-data-removed: "&a Todos los datos adicionales para [modo de juego] se borran
+      de la base de datos."
+    confirm-all-data-deletion: "&e Confirme que desea borrar los datos adicionales
+      para [modo de juego]."
+    write-name: "&e Por favor escribe un nombre en el chat."
+    new-object-created: "&Se crea un nuevo objeto para [modo de juego]."
+    object-already-exists: "&c El objeto &7 [id] &c ya existe. Elija un nombre diferente."
+    invalid-challenge: "&c Desafío [desafío] contiene datos no válidos. ¡No se puede
+      desplegar!"
+    name-changed: "&a Éxito, se actualizó el nombre."
+    write-description: '&e Ingrese una nueva descripción en el chat y "salir" en una
+      línea sola para finalizar.'
+    description-changed: "&a Éxito, se actualizó la descripción."
+    write-permissions: '&e Ingrese los permisos requeridos, uno por línea en el chat,
+      y "salga" en una línea sola para finalizar.'
+    permissions-changed: "&a Éxito, se actualizaron los permisos de desafío."
+    write-reward-text: '&e Ingrese un nuevo texto de recompensa en el chat y "salir"
+      en una línea aparte para finalizar.'
+    reward-text-changed: "&a Éxito, se actualizó el texto de recompensa."
+    write-repeat-reward-text: '&e Ingrese un nuevo texto de recompensa repetida en
+      el chat y "salir" en una línea aparte para finalizar.'
+    repeat-reward-text-changed: "&a Éxito, se actualizó el texto de recompensa repetida."
+    write-reward-commands: '&e Ingrese un nuevo comando de recompensa por línea en
+      el chat y "salga" en una línea sola para finalizar.'
+    reward-commands-changed: "&a Éxito, se actualizaron los comandos de recompensa."
+    write-repeat-reward-commands: '&e Ingrese un nuevo comando de recompensa repetida
+      por línea en el chat y "salga" en una línea sola para finalizar.'
+    repeat-reward-commands-changed: "&a Éxito, se actualizaron los comandos de recompensa
+      repetida."
+    challenge-removed: "&a Los desafíos [desafío] para [modo de juego] se eliminan
+      de la base de datos."
+    confirm-challenge-deletion: "&e Confirme que desea eliminar [desafío] para [modo
+      de juego] de la base de datos."
+    level-removed: "&a Nivel [nivel] para [modo de juego] se elimina de la base de
+      datos."
+    confirm-level-deletion: "&e Confirme que desea eliminar [nivel] para [modo de
+      juego] de la base de datos."
+    start-downloading: "&a Comenzando a descargar e importar la biblioteca de desafíos."
+    written-text: "&un texto de entrada:"
+    confirm-data-replacement: "&e Confirme que desea reemplazar sus desafíos actuales
+      por uno nuevo."
+    new-challenges-imported: "&a Éxito, se importaron nuevos desafíos para [modo de
+      juego]."
+    exported-file-name: "&e Introduzca un nombre de archivo para el archivo de base
+      de datos exportado. (escriba 'cancelar' para salir)"
+    database-export-completed: "&a Éxito, se completó la exportación de la base de
+      datos para [mundo]. Archivo [archivo] generado."
+    file-name-exist: "&c Existe un archivo con el nombre '[id]'. No se puede sobrescribir."
+    write-search: "&e Por favor escriba un valor de búsqueda. (escriba 'cancelar'
+      para salir)"
+    search-updated: "&un valor de búsqueda actualizado."
+  titles:
+    challenge-title: Completado con éxito
+    challenge-subtitle: "[friendlyName]"
+    level-title: Completado con éxito
+    level-subtitle: "[friendlyName]"
   messages:
-    import-challenges: Empezar a importar desafios
-    import-levels: Empezar a importar niveles
-    load-add: 'Añadiendo nuevo objeto: [value]'
-    load-overwriting: Sobrescribiendo "[value]"
-    load-skipping: '"[value]" ya existe - saltando'
-    no-levels: 'Advertencia: No hay niveles definidos en challenges.yml'
-    admin:
-      you-added: Has añadido un/a [thing] al desafio
-      challenge-created: "[challenge]&r creado!"
-      completed: "&2¡Has completado el desafío [name] para [player]!"
-      already-completed: "&2¡Este desafío ya se completó!"
-      reset: "&2¡Has reiniciado el desafío [name] para [player]!"
-      reset-all: "&2¡Todos los desafíos de [player] se han reiniciado!"
-      not-completed: "&2¡Este desafío aún no se ha completado!"
-      migrate-start: "&2Iniciar la migración de los datos de addon de desafíos."
-      migrate-not: "&2Todos los datos son válidos."
-      start-downloading: "&5Comenzar a descargar e importar la Biblioteca de desafíos."
-      migrate-end: "&2Datos de addon de desafíos actualizados a nuevo formato."
-      hit-things: Haz clic en las cosas para agregarlas a la lista de cosas requeridas.
-        Haz clic derecho cuando hayas terminado.
-      complete-wipe: "¡Espero que tengas copias de seguridad, porque acabas de borrar
-        todas las bases de datos del addon de Desafíos!"
-      players-wipe: "¡Espero que tengas copias de seguridad, porque acabas de borrar
-        todos los desafíos completados por el jugador!"
-      challenge-wipe: "¡Espero que tengas copias de seguridad, porque acabas de borrar
-        todos los desafíos y sus niveles!"
+    completed: "&2 ¡Has completado el desafío [nombre] para [jugador]!"
+    already-completed: "&2 ¡Este desafío ya se completó!"
+    reset: "&2 ¡Reiniciaste el desafío [nombre] para [jugador]!"
+    reset-all: "&2 ¡Todos los desafíos [de jugador] fueron reiniciados!"
+    not-completed: "&2 ¡Este desafío aún no se ha completado!"
+    migrate-start: "&2 Comenzar a migrar datos del complemento de desafíos."
+    migrate-end: Datos del complemento &2 Challenges actualizados al nuevo formato.
+    migrate-not: "&2 Todos los datos son válidos."
+    start-downloading: "&5 Comenzando a descargar e importar la biblioteca de desafíos."
     you-completed-challenge: "&2¡Has completado el desafío [value]!"
     you-repeated-challenge: "&2¡Has repetido el desafío [value]!"
     you-repeated-challenge-multiple: "&2¡Has repetido el &r&2desafío [value] [count]
@@ -597,28 +1067,69 @@ challenges:
     you-completed-level: "&2¡Has completado el nivel [value]!"
     name-has-completed-challenge: "&5¡[name] ha completado el desafío [value]!"
     name-has-completed-level: "&5¡[name] ha completado el nivel [value]!"
-    import-number: Se han importado [number] desafíos
-    defaults-file-overwrite: defaults.json ya existe. Se sobrescribirá.
-    defaults-file-completed: "¡El archivo defaults.json está lleno de desafíos de
-      [world]!"
-  titles:
-    challenge-subtitle: "[friendlyName]"
-    level-subtitle: "[friendlyName]"
-    challenge-title: Completado con éxito
-    level-title: Completado con éxito
-meta:
-  authors:
-  - BONNe
+    load-skipping: '"[value]" ya existe - saltando'
+    load-overwriting: Sobrescribiendo "[value]"
+    load-add: 'Añadiendo nuevo objeto: [value]'
+  errors:
+    no-name: "&cFalta el nombre del desafío"
+    unknown-challenge: "&cDesafío desconocido"
+    not-valid-integer: |-
+      &c ¡El entero "[valor]" dado no es válido!
+      El valor debe estar entre [min] y [max].
+    not-deployed: "&c¡El desafío no está desplegado!"
+    not-on-island: "&c¡Debes estar en tu isla para hacer eso!"
+    challenge-level-not-available: "&cNo has desbloqueado el nivel requerido para
+      completar este desafío."
+    not-repeatable: "&c¡Este reto no es repetible!"
+    wrong-environment: "&c¡Estás en el entorno equivocado!"
+    not-enough-items: "&c¡No tienes [items] suficientes para completar este desafío!"
+    not-close-enough: "&cDebes estar a un mínimo de [number] bloques de todos los
+      ítems requeridos."
+    you-still-need: "&cTodavía necesitas [amount] x [item]"
+    missing-addon: "&cNo se puede completar el desafío: falta un addon o plugin requerido."
+    incorrect: "&cNo se puede completar el desafío: los requisitos son incorrectos."
+    not-enough-money: "&cEs necesario tener [value] en tu cuenta para completar el
+      desafío."
+    not-enough-experience: "&cEs necesario tener [value] EXP para completar este desafío."
+    island-level: "&c¡Tu isla debe ser de nivel [number] o mayor para completar este
+      desafío!"
+    no-load: "&cError: No se pudo cargar challenge.yml. [message]"
+    load-error: "&cError: No se pudo cargar [value]."
+    no-rank: "&cNo tienes un rango lo suficientemente alto como para hacer eso."
+    cannot-remove-items: "&c¡Algunos items no se pueden eliminar de tu inventario!"
+    exist-challenges-or-levels: "&cLos desafíos ya existen en tu mundo. ¡No se puede
+      proceder!"
+    no-challenges: "&c¡Los desafíos aún no se han implementado en este mundo!"
+    no-challenges-admin: "&c¡Los desafíos aún no se han implementado en este mundo!
+      ¡Usa &5/[command] &cpara agregarlos!"
+    missing-arguments: "&cFaltan argumentos de comando."
+    no-multiple-permission: "&cNo tienes permiso para completar este desafío varias
+      veces a la vez."
+    invalid-level: "&c El nivel [nivel] contiene datos no válidos. ¡No se cargará
+      desde la base de datos!"
+    invalid-challenge: "&c Desafío [desafío] contiene datos no válidos. ¡No se cargará
+      desde la base de datos!"
+    no-library-entries: "&c No se pueden encontrar entradas de la biblioteca. Nada
+      que mostrar."
+    not-hooked: "&c Challenges Addon no pudo encontrar ningún modo de juego."
+    timeout: "&c Este desafío requiere esperar [tiempo de espera] entre finalizaciones.
+      Debes esperar [tiempo de espera] hasta completarlo nuevamente."
+    requirement-not-met: "&c Este desafío requiere que [estadística] tenga [número].
+      Solo tienes [valor]."
+    requirement-not-met-entity: "&c Este desafío requiere que [estadística] [entidad]
+      tenga [número]. Solo tienes [valor]."
+    requirement-not-met-material: "&c Este desafío requiere que [estadística] [material]
+      tenga [número]. Solo tienes [valor]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      name: Proteccion de desafios
       description: |-
         &5&oModifica quien puede
         &5&ocompletar desafíos
+      name: Proteccion de desafios
     CHALLENGES_WORLD_PROTECTION:
-      name: Limitaciones de la isla
-      hint: No hay desafíos fuera de la isla
       description: "&5&oHabilitar/deshabilitar &5&orequerimiento para que los jugadores
         &5&o esten en su isla para &5&ocompletar un desafío."
+      name: Limitaciones de la isla
+      hint: No hay desafíos fuera de la isla
 version: 11
