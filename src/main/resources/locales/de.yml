@@ -1004,6 +1004,9 @@ challenges:
     write-reward-commands: "&e Bitte geben Sie pro Zeile im Chat einen neuen Belohnungsbefehl
       ein und beenden Sie den Chat in einer eigenen Zeile."
     reward-commands-changed: "&a Erfolg, die Belohnungsbefehle wurden aktualisiert."
+    write-repeat-reward-commands: "&e Geben Sie bitte pro Zeile im Chat einen neuen
+      Befehl zur Wiederholung der Belohnung ein und klicken Sie zum Beenden auf „Beenden“
+      in einer eigenen Zeile."
     repeat-reward-commands-changed: "&a Erfolg, die Wiederholungsbelohnungsbefehle
       wurden aktualisiert."
     challenge-removed: "&a Herausforderungen [challende] für [gamemode] wird aus der
@@ -1101,6 +1104,12 @@ challenges:
     not-hooked: "&c Challenges Addon konnte keinen GameMode finden."
     timeout: "&c Diese Abfrage erfordert eine Wartezeit von [timeout] zwischen den
       Vervollständigungen. Sie müssen [wait-time] warten, bis Sie es erneut abschließen."
+    requirement-not-met: "&c Für diese Herausforderung muss [statistic] [number] haben.
+      Sie haben nur [value]."
+    requirement-not-met-entity: "&c Für diese Herausforderung muss [statistic] [entity]
+      über [number] verfügen. Sie haben nur [value]."
+    requirement-not-met-material: "&c Diese Herausforderung erfordert, dass [statistic]
+      [material] [number] hat. Sie haben nur [value]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
