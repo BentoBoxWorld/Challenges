@@ -36,6 +36,7 @@ challenges:
       multiple-gui: "&0&l Kolikrát?"
       admin-gui: "&0&l Nabídka správce výzev"
       edit-challenge: "&0&l Upravit [výzva]"
+      edit-level: "&0&l Upravit [level]"
       library: Knihovna &0&l
       manage-blocks: "&0&l Spravovat bloky"
       manage-entities: "&0&l Spravovat entity"
