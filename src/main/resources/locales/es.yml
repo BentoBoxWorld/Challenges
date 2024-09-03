@@ -390,7 +390,7 @@ challenges:
           &7 Permite cambiar el
           &7 bloque objetivo estadístico.
         value: "&7 Bloque actual: &e [block]"
-      statistic_items:
+     statistic_items:
         name: "&f&l Artículo de destino"
         description: |-
           &7 Permite cambiar el
@@ -629,7 +629,7 @@ challenges:
           &7 0 significa que los datos
           &7 no se eliminará.
         value: "&7 Valor actual: &e [number]"
-      title_showtime:
+     title_showtime:
         name: "&f&l Título Showtime"
         description: |-
           &7 Número de ticks de ese título
@@ -774,7 +774,7 @@ challenges:
       environment_element:
         name: "&f&l [environment]"
         description: "[description]"
-      search:
+     search:
         name: "&f&l Buscar"
         description: |-
           &7 Permite buscar un
