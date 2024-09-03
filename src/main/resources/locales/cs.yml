@@ -37,6 +37,10 @@ challenges:
       admin-gui: "&0&l Nabídka správce výzev"
       edit-challenge: "&0&l Upravit [výzva]"
       edit-level: "&0&l Upravit [level]"
+      settings: "&0&l Nastavení"
+      choose-challenge: "&0&l Vyber výzvu"
+      choose-level: "&0&l Vyber level"
+      choose-player: "&0&l Vyber hráče"
       library: Knihovna &0&l
       manage-blocks: "&0&l Spravovat bloky"
       manage-entities: "&0&l Spravovat entity"
@@ -298,6 +302,7 @@ challenges:
           &7 výzva k dokončení.
         title: "&7 položek: "
         list: " &8 - [číslo] x [položka]"
+        none: "&7 Itemy nejsou přidány."
       add_ignored_meta:
         name: "&f&l Přidat Ignorovat metadata"
         description: |-
@@ -305,6 +310,7 @@ challenges:
           &7 položky by měly být ignorovány
           &7 jakákoli metadata, která
           Je jim přiřazen &7.
+        title: "&7 Itemy: "
         list: " &8 - [číslo] x [položka]"
         none: "&7 Položky nejsou přidány."
       remove_ignored_meta:
@@ -349,6 +355,7 @@ challenges:
         enabled: "&2 Povoleno"
         disabled: "&c Zakázáno"
       required_money:
+        name: "&f&l Požadované peníze"
         description: |-
           &7 Umožňuje změnit
           &7 vyžaduje od hráče peníze
@@ -423,6 +430,7 @@ challenges:
           &7 Umožňuje změnit opakování
           &7 odměn za to
           &7 výzva.
+        title: "&7 Itemy: "
         list: " &8 - [číslo] x [položka]"
         none: "&7 Položky nejsou přidány."
       reward_experience:
@@ -557,6 +565,7 @@ challenges:
         enabled: "&2 Povoleno"
         disabled: "&c Zakázáno"
       remove_completed:
+        name: "&f&l Skrýt dokončené"
         description: |-
           &7 Skryje dokončené výzvy
           &7 z nabídky.
@@ -644,6 +653,8 @@ challenges:
           &7 skrytý.
         enabled: "&2"
         disabled: "&C"
+        visible: Zobrazit viditelné výzvy
+        hidden: Zobrazit všechny výzvy
         toggleable: Povolit přepínání
       include_undeployed:
         name: "&f&l Zahrnout nenasazené výzvy"
@@ -660,8 +671,12 @@ challenges:
         disabled: "&c Bez vymazání mezipaměti"
       player:
         name: "&f&l [jméno]"
+        description: "&7 Vlastník ostrova: [owner]"
         members: "&7 Island Members:"
         member: "&8 - [jméno]"
+        no-island: |-
+          &c Hráč nemá
+          &c ostrov.
       player_list:
         name: "&f&l Vyberte seznam uživatelů"
         description: |-
@@ -669,13 +684,16 @@ challenges:
           Mělo by se zobrazit &7.
         enabled: "&2"
         disabled: "&C"
+        online: Online hráči
         with_island: Hráči s ostrovy
         in_world: Hráči ve světě
       add_block:
+        name: "&f&l Přidat blok"
         description: |-
           &7 Umožňuje přidat nový
           &7 blokovat do seznamu.
       remove_block:
+        name: "&f&l Odebrat blok"
         description: |-
           &7 Umožňuje odstranit
           &7 vybraných bloků
@@ -687,6 +705,7 @@ challenges:
         description: "&7 ID materiálu: [id]"
         selected: "&2 Vybráno"
       add_entity:
+        name: "&f&l Přidat entitu"
         description: |-
           &7 Umožňuje přidat nový
           &7 entity do seznamu.
@@ -701,6 +720,7 @@ challenges:
           &7 Umožňuje odstranit
           &7 vybraných subjektů
           &7 ze seznamů.
+        title: "&7 vybrané entity:"
         entity: "&8 - [entita]"
       entity:
         name: "&f&l [entita]"
@@ -712,6 +732,7 @@ challenges:
           &7 Výzva, která kontroluje
           &7 položek v inventáři hráče
       island_type:
+        name: "&f&l Typ ostrova"
         description: |-
           &7 Výzva, která kontroluje
           &7 bloků nebo entit kolem
@@ -728,10 +749,12 @@ challenges:
           &7 Výzva, která kontroluje
           Statistika hráče &7.
       save:
+        name: "&f&l Uložit"
         description: |-
           &7 Uloží změny a
           &7 se vrací.
       cancel:
+        name: "&f&l Zrušit"
         description: |-
           &7 Zahodí změny a
           &7 se vrací.
@@ -749,6 +772,7 @@ challenges:
         name: "&f&l [prostředí]"
         description: "[popis]"
       search:
+        name: "&f&l Hledat"
         description: |-
           &7 Umožňuje vyhledávat
           &7 prvek se vstupem
@@ -779,10 +803,15 @@ challenges:
       click-to-change: "&e Klikněte na &7 pro změnu."
       shift-click-to-reset: "&e Shift Klepnutím na &7 resetujete."
       click-to-add: "&e Klepnutím na &7 přidejte."
+      click-to-remove: "&e Klikni &7 pro odebrání."
       left-click-to-cycle: "&e Levým kliknutím &7 přejdete dolů."
       right-click-to-cycle: "&e Klikněte pravým tlačítkem na &7 pro přechod nahoru."
+      click-to-edit: "&e Klikni &7 pro editaci."
       left-click-to-download: "&e Klikněte levým tlačítkem &7 pro stažení."
       right-click-to-toggle: "&e Klepnutím pravým tlačítkem &7 přepnete."
+      click-to-install: "&e Klikni &7 pro instalaci."
+      click-to-reset-all: "&e klikni &7 pro resetování všeho."
+      right-click-to-select: "&e Klikni pravým tlačítkem na &7 pro výběr."
       right-click-to-deselect: "&e Klikněte pravým tlačítkem na &7 pro zrušení výběru."
       left-click-to-choose: "&e Levým tlačítkem vyberte &7."
       click-to-cancel: "&e Klepnutím na &7 zrušíte."
@@ -881,10 +910,12 @@ challenges:
             [zažít]
             [peníze]
             [příkazy]
+          item-title: "&7 Itemy:"
           item-value: "  &7 - &e [položka]"
           items-value: "  &7 - &e [číslo] x [položka]"
           experience: "&7 Zkušenosti: &r&e [číslo]"
           money: "&7 Peníze: &r&e [číslo]"
+          commands-title: "&7 příkazy:"
           command: "  &7 - &e [příkaz]"
       level:
         lore: |-
@@ -893,6 +924,7 @@ challenges:
           [vzdání se]
           [odměny]
         status:
+          completed: "&2&l Dokončeno"
           completed-challenges-of: |-
             &2 Dokončeno &7&l [číslo] &r&2 z
             &7&l [max] &r&2 výzvy.
@@ -911,10 +943,12 @@ challenges:
             [zažít]
             [peníze]
             [příkazy]
+          item-title: "&7 Itemy:"
           item-value: "  &7 - &e [položka]"
           items-value: "  &7 - &e [číslo] x [položka]"
           experience: "&7 Zkušenosti: &r&e [číslo]"
           money: "&7 Peníze: &r&e [číslo]"
+          commands-title: "&7 příkazy:"
           command: "  &7 - &e [příkaz]"
       library:
         author: "&7 od &e [autor]"
@@ -928,6 +962,9 @@ challenges:
     cancel-string: zrušit
     exit-string: zrušit, odejít, ukončit
     cancelled: "&c Konverzace zrušena!"
+    input-number: "&e Zadejte prosím číslo do chatu."
+    input-seconds: "&e Zadejte prosím sekundy do chatu."
+    numeric-only: "&c Daná [value] není číslo!"
     not-valid-value: "&c Dané číslo [hodnota] není platné. Musí být větší než [min]
       a menší než [max]!"
     user-data-removed: "&a Všechna uživatelská data pro [herní režim] jsou vymazána
@@ -941,6 +978,7 @@ challenges:
     all-data-removed: "&a Všechna data doplňků pro [herní režim] jsou vymazána z databáze."
     confirm-all-data-deletion: "&e Potvrďte, že chcete vymazat data doplňků pro [herní
       režim]."
+    write-name: "&e Napiš prosím jméno do chatu."
     new-object-created: "&a Je vytvořen nový objekt pro [herní režim]."
     object-already-exists: "&c Objekt &7 [id] &c již existuje. Vyberte jiný název."
     invalid-challenge: "&c Výzva [výzva] obsahuje neplatná data. Nelze jej nasadit!"
@@ -978,6 +1016,8 @@ challenges:
       soubor. (pro ukončení napište 'zrušit')"
     database-export-completed: "&a Úspěch, export databáze pro [svět] je dokončen.
       Vygenerován soubor [soubor]."
+    file-name-exist: "&c Soubor s názvem '[id]' existuje. Nelze jej přepsat."
+    write-search: "&e Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
     search-updated: "&a Hodnota vyhledávání byla aktualizována."
   titles:
     challenge-title: Úspěšně dokončeno
@@ -985,7 +1025,11 @@ challenges:
     level-title: Úspěšně dokončeno
     level-subtitle: "[friendlyName]"
   messages:
+    completed: "&2 Dokončili jste výzvu [name] pro [player]!"
+    already-completed: "&2 Tato výzva již byla dokončena!"
+    reset: "&2 Resetoval jsi výzvu[name] hráči [player]!"
     reset-all: "&2 Všechny [hráčské] výzvy byly resetovány!"
+    not-completed: "&2 Tato výzva ještě není dokončena!"
     migrate-start: "&2 Začněte migrovat data doplňků výzev."
     migrate-end: Data doplňků &2 Challenges aktualizována na nový formát.
     migrate-not: "&2 Všechna data jsou platná."
