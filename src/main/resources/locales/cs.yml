@@ -35,7 +35,7 @@ challenges:
       gamemode-gui: "&0&l Vyberte GameMode"
       multiple-gui: "&0&l Kolikrát?"
       admin-gui: "&0&l Nabídka správce výzev"
-      edit-challenge: "&0&l Upravit [výzva]"
+      edit-challenge: "&0&l Upravit [challenge]"
       edit-level: "&0&l Upravit [level]"
       settings: "&0&l Nastavení"
       choose-challenge: "&0&l Vyber výzvu"
@@ -64,20 +64,20 @@ challenges:
           &7 nebo ukončete GUI
       previous:
         name: "&f&l Předchozí stránka"
-        description: "&7 Přepnout na stránku &e [číslo] &7"
+        description: "&7 Přepnout na stránku &e [number] &7"
       next:
         name: "&f&l Další stránka"
-        description: "&7 Přepnout na stránku &e [číslo] &7"
+        description: "&7 Přepnout na stránku &e [number] &7"
       reduce:
         name: "&f&l Snížit"
-        description: "&7 Snížit o &e [číslo]"
+        description: "&7 Snížit o &e [number]"
       increase:
         name: "&f&l Zvýšit"
-        description: "&7 Zvýšit o &e [číslo]"
+        description: "&7 Zvýšit o &e [number]"
       accept:
         name: "&f&l Hotovo"
         description: |-
-          &7 Dokonči výzvu &e [číslo]
+          &7 Dokonči výzvu &e [number]
           &7 krát (-s)
       quit:
         name: "&f&l Ukončit"
@@ -186,7 +186,7 @@ challenges:
         description: |-
           &7 Umožňuje změnu
           &7 zobrazovaný název.
-        value: "&7 Aktuálně: &r [jméno]"
+        value: "&7 Aktuálně: &r [name]"
       remove_on_complete:
         name: "&f&l Skrýt po dokončení"
         description: |-
@@ -218,7 +218,7 @@ challenges:
           &7 Objekty se stejnými čísly
           &7 bude objednáno jejich
           &7 jedinečných ID jmen.
-        value: "&7 Aktuální objednávka: &e [číslo]"
+        value: "&7 Aktuální objednávka: &e [number]"
       icon:
         name: Ikona &f&l
         description: |-
@@ -236,7 +236,7 @@ challenges:
           &7 oprávnění pro toto
           &7 výzva k dokončení.
         title: "&7 Oprávnění: "
-        permission: " &8 – [povolení]"
+        permission: " &8 – [permission]"
         none: "&7 Oprávnění nejsou nastavena."
       remove_entities:
         name: "&f&l Odebrat entity"
@@ -255,7 +255,7 @@ challenges:
           &7 subjektů za to
           &7 výzva k dokončení.
         title: "&7 entity: "
-        list: " &8 - [číslo] x [entita]"
+        list: " &8 - [number] x [entity]"
         none: "&7 Entity nejsou přidány."
       remove_blocks:
         name: "&f&l Odebrat bloky"
@@ -274,7 +274,7 @@ challenges:
           K tomu &7 bloků
           &7 výzva k dokončení.
         title: "&7 bloků: "
-        list: " &8 - [číslo] x [blok]"
+        list: " &8 - [number] x [block]"
         none: "&7 Bloky nejsou přidány."
       search_radius:
         name: "&f&l Poloměr hledání"
@@ -283,7 +283,7 @@ challenges:
           &7 kolem hráče, ze kterého
           &7 bloků a/nebo entit
           &7 zjištěno.
-        value: "&7 Aktuální vzdálenost: &e [číslo]"
+        value: "&7 Aktuální vzdálenost: &e [number]"
       remove_items:
         name: "&f&l Odebrat položky"
         description: |-
@@ -301,7 +301,7 @@ challenges:
           &7 položek k tomu
           &7 výzva k dokončení.
         title: "&7 položek: "
-        list: " &8 - [číslo] x [položka]"
+        list: " &8 - [number] x [item]"
         none: "&7 Itemy nejsou přidány."
       add_ignored_meta:
         name: "&f&l Přidat Ignorovat metadata"
@@ -311,7 +311,7 @@ challenges:
           &7 jakákoli metadata, která
           Je jim přiřazen &7.
         title: "&7 Itemy: "
-        list: " &8 - [číslo] x [položka]"
+        list: " &8 - [number] x [item]"
         none: "&7 Položky nejsou přidány."
       remove_ignored_meta:
         name: "&f&l Odebrat Ignorovat metadata"
@@ -336,14 +336,14 @@ challenges:
           &7 Umožňuje změnit
           &7 požadované zkušenosti pro
           &7 přehrávač.
-        value: "&7 Aktuální zkušenost: &e [číslo]"
+        value: "&7 Aktuální zkušenost: &e [number]"
       required_level:
         name: "&f&l Požadovaná úroveň ostrova"
         description: |-
           &7 Umožňuje změnit
           &7 požadovaná úroveň ostrova
           &7 za výzvu.
-        value: "&7 Aktuální úroveň: &e [číslo]"
+        value: "&7 Aktuální úroveň: &e [number]"
       remove_money:
         name: "&f&l Odebrat peníze"
         description: |-
@@ -360,21 +360,21 @@ challenges:
           &7 Umožňuje změnit
           &7 vyžaduje od hráče peníze
           &7 odpovídá za výzvu.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       statistic:
         name: "&f&l Statistika"
         description: |-
           &7 Umožňuje změnit
           Typ statistiky &7
           &7 se zapsal do této výzvy.
-        value: "&7 Aktuální hodnota: &e [statistika]"
+        value: "&7 Aktuální hodnota: &e [statistic]"
       statistic_amount:
         name: "&f&l Cílová hodnota"
         description: |-
           &7 Umožňuje změnit
           &7 statistická cílová hodnota
           &7, které musí být splněny.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       remove_statistic:
         name: "&f&l Snížit statistiku"
         description: |-
@@ -389,19 +389,19 @@ challenges:
         description: |-
           &7 Umožňuje změnit
           &7 statistický cílový blok.
-        value: "&7 Aktuální blok: &e [blok]"
+        value: "&7 Aktuální blok: &e [block]"
       statistic_items:
         name: "&f&l Cílová položka"
         description: |-
           &7 Umožňuje změnit
           &7 statistická cílová položka.
-        value: "&7 Aktuální položka: &e [položka]"
+        value: "&7 Aktuální položka: &e [item]"
       statistic_entities:
         name: "&f&l Cílová entita"
         description: |-
           &7 Umožňuje změnit
           &7 statistická cílová entita.
-        value: "&7 Aktuální entita: &e [entita]"
+        value: "&7 Aktuální entita: &e [entity]"
       reward_text:
         name: "&f&l Text odměny"
         description: |-
@@ -422,7 +422,7 @@ challenges:
           &7 Umožňuje změnit odměnu
           &7 položek.
         title: "&7 položek: "
-        list: " &8 - [číslo] x [položka]"
+        list: " &8 - [number] x [item]"
         none: "&7 Položky nejsou přidány."
       repeat_reward_items:
         name: "&f&l Opakovat položky odměn"
@@ -431,7 +431,7 @@ challenges:
           &7 odměn za to
           &7 výzva.
         title: "&7 Itemy: "
-        list: " &8 - [číslo] x [položka]"
+        list: " &8 - [number] x [item]"
         none: "&7 Položky nejsou přidány."
       reward_experience:
         name: "&f&l Zkušenosti s odměnou"
@@ -439,27 +439,27 @@ challenges:
           &7 Umožňuje změnit
           &7 zkušenost s odměnou za
           &7 přehrávač.
-        value: "&7 Zkušenosti s odměnou: &e [číslo]"
+        value: "&7 Zkušenosti s odměnou: &e [number]"
       repeat_reward_experience:
         name: "&f&l Opakovat odměnu"
         description: |-
           &7 Umožňuje změnit
           &7 opakování odměny
           &7 pro hráče.
-        value: "&7 Zkušenosti s odměnou: &e [číslo]"
+        value: "&7 Zkušenosti s odměnou: &e [number]"
       reward_money:
         name: "&f&l Odměna"
         description: |-
           &7 Umožňuje změnit
           &7 peníze na odměnu.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       repeat_reward_money:
         name: "&f&l Opakovat odměnu"
         description: |-
           &7 Umožňuje změnit
           &7 opakování peněz za odměnu
           &7 za výzvu.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       reward_commands:
         name: "&f&l Příkazy odměny"
         description: |-
@@ -474,7 +474,7 @@ challenges:
           &8 umožní příkaz být
           &8 provedená hráčem. To také
           &8 podporuje jeden zástupný symbol
-          &8 `[hráč]` to bude
+          &8 `[player]` to bude
           &8 nahrazeno jménem hráče
           &8, kteří dokončili výzvu.
         value: "&7 Aktuální příkazy:"
@@ -493,7 +493,7 @@ challenges:
           &8 umožní příkaz být
           &8 provedená hráčem. To také
           &8 podporuje jeden zástupný symbol
-          &8 `[hráč]` to bude
+          &8 `[player]` to bude
           &8 nahrazeno jménem hráče
           &8, kteří dokončili výzvu.
         value: "&7 Aktuální příkazy:"
@@ -511,7 +511,7 @@ challenges:
           &7 Umožňuje změnit
           &7 počet opakování
           &7 za výzvu.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       cool_down:
         name: "&f&l Vychladnout"
         description: |-
@@ -520,7 +520,7 @@ challenges:
           Mezi tím je třeba počkat na &7
           &7 opakovatelná výzva
           &7 dokončení.
-        value: "&7 Aktuální hodnota: &e [čas]"
+        value: "&7 Aktuální hodnota: &e [time]"
       challenges:
         name: "&f&l Výzvy"
         description: |-
@@ -533,7 +533,7 @@ challenges:
           &7 výzev, které mohou
           &7 bude ponecháno nevyplněno pro
           &7 odemknutí další úrovně.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       add_challenges:
         name: "&f&l Přidat výzvu(-y)"
         description: |-
@@ -628,13 +628,13 @@ challenges:
           &7 v uživatelských datech.
           &7 0 znamená, že data budou
           &7 nelze odstranit.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       title_showtime:
         name: "&f&l Název Showtime"
         description: |-
           &7 Počet zaškrtnutí tohoto titulu
           &7 se zobrazí přehrávači.
-        value: "&7 Aktuální hodnota: &e [číslo]"
+        value: "&7 Aktuální hodnota: &e [number]"
       active_world_list:
         name: "&f&l Zobrazit pouze aktivní svět"
         description: |-
@@ -670,10 +670,10 @@ challenges:
         enabled: "&2 S vymazáním mezipaměti"
         disabled: "&c Bez vymazání mezipaměti"
       player:
-        name: "&f&l [jméno]"
+        name: "&f&l [name]"
         description: "&7 Vlastník ostrova: [owner]"
         members: "&7 Island Members:"
-        member: "&8 - [jméno]"
+        member: "&8 - [name]"
         no-island: |-
           &c Hráč nemá
           &c ostrov.
@@ -699,9 +699,9 @@ challenges:
           &7 vybraných bloků
           &7 ze seznamů.
         title: "&7 Vybrané materiály:"
-        material: "&8 - [materiál]"
+        material: "&8 - [material]"
       material:
-        name: "&f&l [materiál]"
+        name: "&f&l [material]"
         description: "&7 ID materiálu: [id]"
         selected: "&2 Vybráno"
       add_entity:
@@ -721,9 +721,9 @@ challenges:
           &7 vybraných subjektů
           &7 ze seznamů.
         title: "&7 vybrané entity:"
-        entity: "&8 - [entita]"
+        entity: "&8 - [entity]"
       entity:
-        name: "&f&l [entita]"
+        name: "&f&l [entity]"
         description: "&7 ID entity: [id]"
         selected: "&2 Vybráno"
       inventory_type:
@@ -764,13 +764,13 @@ challenges:
           &7 Vrátí vybrané prvky
           &7 a otevře předchozí GUI.
         title: "&7 Vybráno: "
-        element: "&8 - [prvek]"
+        element: "&8 - [element]"
       statistic_element:
-        name: "&f&l [statistika]"
-        description: "[popis]"
+        name: "&f&l [statistic]"
+        description: "[description]"
       environment_element:
-        name: "&f&l [prostředí]"
-        description: "[popis]"
+        name: "&f&l [environment]"
+        description: "[description]"
       search:
         name: "&f&l Hledat"
         description: |-
@@ -827,134 +827,134 @@ challenges:
     descriptions:
       challenge:
         lore: |-
-          [popis]
-          [postavení]
-          [vychladnutí]
-          [požadavky]
-          [odměny]
+          [description]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
         status:
           completed: "&2&l Dokončeno"
-          completed-times: "&2 Dokončeno &7&l [číslo] &r&2 čas(-y)"
-          completed-times-of: "&2 Dokončeno &7&l [počet] &r&2 z &7&l [max] &r&2krát"
+          completed-times: "&2 Dokončeno &7&l [number] &r&2 čas(-y)"
+          completed-times-of: "&2 Dokončeno &7&l [number] &r&2 z &7&l [max] &r&2krát"
           completed-times-reached: "&2&l Dokončeno vše &7 [max] &2krát"
         cooldown:
           lore: |-
-            [časový limit]
-            [čekací doba]
-          timeout: "&7&l Vychladnout: &r&7 [čas]"
-          wait-time: "&c&l Dostupné po: &r&c [čas]"
-          in-days: "[číslo] d "
-          in-hours: "[číslo] h "
-          in-minutes: "[číslo] min "
-          in-seconds: "[číslo] s"
+            [timeout]
+            [wait-time]
+          timeout: "&7&l Vychladnout: &r&7 [time]"
+          wait-time: "&c&l Dostupné po: &r&c [time]"
+          in-days: "[number] d "
+          in-hours: "[number] h "
+          in-minutes: "[number] min "
+          in-seconds: "[number] s"
         requirements:
           lore: |-
-            [prostředí]
-            [typ-požadavek]
-            [oprávnění]
-          environment-single: "&7 Omezeno na [životní prostředí]"
+            [environment]
+            [type-requirement]
+            [permissions]
+          environment-single: "&7 Omezeno na [environment]"
           environment-title: "&7 Omezeno na: "
-          environment-list: "  &7 - &e [životní prostředí]"
-          permission-single: "&c Vyžaduje oprávnění [povolení]"
+          environment-list: "  &7 - &e [environment]"
+          permission-single: "&c Vyžaduje oprávnění [permission]"
           permissions-title: "&c Vyžaduje oprávnění: "
-          permissions-list: "  &c - [povolení]"
+          permissions-list: "  &c - [permission]"
           island:
             lore: |-
-              [bloky]
-              [entity]
-              [poloměr vyhledávání]
-              [varovný blok]
-              [varování-entita]
+              [blocks]
+              [entities]
+              [search-radius]
+              [warning-block]
+              [warning-entity]
             blocks-title: "&7&l Požadované bloky:"
-            block-value: "  &7 - &e [materiál]"
-            blocks-value: "  &7 - &e [číslo] x [materiál]"
+            block-value: "  &7 - &e [material]"
+            blocks-value: "  &7 - &e [number] x [material]"
             entities-title: "&7&l Požadované entity:"
-            entity-value: "  &7 - &e [entita]"
-            entities-value: "  &7 - &e [číslo] x [entita]"
-            search-radius: "&7 Ne dále než &e [číslo] &7 metrů"
+            entity-value: "  &7 - &e [entity]"
+            entities-value: "  &7 - &e [number] x [entity]"
+            search-radius: "&7 Ne dále než &e [number] &7 metrů"
             warning-block: "&e Bloky budou odstraněny &c"
             warning-entity: "&e Entity budou &c odstraněny"
           inventory:
             lore: |-
-              [položky]
-              [varování]
+              [items]
+              [warning]
             item-title: "&7&l Požadované položky:"
-            item-value: "  &7 - &e [položka]"
-            items-value: "  &7 - &e [číslo] x [položka]"
+            item-value: "  &7 - &e [item]"
+            items-value: "  &7 - &e [number] x [item]"
             warning: "&e Položky budou odstraněny &c"
           other:
             lore: |-
-              [zažít]
-              [zkušenost-varování]
-              [peníze]
-              [peníze-varování]
-              [úroveň]
-            experience: "&7&l Požadovaná zkušenost: &r&e [číslo]"
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
+            experience: "&7&l Požadovaná zkušenost: &r&e [number]"
             experience-warning: "&e Zkušenosti budou &c odstraněny"
-            money: "&7&l Požadované peníze: &r&e [číslo]"
+            money: "&7&l Požadované peníze: &r&e [number]"
             money-warning: "&e Peníze budou odebrány &c"
-            level: "&7&l Požadovaná úroveň ostrova: &r&e [číslo]"
+            level: "&7&l Požadovaná úroveň ostrova: &r&e [number]"
           statistic:
             lore: |-
-              [statistický]
-              [varování]
-            multiple-target: "&7&l [statistika]: &r&e [číslo] x [cíl]"
-            single-target: "&7&l [statistika]: &r&e [cíl]"
-            statistic: "&7&l [statistika] &r&e [číslo]"
+              [statistic]
+              [warning]
+            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
+            single-target: "&7&l [statistic]: &r&e [target]"
+            statistic: "&7&l [statistic] &r&e [number]"
             warning: "&e Statistická data se sníží &c"
         rewards:
           lore: |-
             Odměny &7&l:
             [text]
-            [položky]
-            [zažít]
-            [peníze]
-            [příkazy]
+            [items]
+            [experience]
+            [money]
+            [commands]
           item-title: "&7 Itemy:"
-          item-value: "  &7 - &e [položka]"
-          items-value: "  &7 - &e [číslo] x [položka]"
-          experience: "&7 Zkušenosti: &r&e [číslo]"
-          money: "&7 Peníze: &r&e [číslo]"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Zkušenosti: &r&e [number]"
+          money: "&7 Peníze: &r&e [number]"
           commands-title: "&7 příkazy:"
-          command: "  &7 - &e [příkaz]"
+          command: "  &7 - &e [command]"
       level:
         lore: |-
           [text]
-          [postavení]
-          [vzdání se]
-          [odměny]
+          [status]
+          [waiver]
+          [rewards]
         status:
           completed: "&2&l Dokončeno"
           completed-challenges-of: |-
-            &2 Dokončeno &7&l [číslo] &r&2 z
+            &2 Dokončeno &7&l [number] &r&2 z
             &7&l [max] &r&2 výzvy.
           locked: "&c&l Uzamčeno"
           missing-challenges: |-
-            &7 [číslo] musí být další výzvy
+            &7 [number] musí být další výzvy
             Dokončeno &7 k odemknutí této úrovně.
         waiver: |-
-          &7&l [číslo] výzva(-y) &r&7 může být
+          &7&l [number] výzva(-y) &r&7 může být
           &7 přeskočeno k odemknutí další úrovně.
         rewards:
           lore: |-
             Odměny &7&l:
             [text]
-            [položky]
-            [zažít]
-            [peníze]
-            [příkazy]
+            [items]
+            [experience]
+            [money]
+            [commands]
           item-title: "&7 Itemy:"
-          item-value: "  &7 - &e [položka]"
-          items-value: "  &7 - &e [číslo] x [položka]"
-          experience: "&7 Zkušenosti: &r&e [číslo]"
-          money: "&7 Peníze: &r&e [číslo]"
+          item-value: "  &7 - &e [item]"
+          items-value: "  &7 - &e [number] x [item]"
+          experience: "&7 Zkušenosti: &r&e [number]"
+          money: "&7 Peníze: &r&e [number]"
           commands-title: "&7 příkazy:"
-          command: "  &7 - &e [příkaz]"
+          command: "  &7 - &e [command]"
       library:
         author: "&7 od &e [autor]"
-        version: "&7 Made with Challenges &e [verze]"
-        lang: "&7 Jazyk: &e [jazyk]"
-        gamemode: "&7 Primární pro &e [herní režim]"
+        version: "&7 Made with Challenges &e [version]"
+        lang: "&7 Jazyk: &e [lang]"
+        gamemode: "&7 Primární pro &e [gamemode]"
   conversations:
     prefix: "&l&6 [BentoBox]: &r"
     confirm-string: pravda, na, ano, potvrdit, y, platný, správný
@@ -965,23 +965,23 @@ challenges:
     input-number: "&e Zadejte prosím číslo do chatu."
     input-seconds: "&e Zadejte prosím sekundy do chatu."
     numeric-only: "&c Daná [value] není číslo!"
-    not-valid-value: "&c Dané číslo [hodnota] není platné. Musí být větší než [min]
+    not-valid-value: "&c Dané číslo [value] není platné. Musí být větší než [min]
       a menší než [max]!"
-    user-data-removed: "&a Všechna uživatelská data pro [herní režim] jsou vymazána
+    user-data-removed: "&a Všechna uživatelská data pro [gamemode] jsou vymazána
       z databáze."
     confirm-user-data-deletion: "&e Potvrďte prosím, že chcete vymazat databázi uživatelů
-      pro [herní režim]."
-    challenge-data-removed: "&a Všechna data výzev pro [herní režim] jsou vymazána
+      pro [gamemode]."
+    challenge-data-removed: "&a Všechna data výzev pro [gamemode] jsou vymazána
       z databáze."
     confirm-challenge-data-deletion: "&e Potvrďte prosím, že chcete vymazat databázi
-      výzev pro [herní režim]."
-    all-data-removed: "&a Všechna data doplňků pro [herní režim] jsou vymazána z databáze."
+      výzev pro [gamemode]."
+    all-data-removed: "&a Všechna data doplňků pro [gamemode] jsou vymazána z databáze."
     confirm-all-data-deletion: "&e Potvrďte, že chcete vymazat data doplňků pro [herní
       režim]."
     write-name: "&e Napiš prosím jméno do chatu."
-    new-object-created: "&a Je vytvořen nový objekt pro [herní režim]."
+    new-object-created: "&a Je vytvořen nový objekt pro [gamemode]."
     object-already-exists: "&c Objekt &7 [id] &c již existuje. Vyberte jiný název."
-    invalid-challenge: "&c Výzva [výzva] obsahuje neplatná data. Nelze jej nasadit!"
+    invalid-challenge: "&c Výzva [challenge] obsahuje neplatná data. Nelze jej nasadit!"
     name-changed: "&a Úspěch, název byl aktualizován."
     write-description: "&e Zadejte prosím nový popis v chatu a 'konec' na samostatném
       řádku pro dokončení."
@@ -1001,21 +1001,21 @@ challenges:
     write-repeat-reward-commands: "&e Zadejte prosím nový příkaz pro opakování odměny
       na řádek v chatu a dokončete jej na samostatném řádku."
     repeat-reward-commands-changed: "&a Úspěch, příkazy k opakování odměny byly aktualizovány."
-    challenge-removed: "&a Výzvy [challenge] pro [herní režim] jsou odstraněny z databáze."
-    confirm-challenge-deletion: "&e Potvrďte, že chcete odstranit [výzvu] pro [gamemode]
+    challenge-removed: "&a Výzvy [challenge] pro [gamemode] jsou odstraněny z databáze."
+    confirm-challenge-deletion: "&e Potvrďte, že chcete odstranit [challenge] pro [gamemode]
       z databáze."
-    level-removed: "&a Úroveň [úroveň] pro [herní režim] je odstraněna z databáze."
-    confirm-level-deletion: "&e Potvrďte prosím, že chcete odstranit [úroveň] pro
-      [herní režim] z databáze."
+    level-removed: "&a Úroveň [level] pro [gamemode] je odstraněna z databáze."
+    confirm-level-deletion: "&e Potvrďte prosím, že chcete odstranit [level] pro
+      [gamemode] z databáze."
     start-downloading: "&a Začíná stahování a import knihovny výzev."
     written-text: "&a Vstupní text:"
     confirm-data-replacement: "&e Potvrďte prosím, že chcete nahradit své stávající
       výzvy novými."
-    new-challenges-imported: "&a Úspěch, byly importovány nové výzvy pro [herní režim]."
+    new-challenges-imported: "&a Úspěch, byly importovány nové výzvy pro [gamemode]."
     exported-file-name: "&e Zadejte prosím název souboru pro exportovaný databázový
       soubor. (pro ukončení napište 'zrušit')"
-    database-export-completed: "&a Úspěch, export databáze pro [svět] je dokončen.
-      Vygenerován soubor [soubor]."
+    database-export-completed: "&a Úspěch, export databáze pro [world] je dokončen.
+      Vygenerován soubor [file]."
     file-name-exist: "&c Soubor s názvem '[id]' existuje. Nelze jej přepsat."
     write-search: "&e Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
     search-updated: "&a Hodnota vyhledávání byla aktualizována."
@@ -1028,7 +1028,7 @@ challenges:
     completed: "&2 Dokončili jste výzvu [name] pro [player]!"
     already-completed: "&2 Tato výzva již byla dokončena!"
     reset: "&2 Resetoval jsi výzvu[name] hráči [player]!"
-    reset-all: "&2 Všechny [hráčské] výzvy byly resetovány!"
+    reset-all: "&2 Všechny [player] výzvy byly resetovány!"
     not-completed: "&2 Tato výzva ještě není dokončena!"
     migrate-start: "&2 Začněte migrovat data doplňků výzev."
     migrate-end: Data doplňků &2 Challenges aktualizována na nový formát.
@@ -1076,14 +1076,14 @@ challenges:
       z databáze!"
     no-library-entries: "&c Nelze najít žádné položky knihovny. Nic k zobrazení."
     not-hooked: "&c Výzvy Addon nenašel žádný GameMode."
-    timeout: "&c Tato výzva vyžaduje mezi dokončeními čekat [časový limit]. Musíte
+    timeout: "&c Tato výzva vyžaduje mezi dokončeními čekat [timeout]. Musíte
       počkat [wait-time], než to znovu dokončíte."
-    requirement-not-met: "&c Tato výzva vyžaduje, aby [statistika] měla [číslo]. Máte
+    requirement-not-met: "&c Tato výzva vyžaduje, aby [statistic] měla [number]. Máte
       pouze [hodnotu]. "
-    requirement-not-met-entity: "&c Tato výzva vyžaduje, aby [statistika] [entita]
-      měla [číslo]. Máte pouze [hodnotu]. "
-    requirement-not-met-material: "&c Tato výzva vyžaduje, aby [statistika] [materiál]
-      měl [číslo]. Máte pouze [hodnotu]. "
+    requirement-not-met-entity: "&c Tato výzva vyžaduje, aby [statistic] [entity]
+      měla [number]. Máte pouze [hodnotu]. "
+    requirement-not-met-material: "&c Tato výzva vyžaduje, aby [statistic] [material]
+      měl [number]. Máte pouze [hodnotu]. "
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
