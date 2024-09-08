@@ -649,6 +649,12 @@ challenges:
         visible: Zeigen Sie sichtbare Herausforderungen
         hidden: Alle Herausforderungen anzeigen
         toggleable: Umschalten zulassen
+      include_undeployed:
+        name: "&f&l Nicht bereitgestellte Herausforderungen einschließen"
+        description: "&7 Gibt an, ob nicht bereitgestellte \n&7 Herausforderungen
+          \n&7 für den Abschluss von Level \n&7 angerechnet werden sollen."
+        enabled: "&2 Aktiviert"
+        disabled: "&c Deaktiviert"
       download:
         name: "&f&l Bibliotheken herunterladen"
         description: |-
@@ -851,7 +857,7 @@ challenges:
           environment-single: "&7 Limitiert auf [environment]"
           environment-title: "&7 Limitiert auf:"
           environment-list: "  &7 - &e [environment]"
-          permission-single: "&c Requires [permissions] permission"
+          permission-single: "&c Erfordert die Berechtigung [permission]"
           permissions-title: "&c Erfordert Berechtigungen:"
           permissions-list: "  &c - [permission]"
           island:
@@ -998,9 +1004,9 @@ challenges:
     write-reward-commands: "&e Bitte geben Sie pro Zeile im Chat einen neuen Belohnungsbefehl
       ein und beenden Sie den Chat in einer eigenen Zeile."
     reward-commands-changed: "&a Erfolg, die Belohnungsbefehle wurden aktualisiert."
-    write-repeat-reward-commands: "&e Bitte geben Sie pro Zeile im Chat einen neuen
-      Belohnungswiederholungsbefehl ein und beenden Sie den Chat in einer eigenen
-      Zeile."
+    write-repeat-reward-commands: "&e Geben Sie bitte pro Zeile im Chat einen neuen
+      Befehl zur Wiederholung der Belohnung ein und klicken Sie zum Beenden auf „Beenden“
+      in einer eigenen Zeile."
     repeat-reward-commands-changed: "&a Erfolg, die Wiederholungsbelohnungsbefehle
       wurden aktualisiert."
     challenge-removed: "&a Herausforderungen [challende] für [gamemode] wird aus der
@@ -1098,6 +1104,12 @@ challenges:
     not-hooked: "&c Challenges Addon konnte keinen GameMode finden."
     timeout: "&c Diese Abfrage erfordert eine Wartezeit von [timeout] zwischen den
       Vervollständigungen. Sie müssen [wait-time] warten, bis Sie es erneut abschließen."
+    requirement-not-met: "&c Für diese Herausforderung muss [statistic] [number] haben.
+      Sie haben nur [value]."
+    requirement-not-met-entity: "&c Für diese Herausforderung muss [statistic] [entity]
+      über [number] verfügen. Sie haben nur [value]."
+    requirement-not-met-material: "&c Diese Herausforderung erfordert, dass [statistic]
+      [material] [number] hat. Sie haben nur [value]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

@@ -33,7 +33,7 @@ challenges:
       gamemode-gui: "&0&l Sélectionner le mode de jeu"
       multiple-gui: "&0&l Combien de fois ?"
       admin-gui: "&0&l Menu d'administration des Challenges"
-      edit-challenge: "&0&l Editer [Challenge]"
+      edit-challenge: "&0&l Editer [challenge]"
       edit-level: "&0&l Editer [level]"
       settings: "&0&l Paramètres"
       choose-challenge: "&0&l Choisir le Challenge"
@@ -337,7 +337,7 @@ challenges:
           &7 Permet de modifier le
           &7 niveau d'îlot requis
           &7 pour le défi.
-        value: "&7 Niveau actuel : &e [numéro]"
+        value: "&7 Niveau actuel : &e [number]"
       remove_money:
         name: "&f&l Supprimer de l'argent"
         description: |-
@@ -354,21 +354,21 @@ challenges:
           &7 Permet de modifier le
           &7 argent requis sur le joueur
           &7 représente le défi.
-        value: "&7 Valeur actuelle : &e [numéro]"
+        value: "&7 Valeur actuelle : &e [number]"
       statistic:
         name: "&f&l Statistique"
         description: |-
           &7 Permet de modifier le
           &7 type de statistique qui est
           &7 a vérifié ce défi.
-        value: "&7 Valeur actuelle : &e [statistique]"
+        value: "&7 Valeur actuelle : &e [statistic]"
       statistic_amount:
         name: "&f&l Valeur cible"
         description: |-
           &7 Permet de modifier le
           &7 valeur cible statistique
           &7 qui doit être respecté.
-        value: "&7 Valeur actuelle : &e [numéro]"
+        value: "&7 Valeur actuelle : &e [number]"
       remove_statistic:
         name: "&f&l Réduire la statistique"
         description: |-
@@ -389,13 +389,13 @@ challenges:
         description: |-
           &7 Permet de modifier le
           &7 poste cible statistique.
-        value: "&7 Poste actuel : &e [poste]"
+        value: "&7 Poste actuel : &e [item]"
       statistic_entities:
         name: "&f&l Entité cible"
         description: |-
           &7 Permet de modifier le
           &7 entité cible statistique.
-        value: "&7 Entité actuelle : &e [entité]"
+        value: "&7 Entité actuelle : &e [entity]"
       reward_text:
         name: "&f&l Texte de récompense"
         description: |-
@@ -446,7 +446,7 @@ challenges:
         description: |-
           &7 Permet de modifier le
           &7 récompense en argent.
-        value: "&7 Valeur actuelle : &e [numéro]"
+        value: "&7 Valeur actuelle : &e [number]"
       repeat_reward_money:
         name: "&f&l Répéter l'argent de la récompense"
         description: |-
@@ -825,14 +825,14 @@ challenges:
       challenge:
         lore: |-
           [description]
-          [statut]
-          [refroidir]
-          [exigences]
-          [récompenses]
+          [status]
+          [cooldown]
+          [requirements]
+          [rewards]
         status:
           completed: "&2&l Terminé"
-          completed-times: "&2 Terminé &7&l [numéro] &r&2 fois(-s)"
-          completed-times-of: "&2 Terminé &7&l [nombre] &r&2 sur &7&l [max] &r&2 fois"
+          completed-times: "&2 Terminé &7&l [number] &r&2 fois(-s)"
+          completed-times-of: "&2 Terminé &7&l [number] &r&2 sur &7&l [max] &r&2 fois"
           completed-times-reached: "&2&l Terminé tout &7 [max] &2 fois"
         cooldown:
           lore: |-
@@ -881,16 +881,16 @@ challenges:
             warning: "&e Le ou les éléments seront &c supprimés"
           other:
             lore: |-
-              [expérience]
-              [expérience-avertissement]
-              [argent]
-              [avertissement d'argent]
-              [niveau]
+              [experience]
+              [experience-warning]
+              [money]
+              [money-warning]
+              [level]
             experience: "&7&l Expérience requise : &r&e [number]"
             experience-warning: "&e L'expérience sera &c supprimée"
             money: "&7&l Argent requis : &r&e [number]"
             money-warning: "&e L'argent sera &c supprimé"
-            level: "&7&l Niveau d'îlot requis : &r&e [nombre]"
+            level: "&7&l Niveau d'îlot requis : &r&e [number]"
           statistic:
             lore: |-
               [statistic]
@@ -923,14 +923,14 @@ challenges:
         status:
           completed: "&2&l Terminé"
           completed-challenges-of: |-
-            &2 Terminé &7&l [numéro] &r&2 sur
+            &2 Terminé &7&l [number] &r&2 sur
             &7&l [max] &r&2 défis.
           locked: "&c&l Verrouillé"
           missing-challenges: |-
-            &7 [nombre] d'autres défis doivent être relevés
+            &7 [number] d'autres défis doivent être relevés
             &7 terminé pour débloquer ce niveau.
         waiver: |-
-          &7&l [numéro] défi(s) &r&7 peut être
+          &7&l [number] défi(s) &r&7 peut être
           &7 ignoré pour débloquer le niveau suivant.
         rewards:
           lore: |-
@@ -961,23 +961,23 @@ challenges:
     cancelled: "&c Conversation annulée !"
     input-number: "&e Veuillez saisir un numéro dans le chat."
     input-seconds: "&e Veuillez entrer une seconde dans le chat."
-    numeric-only: "&c La [valeur] donnée n'est pas un nombre !"
+    numeric-only: "&c La [value] donnée n'est pas un nombre !"
     not-valid-value: "&c Le nombre donné [value] n'est pas valide. Elle doit être
       supérieure à [min] et inférieure à [max] !"
-    user-data-removed: "&a Toutes les données utilisateur pour [mode de jeu] sont
-      effacées de la base de données."
+    user-data-removed: "&a Toutes les données utilisateur pour [gamemode] sont effacées
+      de la base de données."
     confirm-user-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer
-      la base de données utilisateur pour [mode de jeu]."
-    challenge-data-removed: "&a Toutes les données des défis pour [mode de jeu] sont
+      la base de données utilisateur pour [gamemode]."
+    challenge-data-removed: "&a Toutes les données des défis pour [gamemode] sont
       effacées de la base de données."
     confirm-challenge-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer
-      la base de données des défis pour [mode de jeu]."
-    all-data-removed: "&a Toutes les données du module complémentaire pour [mode de
-      jeu] sont effacées de la base de données."
+      la base de données des défis pour [gamemode]."
+    all-data-removed: "&a Toutes les données du module complémentaire pour [gamemode]
+      sont effacées de la base de données."
     confirm-all-data-deletion: "&e Veuillez confirmer que vous souhaitez effacer les
       données du module complémentaire pour [gamemode]."
     write-name: "&e Veuillez écrire un nom dans le chat."
-    new-object-created: "&a Un nouvel objet pour [mode de jeu] est créé."
+    new-object-created: "&a Un nouvel objet pour [gamemode] est créé."
     object-already-exists: "&c L'objet &7 [id] &c existe déjà. Choisissez un nom différent."
     invalid-challenge: "&c Challenge [challenge] contient des données non valides.
       Il ne peut pas être déployé !"
@@ -1006,22 +1006,22 @@ challenges:
     challenge-removed: "&a Les défis [challenge] pour [gamemode] sont supprimés de
       la base de données."
     confirm-challenge-deletion: "&e Veuillez confirmer que vous souhaitez supprimer
-      [défi] pour [mode de jeu] de la base de données."
-    level-removed: "&a Le niveau [niveau] pour [mode de jeu] est supprimé de la base
-      de données."
-    confirm-level-deletion: "&e Veuillez confirmer que vous souhaitez supprimer [niveau]
-      pour [mode de jeu] de la base de données."
+      [challenge] pour [gamemode] de la base de données."
+    level-removed: "&a Le niveau [level] pour [gamemode] est supprimé de la base de
+      données."
+    confirm-level-deletion: "&e Veuillez confirmer que vous souhaitez supprimer [level]
+      pour [gamemode] de la base de données."
     start-downloading: "&a Début du téléchargement et de l'importation de la bibliothèque
       de défis."
     written-text: "&a Saisir du texte :"
     confirm-data-replacement: "&e Veuillez confirmer que vous souhaitez remplacer
       vos défis actuels par de nouveaux."
-    new-challenges-imported: "&a Succès, de nouveaux défis pour [mode de jeu] ont
-      été importés."
+    new-challenges-imported: "&a Succès, de nouveaux défis pour [gamemode] ont été
+      importés."
     exported-file-name: "&e Veuillez entrer un nom de fichier pour le fichier de base
       de données exporté. (écrivez « annuler » pour quitter)"
     database-export-completed: "&a Succès, l'exportation de la base de données pour
-      [monde] est terminée. Fichier [fichier] généré."
+      [world] est terminée. Fichier [file] généré."
     file-name-exist: "&c Le fichier portant le nom '[id]' existe. Ne peut pas écraser."
     write-search: "&e Veuillez saisir une valeur de recherche. (écrire 'cancel' pour
       quitter)"
@@ -1056,7 +1056,7 @@ challenges:
     no-name: "&cNom du Challenge manquant"
     unknown-challenge: "&cChallenge inconnu"
     not-valid-integer: |-
-      &c L'entier donné "[valeur]" n'est pas valide !
+      &c L'entier donné "[value]" n'est pas valide !
       La valeur doit être comprise entre [min] et [max].
     not-deployed: "&cLe Challenge ne peut pas être réalisé !"
     not-on-island: "&cVous devez être sur votre île pour faire le Challenge !"
@@ -1090,8 +1090,8 @@ challenges:
     missing-arguments: "&c La commande n'a pas d'arguments."
     no-multiple-permission: "&cVous n'avez pas la permission d'accomplir ce challenge
       plusieurs fois à la fois."
-    invalid-level: "&c Le niveau [niveau] contient des données non valides. Il ne
-      sera pas chargé à partir de la base de données !"
+    invalid-level: "&c Le niveau [level] contient des données non valides. Il ne sera
+      pas chargé à partir de la base de données !"
     invalid-challenge: "&c Challenge [challenge] contient des données non valides.
       Il ne sera pas chargé à partir de la base de données !"
     no-library-entries: "&c Impossible de trouver des entrées de bibliothèque. Rien
@@ -1099,12 +1099,12 @@ challenges:
     not-hooked: "&c Challenges Addon n'a trouvé aucun GameMode."
     timeout: "&c Ce défi nécessite d'attendre [timeout] entre les achèvements. Vous
       devez attendre [wait-time] pour le terminer à nouveau."
-    requirement-not-met: "&c Ce défi nécessite que [statistique] ait [nombre]. Vous
-      n'avez que [valeur]."
-    requirement-not-met-entity: "&c Ce défi nécessite que [statistique] [entité] ait
-      [nombre]. Vous n'avez que [valeur]."
-    requirement-not-met-material: "&c Ce défi nécessite que [statistique] [matériel]
-      ait [nombre]. Vous n'avez que [valeur]."
+    requirement-not-met: "&c Ce défi nécessite que [statistic] ait [number]. Vous
+      n'avez que [value]."
+    requirement-not-met-entity: "&c Ce défi nécessite que [statistic] [entity] ait
+      [number]. Vous n'avez que [value]."
+    requirement-not-met-material: "&c Ce défi nécessite que [statistic] [material]
+      ait [number]. Vous n'avez que [value]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
