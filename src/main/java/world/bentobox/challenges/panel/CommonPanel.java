@@ -38,28 +38,80 @@ import world.bentobox.challenges.utils.Utils;
  * This class contains common methods for all panels.
  */
 public abstract class CommonPanel {
+
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
+
+    /**
+     * This variable stores parent gui.
+     */
+    @Nullable
+    protected final CommonPanel parentPanel;
+
+    /**
+     * Variable stores Challenges addon.
+     */
+    protected final ChallengesAddon addon;
+
+    /**
+     * Variable stores Challenges addon manager.
+     */
+    protected final ChallengesManager manager;
+
+    /**
+     * Variable stores world in which panel is referred to.
+     */
+    protected final World world;
+
+    /**
+     * Variable stores user who created this panel.
+     */
+    protected final User user;
+
+    /**
+     * Variable stores top label of command from which panel was called.
+     */
+    protected final String topLabel;
+
+    /**
+     * Variable stores permission prefix of command from which panel was called.
+     */
+    protected final String permissionPrefix;
+
+    /**
+     * This object holds PanelItem that allows to return to previous panel.
+     */
+    protected PanelItem returnButton;
+
+    /**
+     * The panel viewer
+     */
+    protected User viewer;
+
     /**
      * This is default constructor for all classes that extends CommonPanel.
      *
      * @param addon ChallengesAddon instance.
      * @param user  User who opens panel.
      */
-    protected CommonPanel(ChallengesAddon addon, User user, World world, String topLabel, String permissionPrefix) {
+    protected CommonPanel(ChallengesAddon addon, User user, User viewer, World world, String topLabel, String permissionPrefix) {
         this.addon = addon;
         this.world = world;
         this.manager = addon.getChallengesManager();
         this.user = user;
+        this.viewer = viewer;
 
         this.topLabel = topLabel;
         this.permissionPrefix = permissionPrefix;
 
         this.parentPanel = null;
 
-        this.returnButton = new PanelItemBuilder().name(this.user.getTranslation(Constants.BUTTON + "quit.name"))
-                .description(this.user.getTranslationOrNothing(Constants.BUTTON + "quit.description")).description("")
-                .description(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-quit"))
+        this.returnButton = new PanelItemBuilder().name(this.viewer.getTranslation(Constants.BUTTON + "quit.name"))
+                .description(this.viewer.getTranslationOrNothing(Constants.BUTTON + "quit.description")).description("")
+                .description(this.viewer.getTranslationOrNothing(Constants.TIPS + "click-to-quit"))
                 .icon(Material.OAK_DOOR).clickHandler((panel, user1, clickType, i) -> {
-                    this.user.closeInventory();
+                    this.viewer.closeInventory();
                     return true;
                 }).build();
     }
@@ -73,6 +125,7 @@ public abstract class CommonPanel {
         this.addon = parentPanel.addon;
         this.manager = parentPanel.manager;
         this.user = parentPanel.user;
+        this.viewer = parentPanel.viewer;
         this.world = parentPanel.world;
 
         this.topLabel = parentPanel.topLabel;
@@ -80,9 +133,9 @@ public abstract class CommonPanel {
 
         this.parentPanel = parentPanel;
 
-        this.returnButton = new PanelItemBuilder().name(this.user.getTranslation(Constants.BUTTON + "return.name"))
-                .description(this.user.getTranslationOrNothing(Constants.BUTTON + "return.description")).description("")
-                .description(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-return"))
+        this.returnButton = new PanelItemBuilder().name(this.viewer.getTranslation(Constants.BUTTON + "return.name"))
+                .description(this.viewer.getTranslationOrNothing(Constants.BUTTON + "return.description")).description("")
+                .description(this.viewer.getTranslationOrNothing(Constants.TIPS + "click-to-return"))
                 .icon(Material.OAK_DOOR).clickHandler((panel, user1, clickType, i) -> {
                     this.parentPanel.build();
                     return true;
@@ -131,7 +184,7 @@ public abstract class CommonPanel {
         final String reference = Constants.DESCRIPTIONS + "challenge.";
 
         // Get description from custom translations
-        String description = this.user
+        String description = this.viewer
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".description");
 
         if (description.isEmpty()) {
@@ -148,11 +201,11 @@ public abstract class CommonPanel {
         String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);
         // Get rewards in single string
         String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce);
-        // Get coolDown in singe string
+        // Get coolDown in single string
         String coolDown = isCompletedAll || challenge.getTimeout() <= 0 ? "" : this.generateCoolDown(challenge, target);
 
         if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty()) {
-            String returnString = this.user.getTranslationOrNothing(reference + "lore", "[requirements]", requirements,
+            String returnString = this.viewer.getTranslationOrNothing(reference + "lore", "[requirements]", requirements,
                     "[rewards]", rewards, "[status]", status, "[cooldown]", coolDown);
 
             // remove empty lines from the generated text.
@@ -169,7 +222,7 @@ public abstract class CommonPanel {
 
             return collect;
         } else {
-            String returnString = this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_DESCRIPTION,
+            String returnString = this.viewer.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_DESCRIPTION,
                     description, "[requirements]", requirements, "[rewards]", rewards, "[status]", status, "[cooldown]",
                     coolDown);
 
@@ -196,16 +249,16 @@ public abstract class CommonPanel {
             long missing = this.manager.getLastCompletionDate(this.user, this.world, challenge) + challenge.getTimeout()
                     - System.currentTimeMillis();
 
-            coolDown = this.user.getTranslation(reference + "wait-time", "[time]",
-                    Utils.parseDuration(Duration.ofMillis(missing), this.user));
+            coolDown = this.viewer.getTranslation(reference + "wait-time", "[time]",
+                    Utils.parseDuration(Duration.ofMillis(missing), this.viewer));
         } else {
             coolDown = "";
         }
 
-        String timeout = this.user.getTranslation(reference + "timeout", "[time]",
-                Utils.parseDuration(Duration.ofMillis(challenge.getTimeout()), this.user));
+        String timeout = this.viewer.getTranslation(reference + "timeout", "[time]",
+                Utils.parseDuration(Duration.ofMillis(challenge.getTimeout()), this.viewer));
 
-        return this.user.getTranslation(reference + "lore", "[timeout]", timeout, "[wait-time]", coolDown);
+        return this.viewer.getTranslation(reference + "lore", "[timeout]", timeout, "[wait-time]", coolDown);
     }
 
     /**
@@ -223,16 +276,16 @@ public abstract class CommonPanel {
             // If challenge can be completed everywhere, do not display requirement.
             environment = "";
         } else if (challenge.getEnvironment().size() == 1) {
-            environment = this.user.getTranslationOrNothing(reference + "environment-single",
+            environment = this.viewer.getTranslationOrNothing(reference + "environment-single",
                     Constants.PARAMETER_ENVIRONMENT,
-                    Utils.prettifyObject(challenge.getEnvironment().iterator().next(), this.user));
+                    Utils.prettifyObject(challenge.getEnvironment().iterator().next(), this.viewer));
         } else {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "environment-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "environment-title"));
             challenge.getEnvironment().stream().sorted().forEach(en -> {
                 builder.append("\n");
-                builder.append(this.user.getTranslationOrNothing(reference + "environment-single",
-                        Constants.PARAMETER_ENVIRONMENT, Utils.prettifyObject(en, this.user)));
+                builder.append(this.viewer.getTranslationOrNothing(reference + "environment-single",
+                        Constants.PARAMETER_ENVIRONMENT, Utils.prettifyObject(en, this.viewer)));
             });
 
             environment = builder.toString();
@@ -248,13 +301,13 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (missingPermissions.size() == 1) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permission-single",
+                permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "permission-single",
                         Constants.PARAMETER_PERMISSION, missingPermissions.get(0)));
             } else if (!missingPermissions.isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permissions-title"));
+                permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "permissions-title"));
                 missingPermissions.forEach(permission -> {
                     permissionBuilder.append("\n");
-                    permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permissions-list",
+                    permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "permissions-list",
                             Constants.PARAMETER_PERMISSION, permission));
                 });
             }
@@ -271,7 +324,7 @@ public abstract class CommonPanel {
         case STATISTIC_TYPE -> this.generateStatisticChallenge(challenge.getRequirements());
         };
 
-        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_ENVIRONMENT, environment,
+        return this.viewer.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_ENVIRONMENT, environment,
                 "[type-requirement]", typeRequirement, "[permissions]", permissions);
     }
 
@@ -288,17 +341,17 @@ public abstract class CommonPanel {
 
         if (!requirement.getRequiredBlocks().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "blocks-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "blocks-title"));
             requirement.getRequiredBlocks().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
                 builder.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                    builder.append(this.viewer.getTranslationOrNothing(reference + "blocks-value",
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
-                            Utils.prettifyObject(entry.getKey(), this.user)));
+                            Utils.prettifyObject(entry.getKey(), this.viewer)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
-                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                    builder.append(this.viewer.getTranslationOrNothing(reference + "block-value",
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.viewer)));
                 }
             });
 
@@ -311,17 +364,17 @@ public abstract class CommonPanel {
 
         if (!requirement.getRequiredEntities().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "entities-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "entities-title"));
             requirement.getRequiredEntities().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
                 builder.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "entities-value",
+                    builder.append(this.viewer.getTranslationOrNothing(reference + "entities-value",
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_ENTITY,
-                            Utils.prettifyObject(entry.getKey(), this.user)));
+                            Utils.prettifyObject(entry.getKey(), this.viewer)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "entity-value",
-                            Constants.PARAMETER_ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
+                    builder.append(this.viewer.getTranslationOrNothing(reference + "entity-value",
+                            Constants.PARAMETER_ENTITY, Utils.prettifyObject(entry.getKey(), this.viewer)));
                 }
             });
 
@@ -330,17 +383,17 @@ public abstract class CommonPanel {
             entities = "";
         }
 
-        String searchRadius = this.user.getTranslationOrNothing(reference + "search-radius", Constants.PARAMETER_NUMBER,
+        String searchRadius = this.viewer.getTranslationOrNothing(reference + "search-radius", Constants.PARAMETER_NUMBER,
                 String.valueOf(requirement.getSearchRadius()));
 
         String warningBlocks = requirement.isRemoveBlocks()
-                ? this.user.getTranslationOrNothing(reference + "warning-block")
+                ? this.viewer.getTranslationOrNothing(reference + "warning-block")
                 : "";
         String warningEntities = requirement.isRemoveEntities()
-                ? this.user.getTranslationOrNothing(reference + "warning-entity")
+                ? this.viewer.getTranslationOrNothing(reference + "warning-entity")
                 : "";
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks, "[entities]", entities,
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[blocks]", blocks, "[entities]", entities,
                 "[warning-block]", warningBlocks, "[warning-entity]", warningEntities, "[search-radius]", searchRadius);
     }
 
@@ -357,18 +410,18 @@ public abstract class CommonPanel {
 
         if (!requirement.getRequiredItems().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "item-title"));
             Utils.groupEqualItems(requirement.getRequiredItems(), requirement.getIgnoreMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "items-value", "[number]",
                                     String.valueOf(itemStack.getAmount()), "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "item-value", "[item]",
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         }
                     });
 
@@ -377,9 +430,9 @@ public abstract class CommonPanel {
             items = "";
         }
 
-        String warning = requirement.isTakeItems() ? this.user.getTranslationOrNothing(reference + "warning") : "";
+        String warning = requirement.isTakeItems() ? this.viewer.getTranslationOrNothing(reference + "warning") : "";
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[items]", items, "[warning]", warning);
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[items]", items, "[warning]", warning);
     }
 
     /**
@@ -392,25 +445,25 @@ public abstract class CommonPanel {
         final String reference = Constants.DESCRIPTIONS + "challenge.requirements.other.";
 
         String experience = requirement.getRequiredExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "experience", "[number]",
                         String.valueOf(requirement.getRequiredExperience()));
 
         String experienceWarning = requirement.getRequiredExperience() > 0 && requirement.isTakeExperience()
-                ? this.user.getTranslationOrNothing(reference + "experience-warning")
+                ? this.viewer.getTranslationOrNothing(reference + "experience-warning")
                 : "";
 
         String money = !this.addon.isEconomyProvided() || requirement.getRequiredMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "money", "[number]",
                         String.valueOf(requirement.getRequiredMoney()));
 
         String moneyWarning = this.addon.isEconomyProvided() && requirement.getRequiredMoney() > 0
-                && requirement.isTakeMoney() ? this.user.getTranslationOrNothing(reference + "money-warning") : "";
+                && requirement.isTakeMoney() ? this.viewer.getTranslationOrNothing(reference + "money-warning") : "";
 
         String level = !this.addon.isLevelProvided() || requirement.getRequiredIslandLevel() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "level", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "level", "[number]",
                         String.valueOf(requirement.getRequiredIslandLevel()));
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[experience]", experience, "[experience-warning]",
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[experience]", experience, "[experience-warning]",
                 experienceWarning, "[money]", money, "[money-warning]", moneyWarning, "[level]", level);
     }
 
@@ -431,40 +484,40 @@ public abstract class CommonPanel {
         }
 
         switch (requirement.getStatistic().getType()) {
-        case UNTYPED -> statistic = this.user.getTranslationOrNothing(reference + "statistic", "[statistic]",
-                Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
+        case UNTYPED -> statistic = this.viewer.getTranslationOrNothing(reference + "statistic", "[statistic]",
+                Utils.prettifyObject(requirement.getStatistic(), this.viewer), "[number]",
                 String.valueOf(requirement.getAmount()));
         case ITEM, BLOCK -> {
             if (requirement.getAmount() > 1) {
-                statistic = this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
+                statistic = this.viewer.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
+                        Utils.prettifyObject(requirement.getStatistic(), this.viewer), "[number]",
                         String.valueOf(requirement.getAmount()), "[target]",
-                        Utils.prettifyObject(requirement.getMaterial(), this.user));
+                        Utils.prettifyObject(requirement.getMaterial(), this.viewer));
             } else {
-                statistic = this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[target]",
-                        Utils.prettifyObject(requirement.getMaterial(), this.user));
+                statistic = this.viewer.getTranslationOrNothing(reference + "single-target", "[statistic]",
+                        Utils.prettifyObject(requirement.getStatistic(), this.viewer), "[target]",
+                        Utils.prettifyObject(requirement.getMaterial(), this.viewer));
             }
         }
         case ENTITY -> {
             if (requirement.getAmount() > 1) {
-                statistic = this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
+                statistic = this.viewer.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
+                        Utils.prettifyObject(requirement.getStatistic(), this.viewer), "[number]",
                         String.valueOf(requirement.getAmount()), "[target]",
-                        Utils.prettifyObject(requirement.getEntity(), this.user));
+                        Utils.prettifyObject(requirement.getEntity(), this.viewer));
             } else {
-                statistic = this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[target]",
-                        Utils.prettifyObject(requirement.getEntity(), this.user));
+                statistic = this.viewer.getTranslationOrNothing(reference + "single-target", "[statistic]",
+                        Utils.prettifyObject(requirement.getStatistic(), this.viewer), "[target]",
+                        Utils.prettifyObject(requirement.getEntity(), this.viewer));
             }
         }
         default -> statistic = "";
         }
 
-        String warning = requirement.isReduceStatistic() ? this.user.getTranslationOrNothing(reference + "warning")
+        String warning = requirement.isReduceStatistic() ? this.viewer.getTranslationOrNothing(reference + "warning")
                 : "";
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[statistic]", statistic, "[warning]", warning);
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[statistic]", statistic, "[warning]", warning);
     }
 
     /**
@@ -483,17 +536,17 @@ public abstract class CommonPanel {
 
         if (completedAll) {
             if (maxCompletions > 1) {
-                return this.user.getTranslationOrNothing(reference + "completed-times-reached", Constants.PARAMETER_MAX,
+                return this.viewer.getTranslationOrNothing(reference + "completed-times-reached", Constants.PARAMETER_MAX,
                         String.valueOf(maxCompletions));
             } else {
-                return this.user.getTranslationOrNothing(reference + "completed");
+                return this.viewer.getTranslationOrNothing(reference + "completed");
             }
         } else if (completedOnce) {
             if (maxCompletions > 0) {
-                return this.user.getTranslationOrNothing(reference + "completed-times-of", Constants.PARAMETER_MAX,
+                return this.viewer.getTranslationOrNothing(reference + "completed-times-of", Constants.PARAMETER_MAX,
                         String.valueOf(maxCompletions), Constants.PARAMETER_NUMBER, String.valueOf(completionCount));
             } else {
-                return this.user.getTranslationOrNothing(reference + "completed-times", Constants.PARAMETER_NUMBER,
+                return this.viewer.getTranslationOrNothing(reference + "completed-times", Constants.PARAMETER_NUMBER,
                         String.valueOf(completionCount));
             }
         } else {
@@ -530,18 +583,18 @@ public abstract class CommonPanel {
 
         if (!challenge.getRepeatItemReward().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "item-title"));
             Utils.groupEqualItems(challenge.getRepeatItemReward(), challenge.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "items-value", "[number]",
                                     String.valueOf(itemStack.getAmount()), "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "item-value", "[item]",
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         }
                     });
 
@@ -551,11 +604,11 @@ public abstract class CommonPanel {
         }
 
         String experience = challenge.getRepeatExperienceReward() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "experience", "[number]",
                         String.valueOf(challenge.getRepeatExperienceReward()));
 
         String money = !this.addon.isEconomyProvided() || challenge.getRepeatMoneyReward() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "money", "[number]",
                         addon.getPlugin().getVault().map(v -> v.format(challenge.getRepeatMoneyReward()))
                                 .orElse(String.valueOf(challenge.getRepeatMoneyReward())));
 
@@ -565,12 +618,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!challenge.getRepeatRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "commands-title"));
 
                 challenge.getRepeatRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.viewer.getTranslationOrNothing(reference + "command", "[command]", command));
                 });
             }
 
@@ -585,14 +638,14 @@ public abstract class CommonPanel {
             return "";
         }
 
-        String rewardText = this.user
+        String rewardText = this.viewer
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".repeat-reward-text");
 
         if (rewardText.isEmpty()) {
             rewardText = Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText()));
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);
     }
 
@@ -609,18 +662,18 @@ public abstract class CommonPanel {
 
         if (!challenge.getRewardItems().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "item-title"));
             Utils.groupEqualItems(challenge.getRewardItems(), challenge.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "items-value", "[number]",
                                     String.valueOf(itemStack.getAmount()), "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "item-value", "[item]",
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         }
                     });
 
@@ -630,11 +683,11 @@ public abstract class CommonPanel {
         }
 
         String experience = challenge.getRewardExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "experience", "[number]",
                         String.valueOf(challenge.getRewardExperience()));
 
         String money = !this.addon.isEconomyProvided() || challenge.getRewardMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "money", "[number]",
                         addon.getPlugin().getVault().map(v -> v.format(challenge.getRewardMoney()))
                                 .orElse(String.valueOf(challenge.getRewardMoney())));
 
@@ -644,12 +697,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!challenge.getRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "commands-title"));
 
                 challenge.getRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.viewer.getTranslationOrNothing(reference + "command", "[command]", command));
                 });
             }
 
@@ -664,14 +717,14 @@ public abstract class CommonPanel {
             return "";
         }
 
-        String rewardText = this.user
+        String rewardText = this.viewer
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
             rewardText = Util.translateColorCodes(String.join("\n", challenge.getRewardText()));
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);
     }
 
@@ -690,12 +743,12 @@ public abstract class CommonPanel {
         String status = "";
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) ? ""
-                : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "waiver", "[number]",
                         String.valueOf(level.getWaiverAmount()));
         // Get rewards in single string
         String rewards = this.generateReward(level);
 
-        String returnString = this.user.getTranslation(reference + "lore", "[text]",
+        String returnString = this.viewer.getTranslation(reference + "lore", "[text]",
                 Util.translateColorCodes(level.getUnlockMessage()), "[waiver]", waiver, "[rewards]", rewards,
                 "[status]", status);
 
@@ -724,19 +777,19 @@ public abstract class CommonPanel {
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) || !levelStatus.isUnlocked()
                 || levelStatus.isComplete() ? ""
-                        : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
+                        : this.viewer.getTranslationOrNothing(reference + "waiver", "[number]",
                                 String.valueOf(level.getWaiverAmount()));
         // Get rewards in single string
         String rewards = !levelStatus.isUnlocked() ? "" : this.generateReward(level);
 
-        String description = this.user
+        String description = this.viewer
                 .getTranslationOrNothing("challenges.levels." + level.getUniqueId() + ".description");
 
         if (description.isEmpty()) {
             description = Util.translateColorCodes(String.join("\n", level.getUnlockMessage()));
         }
 
-        String returnString = this.user.getTranslation(reference + "lore", "[text]", description, "[waiver]", waiver,
+        String returnString = this.viewer.getTranslation(reference + "lore", "[text]", description, "[waiver]", waiver,
                 "[rewards]", rewards, "[status]", status);
 
         // Remove empty lines and returns as a list.
@@ -755,11 +808,11 @@ public abstract class CommonPanel {
         final String reference = Constants.DESCRIPTIONS + "level.status.";
 
         if (!levelStatus.isUnlocked()) {
-            return this.user.getTranslationOrNothing(reference + "locked") + "\n"
-                    + this.user.getTranslationOrNothing(reference + "missing-challenges", "[number]",
+            return this.viewer.getTranslationOrNothing(reference + "locked") + "\n"
+                    + this.viewer.getTranslationOrNothing(reference + "missing-challenges", "[number]",
                             String.valueOf(levelStatus.getNumberOfChallengesStillToDo()));
         } else if (levelStatus.isComplete()) {
-            return this.user.getTranslationOrNothing(reference + "completed");
+            return this.viewer.getTranslationOrNothing(reference + "completed");
         } else {
             ChallengeLevel level = levelStatus.getLevel();
             List<Challenge> challengeList = this.addon.getChallengesManager().getLevelChallenges(level);
@@ -768,7 +821,7 @@ public abstract class CommonPanel {
             int doneChallenges = (int) challengeList.stream().filter(challenge -> this.addon.getChallengesManager()
                     .isChallengeComplete(user.getUniqueId(), world, challenge)).count();
 
-            return this.user.getTranslation(reference + "completed-challenges-of", "[number]",
+            return this.viewer.getTranslation(reference + "completed-challenges-of", "[number]",
                     String.valueOf(doneChallenges), "[max]", String.valueOf(challengeList.size()));
         }
     }
@@ -786,18 +839,18 @@ public abstract class CommonPanel {
 
         if (!level.getRewardItems().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.viewer.getTranslationOrNothing(reference + "item-title"));
             Utils.groupEqualItems(level.getRewardItems(), level.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "items-value", "[number]",
                                     String.valueOf(itemStack.getAmount()), "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
-                                    Utils.prettifyObject(itemStack, this.user)));
+                            builder.append(this.viewer.getTranslationOrNothing(reference + "item-value", "[item]",
+                                    Utils.prettifyObject(itemStack, this.viewer)));
                         }
                     });
 
@@ -807,11 +860,11 @@ public abstract class CommonPanel {
         }
 
         String experience = level.getRewardExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "experience", "[number]",
                         String.valueOf(level.getRewardExperience()));
 
         String money = !this.addon.isEconomyProvided() || level.getRewardMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.viewer.getTranslationOrNothing(reference + "money", "[number]",
                         String.valueOf(level.getRewardMoney()));
 
         String commands;
@@ -820,12 +873,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!level.getRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.viewer.getTranslationOrNothing(reference + "commands-title"));
 
                 level.getRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.viewer.getTranslationOrNothing(reference + "command", "[command]", command));
                 });
             }
 
@@ -840,59 +893,15 @@ public abstract class CommonPanel {
             return "";
         }
 
-        String rewardText = this.user
+        String rewardText = this.viewer
                 .getTranslationOrNothing("challenges.levels." + level.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
             rewardText = Util.translateColorCodes(String.join("\n", level.getRewardText()));
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
+        return this.viewer.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);
     }
 
-    // ---------------------------------------------------------------------
-    // Section: Variables
-    // ---------------------------------------------------------------------
-
-    /**
-     * This variable stores parent gui.
-     */
-    @Nullable
-    protected final CommonPanel parentPanel;
-
-    /**
-     * Variable stores Challenges addon.
-     */
-    protected final ChallengesAddon addon;
-
-    /**
-     * Variable stores Challenges addon manager.
-     */
-    protected final ChallengesManager manager;
-
-    /**
-     * Variable stores world in which panel is referred to.
-     */
-    protected final World world;
-
-    /**
-     * Variable stores user who created this panel.
-     */
-    protected final User user;
-
-    /**
-     * Variable stores top label of command from which panel was called.
-     */
-    protected final String topLabel;
-
-    /**
-     * Variable stores permission prefix of command from which panel was called.
-     */
-    protected final String permissionPrefix;
-
-    /**
-     * This object holds PanelItem that allows to return to previous panel.
-     */
-    protected PanelItem returnButton;
 }

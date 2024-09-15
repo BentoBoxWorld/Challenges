@@ -61,7 +61,7 @@ public class EditChallengePanel extends CommonPanel {
      */
     private EditChallengePanel(ChallengesAddon addon, User user, World world, String topLabel, String permissionPrefix,
 	    Challenge challenge) {
-	super(addon, user, world, topLabel, permissionPrefix);
+	super(addon, user, user, world, topLabel, permissionPrefix);
 	this.challenge = challenge;
 	this.currentMenuType = MenuType.PROPERTIES;
     }

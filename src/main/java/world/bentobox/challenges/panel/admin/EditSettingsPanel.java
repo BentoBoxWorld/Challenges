@@ -51,7 +51,7 @@ public class EditSettingsPanel extends CommonPanel
         String topLabel,
         String permissionPrefix)
     {
-        super(addon, user, world, topLabel, permissionPrefix);
+        super(addon, user, user, world, topLabel, permissionPrefix);
         this.settings = this.addon.getChallengesSettings();
     }
 
