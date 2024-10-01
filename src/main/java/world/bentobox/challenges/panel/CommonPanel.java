@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -131,13 +132,20 @@ public abstract class CommonPanel {
         final String reference = Constants.DESCRIPTIONS + "challenge.";
 
         // Get description from custom translations
-        String description = this.user
-                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".description");
+        String description = this.user.getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".description");
 
         if (description.isEmpty()) {
             // Get data from object in single string.
             description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
         }
+        
+        String descriptionColor = this.user.getTranslationOrNothing(reference + "description.color");
+        
+        description = descriptionColor + description;
+        
+        if (this.addon.getChallengesSettings().getLoreLength() > -1 ) {
+            description = Utils.stringSplit(description, this.addon.getChallengesSettings().getLoreLength());
+        }        
 
         // Non-memory optimal code used for easier debugging and nicer code layout for
         // my eye :)
@@ -586,12 +594,20 @@ public abstract class CommonPanel {
         }
 
         String rewardText = this.user
-                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".repeat-reward-text");
+                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".repeat-reward-text");        
 
         if (rewardText.isEmpty()) {
             rewardText = Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText()));
         }
-
+        
+        String rewardTextColor = this.user.getTranslationOrNothing(reference + "text-color");
+        
+        rewardText = rewardTextColor + rewardText;
+        
+        if (this.addon.getChallengesSettings().getLoreLength() > -1 ) {
+            rewardText = Utils.stringSplit(rewardText, this.addon.getChallengesSettings().getLoreLength());
+        }  
+        
         return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);
     }
@@ -670,6 +686,14 @@ public abstract class CommonPanel {
         if (rewardText.isEmpty()) {
             rewardText = Util.translateColorCodes(String.join("\n", challenge.getRewardText()));
         }
+        
+        String rewardTextColor = this.user.getTranslationOrNothing(reference + "text-color");
+        
+        rewardText = rewardTextColor + rewardText;
+        
+        if (this.addon.getChallengesSettings().getLoreLength() > -1 ) {
+            rewardText = Utils.stringSplit(rewardText, this.addon.getChallengesSettings().getLoreLength());
+        }     
 
         return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);

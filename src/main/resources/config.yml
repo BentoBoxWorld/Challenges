@@ -83,6 +83,10 @@ gui-settings:
     ==: org.bukkit.inventory.ItemStack
     v: 2730
     type: BARRIER
+  #
+  # This allows to change lore description line length. By default it is 25, but some server
+  # owners may like it to be larger. Set it to -1 to disable it.
+  lore-length: 25
 #
 # This indicate if challenges data will be stored per island (true) or per player (false).
 store-island-data: true

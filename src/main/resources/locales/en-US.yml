@@ -867,6 +867,9 @@ challenges:
                     [cooldown]
                     [requirements]
                     [rewards]
+                description:
+                    # Formatting applied to description text ([description])
+                    color: '&b'
                 # Contains a text generated inside [status] lore
                 status:
                     # Status message for completed unrepeatable challenge
@@ -988,6 +991,8 @@ challenges:
                         [experience]
                         [money]
                         [commands]
+                    # Formatting applied to reward text ([text])
+                    text-color: '&b'
                     # Title that will be used if there are list of items for rewards
                     item-title: "&7 Items:"
                     # Listing of an item that are rewards multiple times.
