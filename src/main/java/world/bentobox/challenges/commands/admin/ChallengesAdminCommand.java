@@ -63,6 +63,7 @@ public class ChallengesAdminCommand extends CompositeCommand
 
             return true;
         }
+        this.showHelp(this, user);
         return false;
     }
 }
