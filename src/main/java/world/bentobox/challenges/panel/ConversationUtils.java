@@ -119,6 +119,9 @@ public class ConversationUtils
             withFirstPrompt(confirmationPrompt).
             withLocalEcho(false).
             withTimeout(90).
+                // Use null value in consumer to detect if user has abandoned conversation.
+                addConversationAbandonedListener(ConversationUtils.getAbandonListener(consumer, user))
+                .
             buildConversation(user.getPlayer()).
             begin();
     }
