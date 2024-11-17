@@ -113,30 +113,34 @@ public class ChallengesManager
      * This comparator orders challenges by their level, order and name.
      */
     private final Comparator<Challenge> challengeComparator = (o1, o2) -> {
+        // Get the levels
         ChallengeLevel o1Level = this.getLevel(o1.getLevel());
         ChallengeLevel o2Level = this.getLevel(o2.getLevel());
 
-        if (o1Level == null && o2Level == null)
-        {
+        // Handle null levels consistently
+        if (o1Level == null && o2Level == null) {
+            // Both levels are null, compare by order
             return Integer.compare(o1.getOrder(), o2.getOrder());
-        }
-        else if (o1Level == null)
-        {
+        } else if (o1Level == null) {
+            // If o1 level is null, it should be ordered lower
             return -1;
-        }
-        else if (o2Level == null)
-        {
+        } else if (o2Level == null) {
+            // If o2 level is null, it should be ordered lower
             return 1;
         }
-        else if (o1Level.equals(o2Level))
-        {
+
+        // If both levels are non-null, compare their orders
+        int levelComparison = Integer.compare(o1Level.getOrder(), o2Level.getOrder());
+
+        // If levels are the same, compare by challenge order
+        if (levelComparison == 0) {
             return Integer.compare(o1.getOrder(), o2.getOrder());
         }
-        else
-        {
-            return Integer.compare(o1Level.getOrder(), o2Level.getOrder());
-        }
+
+        // Return the level comparison result
+        return levelComparison;
     };
+
 
 
     // ---------------------------------------------------------------------

@@ -151,6 +151,11 @@ public class WebManager
 				if (this.plugin.getSettings().isLogGithubDownloadData())
 				{
 					this.plugin.log("Could not connect to GitHub.");
+                    this.plugin.log(
+                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
+                    user.sendRawMessage("Could not connect to GitHub.");
+                    user.sendRawMessage(
+                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
 				}
 			}
 			catch (Exception e)
