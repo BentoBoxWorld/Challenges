@@ -44,10 +44,11 @@ public class AdminPanel extends CommonPanel
     private AdminPanel(ChallengesAddon addon,
         World world,
         User user,
+        User viewer,
         String topLabel,
         String permissionPrefix)
     {
-        super(addon, user, world, topLabel, permissionPrefix);
+        super(addon, user, viewer, world, topLabel, permissionPrefix);
     }
 
 
@@ -66,7 +67,7 @@ public class AdminPanel extends CommonPanel
         String topLabel,
         String permissionPrefix)
     {
-        new AdminPanel(addon, world, user, topLabel, permissionPrefix).build();
+        new AdminPanel(addon, world, user, user, topLabel, permissionPrefix).build();
     }
 
 

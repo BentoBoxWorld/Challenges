@@ -42,7 +42,7 @@ public abstract class CommonPagedPanel<T> extends CommonPanel
         User user,
         World world, String topLabel, String permissionPrefix)
     {
-        super(addon, user, world, topLabel, permissionPrefix);
+        super(addon, user, user, world, topLabel, permissionPrefix);
     }
 
 

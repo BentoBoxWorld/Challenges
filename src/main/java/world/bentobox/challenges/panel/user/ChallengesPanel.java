@@ -18,11 +18,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.TemplatedPanel;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.panels.builders.TemplatedPanelBuilder;
 import world.bentobox.bentobox.api.panels.reader.ItemTemplateRecord;
+import world.bentobox.bentobox.api.panels.reader.ItemTemplateRecord.ActionRecords;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
@@ -41,12 +43,13 @@ import world.bentobox.challenges.utils.Utils;
 public class ChallengesPanel extends CommonPanel
 {
     private ChallengesPanel(ChallengesAddon addon,
-        World world,
-        User user,
-        String topLabel,
-        String permissionPrefix)
+            World world,
+            User user,
+            User viewer,
+            String topLabel,
+            String permissionPrefix)
     {
-        super(addon, user, world, topLabel, permissionPrefix);
+        super(addon, user, viewer, world, topLabel, permissionPrefix);
         this.updateLevelList();
         this.containsChallenges = this.manager.hasAnyChallengeData(this.world);
     }
@@ -62,12 +65,32 @@ public class ChallengesPanel extends CommonPanel
      * @param permissionPrefix the permission prefix
      */
     public static void open(ChallengesAddon addon,
-        World world,
-        User user,
-        String topLabel,
-        String permissionPrefix)
+            World world,
+            User user,
+            String topLabel,
+            String permissionPrefix)
     {
-        new ChallengesPanel(addon, world, user, topLabel, permissionPrefix).build();
+        new ChallengesPanel(addon, world, user, user, topLabel, permissionPrefix).build();
+    }
+
+    /**
+     * View the Challenges GUI.
+     *
+     * @param addon the addon
+     * @param world the world
+     * @param user the user
+     * @param viewer the viewer
+     * @param topLabel the top label
+     * @param permissionPrefix the permission prefix
+     */
+    public static void view(ChallengesAddon addon,
+            World world,
+            User user,
+            User viewer,
+            String topLabel,
+            String permissionPrefix)
+    {
+        new ChallengesPanel(addon, world, user, viewer, topLabel, permissionPrefix).build();
     }
 
 
@@ -77,7 +100,7 @@ public class ChallengesPanel extends CommonPanel
         if (!this.containsChallenges)
         {
             this.addon.logError("There are no challenges set up!");
-            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-challenges");
+            Utils.sendMessage(this.viewer, this.world, Constants.ERRORS + "no-challenges");
             return;
         }
 
@@ -91,8 +114,8 @@ public class ChallengesPanel extends CommonPanel
 
         // Set main template.
         panelBuilder.template("main_panel", new File(this.addon.getDataFolder(), "panels"));
-        panelBuilder.user(this.user);
-        panelBuilder.world(this.user.getWorld());
+        panelBuilder.user(this.viewer);
+        panelBuilder.world(this.viewer.getWorld());
 
         // Register button builders
         panelBuilder.registerTypeBuilder("CHALLENGE", this::createChallengeButton);
@@ -115,7 +138,7 @@ public class ChallengesPanel extends CommonPanel
         if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
         {
             this.freeChallengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                this.manager.isChallengeComplete(this.user, this.world, challenge));
+                    this.manager.isChallengeComplete(this.user, this.world, challenge));
         }
 
         // Remove all undeployed challenges if VisibilityMode is set to Hidden.
@@ -135,7 +158,7 @@ public class ChallengesPanel extends CommonPanel
             if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
             {
                 this.challengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                    this.manager.isChallengeComplete(this.user, this.world, challenge));
+                        this.manager.isChallengeComplete(this.user, this.world, challenge));
             }
 
             // Remove all undeployed challenges if VisibilityMode is set to Hidden.
@@ -179,7 +202,7 @@ public class ChallengesPanel extends CommonPanel
     private boolean updateLevelListSilent()
     {
         Optional<LevelStatus> firstLockedLevel =
-            this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
+                this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
 
         if (firstLockedLevel.isPresent())
         {
@@ -188,10 +211,10 @@ public class ChallengesPanel extends CommonPanel
 
             // Find a new first locked level.
             Optional<LevelStatus> newLockedLevel =
-                this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
+                    this.levelList.stream().filter(levelStatus -> !levelStatus.isUnlocked()).findFirst();
 
             return newLockedLevel.isEmpty() ||
-                firstLockedLevel.get().getLevel() != newLockedLevel.get().getLevel();
+                    firstLockedLevel.get().getLevel() != newLockedLevel.get().getLevel();
         }
         else
         {
@@ -219,9 +242,9 @@ public class ChallengesPanel extends CommonPanel
 
             // Find a challenge with given Id;
             levelChallenge = this.challengeList.stream().
-                filter(challenge -> challenge.getUniqueId().equals(id)).
-                findFirst().
-                orElse(null);
+                    filter(challenge -> challenge.getUniqueId().equals(id)).
+                    findFirst().
+                    orElse(null);
 
             if (levelChallenge == null)
             {
@@ -257,8 +280,8 @@ public class ChallengesPanel extends CommonPanel
         // Template specific title is always more important than challenge name.
         if (template.title() != null && !template.title().isBlank())
         {
-            builder.name(this.user.getTranslation(this.world, template.title(),
-                Constants.PARAMETER_CHALLENGE, challenge.getFriendlyName()));
+            builder.name(this.viewer.getTranslation(this.world, template.title(),
+                    Constants.PARAMETER_CHALLENGE, challenge.getFriendlyName()));
         }
         else
         {
@@ -268,7 +291,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.description() != null && !template.description().isBlank())
         {
             // TODO: adding parameters could be useful.
-            builder.description(this.user.getTranslation(this.world, template.description()));
+            builder.description(this.viewer.getTranslation(this.world, template.description()));
         }
         else
         {
@@ -279,148 +302,153 @@ public class ChallengesPanel extends CommonPanel
         // If challenge is completed all possible times, remove action.
 
         List<ItemTemplateRecord.ActionRecords> actions = template.actions().stream().
-            filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
-            filter(action ->
-            {
-                boolean isCompletedOnce =
-                    this.manager.isChallengeComplete(this.user.getUniqueId(), this.world, challenge);
-
-                if (!isCompletedOnce)
+                filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
+                filter(action ->
                 {
-                    // Is not completed once, then it must appear.
-                    return true;
-                }
-                else if (challenge.isRepeatable() && challenge.getMaxTimes() <= 0)
-                {
-                    // Challenge is unlimited. Must appear in the list.
-                    return true;
-                }
-                else
-                {
-                    // Challenge still have some opened slots.
+                    boolean isCompletedOnce =
+                            this.manager.isChallengeComplete(this.user.getUniqueId(), this.world, challenge);
 
-                    long doneTimes = challenge.isRepeatable() ?
-                        this.manager.getChallengeTimes(this.user, this.world, challenge) : 1;
+                    if (!isCompletedOnce)
+                    {
+                        // Is not completed once, then it must appear.
+                        return true;
+                    }
+                    else if (challenge.isRepeatable() && challenge.getMaxTimes() <= 0)
+                    {
+                        // Challenge is unlimited. Must appear in the list.
+                        return true;
+                    }
+                    else
+                    {
+                        // Challenge still have some opened slots.
 
-                    return challenge.isRepeatable() && doneTimes < challenge.getMaxTimes();
-                }
-            }).
-            toList();
+                        long doneTimes = challenge.isRepeatable() ?
+                                this.manager.getChallengeTimes(this.user, this.world, challenge) : 1;
+
+                        return challenge.isRepeatable() && doneTimes < challenge.getMaxTimes();
+                    }
+                }).
+                toList();
 
         // Add Click handler
-        builder.clickHandler((panel, user, clickType, i) -> {
-            for (ItemTemplateRecord.ActionRecords action : actions)
+        if (user.equals(viewer)) {
+            builder.clickHandler((panel, user, clickType, i) -> clickHandler(panel, user, clickType, i, actions, template, challenge));
+
+            // Collect tooltips.
+            List<String> tooltips = actions.stream().
+                    filter(action -> action.tooltip() != null).
+                    map(action -> this.viewer.getTranslation(this.world, action.tooltip())).
+                    filter(text -> !text.isBlank()).
+                    collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+
+            // Add tooltips.
+            if (!tooltips.isEmpty())
             {
-                if (clickType == action.clickType() || clickType.equals(ClickType.UNKNOWN))
+                // Empty line and tooltips.
+                builder.description("");
+                builder.description(tooltips);
+            }
+        }
+
+        // Glow the icon.
+        builder.glow(this.addon.getChallengesSettings().isAddCompletedGlow() &&
+                this.manager.isChallengeComplete(this.user, this.world, challenge));
+
+        // Click Handlers are managed by custom addon buttons.
+        return builder.build();
+    }
+
+
+    private boolean clickHandler(Panel panel, User user, ClickType clickType, int i, List<ActionRecords> actions, ItemTemplateRecord template, @NonNull Challenge challenge) {
+        for (ItemTemplateRecord.ActionRecords action : actions)
+        {
+            if (clickType == action.clickType() || clickType.equals(ClickType.UNKNOWN))
+            {
+                switch (action.actionType().toUpperCase())
                 {
-                    switch (action.actionType().toUpperCase())
+                case "COMPLETE":
+                    if (TryToComplete.complete(this.addon,
+                            this.user,
+                            challenge,
+                            this.world,
+                            this.topLabel,
+                            this.permissionPrefix))
                     {
-                        case "COMPLETE":
-                            if (TryToComplete.complete(this.addon,
+                        if (this.updateLevelListSilent())
+                        {
+                            // Need to rebuild all because completing a challenge
+                            // may unlock a new level. #187
+                            this.build();
+                        }
+                        else
+                        {
+                            // There was no unlocked levels.
+                            panel.getInventory().setItem(i,
+                                    this.createChallengeButton(template, challenge).getItem());
+                        }
+                    }
+                    else if (challenge.isRepeatable() && challenge.getTimeout() > 0)
+                    {
+                        // Update timeout after clicking.
+                        panel.getInventory().setItem(i,
+                                this.createChallengeButton(template, challenge).getItem());
+                    }
+                    break;
+                case "COMPLETE_MAX":
+                    if (challenge.isRepeatable())
+                    {
+                        if (TryToComplete.complete(this.addon,
                                 this.user,
                                 challenge,
                                 this.world,
                                 this.topLabel,
-                                this.permissionPrefix))
+                                this.permissionPrefix,
+                                Integer.MAX_VALUE))
+                        {
+                            if (this.updateLevelListSilent())
                             {
-                                if (this.updateLevelListSilent())
-                                {
-                                    // Need to rebuild all because completing a challenge
-                                    // may unlock a new level. #187
-                                    this.build();
-                                }
-                                else
-                                {
-                                    // There was no unlocked levels.
-                                    panel.getInventory().setItem(i,
-                                        this.createChallengeButton(template, challenge).getItem());
-                                }
+                                // Need to rebuild all because completing a challenge
+                                // may unlock a new level. #187
+                                this.build();
                             }
-                            else if (challenge.isRepeatable() && challenge.getTimeout() > 0)
+                            else
                             {
-                                // Update timeout after clicking.
+                                // There was no unlocked levels.
                                 panel.getInventory().setItem(i,
-                                    this.createChallengeButton(template, challenge).getItem());
+                                        this.createChallengeButton(template, challenge).getItem());
                             }
-                            break;
-                        case "COMPLETE_MAX":
-                            if (challenge.isRepeatable())
-                            {
-                                if (TryToComplete.complete(this.addon,
+                        }
+                        else if (challenge.getTimeout() > 0)
+                        {
+                            // Update timeout after clicking.
+                            panel.getInventory().setItem(i,
+                                    this.createChallengeButton(template, challenge).getItem());
+                        }
+                    }
+                    break;
+                case "MULTIPLE_PANEL":
+                    if (challenge.isRepeatable())
+                    {
+                        MultiplePanel.open(this.addon, this.user, value ->
+                        {
+                            TryToComplete.complete(this.addon,
                                     this.user,
                                     challenge,
                                     this.world,
                                     this.topLabel,
                                     this.permissionPrefix,
-                                    Integer.MAX_VALUE))
-                                {
-                                    if (this.updateLevelListSilent())
-                                    {
-                                        // Need to rebuild all because completing a challenge
-                                        // may unlock a new level. #187
-                                        this.build();
-                                    }
-                                    else
-                                    {
-                                        // There was no unlocked levels.
-                                        panel.getInventory().setItem(i,
-                                            this.createChallengeButton(template, challenge).getItem());
-                                    }
-                                }
-                                else if (challenge.getTimeout() > 0)
-                                {
-                                    // Update timeout after clicking.
-                                    panel.getInventory().setItem(i,
-                                        this.createChallengeButton(template, challenge).getItem());
-                                }
-                            }
-                            break;
-                        case "MULTIPLE_PANEL":
-                            if (challenge.isRepeatable())
-                            {
-                                MultiplePanel.open(this.addon, this.user, value ->
-                                {
-                                    TryToComplete.complete(this.addon,
-                                        this.user,
-                                        challenge,
-                                        this.world,
-                                        this.topLabel,
-                                        this.permissionPrefix,
-                                        value);
+                                    value);
 
-                                    this.updateLevelListSilent();
-                                    this.build();
-                                });
-                            }
-                            break;
+                            this.updateLevelListSilent();
+                            this.build();
+                        });
                     }
+                    break;
                 }
             }
-
-            return true;
-        });
-
-        // Collect tooltips.
-        List<String> tooltips = actions.stream().
-            filter(action -> action.tooltip() != null).
-            map(action -> this.user.getTranslation(this.world, action.tooltip())).
-            filter(text -> !text.isBlank()).
-            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
-
-        // Add tooltips.
-        if (!tooltips.isEmpty())
-        {
-            // Empty line and tooltips.
-            builder.description("");
-            builder.description(tooltips);
         }
 
-        // Glow the icon.
-        builder.glow(this.addon.getChallengesSettings().isAddCompletedGlow() &&
-            this.manager.isChallengeComplete(this.user, this.world, challenge));
-
-        // Click Handlers are managed by custom addon buttons.
-        return builder.build();
+        return true;
     }
 
 
@@ -442,9 +470,9 @@ public class ChallengesPanel extends CommonPanel
 
             // Find a challenge with given Id;
             level = this.levelList.stream().
-                filter(levelStatus -> levelStatus.getLevel().getUniqueId().equals(id)).
-                findFirst().
-                orElse(null);
+                    filter(levelStatus -> levelStatus.getLevel().getUniqueId().equals(id)).
+                    findFirst().
+                    orElse(null);
 
             if (level == null)
             {
@@ -499,8 +527,8 @@ public class ChallengesPanel extends CommonPanel
 
         if (template.title() != null && !template.title().isBlank())
         {
-            builder.name(this.user.getTranslation(this.world, template.title(),
-                Constants.PARAMETER_LEVEL, level.getLevel().getFriendlyName()));
+            builder.name(this.viewer.getTranslation(this.world, template.title(),
+                    Constants.PARAMETER_LEVEL, level.getLevel().getFriendlyName()));
         }
         else
         {
@@ -510,7 +538,7 @@ public class ChallengesPanel extends CommonPanel
         if (template.description() != null && !template.description().isBlank())
         {
             // TODO: adding parameters could be useful.
-            builder.description(this.user.getTranslation(this.world, template.description()));
+            builder.description(this.viewer.getTranslation(this.world, template.description()));
         }
         else
         {
@@ -533,11 +561,11 @@ public class ChallengesPanel extends CommonPanel
 
         // Collect tooltips.
         List<String> tooltips = template.actions().stream().
-            filter(action -> action.tooltip() != null).
-            filter(action -> level != this.lastSelectedLevel && level.isUnlocked()).
-            map(action -> this.user.getTranslation(this.world, action.tooltip())).
-            filter(text -> !text.isBlank()).
-            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+                filter(action -> action.tooltip() != null).
+                filter(action -> level != this.lastSelectedLevel && level.isUnlocked()).
+                map(action -> this.viewer.getTranslation(this.world, action.tooltip())).
+                filter(text -> !text.isBlank()).
+                collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
 
         // Add tooltips.
         if (!tooltips.isEmpty())
@@ -549,7 +577,7 @@ public class ChallengesPanel extends CommonPanel
 
         // Glow the icon.
         builder.glow(level == this.lastSelectedLevel ||
-            level.isUnlocked() &&
+                level.isUnlocked() &&
                 this.addon.getChallengesSettings().isAddCompletedGlow() &&
                 this.manager.isLevelCompleted(this.user, this.world, level.getLevel()));
 
@@ -576,12 +604,12 @@ public class ChallengesPanel extends CommonPanel
 
         if (template.title() != null)
         {
-            builder.name(this.user.getTranslation(this.world, template.title()));
+            builder.name(this.viewer.getTranslation(this.world, template.title()));
         }
 
         if (template.description() != null)
         {
-            builder.description(this.user.getTranslation(this.world, template.description()));
+            builder.description(this.viewer.getTranslation(this.world, template.description()));
         }
 
         // Add ClickHandler
@@ -599,11 +627,11 @@ public class ChallengesPanel extends CommonPanel
 
         // Collect tooltips.
         List<String> tooltips = template.actions().stream().
-            filter(action -> action.tooltip() != null).
-            filter(action -> this.lastSelectedLevel == null).
-            map(action -> this.user.getTranslation(this.world, action.tooltip())).
-            filter(text -> !text.isBlank()).
-            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+                filter(action -> action.tooltip() != null).
+                filter(action -> this.lastSelectedLevel == null).
+                map(action -> this.viewer.getTranslation(this.world, action.tooltip())).
+                filter(text -> !text.isBlank()).
+                collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
 
         // Add tooltips.
         if (!tooltips.isEmpty())
@@ -626,34 +654,34 @@ public class ChallengesPanel extends CommonPanel
 
         switch (target)
         {
-            case "CHALLENGE" -> {
-                int size = this.challengeList.size();
+        case "CHALLENGE" -> {
+            int size = this.challengeList.size();
 
-                if (size <= slot.amountMap().getOrDefault("CHALLENGE", 1) ||
+            if (size <= slot.amountMap().getOrDefault("CHALLENGE", 1) ||
                     1.0 * size / slot.amountMap().getOrDefault("CHALLENGE", 1) <= this.challengeIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.challengeIndex + 2;
-            }
-            case "LEVEL" -> {
-                int size = this.levelList.size();
-
-                if (size <= slot.amountMap().getOrDefault("LEVEL", 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault("LEVEL", 1) <= this.levelIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.levelIndex + 2;
-            }
-            default -> {
-                // If not assigned to any type, return null.
+            {
+                // There are no next elements
                 return null;
             }
+
+            nextPageIndex = this.challengeIndex + 2;
+        }
+        case "LEVEL" -> {
+            int size = this.levelList.size();
+
+            if (size <= slot.amountMap().getOrDefault("LEVEL", 1) ||
+                    1.0 * size / slot.amountMap().getOrDefault("LEVEL", 1) <= this.levelIndex + 1)
+            {
+                // There are no next elements
+                return null;
+            }
+
+            nextPageIndex = this.levelIndex + 2;
+        }
+        default -> {
+            // If not assigned to any type, return null.
+            return null;
+        }
         }
 
         PanelItemBuilder builder = new PanelItemBuilder();
@@ -672,13 +700,13 @@ public class ChallengesPanel extends CommonPanel
 
         if (template.title() != null)
         {
-            builder.name(this.user.getTranslation(this.world, template.title()));
+            builder.name(this.viewer.getTranslation(this.world, template.title()));
         }
 
         if (template.description() != null)
         {
-            builder.description(this.user.getTranslation(this.world, template.description(),
-                Constants.PARAMETER_NUMBER, String.valueOf(nextPageIndex)));
+            builder.description(this.viewer.getTranslation(this.world, template.description(),
+                    Constants.PARAMETER_NUMBER, String.valueOf(nextPageIndex)));
         }
 
         // Add ClickHandler
@@ -687,8 +715,8 @@ public class ChallengesPanel extends CommonPanel
             // Next button ignores click type currently.
             switch (target)
             {
-                case "CHALLENGE" -> this.challengeIndex++;
-                case "LEVEL" -> this.levelIndex++;
+            case "CHALLENGE" -> this.challengeIndex++;
+            case "LEVEL" -> this.levelIndex++;
             }
 
             this.build();
@@ -699,10 +727,10 @@ public class ChallengesPanel extends CommonPanel
 
         // Collect tooltips.
         List<String> tooltips = template.actions().stream().
-            filter(action -> action.tooltip() != null).
-            map(action -> this.user.getTranslation(this.world, action.tooltip())).
-            filter(text -> !text.isBlank()).
-            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+                filter(action -> action.tooltip() != null).
+                map(action -> this.viewer.getTranslation(this.world, action.tooltip())).
+                filter(text -> !text.isBlank()).
+                collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
 
         // Add tooltips.
         if (!tooltips.isEmpty())
@@ -765,13 +793,13 @@ public class ChallengesPanel extends CommonPanel
 
         if (template.title() != null)
         {
-            builder.name(this.user.getTranslation(this.world, template.title()));
+            builder.name(this.viewer.getTranslation(this.world, template.title()));
         }
 
         if (template.description() != null)
         {
-            builder.description(this.user.getTranslation(this.world, template.description(),
-                Constants.PARAMETER_NUMBER, String.valueOf(previousPageIndex)));
+            builder.description(this.viewer.getTranslation(this.world, template.description(),
+                    Constants.PARAMETER_NUMBER, String.valueOf(previousPageIndex)));
         }
 
         // Add ClickHandler
@@ -780,8 +808,8 @@ public class ChallengesPanel extends CommonPanel
             // Next button ignores click type currently.
             switch (target)
             {
-                case "CHALLENGE" -> this.challengeIndex--;
-                case "LEVEL" -> this.levelIndex--;
+            case "CHALLENGE" -> this.challengeIndex--;
+            case "LEVEL" -> this.levelIndex--;
             }
 
             this.build();
@@ -792,10 +820,10 @@ public class ChallengesPanel extends CommonPanel
 
         // Collect tooltips.
         List<String> tooltips = template.actions().stream().
-            filter(action -> action.tooltip() != null).
-            map(action -> this.user.getTranslation(this.world, action.tooltip())).
-            filter(text -> !text.isBlank()).
-            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+                filter(action -> action.tooltip() != null).
+                map(action -> this.viewer.getTranslation(this.world, action.tooltip())).
+                filter(text -> !text.isBlank()).
+                collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
 
         // Add tooltips.
         if (!tooltips.isEmpty())
@@ -809,9 +837,9 @@ public class ChallengesPanel extends CommonPanel
     }
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
 
     /**
      * This boolean indicates if in the world there exist challenges for displaying in GUI.
