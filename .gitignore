@@ -132,3 +132,6 @@ local.properties
 checkstyle.xml
 classes/
 /.DS_Store
+
+#Netbeans
+nbactions.xml
