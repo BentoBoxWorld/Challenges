@@ -1572,7 +1572,8 @@ public class ChallengesManager
 
         this.islandWorldManager.getAddon(world).ifPresent(gameMode -> {
             this.resetAllChallenges(storageID, gameMode.getDescription().getName());
-            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
+            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL")
+                    .
                     data(USER_ID, userID.toString()).
                     data(ADMIN_ID, adminID == null ? "ISLAND_RESET" : adminID.toString()).
                     build());

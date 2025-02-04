@@ -8,6 +8,14 @@ meta:
         - BONNe
 
 challenges:
+    materials:
+        any: "Any "
+        all_hanging_signs:
+            name: "Any Hanging Sign"
+        all_signs:
+            name: "Any Sign"
+        
+        
     commands:
         admin:
             main:
@@ -53,6 +61,8 @@ challenges:
             choose-player: "&0&l Choose Player"
             library: "&0&l Library"
             manage-blocks: "&0&l Manage Blocks"
+            manage-material-tags: "&0&l Manage Block Groups"
+            manage-entity-tags: "&0&l Manage Entity Groups"
             manage-entities: "&0&l Manage Entities"
             type-selector: "&0&l Challenge Type Selector"
             item-selector: "&0&l Item Selector"
@@ -303,6 +313,15 @@ challenges:
                 title: "&7 Blocks: "
                 list: " &8 - [number] x [block]"
                 none: "&7 Blocks are not added."
+            required_materialtags:
+                    name: "&f&l Required Material Tags"
+                    description: |-
+                        &7 Allows to change required
+                        &7 material tags for this
+                        &7 challenge to be completable.
+                    title: "&7 Tag: "
+                    list: " &8 - [number] x [tag]"
+                    none: "&7 Tags are not added."
             search_radius:
                 name: "&f&l Search Radius"
                 description: |-
@@ -736,6 +755,10 @@ challenges:
                 description: |-
                     &7 Material ID: [id]
                 selected: "&2 Selected"
+            materialtag:
+                name: "&f&l [tag]"
+                description: ""
+                selected: "&2 Selected"
             add_entity:
                 name: "&f&l Add Entity"
                 description: |-
@@ -915,11 +938,13 @@ challenges:
                     # Message that will generate for island type requirements and replace [type-requirements]
                     island:
                         lore: |-
+                            [tags]
                             [blocks]
                             [entities]
                             [search-radius]
                             [warning-block]
                             [warning-entity]
+                        tags-title: "&7&l Required:"
                         # Title that will be used if there are defined blocks in island challenge
                         blocks-title: "&7&l Required Blocks:"
                         # Listing of blocks that are required on the island.

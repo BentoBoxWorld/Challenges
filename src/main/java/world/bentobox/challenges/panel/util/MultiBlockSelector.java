@@ -18,7 +18,7 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class contains all necessary things that allows to select single block from all ingame blocks. Selected
+ * This class contains all necessary things that allows to select single block from all in game blocks. Selected
  * block will be returned via BiConsumer.
  */
 public class MultiBlockSelector extends PagedSelector<Material>

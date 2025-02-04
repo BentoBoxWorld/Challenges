@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.Registry;
+import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
@@ -20,7 +24,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
-import world.bentobox.challenges.panel.util.MultiBlockSelector;
+import world.bentobox.challenges.panel.util.MultiMaterialTagsSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -28,18 +32,54 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * This class allows to edit material that are in required material map.
  */
-public class ManageBlocksPanel extends CommonPagedPanel<Material>
+public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 {
-	private ManageBlocksPanel(CommonPanel parentGUI, Map<Material, Integer> materialMap)
+
+    // ---------------------------------------------------------------------
+    // Section: Enums
+    // ---------------------------------------------------------------------
+
+    /**
+     * Functional buttons in current GUI.
+     */
+    private enum Button {
+        ADD_BLOCK, REMOVE_BLOCK
+    }
+
+    // ---------------------------------------------------------------------
+    // Section: Variables
+    // ---------------------------------------------------------------------
+
+    /**
+     * Contains selected materials.
+     */
+    private final Set<Tag<Material>> selectedTags;
+
+    /**
+     * List of materials to avoid order issues.
+     */
+    private final List<Tag<Material>> materialList;
+
+    /**
+     * List of required materials.
+     */
+    private final Map<Tag<Material>, Integer> tagMap;
+
+    /**
+     * Stores filtered items.
+     */
+    private List<Tag<Material>> filterElements;
+
+    private ManageTagsPanel(CommonPanel parentGUI, Map<Tag<Material>, Integer> map)
 	{
 		super(parentGUI);
-		this.materialMap = materialMap;
-		this.materialList = new ArrayList<>(this.materialMap.keySet());
+        this.tagMap = map;
+		this.materialList = new ArrayList<>(this.tagMap.keySet());
 
-		// Sort materials by their ordinal value.
-		this.materialList.sort(Comparator.comparing(Enum::name));
+        // Sort tags by their ordinal value.
+        this.materialList.sort(Comparator.comparing(tag -> tag.getKey().getKey()));
 
-		this.selectedMaterials = new HashSet<>();
+		this.selectedTags = new HashSet<>();
 
 		// Init without filters applied.
 		this.filterElements = this.materialList;
@@ -49,9 +89,9 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 	/**
 	 * Open the Challenges Admin GUI.
 	 */
-	public static void open(CommonPanel parentGUI, Map<Material, Integer> materialMap)
+    public static void open(CommonPanel parentGUI, Map<Tag<Material>, Integer> map)
 	{
-		new ManageBlocksPanel(parentGUI, materialMap).build();
+        new ManageTagsPanel(parentGUI, map).build();
 	}
 
 
@@ -75,7 +115,8 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 			this.filterElements = this.materialList.stream().
 				filter(element -> {
 					// If element name is set and name contains search field, then do not filter out.
-					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
+                        return element.getKey().getKey().toLowerCase(Locale.ENGLISH)
+                                .contains(this.searchString.toLowerCase(Locale.ENGLISH));
 				}).
 				distinct().
 				collect(Collectors.toList());
@@ -90,14 +131,14 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-			name(this.user.getTranslation(Constants.TITLE + "manage-blocks"));
+                name(this.user.getTranslation(Constants.TITLE + "manage-material-tags"));
 
 		// Create nice border.
 		PanelUtils.fillBorder(panelBuilder);
 
 		panelBuilder.item(3, this.createButton(Button.ADD_BLOCK));
 		panelBuilder.item(5, this.createButton(Button.REMOVE_BLOCK));
-
+        // Fill the box with what is selected
 		this.populateElements(panelBuilder, this.filterElements);
 
 		// Add return button.
@@ -130,8 +171,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 				icon = new ItemStack(Material.BUCKET);
 				clickHandler = (panel, user1, clickType, slot) ->
 				{
-					MultiBlockSelector.open(this.user,
-						MultiBlockSelector.Mode.BLOCKS,
+                    MultiMaterialTagsSelector.open(this.user, MultiMaterialTagsSelector.Mode.BLOCKS,
 						new HashSet<>(this.materialList),
 						(status, materials) ->
 						{
@@ -139,7 +179,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 							{
 								materials.forEach(material ->
 								{
-									this.materialMap.put(material, 1);
+									this.tagMap.put(material, 1);
 									this.materialList.add(material);
 								});
 							}
@@ -155,10 +195,10 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 			}
 			case REMOVE_BLOCK -> {
 
-				if (!this.selectedMaterials.isEmpty())
+				if (!this.selectedTags.isEmpty())
 				{
 					description.add(this.user.getTranslation(reference + "title"));
-					this.selectedMaterials.forEach(material ->
+					this.selectedTags.forEach(material ->
 						description.add(this.user.getTranslation(reference + "material",
 							"[material]", Utils.prettifyObject(material, this.user))));
 				}
@@ -167,18 +207,18 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 
 				clickHandler = (panel, user1, clickType, slot) ->
 				{
-					if (!this.selectedMaterials.isEmpty())
+					if (!this.selectedTags.isEmpty())
 					{
-						this.materialMap.keySet().removeAll(this.selectedMaterials);
-						this.materialList.removeAll(this.selectedMaterials);
-						this.selectedMaterials.clear();
+						this.tagMap.keySet().removeAll(this.selectedTags);
+						this.materialList.removeAll(this.selectedTags);
+						this.selectedTags.clear();
 						this.build();
 					}
 
 					return true;
 				};
 
-				glow = !this.selectedMaterials.isEmpty();
+				glow = !this.selectedTags.isEmpty();
 
 				description.add("");
 				description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
@@ -202,17 +242,17 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 
 	/**
 	 * This method creates button for given material.
-	 * @param material material which button must be created.
+	 * @param tag material which button must be created.
 	 * @return new Button for material.
 	 */
 	@Override
-	protected PanelItem createElementButton(Material material)
+    protected PanelItem createElementButton(Tag<Material> tag)
 	{
-		final String reference = Constants.BUTTON + "material.";
+        final String reference = Constants.BUTTON + "materialtag.";
 
 		List<String> description = new ArrayList<>();
 
-		if (this.selectedMaterials.contains(material))
+		if (this.selectedTags.contains(tag))
 		{
 			description.add(this.user.getTranslation(reference + "selected"));
 		}
@@ -220,7 +260,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 		description.add("");
 		description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-choose"));
 
-		if (this.selectedMaterials.contains(material))
+		if (this.selectedTags.contains(tag))
 		{
 			description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-deselect"));
 		}
@@ -230,18 +270,18 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 		}
 
 		return new PanelItemBuilder().
-			name(this.user.getTranslation(reference + "name", "[material]",
-				Utils.prettifyObject(material, this.user))).
-			icon(PanelUtils.getMaterialItem(material, this.materialMap.get(material))).
+                name(this.user.getTranslation(reference + "name", "[tag]",
+				Utils.prettifyObject(tag, this.user))).
+                icon(getIcon(tag, this.tagMap.get(tag))).
 			description(description).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.
 				if (clickType.isRightClick())
 				{
-					if (!this.selectedMaterials.add(material))
+					if (!this.selectedTags.add(tag))
 					{
 						// Remove material if it is already selected
-						this.selectedMaterials.remove(material);
+						this.selectedTags.remove(tag);
 					}
 
 					this.build();
@@ -251,7 +291,7 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 					Consumer<Number> numberConsumer = number -> {
 						if (number != null)
 						{
-							this.materialMap.put(material, number.intValue());
+							this.tagMap.put(tag, number.intValue());
 						}
 
 						// reopen panel
@@ -266,47 +306,15 @@ public class ManageBlocksPanel extends CommonPagedPanel<Material>
 				}
 				return true;
 			}).
-			glow(this.selectedMaterials.contains(material)).
+			glow(this.selectedTags.contains(tag)).
 			build();
 	}
 
-
-// ---------------------------------------------------------------------
-// Section: Enums
-// ---------------------------------------------------------------------
-
-
-	/**
-	 * Functional buttons in current GUI.
-	 */
-	private enum Button
-	{
-		ADD_BLOCK,
-        REMOVE_BLOCK
-	}
+    private @Nullable ItemStack getIcon(Tag<Material> materialTag, Integer quantity) {
+        Material m = MultiMaterialTagsSelector.ICONS.getOrDefault(materialTag, Registry.MATERIAL.stream()
+                .filter(materialTag::isTagged).filter(Material::isItem).findAny().orElse(Material.PAPER));
+        return new ItemStack(m, quantity);
+    }
 
 
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
-
-	/**
-	 * Contains selected materials.
-	 */
-	private final Set<Material> selectedMaterials;
-
-	/**
-	 * List of materials to avoid order issues.
-	 */
-	private final List<Material> materialList;
-
-	/**
-	 * List of required materials.
-	 */
-	private final Map<Material, Integer> materialMap;
-
-	/**
-	 * Stores filtered items.
-	 */
-	private List<Material> filterElements;
 }

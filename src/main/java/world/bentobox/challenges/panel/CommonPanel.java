@@ -284,6 +284,30 @@ public abstract class CommonPanel {
     private String generateIslandChallenge(IslandRequirements requirement) {
         final String reference = Constants.DESCRIPTIONS + "challenge.requirements.island.";
 
+        // Required Tags - Tags cover both blocks and entities
+        String tags;
+        if (!requirement.getRequiredMaterialTags().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(this.user.getTranslationOrNothing(reference + "tags-title"));
+            requirement.getRequiredMaterialTags().entrySet().stream().forEach(entry -> {
+                builder.append("\n");
+
+                if (entry.getValue() > 1) {
+                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                            Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
+                            Utils.prettifyObject(entry.getKey(), this.user)));
+                } else {
+                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                }
+            });
+
+            tags = builder.toString();
+        } else {
+            tags = "";
+        }
+
+        // Required Blocks
         String blocks;
 
         if (!requirement.getRequiredBlocks().isEmpty()) {
@@ -341,6 +365,7 @@ public abstract class CommonPanel {
                 : "";
 
         return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks, "[entities]", entities,
+                "[tags]", tags,
                 "[warning-block]", warningBlocks, "[warning-entity]", warningEntities, "[search-radius]", searchRadius);
     }
 
