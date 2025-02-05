@@ -11,15 +11,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.bukkit.Fluid;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -172,7 +171,9 @@ public class EditChallengePanel extends CommonPanel {
      * @param panelBuilder PanelBuilder where icons must be added.
      */
     private void buildIslandRequirementsPanel(PanelBuilder panelBuilder) {
+        BentoBox.getInstance().logDebug("build Island Req pan");
         panelBuilder.item(19, this.createRequirementButton(RequirementButton.REQUIRED_ENTITIES));
+        panelBuilder.item(20, this.createRequirementButton(RequirementButton.REQUIRED_ENTITYTAGS));
         panelBuilder.item(28, this.createRequirementButton(RequirementButton.REMOVE_ENTITIES));
 
         panelBuilder.item(21, this.createRequirementButton(RequirementButton.REQUIRED_BLOCKS));
@@ -619,7 +620,7 @@ public class EditChallengePanel extends CommonPanel {
         }
         // Buttons for Island Requirements
         case REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS,
-                REQUIRED_MATERIALTAGS -> {
+                REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS -> {
             return this.createIslandRequirementButton(button);
         }
         // Buttons for Inventory Requirements
@@ -697,6 +698,7 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
         }
+
         case REQUIRED_MATERIALTAGS -> {
             if (requirements.getRequiredMaterialTags().isEmpty()) {
                 description.add(this.user.getTranslation(reference + "none"));
@@ -705,12 +707,34 @@ public class EditChallengePanel extends CommonPanel {
                 // Add Material Tags only
                 requirements.getRequiredMaterialTags()
                         .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list",
-                                "[block]", Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
+                                "[tag]", Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
             }
 
             icon = new ItemStack(Material.STONE_BRICKS);
             clickHandler = (panel, user, clickType, slot) -> {
-                ManageTagsPanel.open(this, requirements.getRequiredMaterialTags());
+                ManageBlockGroupsPanel.open(this, requirements.getRequiredMaterialTags());
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+
+        case REQUIRED_ENTITYTAGS -> {
+            if (requirements.getRequiredEntityTypeTags().isEmpty()) {
+                description.add(this.user.getTranslation(reference + "none"));
+            } else {
+                description.add(this.user.getTranslation(reference + "title"));
+                // Add Material Tags only
+                requirements.getRequiredEntityTypeTags()
+                        .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list",
+                                "[tag]", Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
+            }
+
+            icon = new ItemStack(Material.ZOMBIE_HEAD);
+            clickHandler = (panel, user, clickType, slot) -> {
+                ManageEntityGroupsPanel.open(this, requirements.getRequiredEntityTypeTags());
                 return true;
             };
             glow = false;

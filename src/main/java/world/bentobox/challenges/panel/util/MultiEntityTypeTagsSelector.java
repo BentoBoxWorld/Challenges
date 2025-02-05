@@ -16,10 +16,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.Tag;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -29,16 +31,13 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class contains all necessary things that allows to select single material tag from all in game tags. Selected
+ * This class contains all necessary things that allows to select single entitytype tag from all in game tags. Selected
  * tag will be returned via BiConsumer.
  */
-public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
+public class MultiEntityTypeTagsSelector extends PagedSelector<Tag<EntityType>>
 {
 
-    public static final Map<Tag<Material>, Material> ICONS = Map.of(Tag.AIR, Material.BARRIER, Tag.FIRE,
-            Material.TORCH, Tag.CANDLE_CAKES, Material.CAKE, Tag.PORTALS, Material.MAGENTA_STAINED_GLASS_PANE,
-            Tag.WALL_HANGING_SIGNS, Material.ACACIA_SIGN, Tag.WALL_SIGNS, Material.OAK_SIGN, Tag.WALL_CORALS,
-            Material.BUBBLE_CORAL_FAN);
+    public static final Map<Tag<EntityType>, Material> ICONS = Map.of();
 
     /**
      * Functional buttons in current GUI.
@@ -48,84 +47,57 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
     }
 
     public enum Mode {
-        BLOCKS, ITEMS, ANY
+        ENTITY_TYPE, ANY
     }
 
     // ---------------------------------------------------------------------
     // Section: Variables
     // ---------------------------------------------------------------------
 
-    private final List<Tag<Material>> elements = new ArrayList<>();
+    private final List<Tag<EntityType>> elements = new ArrayList<>();
 
     /**
      * Set that contains selected materials.
      */
-    private final Set<Tag<Material>> selectedElements;
+    private final Set<Tag<EntityType>> selectedElements;
 
     /**
      * This variable stores consumer.
      */
-    private final BiConsumer<Boolean, Collection<Tag<Material>>> consumer;
+    private final BiConsumer<Boolean, Collection<Tag<EntityType>>> consumer;
 
     /**
      * Stores filtered items.
      */
-    private List<Tag<Material>> filterElements;
+    private List<Tag<EntityType>> filterElements;
 
-    private MultiMaterialTagsSelector(User user, Mode mode, Set<Tag<Material>> excluded,
-            BiConsumer<Boolean, Collection<Tag<Material>>> consumer) {
+    private MultiEntityTypeTagsSelector(User user, Mode mode, Set<Tag<EntityType>> excluded,
+            BiConsumer<Boolean, Collection<Tag<EntityType>>> consumer) {
 		super(user);
 		this.consumer = consumer;
 		
 		this.selectedElements = new HashSet<>();
-        Iterable<Tag<Material>> iterable = Bukkit.getTags("blocks", Material.class);
+        Iterable<Tag<EntityType>> iterable = Bukkit.getTags("entity_types", EntityType.class);
         iterable.forEach(elements::add);
         elements.sort(Comparator.comparing(tag -> tag.getKey().getKey()));
         // Remove irrelevant tags
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("SPAWNABLE"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("PLACE"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("TEMPT"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("_ON"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("BASE"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("SOUND_BLOCKS"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("DRAGON"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("VALID"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("INCORRECT"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("INFINIBURN"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("MINEABLE"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("TOOL"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("SNIFFER"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("OVERRIDE"));
-        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("OVERWORLD"));
-        elements.remove(Tag.BLOCKS_WIND_CHARGE_EXPLOSIONS);
-        elements.remove(Tag.CONVERTABLE_TO_MUD);
-        elements.remove(Tag.DAMPENS_VIBRATIONS);
-        elements.remove(Tag.DOES_NOT_BLOCK_HOPPERS);
-        elements.remove(Tag.ENCHANTMENT_POWER_PROVIDER);
-        elements.remove(Tag.ENCHANTMENT_POWER_TRANSMITTER);
-        elements.remove(Tag.ENDERMAN_HOLDABLE);
-        elements.remove(Tag.FEATURES_CANNOT_REPLACE);
-        elements.remove(Tag.FALL_DAMAGE_RESETTING);
-        elements.remove(Tag.FROG_PREFER_JUMP_TO);
-        elements.remove(Tag.MAINTAINS_FARMLAND);
-        elements.remove(Tag.MANGROVE_LOGS_CAN_GROW_THROUGH);
-        elements.remove(Tag.MANGROVE_ROOTS_CAN_GROW_THROUGH);
-        elements.remove(Tag.BEE_GROWABLES);
-        elements.remove(Tag.MOB_INTERACTABLE_DOORS);
-        elements.remove(Tag.HOGLIN_REPELLENTS);
-        elements.remove(Tag.PIGLIN_REPELLENTS);
-        elements.remove(Tag.SNAPS_GOAT_HORN);
-        elements.remove(Tag.SOUL_SPEED_BLOCKS);
-        elements.remove(Tag.STRIDER_WARM_BLOCKS);
-        elements.remove(Tag.SWORD_EFFICIENT);
-        elements.remove(Tag.UNSTABLE_BOTTOM_CENTER);
-        elements.remove(Tag.COMPLETES_FIND_TREE_TUTORIAL);
-        elements.remove(Tag.GUARDED_BY_PIGLINS);
-        elements.remove(Tag.IMPERMEABLE);
-        elements.remove(Tag.PREVENT_MOB_SPAWNING_INSIDE);
-        elements.remove(Tag.SMELTS_TO_GLASS);
-        elements.remove(Tag.WITHER_IMMUNE);
-
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("AXOLOTL"));
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("IMMUNE"));
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("IGNORES"));
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("FRIEND"));
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("SENSITIVE"));
+        elements.removeIf(t -> t.getKey().getKey().toUpperCase(Locale.ENGLISH).contains("PROJECTILE"));
+        elements.remove(Tag.ENTITY_TYPES_ARROWS);
+        elements.remove(Tag.ENTITY_TYPES_BEEHIVE_INHABITORS);
+        elements.remove(Tag.ENTITY_TYPES_CAN_TURN_IN_BOATS);
+        elements.remove(Tag.ENTITY_TYPES_DISMOUNTS_UNDERWATER);
+        elements.remove(Tag.ENTITY_TYPES_FALL_DAMAGE_IMMUNE);
+        elements.remove(Tag.ENTITY_TYPES_FREEZE_HURTS_EXTRA_TYPES);
+        elements.remove(Tag.ENTITY_TYPES_INVERTED_HEALING_AND_HARM);
+        elements.remove(Tag.ENTITY_TYPES_NO_ANGER_FROM_WIND_CHARGE);
+        elements.remove(Tag.ENTITY_TYPES_NON_CONTROLLING_RIDER);
+        elements.remove(Tag.ENTITY_TYPES_NOT_SCARY_FOR_PUFFERFISH);
+        elements.remove(Tag.ENTITY_TYPES_FROG_FOOD);
 		// Init without filters applied.
 		this.filterElements = this.elements;
 	}
@@ -137,10 +109,10 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
 	 * @param user User who opens GUI.
 	 * @param consumer Consumer that allows to get clicked type.
 	 */
-    public static void open(User user, Mode mode, Set<Tag<Material>> excluded,
-            BiConsumer<Boolean, Collection<Tag<Material>>> consumer)
+    public static void open(User user, Mode mode, Set<Tag<EntityType>> excluded,
+            BiConsumer<Boolean, Collection<Tag<EntityType>>> consumer)
 	{
-		new MultiMaterialTagsSelector(user, mode, excluded, consumer).build();
+		new MultiEntityTypeTagsSelector(user, mode, excluded, consumer).build();
 	}
 
 
@@ -150,9 +122,9 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
 	 * @param user User who opens GUI.
 	 * @param consumer Consumer that allows to get clicked type.
 	 */
-    public static void open(User user, BiConsumer<Boolean, Collection<Tag<Material>>> consumer)
+    public static void open(User user, BiConsumer<Boolean, Collection<Tag<EntityType>>> consumer)
 	{
-		new MultiMaterialTagsSelector(user, Mode.ANY, new HashSet<>(), consumer).build();
+		new MultiEntityTypeTagsSelector(user, Mode.ANY, new HashSet<>(), consumer).build();
 	}
 
 
@@ -168,7 +140,7 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
 	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user);
-		panelBuilder.name(this.user.getTranslation(Constants.TITLE + "block-selector"));
+        panelBuilder.name(this.user.getTranslation(Constants.TITLE + "entity-selector"));
 
 		PanelUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
 
@@ -276,9 +248,9 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
 	 * @return new Button for material.
 	 */
 	@Override
-    protected PanelItem createElementButton(Tag<Material> materialTag)
+    protected PanelItem createElementButton(Tag<EntityType> materialTag)
 	{
-        final String reference = Constants.BUTTON + "block-group.";
+        final String reference = Constants.BUTTON + "entity-group.";
 
 		List<String> description = new ArrayList<>();
 		description.add(this.user.getTranslation(reference + "description",
@@ -317,10 +289,19 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
 	}
 
 	
-    private @Nullable Material getIcon(Tag<Material> materialTag) {
-        return ICONS.getOrDefault(materialTag, Registry.MATERIAL.stream().filter(materialTag::isTagged)
-                .filter(Material::isItem).findAny()
-        .orElse(Material.PAPER));
+    private @Nullable Material getIcon(Tag<EntityType> materialTag) {
+        if (materialTag.getKey().getKey().contains("boat")) {
+            return Material.OAK_BOAT;
+        }
+        EntityType entType = Registry.ENTITY_TYPE.stream().filter(materialTag::isTagged).findAny().orElse(null);
+        String eggName = entType.getKey().getKey().toUpperCase(Locale.ENGLISH) + "_SPAWN_EGG";
+        Material result;
+        try {
+            result = Material.valueOf(eggName);
+        } catch (Exception e) {
+            result = Material.PAPER;
+        }
+        return result;
     }
 
 }

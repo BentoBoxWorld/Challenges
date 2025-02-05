@@ -30,9 +30,9 @@ import world.bentobox.challenges.utils.Utils;
 
 
 /**
- * This class allows to edit material that are in required material map.
+ * This class allows to edit Block Groups that are in required.
  */
-public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
+public class ManageBlockGroupsPanel extends CommonPagedPanel<Tag<Material>>
 {
 
     // ---------------------------------------------------------------------
@@ -43,7 +43,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
      * Functional buttons in current GUI.
      */
     private enum Button {
-        ADD_BLOCK, REMOVE_BLOCK
+        ADD_BLOCK_GROUP, REMOVE_BLOCK_GROUP
     }
 
     // ---------------------------------------------------------------------
@@ -70,7 +70,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
      */
     private List<Tag<Material>> filterElements;
 
-    private ManageTagsPanel(CommonPanel parentGUI, Map<Tag<Material>, Integer> map)
+    private ManageBlockGroupsPanel(CommonPanel parentGUI, Map<Tag<Material>, Integer> map)
 	{
 		super(parentGUI);
         this.tagMap = map;
@@ -91,7 +91,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 	 */
     public static void open(CommonPanel parentGUI, Map<Tag<Material>, Integer> map)
 	{
-        new ManageTagsPanel(parentGUI, map).build();
+        new ManageBlockGroupsPanel(parentGUI, map).build();
 	}
 
 
@@ -131,13 +131,13 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 	protected void build()
 	{
 		PanelBuilder panelBuilder = new PanelBuilder().user(this.user).
-                name(this.user.getTranslation(Constants.TITLE + "manage-material-tags"));
+                name(this.user.getTranslation(Constants.TITLE + "manage-block-groups"));
 
 		// Create nice border.
 		PanelUtils.fillBorder(panelBuilder);
 
-		panelBuilder.item(3, this.createButton(Button.ADD_BLOCK));
-		panelBuilder.item(5, this.createButton(Button.REMOVE_BLOCK));
+		panelBuilder.item(3, this.createButton(Button.ADD_BLOCK_GROUP));
+		panelBuilder.item(5, this.createButton(Button.REMOVE_BLOCK_GROUP));
         // Fill the box with what is selected
 		this.populateElements(panelBuilder, this.filterElements);
 
@@ -167,7 +167,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 
 		switch (button)
 		{
-			case ADD_BLOCK -> {
+			case ADD_BLOCK_GROUP -> {
 				icon = new ItemStack(Material.BUCKET);
 				clickHandler = (panel, user1, clickType, slot) ->
 				{
@@ -193,7 +193,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 				description.add("");
 				description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
 			}
-			case REMOVE_BLOCK -> {
+			case REMOVE_BLOCK_GROUP -> {
 
 				if (!this.selectedTags.isEmpty())
 				{
@@ -248,7 +248,7 @@ public class ManageTagsPanel extends CommonPagedPanel<Tag<Material>>
 	@Override
     protected PanelItem createElementButton(Tag<Material> tag)
 	{
-        final String reference = Constants.BUTTON + "materialtag.";
+        final String reference = Constants.BUTTON + "block-group.";
 
 		List<String> description = new ArrayList<>();
 

@@ -61,8 +61,8 @@ challenges:
             choose-player: "&0&l Choose Player"
             library: "&0&l Library"
             manage-blocks: "&0&l Manage Blocks"
-            manage-material-tags: "&0&l Manage Block Groups"
-            manage-entity-tags: "&0&l Manage Entity Groups"
+            manage-block-groups: "&0&l Manage Block Groups"
+            manage-entity-groups: "&0&l Manage Entity Groups"
             manage-entities: "&0&l Manage Entities"
             type-selector: "&0&l Challenge Type Selector"
             item-selector: "&0&l Item Selector"
@@ -313,15 +313,6 @@ challenges:
                 title: "&7 Blocks: "
                 list: " &8 - [number] x [block]"
                 none: "&7 Blocks are not added."
-            required_materialtags:
-                    name: "&f&l Required Material Tags"
-                    description: |-
-                        &7 Allows to change required
-                        &7 material tags for this
-                        &7 challenge to be completable.
-                    title: "&7 Tag: "
-                    list: " &8 - [number] x [tag]"
-                    none: "&7 Tags are not added."
             search_radius:
                 name: "&f&l Search Radius"
                 description: |-
@@ -390,6 +381,24 @@ challenges:
                     &7 required island level
                     &7 for the challenge.
                 value: "&7 Current level: &e [number]"
+            required_materialtags:
+                name: "&f&l Required Block Groups"
+                description: |-
+                  &7 Allows to change required
+                  &7 block groups for this
+                  &7 challenge to be completable.
+                title: "&7 Block group: "
+                list: " &8 - [number] x [tag]"
+                none: "&7 Block groups are not added."
+            required_entitytags:
+                name: "&f&l Required Entity Groups"
+                description: |-
+                  &7 Allows to change required
+                  &7 entity groups for this
+                  &7 challenge to be completable.
+                title: "&7 Entity group: "
+                list: " &8 - [number] x [tag]"
+                none: "&7 Entity groups are not added."
             remove_money:
                 name: "&f&l Remove Money"
                 description: |-
@@ -742,6 +751,11 @@ challenges:
                 description: |-
                     &7 Allows to add a new
                     &7 block to the list.
+            add_block_group:
+                name: "&f&l Add Block Group"
+                description: |-
+                    &7 Allows to add a new
+                    &7 block group to the list.
             remove_block:
                 name: "&f&l Remove Block"
                 description: |-
@@ -750,12 +764,20 @@ challenges:
                     &7 from lists.
                 title: "&7 Selected Materials:"
                 material: "&8 - [material]"
+            remove_block_group:
+                name: "&f&l Remove Block Group"
+                description: |-
+                    &7 Allows to remove
+                    &7 selected block groups
+                    &7 from lists.
+                title: "&7 Selected Block Groups:"
+                material: "&8 - [tag]" 
             material:
                 name: "&f&l [material]"
                 description: |-
                     &7 Material ID: [id]
                 selected: "&2 Selected"
-            materialtag:
+            block-group:
                 name: "&f&l [tag]"
                 description: ""
                 selected: "&2 Selected"
@@ -764,6 +786,11 @@ challenges:
                 description: |-
                     &7 Allows to add a new
                     &7 entity to the list.
+            add_entity_group:
+                name: "&f&l Add Entity Group"
+                description: |-
+                    &7 Allows to add a new
+                    &7 entity group to the list.
             switch_entity:
                 name: "&f&l Switch Eggs"
                 description: |-
@@ -777,11 +804,23 @@ challenges:
                     &7 from lists.
                 title: "&7 Selected Entities:"
                 entity: "&8 - [entity]"
+            remove_entity_group:
+                name: "&f&l Remove Entity Group"
+                description: |-
+                    &7 Allows to remove
+                    &7 selected entity group
+                    &7 from lists.
+                title: "&7 Selected Entity Groups:"
+                entity: "&8 - [tag]"
             entity:
                 name: "&f&l [entity]"
                 description: |-
                     &7 Entity ID: [id]
                 selected: "&2 Selected"
+            entity-group:
+                    name: "&f&l [tag]"
+                    description: ""
+                    selected: "&2 Selected"
             inventory_type:
                 name: "&f&l Inventory Type"
                 description: |-
