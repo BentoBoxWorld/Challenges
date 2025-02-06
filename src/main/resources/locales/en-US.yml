@@ -353,14 +353,14 @@ challenges:
             remove_ignored_meta:
                 name: "&f&l Remove Ignore Metadata"
                 description: |-
-                    &7 Allows to remove which
-                    &7 items should ignore
-                    &7 any meta-data that
-                    &7 is assigned to them.
+                    &7 Remove
+                    &7 items that ignore
+                    &7 meta-data 
+                    &7 assigned to them.
             remove_experience:
                 name: "&f&l Remove Experience"
                 description: |-
-                    &7 Allows to toggle if
+                    &7 Toggle if
                     &7 required experience will
                     &7 be removed from player
                     &7 after completing the

@@ -201,8 +201,8 @@ public class ManageEntityGroupsPanel extends CommonPagedPanel<Tag<EntityType>>
 				{
 					description.add(this.user.getTranslation(reference + "title"));
 					this.selectedTags.forEach(material ->
-						description.add(this.user.getTranslation(reference + "material",
-							"[material]", Utils.prettifyObject(material, this.user))));
+                    description.add(this.user.getTranslation(reference + "entity", "[tag]",
+                            Utils.prettifyObject(material, this.user))));
 				}
 
 				icon = new ItemStack(Material.LAVA_BUCKET);
