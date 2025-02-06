@@ -977,13 +977,11 @@ challenges:
                     # Message that will generate for island type requirements and replace [type-requirements]
                     island:
                         lore: |-
-                            [tags]
                             [blocks]
                             [entities]
                             [search-radius]
                             [warning-block]
                             [warning-entity]
-                        tags-title: "&7&l Required:"
                         # Title that will be used if there are defined blocks in island challenge
                         blocks-title: "&7&l Required Blocks:"
                         # Listing of blocks that are required on the island.
