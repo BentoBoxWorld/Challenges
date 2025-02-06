@@ -171,7 +171,6 @@ public class EditChallengePanel extends CommonPanel {
      * @param panelBuilder PanelBuilder where icons must be added.
      */
     private void buildIslandRequirementsPanel(PanelBuilder panelBuilder) {
-        BentoBox.getInstance().logDebug("build Island Req pan");
         panelBuilder.item(19, this.createRequirementButton(RequirementButton.REQUIRED_ENTITIES));
         panelBuilder.item(20, this.createRequirementButton(RequirementButton.REQUIRED_ENTITYTAGS));
         panelBuilder.item(28, this.createRequirementButton(RequirementButton.REMOVE_ENTITIES));

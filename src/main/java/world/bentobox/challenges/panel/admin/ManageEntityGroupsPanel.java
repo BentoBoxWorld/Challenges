@@ -16,7 +16,6 @@ import org.bukkit.Registry;
 import org.bukkit.Tag;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;

@@ -125,7 +125,8 @@ public class MultiMaterialTagsSelector extends PagedSelector<Tag<Material>>
         elements.remove(Tag.PREVENT_MOB_SPAWNING_INSIDE);
         elements.remove(Tag.SMELTS_TO_GLASS);
         elements.remove(Tag.WITHER_IMMUNE);
-
+        // Remove excluded tags
+        excluded.forEach(tag -> elements.removeIf(tag2 -> tag2.equals(tag)));
 		// Init without filters applied.
 		this.filterElements = this.elements;
 	}

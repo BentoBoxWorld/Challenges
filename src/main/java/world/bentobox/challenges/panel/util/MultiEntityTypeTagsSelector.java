@@ -98,6 +98,8 @@ public class MultiEntityTypeTagsSelector extends PagedSelector<Tag<EntityType>>
         elements.remove(Tag.ENTITY_TYPES_NON_CONTROLLING_RIDER);
         elements.remove(Tag.ENTITY_TYPES_NOT_SCARY_FOR_PUFFERFISH);
         elements.remove(Tag.ENTITY_TYPES_FROG_FOOD);
+        // Remove excluded tags
+        excluded.forEach(tag -> elements.removeIf(tag2 -> tag2.equals(tag)));
 		// Init without filters applied.
 		this.filterElements = this.elements;
 	}
