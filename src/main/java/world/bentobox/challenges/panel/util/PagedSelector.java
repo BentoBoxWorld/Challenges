@@ -7,11 +7,12 @@
 package world.bentobox.challenges.panel.util;
 
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;

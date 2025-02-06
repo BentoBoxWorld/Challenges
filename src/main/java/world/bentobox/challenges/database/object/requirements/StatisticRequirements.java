@@ -7,11 +7,12 @@
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.eclipse.jdt.annotation.Nullable;
+
+import com.google.gson.annotations.Expose;
 
 
 public class StatisticRequirements extends Requirements

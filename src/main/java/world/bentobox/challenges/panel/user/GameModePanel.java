@@ -7,14 +7,15 @@
 package world.bentobox.challenges.panel.user;
 
 
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.panels.PanelItem;
