@@ -675,14 +675,14 @@ challenges:
                     &7 selected block groups
                     &7 from the list.
                 title: "&7 Selected Block Groups:"
-                material: "&8 - [tag]" 
+                material: "&8 - [material]" 
             material:
                 name: "&f&l [material]"
                 description: |-
                     &7 Material ID: [id]
                 selected: "&2 Selected"
             block-group:
-                name: "&f&l [tag]"
+                name: "&f&l [id]"
                 description: ""
                 selected: "&2 Selected"
             add_entity:
@@ -722,7 +722,7 @@ challenges:
                     &7 Entity ID: [id]
                 selected: "&2 Selected"
             entity-group:
-                name: "&f&l [tag]"
+                name: "&f&l [id]"
                 description: ""
                 selected: "&2 Selected"
             inventory_type:

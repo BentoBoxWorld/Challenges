@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -200,7 +201,7 @@ public class ManageBlockGroupsPanel extends CommonPagedPanel<Tag<Material>>
 					description.add(this.user.getTranslation(reference + "title"));
 					this.selectedTags.forEach(material ->
 						description.add(this.user.getTranslation(reference + "material",
-							"[material]", Utils.prettifyObject(material, this.user))));
+                                "[material]", Utils.prettifyObject(material, this.user))));
 				}
 
 				icon = new ItemStack(Material.LAVA_BUCKET);

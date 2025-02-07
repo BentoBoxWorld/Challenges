@@ -10,70 +10,80 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import org.bukkit.Keyed;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Constants;
-import world.bentobox.challenges.utils.Utils;
 
 /**
- * @author tastybento
+ * Unified abstract class for multi‐selector GUIs.
+ * <p>
+ * This class provides the common logic for building the GUI, filtering the list,
+ * and creating the functional buttons. Subclasses must supply the list of available elements
+ * and type‐specific details such as how to obtain an element’s display name, icon, and
+ * string representation for filtering.
+ * </p>
+ *
+ * @param <T> The type of element shown in the GUI (e.g. Material, EntityType, or Tag&lt;Material&gt;, etc.)
  */
-public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<Tag<T>> {
+public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
 
-    // Buttons common to both selectors.
-    protected enum Button {
-        ACCEPT_SELECTED, CANCEL
-    }
+    protected final List<T> elements;
+    protected final Set<T> selectedElements;
+    protected final BiConsumer<Boolean, Collection<T>> consumer;
+    protected List<T> filterElements;
 
-    // Common fields.
-    protected final List<Tag<T>> elements = new ArrayList<>();
-    protected final Set<Tag<T>> selectedElements;
-    protected final BiConsumer<Boolean, Collection<Tag<T>>> consumer;
-    protected List<Tag<T>> filterElements;
-
-    protected MultiTagsSelector(User user, Set<Tag<T>> excluded, BiConsumer<Boolean, Collection<Tag<T>>> consumer) {
+    protected UnifiedMultiSelector(User user, BiConsumer<Boolean, Collection<T>> consumer) {
         super(user);
         this.consumer = consumer;
         this.selectedElements = new HashSet<>();
-        // Fill elements using the type‐specific method.
-        for (Tag<T> tag : getTags()) {
-            elements.add(tag);
-        }
-        elements.sort(Comparator.comparing(tag -> tag.getKey().getKey()));
-        // Remove irrelevant tags (type‐specific)
-        removeIrrelevantTags();
-        // Remove any tags passed in as excluded.
-        excluded.forEach(excludedTag -> elements.removeIf(tag -> tag.equals(excludedTag)));
-        // Initially no filter is applied.
-        this.filterElements = elements;
+        // Obtain the complete list of elements from the subclass.
+        this.elements = getElements();
+        // Sort elements using the provided string representation.
+        this.elements.sort(Comparator.comparing(this::elementToString));
+        // Start with the full list as the filtered list.
+        this.filterElements = this.elements;
     }
 
-    // ABSTRACT METHODS TO BE IMPLEMENTED BY SUBCLASSES:
+    /**
+     * Subclasses must return the complete list of available elements.
+     */
+    protected abstract List<T> getElements();
 
-    /** Return the tags from Bukkit (for example, Bukkit.getTags("blocks", Material.class)). */
-    protected abstract Iterable<Tag<T>> getTags();
-
-    /** Remove tags that are not needed (e.g. by checking the key string). */
-    protected abstract void removeIrrelevantTags();
-
-    /** Return the translation key used for the panel title. For example, "block-selector" or "entity-selector". */
+    /**
+     * Returns the title key (to be appended to Constants.TITLE)
+     * for this selector (for example, "entity-selector" or "block-selector").
+     */
     protected abstract String getTitleKey();
 
-    /** Return the translation key prefix for element buttons (e.g. "block-group." or "entity-group."). */
-    protected abstract String getElementGroupKey();
+    /**
+     * Returns the translation key prefix used for element buttons
+     * (for example, "entity." or "material.").
+     */
+    protected abstract String getElementKeyPrefix();
 
-    /** Return the icon for the given tag. */
-    protected abstract Material getIconForTag(Tag<T> tag);
+    /**
+     * Returns the icon for the given element.
+     */
+    protected abstract ItemStack getIcon(T element);
 
-    // COMMON METHODS:
+    /**
+     * Returns the display name for the given element.
+     * (For instance, by calling Utils.prettifyObject(element, user)).
+     */
+    protected abstract String getElementDisplayName(T element);
+
+    /**
+     * Returns a string representation of the element used for filtering.
+     * (For enums you might simply return element.name().)
+     */
+    protected abstract String elementToString(T element);
 
     @Override
     protected void build() {
@@ -81,8 +91,11 @@ public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<T
         panelBuilder.name(this.user.getTranslation(Constants.TITLE + getTitleKey()));
 
         PanelUtils.fillBorder(panelBuilder, Material.BLUE_STAINED_GLASS_PANE);
+
+        // Populate the GUI with the filtered list.
         this.populateElements(panelBuilder, this.filterElements);
 
+        // Add functional buttons.
         panelBuilder.item(3, createButton(Button.ACCEPT_SELECTED));
         panelBuilder.item(5, createButton(Button.CANCEL));
 
@@ -95,7 +108,7 @@ public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<T
             this.filterElements = this.elements;
         } else {
             this.filterElements = this.elements.stream()
-                    .filter(tag -> tag.getKey().getKey().toLowerCase(Locale.ENGLISH)
+                    .filter(element -> elementToString(element).toLowerCase(Locale.ENGLISH)
                             .contains(this.searchString.toLowerCase(Locale.ENGLISH)))
                     .distinct().collect(Collectors.toList());
         }
@@ -114,15 +127,16 @@ public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<T
         case ACCEPT_SELECTED -> {
             if (!this.selectedElements.isEmpty()) {
                 description.add(this.user.getTranslation(reference + "title"));
-                this.selectedElements.forEach(tag -> description.add(this.user.getTranslation(reference + "element",
-                        "[element]", Utils.prettifyObject(tag, this.user))));
+                for (T element : this.selectedElements) {
+                    description.add(this.user.getTranslation(reference + "element", "[element]",
+                            getElementDisplayName(element)));
+                }
             }
             icon = new ItemStack(Material.COMMAND_BLOCK);
             clickHandler = (panel, user1, clickType, slot) -> {
                 this.consumer.accept(true, this.selectedElements);
                 return true;
             };
-
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-save"));
         }
@@ -145,12 +159,12 @@ public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<T
     }
 
     @Override
-    protected PanelItem createElementButton(Tag<T> tag) {
-        final String reference = Constants.BUTTON + getElementGroupKey();
+    protected PanelItem createElementButton(T element) {
+        final String reference = Constants.BUTTON + getElementKeyPrefix();
         List<String> description = new ArrayList<>();
-        description.add(this.user.getTranslation(reference + "description", "[id]", tag.getKey().getKey()));
+        description.add(this.user.getTranslation(reference + "description", "[id]", elementToString(element)));
 
-        if (this.selectedElements.contains(tag)) {
+        if (this.selectedElements.contains(element)) {
             description.add(this.user.getTranslation(reference + "selected"));
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-deselect"));
@@ -160,14 +174,19 @@ public abstract class MultiTagsSelector<T extends Keyed> extends PagedSelector<T
         }
 
         return new PanelItemBuilder()
-                .name(this.user.getTranslation(reference + "name", "[tag]", Utils.prettifyObject(tag, this.user)))
-                .icon(getIconForTag(tag)).description(description).clickHandler((panel, user1, clickType, slot) -> {
-                    // Toggle selection.
-                    if (!this.selectedElements.add(tag)) {
-                        this.selectedElements.remove(tag);
+                .name(this.user.getTranslation(reference + "name", "[id]",
+                        getElementDisplayName(element)))
+                .icon(getIcon(element)).description(description).clickHandler((panel, user1, clickType, slot) -> {
+                    // Toggle the selection state.
+                    if (!this.selectedElements.add(element)) {
+                        this.selectedElements.remove(element);
                     }
                     this.build();
                     return true;
-                }).glow(this.selectedElements.contains(tag)).build();
+                }).glow(this.selectedElements.contains(element)).build();
+    }
+
+    protected enum Button {
+        ACCEPT_SELECTED, CANCEL
     }
 }
