@@ -1,12 +1,16 @@
 package world.bentobox.challenges.panel.util;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;

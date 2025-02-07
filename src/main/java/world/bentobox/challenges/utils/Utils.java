@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -284,6 +285,25 @@ public class Utils
 		return "";
 	}
 
+    /**
+     * Prettify the Tag object for user.
+     * @param object a tag, like ALL_HANGING_SIGNS
+     * @param user user
+     * @return prettified tag
+     */
+    public static String prettifyObject(@Nullable Tag<?> object, User user) {
+        // Nothing to translate
+        if (object == null) {
+            return "";
+        }
+        String translation = user.getTranslationOrNothing(
+                Constants.MATERIALS + object.getKey().getKey().toLowerCase(Locale.ENGLISH) + ".name");
+        String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
+        // Prettify and remove last s
+        String tag = any + Util.prettifyText(object.getKey().getKey()).replaceAll("s$", "");
+
+        return translation.isEmpty() ? tag : translation;
+    }
 
 	/**
 	 * Prettify Material object for user.

@@ -38,6 +38,8 @@ import world.bentobox.challenges.utils.Utils;
  * This class contains common methods for all panels.
  */
 public abstract class CommonPanel {
+    private static final long MAXSIZE = 10;
+
     /**
      * This is default constructor for all classes that extends CommonPanel.
      *
@@ -148,7 +150,7 @@ public abstract class CommonPanel {
         String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);
         // Get rewards in single string
         String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce);
-        // Get coolDown in singe string
+        // Get coolDown in single string
         String coolDown = isCompletedAll || challenge.getTimeout() <= 0 ? "" : this.generateCoolDown(challenge, target);
 
         if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty()) {
@@ -284,50 +286,47 @@ public abstract class CommonPanel {
     private String generateIslandChallenge(IslandRequirements requirement) {
         final String reference = Constants.DESCRIPTIONS + "challenge.requirements.island.";
 
-        String blocks;
-
+        // Required Blocks
+        StringBuilder blocks = new StringBuilder();
+        blocks.append(getBlocksTagsDescription(requirement, reference));
         if (!requirement.getRequiredBlocks().isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "blocks-title"));
             requirement.getRequiredBlocks().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
-                builder.append("\n");
+                blocks.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                    blocks.append(this.user.getTranslationOrNothing(reference + "blocks-value",
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
                             Utils.prettifyObject(entry.getKey(), this.user)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                    blocks.append(this.user.getTranslationOrNothing(reference + "block-value",
                             Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                 }
             });
-
-            blocks = builder.toString();
-        } else {
-            blocks = "";
+        }
+        // Add title if there is something here
+        if (!blocks.isEmpty()) {
+            blocks.insert(0, this.user.getTranslationOrNothing(reference + "blocks-title"));
         }
 
-        String entities;
-
+        StringBuilder entities = new StringBuilder();
+        entities.append(getEntityTypeTagsDescription(requirement, reference));
         if (!requirement.getRequiredEntities().isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "entities-title"));
             requirement.getRequiredEntities().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
-                builder.append("\n");
+                entities.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "entities-value",
+                    entities.append(this.user.getTranslationOrNothing(reference + "entities-value",
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_ENTITY,
                             Utils.prettifyObject(entry.getKey(), this.user)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "entity-value",
+                    entities.append(this.user.getTranslationOrNothing(reference + "entity-value",
                             Constants.PARAMETER_ENTITY, Utils.prettifyObject(entry.getKey(), this.user)));
                 }
             });
-
-            entities = builder.toString();
-        } else {
-            entities = "";
+        }
+        // Add title if there is something here
+        if (!entities.isEmpty()) {
+            entities.insert(0, this.user.getTranslationOrNothing(reference + "entities-title"));
         }
 
         String searchRadius = this.user.getTranslationOrNothing(reference + "search-radius", Constants.PARAMETER_NUMBER,
@@ -340,9 +339,62 @@ public abstract class CommonPanel {
                 ? this.user.getTranslationOrNothing(reference + "warning-entity")
                 : "";
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks, "[entities]", entities,
+        return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks.toString(), "[entities]",
+                entities.toString(),
                 "[warning-block]", warningBlocks, "[warning-entity]", warningEntities, "[search-radius]", searchRadius);
     }
+
+    private String getBlocksTagsDescription(IslandRequirements requirement, String reference) {
+        String tags = "";
+        if (!requirement.getRequiredMaterialTags().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            requirement.getRequiredMaterialTags().entrySet().stream().limit(MAXSIZE).forEach(entry -> {
+                builder.append("\n");
+
+                if (entry.getValue() > 1) {
+                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                            Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
+                            Utils.prettifyObject(entry.getKey(), this.user)));
+                } else {
+                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                }
+            });
+            if (requirement.getRequiredMaterialTags().size() > MAXSIZE) {
+                builder.append("...\n");
+            }
+            tags = builder.toString();
+        }
+        
+        return tags;
+    }
+    
+    private String getEntityTypeTagsDescription(IslandRequirements requirement, String reference) {
+        String tags = "";
+        if (!requirement.getRequiredEntityTypeTags().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            requirement.getRequiredEntityTypeTags().entrySet().stream().limit(MAXSIZE).forEach(entry -> {
+                builder.append("\n");
+
+                if (entry.getValue() > 1) {
+                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                            Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
+                            Utils.prettifyObject(entry.getKey(), this.user)));
+                } else {
+                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                            Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
+                }
+            });
+            if (requirement.getRequiredEntityTypeTags().size() > MAXSIZE) {
+                builder.append("...\n");
+            }
+
+            tags = builder.toString();
+        }
+        
+        return tags;
+    }
+
 
     /**
      * This method generates lore message for inventory requirement.

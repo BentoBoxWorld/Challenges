@@ -1,12 +1,12 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import org.bukkit.Material;
-import org.bukkit.World;
-
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;

@@ -1,7 +1,15 @@
 package world.bentobox.challenges.panel.admin;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -19,14 +27,14 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
-import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.ChallengeSelector;
+import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;

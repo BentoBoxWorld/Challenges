@@ -2,24 +2,29 @@ package world.bentobox.challenges.tasks;
 
 
 
-import com.google.common.collect.UnmodifiableIterator;
-import java.time.*;
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Keyed;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -29,12 +34,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
 
+import com.google.common.collect.UnmodifiableIterator;
+
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
-import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
@@ -42,6 +48,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -184,8 +191,7 @@ public class TryToComplete
             int maxTimes)
     {
         return new TryToComplete(addon, user, challenge, world, topLabel, permissionPrefix).
-            build(maxTimes).
-            meetsRequirements;
+                build(maxTimes).meetsRequirements;
     }
 
 
@@ -266,16 +272,14 @@ public class TryToComplete
             if (result.getFactor() == 1)
             {
                 Utils.sendMessage(this.user, 
-                    this.world,
-                    Constants.MESSAGES + "you-completed-challenge",
-                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName());
+                        this.world, Constants.MESSAGES + "you-completed-challenge", Constants.PARAMETER_VALUE,
+                        this.challenge.getFriendlyName());
             }
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
             {
                 Bukkit.getOnlinePlayers().stream().
-                    map(User::getInstance).
-                    forEach(user -> Utils.sendMessage(user,
+                map(User::getInstance).forEach(user -> Utils.sendMessage(user,
                         this.world,
                         Constants.MESSAGES + "name-has-completed-challenge",
                         Constants.PARAMETER_NAME, this.user.getName(),
@@ -286,11 +290,11 @@ public class TryToComplete
             if (this.addon.getChallengesSettings().isShowCompletionTitle())
             {
                 this.user.getPlayer().sendTitle(
-                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"), this.challenge),
-                    this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"), this.challenge),
-                    10,
-                    this.addon.getChallengesSettings().getTitleShowtime(),
-                    20);
+                        this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-title"),
+                                this.challenge),
+                        this.parseChallenge(this.user.getTranslation("challenges.titles.challenge-subtitle"),
+                                this.challenge),
+                        10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
             }
         }
 
@@ -315,7 +319,7 @@ public class TryToComplete
             if (this.addon.isEconomyProvided())
             {
                 this.addon.getEconomyProvider().deposit(this.user,
-                    this.challenge.getRepeatMoneyReward() * rewardFactor);
+                        this.challenge.getRepeatMoneyReward() * rewardFactor);
             }
 
             // Experience Repeat Reward
@@ -331,17 +335,14 @@ public class TryToComplete
             if (result.getFactor() > 1)
             {
                 Utils.sendMessage(this.user,
-                    this.world,
-                    Constants.MESSAGES + "you-repeated-challenge-multiple",
-                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName(),
-                    "[count]", Integer.toString(result.getFactor()));
+                        this.world, Constants.MESSAGES + "you-repeated-challenge-multiple", Constants.PARAMETER_VALUE,
+                        this.challenge.getFriendlyName(), "[count]", Integer.toString(result.getFactor()));
             }
             else
             {
                 Utils.sendMessage(this.user,
-                    this.world,
-                    Constants.MESSAGES + "you-repeated-challenge",
-                    Constants.PARAMETER_VALUE, this.challenge.getFriendlyName());
+                        this.world, Constants.MESSAGES + "you-repeated-challenge", Constants.PARAMETER_VALUE,
+                        this.challenge.getFriendlyName());
             }
         }
 
@@ -380,15 +381,13 @@ public class TryToComplete
                     this.runCommands(level.getRewardCommands());
 
                     Utils.sendMessage(this.user,
-                        this.world,
-                        Constants.MESSAGES + "you-completed-level",
-                        Constants.PARAMETER_VALUE, level.getFriendlyName());
+                            this.world, Constants.MESSAGES + "you-completed-level", Constants.PARAMETER_VALUE,
+                            level.getFriendlyName());
 
                     if (this.addon.getChallengesSettings().isBroadcastMessages())
                     {
                         Bukkit.getOnlinePlayers().stream().
-                            map(User::getInstance).
-                            forEach(user -> Utils.sendMessage(user,
+                        map(User::getInstance).forEach(user -> Utils.sendMessage(user,
                                 this.world,
                                 Constants.MESSAGES + "name-has-completed-level",
                                 Constants.PARAMETER_NAME, this.user.getName(),
@@ -401,11 +400,9 @@ public class TryToComplete
                     if (this.addon.getChallengesSettings().isShowCompletionTitle())
                     {
                         this.user.getPlayer().sendTitle(
-                            this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
-                            this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
-                            10,
-                            this.addon.getChallengesSettings().getTitleShowtime(),
-                            20);
+                                this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
+                                this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
+                                10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
                     }
                 }
             }
@@ -423,110 +420,174 @@ public class TryToComplete
     {
         switch (this.challenge.getChallengeType())
         {
-            case ISLAND_TYPE -> {
-                IslandRequirements requirements = this.challenge.getRequirements();
+        case ISLAND_TYPE -> {
+            IslandRequirements requirements = this.challenge.getRequirements();
 
-                if (result.meetsRequirements &&
+            if (result.meetsRequirements &&
                     requirements.isRemoveEntities() &&
                     !requirements.getRequiredEntities().isEmpty())
-                {
-                    this.removeEntities(result.entities, result.getFactor());
-                }
+            {
+                this.removeEntities(result.entities, result.getFactor());
+            }
 
-                if (result.meetsRequirements &&
+            if (result.meetsRequirements &&
                     requirements.isRemoveBlocks() &&
                     !requirements.getRequiredBlocks().isEmpty())
-                {
-                    this.removeBlocks(result.blocks, result.getFactor());
-                }
+            {
+                this.removeBlocks(result.blocks, result.getFactor());
             }
-            case INVENTORY_TYPE -> {
-                // If remove items, then remove them
-                if (this.getInventoryRequirements().isTakeItems())
-                {
-                    int sumEverything = result.requiredItems.stream().
+        }
+        case INVENTORY_TYPE -> {
+            // If remove items, then remove them
+            if (this.getInventoryRequirements().isTakeItems()) {
+                int sumEverything = result.requiredItems.stream().
                         mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
                         sum();
 
-                    Map<ItemStack, Integer> removedItems =
+                Map<ItemStack, Integer> removedItems =
                         this.removeItems(result.requiredItems, result.getFactor());
 
-                    int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
+                int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
 
-                    // Something is not removed.
-                    if (sumEverything != removedAmount)
-                    {
-                        Utils.sendMessage(this.user,
+                // Something is not removed.
+                if (sumEverything != removedAmount) {
+                    Utils.sendMessage(this.user,
                             this.world,
                             Constants.ERRORS + "cannot-remove-items");
 
-                        result.removedItems = removedItems;
-                        result.meetsRequirements = false;
+                    result.removedItems = removedItems;
+                    result.meetsRequirements = false;
+                }
+            }
+        }
+        case OTHER_TYPE -> {
+            OtherRequirements requirements = this.challenge.getRequirements();
+
+            if (this.addon.isEconomyProvided() && requirements.isTakeMoney()) {
+                this.addon.getEconomyProvider().withdraw(this.user, requirements.getRequiredMoney());
+            }
+
+            if (requirements.isTakeExperience() && this.user.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                // Cannot take anything from creative game mode.
+                this.user.getPlayer().setTotalExperience(
+                        this.user.getPlayer().getTotalExperience() - requirements.getRequiredExperience());
+            }
+        }
+        case STATISTIC_TYPE -> {
+            StatisticRequirements requirements = this.challenge.getRequirements();
+
+            if (requirements.isReduceStatistic() && requirements.getStatistic() != null) {
+                int removeAmount = result.getFactor() * requirements.getAmount();
+
+                // Start to remove from player who called the completion.
+                switch (requirements.getStatistic().getType())
+                {
+                case UNTYPED -> {
+                    int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
+
+                    if (removeAmount >= statistic) {
+                        this.user.getPlayer().setStatistic(requirements.getStatistic(), 0);
+                        removeAmount -= statistic;
+                    } else {
+                        this.user.getPlayer().setStatistic(requirements.getStatistic(), statistic - removeAmount);
+                        removeAmount = 0;
                     }
                 }
-            }
-            case OTHER_TYPE -> {
-                OtherRequirements requirements = this.challenge.getRequirements();
+                case ITEM, BLOCK -> {
+                    if (requirements.getMaterial() == null) {
+                        // Just a sanity check. Material cannot be null at this point of code.
+                        removeAmount = 0;
+                    } else {
+                        int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                requirements.getMaterial());
 
-                if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
-                {
-                    this.addon.getEconomyProvider().withdraw(this.user, requirements.getRequiredMoney());
+                        if (removeAmount >= statistic) {
+                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(),
+                                    0);
+                            removeAmount -= statistic;
+                        } else {
+                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(),
+                                    statistic - removeAmount);
+                            removeAmount = 0;
+                        }
+                    }
+                }
+                case ENTITY -> {
+                    if (requirements.getEntity() == null) {
+                        // Just a sanity check. Entity cannot be null at this point of code.
+                        removeAmount = 0;
+                    } else {
+                        int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
+                                requirements.getEntity());
+
+                        if (removeAmount >= statistic) {
+                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(),
+                                    0);
+                            removeAmount -= statistic;
+                        } else {
+                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(),
+                                    statistic - removeAmount);
+                            removeAmount = 0;
+                        }
+                    }
+                }
                 }
 
-                if (requirements.isTakeExperience() &&
-                    this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
+                // If challenges are in sync with all island members, then punish others too.
+                if (this.addon.getChallengesSettings().isStoreAsIslandData())
                 {
-                    // Cannot take anything from creative game mode.
-                    this.user.getPlayer().setTotalExperience(
-                        this.user.getPlayer().getTotalExperience() - requirements.getRequiredExperience());
-                }
-            }
-            case STATISTIC_TYPE -> {
-                StatisticRequirements requirements = this.challenge.getRequirements();
+                    Island island = this.addon.getIslands().getIsland(this.world, this.user);
 
-                if (requirements.isReduceStatistic() && requirements.getStatistic() != null)
-                {
-                    int removeAmount = result.getFactor() * requirements.getAmount();
+                    if (island == null) {
+                        // hmm
+                        return;
+                    }
 
-                    // Start to remove from player who called the completion.
-                    switch (requirements.getStatistic().getType())
+                    for (UnmodifiableIterator<UUID> iterator = island.getMemberSet().iterator(); iterator.hasNext()
+                            && removeAmount > 0;)
                     {
+                        Player player = Bukkit.getPlayer(iterator.next());
+
+                        if (player == null || player == this.user.getPlayer()) {
+                            // cannot punish null or player who already was punished.
+                            continue;
+                        }
+
+                        switch (Objects.requireNonNull(requirements.getStatistic()).getType()) {
                         case UNTYPED -> {
-                            int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
+                            int statistic = player.getStatistic(requirements.getStatistic());
 
                             if (removeAmount >= statistic)
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), 0);
                                 removeAmount -= statistic;
+                                player.setStatistic(requirements.getStatistic(), 0);
                             }
                             else
                             {
-                                this.user.getPlayer().setStatistic(requirements.getStatistic(), statistic - removeAmount);
+                                player.setStatistic(requirements.getStatistic(), statistic - removeAmount);
                                 removeAmount = 0;
                             }
                         }
                         case ITEM, BLOCK -> {
                             if (requirements.getMaterial() == null)
                             {
-                                // Just a sanity check. Material cannot be null at this point of code.
+                                // Just a sanity check. Entity cannot be null at this point of code.
                                 removeAmount = 0;
                             }
                             else
                             {
-                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
-                                    requirements.getMaterial());
+                                int statistic = player.getStatistic(requirements.getStatistic(),
+                                        requirements.getMaterial());
 
                                 if (removeAmount >= statistic)
                                 {
-                                    this.user.getPlayer()
-                                        .setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
                                     removeAmount -= statistic;
+                                    player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
                                 }
                                 else
                                 {
-                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                        requirements.getMaterial(),
-                                        statistic - removeAmount);
+                                    player.setStatistic(requirements.getStatistic(), requirements.getMaterial(),
+                                            statistic - removeAmount);
                                     removeAmount = 0;
                                 }
                             }
@@ -539,122 +600,27 @@ public class TryToComplete
                             }
                             else
                             {
-                                int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
-                                    requirements.getEntity());
+                                int statistic = player.getStatistic(requirements.getStatistic(),
+                                        requirements.getEntity());
 
                                 if (removeAmount >= statistic)
                                 {
-                                    this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
                                     removeAmount -= statistic;
+                                    player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
                                 }
                                 else
                                 {
-                                    this.user.getPlayer().setStatistic(requirements.getStatistic(),
-                                        requirements.getEntity(),
-                                        statistic - removeAmount);
+                                    player.setStatistic(requirements.getStatistic(), requirements.getEntity(),
+                                            statistic - removeAmount);
                                     removeAmount = 0;
                                 }
                             }
                         }
-                    }
-
-                    // If challenges are in sync with all island members, then punish others too.
-                    if (this.addon.getChallengesSettings().isStoreAsIslandData())
-                    {
-                        Island island = this.addon.getIslands().getIsland(this.world, this.user);
-
-                        if (island == null)
-                        {
-                            // hmm
-                            return;
-                        }
-
-                        for (UnmodifiableIterator<UUID> iterator = island.getMemberSet().iterator();
-                            iterator.hasNext() && removeAmount > 0; )
-                        {
-                            Player player = Bukkit.getPlayer(iterator.next());
-
-                            if (player == null || player == this.user.getPlayer())
-                            {
-                                // cannot punish null or player who already was punished.
-                                continue;
-                            }
-                            
-                            switch (Objects.requireNonNull(requirements.getStatistic()).getType())
-                            {
-                                case UNTYPED -> {
-                                    int statistic = player.getStatistic(requirements.getStatistic());
-
-                                    if (removeAmount >= statistic)
-                                    {
-                                        removeAmount -= statistic;
-                                        player.setStatistic(requirements.getStatistic(), 0);
-                                    }
-                                    else
-                                    {
-                                        player.setStatistic(requirements.getStatistic(), statistic - removeAmount);
-                                        removeAmount = 0;
-                                    }
-                                }
-                                case ITEM, BLOCK -> {
-                                    if (requirements.getMaterial() == null)
-                                    {
-                                        // Just a sanity check. Entity cannot be null at this point of code.
-                                        removeAmount = 0;
-                                    }
-                                    else
-                                    {
-                                        int statistic = player.getStatistic(requirements.getStatistic(),
-                                            requirements.getMaterial());
-
-                                        if (removeAmount >= statistic)
-                                        {
-                                            removeAmount -= statistic;
-                                            player.setStatistic(requirements.getStatistic(),
-                                                requirements.getMaterial(),
-                                                0);
-                                        }
-                                        else
-                                        {
-                                            player.setStatistic(requirements.getStatistic(),
-                                                requirements.getMaterial(),
-                                                statistic - removeAmount);
-                                            removeAmount = 0;
-                                        }
-                                    }
-                                }
-                                case ENTITY -> {
-                                    if (requirements.getEntity() == null)
-                                    {
-                                        // Just a sanity check. Entity cannot be null at this point of code.
-                                        removeAmount = 0;
-                                    }
-                                    else
-                                    {
-                                        int statistic = player.getStatistic(requirements.getStatistic(),
-                                            requirements.getEntity());
-
-                                        if (removeAmount >= statistic)
-                                        {
-                                            removeAmount -= statistic;
-                                            player.setStatistic(requirements.getStatistic(),
-                                                requirements.getEntity(),
-                                                0);
-                                        }
-                                        else
-                                        {
-                                            player.setStatistic(requirements.getStatistic(),
-                                                requirements.getEntity(),
-                                                statistic - removeAmount);
-                                            removeAmount = 0;
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }
             }
+        }
         }
     }
 
@@ -667,7 +633,7 @@ public class TryToComplete
     private ChallengeResult checkIfCanCompleteChallenge(int maxTimes)
     {
         ChallengeResult result;
-        
+
         ChallengeType type = this.challenge.getChallengeType();
         // Check the world
         if (!this.challenge.isDeployed())
@@ -681,14 +647,14 @@ public class TryToComplete
             result = EMPTY_RESULT;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
-            !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
+                !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
         {
             Utils.sendMessage(this.user, this.world, "general.errors.wrong-world");
             result = EMPTY_RESULT;
         }
         // Player is not on island
         else if (this.user.getLocation() == null ||
-            ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
+                ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.world) &&
                 !this.addon.getIslands().locationIsOnIsland(this.user.getPlayer(), this.user.getLocation()))
         {
             Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "not-on-island");
@@ -696,22 +662,21 @@ public class TryToComplete
         }
         // Check player permission
         else if (!this.addon.getIslands().getIslandAt(this.user.getLocation()).
-            map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).
-            orElse(false))
+                map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).orElse(false))
         {
             Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "no-rank");
             result = EMPTY_RESULT;
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
-            !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
+                !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "challenge-level-not-available");
             result = EMPTY_RESULT;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
-            this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
+                this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-repeatable");
             result = EMPTY_RESULT;
@@ -726,16 +691,16 @@ public class TryToComplete
         else if (this.manager.isBreachingTimeOut(this.user, this.world, this.challenge))
         {
             long missing = this.manager.getLastCompletionDate(this.user, this.world, challenge) +
-                this.challenge.getTimeout() - System.currentTimeMillis();
+                    this.challenge.getTimeout() - System.currentTimeMillis();
 
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "timeout",
-                "[timeout]", Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user),
-                "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user));
+                    "[timeout]", Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user),
+                    "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user));
             result = EMPTY_RESULT;
         }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
-            !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
+                !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "wrong-environment");
             result = EMPTY_RESULT;
@@ -784,7 +749,8 @@ public class TryToComplete
     private boolean checkPermissions()
     {
         return this.challenge.getRequirements().getRequiredPermissions().isEmpty() ||
-            this.challenge.getRequirements().getRequiredPermissions().stream().allMatch(s -> this.user.hasPermission(s));
+                this.challenge.getRequirements().getRequiredPermissions().stream()
+                .allMatch(s -> this.user.hasPermission(s));
     }
 
 
@@ -838,10 +804,11 @@ public class TryToComplete
                 String alert = "Running command '" + cmd + "' as " + this.user.getName();
                 this.addon.getLogger().info(alert);
                 cmd = cmd.substring(6).
-                    replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
-                    trim();
+                        replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName())
+                        .replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
+                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
+                                island == null || island.getName() == null ? "" : island.getName())
+                        .trim();
                 try
                 {
                     if (!user.performCommand(cmd))
@@ -862,9 +829,10 @@ public class TryToComplete
             try
             {
                 cmd = cmd.replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
-                    replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
-                    replaceAll(Constants.ESC + Constants.PARAMETER_NAME, island == null || island.getName() == null ? "" : island.getName()).
-                    trim();
+                        replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
+                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
+                                island == null || island.getName() == null ? "" : island.getName())
+                        .trim();
 
                 if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
                 {
@@ -914,7 +882,7 @@ public class TryToComplete
         if (this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
         {
             requiredItems = Utils.groupEqualItems(this.getInventoryRequirements().getRequiredItems(),
-                this.getInventoryRequirements().getIgnoreMetaData());
+                    this.getInventoryRequirements().getIgnoreMetaData());
 
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
@@ -924,25 +892,20 @@ public class TryToComplete
                 if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
                 {
                     numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                        filter(Objects::nonNull).
-                        filter(i -> i.getType().equals(required.getType())).
-                        mapToInt(ItemStack::getAmount).
-                        sum();
+                            filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
+                            .mapToInt(ItemStack::getAmount).sum();
                 }
                 else
                 {
                     numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                        filter(Objects::nonNull).
-                        filter(i -> i.isSimilar(required)).
-                        mapToInt(ItemStack::getAmount).
-                        sum();
+                            filter(Objects::nonNull).filter(i -> i.isSimilar(required)).mapToInt(ItemStack::getAmount)
+                            .sum();
                 }
 
                 if (numInInventory < required.getAmount())
                 {
                     Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-items",
-                        "[items]",
-                        Utils.prettifyObject(required, this.user));
+                            "[items]", Utils.prettifyObject(required, this.user));
                     return EMPTY_RESULT;
                 }
 
@@ -987,17 +950,14 @@ public class TryToComplete
             {
                 // Use collecting method that ignores item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.getType().equals(required.getType())).
-                    collect(Collectors.toList());
+                        filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
+                        .collect(Collectors.toList());
             }
             else
             {
                 // Use collecting method that compares item meta.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.isSimilar(required)).
-                    collect(Collectors.toList());
+                        filter(Objects::nonNull).filter(i -> i.isSimilar(required)).collect(Collectors.toList());
             }
 
             for (ItemStack itemStack : itemsInInventory)
@@ -1102,8 +1062,7 @@ public class TryToComplete
 
             // Protection code. Do not allow to select too large region for completing challenge.
             if (boundingBox.getWidthX() > distance * 2 + 3 ||
-                boundingBox.getWidthZ() > distance * 2 + 3 ||
-                boundingBox.getHeight() > distance * 2 + 3)
+                    boundingBox.getWidthZ() > distance * 2 + 3 || boundingBox.getHeight() > distance * 2 + 3)
             {
                 this.addon.logError("BoundingBox is larger than SearchRadius. " +
                         " | BoundingBox: " + boundingBox +
@@ -1118,15 +1077,118 @@ public class TryToComplete
 
         ChallengeResult result = this.searchForEntities(requirements.getRequiredEntities(), factor, boundingBox);
 
+        // For Material tags
+        if (result.isMeetsRequirements() && !requirements.getRequiredMaterialTags().isEmpty()) {
+            result = searchForTags(requirements.getRequiredMaterialTags(), factor, boundingBox, Tag::isTagged,
+                    (world, x, y, z) -> world.getBlockAt(x, y, z).getType());
+        }
+
+        // For EntityType tags
+        if (result.isMeetsRequirements() && !requirements.getRequiredEntityTypeTags().isEmpty()) {
+            result = searchForTags(requirements.getRequiredEntityTypeTags(), factor, boundingBox, Tag::isTagged,
+                    (world, x, y, z) -> {
+                        Collection<Entity> entities = world.getNearbyEntities(new Location(world, x, y, z), 1, 1, 1);
+                        return entities.isEmpty() ? null : entities.iterator().next().getType();
+                    });
+        }
         if (result.isMeetsRequirements() && !requirements.getRequiredBlocks().isEmpty())
         {
             // Search for items only if entities found
             result = this.searchForBlocks(requirements.getRequiredBlocks(), result.getFactor(), boundingBox);
         }
 
+
         return result;
     }
 
+    /**
+     * Generic method to search for required tags in given challenge boundingBox.
+     * @param <T> The type parameter for the Tag (must extend Keyed)
+     * @param requiredMap Required Tag Map
+     * @param factor Requirement multiplier
+     * @param boundingBox Bounding box of island challenge
+     * @param typeChecker Function to check if an element matches the tag
+     * @param elementGetter Function to get the element at a specific location
+     * @return ChallengeResult
+     */
+    private <T extends Keyed> ChallengeResult searchForTags(Map<Tag<T>, Integer> requiredMap, int factor,
+            BoundingBox boundingBox, BiPredicate<Tag<T>, T> typeChecker, LocationElementGetter<T> elementGetter) {
+
+        if (requiredMap.isEmpty()) {
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
+        }
+
+        Map<Tag<T>, Integer> tags = new HashMap<>(requiredMap);
+        Map<Tag<T>, Integer> tagsFound = new HashMap<>(requiredMap.size());
+
+        Queue<Block> blockQueue = new PriorityQueue<>((o1, o2) -> {
+            if (this.user.getLocation() != null) {
+                return Double.compare(o1.getLocation().distance(this.user.getLocation()),
+                        o2.getLocation().distance(this.user.getLocation()));
+            } else {
+                return 0;
+            }
+        });
+
+        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++) {
+            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++) {
+                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++) {
+                    T element = elementGetter.getElement(this.user.getWorld(), x, y, z);
+                    if (element == null)
+                        continue;
+
+                    for (Entry<Tag<T>, Integer> en : requiredMap.entrySet()) {
+                        if (typeChecker.test(en.getKey(), element)) {
+                            Block block = this.user.getWorld().getBlockAt(x, y, z);
+                            blockQueue.add(block);
+                            tagsFound.putIfAbsent(en.getKey(), 1);
+                            tagsFound.computeIfPresent(en.getKey(), (k, v) -> v + 1);
+                            // Remove one
+                            tags.computeIfPresent(en.getKey(), (k, v) -> v - 1);
+                            // Remove any that have an amount of 0
+                            tags.entrySet().removeIf(e -> e.getValue() <= 0);
+
+                            if (tags.isEmpty() && factor == 1) {
+                                return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor)
+                                        .setBlockQueue(blockQueue);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (tags.isEmpty()) {
+            if (factor > 1) {
+                // Calculate minimal completion count
+                for (Map.Entry<Tag<T>, Integer> entry : tagsFound.entrySet()) {
+                    factor = Math.min(factor, entry.getValue() / requiredMap.get(entry.getKey()));
+                }
+            }
+
+            tagsFound.clear();
+            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockQueue);
+        }
+
+        Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-close-enough", Constants.PARAMETER_NUMBER,
+                String.valueOf(this.getIslandRequirements().getSearchRadius()));
+
+        tags.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need", "[amount]",
+                String.valueOf(v), "[item]", Utils.prettifyObject(k, this.user)));
+
+        // kick garbage collector
+        tags.clear();
+        tagsFound.clear();
+        blockQueue.clear();
+
+        return EMPTY_RESULT;
+    }
+
+    // Interface to get elements at a specific location
+    @FunctionalInterface
+    private interface LocationElementGetter<T extends Keyed> {
+        T getElement(World world, int x, int y, int z);
+    }
 
     /**
      * This method search required blocks in given challenge boundingBox.
@@ -1135,39 +1197,29 @@ public class TryToComplete
      * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForBlocks(Map<Material, Integer> requiredMap, int factor, BoundingBox boundingBox)
-    {
-        if (requiredMap.isEmpty())
-        {
+    private ChallengeResult searchForBlocks(Map<Material, Integer> requiredMap, int factor, BoundingBox boundingBox) {
+        if (requiredMap.isEmpty()) {
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
-
         Map<Material, Integer> blocks = new EnumMap<>(requiredMap);
         Map<Material, Integer> blocksFound = new HashMap<>(requiredMap.size());
 
-        // This queue will contain only blocks whit required type ordered by distance till player.
+        // This queue will contain only blocks with the required type ordered by distance till player.
         Queue<Block> blockFromWorld = new PriorityQueue<>((o1, o2) -> {
-            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null)
-            {
+            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null) {
                 return Double.compare(o1.getLocation().distance(this.user.getLocation()),
-                    o2.getLocation().distance(this.user.getLocation()));
-            }
-            else
-            {
+                        o2.getLocation().distance(this.user.getLocation()));
+            } else {
                 return o1.getType().compareTo(o2.getType());
             }
         });
 
-        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++)
-        {
-            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++)
-            {
-                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++)
-                {
+        for (int x = (int) boundingBox.getMinX(); x <= boundingBox.getMaxX(); x++) {
+            for (int y = (int) boundingBox.getMinY(); y <= boundingBox.getMaxY(); y++) {
+                for (int z = (int) boundingBox.getMinZ(); z <= boundingBox.getMaxZ(); z++) {
                     Block block = this.user.getWorld().getBlockAt(x, y, z);
 
-                    if (requiredMap.containsKey(block.getType()))
-                    {
+                    if (requiredMap.containsKey(block.getType())) {
                         blockFromWorld.add(block);
 
                         blocksFound.putIfAbsent(block.getType(), 1);
@@ -1178,26 +1230,22 @@ public class TryToComplete
                         // Remove any that have an amount of 0
                         blocks.entrySet().removeIf(en -> en.getValue() <= 0);
 
-                        if (blocks.isEmpty() && factor == 1)
-                        {
+                        if (blocks.isEmpty() && factor == 1) {
                             // Return as soon as it s empty as no point to search more.
-                            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
+                            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor)
+                                    .setBlockQueue(blockFromWorld);
                         }
                     }
                 }
             }
         }
 
-        if (blocks.isEmpty())
-        {
-            if (factor > 1)
-            {
+        if (blocks.isEmpty()) {
+            if (factor > 1) {
                 // Calculate minimal completion count.
 
-                for (Map.Entry<Material, Integer> entry : blocksFound.entrySet())
-                {
-                    factor = Math.min(factor,
-                            entry.getValue() / requiredMap.get(entry.getKey()));
+                for (Map.Entry<Material, Integer> entry : blocksFound.entrySet()) {
+                    factor = Math.min(factor, entry.getValue() / requiredMap.get(entry.getKey()));
                 }
             }
 
@@ -1207,16 +1255,11 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setBlockQueue(blockFromWorld);
         }
 
-        Utils.sendMessage(this.user,
-            this.world,
-            Constants.ERRORS + "not-close-enough",
-            Constants.PARAMETER_NUMBER, String.valueOf(this.getIslandRequirements().getSearchRadius()));
+        Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-close-enough", Constants.PARAMETER_NUMBER,
+                String.valueOf(this.getIslandRequirements().getSearchRadius()));
 
-        blocks.forEach((k, v) -> Utils.sendMessage(this.user,
-            this.world,
-            Constants.ERRORS + "you-still-need",
-            "[amount]", String.valueOf(v),
-            "[item]", Utils.prettifyObject(k, this.user)));
+        blocks.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need",
+                "[amount]", String.valueOf(v), "[item]", Utils.prettifyObject(k, this.user)));
 
 
         // kick garbage collector
@@ -1235,12 +1278,9 @@ public class TryToComplete
      * @param boundingBox Bounding box of island challenge
      * @return ChallengeResult
      */
-    private ChallengeResult searchForEntities(Map<EntityType, Integer> requiredMap,
-            int factor,
-            BoundingBox boundingBox)
-    {
-        if (requiredMap.isEmpty())
-        {
+    private ChallengeResult searchForEntities(Map<EntityType, Integer> requiredMap, int factor,
+            BoundingBox boundingBox) {
+        if (requiredMap.isEmpty()) {
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
 
@@ -1250,12 +1290,10 @@ public class TryToComplete
 
         // Create queue that contains all required entities ordered by distance till player.
         Queue<Entity> entityQueue = new PriorityQueue<>((o1, o2) -> {
-            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null)
-            {
+            if (o1.getType().equals(o2.getType()) && this.user.getLocation() != null) {
                 return Double.compare(o1.getLocation().distance(this.user.getLocation()),
-                    o2.getLocation().distance(this.user.getLocation()));
-            }
-            else
+                        o2.getLocation().distance(this.user.getLocation()));
+            } else
             {
                 return o1.getType().compareTo(o2.getType());
             }
@@ -1276,16 +1314,14 @@ public class TryToComplete
             }
         });
 
-        if (minimalRequirements.isEmpty())
-        {
+        if (minimalRequirements.isEmpty()) {
             if (factor > 1)
             {
                 // Calculate minimal completion count.
 
                 for (Map.Entry<EntityType, Integer> entry : entitiesFound.entrySet())
                 {
-                    factor = Math.min(factor,
-                            entry.getValue() / requiredMap.get(entry.getKey()));
+                    factor = Math.min(factor, entry.getValue() / requiredMap.get(entry.getKey()));
                 }
             }
 
@@ -1295,12 +1331,9 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor).setEntityQueue(entityQueue);
         }
 
-        minimalRequirements.forEach((reqEnt, amount) ->
-            Utils.sendMessage(this.user,
-                this.world,
-                Constants.ERRORS + "you-still-need",
-                "[amount]", String.valueOf(amount),
-                "[item]", Utils.prettifyObject(reqEnt, this.user)));
+        minimalRequirements.forEach(
+                (reqEnt, amount) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need",
+                        "[amount]", String.valueOf(amount), "[item]", Utils.prettifyObject(reqEnt, this.user)));
 
         // Kick garbage collector
         entitiesFound.clear();
@@ -1316,8 +1349,7 @@ public class TryToComplete
      * @param blockQueue Queue with blocks that could be removed
      * @param factor requirement factor for each block type.
      */
-    private void removeBlocks(Queue<Block> blockQueue, int factor)
-    {
+    private void removeBlocks(Queue<Block> blockQueue, int factor) {
         Map<Material, Integer> blocks = new EnumMap<>(this.getIslandRequirements().getRequiredBlocks());
 
         // Increase required blocks by factor.
@@ -1340,23 +1372,22 @@ public class TryToComplete
      * @param entityQueue Queue with entities that could be removed
      * @param factor requirement factor for each entity type.
      */
-    private void removeEntities(Queue<Entity> entityQueue, int factor)
-    {
-        Map<EntityType, Integer> entities = this.getIslandRequirements().getRequiredEntities().isEmpty() ?
-                new EnumMap<>(EntityType.class) : new EnumMap<>(this.getIslandRequirements().getRequiredEntities());
+    private void removeEntities(Queue<Entity> entityQueue, int factor) {
+        Map<EntityType, Integer> entities = this.getIslandRequirements().getRequiredEntities().isEmpty()
+                ? new EnumMap<>(EntityType.class)
+                : new EnumMap<>(this.getIslandRequirements().getRequiredEntities());
 
-                // Increase required entities by factor.
-                entities.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
+        // Increase required entities by factor.
+        entities.entrySet().forEach(entry -> entry.setValue(entry.getValue() * factor));
 
-                // Go through entity queue and remove entities that are requried.
-                entityQueue.forEach(entity -> {
-                    if (entities.containsKey(entity.getType()))
-                    {
-                        entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
-                        entities.entrySet().removeIf(e -> e.getValue() == 0);
-                        entity.remove();
-                    }
-                });
+        // Go through entity queue and remove entities that are requried.
+        entityQueue.forEach(entity -> {
+            if (entities.containsKey(entity.getType())) {
+                entities.computeIfPresent(entity.getType(), (reqEntity, amount) -> amount - 1);
+                entities.entrySet().removeIf(e -> e.getValue() == 0);
+                entity.remove();
+            }
+        });
     }
 
 
@@ -1370,71 +1401,48 @@ public class TryToComplete
      * It returns ChallengeResult.
      * @param factor - times that user wanted to complete
      */
-    private ChallengeResult checkOthers(int factor)
-    {
-        if (factor <= 0)
-        {
+    private ChallengeResult checkOthers(int factor) {
+        if (factor <= 0) {
             return EMPTY_RESULT;
         }
 
         OtherRequirements requirements = this.getOtherRequirements();
 
-        if (!this.addon.isLevelProvided() && requirements.getRequiredIslandLevel() != 0)
-        {
+        if (!this.addon.isLevelProvided() && requirements.getRequiredIslandLevel() != 0) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "missing-addon");
-        }
-        else if (!this.addon.isEconomyProvided() &&
-                requirements.getRequiredMoney() != 0)
-        {
+        } else if (!this.addon.isEconomyProvided() && requirements.getRequiredMoney() != 0) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "missing-addon");
-        }
-        else if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() < 0)
-        {
+        } else if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() < 0) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
-        }
-        else if (this.addon.isEconomyProvided() &&
-            !this.addon.getEconomyProvider().has(this.user, requirements.getRequiredMoney()))
-        {
-            Utils.sendMessage(this.user,
-                this.world,
-                Constants.ERRORS + "not-enough-money",
-                Constants.PARAMETER_VALUE, Double.toString(requirements.getRequiredMoney()));
-        }
-        else if (requirements.getRequiredExperience() < 0)
-        {
+        } else if (this.addon.isEconomyProvided()
+                && !this.addon.getEconomyProvider().has(this.user, requirements.getRequiredMoney())) {
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-money", Constants.PARAMETER_VALUE,
+                    Double.toString(requirements.getRequiredMoney()));
+        } else if (requirements.getRequiredExperience() < 0) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
-        }
-        else if (this.user.getPlayer().getTotalExperience() < requirements.getRequiredExperience() &&
-            this.user.getPlayer().getGameMode() != GameMode.CREATIVE)
-        {
+        } else if (this.user.getPlayer().getTotalExperience() < requirements.getRequiredExperience()
+                && this.user.getPlayer().getGameMode() != GameMode.CREATIVE) {
             // Players in creative gamemode has infinite amount of EXP.
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-experience",
+                    Constants.PARAMETER_VALUE, Integer.toString(requirements.getRequiredExperience()));
+        } else if (this.addon.isLevelProvided() && this.addon.getLevelAddon().getIslandLevel(this.world,
+                this.user.getUniqueId()) < requirements.getRequiredIslandLevel()) {
             Utils.sendMessage(this.user,
-                this.world,
-                Constants.ERRORS + "not-enough-experience",
-                Constants.PARAMETER_VALUE,
-                Integer.toString(requirements.getRequiredExperience()));
-        }
-        else if (this.addon.isLevelProvided() &&
-                this.addon.getLevelAddon().getIslandLevel(this.world, this.user.getUniqueId()) < requirements.getRequiredIslandLevel())
-        {
-            Utils.sendMessage(this.user,
-                this.world,
-                Constants.ERRORS + "island-level",
-                TextVariables.NUMBER,
-                String.valueOf(requirements.getRequiredIslandLevel()));
+                    this.world, Constants.ERRORS + "island-level", TextVariables.NUMBER,
+                    String.valueOf(requirements.getRequiredIslandLevel()));
         }
         else
         {
             // calculate factor
 
-            if (this.addon.isEconomyProvided() && requirements.isTakeMoney())
-            {
-                factor = Math.min(factor, (int) (this.addon.getEconomyProvider().getBalance(this.user) / requirements.getRequiredMoney()));
+            if (this.addon.isEconomyProvided() && requirements.isTakeMoney()) {
+                factor = Math.min(factor, (int) (this.addon.getEconomyProvider().getBalance(this.user)
+                        / requirements.getRequiredMoney()));
             }
 
-            if (requirements.getRequiredExperience() > 0 && requirements.isTakeExperience())
-            {
-                factor = Math.min(factor, this.user.getPlayer().getTotalExperience() / requirements.getRequiredExperience());
+            if (requirements.getRequiredExperience() > 0 && requirements.isTakeExperience()) {
+                factor = Math.min(factor,
+                        this.user.getPlayer().getTotalExperience() / requirements.getRequiredExperience());
             }
 
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
@@ -1442,7 +1450,6 @@ public class TryToComplete
 
         return EMPTY_RESULT;
     }
-
 
     // ---------------------------------------------------------------------
     // Section: Statistic Challenge
@@ -1454,10 +1461,8 @@ public class TryToComplete
      * It returns ChallengeResult.
      * @param factor - times that user wanted to complete
      */
-    private ChallengeResult checkStatistic(int factor)
-    {
-        if (factor <= 0)
-        {
+    private ChallengeResult checkStatistic(int factor) {
+        if (factor <= 0) {
             return EMPTY_RESULT;
         }
 
@@ -1465,57 +1470,49 @@ public class TryToComplete
 
         int currentValue;
 
-        if (requirements.getStatistic() == null)
-        {
+        if (requirements.getStatistic() == null) {
             // Sanity check.
             return EMPTY_RESULT;
         }
 
         switch (Objects.requireNonNull(requirements.getStatistic()).getType())
         {
-            case UNTYPED -> currentValue =
-                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic());
-            case ITEM, BLOCK -> currentValue =
-                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(), requirements.getMaterial());
-            case ENTITY -> currentValue =
-                this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(), requirements.getEntity());
-            default -> currentValue = 0;
+        case UNTYPED ->
+            currentValue = this.manager.getStatisticData(this.user, this.world, requirements.getStatistic());
+        case ITEM, BLOCK -> currentValue = this.manager.getStatisticData(this.user, this.world,
+                requirements.getStatistic(), requirements.getMaterial());
+        case ENTITY -> currentValue = this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(),
+                requirements.getEntity());
+        default -> currentValue = 0;
         }
 
-        if (currentValue < requirements.getAmount())
-        {
+        if (currentValue < requirements.getAmount()) {
             switch (Objects.requireNonNull(requirements.getStatistic()).getType())
             {
-                case ITEM, BLOCK -> {
-                    Utils.sendMessage(this.user,
-                        this.world,
-                        Constants.ERRORS + "requirement-not-met-material",
-                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
-                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
-                        "[material]", Utils.prettifyObject(requirements.getMaterial(), this.user),
-                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
-                }
-                case ENTITY -> {
-                    Utils.sendMessage(this.user,
-                        this.world,
-                        Constants.ERRORS + "requirement-not-met-entity",
-                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
-                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
-                        "[entity]", Utils.prettifyObject(requirements.getEntity(), this.user),
-                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
-                }
-                default -> {
-                    Utils.sendMessage(this.user,
-                        this.world,
-                        Constants.ERRORS + "requirement-not-met",
-                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()),
-                        "[statistic]", Utils.prettifyObject(requirements.getStatistic(), this.user),
-                        Constants.PARAMETER_VALUE, String.valueOf(currentValue));
-                }
+            case ITEM, BLOCK -> {
+                Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
+                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()), "[statistic]",
+                        Utils.prettifyObject(requirements.getStatistic(), this.user), "[material]",
+                        Utils.prettifyObject(requirements.getMaterial(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
             }
-        }
-        else
-        {
+            case ENTITY -> {
+                Utils.sendMessage(this.user,
+                        this.world, Constants.ERRORS + "requirement-not-met-entity", TextVariables.NUMBER,
+                        String.valueOf(requirements.getAmount()), "[statistic]",
+                        Utils.prettifyObject(requirements.getStatistic(), this.user), "[entity]",
+                        Utils.prettifyObject(requirements.getEntity(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
+            }
+            default -> {
+                Utils.sendMessage(this.user,
+                        this.world, Constants.ERRORS + "requirement-not-met", TextVariables.NUMBER,
+                        String.valueOf(requirements.getAmount()), "[statistic]",
+                        Utils.prettifyObject(requirements.getStatistic(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
+            }
+            }
+        } else {
             factor = requirements.getAmount() == 0 ? factor : Math.min(factor, currentValue / requirements.getAmount());
 
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
@@ -1524,11 +1521,9 @@ public class TryToComplete
         return EMPTY_RESULT;
     }
 
-
     // ---------------------------------------------------------------------
     // Section: Title parsings
     // ---------------------------------------------------------------------
-
 
     /**
      * This method pareses input message by replacing all challenge variables in [] with their values.
@@ -1536,12 +1531,10 @@ public class TryToComplete
      * @param challenge Challenge from which these values should be taken
      * @return new String that replaces [VALUE] with correct value from challenge.
      */
-    private String parseChallenge(String inputMessage, Challenge challenge)
-    {
+    private String parseChallenge(String inputMessage, Challenge challenge) {
         String outputMessage = inputMessage;
 
-        if (inputMessage.contains("[") && inputMessage.contains("]"))
-        {
+        if (inputMessage.contains("[") && inputMessage.contains("]")) {
             outputMessage = outputMessage.replace("[friendlyName]", challenge.getFriendlyName());
 
             ChallengeLevel level = challenge.getLevel().isEmpty() ? null : this.manager.getLevel(challenge.getLevel());
@@ -1560,8 +1553,7 @@ public class TryToComplete
      * @param level level from which these values should be taken
      * @return new String that replaces [VALUE] with correct value from level.
      */
-    private String parseLevel(String inputMessage, ChallengeLevel level)
-    {
+    private String parseLevel(String inputMessage, ChallengeLevel level) {
         String outputMessage = inputMessage;
 
         if (inputMessage.contains("[") && inputMessage.contains("]"))
@@ -1573,7 +1565,6 @@ public class TryToComplete
         return ChatColor.translateAlternateColorCodes('&', outputMessage);
     }
 
-
     // ---------------------------------------------------------------------
     // Section: Simple getter methods
     // ---------------------------------------------------------------------
@@ -1583,8 +1574,7 @@ public class TryToComplete
      * This is simple cast method. Easier access to IslandRequirements.
      * @return Island Requirements
      */
-    private IslandRequirements getIslandRequirements()
-    {
+    private IslandRequirements getIslandRequirements() {
         return this.challenge.getRequirements();
     }
 
@@ -1593,8 +1583,7 @@ public class TryToComplete
      * This is simple cast method. Easier access to InventoryRequirements.
      * @return Inventory Requirements
      */
-    private InventoryRequirements getInventoryRequirements()
-    {
+    private InventoryRequirements getInventoryRequirements() {
         return this.challenge.getRequirements();
     }
 
@@ -1603,8 +1592,7 @@ public class TryToComplete
      * This is simple cast method. Easier access to OtherRequirements.
      * @return Other Requirements
      */
-    private OtherRequirements getOtherRequirements()
-    {
+    private OtherRequirements getOtherRequirements() {
         return this.challenge.getRequirements();
     }
 
@@ -1619,8 +1607,7 @@ public class TryToComplete
      *
      * @author tastybento
      */
-    static class ChallengeResult
-    {
+    static class ChallengeResult {
         /**
          * This method sets that challenge meets all requirements at least once.
          * @return Current object.
@@ -1637,8 +1624,7 @@ public class TryToComplete
          * @param completed boolean that indicate that challenge has been already completed.
          * @return Current object.
          */
-        ChallengeResult setCompleted(boolean completed)
-        {
+        ChallengeResult setCompleted(boolean completed) {
             this.completed = completed;
             return this;
         }
@@ -1715,8 +1701,7 @@ public class TryToComplete
          * This method returns how many times challenge can be completed.
          * @return completion count.
          */
-        int getFactor()
-        {
+        int getFactor() {
             return this.factor;
         }
 
@@ -1725,8 +1710,7 @@ public class TryToComplete
          * This method returns if challenge requirements has been met at least once.
          * @return value of meets requirements variable.
          */
-        boolean isMeetsRequirements()
-        {
+        boolean isMeetsRequirements() {
             return this.meetsRequirements;
         }
 

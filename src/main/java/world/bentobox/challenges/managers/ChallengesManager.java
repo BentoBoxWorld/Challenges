@@ -1,7 +1,19 @@
 package world.bentobox.challenges.managers;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -1572,7 +1584,8 @@ public class ChallengesManager
 
         this.islandWorldManager.getAddon(world).ifPresent(gameMode -> {
             this.resetAllChallenges(storageID, gameMode.getDescription().getName());
-            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
+            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL")
+                    .
                     data(USER_ID, userID.toString()).
                     data(ADMIN_ID, adminID == null ? "ISLAND_RESET" : adminID.toString()).
                     build());
