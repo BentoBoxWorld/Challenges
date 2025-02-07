@@ -305,6 +305,26 @@ public class Utils
         return translation.isEmpty() ? tag : translation;
     }
 
+    /**
+     * Prettify object
+     * @param <T> class that extends Enum
+     * @param object that extends Enum
+     * @param user use who will see the text
+     * @return string of pretty text for user
+     */
+    public static <T extends Enum<T>> String prettifyObject(@Nullable T object, User user) {
+        if (object == null) {
+            return "";
+        }
+        // Build a translation key using the enum name.
+        String translation = user
+                .getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase(Locale.ENGLISH) + ".name");
+        String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
+        // Use the enum's name and prettify it (for example, convert ALL_HANGING_SIGNS to "All Hanging Sign")
+        String tag = any + Util.prettifyText(object.name()).replaceAll("s$", "");
+        return translation.isEmpty() ? tag : translation;
+    }
+
 	/**
 	 * Prettify Material object for user.
 	 * @param object Object that must be pretty.

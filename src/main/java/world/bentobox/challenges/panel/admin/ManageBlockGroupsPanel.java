@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -271,7 +270,7 @@ public class ManageBlockGroupsPanel extends CommonPagedPanel<Tag<Material>>
 		}
 
 		return new PanelItemBuilder().
-                name(this.user.getTranslation(reference + "name", "[tag]",
+                name(this.user.getTranslation(reference + "name", "[id]",
 				Utils.prettifyObject(tag, this.user))).
                 icon(getIcon(tag, this.tagMap.get(tag))).
 			description(description).

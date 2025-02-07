@@ -23,15 +23,7 @@ import world.bentobox.challenges.utils.Utils;
 public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
 
     private final boolean asEgg;
-    private final Mode mode;
     private final Set<EntityType> excluded;
-
-    /**
-     * Specifies which entities to display.
-     */
-    public enum Mode {
-        ALIVE, ANY
-    }
 
     /**
      * Private constructor.
@@ -44,9 +36,8 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
      */
     private MultiEntitySelector(User user, boolean asEgg, Mode mode, Set<EntityType> excluded,
             java.util.function.BiConsumer<Boolean, Collection<EntityType>> consumer) {
-        super(user, consumer);
+        super(user, mode, consumer);
         this.asEgg = asEgg;
-        this.mode = mode;
         this.excluded = excluded;
     }
 
@@ -125,5 +116,10 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
     @Override
     protected String elementToString(EntityType element) {
         return element.name();
+    }
+
+    @Override
+    protected String getElementPlaceholder() {
+        return "[entity]";
     }
 }

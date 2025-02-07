@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -34,13 +33,20 @@ import world.bentobox.challenges.utils.Constants;
  */
 public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
 
+    protected final Mode mode;
+
+    public enum Mode {
+        ALIVE, BLOCKS, ITEMS, ANY, ENTITY_TYPE
+    }
+
     protected final List<T> elements;
     protected final Set<T> selectedElements;
     protected final BiConsumer<Boolean, Collection<T>> consumer;
     protected List<T> filterElements;
 
-    protected UnifiedMultiSelector(User user, BiConsumer<Boolean, Collection<T>> consumer) {
+    protected UnifiedMultiSelector(User user, Mode mode, BiConsumer<Boolean, Collection<T>> consumer) {
         super(user);
+        this.mode = mode;
         this.consumer = consumer;
         this.selectedElements = new HashSet<>();
         // Obtain the complete list of elements from the subclass.
@@ -67,6 +73,12 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
      * (for example, "entity." or "material.").
      */
     protected abstract String getElementKeyPrefix();
+
+    /**
+     * Returns the placeholder used for element buttons
+     * (for example, "[entity]", or "[material]").
+     */
+    protected abstract String getElementPlaceholder();
 
     /**
      * Returns the icon for the given element.
@@ -172,9 +184,8 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-select"));
         }
-
         return new PanelItemBuilder()
-                .name(this.user.getTranslation(reference + "name", "[id]",
+                .name(this.user.getTranslation(reference + "name", getElementPlaceholder(),
                         getElementDisplayName(element)))
                 .icon(getIcon(element)).description(description).clickHandler((panel, user1, clickType, slot) -> {
                     // Toggle the selection state.

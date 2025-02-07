@@ -103,7 +103,7 @@ public abstract class CommonPagedPanel<T> extends CommonPanel
         {
             if (!panelBuilder.slotOccupied(index))
             {
-                // Show a challenge
+                // Show an item
                 panelBuilder.item(index, this.createElementButton(objectList.get(objectIndex++)));
             }
 

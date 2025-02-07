@@ -345,7 +345,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -612,7 +611,6 @@ public class EditChallengePanel extends CommonPanel {
             if (!this.challenge.getRequirements().getRequiredPermissions().isEmpty()) {
                 description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
             }
-
             return new PanelItemBuilder().icon(icon).name(name).description(description).clickHandler(clickHandler)
                     .build();
         }
@@ -809,7 +807,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -955,7 +952,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -1085,7 +1081,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -1243,7 +1238,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -1708,7 +1702,6 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
-
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
