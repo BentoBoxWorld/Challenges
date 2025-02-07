@@ -2,10 +2,10 @@ package world.bentobox.challenges.panel.util;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.function.BiConsumer;
 
 import org.bukkit.Bukkit;
@@ -28,15 +28,7 @@ import world.bentobox.challenges.utils.Utils;
  */
 public class MultiEntityTypeTagsSelector extends UnifiedMultiSelector<Tag<EntityType>> {
 
-    private final Mode mode;
     private final Set<Tag<EntityType>> excluded;
-
-    /**
-     * Defines filtering modes.
-     */
-    public enum Mode {
-        ENTITY_TYPE, ANY
-    }
 
     /**
      * Private constructor.
@@ -48,8 +40,7 @@ public class MultiEntityTypeTagsSelector extends UnifiedMultiSelector<Tag<Entity
      */
     private MultiEntityTypeTagsSelector(User user, Mode mode, Set<Tag<EntityType>> excluded,
             BiConsumer<Boolean, java.util.Collection<Tag<EntityType>>> consumer) {
-        super(user, consumer);
-        this.mode = mode; // This is not currently used
+        super(user, mode, consumer);
         this.excluded = excluded;
     }
 

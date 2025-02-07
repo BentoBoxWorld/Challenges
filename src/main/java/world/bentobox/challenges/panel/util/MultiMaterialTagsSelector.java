@@ -44,15 +44,7 @@ public class MultiMaterialTagsSelector extends UnifiedMultiSelector<Tag<Material
             Tag.WALL_CORALS, Material.BUBBLE_CORAL_FAN, Tag.CAVE_VINES, Material.VINE
     );
 
-    private final Mode mode;
     private final Set<Tag<Material>> excluded;
-
-    /**
-     * Modes for filtering material tags.
-     */
-    public enum Mode {
-        BLOCKS, ITEMS, ANY
-    }
 
     /**
      * Private constructor.
@@ -64,8 +56,7 @@ public class MultiMaterialTagsSelector extends UnifiedMultiSelector<Tag<Material
      */
     private MultiMaterialTagsSelector(User user, Mode mode, Set<Tag<Material>> excluded,
             BiConsumer<Boolean, Collection<Tag<Material>>> consumer) {
-        super(user, consumer);
-        this.mode = mode; // Not currently used
+        super(user, Mode.ANY, consumer);
         this.excluded = excluded;
     }
 

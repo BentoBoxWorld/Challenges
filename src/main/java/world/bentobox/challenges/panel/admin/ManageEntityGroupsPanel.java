@@ -26,6 +26,7 @@ import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.MultiEntityTypeTagsSelector;
+import world.bentobox.challenges.panel.util.UnifiedMultiSelector.Mode;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -172,7 +173,7 @@ public class ManageEntityGroupsPanel extends CommonPagedPanel<Tag<EntityType>>
 				icon = new ItemStack(Material.BUCKET);
 				clickHandler = (panel, user1, clickType, slot) ->
 				{
-                    MultiEntityTypeTagsSelector.open(this.user, MultiEntityTypeTagsSelector.Mode.ENTITY_TYPE,
+                    MultiEntityTypeTagsSelector.open(this.user, Mode.ENTITY_TYPE,
 						new HashSet<>(this.materialList),
 						(status, materials) ->
 						{
@@ -271,7 +272,7 @@ public class ManageEntityGroupsPanel extends CommonPagedPanel<Tag<EntityType>>
 		}
 
 		return new PanelItemBuilder().
-                name(this.user.getTranslation(reference + "name", "[tag]",
+                name(this.user.getTranslation(reference + "name", "[id]",
 				Utils.prettifyObject(tag, this.user))).
                 icon(getIcon(tag, this.tagMap.get(tag))).
 			description(description).

@@ -77,7 +77,6 @@ public abstract class AbstractManageEnumPanel<T extends Enum<T>> extends CommonP
         } else {
             description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-select"));
         }
-
         return new PanelItemBuilder()
                 .name(this.user.getTranslation(reference + "name", getElementPlaceholder(),
                         Utils.prettifyObject(element, this.user)))

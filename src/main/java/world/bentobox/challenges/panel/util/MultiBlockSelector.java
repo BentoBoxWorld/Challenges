@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Utils;
 
@@ -23,12 +24,8 @@ import world.bentobox.challenges.utils.Utils;
  */
 public class MultiBlockSelector extends UnifiedMultiSelector<Material> {
 
-    private final Mode mode;
-    private final Set<Material> excluded;
 
-    public enum Mode {
-        BLOCKS, ITEMS, ANY
-    }
+    private final Set<Material> excluded;
 
     /**
      * Private constructor.
@@ -40,8 +37,8 @@ public class MultiBlockSelector extends UnifiedMultiSelector<Material> {
      */
     private MultiBlockSelector(User user, Mode mode, Set<Material> excluded,
             BiConsumer<Boolean, Collection<Material>> consumer) {
-        super(user, consumer);
-        this.mode = mode;
+        super(user, mode, consumer);
+
         if (excluded == null) {
             excluded = new HashSet<>();
         }
