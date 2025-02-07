@@ -316,6 +316,9 @@ public class ManageEntityGroupsPanel extends CommonPagedPanel<Tag<EntityType>>
             return new ItemStack(Material.OAK_PLANKS, quantity); // Boats cannot be stacked
         }
         EntityType entType = Registry.ENTITY_TYPE.stream().filter(entityTag::isTagged).findAny().orElse(null);
+        if (entType == null) {
+            return new ItemStack(Material.PAPER, quantity);
+        }
         String eggName = entType.getKey().getKey().toUpperCase(Locale.ENGLISH) + "_SPAWN_EGG";
         Material result;
         try {
