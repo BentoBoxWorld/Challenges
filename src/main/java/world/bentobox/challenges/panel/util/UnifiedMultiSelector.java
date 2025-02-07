@@ -75,6 +75,12 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
     protected abstract String getElementKeyPrefix();
 
     /**
+     * Returns the placeholder used for element buttons
+     * (for example, "[entity]", or "[material]").
+     */
+    protected abstract String getElementPlaceholder();
+
+    /**
      * Returns the icon for the given element.
      */
     protected abstract ItemStack getIcon(T element);
@@ -179,7 +185,7 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-select"));
         }
         return new PanelItemBuilder()
-                .name(this.user.getTranslation(reference + "name", "[id]",
+                .name(this.user.getTranslation(reference + "name", getElementPlaceholder(),
                         getElementDisplayName(element)))
                 .icon(getIcon(element)).description(description).clickHandler((panel, user1, clickType, slot) -> {
                     // Toggle the selection state.

@@ -188,4 +188,9 @@ public class MultiEntityTypeTagsSelector extends UnifiedMultiSelector<Tag<Entity
     protected String elementToString(Tag<EntityType> element) {
         return element.getKey().getKey();
     }
+
+    @Override
+    protected String getElementPlaceholder() {
+        return "[id]";
+    }
 }

@@ -117,4 +117,9 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
     protected String elementToString(EntityType element) {
         return element.name();
     }
+
+    @Override
+    protected String getElementPlaceholder() {
+        return "[entity]";
+    }
 }

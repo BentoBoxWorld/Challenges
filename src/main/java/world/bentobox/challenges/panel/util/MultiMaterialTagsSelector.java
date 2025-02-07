@@ -217,4 +217,9 @@ public class MultiMaterialTagsSelector extends UnifiedMultiSelector<Tag<Material
     protected String elementToString(Tag<Material> element) {
         return element.getKey().getKey();
     }
+
+    @Override
+    protected String getElementPlaceholder() {
+        return "[id]";
+    }
 }

@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Utils;
 
@@ -113,5 +112,10 @@ public class MultiBlockSelector extends UnifiedMultiSelector<Material> {
     @Override
     protected String elementToString(Material element) {
         return element.name();
+    }
+
+    @Override
+    protected String getElementPlaceholder() {
+        return "[material]";
     }
 }
