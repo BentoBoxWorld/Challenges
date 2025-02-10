@@ -26,6 +26,7 @@ import world.bentobox.challenges.panel.CommonPagedPanel;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.MultiEntityTypeTagsSelector;
+import world.bentobox.challenges.panel.util.SingleEntitySelector;
 import world.bentobox.challenges.panel.util.UnifiedMultiSelector.Mode;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
@@ -316,18 +317,12 @@ public class ManageEntityGroupsPanel extends CommonPagedPanel<Tag<EntityType>>
         if (entityTag.getKey().getKey().contains("boat")) {
             return new ItemStack(Material.OAK_PLANKS, quantity); // Boats cannot be stacked
         }
-        EntityType entType = Registry.ENTITY_TYPE.stream().filter(entityTag::isTagged).findAny().orElse(null);
+        EntityType entType = Registry.ENTITY_TYPE.stream()
+                .filter(entityTag::isTagged).findAny().orElse(null);
         if (entType == null) {
             return new ItemStack(Material.PAPER, quantity);
         }
-        String eggName = entType.getKey().getKey().toUpperCase(Locale.ENGLISH) + "_SPAWN_EGG";
-        Material result;
-        try {
-            result = Material.valueOf(eggName);
-        } catch (Exception e) {
-            result = Material.PAPER;
-        }
-        return new ItemStack(result, quantity);
+        return SingleEntitySelector.getIcon(entType);
 
     }
 
