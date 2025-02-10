@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.utils.Utils;
 
@@ -22,22 +21,19 @@ import world.bentobox.challenges.utils.Utils;
  */
 public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
 
-    private final boolean asEgg;
     private final Set<EntityType> excluded;
 
     /**
      * Private constructor.
      *
      * @param user     the user opening the selector
-     * @param asEgg    if true, display entities using their spawn egg icon; otherwise, use the entity head
      * @param mode     determines whether to show only living entities (ALIVE) or all (ANY)
      * @param excluded a set of EntityType values to exclude
      * @param consumer the callback to be invoked when the user confirms or cancels
      */
-    private MultiEntitySelector(User user, boolean asEgg, Mode mode, Set<EntityType> excluded,
+    private MultiEntitySelector(User user, Mode mode, Set<EntityType> excluded,
             java.util.function.BiConsumer<Boolean, Collection<EntityType>> consumer) {
         super(user, mode, consumer);
-        this.asEgg = asEgg;
         this.excluded = excluded;
     }
 
@@ -45,26 +41,24 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
      * Opens the MultiEntitySelector GUI with the specified parameters.
      *
      * @param user     the user who opens the GUI
-     * @param asEgg    if true, show the entity spawn egg icon; otherwise, show the entity head
      * @param mode     the filtering mode (ALIVE or ANY)
      * @param excluded a set of EntityType values to exclude from the list
      * @param consumer a callback to receive the result
      */
-    public static void open(User user, boolean asEgg, Mode mode, Set<EntityType> excluded,
+    public static void open(User user, Mode mode, Set<EntityType> excluded,
             java.util.function.BiConsumer<Boolean, Collection<EntityType>> consumer) {
-        new MultiEntitySelector(user, asEgg, mode, excluded, consumer).build();
+        new MultiEntitySelector(user, mode, excluded, consumer).build();
     }
 
     /**
      * Opens the MultiEntitySelector GUI with default parameters (mode ANY and no exclusions).
      *
      * @param user     the user who opens the GUI
-     * @param asEgg    if true, show the entity spawn egg icon; otherwise, show the entity head
      * @param consumer a callback to receive the result
      */
-    public static void open(User user, boolean asEgg,
+    public static void open(User user,
             java.util.function.BiConsumer<Boolean, Collection<EntityType>> consumer) {
-        new MultiEntitySelector(user, asEgg, Mode.ANY, new HashSet<>(), consumer).build();
+        new MultiEntitySelector(user, Mode.ANY, new HashSet<>(), consumer).build();
     }
 
     /**
@@ -99,7 +93,7 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
      */
     @Override
     protected ItemStack getIcon(EntityType element) {
-        return asEgg ? PanelUtils.getEntityEgg(element) : PanelUtils.getEntityHead(element);
+        return SingleEntitySelector.getIcon(element);
     }
 
     /**

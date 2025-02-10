@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
     /**
      * Non entities that really cannot be used
      */
-    private static final List<EntityType> NON_ENTITIES = List.of(EntityType.UNKNOWN, EntityType.BLOCK_DISPLAY,
+    public static final List<EntityType> NON_ENTITIES = List.of(EntityType.UNKNOWN, EntityType.BLOCK_DISPLAY,
             EntityType.ITEM_DISPLAY,
             EntityType.TEXT_DISPLAY, EntityType.FALLING_BLOCK, EntityType.FIREBALL, EntityType.FISHING_BOBBER,
             EntityType.GIANT, EntityType.ILLUSIONER, EntityType.INTERACTION, EntityType.LIGHTNING_BOLT,

@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.util.MultiEntitySelector;
+import world.bentobox.challenges.panel.util.SingleEntitySelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -32,17 +33,12 @@ import world.bentobox.challenges.utils.Utils;
 public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
 
     /**
-     * Flag to indicate whether entities should be displayed as eggs (true) or mob heads (false).
-     */
-    private boolean asEggs = true;
-
-    /**
-     * Private constructor that initializes the ManageEntitiesPanel with the provided
-     * entities map.
-     *
-     * @param parentGUI        The parent panel that spawns this panel.
-     * @param requiredEntities A map of EntityType objects to their required counts.
-     */
+    * Private constructor that initializes the ManageEntitiesPanel with the provided
+    * entities map.
+    *
+    * @param parentGUI        The parent panel that spawns this panel.
+    * @param requiredEntities A map of EntityType objects to their required counts.
+    */
     private ManageEntitiesPanel(CommonPanel parentGUI, Map<EntityType, Integer> requiredEntities) {
         super(parentGUI, requiredEntities);
     }
@@ -69,7 +65,12 @@ public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
      */
     @Override
     protected ItemStack getElementIcon(EntityType entity, int count) {
-        return asEggs ? PanelUtils.getEntityEgg(entity, count) : PanelUtils.getEntityHead(entity, count);
+        if (Tag.ENTITY_TYPES_CAN_TURN_IN_BOATS.isTagged(entity) && count > 1) {
+            return new ItemStack(Material.OAK_PLANKS, count); // Boats cannot be stacked
+        }
+        ItemStack icon = SingleEntitySelector.getIcon(entity);
+        icon.setAmount(count);
+        return icon;
     }
 
     /**
@@ -113,8 +114,6 @@ public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
         panelBuilder.item(3, createButton(Button.ADD_ENTITY));
         // Position 5: Button for removing selected entities.
         panelBuilder.item(5, createButton(Button.REMOVE_ENTITY));
-        // Position 8: Button to switch between displaying entity eggs and mob heads.
-        panelBuilder.item(8, createButton(Button.SWITCH_ENTITY));
     }
 
     /**
@@ -138,7 +137,7 @@ public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
             icon = new ItemStack(Material.BUCKET);
             clickHandler = (panel, user, clickType, slot) -> {
                 // Open a multi-selection tool to add new entities.
-                MultiEntitySelector.open(this.user, this.asEggs, MultiEntitySelector.Mode.ALIVE, this.itemsMap.keySet(),
+                MultiEntitySelector.open(this.user, MultiEntitySelector.Mode.ALIVE, this.itemsMap.keySet(),
                         (status, entities) -> {
                             if (status) {
                                 // For each selected entity, add it to the map with a default count.
@@ -178,19 +177,6 @@ public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
             glow = !this.selectedItems.isEmpty();
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
-        }
-        case SWITCH_ENTITY -> {
-            // Button to toggle the display mode between entity eggs and mob heads.
-            icon = new ItemStack(asEggs ? Material.EGG : Material.PLAYER_HEAD);
-            clickHandler = (panel, user, clickType, slot) -> {
-                // Toggle the display mode flag and rebuild the panel.
-                this.asEggs = !this.asEggs;
-                    this.build();
-                return true;
-            };
-            glow = false;
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
         }
         default -> {
             icon = new ItemStack(Material.PAPER);
