@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
@@ -29,6 +30,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.LevelStatus;
@@ -467,7 +469,7 @@ public abstract class CommonPanel {
     }
 
     /**
-     * This method generates lore message for Statistic requirement.
+     * This method generates lore message for Statistic requirements.
      * 
      * @param requirement Statistic Requirement.
      * @return Requirement lore message.
@@ -475,48 +477,49 @@ public abstract class CommonPanel {
     private String generateStatisticChallenge(StatisticRequirements requirement) {
         final String reference = Constants.DESCRIPTIONS + "challenge.requirements.statistic.";
 
-        String statistic;
-
-        if (requirement.getStatistic() == null) {
+        if (requirement.getRequiredStatistics().isEmpty()) {
             // Challenges by default comes with empty statistic field.
             return "";
         }
 
-        switch (requirement.getStatistic().getType()) {
-        case UNTYPED -> statistic = this.user.getTranslationOrNothing(reference + "statistic", "[statistic]",
-                Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
-                String.valueOf(requirement.getAmount()));
+        StringBuilder statistics = new StringBuilder();
+        for (StatisticRec s : requirement.getRequiredStatistics()) {
+            String statistic = switch (s.statistic().getType()) {
+            case UNTYPED -> this.user.getTranslationOrNothing(reference + "statistic", "[statistic]",
+                    Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()));
         case ITEM, BLOCK -> {
-            if (requirement.getAmount() > 1) {
-                statistic = this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
-                        String.valueOf(requirement.getAmount()), "[target]",
-                        Utils.prettifyObject(requirement.getMaterial(), this.user));
+                if (s.amount() > 1) {
+                    yield this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()),
+                            "[target]", Utils.prettifyObject(s.material(), this.user));
             } else {
-                statistic = this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[target]",
-                        Utils.prettifyObject(requirement.getMaterial(), this.user));
+                    yield this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[target]",
+                            Utils.prettifyObject(s.material(), this.user));
             }
         }
         case ENTITY -> {
-            if (requirement.getAmount() > 1) {
-                statistic = this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[number]",
-                        String.valueOf(requirement.getAmount()), "[target]",
-                        Utils.prettifyObject(requirement.getEntity(), this.user));
+                if (s.amount() > 1) {
+                    yield this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()),
+                            "[target]", Utils.prettifyObject(s.entity(), this.user));
             } else {
-                statistic = this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                        Utils.prettifyObject(requirement.getStatistic(), this.user), "[target]",
-                        Utils.prettifyObject(requirement.getEntity(), this.user));
+                    yield this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[target]",
+                            Utils.prettifyObject(s.entity(), this.user));
             }
         }
-        default -> statistic = "";
+            default -> "";
+            };
+
+            String warning = s.reduceStatistic() ? this.user.getTranslationOrNothing(reference + "warning")
+                    : "";
+            statistics.append(this.user.getTranslationOrNothing(reference + "lore", "[statistic]", statistic, "[warning]",
+                    warning));
+            statistics.append("\n");
+
         }
-
-        String warning = requirement.isReduceStatistic() ? this.user.getTranslationOrNothing(reference + "warning")
-                : "";
-
-        return this.user.getTranslationOrNothing(reference + "lore", "[statistic]", statistic, "[warning]", warning);
+        return statistics.toString();
     }
 
     /**
