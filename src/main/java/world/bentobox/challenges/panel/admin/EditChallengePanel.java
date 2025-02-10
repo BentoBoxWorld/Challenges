@@ -813,7 +813,6 @@ public class EditChallengePanel extends CommonPanel {
         switch (button) {
         // Just one special statistic button right now
         case REQUIRED_STATISTICS -> {
-            // TODO rename getStaticicList() to getRequiredStatistics()
             if (requirements.getRequiredStatistics().isEmpty()) {
                 description.add(this.user.getTranslation(reference + "none"));
             } else {
@@ -1674,8 +1673,8 @@ public class EditChallengePanel extends CommonPanel {
     public enum RequirementButton {
         REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS, REQUIRED_PERMISSIONS,
         REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META, REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE,
-        REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC_SHOW, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
-        STATISTIC_ENTITIES, NEW_STATISTIC,
+        REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
+        STATISTIC_ENTITIES,
         STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
         REMOVE_STATISTICS,
     }
