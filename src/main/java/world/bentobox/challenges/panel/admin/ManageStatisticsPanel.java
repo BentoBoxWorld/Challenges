@@ -14,10 +14,8 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.inventory.ItemStack;
-import org.eclipse.jdt.annotation.Nullable;
 
 import lv.id.bonne.panelutils.PanelUtils;
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -584,7 +582,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             icon = req.entity() == null ? new ItemStack(Material.BARRIER)
                     : new ItemStack(PanelUtils.getEntityEgg(req.entity()));
             clickHandler = (panel, user, clickType, slot) -> {
-                SingleEntitySelector.open(this.user, true, (status, entity) -> {
+                SingleEntitySelector.open(this.user, (status, entity) -> {
                     if (status) {
                         // Replace the old with the new
                         statisticsList.removeIf(sr -> sr.equals(req));
