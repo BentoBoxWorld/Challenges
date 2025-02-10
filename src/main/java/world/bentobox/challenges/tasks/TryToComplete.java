@@ -3,6 +3,7 @@ package world.bentobox.challenges.tasks;
 
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,6 +49,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
@@ -475,63 +477,58 @@ public class TryToComplete
         }
         case STATISTIC_TYPE -> {
             StatisticRequirements requirements = this.challenge.getRequirements();
+            for (StatisticRec s : requirements.getRequiredStatistics()) {
+                if (s.reduceStatistic() && s.statistic() != null) {
+                    int removeAmount = result.getFactor() * s.amount();
 
-            if (requirements.isReduceStatistic() && requirements.getStatistic() != null) {
-                int removeAmount = result.getFactor() * requirements.getAmount();
-
-                // Start to remove from player who called the completion.
-                switch (requirements.getStatistic().getType())
-                {
-                case UNTYPED -> {
-                    int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic());
-
-                    if (removeAmount >= statistic) {
-                        this.user.getPlayer().setStatistic(requirements.getStatistic(), 0);
-                        removeAmount -= statistic;
-                    } else {
-                        this.user.getPlayer().setStatistic(requirements.getStatistic(), statistic - removeAmount);
-                        removeAmount = 0;
-                    }
-                }
-                case ITEM, BLOCK -> {
-                    if (requirements.getMaterial() == null) {
-                        // Just a sanity check. Material cannot be null at this point of code.
-                        removeAmount = 0;
-                    } else {
-                        int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
-                                requirements.getMaterial());
+                    // Start to remove from player who called the completion.
+                    switch (s.statistic().getType())
+                    {
+                    case UNTYPED -> {
+                        int statistic = this.user.getPlayer().getStatistic(s.statistic());
 
                         if (removeAmount >= statistic) {
-                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(),
-                                    0);
+                            this.user.getPlayer().setStatistic(s.statistic(), 0);
                             removeAmount -= statistic;
                         } else {
-                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getMaterial(),
-                                    statistic - removeAmount);
+                            this.user.getPlayer().setStatistic(s.statistic(), statistic - removeAmount);
                             removeAmount = 0;
                         }
                     }
-                }
-                case ENTITY -> {
-                    if (requirements.getEntity() == null) {
-                        // Just a sanity check. Entity cannot be null at this point of code.
-                        removeAmount = 0;
-                    } else {
-                        int statistic = this.user.getPlayer().getStatistic(requirements.getStatistic(),
-                                requirements.getEntity());
-
-                        if (removeAmount >= statistic) {
-                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(),
-                                    0);
-                            removeAmount -= statistic;
-                        } else {
-                            this.user.getPlayer().setStatistic(requirements.getStatistic(), requirements.getEntity(),
-                                    statistic - removeAmount);
+                    case ITEM, BLOCK -> {
+                        if (s.material() == null) {
+                            // Just a sanity check. Material cannot be null at this point of code.
                             removeAmount = 0;
+                        } else {
+                            int statistic = this.user.getPlayer().getStatistic(s.statistic(), s.material());
+
+                            if (removeAmount >= statistic) {
+                                this.user.getPlayer().setStatistic(s.statistic(), s.material(), 0);
+                                removeAmount -= statistic;
+                            } else {
+                                this.user.getPlayer().setStatistic(s.statistic(), s.material(),
+                                        statistic - removeAmount);
+                                removeAmount = 0;
+                            }
                         }
                     }
-                }
-                }
+                    case ENTITY -> {
+                        if (s.entity() == null) {
+                            // Just a sanity check. Entity cannot be null at this point of code.
+                            removeAmount = 0;
+                        } else {
+                            int statistic = this.user.getPlayer().getStatistic(s.statistic(), s.entity());
+
+                            if (removeAmount >= statistic) {
+                                this.user.getPlayer().setStatistic(s.statistic(), s.entity(), 0);
+                                removeAmount -= statistic;
+                            } else {
+                                this.user.getPlayer().setStatistic(s.statistic(), s.entity(), statistic - removeAmount);
+                                removeAmount = 0;
+                            }
+                        }
+                    }
+                    }
 
                 // If challenges are in sync with all island members, then punish others too.
                 if (this.addon.getChallengesSettings().isStoreAsIslandData())
@@ -553,64 +550,62 @@ public class TryToComplete
                             continue;
                         }
 
-                        switch (Objects.requireNonNull(requirements.getStatistic()).getType()) {
+                        switch (Objects.requireNonNull(s.statistic()).getType()) {
                         case UNTYPED -> {
-                            int statistic = player.getStatistic(requirements.getStatistic());
+                            int statistic = player.getStatistic(s.statistic());
 
                             if (removeAmount >= statistic)
                             {
                                 removeAmount -= statistic;
-                                player.setStatistic(requirements.getStatistic(), 0);
+                                player.setStatistic(s.statistic(), 0);
                             }
                             else
                             {
-                                player.setStatistic(requirements.getStatistic(), statistic - removeAmount);
+                                player.setStatistic(s.statistic(), statistic - removeAmount);
                                 removeAmount = 0;
                             }
                         }
                         case ITEM, BLOCK -> {
-                            if (requirements.getMaterial() == null)
+                            if (s.material() == null)
                             {
                                 // Just a sanity check. Entity cannot be null at this point of code.
                                 removeAmount = 0;
                             }
                             else
                             {
-                                int statistic = player.getStatistic(requirements.getStatistic(),
-                                        requirements.getMaterial());
+                                int statistic = player.getStatistic(s.statistic(), s.material());
 
                                 if (removeAmount >= statistic)
                                 {
                                     removeAmount -= statistic;
-                                    player.setStatistic(requirements.getStatistic(), requirements.getMaterial(), 0);
+                                    player.setStatistic(s.statistic(), s.material(), 0);
                                 }
                                 else
                                 {
-                                    player.setStatistic(requirements.getStatistic(), requirements.getMaterial(),
+                                    player.setStatistic(s.statistic(), s.material(),
                                             statistic - removeAmount);
                                     removeAmount = 0;
                                 }
                             }
                         }
                         case ENTITY -> {
-                            if (requirements.getEntity() == null)
+                            if (s.entity() == null)
                             {
                                 // Just a sanity check. Entity cannot be null at this point of code.
                                 removeAmount = 0;
                             }
                             else
                             {
-                                int statistic = player.getStatistic(requirements.getStatistic(),
-                                        requirements.getEntity());
+                                int statistic = player.getStatistic(s.statistic(), s.entity());
 
                                 if (removeAmount >= statistic)
                                 {
                                     removeAmount -= statistic;
-                                    player.setStatistic(requirements.getStatistic(), requirements.getEntity(), 0);
+                                    player.setStatistic(s.statistic(), s.entity(), 0);
                                 }
                                 else
                                 {
-                                    player.setStatistic(requirements.getStatistic(), requirements.getEntity(),
+                                    player.setStatistic(s.statistic(), s.entity(),
                                             statistic - removeAmount);
                                     removeAmount = 0;
                                 }
@@ -618,6 +613,7 @@ public class TryToComplete
                         }
                         }
                     }
+                }
                 }
             }
         }
@@ -1470,54 +1466,58 @@ public class TryToComplete
 
         int currentValue;
 
-        if (requirements.getStatistic() == null) {
+        if (requirements.getRequiredStatistics().isEmpty()) {
             // Sanity check.
             return EMPTY_RESULT;
         }
+        List<ChallengeResult> cr = new ArrayList<>();
+        // Check all requirements
+        for (StatisticRec s : requirements.getRequiredStatistics()) {
 
-        switch (Objects.requireNonNull(requirements.getStatistic()).getType())
-        {
-        case UNTYPED ->
-            currentValue = this.manager.getStatisticData(this.user, this.world, requirements.getStatistic());
-        case ITEM, BLOCK -> currentValue = this.manager.getStatisticData(this.user, this.world,
-                requirements.getStatistic(), requirements.getMaterial());
-        case ENTITY -> currentValue = this.manager.getStatisticData(this.user, this.world, requirements.getStatistic(),
-                requirements.getEntity());
-        default -> currentValue = 0;
-        }
-
-        if (currentValue < requirements.getAmount()) {
-            switch (Objects.requireNonNull(requirements.getStatistic()).getType())
+            switch (Objects.requireNonNull(s.statistic()).getType())
             {
-            case ITEM, BLOCK -> {
-                Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
-                        TextVariables.NUMBER, String.valueOf(requirements.getAmount()), "[statistic]",
-                        Utils.prettifyObject(requirements.getStatistic(), this.user), "[material]",
-                        Utils.prettifyObject(requirements.getMaterial(), this.user), Constants.PARAMETER_VALUE,
-                        String.valueOf(currentValue));
+            case UNTYPED -> currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic());
+            case ITEM, BLOCK ->
+                currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.material());
+            case ENTITY ->
+                currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.entity());
+            default -> currentValue = 0;
             }
-            case ENTITY -> {
-                Utils.sendMessage(this.user,
-                        this.world, Constants.ERRORS + "requirement-not-met-entity", TextVariables.NUMBER,
-                        String.valueOf(requirements.getAmount()), "[statistic]",
-                        Utils.prettifyObject(requirements.getStatistic(), this.user), "[entity]",
-                        Utils.prettifyObject(requirements.getEntity(), this.user), Constants.PARAMETER_VALUE,
-                        String.valueOf(currentValue));
-            }
-            default -> {
-                Utils.sendMessage(this.user,
-                        this.world, Constants.ERRORS + "requirement-not-met", TextVariables.NUMBER,
-                        String.valueOf(requirements.getAmount()), "[statistic]",
-                        Utils.prettifyObject(requirements.getStatistic(), this.user), Constants.PARAMETER_VALUE,
-                        String.valueOf(currentValue));
-            }
-            }
-        } else {
-            factor = requirements.getAmount() == 0 ? factor : Math.min(factor, currentValue / requirements.getAmount());
 
-            return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
+            if (currentValue < s.amount()) {
+                switch (Objects.requireNonNull(s.statistic()).getType()) {
+                case ITEM, BLOCK -> {
+                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[material]",
+                            Utils.prettifyObject(s.material(), this.user), Constants.PARAMETER_VALUE,
+                            String.valueOf(currentValue));
+                }
+                case ENTITY -> {
+                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-entity",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), "[entity]",
+                            Utils.prettifyObject(s.entity(), this.user), Constants.PARAMETER_VALUE,
+                            String.valueOf(currentValue));
+                }
+                default -> {
+                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_VALUE,
+                            String.valueOf(currentValue));
+                }
+                }
+            } else {
+                factor = s.amount() == 0 ? factor : Math.min(factor, currentValue / s.amount());
+                // Store result
+                cr.add(new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor));
+            }
         }
-
+        // Check results -- all must pass
+        if (cr.stream().allMatch(result -> result.meetsRequirements)) {
+            // Return any of them, because they pass
+            return cr.getFirst();
+        }
         return EMPTY_RESULT;
     }
 

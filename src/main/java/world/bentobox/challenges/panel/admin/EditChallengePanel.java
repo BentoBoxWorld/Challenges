@@ -35,9 +35,6 @@ import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.EnvironmentSelector;
 import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
-import world.bentobox.challenges.panel.util.SingleBlockSelector;
-import world.bentobox.challenges.panel.util.SingleEntitySelector;
-import world.bentobox.challenges.panel.util.StatisticSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -229,24 +226,8 @@ public class EditChallengePanel extends CommonPanel {
      * @param panelBuilder PanelBuilder where icons must be added.
      */
     private void buildStatisticRequirementsPanel(PanelBuilder panelBuilder) {
-        panelBuilder.item(10, this.createRequirementButton(RequirementButton.STATISTIC));
-        panelBuilder.item(19, this.createRequirementButton(RequirementButton.REMOVE_STATISTIC));
-
-        panelBuilder.item(11, this.createRequirementButton(RequirementButton.STATISTIC_AMOUNT));
-
-        StatisticRequirements requirements = this.challenge.getRequirements();
-
-        if (requirements.getStatistic() != null) {
-            switch (requirements.getStatistic().getType()) {
-            case ITEM -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ITEMS));
-            case BLOCK -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_BLOCKS));
-            case ENTITY -> panelBuilder.item(13, this.createRequirementButton(RequirementButton.STATISTIC_ENTITIES));
-            default -> {
-            }
-            }
-        }
-
-        panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
+        // Give user the ability to add or remove statistics
+        panelBuilder.item(10, this.createRequirementButton(RequirementButton.REQUIRED_STATISTICS));
     }
 
     /**
@@ -627,9 +608,9 @@ public class EditChallengePanel extends CommonPanel {
         case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY -> {
             return this.createOtherRequirementButton(button);
         }
-        // Buttons for Statistic Requirements
-        case STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS, STATISTIC_ENTITIES, STATISTIC_AMOUNT, REMOVE_STATISTIC -> {
-            return this.createStatisticRequirementButton(button);
+        // Statistics
+        case REQUIRED_STATISTICS -> {
+            return this.createStatisticsRequirementButton(button);
         }
         // Default behaviour.
         default -> {
@@ -702,8 +683,8 @@ public class EditChallengePanel extends CommonPanel {
                 description.add(this.user.getTranslation(reference + "title"));
                 // Add Material Tags only
                 requirements.getRequiredMaterialTags()
-                        .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list",
-                                "[tag]", Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
+                        .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list", "[tag]",
+                                Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
             }
 
             icon = new ItemStack(Material.STONE_BRICKS);
@@ -724,8 +705,8 @@ public class EditChallengePanel extends CommonPanel {
                 description.add(this.user.getTranslation(reference + "title"));
                 // Add Material Tags only
                 requirements.getRequiredEntityTypeTags()
-                        .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list",
-                                "[tag]", Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
+                        .forEach((block, count) -> description.add(this.user.getTranslation(reference + "list", "[tag]",
+                                Utils.prettifyObject(block, this.user), "[number]", String.valueOf(count))));
             }
 
             icon = new ItemStack(Material.ZOMBIE_HEAD);
@@ -807,6 +788,61 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
         }
         }
+        return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
+                .clickHandler(clickHandler).build();
+    }
+
+    /**
+     * This method creates buttons for inventory requirements menu.
+     * 
+     * @param button Button which panel item must be created.
+     * @return PanelItem that represents given button.
+     */
+    private PanelItem createStatisticsRequirementButton(RequirementButton button) {
+        final String reference = Constants.BUTTON + button.name().toLowerCase() + ".";
+
+        final String name = this.user.getTranslation(reference + "name");
+        final List<String> description = new ArrayList<>(3);
+        description.add(this.user.getTranslation(reference + "description"));
+
+        ItemStack icon;
+        boolean glow;
+        PanelItem.ClickHandler clickHandler;
+
+        final StatisticRequirements requirements = this.challenge.getRequirements();
+        switch (button) {
+        // Just one special statistic button right now
+        case REQUIRED_STATISTICS -> {
+            if (requirements.getRequiredStatistics().isEmpty()) {
+                description.add(this.user.getTranslation(reference + "none"));
+            } else {
+                description.add(this.user.getTranslation(reference + "title"));
+
+                requirements.getRequiredStatistics().stream()
+                        .sorted(Comparator.comparing(r -> r.statistic().getKey().getKey()))
+                        // Just list the name of the statistic
+                        .forEach(sr -> description.add(this.user.getTranslationOrNothing(reference + "list", "[name]",
+                                Utils.prettifyObject(sr.statistic(), user))));
+            }
+
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                // Deal with adding and removing statistics in the MultiStatisticSelector class
+                ManageStatisticsPanel.open(this, requirements.getRequiredStatistics());
+                return true;
+            };
+            glow = false;
+        }
+        default -> {
+            // This should never need to be shown. Just for future expansion.
+            glow = false;
+            icon = new ItemStack(Material.PAPER);
+            clickHandler = null;
+        }
+        }
+
+        description.add("");
+        description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
     }
@@ -1074,163 +1110,6 @@ public class EditChallengePanel extends CommonPanel {
 
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-        }
-        default -> {
-            icon = new ItemStack(Material.PAPER);
-            clickHandler = null;
-            glow = false;
-        }
-        }
-        return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
-                .clickHandler(clickHandler).build();
-    }
-
-    /**
-     * Creates a button for statistic requirements.
-     * 
-     * @param button Button that must be created.
-     * @return PanelItem button.
-     */
-    private PanelItem createStatisticRequirementButton(RequirementButton button) {
-        final String reference = Constants.BUTTON + button.name().toLowerCase() + ".";
-
-        final String name = this.user.getTranslation(reference + "name");
-        final List<String> description = new ArrayList<>(3);
-        description.add(this.user.getTranslation(reference + "description"));
-
-        ItemStack icon;
-        boolean glow;
-        PanelItem.ClickHandler clickHandler;
-
-        final StatisticRequirements requirements = this.challenge.getRequirements();
-
-        switch (button) {
-        case STATISTIC -> {
-            description.add(this.user.getTranslation(reference + "value", "[statistic]",
-                    Utils.prettifyObject(requirements.getStatistic(), this.user)));
-
-            icon = new ItemStack(requirements.getStatistic() == null ? Material.BARRIER : Material.PAPER);
-            clickHandler = (panel, user, clickType, slot) -> {
-                StatisticSelector.open(this.user, (status, statistic) -> {
-                    if (status) {
-                        requirements.setStatistic(statistic);
-                        requirements.setMaterial(null);
-                        requirements.setEntity(null);
-                        requirements.setAmount(0);
-                    }
-
-                    this.build();
-                });
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-        }
-        case STATISTIC_AMOUNT -> {
-            description.add(this.user.getTranslation(reference + "value", Constants.PARAMETER_NUMBER,
-                    String.valueOf(requirements.getAmount())));
-            icon = new ItemStack(Material.CHEST);
-            clickHandler = (panel, user, clickType, i) -> {
-                Consumer<Number> numberConsumer = number -> {
-                    if (number != null) {
-                        requirements.setAmount(number.intValue());
-                    }
-
-                    // reopen panel
-                    this.build();
-                };
-                ConversationUtils.createNumericInput(numberConsumer, this.user,
-                        this.user.getTranslation(Constants.CONVERSATIONS + "input-number"), 0, Integer.MAX_VALUE);
-
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-        }
-        case REMOVE_STATISTIC -> {
-            description.add(
-                    this.user.getTranslation(reference + (requirements.isReduceStatistic() ? "enabled" : "disabled")));
-
-            icon = new ItemStack(Material.LEVER);
-            clickHandler = (panel, user, clickType, slot) -> {
-                requirements.setReduceStatistic(!requirements.isReduceStatistic());
-                this.build();
-                return true;
-            };
-            glow = requirements.isReduceStatistic();
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
-        }
-        case STATISTIC_BLOCKS -> {
-            description.add(this.user.getTranslation(reference + "value", "[block]",
-                    Utils.prettifyObject(requirements.getMaterial(), this.user)));
-
-            icon = requirements.getMaterial() == null ? new ItemStack(Material.BARRIER)
-                    : new ItemStack(requirements.getMaterial());
-            clickHandler = (panel, user, clickType, slot) -> {
-                SingleBlockSelector.open(this.user, SingleBlockSelector.Mode.BLOCKS, (status, block) -> {
-                    if (status) {
-                        requirements.setMaterial(block);
-                    }
-
-                    this.build();
-                });
-
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-        }
-        case STATISTIC_ITEMS -> {
-            description.add(this.user.getTranslation(reference + "value", "[item]",
-                    Utils.prettifyObject(requirements.getMaterial(), this.user)));
-
-            icon = requirements.getMaterial() == null ? new ItemStack(Material.BARRIER)
-                    : new ItemStack(requirements.getMaterial());
-            clickHandler = (panel, user, clickType, slot) -> {
-                SingleBlockSelector.open(this.user, SingleBlockSelector.Mode.ITEMS, (status, block) -> {
-                    if (status) {
-                        requirements.setMaterial(block);
-                    }
-
-                    this.build();
-                });
-
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
-        }
-        case STATISTIC_ENTITIES -> {
-            description.add(this.user.getTranslation(reference + "value", "[entity]",
-                    Utils.prettifyObject(requirements.getEntity(), this.user)));
-
-            icon = requirements.getEntity() == null ? new ItemStack(Material.BARRIER)
-                    : new ItemStack(PanelUtils.getEntityEgg(requirements.getEntity()));
-            clickHandler = (panel, user, clickType, slot) -> {
-                SingleEntitySelector.open(this.user, true, (status, entity) -> {
-                    if (status) {
-                        requirements.setEntity(entity);
-                    }
-
-                    this.build();
-                });
-
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
         }
         default -> {
             icon = new ItemStack(Material.PAPER);
@@ -1791,11 +1670,13 @@ public class EditChallengePanel extends CommonPanel {
     /**
      * Represents different requirement buttons that are used in menus.
      */
-    private enum RequirementButton {
+    public enum RequirementButton {
         REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS, REQUIRED_PERMISSIONS,
         REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META, REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE,
-        REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS, STATISTIC_ENTITIES,
-        STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS,
+        REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
+        STATISTIC_ENTITIES,
+        STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
+        REMOVE_STATISTICS,
     }
 
     // ---------------------------------------------------------------------

@@ -50,6 +50,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -356,13 +357,12 @@ public class ChallengesImportManager
             case STATISTIC_TYPE -> {
                 StatisticRequirements requirements = new StatisticRequirements();
                 challenge.setRequirements(requirements);
-
-                requirements.setAmount(section.getInt("amount", 0));
-                requirements.setReduceStatistic(section.getBoolean("reduce", false));
-
-                requirements.setStatistic(matchStatistic(section.getString("statistic")));
-                requirements.setEntity(matchEntity(section.getString("entity")));
-                requirements.setMaterial(matchMaterial(section.getString("material")));
+                List<StatisticRec> list = new ArrayList<>();
+                list.add(new StatisticRec(matchStatistic(section.getString("statistic")),
+                        matchEntity(section.getString("entity")), matchMaterial(section.getString("material")),
+                        section.getInt("amount", 0), section.getBoolean("reduce", false)));
+                // TODO: Add support for multiple stat challenge
+                requirements.setStatisticList(list);
             }
         }
 
