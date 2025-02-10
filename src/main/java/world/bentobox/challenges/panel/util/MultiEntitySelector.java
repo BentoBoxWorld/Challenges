@@ -67,7 +67,7 @@ public class MultiEntitySelector extends UnifiedMultiSelector<EntityType> {
     @Override
     protected List<EntityType> getElements() {
         return Arrays.stream(EntityType.values()).filter(entity -> excluded == null || !excluded.contains(entity))
-                .filter(entity -> mode == Mode.ALIVE ? entity.isAlive() : true)
+                .filter(entity -> !SingleEntitySelector.NON_ENTITIES.contains(entity))
                 .sorted(Comparator.comparing(EntityType::name)).collect(Collectors.toList());
     }
 
