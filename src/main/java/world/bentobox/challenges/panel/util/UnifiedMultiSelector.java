@@ -45,16 +45,7 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
     protected List<T> filterElements;
 
     protected UnifiedMultiSelector(User user, Mode mode, BiConsumer<Boolean, Collection<T>> consumer) {
-        super(user);
-        this.mode = mode;
-        this.consumer = consumer;
-        this.selectedElements = new HashSet<>();
-        // Obtain the complete list of elements from the subclass.
-        this.elements = getElements();
-        // Sort elements using the provided string representation.
-        this.elements.sort(Comparator.comparing(this::elementToString));
-        // Start with the full list as the filtered list.
-        this.filterElements = this.elements;
+        this(user, mode, null, consumer);
     }
 
     protected UnifiedMultiSelector(User user, Mode mode, List<T> elements,
@@ -63,13 +54,11 @@ public abstract class UnifiedMultiSelector<T> extends PagedSelector<T> {
         this.mode = mode;
         this.consumer = consumer;
         this.selectedElements = new HashSet<>();
-        //If the elements are passed to the subclass in the constructor
-        this.elements = elements;
-        // Sort elements using the provided string representation.
+        this.elements = (elements != null) ? elements : getElements(); // Use provided elements or get them from subclass
         this.elements.sort(Comparator.comparing(this::elementToString));
-        // Start with the full list as the filtered list.
         this.filterElements = this.elements;
     }
+
 
     /**
      * Subclasses must return the complete list of available elements.
