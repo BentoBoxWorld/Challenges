@@ -1124,9 +1124,9 @@ challenges:
         write-search: "&e Please enter a search value. (Type 'cancel' to exit)"
         search-updated: "&a Search value updated."
     titles:
-        challenge-title: "Successfully completed"
+        challenge-title: "Success!"
         challenge-subtitle: "[friendlyName]"
-        level-title: "Successfully completed"
+        level-title: "Success!"
         level-subtitle: "[friendlyName]"
     messages:
         completed: "&2 You completed the challenge [name] for [player]!"
