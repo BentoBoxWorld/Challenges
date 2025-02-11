@@ -316,6 +316,9 @@ public class Utils
         if (object == null) {
             return "";
         }
+        if (object instanceof Material m) {
+            return prettifyMaterial(m, user);
+        }
         // Build a translation key using the enum name.
         String translation = user
                 .getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase(Locale.ENGLISH) + ".name");
@@ -331,7 +334,7 @@ public class Utils
 	 * @param user User who will see the object.
 	 * @return Prettified string for Material.
 	 */
-	public static String prettifyObject(@Nullable Material object, User user)
+    public static String prettifyMaterial(@Nullable Material object, User user)
 	{
 		// Nothing to translate
 		if (object == null)
