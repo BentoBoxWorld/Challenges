@@ -758,7 +758,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
             }
             case WAIVER_AMOUNT -> {
                 description.add(this.user.getTranslation(reference + "value",
-                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getWaiverAmount())));
+                        Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getWaiverAmount())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challengeLevel.getWaiverAmount()));
                 clickHandler = (panel, user, clickType, i) -> {

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
-import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.NonNull;
@@ -743,10 +742,17 @@ public abstract class CommonPanel {
         // my eye :)
         // Get status in single string
         String status = "";
+        // Get per-user waiver amount
+        int waiverAdd = user.getPermissionValue(
+                addon.getPlugin().getIWM().getPermissionPrefix(world) + "challenges.waiver-add", 0);
+        if (waiverAdd < 0) {
+            waiverAdd = 0;
+        }
+        waiverAdd += level.getWaiverAmount();
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) ? ""
                 : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
-                        String.valueOf(level.getWaiverAmount()));
+                        String.valueOf(waiverAdd));
         // Get rewards in single string
         String rewards = this.generateReward(level);
 
@@ -776,11 +782,18 @@ public abstract class CommonPanel {
         // my eye :)
         // Get status in single string
         String status = this.generateLevelStatus(levelStatus);
+        // Get per-user waiver amount
+        int waiverAdd = user
+                .getPermissionValue(addon.getPlugin().getIWM().getPermissionPrefix(world) + "challenges.waiver-add", 0);
+        if (waiverAdd < 0) {
+            waiverAdd = 0;
+        }
+        waiverAdd += level.getWaiverAmount();
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) || !levelStatus.isUnlocked()
                 || levelStatus.isComplete() ? ""
                         : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
-                                String.valueOf(level.getWaiverAmount()));
+                                String.valueOf(waiverAdd));
         // Get rewards in single string
         String rewards = !levelStatus.isUnlocked() ? "" : this.generateReward(level);
 
