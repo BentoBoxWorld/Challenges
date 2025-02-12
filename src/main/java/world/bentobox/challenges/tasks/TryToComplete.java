@@ -1513,8 +1513,8 @@ public class TryToComplete
                 cr.add(new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor));
             }
         }
-        // Check results -- all must pass
-        if (cr.stream().allMatch(result -> result.meetsRequirements)) {
+        // Check results -- there must be some and all must pass
+        if (!cr.isEmpty() && cr.stream().allMatch(result -> result.meetsRequirements)) {
             // Return any of them, because they pass
             return cr.getFirst();
         }

@@ -150,6 +150,7 @@ public class EditChallengePanel extends CommonPanel {
         panelBuilder.listener(new IconChanger());
 
         panelBuilder.item(10, this.createButton(Button.NAME));
+        panelBuilder.item(13, this.createButton(Button.HIDE_REWARD_ITEMS));
         panelBuilder.item(16, this.createButton(Button.DEPLOYED));
 
         panelBuilder.item(19, this.createButton(Button.ICON));
@@ -376,6 +377,30 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
         }
+        case HIDE_REWARD_ITEMS -> {
+            description.add(this.user
+                    .getTranslation(reference + (this.challenge.isHideRewardItems() ? "hide" : "show")));
+
+            icon = new ItemStack(Material.LEVER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                if (this.challenge.isValid()) {
+                    this.challenge.setHideRewardItems(!challenge.isHideRewardItems()); // Toggle
+                } else {
+                    Utils.sendMessage(this.user, this.world, Constants.CONVERSATIONS + "invalid-challenge",
+                            Constants.PARAMETER_CHALLENGE, this.challenge.getFriendlyName());
+                    this.challenge.setDeployed(false);
+                }
+
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isDeployed();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+
+        }
+
         case DEPLOYED -> {
             description
                     .add(this.user.getTranslation(reference + (this.challenge.isDeployed() ? "enabled" : "disabled")));
@@ -1651,7 +1676,7 @@ public class EditChallengePanel extends CommonPanel {
      * Represents different buttons that could be in menus.
      */
     private enum Button {
-        NAME, DEPLOYED, ICON, DESCRIPTION, ORDER, ENVIRONMENT, REMOVE_ON_COMPLETE,
+        NAME, DEPLOYED, ICON, DESCRIPTION, ORDER, ENVIRONMENT, REMOVE_ON_COMPLETE, HIDE_REWARD_ITEMS,
     }
 
     /**

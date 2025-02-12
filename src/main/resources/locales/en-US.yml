@@ -209,6 +209,13 @@ challenges:
                 name: "&f&l Rewards"
                 description: |-
                     &7 View the rewards properties.
+            hide_reward_items:
+              name: "&f&l Hide Reward Items"
+              description: |-
+                 &7 Toggle whether reward items
+                 &7 are shown or not in GUI.
+              hide: "&2 Hide"
+              show: "&c Show"
             deployed:
                 name: "&f&l Deployment"
                 description: |-

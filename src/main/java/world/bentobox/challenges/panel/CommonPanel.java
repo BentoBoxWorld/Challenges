@@ -661,7 +661,7 @@ public abstract class CommonPanel {
 
         String items;
 
-        if (!challenge.getRewardItems().isEmpty()) {
+        if (!challenge.getRewardItems().isEmpty() && !challenge.isHideRewardItems()) {
             StringBuilder builder = new StringBuilder();
             builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
             Utils.groupEqualItems(challenge.getRewardItems(), challenge.getIgnoreRewardMetaData()).stream()
