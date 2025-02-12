@@ -74,7 +74,8 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 
     @ConfigComment("")
     @ConfigComment("The number of undone challenges that can be left on this level before")
-    @ConfigComment("unlocking next level.")
+    @ConfigComment("unlocking next level. Give players more with the permission")
+    @ConfigComment("[gamemode].challenges.waiver-add.x where x is a number")
     @Expose
     private int waiverAmount = 1;
 
