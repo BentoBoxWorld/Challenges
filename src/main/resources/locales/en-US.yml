@@ -415,6 +415,13 @@ challenges:
                     &7 money on the player's
                     &7 account for the challenge.
                 value: "&7 Current value: &e [number]"
+            required_papi:
+                name: "&f&l Required PAPI"
+                description: |-
+                    &7 Checks a formula that can
+                    &7 include PAPI placeholders
+                    &7 and math and logical elements.
+                value: "&7 Formula: &e [formula]"
             statistic:
                 name: "&f&l Statistic"
                 description: |-
@@ -1130,6 +1137,7 @@ challenges:
         file-name-exist: "&c A file named '[id]' already exists. Cannot overwrite."
         write-search: "&e Please enter a search value. (Type 'cancel' to exit)"
         search-updated: "&a Search value updated."
+        enter-formula: "&a Enter a formula that uses PAPI number placeholders and symbols =,<>,<+,>=, AND, OR only.\n&a Example: &7 %aoneblock_my_island_lifetime_count% >= 1000 AND %Level_aoneblock_island_level% >= 100"
     titles:
         challenge-title: "Success!"
         challenge-subtitle: "[friendlyName]"
