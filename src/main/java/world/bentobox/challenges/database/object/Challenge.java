@@ -928,7 +928,7 @@ public class Challenge implements DataObject
     /**
      * @param hideRewardItems the hideRewardItems to set
      */
-    public void setHideRewardItems(boolean hideRewardItems) {
+    public void setHideRewardItems(Boolean hideRewardItems) {
         this.hideRewardItems = hideRewardItems;
     }
 }
