@@ -139,6 +139,20 @@ public class OtherRequirements extends Requirements
 	{
 		this.requiredIslandLevel = requiredIslandLevel;
 	}
+	
+    /**
+     * @return the papiString
+     */
+    public String getPapiString() {
+        return papiString == null ? "" : papiString;
+    }
+
+    /**
+     * @param papiString the papiString to set
+     */
+    public void setPapiString(String papiString) {
+        this.papiString = papiString;
+    }
 
 
 // ---------------------------------------------------------------------
@@ -162,6 +176,7 @@ public class OtherRequirements extends Requirements
 		clone.setRequiredMoney(this.requiredMoney);
 		clone.setTakeMoney(this.takeMoney);
 		clone.setRequiredIslandLevel(this.requiredIslandLevel);
+        clone.setPapiString(this.papiString);
 
 		return clone;
 	}
@@ -201,4 +216,12 @@ public class OtherRequirements extends Requirements
 	 */
 	@Expose
 	private long requiredIslandLevel;
+
+    /**
+     * Formulas that include math symbols and PAPI placeholders
+     */
+    @Expose
+    private String papiString;
+
+
 }

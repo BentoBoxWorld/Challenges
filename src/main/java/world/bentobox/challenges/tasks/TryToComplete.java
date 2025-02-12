@@ -37,6 +37,7 @@ import org.bukkit.util.BoundingBox;
 
 import com.google.common.collect.UnmodifiableIterator;
 
+import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
@@ -45,6 +46,7 @@ import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.Challenge.ChallengeType;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.CheckPapi;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
@@ -530,90 +532,78 @@ public class TryToComplete
                     }
                     }
 
-                // If challenges are in sync with all island members, then punish others too.
-                if (this.addon.getChallengesSettings().isStoreAsIslandData())
-                {
-                    Island island = this.addon.getIslands().getIsland(this.world, this.user);
-
-                    if (island == null) {
-                        // hmm
-                        return;
-                    }
-
-                    for (UnmodifiableIterator<UUID> iterator = island.getMemberSet().iterator(); iterator.hasNext()
-                            && removeAmount > 0;)
+                    // If challenges are in sync with all island members, then punish others too.
+                    if (this.addon.getChallengesSettings().isStoreAsIslandData())
                     {
-                        Player player = Bukkit.getPlayer(iterator.next());
+                        Island island = this.addon.getIslands().getIsland(this.world, this.user);
 
-                        if (player == null || player == this.user.getPlayer()) {
-                            // cannot punish null or player who already was punished.
-                            continue;
+                        if (island == null) {
+                            // hmm
+                            return;
                         }
 
-                        switch (Objects.requireNonNull(s.statistic()).getType()) {
-                        case UNTYPED -> {
-                            int statistic = player.getStatistic(s.statistic());
+                        for (UnmodifiableIterator<UUID> iterator = island.getMemberSet().iterator(); iterator.hasNext()
+                                && removeAmount > 0;) {
+                            Player player = Bukkit.getPlayer(iterator.next());
 
-                            if (removeAmount >= statistic)
-                            {
-                                removeAmount -= statistic;
-                                player.setStatistic(s.statistic(), 0);
+                            if (player == null || player == this.user.getPlayer()) {
+                                // cannot punish null or player who already was punished.
+                                continue;
                             }
-                            else
-                            {
-                                player.setStatistic(s.statistic(), statistic - removeAmount);
-                                removeAmount = 0;
-                            }
-                        }
-                        case ITEM, BLOCK -> {
-                            if (s.material() == null)
-                            {
-                                // Just a sanity check. Entity cannot be null at this point of code.
-                                removeAmount = 0;
-                            }
-                            else
-                            {
-                                int statistic = player.getStatistic(s.statistic(), s.material());
+
+                            switch (Objects.requireNonNull(s.statistic()).getType()) {
+                            case UNTYPED -> {
+                                int statistic = player.getStatistic(s.statistic());
 
                                 if (removeAmount >= statistic)
                                 {
                                     removeAmount -= statistic;
-                                    player.setStatistic(s.statistic(), s.material(), 0);
+                                    player.setStatistic(s.statistic(), 0);
                                 }
                                 else
                                 {
-                                    player.setStatistic(s.statistic(), s.material(),
-                                            statistic - removeAmount);
+                                    player.setStatistic(s.statistic(), statistic - removeAmount);
                                     removeAmount = 0;
                                 }
                             }
-                        }
-                        case ENTITY -> {
-                            if (s.entity() == null)
-                            {
-                                // Just a sanity check. Entity cannot be null at this point of code.
-                                removeAmount = 0;
-                            }
-                            else
-                            {
-                                int statistic = player.getStatistic(s.statistic(), s.entity());
+                            case ITEM, BLOCK -> {
+                                if (s.material() == null) {
+                                    // Just a sanity check. Entity cannot be null at this point of code.
+                                    removeAmount = 0;
+                                } else {
+                                    int statistic = player.getStatistic(s.statistic(), s.material());
 
-                                if (removeAmount >= statistic)
+                                    if (removeAmount >= statistic) {
+                                        removeAmount -= statistic;
+                                        player.setStatistic(s.statistic(), s.material(), 0);
+                                    } else {
+                                        player.setStatistic(s.statistic(), s.material(), statistic - removeAmount);
+                                        removeAmount = 0;
+                                    }
+                                }
+                            }
+                            case ENTITY -> {
+                                if (s.entity() == null)
                                 {
-                                    removeAmount -= statistic;
-                                    player.setStatistic(s.statistic(), s.entity(), 0);
+                                    // Just a sanity check. Entity cannot be null at this point of code.
+                                    removeAmount = 0;
                                 }
                                 else
                                 {
-                                    player.setStatistic(s.statistic(), s.entity(),
-                                            statistic - removeAmount);
-                                    removeAmount = 0;
+                                    int statistic = player.getStatistic(s.statistic(), s.entity());
+
+                                    if (removeAmount >= statistic) {
+                                        removeAmount -= statistic;
+                                        player.setStatistic(s.statistic(), s.entity(), 0);
+                                    } else {
+                                        player.setStatistic(s.statistic(), s.entity(), statistic - removeAmount);
+                                        removeAmount = 0;
+                                    }
                                 }
                             }
-                        }
+                            }
                         }
                     }
-                }
                 }
             }
         }
@@ -1426,6 +1416,15 @@ public class TryToComplete
             Utils.sendMessage(this.user,
                     this.world, Constants.ERRORS + "island-level", TextVariables.NUMBER,
                     String.valueOf(requirements.getRequiredIslandLevel()));
+        } else if (this.addon.getPlugin().getHooks().getHook("PlaceholderAPI").isPresent()
+                && !requirements.getPapiString().isEmpty()
+                && !CheckPapi.evaluate(user.getPlayer(), requirements.getPapiString())) {
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            if (!requirements.getPapiString().isEmpty()) {
+                addon.log("FYI:.Challenge failed for " + user.getName() + ". PAPI formula: "
+                        + requirements.getPapiString() + " = "
+                        + CheckPapi.evaluate(user.getPlayer(), requirements.getPapiString()));
+            }
         }
         else
         {
@@ -1450,7 +1449,6 @@ public class TryToComplete
     // ---------------------------------------------------------------------
     // Section: Statistic Challenge
     // ---------------------------------------------------------------------
-
 
     /**
      * Checks if a statistic challenge can be completed or not

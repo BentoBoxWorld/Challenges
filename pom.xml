@@ -117,6 +117,11 @@
             <id>minecraft-repo</id>
             <url>https://libraries.minecraft.net/</url>
         </repository>
+        <!-- Placeholder API -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -197,6 +202,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
+        </dependency>
+        <!-- Placeholder API -->
+        <dependency>
+             <groupId>me.clip</groupId>
+              <artifactId>placeholderapi</artifactId>
+              <version>2.11.6</version>
+             <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -215,6 +215,7 @@ public class EditChallengePanel extends CommonPanel {
         panelBuilder.item(12, this.createRequirementButton(RequirementButton.REQUIRED_MONEY));
         panelBuilder.item(21, this.createRequirementButton(RequirementButton.REMOVE_MONEY));
 
+        panelBuilder.item(14, this.createRequirementButton(RequirementButton.REQUIRED_PAPI));
         panelBuilder.item(23, this.createRequirementButton(RequirementButton.REQUIRED_LEVEL));
 
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
@@ -630,7 +631,7 @@ public class EditChallengePanel extends CommonPanel {
             return this.createInventoryRequirementButton(button);
         }
         // Buttons for Other Requirements
-        case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY -> {
+        case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, REQUIRED_PAPI -> {
             return this.createOtherRequirementButton(button);
         }
         // Statistics
@@ -1090,6 +1091,33 @@ public class EditChallengePanel extends CommonPanel {
                 };
                 ConversationUtils.createNumericInput(numberConsumer, this.user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "input-number"), 0, Integer.MAX_VALUE);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REQUIRED_PAPI -> {
+            if (!requirements.getPapiString().isEmpty()) {
+                description
+                        .add(this.user.getTranslation(reference + "value", "[formula]", requirements.getPapiString()));
+            }
+            icon = new ItemStack(
+                    this.addon.getPlugin().getHooks().getHook("PlaceholderAPI").isPresent() ? Material.PAPER
+                            : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<String> stringConsumer = string -> {
+                    if (string != null) {
+                        requirements.setPapiString(string);
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createStringInput(stringConsumer, user,
+                        this.user.getTranslation(Constants.CONVERSATIONS + "enter-formula"), "");
 
                 return true;
             };
@@ -1701,7 +1729,7 @@ public class EditChallengePanel extends CommonPanel {
         REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
         STATISTIC_ENTITIES,
         STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
-        REMOVE_STATISTICS,
+        REMOVE_STATISTICS, REQUIRED_PAPI,
     }
 
     // ---------------------------------------------------------------------
