@@ -164,6 +164,12 @@ public class Challenge implements DataObject
     private List<ItemStack> rewardItems = new ArrayList<>();
 
     /**
+     * Hide the list of reward items in the GUI
+     */
+    @Expose
+    private Boolean hideRewardItems;
+
+    /**
      * Experience point reward
      */
     @Expose
@@ -857,37 +863,49 @@ public class Challenge implements DataObject
         try
         {
             clone = new Challenge();
+            // Copy primitive and String fields
             clone.setUniqueId(this.uniqueId);
             clone.setFriendlyName(this.friendlyName);
             clone.setDeployed(this.deployed);
-            clone.setDescription(new ArrayList<>(this.description));
-            clone.setIcon(this.icon.clone());
             clone.setOrder(this.order);
-            clone.setChallengeType(ChallengeType.valueOf(this.challengeType.name()));
-            clone.setEnvironment(new HashSet<>(this.environment));
             clone.setLevel(this.level);
+
+            // Clone collections (Strings are immutable so shallow copy is fine)
+            clone.setDescription(new ArrayList<>(this.description));
+            clone.setEnvironment(new HashSet<>(this.environment));
+            clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
+            clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
+
+            // Clone mutable objects (ItemStacks, etc.)
+            clone.setIcon(this.icon.clone());
+            clone.setRewardItems(this.rewardItems.stream().map(ItemStack::clone)
+                    .collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
+            clone.setRepeatItemReward(this.repeatItemReward.stream().map(ItemStack::clone)
+                    .collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
+            clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
+
+            // Clone enum field
+            clone.setChallengeType(ChallengeType.valueOf(this.challengeType.name()));
+
+            // Clone boolean and numeric fields
             clone.setRemoveWhenCompleted(this.removeWhenCompleted);
-            clone.setRequirements(this.requirements.copy());
-            clone.setRewardText(this.rewardText);
-            clone.setRewardItems(
-                this.rewardItems.stream().
-                    map(ItemStack::clone).
-                    collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
-            clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
             clone.setRepeatable(this.repeatable);
+            clone.setTimeout(this.timeout);
             clone.setRepeatRewardText(this.repeatRewardText);
             clone.setMaxTimes(this.maxTimes);
             clone.setRepeatExperienceReward(this.repeatExperienceReward);
-            clone.setRepeatItemReward(
-                this.repeatItemReward.stream().
-                    map(ItemStack::clone).
-                    collect(Collectors.toCollection(() -> new ArrayList<>(this.repeatItemReward.size()))));
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
-            clone.setRepeatRewardCommands(new ArrayList<>(this.repeatRewardCommands));
-            clone.setTimeout(this.timeout);
-            clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
+
+            // Copy custom objects
+            clone.setRequirements(this.requirements.copy());
+
+            // Clone the remaining String field
+            clone.setRewardText(this.rewardText);
+
+            // Clone the Boolean field
+            clone.setHideRewardItems(this.hideRewardItems);
         }
         catch (Exception e)
         {
@@ -898,5 +916,19 @@ public class Challenge implements DataObject
         }
 
         return clone;
+    }
+
+    /**
+     * @return the hideRewardItems
+     */
+    public boolean isHideRewardItems() {
+        return Objects.requireNonNullElse(hideRewardItems, false);
+    }
+
+    /**
+     * @param hideRewardItems the hideRewardItems to set
+     */
+    public void setHideRewardItems(Boolean hideRewardItems) {
+        this.hideRewardItems = hideRewardItems;
     }
 }
