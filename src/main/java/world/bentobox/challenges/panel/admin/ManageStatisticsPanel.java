@@ -437,7 +437,6 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             break;
 
         }
-        panelBuilder.item(25, this.createStatisticRequirementButton(RequirementButton.REQUIRED_PERMISSIONS, req));
         panelBuilder.item(44, this.returnButton);
         return panelBuilder.build();
     }

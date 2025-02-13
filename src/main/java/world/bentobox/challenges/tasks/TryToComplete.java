@@ -27,6 +27,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -1425,6 +1426,14 @@ public class TryToComplete
                         + requirements.getPapiString() + " = "
                         + CheckPapi.evaluate(user.getPlayer(), requirements.getPapiString()));
             }
+        } else if (!requirements.getAdvancements().stream().map(user.getPlayer()::getAdvancementProgress)
+                .allMatch(AdvancementProgress::isDone)) {
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            user.sendMessage("challenges.gui.buttons.required_advancements.title");
+            requirements.getAdvancements().stream().filter(ad -> !user.getPlayer().getAdvancementProgress(ad).isDone())
+                    .forEach(ad -> Utils.sendMessage(this.user, this.world,
+                            "challenges.gui.buttons.advancement_element.name", "[name]",
+                            ad.getDisplay().getTitle()));
         }
         else
         {
