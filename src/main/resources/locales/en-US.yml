@@ -64,6 +64,8 @@ challenges:
             manage-entity-groups: "&0&l Manage Entity Groups"
             manage-entities: "&0&l Manage Entities"
             manage-statistics: "&0&l Manage Statistics"
+            manage-advancements: "&0&l Manage Advancements"
+            advancement-selector: "&0&l Advancement Selector"
             type-selector: "&0&l Challenge Type Selector"
             item-selector: "&0&l Item Selector"
             block-selector: "&0&l Block Selector"
@@ -322,6 +324,15 @@ challenges:
                 title: "&7 Statistics: "
                 list: " &8 - [name]"
                 none: "&7 No statistics have been added."
+            required_advancements:
+                name: "&f&l Required Advancements"
+                description: |-
+                    &7 Allows you to change the required
+                    &7 advancements for this challenge to 
+                    &7 be completed.
+                title: "&7 Advancements: "
+                list: " &8 - [name]"
+                none: "&7 No advancements have been added." 
             search_radius:
                 name: "&f&l Search Radius"
                 description: |-
@@ -446,6 +457,22 @@ challenges:
                 description: |-
                     &7 Allows you to remove
                     &7 selected statistics
+                    &7 from the list.
+                enabled: "&2 Enabled"
+                disabled: "&c Disabled"
+            advancement:
+                name: "&f&l [name]"
+                description: "[description]"
+            add_advancement:
+                name: "&f&l Add Advancement"
+                description: |-
+                    &7 Allows you to add a new
+                    &7 advancement to the list.
+            remove_advancement:
+                name: "&f&l Remove Advancement"
+                description: |-
+                    &7 Allows you to remove
+                    &7 selected advancements
                     &7 from the list.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
@@ -833,6 +860,10 @@ challenges:
                     &7 and reopens the previous GUI.
                 title: "&7 Selected: "
                 element: "&8 - [element]"
+            advancement_element:
+                name: "&f&l [name]"
+                description: "[description]"
+                selected: "&2 Selected"
             statistic_element:
                 name: "&f&l [statistic]"
                 amount: "&7 Target Value: &e [number]"

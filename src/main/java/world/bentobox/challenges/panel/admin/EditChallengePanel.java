@@ -8,11 +8,13 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +37,8 @@ import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.EnvironmentSelector;
 import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
+import world.bentobox.challenges.panel.util.SingleAdvancementSelector;
+import world.bentobox.challenges.panel.util.SingleAdvancementSelector.Mode;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -217,6 +221,8 @@ public class EditChallengePanel extends CommonPanel {
 
         panelBuilder.item(14, this.createRequirementButton(RequirementButton.REQUIRED_PAPI));
         panelBuilder.item(23, this.createRequirementButton(RequirementButton.REQUIRED_LEVEL));
+
+        panelBuilder.item(16, this.createRequirementButton(RequirementButton.REQUIRED_ADVANCEMENTS));
 
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
     }
@@ -631,7 +637,8 @@ public class EditChallengePanel extends CommonPanel {
             return this.createInventoryRequirementButton(button);
         }
         // Buttons for Other Requirements
-        case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, REQUIRED_PAPI -> {
+        case REQUIRED_EXPERIENCE, REMOVE_EXPERIENCE, REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, REQUIRED_PAPI,
+                REQUIRED_ADVANCEMENTS -> {
             return this.createOtherRequirementButton(button);
         }
         // Statistics
@@ -1118,6 +1125,22 @@ public class EditChallengePanel extends CommonPanel {
                 };
                 ConversationUtils.createStringInput(stringConsumer, user,
                         this.user.getTranslation(Constants.CONVERSATIONS + "enter-formula"), "");
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+        }
+        case REQUIRED_ADVANCEMENTS -> {
+            requirements.getAdvancements().forEach(adv -> description
+                    .add(this.user.getTranslation(reference + "list", "[name]", adv.getDisplay().getTitle())));
+
+            icon = new ItemStack(Material.CYAN_BANNER);
+            clickHandler = (panel, user, clickType, i) -> {
+                // Deal with adding and removing statistics in the ManageAdvancementsPanel class
+                ManageAdvancementsPanel.open(this, requirements.getAdvancements());
 
                 return true;
             };
@@ -1729,7 +1752,7 @@ public class EditChallengePanel extends CommonPanel {
         REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
         STATISTIC_ENTITIES,
         STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
-        REMOVE_STATISTICS, REQUIRED_PAPI,
+        REMOVE_STATISTICS, REQUIRED_PAPI, REQUIRED_ADVANCEMENTS,
     }
 
     // ---------------------------------------------------------------------
