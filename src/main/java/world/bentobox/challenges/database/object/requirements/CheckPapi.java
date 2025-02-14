@@ -183,6 +183,10 @@ public class CheckPapi {
             String leftOperand = leftSB.toString().trim();
             String rightOperand = rightSB.toString().trim();
 
+            if (rightOperand.isEmpty()) {
+                return false;
+            }
+
             // Evaluate the condition:
             // If both operands can be parsed as numbers, use numeric comparison;
             // otherwise, perform string comparison.
