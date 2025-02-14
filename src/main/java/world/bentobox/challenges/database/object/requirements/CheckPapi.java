@@ -11,24 +11,51 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class CheckPapi {
 
     /**
-     * Evaluates the formula by first replacing PAPI placeholders (using the provided Player)
-     * and then evaluating the resulting expression. The expression is expected to be a series
-     * of numeric comparisons (using =, <>, <=, >=, <, >) joined by Boolean operators AND and OR.
+     * Evaluates the given formula by first replacing PAPI placeholders using the provided Player,
+     * then parsing and evaluating one or more conditions.
+     * <p>
+     * The formula may contain conditions comparing numeric or string values.
+     * Operands may contain spaces. The grammar for a condition is:
+     * <pre>
+     *     leftOperand operator rightOperand
+     * </pre>
+     * where the leftOperand is a sequence of tokens (separated by whitespace) until a valid
+     * operator is found, and the rightOperand is a sequence of tokens until a boolean operator
+     * ("AND" or "OR") is encountered or the end of the formula is reached.
+     * <p>
+     * Supported comparison operators (case sensitive) are:
+     * <ul>
+     *     <li>"=" or "==" for equality</li>
+     *     <li>"<>" or "!=" for inequality</li>
+     *     <li>"<=" and ">=" for less than or equal and greater than or equal</li>
+     *     <li>"<" and ">" for less than and greater than</li>
+     * </ul>
+     * 
+     * For strings:
+     * <ul>
+     *     <li>"=" for case insensitive equality</li>
+     *     <li>"==" for case-sensitive equality</li>
+     *     <li>"<>" for case-insensitive inequality</li>
+     *     <li>"!=" for case sensitive inequality</li>
+     * </ul>
+     * Boolean connectors "AND" and "OR" (case insensitive) combine multiple conditions;
+     * AND has higher precedence than OR.
+     * <p>
+     * Examples:
+     * <pre>
+     *     "%aoneblock_my_island_lifetime_count% >= 1000 AND %aoneblock_my_island_level% >= 100"
+     *     "john smith == tasty bento AND 40 > 20"
+     * </pre>
      *
-     * For example:
-     *   "%aoneblock_my_island_lifetime_count% >= 1000 AND %Level_aoneblock_island_level% >= 100"
-     *
-     * If any placeholder evaluates to a non-numeric value or the formula is malformed, false is returned.
-     *
-     * @param player  the Player used for placeholder replacement.
-     * @param formula the formula to evaluate.
+     * @param player  the Player used for placeholder replacement
+     * @param formula the formula to evaluate
      * @return true if the formula evaluates to true, false otherwise.
      */
     public static boolean evaluate(Player player, String formula) {
-        // Replace PAPI placeholders with actual values using the provided Player.
+        // Replace PAPI placeholders with actual values.
         String parsedFormula = PlaceholderAPI.setPlaceholders(player, formula);
 
-        // Tokenize the parsed formula (tokens are assumed to be separated by whitespace).
+        // Tokenize the resulting formula by whitespace.
         List<String> tokens = tokenize(parsedFormula);
         if (tokens.isEmpty()) {
             return false;
@@ -37,19 +64,19 @@ public class CheckPapi {
         try {
             Parser parser = new Parser(tokens);
             boolean result = parser.parseExpression();
-            // If there are leftover tokens, the expression is malformed.
+            // If there are extra tokens after parsing the full expression, the formula is malformed.
             if (parser.hasNext()) {
                 return false;
             }
             return result;
         } catch (Exception e) {
-            // Any error in parsing or evaluation results in false.
+            // Any error in parsing or evaluating the expression results in false.
             return false;
         }
     }
 
     /**
-     * Splits the given string into tokens using whitespace as the delimiter.
+     * Splits a string into tokens using whitespace as the delimiter.
      *
      * @param s the string to tokenize.
      * @return a list of tokens.
@@ -59,17 +86,8 @@ public class CheckPapi {
     }
 
     /**
-     * A simple recursive descent parser that evaluates expressions according to the following grammar:
-     *
-     * <pre>
-     * Expression -> Term { OR Term }
-     * Term       -> Factor { AND Factor }
-     * Factor     -> operand operator operand
-     * </pre>
-     *
-     * A Factor is expected to be a numeric condition in the form:
-     *   number operator number
-     * where operator is one of: =, <>, <=, >=, <, or >.
+     * A simple recursive descent parser that evaluates the formula.
+     * It supports multi-token operands for conditions.
      */
     private static class Parser {
         private final List<String> tokens;
@@ -79,34 +97,27 @@ public class CheckPapi {
             this.tokens = tokens;
         }
 
-        /**
-         * Returns true if there are more tokens to process.
-         */
         public boolean hasNext() {
             return pos < tokens.size();
         }
 
-        /**
-         * Returns the next token without advancing.
-         */
         public String peek() {
             return tokens.get(pos);
         }
 
-        /**
-         * Returns the next token and advances the position.
-         */
         public String next() {
             return tokens.get(pos++);
         }
 
         /**
          * Parses an Expression:
-         *   Expression -> Term { OR Term }
+         * Expression -> Term { OR Term }
+         *
+         * @return the boolean value of the expression.
          */
         public boolean parseExpression() {
             boolean value = parseTerm();
-            while (hasNext() && peek().equalsIgnoreCase("OR")) {
+            while (hasNext() && isOr(peek())) {
                 next(); // consume "OR"
                 boolean termValue = parseTerm();
                 value = value || termValue;
@@ -116,67 +127,151 @@ public class CheckPapi {
 
         /**
          * Parses a Term:
-         *   Term -> Factor { AND Factor }
+         * Term -> Condition { AND Condition }
+         *
+         * @return the boolean value of the term.
          */
         public boolean parseTerm() {
-            boolean value = parseFactor();
-            while (hasNext() && peek().equalsIgnoreCase("AND")) {
+            boolean value = parseCondition();
+            while (hasNext() && isAnd(peek())) {
                 next(); // consume "AND"
-                boolean factorValue = parseFactor();
-                value = value && factorValue;
+                boolean conditionValue = parseCondition();
+                value = value && conditionValue;
             }
             return value;
         }
 
         /**
-         * Parses a Factor, which is a single condition in the form:
-         *   operand operator operand
-         *
-         * For example: "1234 >= 1000"
+         * Parses a single condition of the form:
+         * leftOperand operator rightOperand
+         * <p>
+         * The left operand is built by collecting tokens until a valid operator is found.
+         * The right operand is built by collecting tokens until a boolean operator ("AND" or "OR")
+         * is encountered or the end of the token list is reached.
          *
          * @return the boolean result of the condition.
          */
-        public boolean parseFactor() {
-            // There must be at least three tokens remaining.
-            if (pos + 2 >= tokens.size()) {
-                throw new RuntimeException("Incomplete condition");
+        public boolean parseCondition() {
+            // Parse left operand.
+            StringBuilder leftSB = new StringBuilder();
+            if (!hasNext()) {
+                throw new RuntimeException("Expected left operand but reached end of expression");
             }
-
-            String leftOperand = next();
+            // Collect tokens for the left operand until an operator is encountered.
+            while (hasNext() && !isOperator(peek())) {
+                if (leftSB.length() > 0) {
+                    leftSB.append(" ");
+                }
+                leftSB.append(next());
+            }
+            if (!hasNext()) {
+                throw new RuntimeException("Operator expected after left operand");
+            }
+            // Next token should be an operator.
             String operator = next();
-            String rightOperand = next();
-
-            // Validate operator.
-            if (!operator.equals("=") && !operator.equals("<>") && !operator.equals("<=") && !operator.equals(">=")
-                    && !operator.equals("<") && !operator.equals(">")) {
+            if (!isValidOperator(operator)) {
                 throw new RuntimeException("Invalid operator: " + operator);
             }
-
-            double leftVal, rightVal;
-            try {
-                leftVal = Double.parseDouble(leftOperand);
-                rightVal = Double.parseDouble(rightOperand);
-            } catch (NumberFormatException e) {
-                // If either operand is not numeric, return false.
-                return false;
+            // Parse right operand.
+            StringBuilder rightSB = new StringBuilder();
+            while (hasNext() && !isBooleanOperator(peek())) {
+                if (rightSB.length() > 0) {
+                    rightSB.append(" ");
+                }
+                rightSB.append(next());
             }
-            // Evaluate the condition.
-            switch (operator) {
-            case "=":
-                return Double.compare(leftVal, rightVal) == 0;
-            case "<>":
-                return Double.compare(leftVal, rightVal) != 0;
-            case "<=":
-                return leftVal <= rightVal;
-            case ">=":
-                return leftVal >= rightVal;
-            case "<":
-                return leftVal < rightVal;
-            case ">":
-                return leftVal > rightVal;
-            default:
-                // This case is never reached.
-                return false;
+            String leftOperand = leftSB.toString().trim();
+            String rightOperand = rightSB.toString().trim();
+
+            // Evaluate the condition:
+            // If both operands can be parsed as numbers, use numeric comparison;
+            // otherwise, perform string comparison.
+            Double leftNum = tryParseDouble(leftOperand);
+            Double rightNum = tryParseDouble(rightOperand);
+            if (leftNum != null && rightNum != null) {
+                // Numeric comparison.
+                switch (operator) {
+                case "=":
+                case "==":
+                    return Double.compare(leftNum, rightNum) == 0;
+                case "<>":
+                case "!=":
+                    return Double.compare(leftNum, rightNum) != 0;
+                case "<=":
+                    return leftNum <= rightNum;
+                case ">=":
+                    return leftNum >= rightNum;
+                case "<":
+                    return leftNum < rightNum;
+                case ">":
+                    return leftNum > rightNum;
+                default:
+                    throw new RuntimeException("Unsupported operator: " + operator);
+                }
+            } else {
+                // String comparison.
+                switch (operator) {
+                case "=":
+                    return leftOperand.equalsIgnoreCase(rightOperand);
+                case "==":
+                    return leftOperand.equals(rightOperand);
+                case "<>":
+                    return !leftOperand.equalsIgnoreCase(rightOperand);
+                case "!=":
+                    return !leftOperand.equals(rightOperand);
+                case "<=":
+                    return leftOperand.compareTo(rightOperand) <= 0;
+                case ">=":
+                    return leftOperand.compareTo(rightOperand) >= 0;
+                case "<":
+                    return leftOperand.compareTo(rightOperand) < 0;
+                case ">":
+                    return leftOperand.compareTo(rightOperand) > 0;
+                default:
+                    throw new RuntimeException("Unsupported operator: " + operator);
+                }
+            }
+        }
+
+        /**
+         * Checks if the given token is one of the valid comparison operators.
+         */
+        private boolean isValidOperator(String token) {
+            return token.equals("=") || token.equals("==") || token.equals("<>") || token.equals("!=")
+                    || token.equals("<=") || token.equals(">=") || token.equals("<") || token.equals(">");
+        }
+
+        /**
+         * Returns true if the token is a comparison operator.
+         */
+        private boolean isOperator(String token) {
+            return isValidOperator(token);
+        }
+
+        /**
+         * Returns true if the token is a boolean operator ("AND" or "OR").
+         */
+        private boolean isBooleanOperator(String token) {
+            return token.equalsIgnoreCase("AND") || token.equalsIgnoreCase("OR");
+        }
+
+        private boolean isAnd(String token) {
+            return token.equalsIgnoreCase("AND");
+        }
+
+        private boolean isOr(String token) {
+            return token.equalsIgnoreCase("OR");
+        }
+
+        /**
+         * Tries to parse the given string as a Double.
+         * Returns the Double if successful, or null if parsing fails.
+         */
+        private Double tryParseDouble(String s) {
+            try {
+                return Double.parseDouble(s);
+            } catch (NumberFormatException e) {
+                return null;
             }
         }
     }
