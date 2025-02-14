@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import world.bentobox.bentobox.BentoBox;
 
 public class CheckPapi {
 
@@ -155,7 +156,9 @@ public class CheckPapi {
             // Parse left operand.
             StringBuilder leftSB = new StringBuilder();
             if (!hasNext()) {
-                throw new RuntimeException("Expected left operand but reached end of expression");
+                BentoBox.getInstance()
+                        .logError("Challenges PAPI formula error: Expected left operand but reached end of expression");
+                return false;
             }
             // Collect tokens for the left operand until an operator is encountered.
             while (hasNext() && !isOperator(peek())) {
@@ -210,7 +213,8 @@ public class CheckPapi {
                 case ">":
                     return leftNum > rightNum;
                 default:
-                    throw new RuntimeException("Unsupported operator: " + operator);
+                    BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
+                    return false;
                 }
             } else {
                 // String comparison.
@@ -232,7 +236,8 @@ public class CheckPapi {
                 case ">":
                     return leftOperand.compareTo(rightOperand) > 0;
                 default:
-                    throw new RuntimeException("Unsupported operator: " + operator);
+                    BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
+                    return false;
                 }
             }
         }
