@@ -40,6 +40,7 @@ import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.json.BentoboxTypeAdapterFactory;
+import world.bentobox.bentobox.database.json.adapters.TagTypeAdapterFactory;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.bentobox.util.Util;
@@ -1147,6 +1148,7 @@ public class ChallengesImportManager
             GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().enableComplexMapKeySerialization();
             // Register adapters
             builder.registerTypeAdapterFactory(new BentoboxTypeAdapterFactory(addon.getPlugin()));
+            builder.registerTypeAdapterFactory(new TagTypeAdapterFactory());
             // Keep null in the database
             builder.serializeNulls();
             // Allow characters like < or > without escaping them
