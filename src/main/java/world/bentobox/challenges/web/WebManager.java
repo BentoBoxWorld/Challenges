@@ -113,7 +113,7 @@ public class WebManager
 					this.library.clear();
 				}
 
-				JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
+                JsonObject catalog = JsonParser.parseString(catalogContent).getAsJsonObject();
 				catalog.getAsJsonArray("challenges").forEach(gamemode ->
 					this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
 			}

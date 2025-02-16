@@ -148,9 +148,9 @@ public abstract class CommonPanel {
         String status = this.generateChallengeStatus(isCompletedOnce, isCompletedAll, doneTimes,
                 challenge.getMaxTimes());
         // Get requirements in single string
-        String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);
+        String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);// TODO Prettify
         // Get rewards in single string
-        String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce);
+        String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce); // TODO Prettify
         // Get coolDown in single string
         String coolDown = isCompletedAll || challenge.getTimeout() <= 0 ? "" : this.generateCoolDown(challenge, target);
 

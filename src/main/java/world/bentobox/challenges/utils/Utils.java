@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,11 +23,11 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
@@ -745,52 +747,31 @@ public class Utils
 	 * @param user the user
 	 * @return the string
 	 */
-	public static String prettifyObject(ItemStack item, @Nullable PotionMeta potionMeta, User user)
-	{
-		if (potionMeta == null)
-		{
-			return "";
-		}
+	public static String prettifyObject(ItemStack item, @Nullable PotionMeta potionMeta, User user) {
+	    if (potionMeta == null) {
+	        return "";
+	    }
 
-		Material itemType = item.getType();
+	    StringBuilder sb = new StringBuilder();
 
-		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
-		final String metaReference = Constants.ITEM_STACKS + "meta.";
+        // This regex looks for: potion: "minecraft:some_text"
+        Pattern pattern = Pattern.compile("potion:\\s*\"minecraft:([^\"]+)\"");
+        Matcher matcher = pattern.matcher(potionMeta.getAsComponentString());
+        if (matcher.find()) {
+            String potionType = matcher.group(1);
+            String translation = user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion." + potionType);
+            sb.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion.name", TextVariables.NAME,
+                    Util.prettifyText(translation.isBlank() ? potionType : translation)));
+        }
 
-		PotionData potionData = potionMeta.getBasePotionData();
-
-		// Check custom translation for potions.
-		String type = user.getTranslationOrNothing(itemReference + potionData.getType().name().toLowerCase());
-
-		if (type.isEmpty())
-		{
-			// Check potion types translation.
-			type = prettifyObject(potionData.getType(), user);
-		}
-
-		String upgraded = user.getTranslationOrNothing(metaReference + "upgraded");
-		String extended = user.getTranslationOrNothing(metaReference + "extended");
-
-		// Get item specific translation.
-		String specific = user.getTranslationOrNothing(itemReference + "name",
-			"[type]", type,
-			"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
-			"[extended]", (potionData.isExtended() ? extended : ""));
-
-		if (specific.isEmpty())
-		{
-			// Use generic translation.
-			String meta = user.getTranslationOrNothing(metaReference + "potion-meta",
-				"[type]", type,
-				"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
-				"[extended]", (potionData.isExtended() ? extended : ""));
-
-			specific = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-				"[type]", prettifyObject(itemType, user),
-				"[meta]", meta);
-		}
-
-		return specific;
+	    // Append the potion form based on the item type.
+	    Material material = item.getType();
+	    if (material == Material.SPLASH_POTION) {
+            sb.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion.splash"));
+	    } else if (material == Material.LINGERING_POTION) {
+            sb.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "potion.lingering"));
+	    }
+	    return sb.toString();
 	}
 
 
