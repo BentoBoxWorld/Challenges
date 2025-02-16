@@ -627,31 +627,21 @@ public class Utils
 		//       potion-type: ...
 		//       ...
 		//     generic: [amount] [name] [meta]
-		String translation;
-		switch (object.getType())
-		{
-			case POTION, SPLASH_POTION, LINGERING_POTION, TIPPED_ARROW ->
-				// Get Potion Meta
-				translation = prettifyObject(object, (PotionMeta) object.getItemMeta(), user);
-			case PLAYER_HEAD, PLAYER_WALL_HEAD ->
-				translation = prettifyObject(object, (SkullMeta) object.getItemMeta(), user);
-			case ENCHANTED_BOOK ->
-				translation = prettifyObject(object, (EnchantmentStorageMeta) object.getItemMeta(), user);
-			case WRITTEN_BOOK, WRITABLE_BOOK ->
-				translation = prettifyObject(object, (BookMeta) object.getItemMeta(), user);
-			case LEATHER_BOOTS,LEATHER_CHESTPLATE,LEATHER_HELMET,LEATHER_LEGGINGS,LEATHER_HORSE_ARMOR,
-				TRIDENT,CROSSBOW,CHAINMAIL_HELMET,CHAINMAIL_CHESTPLATE,CHAINMAIL_LEGGINGS,CHAINMAIL_BOOTS,IRON_HELMET,
-				IRON_CHESTPLATE,IRON_LEGGINGS,IRON_BOOTS,DIAMOND_HELMET,DIAMOND_CHESTPLATE,DIAMOND_LEGGINGS,DIAMOND_BOOTS,
-				GOLDEN_HELMET,GOLDEN_CHESTPLATE,GOLDEN_LEGGINGS,GOLDEN_BOOTS,NETHERITE_HELMET,NETHERITE_CHESTPLATE,
-				NETHERITE_LEGGINGS,NETHERITE_BOOTS,WOODEN_SWORD,WOODEN_SHOVEL,WOODEN_PICKAXE,WOODEN_AXE,WOODEN_HOE,
-				STONE_SWORD,STONE_SHOVEL,STONE_PICKAXE,STONE_AXE,STONE_HOE,GOLDEN_SWORD,GOLDEN_SHOVEL,GOLDEN_PICKAXE,
-				GOLDEN_AXE,GOLDEN_HOE,IRON_SWORD,IRON_SHOVEL,IRON_PICKAXE,IRON_AXE,IRON_HOE,DIAMOND_SWORD,DIAMOND_SHOVEL,
-				DIAMOND_PICKAXE,DIAMOND_AXE,DIAMOND_HOE,NETHERITE_SWORD,NETHERITE_SHOVEL,NETHERITE_PICKAXE,NETHERITE_AXE,
-				NETHERITE_HOE,TURTLE_HELMET,SHEARS,SHIELD,FLINT_AND_STEEL,BOW ->
-				translation = prettifyObject(object, object.getItemMeta(), user);
-			default ->
-				translation = "";
-		}
+        String translation = "";
+        if (object.hasItemMeta()) {
+            ItemMeta im = object.getItemMeta();
+            if (im instanceof PotionMeta pm) {
+                translation = prettifyObject(object, pm, user);
+            } else if (im instanceof SkullMeta sm) {
+                translation = prettifyObject(object, sm, user);
+            } else if (im instanceof BookMeta bm) {
+                translation = prettifyObject(object, bm, user);
+            } else if (im instanceof EnchantmentStorageMeta em) {
+                translation = prettifyObject(object, em, user);
+            } else {
+                translation = prettifyObject(object, im, user);
+            }
+        }
 
 		if (!translation.isEmpty())
 		{
