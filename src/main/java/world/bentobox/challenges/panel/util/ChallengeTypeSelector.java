@@ -20,7 +20,11 @@ import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.database.object.Challenge;
-import world.bentobox.challenges.database.object.requirements.*;
+import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
+import world.bentobox.challenges.database.object.requirements.OtherRequirements;
+import world.bentobox.challenges.database.object.requirements.Requirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
 import world.bentobox.challenges.utils.Constants;
 
 

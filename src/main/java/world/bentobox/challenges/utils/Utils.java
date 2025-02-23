@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -284,6 +285,48 @@ public class Utils
 		return "";
 	}
 
+    /**
+     * Prettify the Tag object for user.
+     * @param object a tag, like ALL_HANGING_SIGNS
+     * @param user user
+     * @return prettified tag
+     */
+    public static String prettifyObject(@Nullable Tag<?> object, User user) {
+        // Nothing to translate
+        if (object == null) {
+            return "";
+        }
+        String translation = user.getTranslationOrNothing(
+                Constants.MATERIALS + object.getKey().getKey().toLowerCase(Locale.ENGLISH) + ".name");
+        String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
+        // Prettify and remove last s
+        String tag = any + Util.prettifyText(object.getKey().getKey()).replaceAll("s$", "");
+
+        return translation.isEmpty() ? tag : translation;
+    }
+
+    /**
+     * Prettify object
+     * @param <T> class that extends Enum
+     * @param object that extends Enum
+     * @param user use who will see the text
+     * @return string of pretty text for user
+     */
+    public static <T extends Enum<T>> String prettifyObject(@Nullable T object, User user) {
+        if (object == null) {
+            return "";
+        }
+        if (object instanceof Material m) {
+            return prettifyMaterial(m, user);
+        }
+        // Build a translation key using the enum name.
+        String translation = user
+                .getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase(Locale.ENGLISH) + ".name");
+        String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
+        // Use the enum's name and prettify it (for example, convert ALL_HANGING_SIGNS to "All Hanging Sign")
+        String tag = any + Util.prettifyText(object.name()).replaceAll("s$", "");
+        return translation.isEmpty() ? tag : translation;
+    }
 
 	/**
 	 * Prettify Material object for user.
@@ -291,7 +334,7 @@ public class Utils
 	 * @param user User who will see the object.
 	 * @return Prettified string for Material.
 	 */
-	public static String prettifyObject(@Nullable Material object, User user)
+    public static String prettifyMaterial(@Nullable Material object, User user)
 	{
 		// Nothing to translate
 		if (object == null)

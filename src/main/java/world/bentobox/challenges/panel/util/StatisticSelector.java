@@ -1,18 +1,23 @@
 package world.bentobox.challenges.panel.util;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.inventory.ItemStack;
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import lv.id.bonne.panelutils.PanelUtils;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.panel.admin.ManageStatisticsPanel;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -128,13 +133,11 @@ public class StatisticSelector extends PagedSelector<Statistic>
 		return new PanelItemBuilder().
 			name(this.user.getTranslation(reference + "name", "[statistic]",
 				Utils.prettifyObject(statistic, this.user))).
-			icon(Material.PAPER).
-			description(description).
-			clickHandler((panel, user1, clickType, slot) -> {
-				this.consumer.accept(true, statistic);
-				return true;
-			}).
-			build();
+                icon(ManageStatisticsPanel.getStatisticIcon(statistic)).description(description)
+                .clickHandler((panel, user1, clickType, slot) -> {
+                    this.consumer.accept(true, statistic);
+                    return true;
+                }).build();
 	}
 
 

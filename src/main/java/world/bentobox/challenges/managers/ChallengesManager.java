@@ -1,7 +1,19 @@
 package world.bentobox.challenges.managers;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -1109,8 +1121,9 @@ public class ChallengesManager
      * @return Level status - how many challenges still to do on which level
      */
     @NonNull
-    private List<LevelStatus> getAllChallengeLevelStatus(String storageDataID, String gameMode)
+    private List<LevelStatus> getAllChallengeLevelStatus(User user, World world, String gameMode)
     {
+        String storageDataID = this.getDataUniqueID(user, Util.getWorld(world));
         this.addPlayerData(storageDataID);
         ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
 
@@ -1122,6 +1135,14 @@ public class ChallengesManager
         ChallengeLevel previousLevel = null;
         int doneChallengeCount = 0;
         boolean previousUnlocked = true;
+
+        // Get user's waiver add from permission
+        // Get per-user waiver amount
+        int waiverAdd = user
+                .getPermissionValue(addon.getPlugin().getIWM().getPermissionPrefix(world) + "challenges.waiver-add", 0);
+        if (waiverAdd < 0) {
+            waiverAdd = 0;
+        }
 
         // For each challenge level, check how many the storageDataID has done
         for (ChallengeLevel level : challengeLevelList)
@@ -1135,7 +1156,7 @@ public class ChallengesManager
                 this.getLevelChallenges(previousLevel);
 
             int challengesToDo = previousLevel == null ? 0 :
-                (previousChallengeList.size() - doneChallengeCount - previousLevel.getWaiverAmount());
+                    (previousChallengeList.size() - doneChallengeCount - (previousLevel.getWaiverAmount() + waiverAdd));
 
             List<Challenge> challengeList = this.getLevelChallenges(level);
 
@@ -1165,14 +1186,15 @@ public class ChallengesManager
 
     /**
      * This method returns LevelStatus object for given challenge level.
-     * @param storageDataID User which level status must be acquired.
+     * @param user User which level status must be acquired.
      * @param world World where level is living.
      * @param level Level which status must be calculated.
      * @return LevelStatus of given level.
      */
     @Nullable
-    private LevelStatus getChallengeLevelStatus(@NonNull String storageDataID, World world, @NonNull ChallengeLevel level)
+    private LevelStatus getChallengeLevelStatus(User user, World world, @NonNull ChallengeLevel level)
     {
+        String storageDataID = this.getDataUniqueID(user.getUniqueId(), Util.getWorld(world));
         this.addPlayerData(storageDataID);
         ChallengesPlayerData playerData = this.playerCacheData.get(storageDataID);
 
@@ -1572,7 +1594,8 @@ public class ChallengesManager
 
         this.islandWorldManager.getAddon(world).ifPresent(gameMode -> {
             this.resetAllChallenges(storageID, gameMode.getDescription().getName());
-            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL").
+            this.addLogEntry(storageID, new LogEntry.Builder("RESET_ALL")
+                    .
                     data(USER_ID, userID.toString()).
                     data(ADMIN_ID, adminID == null ? "ISLAND_RESET" : adminID.toString()).
                     build());
@@ -1638,11 +1661,9 @@ public class ChallengesManager
      */
     public boolean isLevelUnlocked(User user, World world, ChallengeLevel level)
     {
-        String storageDataID = this.getDataUniqueID(user, Util.getWorld(world));
-        this.addPlayerData(storageDataID);
-
-        return this.islandWorldManager.getAddon(world).filter(gameMode -> this.getAllChallengeLevelStatus(storageDataID, gameMode.getDescription().getName()).
-                stream().
+        return this.islandWorldManager.getAddon(world).filter(gameMode -> this
+                .getAllChallengeLevelStatus(user, world, gameMode.getDescription().getName())
+                .stream().
                 filter(LevelStatus::isUnlocked).
                 anyMatch(lv -> lv.getLevel().equals(level))).
                 isPresent();
@@ -1696,7 +1717,8 @@ public class ChallengesManager
     @Nullable
     public LevelStatus getChallengeLevelStatus(UUID uniqueId, World world, ChallengeLevel level)
     {
-        return this.getChallengeLevelStatus(this.getDataUniqueID(uniqueId, Util.getWorld(world)), world, level);
+        User user = User.getInstance(uniqueId);
+        return this.getChallengeLevelStatus(user, world, level);
     }
 
 
@@ -1712,9 +1734,8 @@ public class ChallengesManager
     {
         return this.islandWorldManager.getAddon(world).map(gameMode ->
             this.getAllChallengeLevelStatus(
-                this.getDataUniqueID(user, Util.getWorld(world)),
-                gameMode.getDescription().getName())).
-                orElse(Collections.emptyList());
+                    user, world, gameMode.getDescription().getName()))
+                .orElse(Collections.emptyList());
     }
 
 

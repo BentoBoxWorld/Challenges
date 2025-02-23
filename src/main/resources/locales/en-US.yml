@@ -8,6 +8,13 @@ meta:
         - BONNe
 
 challenges:
+    materials:
+        any: "Any "
+        all_hanging_signs:
+            name: "Any Hanging Sign"
+        all_signs:
+            name: "Any Sign"
+        
     commands:
         admin:
             main:
@@ -17,33 +24,33 @@ challenges:
                 description: "Reload challenges from the database"
                 parameters: ''
             show:
-                description: 'Prints all challenges in the chat which exist in this world.'
+                description: "Displays all challenges in the chat that exist in this world."
                 parameters: ''
             complete:
-                description: 'Complete a challenge for a player.'
+                description: "Completes a challenge for a player."
                 parameters: '<player> <challenge_id>'
             reset:
-                description: 'Reset a challenge for a player. If "challenge_id" is set to "all", then it will reset all challenges.'
+                description: "Resets a challenge for a player. If \"challenge_id\" is set to \"all\", then all challenges will be reset."
                 parameters: '<player> <challenge_id>'
             migrate:
-                description: 'Migrate current game world challenges data to 0.8.0 storage format.'
+                description: "Migrates the current game world’s challenge data to the 0.8.0 storage format."
                 parameters: ''
         user:
             main:
-                description: 'Open Challenges GUI.'
+                description: "Opens the Challenges GUI."
                 parameters: ''
             complete:
-                description: 'Complete challenge.'
+                description: "Completes a challenge."
                 parameters: '<challenge_id> [count]'
     gui:
         titles:
             # The title for the Main GUI
             player-gui: "&0&l Challenges Menu"
             # The title for the Main GUI
-            gamemode-gui: "&0&l Select GameMode"
+            gamemode-gui: "&0&l Select Game Mode"
             # The title for the Multiple Completion GUI
             multiple-gui: "&0&l How many times?"
-            # GUI titles below is visible just for Admins.
+            # GUI titles below are visible just for Admins.
             admin-gui: "&0&l Challenges Admin Menu"
             edit-challenge: "&0&l Edit [challenge]"
             edit-level: "&0&l Edit [level]"
@@ -53,7 +60,12 @@ challenges:
             choose-player: "&0&l Choose Player"
             library: "&0&l Library"
             manage-blocks: "&0&l Manage Blocks"
+            manage-block-groups: "&0&l Manage Block Groups"
+            manage-entity-groups: "&0&l Manage Entity Groups"
             manage-entities: "&0&l Manage Entities"
+            manage-statistics: "&0&l Manage Statistics"
+            manage-advancements: "&0&l Manage Advancements"
+            advancement-selector: "&0&l Advancement Selector"
             type-selector: "&0&l Challenge Type Selector"
             item-selector: "&0&l Item Selector"
             block-selector: "&0&l Block Selector"
@@ -72,23 +84,23 @@ challenges:
             return:
                 name: "&f&l Return"
                 description: |-
-                    &7 Return to previous menu
-                    &7 or exit GUI
+                    &7 Return to the previous menu
+                    &7 or exit the GUI
             # Button that is used in multi-page GUIs which allows to return to previous page.
             previous:
                 name: "&f&l Previous Page"
                 description: |-
-                    &7 Switch to &e [number] &7 page
+                    &7 Switch to page &e [number]
             # Button that is used in multi-page GUIs which allows to go to next page.
             next:
                 name: "&f&l Next Page"
                 description: |-
-                    &7 Switch to &e [number] &7 page
+                    &7 Switch to page &e [number]
             # Button that allows to reduce number
             reduce:
                 name: "&f&l Reduce"
                 description: |-
-                    &7 Reduce by &e [number]
+                    &7 Decrease by &e [number]
             # Button that allows to increase number
             increase:
                 name: "&f&l Increase"
@@ -99,24 +111,23 @@ challenges:
                 name: "&f&l Complete"
                 description: |-
                     &7 Complete challenge &e [number]
-                    &7 time(-s)
+                    &7 time(s)
             # Button that allows to quit the current gui.
             quit:
                 name: "&f&l Quit"
                 description: |-
-                    &7 Exit from the GUI.
+                    &7 Exit the GUI.
             # All following buttons are mainly for Admin GUI.
             complete_user_challenges:
                 name: "&f&l Complete User Challenge(-s)"
                 description: |-
-                    &7 Allows to choose user and
-                    &7 complete challenge(-s) for
-                    &7 him
+                    &7 Allows you to select a user and
+                    &7 complete challenge(s) for them.
             reset_user_challenges:
                 name: "&f&l Reset User Challenges"
                 description: |-
-                    &7 Allows to choose user and
-                    &7 reset his challenges
+                    &7 Allows you to select a user and
+                    &7 reset their challenges.
             add_challenge:
                 name: "&f&l Create Challenge"
                 description: |-
@@ -130,63 +141,63 @@ challenges:
             edit_challenge:
                 name: "&f&l Edit Challenge"
                 description: |-
-                    &7 Allows to choose and edit
+                    &7 Allows you to select and edit
                     &7 a challenge.
             edit_level:
                 name: "&f&l Edit Level"
                 description: |-
-                    &7 Allows to choose and edit
+                    &7 Allows you to select and edit
                     &7 a level.
             delete_challenge:
                 name: "&f&l Delete Challenge"
                 description: |-
-                    &7 Allows to choose and delete
+                    &7 Allows you to select and delete
                     &7 a challenge.
             delete_level:
                 name: "&f&l Delete Level"
                 description: |-
-                    &7 Allows to choose and delete
+                    &7 Allows you to select and delete
                     &7 a level.
             edit_settings:
                 name: "&f&l Settings"
                 description: |-
-                    &7 Allows to view and edit
-                    &7 an addon settings.
+                    &7 Allows you to view and edit
+                    &7 the add-on settings.
             complete_wipe:
                 name: "&f&l Complete Wipe"
                 description: |-
-                    &7 Completely clears challenges
-                    &7 addon database, including
+                    &7 Completely clears the challenges
+                    &7 add-on database, including
                     &7 user data.
             challenge_wipe:
                 name: "&f&l Challenge Wipe"
                 description: |-
-                    &7 Completely clears challenges
-                    &7 and levels from database.
+                    &7 Completely clears the challenges
+                    &7 and levels from the database.
             user_wipe:
                 name: "&f&l User Wipe"
                 description: |-
                     &7 Completely clears user
-                    &7 data from database.
+                    &7 data from the database.
             library:
                 name: "&f&l Library"
                 description: |-
-                    &7 Opens a public
+                    &7 Opens the public
                     &7 challenges library.
             import_database:
                 name: "&f&l Import Database"
                 description: |-
-                    &7 Allows to import exported
+                    &7 Allows you to import an exported
                     &7 challenges database.
             import_template:
                 name: "&f&l Import Template"
                 description: |-
-                    &7 Allows to import template
-                    &7 file with challenges.
+                    &7 Allows you to import a template
+                    &7 file containing challenges.
             export_challenges:
                 name: "&f&l Export Challenges"
                 description: |-
-                    &7 Allows to export database
+                    &7 Allows you to export the database
                     &7 to a local file.
             properties:
                 name: "&f&l Properties"
@@ -195,358 +206,389 @@ challenges:
             requirements:
                 name: "&f&l Requirements"
                 description: |-
-                    &7 View requirements properties.
+                    &7 View the requirements properties.
             rewards:
                 name: "&f&l Rewards"
                 description: |-
-                    &7 View rewards properties.
+                    &7 View the rewards properties.
+            hide_reward_items:
+              name: "&f&l Hide Reward Items"
+              description: |-
+                 &7 Toggle whether reward items
+                 &7 are shown or not in GUI.
+              hide: "&2 Hide"
+              show: "&c Show"
             deployed:
                 name: "&f&l Deployment"
                 description: |-
-                    &7 Toggle if challenge is
-                    &7 deployed and users can
-                    &7 complete it.
+                    &7 Toggle whether the challenge is
+                    &7 deployed and can be completed
+                    &7 by users.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             name:
                 name: "&f&l Name"
                 description: |-
-                    &7 Allows to change
+                    &7 Allows you to change
                     &7 the display name.
                 value: "&7 Currently: &r [name]"
             remove_on_complete:
                 name: "&f&l Hide After Completion"
                 description: |-
-                    &7 Toggle if challenge should
-                    &7 hidden from player after
+                    &7 Toggle whether the challenge should
+                    &7 be hidden from the player after
                     &7 it is completed.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             description:
                 name: "&f&l Description"
                 description: |-
-                    &7 The specific description
-                    &7 for the challenge. The color
-                    &7 codes must be applied to it.
+                    &7 Specifies the challenge's description.
+                    &7 Color codes must be applied to it.
                 value: "&7 Current description:"
             environment:
                 name: "&f&l Dimension"
                 description: |-
-                    &7 Allows to limit in which
-                    &7 dimension the challenge
-                    &7 can be completed.
+                    &7 Allows you to restrict the challenge
+                    &7 to a specific dimension.
                 enabled: "&2"
                 disabled: "&c"
             order:
                 name: "&f&l Order"
                 description: |-
-                    &7 Allows to change order of
+                    &7 Allows you to change the order of
                     &7 objects.
-                    &7 Objects with equal numbers
+                    &7 Objects with the same number
                     &7 will be ordered by their
-                    &7 unique id names.
+                    &7 unique ID names.
                 value: "&7 Current order: &e [number]"
             icon:
                 name: "&f&l Icon"
                 description: |-
-                    &7 Allows to change icon
+                    &7 Allows you to change the icon
                     &7 for this challenge.
             locked_icon:
                 name: "&f&l Locked Icon"
                 description: |-
-                    &7 Allows to change locked
+                    &7 Allows you to change the locked
                     &7 level icon.
             required_permissions:
                 name: "&f&l Required Permissions"
                 description: |-
-                    &7 Allows to change required
-                    &7 permissions for this
-                    &7 challenge to be completable.
+                    &7 Allows you to change the required
+                    &7 permissions for this challenge to 
+                    &7 be completed.
                 title: "&7 Permissions: "
                 permission: " &8 - [permission]"
-                none: "&7 Permissions are not set."
+                none: "&7 No permissions are set."
             remove_entities:
                 name: "&f&l Remove Entities"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 required entities will
-                    &7 be removed from world
-                    &7 after completing the
-                    &7 challenge.
+                    &7 Toggle whether required entities will
+                    &7 be removed from the world after
+                    &7 completing the challenge.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             required_entities:
                 name: "&f&l Required Entities"
                 description: |-
-                    &7 Allows to change required
-                    &7 entities for this
-                    &7 challenge to be completable.
+                    &7 Allows you to change the required
+                    &7 entities for this challenge to be 
+                    &7 completed.
                 title: "&7 Entities: "
                 list: " &8 - [number] x [entity]"
-                none: "&7 Entities are not added."
+                none: "&7 No entities have been added."
             remove_blocks:
                 name: "&f&l Remove Blocks"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 required blocks will
-                    &7 be removed from world
-                    &7 after completing the
-                    &7 challenge.
+                    &7 Toggle whether required blocks will
+                    &7 be removed from the world after
+                    &7 completing the challenge.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             required_blocks:
                 name: "&f&l Required Blocks"
                 description: |-
-                    &7 Allows to change required
-                    &7 blocks for this
-                    &7 challenge to be completable.
+                    &7 Allows you to change the required
+                    &7 blocks for this challenge to be 
+                    &7 completed.
                 title: "&7 Blocks: "
                 list: " &8 - [number] x [block]"
-                none: "&7 Blocks are not added."
+                none: "&7 No blocks have been added."
+            required_statistics:
+                name: "&f&l Required Statistics"
+                description: |-
+                    &7 Allows you to change the required
+                    &7 statistics for this challenge to be 
+                    &7 completed.
+                title: "&7 Statistics: "
+                list: " &8 - [name]"
+                none: "&7 No statistics have been added."
+            required_advancements:
+                name: "&f&l Required Advancements"
+                description: |-
+                    &7 Allows you to change the required
+                    &7 advancements for this challenge to 
+                    &7 be completed.
+                title: "&7 Advancements: "
+                list: " &8 - [name]"
+                none: "&7 No advancements have been added." 
             search_radius:
                 name: "&f&l Search Radius"
                 description: |-
-                    &7 Allows to change the radius
-                    &7 around player from which
-                    &7 blocks and/or entities are
-                    &7 detected.
+                    &7 Allows you to change the radius
+                    &7 around the player from which
+                    &7 blocks and/or entities are detected.
                 value: "&7 Current distance: &e [number]"
             remove_items:
                 name: "&f&l Remove Items"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 required items will
-                    &7 be removed from inventory
-                    &7 after completing the
-                    &7 challenge.
+                    &7 Toggle whether required items will
+                    &7 be removed from the inventory after
+                    &7 completing the challenge.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             required_items:
                 name: "&f&l Required Items"
                 description: |-
-                    &7 Allows to change required
-                    &7 items for this
-                    &7 challenge to be completable.
+                    &7 Allows you to change the required
+                    &7 items for this challenge to be completed.
                 title: "&7 Items: "
                 list: " &8 - [number] x [item]"
-                none: "&7 Items are not added."
+                none: "&7 No items have been added."
             add_ignored_meta:
                 name: "&f&l Add Ignore Metadata"
                 description: |-
-                    &7 Allows to add which
-                    &7 items should ignore
-                    &7 any meta-data that
-                    &7 is assigned to them.
+                    &7 Allows you to specify which items
+                    &7 should ignore any metadata
+                    &7 assigned to them.
                 title: "&7 Items: "
                 list: " &8 - [number] x [item]"
-                none: "&7 Items are not added."
+                none: "&7 No items have been added."
             remove_ignored_meta:
                 name: "&f&l Remove Ignore Metadata"
                 description: |-
-                    &7 Allows to remove which
-                    &7 items should ignore
-                    &7 any meta-data that
-                    &7 is assigned to them.
+                    &7 Removes items that ignore metadata 
+                    &7 assigned to them.
             remove_experience:
                 name: "&f&l Remove Experience"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 required experience will
-                    &7 be removed from player
-                    &7 after completing the
-                    &7 challenge.
+                    &7 Toggle whether the required 
+                    &7 experience will be removed 
+                    &7 from the player after completing
+                    &7 the challenge.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             required_experience:
                 name: "&f&l Required Experience"
                 description: |-
-                    &7 Allows to change the
-                    &7 required experience for
-                    &7 the player.
+                    &7 Allows you to change the required
+                    &7 experience for the player.
                 value: "&7 Current experience: &e [number]"
             required_level:
                 name: "&f&l Required Island Level"
                 description: |-
-                    &7 Allows to change the
+                    &7 Allows you to change the
                     &7 required island level
                     &7 for the challenge.
                 value: "&7 Current level: &e [number]"
+            required_materialtags:
+                name: "&f&l Required Block Groups"
+                description: |-
+                  &7 Allows you to change the required
+                  &7 block groups for this challenge to 
+                  &7 be completed.
+                title: "&7 Block group: "
+                list: " &8 - [number] x [tag]"
+                none: "&7 No block groups have been added."
+            required_entitytags:
+                name: "&f&l Required Entity Groups"
+                description: |-
+                  &7 Allows you to change the required
+                  &7 entity groups for this challenge to 
+                  &7 be completed.
+                title: "&7 Entity group: "
+                list: " &8 - [number] x [tag]"
+                none: "&7 No entity groups have been added."
             remove_money:
                 name: "&f&l Remove Money"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 required money will
-                    &7 be removed from player
-                    &7 account after completing
-                    &7 the challenge.
+                    &7 Toggle whether the required 
+                    &7 money will be removed from
+                    &7 the player's account after
+                    &7 completing the challenge.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             required_money:
                 name: "&f&l Required Money"
                 description: |-
-                    &7 Allows to change the
-                    &7 required money on player
+                    &7 Allows you to change the required
+                    &7 money on the player's
                     &7 account for the challenge.
                 value: "&7 Current value: &e [number]"
+            required_papi:
+                name: "&f&l Required PAPI"
+                description: |-
+                    &7 Checks a formula that can
+                    &7 include PAPI placeholders
+                    &7 and math and logical elements.
+                value: "&7 Formula: &e [formula]"
             statistic:
                 name: "&f&l Statistic"
                 description: |-
-                    &7 Allows to change the
-                    &7 statistic type that is
-                    &7 checked in this challenge.
+                    &7 Allows you to change the statistic
+                    &7 type that is checked for
+                    &7 this challenge.
                 value: "&7 Current value: &e [statistic]"
             statistic_amount:
                 name: "&f&l Target Value"
                 description: |-
-                    &7 Allows to change the
-                    &7 statistic target value
+                    &7 Allows you to change the target 
+                    &7 statistic value
                     &7 that must be met.
                 value: "&7 Current value: &e [number]"
-            remove_statistic:
-                name: "&f&l Reduce Statistic"
+            add_statistic:
+                name: "&f&l Add Statistic"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 statistic value will
-                    &7 be reduced after completing
-                    &7 the challenge.
+                    &7 Allows you to add a new
+                    &7 statistic to the list.
+            remove_statistic:
+                name: "&f&l Remove Statistic"
+                description: |-
+                    &7 Allows you to remove
+                    &7 selected statistics
+                    &7 from the list.
+                enabled: "&2 Enabled"
+                disabled: "&c Disabled"
+            advancement:
+                name: "&f&l [name]"
+                description: "[description]"
+            add_advancement:
+                name: "&f&l Add Advancement"
+                description: |-
+                    &7 Allows you to add a new
+                    &7 advancement to the list.
+            remove_advancement:
+                name: "&f&l Remove Advancement"
+                description: |-
+                    &7 Allows you to remove
+                    &7 selected advancements
+                    &7 from the list.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             statistic_blocks:
                 name: "&f&l Target Block"
                 description: |-
-                    &7 Allows to change the
-                    &7 statistic target block.
+                    &7 Allows you to change the target
+                    &7 block for the statistic.
                 value: "&7 Current block: &e [block]"
             statistic_items:
                 name: "&f&l Target Item"
                 description: |-
-                    &7 Allows to change the
-                    &7 statistic target item.
+                    &7 Allows you to change the target
+                    &7 item for the statistic.
                 value: "&7 Current item: &e [item]"
             statistic_entities:
                 name: "&f&l Target Entity"
                 description: |-
-                    &7 Allows to change the
-                    &7 statistic target entity.
+                    &7 Allows you to change the target
+                    &7 entity for the statistic.
                 value: "&7 Current entity: &e [entity]"
             reward_text:
                 name: "&f&l Reward Text"
                 description: |-
-                    &7 The specific reward text.
-                    &7 The color codes must be
-                    &7 applied to it.
+                    &7 Specifies the reward text.
+                    &7 Color codes must be applied.
                 value: "&7 Current text:"
             repeat_reward_text:
                 name: "&f&l Repeat Reward Text"
                 description: |-
-                    &7 The specific repeat reward text
-                    &7 for the challenge. The color
-                    &7 codes must be applied to it.
+                    &7 Specifies the repeat reward
+                    &7 text for the challenge.
+                    &7 Color codes must be applied.
                 value: "&7 Current text:"
             reward_items:
                 name: "&f&l Reward Items"
                 description: |-
-                    &7 Allows to change reward
-                    &7 items.
+                    &7 Allows you to change the reward items.
                 title: "&7 Items: "
                 list: " &8 - [number] x [item]"
-                none: "&7 Items are not added."
+                none: "&7 No items have been added."
             repeat_reward_items:
                 name: "&f&l Repeat Reward Items"
                 description: |-
-                    &7 Allows to change repeat
-                    &7 reward items for this
-                    &7 challenge.
+                    &7 Allows you to change the repeat
+                    &7 reward items for this challenge.
                 title: "&7 Items: "
                 list: " &8 - [number] x [item]"
-                none: "&7 Items are not added."
+                none: "&7 No items have been added."
             reward_experience:
                 name: "&f&l Reward Experience"
                 description: |-
-                    &7 Allows to change the
-                    &7 reward experience for
-                    &7 the player.
+                    &7 Allows you to change the reward
+                    & experience for the player.
                 value: "&7 Reward experience: &e [number]"
             repeat_reward_experience:
                 name: "&f&l Repeat Reward Experience"
                 description: |-
-                    &7 Allows to change the
-                    &7 repeat reward experience
-                    &7 for the player.
+                    &7 Allows you to change the repeat
+                    &7 reward experience for the player.
                 value: "&7 Reward experience: &e [number]"
             reward_money:
                 name: "&f&l Reward Money"
                 description: |-
-                    &7 Allows to change the
-                    &7 reward money.
+                    &7 Allows you to change the reward money.
                 value: "&7 Current value: &e [number]"
             repeat_reward_money:
                 name: "&f&l Repeat Reward Money"
                 description: |-
-                    &7 Allows to change the
-                    &7 repeat reward money
-                    &7 for the challenge.
+                    &7 Allows you to change the repeat 
+                    &7 reward money for the challenge.
                 value: "&7 Current value: &e [number]"
             reward_commands:
                 name: "&f&l Reward Commands"
                 description: |-
-                    &7 The specific reward commands.
+                    &7 Specifies the reward commands.
                     &8 Tip:
-                    &8 The command does not requires
-                    &8 writing first `/` as it will
-                    &8 be applied automatically.
-                    &8 By default commands will be
-                    &8 executed by server. However
-                    &8 adding `[SELF]` at the start
-                    &8 will allow command to be
-                    &8 executed by player. It also
-                    &8 supports one placeholder
-                    &8 `[player]` that will be
-                    &8 replaced with a player name
-                    &8 who completed challenge.
+                    &8 The command does not require a leading `/` as it is
+                    &8 applied automatically.
+                    &8 By default, commands are executed by the server.
+                    &8 However, adding `[SELF]` at the beginning will cause
+                    &8 the command to be executed by the player.
+                    &8 It also supports the placeholder `[player]` which will be
+                    &8 replaced with the name of the player who completed the challenge.
                 value: "&7 Current commands:"
             repeat_reward_commands:
                 name: "&f&l Repeat Reward Commands"
                 description: |-
-                    &7 The specific repeat reward
-                    &7 commands for the challenge.
+                    &7 Specifies the repeat reward commands for the challenge.
                     &8 Tip:
-                    &8 The command does not requires
-                    &8 writing first `/` as it will
-                    &8 be applied automatically.
-                    &8 By default commands will be
-                    &8 executed by server. However
-                    &8 adding `[SELF]` at the start
-                    &8 will allow command to be
-                    &8 executed by player. It also
-                    &8 supports one placeholder
-                    &8 `[player]` that will be
-                    &8 replaced with a player name
-                    &8 who completed challenge.
+                    &8 The command does not require a leading `/` as it is
+                    &8 applied automatically.
+                    &8 By default, commands are executed by the server.
+                    &8 However, adding `[SELF]` at the beginning will cause
+                    &8 the command to be executed by the player.
+                    &8 It also supports the placeholder `[player]` which will be
+                    &8 replaced with the name of the player who completed the challenge.
                 value: "&7 Current commands:"
             repeatable:
                 name: "&f&l Repeatable"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 the challenge is
-                    &7 repeatable.
+                    &7 Toggle whether the challenge is repeatable.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             repeat_count:
                 name: "&f&l Repeat Count"
                 description: |-
-                    &7 Allows to change the
-                    &7 number of repeats
+                    &7 Allows you to change the number of repeats
                     &7 for the challenge.
                 value: "&7 Current value: &e [number]"
             cool_down:
                 name: "&f&l Cool Down"
                 description: |-
-                    &7 Allows to change the
-                    &7 cool down seconds that
-                    &7 must be waited between
-                    &7 repeatable challenge
-                    &7 completions.
+                    &7 Allows you to change the cooldown 
+                    &7 period (in seconds) that must elapse
+                    &7 between repeatable challenge completions.
                 value: "&7 Current value: &e [time]"
             challenges:
                 name: "&f&l Challenges"
@@ -556,128 +598,117 @@ challenges:
             waiver_amount:
                 name: "&f&l Waiver Amount"
                 description: |-
-                    &7 Allows to set a number
-                    &7 of challenges that can
-                    &7 be left uncompleted for
-                    &7 unlocking next level.
+                    &7 Allows you to set the number of challenges
+                    &7 that can be left uncompleted to unlock
+                    &7 the next level.
                 value: "&7 Current value: &e [number]"
             add_challenges:
                 name: "&f&l Add Challenge(-s)"
                 description: |-
-                    &7 Allows to select and
-                    &7 adds challenges to the
-                    &7 level.
+                    &7 Allows you to select and add
+                    &7 challenges to the level.
             remove_challenges:
                 name: "&f&l Remove Challenge(-s)"
                 description: |-
-                    &7 Allows to select and
-                    &7 remove challenges to the
-                    &7 level.
+                    &7 Allows you to select and remove
+                    &7 challenges from the level.
             reset_on_new:
                 name: "&f&l Reset On New"
                 description: |-
-                    &7 Allows to toggle if
-                    &7 challenges should be
-                    &7 reset when user leaves
-                    &7 island or creates a new
-                    &7 island.
+                    &7 Toggle whether challenges should
+                    & be reset when a user leaves
+                    &7 their island or creates a new one.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             broadcast:
                 name: "&f&l Broadcast"
                 description: |-
-                    &7 Broadcasts challenge and
-                    &7 level first time completion
-                    &7 to everyone.
+                    &7 Broadcasts the first-time completion
+                    &7 of a challenge or level to everyone.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             remove_completed:
                 name: "&f&l Hide Completed"
                 description: |-
-                    &7 Hides compleated challenges
+                    &7 Hides completed challenges 
                     &7 from the menu.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             glow_completed:
                 name: "&f&l Glow Completed"
                 description: |-
-                    &7 Adds enchantment glow
-                    &7 to the completed challenges.
+                    &7 Applies an enchantment glow
+                    &7 to completed challenges.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             store_history:
                 name: "&f&l Store History"
                 description: |-
-                    &7 Stores internal history
-                    &7 when each challenge is
-                    &7 completed.
-                    &7 Currently viewable only
-                    &7 in the database.
+                    &7 Stores internal history each time
+                    &7 a challenge is completed.
+                    &7 Currently viewable only in the
+                    &7 database.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             data_per_island:
                 name: "&f&l Store Per Island"
                 description: |-
-                    &7 Stores the completed
-                    &7 challenges per island.
-                    &7 Progress will be shared
-                    &7 with all players in team.
+                    &7 Stores completed challenges
+                    &7 on a per-island basis.
+                    &7 Progress will be shared 
+                    &7 with all team members.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             show_title:
                 name: "&f&l Show Title"
                 description: |-
-                    &7 Shows title when a
-                    &7 challenge or level
-                    &7 is completed.
+                    &7 Displays a title when a challenge
+                    &7 or level is completed.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             gamemode_gui:
                 name: "&f&l GameMode Selection GUI"
                 description: |-
-                    &7 Enables single GUI that
-                    &7 is available via /challenges
-                    &7 command.
-                    &c Requires server restart.
+                    &7 Enables a single GUI accessible
+                    &7 via the /challenges command.
+                    &7 (Requires server restart.)
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             locked_level_icon:
                 name: "&f&l Default Locked Level Icon"
                 description: |-
-                    &7 Default icon for all locked
-                    &7 levels. Each level can change
-                    &7 this icon.
+                    &7 Default icon for all locked levels.
+                    &7 Each level can override this icon.
             purge_history:
                 name: "&f&l History Lifetime"
                 description: |-
-                    &7 Number of days how long
-                    &7 history data is stored
+                    &7 Specifies the number of days 
+                    &7 that history data is stored
                     &7 in user data.
-                    &7 0 means that data will
+                    &7 A value of 0 means the data will 
                     &7 not be removed.
                 value: "&7 Current value: &e [number]"
             title_showtime:
                 name: "&f&l Title Showtime"
                 description: |-
-                    &7 Number of ticks that title
-                    &7 will be showed to the player.
+                    &7 Number of ticks the title will 
+                    & be displayed to the player.
                 value: "&7 Current value: &e [number]"
             active_world_list:
                 name: "&f&l Show Only Active World"
                 description: |-
-                    &7 If GameMode Selection GUI
-                    &7 is enabled, this can switch
-                    &7 if GUI shows GameMode selection
-                    &7 or challenges for current world.
-                    &c Requires server restart.
+                    &7 If the GameMode Selection GUI is
+                    &7 enabled, this setting determines
+                    &7 whether the GUI displays the 
+                    &7 GameMode selection or challenges
+                    &7 for the current world.
+                    &7 (Requires server restart.)
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             visibility_mode:
                 name: "&f&l Visibility Mode"
                 description: |-
-                    &7 Visibility Mode for
-                    &7 challenges that are
-                    &7 hiddend.
+                    &7 Visibility mode for challenges that are hidden.
                 enabled: "&2"
                 disabled: "&c"
                 visible: "Show visible challenges"
@@ -686,16 +717,14 @@ challenges:
             include_undeployed:
                 name: "&f&l Include Undeployed Challenges"
                 description: |-
-                    &7 Indicates if undeployed 
-                    &7 challenges should be 
-                    &7 counted towards level 
-                    &7 completion.
+                    &7 Indicates whether undeployed challenges
+                    &7 should be counted towards level completion.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             download:
                 name: "&f&l Download Libraries"
                 description: |-
-                    &7 Manually update available
+                    &7 Manually updates the available 
                     &7 challenges libraries.
                 enabled: "&2 With cache clear"
                 disabled: "&c Without cache clear"
@@ -706,13 +735,13 @@ challenges:
                 members: "&7 Island Members:"
                 member: "&8 - [name]"
                 no-island: |-
-                    &c Player does not have
+                    &c This player does not have
                     &c an island.
             player_list:
                 name: "&f&l Choose User List"
                 description: |-
                     &7 Choose which user list
-                    &7 should be showed.
+                    &7 should be displayed.
                 enabled: "&2"
                 disabled: "&c"
                 online: "Online Players"
@@ -721,66 +750,99 @@ challenges:
             add_block:
                 name: "&f&l Add Block"
                 description: |-
-                    &7 Allows to add a new
+                    &7 Allows you to add a new
                     &7 block to the list.
+            add_block_group:
+                name: "&f&l Add Block Group"
+                description: |-
+                    &7 Allows you to add a new
+                    &7 block group to the list.
             remove_block:
                 name: "&f&l Remove Block"
                 description: |-
-                    &7 Allows to remove
+                    &7 Allows you to remove
                     &7 selected blocks
-                    &7 from lists.
+                    &7 from the list.
                 title: "&7 Selected Materials:"
                 material: "&8 - [material]"
+            remove_block_group:
+                name: "&f&l Remove Block Group"
+                description: |-
+                    &7 Allows you to remove
+                    &7 selected block groups
+                    &7 from the list.
+                title: "&7 Selected Block Groups:"
+                material: "&8 - [material]" 
             material:
                 name: "&f&l [material]"
                 description: |-
                     &7 Material ID: [id]
                 selected: "&2 Selected"
+            block-group:
+                name: "&f&l [id]"
+                description: ""
+                selected: "&2 Selected"
             add_entity:
                 name: "&f&l Add Entity"
                 description: |-
-                    &7 Allows to add a new
+                    &7 Allows you to add a new
                     &7 entity to the list.
+            add_entity_group:
+                name: "&f&l Add Entity Group"
+                description: |-
+                    &7 Allows you to add a new
+                    &7 entity group to the list.
             switch_entity:
                 name: "&f&l Switch Eggs"
                 description: |-
-                    &7 Allows to switch from
-                    &7 eggs to the mob heads.
+                    &7 Allows you to switch from
+                    &7 eggs to mob heads.
             remove_entity:
                 name: "&f&l Remove Entity"
                 description: |-
-                    &7 Allows to remove
+                    &7 Allows you to remove
                     &7 selected entities
-                    &7 from lists.
+                    &7 from the list.
                 title: "&7 Selected Entities:"
                 entity: "&8 - [entity]"
+            remove_entity_group:
+                name: "&f&l Remove Entity Group"
+                description: |-
+                    &7 Allows you to remove
+                    &7 selected entity groups
+                    &7 from the list.
+                title: "&7 Selected Entity Groups:"
+                entity: "&8 - [tag]"
             entity:
                 name: "&f&l [entity]"
                 description: |-
                     &7 Entity ID: [id]
                 selected: "&2 Selected"
+            entity-group:
+                name: "&f&l [id]"
+                description: ""
+                selected: "&2 Selected"
             inventory_type:
                 name: "&f&l Inventory Type"
                 description: |-
-                    &7 Challenge that checks
-                    &7 items in player inventory
+                    &7 Challenge that checks items
+                    &7 in the player's inventory.
             island_type:
                 name: "&f&l Island Type"
                 description: |-
-                    &7 Challenge that checks
-                    &7 blocks or entities around
-                    &7 player.
+                    &7 Challenge that checks blocks
+                    &7 or entities around the player.
             other_type:
                 name: "&f&l Other Type"
                 description: |-
-                    &7 Challenge that uses
-                    &7 plugins or addons things,
-                    &7 like level and money.
+                    &7 Challenge that utilizes plugins 
+                    &7 or add-on features,
+                    &7 such as level and money.
             statistic_type:
                 name: "&f&l Statistic Type"
                 description: |-
-                    &7 Challenge that checks
-                    &7 player statistic data.
+                    &7 Challenge that checks the
+                    &7 player's statistic data.
             save:
                 name: "&f&l Save"
                 description: |-
@@ -794,28 +856,41 @@ challenges:
             accept_selected:
                 name: "&f&l Accept Selected"
                 description: |-
-                    &7 Returns selected elements
-                    &7 and opens previous GUI.
+                    &7 Returns the selected elements
+                    &7 and reopens the previous GUI.
                 title: "&7 Selected: "
                 element: "&8 - [element]"
+            advancement_element:
+                name: "&f&l [name]"
+                description: "[description]"
+                selected: "&2 Selected"
             statistic_element:
                 name: "&f&l [statistic]"
+                amount: "&7 Target Value: &e [number]"
+                remove:
+                    name: "&7 Reduce Statistic: [value]"
+                    value:
+                        enabled: "&c Enabled"
+                        disabled: "&2 Disabled"
+                block:  "&7 Target Block: &e [block]"
+                item:  "&7 Target Item: &e [item]"
+                entity:  "&7 Target Entity: &e [entity]"
                 description: "[description]"
+                selected: "&2 Selected"
             environment_element:
                 name: "&f&l [environment]"
                 description: "[description]"
             search:
                 name: "&f&l Search"
                 description: |-
-                    &7 Allows to search an
-                    &7 element with input
-                    &7 text value.
+                    &7 Allows you to search for an
+                    &7 element using a text input value.
                 search: "&b Value: [value]"
         tips:
             click-to-select: "&e Click &7 to select."
             click-to-choose: "&e Click &7 to choose."
             click-to-complete: "&e Click &7 to complete."
-            right-click-multiple-open: "&e Right Click &7 to chose completion count."
+            right-click-multiple-open: "&e Right Click &7 to choose a completion count."
             shift-left-click-to-complete-all: "&e Shift Click &7 to complete all."
             left-click-to-accept: "&e Left Click &7 to complete."
             right-click-to-write: "&e Right Click &7 to write."
@@ -830,7 +905,7 @@ challenges:
             click-to-export: "&e Click &7 to export."
             click-to-create: "&e Click &7 to create."
             left-click-to-open: "&e Left Click &7 to open."
-            right-click-to-reset-all: "&e Right Click &7 to wipe all."
+            right-click-to-reset-all: "&e Right Click &7 to reset all."
             click-to-toggle: "&e Click &7 to toggle."
             click-to-change: "&e Click &7 to change."
             shift-click-to-reset: "&e Shift Click &7 to reset."
@@ -850,7 +925,7 @@ challenges:
             click-to-save: "&e Click &7 to save."
             click-to-deselect: "&e Click &7 to deselect."
             click-on-item: |-
-                &e Click &7 on item in
+                &e Click &7 on an item in
                 &7 your inventory.
             left-click-to-edit: "&e Left Click &7 to edit."
             right-click-to-clear: "&e Right Click &7 to clear."
@@ -872,7 +947,7 @@ challenges:
                     # Status message for completed unrepeatable challenge
                     completed: "&2&l Completed"
                     # Status message that contains number of completions for unlimited repeatable challenge
-                    completed-times: "&2 Completed &7&l [number] &r&2 time(-s)"
+                    completed-times: "&2 Completed &7&l [number] &r&2 time(s)"
                     # Status message that contains number of completions from max available for repeatable challenge
                     completed-times-of: "&2 Completed &7&l [number] &r&2 out of &7&l [max] &r&2 times"
                     # Status message that indicates that max completion count reached for repeatable challenge
@@ -882,9 +957,9 @@ challenges:
                     lore: |-
                         [timeout]
                         [wait-time]
-                    # Text message that shows challenges timeout.
+                    # Text message that shows challenge timeout.
                     timeout: "&7&l Cool down: &r&7 [time]"
-                    # Text message that shows challenges wait time if it is larger than 0.
+                    # Text message that shows challenge wait time if it is larger than 0.
                     wait-time: "&c&l Available after: &r&c [time]"
                     # Text message that replaces days if number > 1
                     in-days: "[number] d "
@@ -907,7 +982,7 @@ challenges:
                     # Message that will be added after environment-title-multiple.
                     environment-list: "  &7 - &e [environment]"
                     # Message that will replace [permissions] placeholder if there is just a single permission.
-                    permission-single: "&c Requires [permission] permission"
+                    permission-single: "&c Requires [permission] permission."
                     # Message that will replace [permissions] placeholder if there are multiple permissions.
                     permissions-title: "&c Requires permissions: "
                     # Message that will be added after permissions-title-multiple.
@@ -920,19 +995,19 @@ challenges:
                             [search-radius]
                             [warning-block]
                             [warning-entity]
-                        # Title that will be used if there are defined blocks in island challenge
+                        # Title that will be used if there are defined blocks in an island challenge
                         blocks-title: "&7&l Required Blocks:"
                         # Listing of blocks that are required on the island.
                         block-value: "  &7 - &e [material]"
                         blocks-value: "  &7 - &e [number] x [material]"
-                        # Title that will be used if there are defined entities in island challenge
+                        # Title that will be used if there are defined entities in an island challenge
                         entities-title: "&7&l Required Entities:"
                         # Listing of entities that are required on the island.
                         entity-value: "  &7 - &e [entity]"
                         entities-value: "  &7 - &e [number] x [entity]"
                         # Search radius for the blocks/entities
-                        search-radius: "&7 Not further than &e [number] &7 meters"
-                        # Waning about block/entity removing
+                        search-radius: "&7 No further than &e [number] &7 meters"
+                        # Warning about block/entity removal
                         warning-block: "&e Blocks will be &c removed"
                         warning-entity: "&e Entities will be &c removed"
                     # Message that will generate for inventory type requirements and replace [type-requirements]
@@ -940,13 +1015,13 @@ challenges:
                         lore: |-
                             [items]
                             [warning]
-                        # Title that will be used if there are list of items for challenge
+                        # Title that will be used if there is a list of items for the challenge
                         item-title: "&7&l Required Items:"
-                        # Listing of an item that are required multiple times.
+                        # Listing of an item that is required once or multiple times.
                         item-value: "  &7 - &e [item]"
                         items-value: "  &7 - &e [number] x [item]"
                         # Warning that items will be removed
-                        warning: "&e Item(-s) will be &c removed"
+                        warning: "&e Item(s) will be &c removed"
                     # Message that will generate for other type requirements and replace [type-requirements]
                     other:
                         lore: |-
@@ -965,22 +1040,21 @@ challenges:
                         money-warning: "&e Money will be &c removed"
                         # Text for required island level
                         level: "&7&l Required island level: &r&e [number]"
-                    # Message that will generate for statistic type requirements and replace [type-requirements]
+                    # Message that will generate for statistic type requirements and replace [type-requirement]
                     statistic:
                         lore: |-
                             [statistic]
                             [warning]
                         # Type of statistic for multiple target counter. Target may be entity or material/block
                         multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
-                        # Type of statistic for single target. Target may be entity or material/block
+                        # Type of statistic for a single target. Target may be entity or material/block
                         single-target: "&7&l [statistic]: &r&e [target]"
-                        # Type of statistic without entity/block target
+                        # Type of statistic without an entity/block target
                         statistic: "&7&l [statistic] &r&e [number]"
-                        # Warning that statistic will be removed
+                        # Warning that statistic will be reduced
                         warning: "&e Statistic data will be &c reduced"
                 # Contains a text generated inside [rewards] lore
                 rewards:
-                    # [text] comes from challenge.rewardText and challenge.repeatRewardText
                     lore: |-
                         &7&l Rewards:
                         [text]
@@ -988,9 +1062,9 @@ challenges:
                         [experience]
                         [money]
                         [commands]
-                    # Title that will be used if there are list of items for rewards
+                    # Title that will be used if there is a list of items for rewards
                     item-title: "&7 Items:"
-                    # Listing of an item that are rewards multiple times.
+                    # Listing of an item that is rewarded multiple times.
                     item-value: "  &7 - &e [item]"
                     items-value: "  &7 - &e [number] x [item]"
                     # Text for reward experience
@@ -1008,27 +1082,25 @@ challenges:
                     [status]
                     [waiver]
                     [rewards]
-                # Status is either challengeLevel.unlockMessage or current status of the level
+                # Status is either challengeLevel.unlockMessage or the current status of the level
                 status:
-                    # Status message for completed unrepeatable challenge
+                    # Status message for a completed unrepeatable challenge
                     completed: "&2&l Completed"
-                    # Status message that contains number of completed challenges from all challenges
+                    # Status message that contains the number of completed challenges out of all challenges
                     completed-challenges-of: |-
-                        &2 Completed &7&l [number] &r&2 out of
-                        &7&l [max] &r&2 challenges.
-                    # Status message for locked level
+                        &2 Completed &7&l [number] &r&2 out of &7&l [max] &r&2 challenges.
+                    # Status message for a locked level
                     locked: "&c&l Locked"
-                    # Status message for locked level that will show missing challenge count.
+                    # Status message for a locked level that will show the missing challenge count.
                     missing-challenges: |-
-                        &7 [number] more challenges must be
+                        &7 [number] more challenges need to be
                         &7 completed to unlock this level.
-                # Contains a text for waiver amount to unlock next level
+                # Contains text for the waiver amount to unlock the next level
                 waiver: |-
-                    &7&l [number] challenge(-s) &r&7 can be
-                    &7 skipped to unlock next level.
-                # Contains a text generated inside [rewards] lore
+                    &7&l [number] challenge(s) can be
+                    &7 skipped to unlock the next level.
+                # Contains text generated inside [rewards] lore
                 rewards:
-                    # [text] comes from challengeLevel.rewardText
                     lore: |-
                         &7&l Rewards:
                         [text]
@@ -1036,185 +1108,127 @@ challenges:
                         [experience]
                         [money]
                         [commands]
-                    # Title that will be used if there are list of items for rewards
                     item-title: "&7 Items:"
-                    # Listing of an item that are rewards single time.
                     item-value: "  &7 - &e [item]"
                     items-value: "  &7 - &e [number] x [item]"
-                    # Text for reward experience
                     experience: "&7 Experience: &r&e [number]"
-                    # Text for reward money
                     money: "&7 Money: &r&e [number]"
-                    # Title for commands listing:
                     commands-title: "&7 Commands:"
-                    # Command listing element
                     command: "  &7 - &e [command]"
             # This part generates description for the Library Entry
             library:
-                author: '&7 by &e [author]'
-                version: '&7 Made with Challenges &e [version]'
-                lang: '&7 Language: &e [lang]'
-                gamemode: '&7 Primary for &e [gamemode]'
+                author: "&7 by &e [author]"
+                version: "&7 Made with Challenges &e [version]"
+                lang: "&7 Language: &e [lang]"
+                gamemode: "&7 Primary for &e [gamemode]"
     conversations:
-        # Prefix for messages that are send from server.
         prefix: "&l&6 [BentoBox]: &r"
-        # List of strings that are valid for confirming input. (separated with ,)
         confirm-string: "true, on, yes, confirm, y, valid, correct"
-        # List of strings that are valid for denying input. (separated with ,)
         deny-string: "false, off, no, deny, n, invalid, incorrect"
-        # String that allows to cancel conversation. (can be only one)
         cancel-string: "cancel"
-        # List of strings that allows to exit conversation. (separated with ,)
         exit-string: "cancel, exit, quit"
-        # Message that is send to user when conversation is cancelled.
         cancelled: "&c Conversation cancelled!"
-        # Message that appears when admin clicks on number editing button.
-        input-number: "&e Please enter a number in chat."
-        # Message that appears when admin clicks on seconds editing button.
-        input-seconds: "&e Please enter a seconds in chat."
-        # Error message that is showed if user input a value that is not a number.
+        input-number: "&e Please enter a number in the chat."
+        input-seconds: "&e Please enter a number of seconds in the chat."
         numeric-only: "&c The given [value] is not a number!"
-        # Error message that is showed if user input a number that is smaller or larger that allowed.
-        not-valid-value: "&c The given number [value] is not valid. It must be larger than [min] and smaller than [max]!"
-        # Message that confirms user data removing.
-        user-data-removed: "&a All user data for [gamemode] is cleared from the database."
-        # Message that asks confirmation for user data removing.
-        confirm-user-data-deletion: "&e Please confirm that you want to clear user database for [gamemode]."
-        # Message that confirms user data removing.
-        challenge-data-removed: "&a All challenges data for [gamemode] is cleared from the database."
-        # Message that asks confirmation for user data removing.
-        confirm-challenge-data-deletion: "&e Please confirm that you want to clear challenges database for [gamemode]."
-        # Message that confirms user data removing.
-        all-data-removed: "&a All addon data for [gamemode] is cleared from the database."
-        # Message that asks confirmation for user data removing.
-        confirm-all-data-deletion: "&e Please confirm that you want to clear addon data for [gamemode]."
-        # Message that asks user to write a name
-        write-name: "&e Please write a name in the chat."
-        # Message that confirms new object creation.
-        new-object-created: "&a New object for [gamemode] is created."
-        # Error message that sends that object cannot be created with a given name
-        object-already-exists: "&c Object &7 [id] &c already exists. Choose different name."
-        # Error message that sends information that challenge cannot be deployed.
-        invalid-challenge: "&c Challenge [challenge] contains invalid data. It cannot be deployed!"
-        # Message that confirms name changing
-        name-changed: "&a Success, the name was updated."
-        # Message that appears after clicking
-        write-description: "&e Please enter a new description in chat and 'quit' on a line by itself to finish."
-        # Message that appears after successful description change.
-        description-changed: "&a Success, the description was updated."
-        # Message that appears when admin clicks on permission editing button.
-        write-permissions: "&e Please enter the required permissions, one per line in chat, and 'quit' on a line by itself to finish."
-        # Message that appears after successful permission updating.
-        permissions-changed: "&a Success, challenge permissions were updated."
-        # Message that appears after clicking
-        write-reward-text: "&e Please enter a new reward text in chat and 'quit' on a line by itself to finish."
-        # Message that appears after successful reward-text change.
-        reward-text-changed: "&a Success, the reward text was updated."
-        # Message that appears after clicking
-        write-repeat-reward-text: "&e Please enter a new repeat reward text in chat and 'quit' on a line by itself to finish."
-        # Message that appears after successful repeat-reward-text change.
-        repeat-reward-text-changed: "&a Success, the repeat reward text was updated."
-        # Message that appears after clicking
-        write-reward-commands: "&e Please enter a new reward command per line in chat and 'quit' on a line by itself to finish."
-        # Message that appears after successful commands-text change.
-        reward-commands-changed: "&a Success, the reward commands was updated."
-        # Message that appears after clicking
-        write-repeat-reward-commands: "&e Please enter a new repeat reward command per line in chat and 'quit' on a line by itself to finish."
-        # Message that appears after successful repeat-commands-text change.
-        repeat-reward-commands-changed: "&a Success, the repeat reward commands was updated."
-        # Message that confirms user data removing.
-        challenge-removed: "&a Challenges [challenge] for [gamemode] is removed from the database."
-        # Message that asks confirmation for user data removing.
-        confirm-challenge-deletion: "&e Please confirm that you want to remove [challenge] for [gamemode] from database."
-        # Message that confirms user data removing.
-        level-removed: "&a Level [level] for [gamemode] is removed from the database."
-        # Message that asks confirmation for user data removing.
-        confirm-level-deletion: "&e Please confirm that you want to remove [level] for [gamemode] from database."
-        # Message that appears when user clicks on library installation.
-        start-downloading: "&a Starting to download and import Challenges Library."
-        # Message that appears when writing multiline text.
+        not-valid-value: "&c The given number [value] is not valid. It must be greater than [min] and less than [max]!"
+        user-data-removed: "&a All user data for [gamemode] has been cleared from the database."
+        confirm-user-data-deletion: "&e Please confirm that you want to clear the user database for [gamemode]."
+        challenge-data-removed: "&a All challenge data for [gamemode] has been cleared from the database."
+        confirm-challenge-data-deletion: "&e Please confirm that you want to clear the challenges database for [gamemode]."
+        all-data-removed: "&a All add-on data for [gamemode] has been cleared from the database."
+        confirm-all-data-deletion: "&e Please confirm that you want to clear the add-on data for [gamemode]."
+        write-name: "&e Please enter a name in the chat."
+        new-object-created: "&a A new object for [gamemode] has been created."
+        object-already-exists: "&c Object &7 [id] &c already exists. Please choose a different name."
+        invalid-challenge: "&c Challenge [challenge] contains invalid data and cannot be deployed!"
+        name-changed: "&a Success: the name has been updated."
+        write-description: "&e Please enter a new description in the chat. Type 'quit' on a new line to finish."
+        description-changed: "&a Success: the description has been updated."
+        write-permissions: "&e Please enter the required permissions, one per line, in the chat. Type 'quit' on a new line to finish."
+        permissions-changed: "&a Success: the challenge permissions have been updated."
+        write-reward-text: "&e Please enter a new reward text in the chat. Type 'quit' on a new line to finish."
+        reward-text-changed: "&a Success: the reward text has been updated."
+        write-repeat-reward-text: "&e Please enter a new repeat reward text in the chat. Type 'quit' on a new line to finish."
+        repeat-reward-text-changed: "&a Success: the repeat reward text has been updated."
+        write-reward-commands: "&e Please enter a new reward command on each line in the chat. Type 'quit' on a new line to finish."
+        reward-commands-changed: "&a Success: the reward commands have been updated."
+        write-repeat-reward-commands: "&e Please enter a new repeat reward command on each line in the chat. Type 'quit' on a new line to finish."
+        repeat-reward-commands-changed: "&a Success: the repeat reward commands have been updated."
+        challenge-removed: "&a Challenge [challenge] for [gamemode] has been removed from the database."
+        confirm-challenge-deletion: "&e Please confirm that you want to remove [challenge] for [gamemode] from the database."
+        level-removed: "&a Level [level] for [gamemode] has been removed from the database."
+        confirm-level-deletion: "&e Please confirm that you want to remove [level] for [gamemode] from the database."
+        start-downloading: "&a Starting to download and import the Challenges Library."
         written-text: "&a Input Text:"
-        # Message that appears after importing library data into database.
-        confirm-data-replacement: "&e Please confirm that you want to replace your current challenges with new one."
-        # Message that appears after successful data importing
-        new-challenges-imported: "&a Success, new Challenges for [gamemode] were imported."
-        # Message that appears after admin clicks on database exporting button.
-        exported-file-name: "&e Please enter a file name for the exported database file. (write 'cancel' to exit)"
-        # Message that appears after successful database exporting to file.
-        database-export-completed: "&a Success, the database export for [world] is completed. File [file] generated."
-        # Message that appears if input file name is already taken.
-        file-name-exist: "&c File with name '[id]' exists. Cannot overwrite."
-        # Message that asks for search value input.
-        write-search: "&e Please write a search value. (write 'cancel' to exit)"
-        # Message that appears after updating search value.
+        confirm-data-replacement: "&e Please confirm that you want to replace your current challenges with the new ones."
+        new-challenges-imported: "&a Success: new challenges for [gamemode] have been imported."
+        exported-file-name: "&e Please enter a file name for the exported database file. (Type 'cancel' to exit)"
+        database-export-completed: "&a Success: the database export for [world] is complete. File [file] generated."
+        file-name-exist: "&c A file named '[id]' already exists. Cannot overwrite."
+        write-search: "&e Please enter a search value. (Type 'cancel' to exit)"
         search-updated: "&a Search value updated."
+        enter-formula: "&a Enter a formula that uses PAPI placeholders and symbols =,<>,<+,>=, ==, !=, AND, OR only.\n&a Example: &7 %my_lifetime_count% >= 1000 AND %island_level% >= 100"
     titles:
-        #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
-        #       [friendlyName] will be replaced with challenge friendly name.
-        #       [level] will be replaced with level friendly name.
-        #       [rewardText] will be replaced with the challenge reward text.
-        challenge-title: 'Successfully completed'
-        challenge-subtitle: '[friendlyName]'
-        #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the level object.
-        #       [friendlyName] will be replaced with level friendly name.
-        #       [rewardText] will be replaced with the level reward text.
-        level-title: 'Successfully completed'
-        level-subtitle: '[friendlyName]'
+        challenge-title: "Success!"
+        challenge-subtitle: "[friendlyName]"
+        level-title: "Success!"
+        level-subtitle: "[friendlyName]"
     messages:
-        completed: '&2 You completed challenge [name] for [player]!'
-        already-completed: '&2 This challenge was already completed!'
-        reset: '&2 You reset challenge [name] for [player]!'
-        reset-all: '&2 All [player] challenges were reset!'
-        not-completed: '&2 This challenge is not completed yet!'
-        migrate-start: '&2 Start migrating challenges addon data.'
-        migrate-end: '&2 Challenges addon data updated to new format.'
-        migrate-not: '&2 All data is valid.'
-        start-downloading: '&5 Starting to download and import Challenges Library.'
-        you-completed-challenge: '&2 You completed the [value] &r &2 challenge!'
-        you-repeated-challenge: '&2 You repeated the [value] &r &2 challenge!'
-        you-repeated-challenge-multiple: '&2 You repeated the [value] &r &2 challenge [count] times!'
-        you-completed-level: '&2 You completed the [value] &r &2 level!'
-        name-has-completed-challenge: '&5 [name] has completed the [value] &r &5 challenge!'
-        name-has-completed-level: '&5 [name] has completed the [value] &r &5 level!'
-        load-skipping: '"[value]" already exists - skipping'
-        load-overwriting: 'Overwriting "[value]"'
-        load-add: 'Adding new object: [value]'
+        completed: "&2 You completed the challenge [name] for [player]!"
+        already-completed: "&2 This challenge has already been completed!"
+        reset: "&2 You have reset the challenge [name] for [player]!"
+        reset-all: "&2 All challenges for [player] have been reset!"
+        not-completed: "&2 This challenge has not been completed yet!"
+        migrate-start: "&2 Starting migration of challenges add-on data."
+        migrate-end: "&2 Challenges add-on data has been updated to the new format."
+        migrate-not: "&2 All data is valid."
+        start-downloading: "&5 Starting to download and import the Challenges Library."
+        you-completed-challenge: "&2 You completed the [value] &r &2 challenge!"
+        you-repeated-challenge: "&2 You repeated the [value] &r &2 challenge!"
+        you-repeated-challenge-multiple: "&2 You repeated the [value] &r &2 challenge [count] times!"
+        you-completed-level: "&2 You completed the [value] &r &2 level!"
+        name-has-completed-challenge: "&5 [name] has completed the [value] &r &5 challenge!"
+        name-has-completed-level: "&5 [name] has completed the [value] &r &5 level!"
+        load-skipping: "\"[value]\" already exists - skipping"
+        load-overwriting: "Overwriting \"[value]\""
+        load-add: "Adding new object: [value]"
     errors:
-        no-name: '&c Missing challenge name'
-        unknown-challenge: '&c Unknown challenge'
+        no-name: "&c Missing challenge name"
+        unknown-challenge: "&c Unknown challenge"
         not-valid-integer: |-
-            &c Given integer "[value]" is not valid!
-            Value should be between [min] and [max].
-        not-deployed: '&c Challenge is not deployed!'
-        not-on-island: '&c You must be on your island to do that!'
-        challenge-level-not-available: '&c You have not unlocked the required level to complete this challenge.'
-        not-repeatable: '&c This challenge is not repeatable!'
-        wrong-environment: '&c You are in the wrong environment!'
-        not-enough-items: '&c You do not have enough [items] to complete this challenge!'
-        not-close-enough: '&c You must be standing within [number] blocks of all required items.'
-        you-still-need: '&c You still need [amount] x [item]'
-        missing-addon: '&c Cannot complete challenge: Required addon or plugin is missing.'
-        incorrect: '&c Cannot complete challenge: Requirements are incorrect.'
-        not-enough-money: '&c It is necessary to have [value] on your account to complete the challenge.'
-        not-enough-experience: '&c It is necessary to have [value] EXP to complete this challenge.'
-        island-level: '&c Your island must be level [number] or greater to complete this challenge!'
-        no-load: '&c Error: Could not load [file]. Error [message]'
-        load-error: '&c Error: Cannot load [value].'
-        no-rank: "&c You do not have rank that is high enough to do that."
-        cannot-remove-items: '&c Some items cannot be removed from your inventory!'
-        exist-challenges-or-levels: '&c Challenges already exist in your world. Cannot proceed!'
-        no-challenges: '&c Challenges are not implemented in this world yet!'
-        no-challenges-admin: '&c Challenges are not implemented in this world yet! Use &5 /[command] &c to add them!'
-        missing-arguments: '&c Command is missing arguments.'
+            &c The given integer "[value]" is not valid!
+            It should be between [min] and [max].
+        not-deployed: "&c The challenge is not deployed!"
+        not-on-island: "&c You must be on your island to do that!"
+        challenge-level-not-available: "&c You have not unlocked the required level to complete this challenge."
+        not-repeatable: "&c This challenge is not repeatable!"
+        wrong-environment: "&c You are in the wrong environment!"
+        not-enough-items: "&c You do not have enough [items] to complete this challenge!"
+        not-close-enough: "&c You must be standing within [number] blocks of all required items."
+        you-still-need: "&c You still need [amount] x [item]"
+        missing-addon: "&c Cannot complete the challenge: a required add-on or plugin is missing."
+        incorrect: "&c Cannot complete the challenge: the requirements are not met."
+        not-enough-money: "&c You must have [value] in your account to complete the challenge."
+        not-enough-experience: "&c You must have [value] EXP to complete this challenge."
+        island-level: "&c Your island must be at least level [number] to complete this challenge!"
+        no-load: "&c Error: Could not load [file]. Error: [message]."
+        load-error: "&c Error: Cannot load [value]."
+        no-rank: "&c You do not have a high enough rank to do that."
+        cannot-remove-items: "&c Some items cannot be removed from your inventory!"
+        exist-challenges-or-levels: "&c Challenges already exist in your world. Cannot proceed!"
+        no-challenges: "&c Challenges are not implemented in this world yet!"
+        no-challenges-admin: "&c Challenges are not implemented in this world yet! Use &5 /[command] &c to add them!"
+        missing-arguments: "&c The command is missing arguments."
         no-multiple-permission: "&c You do not have permission to complete this challenge multiple times at once."
-        invalid-level: "&c Level [level] contains invalid data. It will not be loaded from database!"
-        invalid-challenge: "&c Challenge [challenge] contains invalid data. It will not be loaded from database!"
-        no-library-entries: "&c Cannot find any library entries. Nothing to show."
-        not-hooked: "&c Challenges Addon could not find any GameMode."
-        timeout: "&c This challenge requires to wait [timeout] between completions. You must wait [wait-time] till complete it again."
-        requirement-not-met: "&c This challenge requires [statistic] to have [number]. You have only [value]. "
-        requirement-not-met-entity: "&c This challenge requires [statistic] [entity] to have [number]. You have only [value]. "
-        requirement-not-met-material: "&c This challenge requires [statistic] [material] to have [number]. You have only [value]. "
+        invalid-level: "&c Level [level] contains invalid data and will not be loaded from the database!"
+        invalid-challenge: "&c Challenge [challenge] contains invalid data and will not be loaded from the database!"
+        no-library-entries: "&c No library entries found. Nothing to show."
+        not-hooked: "&c The Challenges add-on could not find any GameMode."
+        timeout: "&c This challenge requires a wait time of [timeout] between completions. You must wait [wait-time] before completing it again."
+        requirement-not-met: "&c This challenge requires [statistic] of [number]. You only have [value]."
+        requirement-not-met-entity: "&c This challenge requires [statistic] for [entity] to be [number]. You only have [value]."
+        requirement-not-met-material: "&c This challenge requires [statistic] for [material] to be [number]. You only have [value]."
 #    # Showcase for manual material translation
 #    materials:
 #        # Names should be lowercase.
@@ -1306,7 +1320,7 @@ protection:
             description: "&5 &o Toggle who can\n&5 &o complete challenges"
             name: "Challenges protection"
         CHALLENGES_WORLD_PROTECTION:
-            description: "&5 &o Enable/disable\n&5 &o requirement for players to\n&5 &o be on their island to\n&5 &o complete a challenge."
+            description: "&5 &o Enable/disable\n&5 &o the requirement for players to\n&5 &o be on their island to\n&5 &o complete a challenge."
             name: "Challenges Island limitation"
-            hint: "No challenges outside island"
+            hint: "No challenges outside the island"
 version: 12

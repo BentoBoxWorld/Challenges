@@ -7,15 +7,23 @@
 package world.bentobox.challenges.panel;
 
 
-import org.bukkit.ChatColor;
-import org.bukkit.conversations.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import org.bukkit.ChatColor;
+import org.bukkit.conversations.ConversationAbandonedListener;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.MessagePrompt;
+import org.bukkit.conversations.NumericPrompt;
+import org.bukkit.conversations.Prompt;
+import org.bukkit.conversations.StringPrompt;
+import org.bukkit.conversations.ValidatingPrompt;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;

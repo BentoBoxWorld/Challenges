@@ -9,7 +9,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -31,6 +40,7 @@ import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.json.BentoboxTypeAdapterFactory;
+import world.bentobox.bentobox.database.json.adapters.TagTypeAdapterFactory;
 import world.bentobox.bentobox.database.objects.DataObject;
 import world.bentobox.bentobox.util.ItemParser;
 import world.bentobox.bentobox.util.Util;
@@ -41,6 +51,7 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 import world.bentobox.challenges.database.object.requirements.IslandRequirements;
 import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements;
+import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -347,13 +358,12 @@ public class ChallengesImportManager
             case STATISTIC_TYPE -> {
                 StatisticRequirements requirements = new StatisticRequirements();
                 challenge.setRequirements(requirements);
-
-                requirements.setAmount(section.getInt("amount", 0));
-                requirements.setReduceStatistic(section.getBoolean("reduce", false));
-
-                requirements.setStatistic(matchStatistic(section.getString("statistic")));
-                requirements.setEntity(matchEntity(section.getString("entity")));
-                requirements.setMaterial(matchMaterial(section.getString("material")));
+                List<StatisticRec> list = new ArrayList<>();
+                list.add(new StatisticRec(matchStatistic(section.getString("statistic")),
+                        matchEntity(section.getString("entity")), matchMaterial(section.getString("material")),
+                        section.getInt("amount", 0), section.getBoolean("reduce", false)));
+                // TODO: Add support for multiple stat challenge
+                requirements.setStatisticList(list);
             }
         }
 
@@ -1138,6 +1148,7 @@ public class ChallengesImportManager
             GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().enableComplexMapKeySerialization();
             // Register adapters
             builder.registerTypeAdapterFactory(new BentoboxTypeAdapterFactory(addon.getPlugin()));
+            builder.registerTypeAdapterFactory(new TagTypeAdapterFactory());
             // Keep null in the database
             builder.serializeNulls();
             // Allow characters like < or > without escaping them

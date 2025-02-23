@@ -1,16 +1,23 @@
 //
 // Created by BONNe
 // Copyright - 2019
+// Enhanced by tastybento
 //
 
 
 package world.bentobox.challenges.database.object.requirements;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+
+import org.bukkit.advancement.Advancement;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
 
+import world.bentobox.challenges.database.object.adapters.AdvancementsListAdapter;
 
 /**
  * This class contains all necessary requirements to complete other type challenge.
@@ -139,18 +146,53 @@ public class OtherRequirements extends Requirements
 	{
 		this.requiredIslandLevel = requiredIslandLevel;
 	}
+	
+    /**
+     * @return the papiString
+     */
+    public String getPapiString() {
+        if (papiString == null) {
+            papiString = "";
+        }
+        return papiString;
+    }
 
+    /**
+     * @param papiString the papiString to set
+     */
+    public void setPapiString(String papiString) {
+        this.papiString = papiString;
+    }
+
+    /**
+     * @return the advancements
+     */
+    public List<Advancement> getAdvancements() {
+        if (advancements == null) {
+            advancements = new ArrayList<>();
+        }
+        return advancements;
+    }
+
+    /**
+     * @param advancements the advancements to set
+     */
+    public void setAdvancements(List<Advancement> advancements) {
+
+        this.advancements = advancements;
+        //advancements.stream().map(adv -> adv.getDisplay().getTitle()).collect(Collectors.toList());
+    }
 
 // ---------------------------------------------------------------------
 // Section: Other methods
 // ---------------------------------------------------------------------
 
 
-	/**
-	 * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
-	 * to use it.
-	 * @return OtherRequirements copy
-	 */
+/**
+ * Method Requirements#copy allows copies Requirements object, to avoid changing content when it is necessary
+ * to use it.
+ * @return OtherRequirements copy
+ */
 	@Override
 	public Requirements copy()
 	{
@@ -162,6 +204,8 @@ public class OtherRequirements extends Requirements
 		clone.setRequiredMoney(this.requiredMoney);
 		clone.setTakeMoney(this.takeMoney);
 		clone.setRequiredIslandLevel(this.requiredIslandLevel);
+        clone.setPapiString(this.papiString);
+        clone.setAdvancements(this.advancements);
 
 		return clone;
 	}
@@ -201,4 +245,18 @@ public class OtherRequirements extends Requirements
 	 */
 	@Expose
 	private long requiredIslandLevel;
+
+    /**
+     * Formulas that include math symbols and PAPI placeholders
+     */
+    @Expose
+    private String papiString;
+
+    /**
+     * List of advancements
+     */
+    @Expose
+    @JsonAdapter(AdvancementsListAdapter.class)
+    private List<Advancement> advancements;
+
 }

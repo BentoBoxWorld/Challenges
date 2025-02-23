@@ -83,8 +83,8 @@ public abstract class Requirements
 
 
 	/**
-	 * This set contains all permission strings that ir required for player to complete challenge.
-	 */
+     * This set contains all permission strings that are required for player to complete challenge.
+     */
 	@Expose
 	private Set<String> requiredPermissions = new HashSet<>();
 }

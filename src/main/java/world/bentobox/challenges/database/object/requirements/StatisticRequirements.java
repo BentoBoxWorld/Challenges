@@ -2,20 +2,87 @@
 // Created by BONNe
 // Copyright - 2021
 //
+// Enhanced by tastybento
 
 
 package world.bentobox.challenges.database.object.requirements;
 
 
-import com.google.gson.annotations.Expose;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.eclipse.jdt.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
 
+
+/**
+ * Requirements for statistics based challenges
+ */
 public class StatisticRequirements extends Requirements
 {
+    /**
+     * Record for this requirement
+     * @param Statistic statistic
+     * @param EntityType entity
+     * @param Material material
+     *  @param Integer amount
+     *  @param Boolean reduceStatistic
+     */
+    public record StatisticRec(@Expose Statistic statistic, @Expose EntityType entity, @Expose Material material,
+            @Expose Integer amount, @Expose Boolean reduceStatistic) {
+    }
+
+    /**
+     * Type of the statistic field.
+     * @deprecated Shifting to a list
+     */
+    @Expose
+    @Nullable
+    private Statistic statistic;
+
+    /**
+     * Type of entity for entity related statistics.
+     * @deprecated Shifting to a list
+     */
+    @Expose
+    @Nullable
+    private EntityType entity;
+
+    /**
+     * Type of material for block and item related statistics.
+     * @deprecated Shifting to a list
+     */
+    @Expose
+    @Nullable
+    private Material material;
+
+    /**
+     * Amount of the stats.
+     * @deprecated Shifting to a list
+     */
+    @Expose
+    private Integer amount;
+
+    /**
+     * Indicate that player statistic fields must be adjusted after completing challenges.
+     * @deprecated Shifting to a list
+     */
+    @Expose
+    private Boolean reduceStatistic;
+
+    /**
+     * List of statistics that must be done for this challenge
+     */
+    @Expose
+    @Nullable
+    private List<StatisticRec> statisticList;
+
+
     /**
      * Constructor Requirements creates a new Requirements instance.
      */
@@ -33,12 +100,7 @@ public class StatisticRequirements extends Requirements
     public Requirements copy()
     {
         StatisticRequirements requirements = new StatisticRequirements();
-        requirements.setStatistic(this.statistic);
-        requirements.setEntity(this.entity);
-        requirements.setMaterial(this.material);
-        requirements.setAmount(this.amount);
-        requirements.setReduceStatistic(this.reduceStatistic);
-
+        requirements.setStatisticList(this.getRequiredStatistics());
         return requirements;
     }
 
@@ -46,183 +108,33 @@ public class StatisticRequirements extends Requirements
     @Override
     public boolean isValid()
     {
-        if (!super.isValid())
-        {
-            return false;
+        // TODO - do something here?
+        return super.isValid();
+    }
+
+    /**
+     * @return the statisticList
+     */
+    public List<StatisticRec> getRequiredStatistics() {
+        if (statisticList == null) {
+            statisticList = new ArrayList<>();
+            // Convert old single statistic entries to new list of records
+            if (statistic != null) {
+                StatisticRec rec = new StatisticRec(this.statistic, this.entity, this.material, this.amount,
+                        this.reduceStatistic);
+                statisticList.add(rec);
+            }
         }
+        return statisticList;
+    }
 
-        if (this.statistic == null)
-        {
-            return false;
-        }
-
-        return switch (this.statistic.getType())
-        {
-            case ITEM -> this.material != null && this.material.isItem();
-            
-            case BLOCK -> this.material != null && this.material.isBlock();
-            
-            case ENTITY -> this.entity != null;
-            
-            case UNTYPED -> true;
-        
-        };
-
+    /**
+     * @param value the statisticList to set
+     */
+    public void setStatisticList(Collection<StatisticRec> value) {
+        // If value is null, assign null; otherwise, create a new ArrayList from value.
+        this.statisticList = (value == null) ? null : new ArrayList<>(value);
     }
 
 
-    // ---------------------------------------------------------------------
-// Section: Getters and setters
-// ---------------------------------------------------------------------
-
-
-    /**
-     * Gets statistic.
-     *
-     * @return the statistic
-     */
-    @Nullable
-    public Statistic getStatistic()
-    {
-        return statistic;
-    }
-
-
-    /**
-     * Sets statistic.
-     *
-     * @param statistic the statistic
-     */
-    public void setStatistic(@Nullable Statistic statistic)
-    {
-        this.statistic = statistic;
-    }
-
-
-    /**
-     * Gets entity.
-     *
-     * @return the entity
-     */
-    @Nullable
-    public EntityType getEntity()
-    {
-        return entity;
-    }
-
-
-    /**
-     * Sets entity.
-     *
-     * @param entity the entity
-     */
-    public void setEntity(@Nullable EntityType entity)
-    {
-        this.entity = entity;
-    }
-
-
-    /**
-     * Gets material.
-     *
-     * @return the material
-     */
-    @Nullable
-    public Material getMaterial()
-    {
-        return material;
-    }
-
-
-    /**
-     * Sets material.
-     *
-     * @param material the material
-     */
-    public void setMaterial(@Nullable Material material)
-    {
-        this.material = material;
-    }
-
-
-    /**
-     * Gets amount.
-     *
-     * @return the amount
-     */
-    public int getAmount()
-    {
-        return amount;
-    }
-
-
-    /**
-     * Sets amount.
-     *
-     * @param amount the amount
-     */
-    public void setAmount(int amount)
-    {
-        this.amount = amount;
-    }
-
-
-    /**
-     * Is reduce statistic boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isReduceStatistic()
-    {
-        return reduceStatistic;
-    }
-
-
-    /**
-     * Sets reduce statistic.
-     *
-     * @param reduceStatistic the reduce statistic
-     */
-    public void setReduceStatistic(boolean reduceStatistic)
-    {
-        this.reduceStatistic = reduceStatistic;
-    }
-
-
-// ---------------------------------------------------------------------
-// Section: Variables
-// ---------------------------------------------------------------------
-
-    /**
-     * Type of the statistic field.
-     */
-    @Expose
-    @Nullable
-    private Statistic statistic;
-
-    /**
-     * Type of entity for entity related statistics.
-     */
-    @Expose
-    @Nullable
-    private EntityType entity;
-
-    /**
-     * Type of material for block and item related statistics.
-     */
-    @Expose
-    @Nullable
-    private Material material;
-
-    /**
-     * Amount of the stats.
-     */
-    @Expose
-    private int amount;
-
-    /**
-     * Indicate that player statistic fields must be adjusted after completing challenges.
-     */
-    @Expose
-    private boolean reduceStatistic;
 }
