@@ -23,7 +23,7 @@ main_panel:
       8: challenge_button
     3:
       1:
-        icon: tipped_arrow{CustomPotionColor:11546150}
+        icon: tipped_arrow[potion_contents={custom_color:11546150}]
         title: challenges.gui.buttons.previous.name
         description: challenges.gui.buttons.previous.description
         data:
@@ -41,7 +41,7 @@ main_panel:
       7: challenge_button
       8: challenge_button
       9:
-        icon: tipped_arrow{CustomPotionColor:8439583}
+        icon: tipped_arrow[potion_contents={custom_color:8439583}]
         title: challenges.gui.buttons.next.name
         description: challenges.gui.buttons.next.description
         data:
@@ -53,7 +53,7 @@ main_panel:
             tooltip: challenges.gui.tips.click-to-next
     5:
       1:
-        icon: tipped_arrow{CustomPotionColor:11546150}
+        icon: tipped_arrow[potion_contents={custom_color:11546150}]
         title: challenges.gui.buttons.previous.name
         description: challenges.gui.buttons.previous.description
         data:
@@ -71,7 +71,7 @@ main_panel:
       7: level_button
       8: level_button
       9:
-        icon: tipped_arrow{CustomPotionColor:8439583}
+        icon: tipped_arrow[potion_contents={custom_color:8439583}]
         title: challenges.gui.buttons.next.name
         description: challenges.gui.buttons.next.description
         data:
