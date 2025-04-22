@@ -21,7 +21,6 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -745,7 +744,7 @@ public class Utils
 	 * @param user the user
 	 * @return the string
 	 */
-	public static String prettifyObject(ItemStack item, @Nullable PotionMeta potionMeta, User user)
+    public static String prettifyObject(ItemStack item, @Nullable PotionMeta potionMeta, User user)
 	{
 		if (potionMeta == null)
 		{
@@ -757,39 +756,36 @@ public class Utils
 		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
 		final String metaReference = Constants.ITEM_STACKS + "meta.";
 
-		PotionData potionData = potionMeta.getBasePotionData();
+        PotionType potionData = potionMeta.getBasePotionType();
 
 		// Check custom translation for potions.
-		String type = user.getTranslationOrNothing(itemReference + potionData.getType().name().toLowerCase());
-
+        String type = user.getTranslationOrNothing(itemReference + potionData.name().toLowerCase());
 		if (type.isEmpty())
 		{
 			// Check potion types translation.
-			type = prettifyObject(potionData.getType(), user);
+            type = prettifyObject(potionData, user);
 		}
-
-		String upgraded = user.getTranslationOrNothing(metaReference + "upgraded");
-		String extended = user.getTranslationOrNothing(metaReference + "extended");
-
 		// Get item specific translation.
 		String specific = user.getTranslationOrNothing(itemReference + "name",
 			"[type]", type,
-			"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
-			"[extended]", (potionData.isExtended() ? extended : ""));
+                "[upgraded]", "", "[extended]", "");
 
 		if (specific.isEmpty())
 		{
 			// Use generic translation.
 			String meta = user.getTranslationOrNothing(metaReference + "potion-meta",
 				"[type]", type,
-				"[upgraded]", (potionData.isUpgraded() ? upgraded : ""),
-				"[extended]", (potionData.isExtended() ? extended : ""));
-
+                    "[upgraded]", "", "[extended]", "");
+            BentoBox.getInstance().logDebug("Generic ref: " + Constants.ITEM_STACKS + "generic");
 			specific = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
 				"[type]", prettifyObject(itemType, user),
 				"[meta]", meta);
 		}
-
+        if (specific.isEmpty()) {
+            // Last ditch
+            specific = prettifyObject(itemType, user) + ": " + type;
+        }
+        BentoBox.getInstance().logDebug(specific);
 		return specific;
 	}
 
