@@ -120,68 +120,69 @@ public abstract class CommonPanel {
      * @return List of strings that will be used in challenges description.
      */
     protected List<String> generateChallengeDescription(Challenge challenge, @Nullable User target) {
-        // Some values to avoid over checking.
-        final boolean isCompletedOnce = target != null
+        // Determine if the challenge has been completed at least once
+        boolean isCompletedOnce = target != null
                 && this.manager.isChallengeComplete(target.getUniqueId(), this.world, challenge);
 
-        final long doneTimes = target != null && challenge.isRepeatable()
+        // Calculate how many times the challenge has been completed
+        long doneTimes = (target != null && challenge.isRepeatable())
                 ? this.manager.getChallengeTimes(target, this.world, challenge)
                 : (isCompletedOnce ? 0 : 1);
 
+        // Determine if the challenge has been fully completed (non-repeatable or reached max times)
         boolean isCompletedAll = isCompletedOnce
-                && (!challenge.isRepeatable() || challenge.getMaxTimes() > 0 && doneTimes >= challenge.getMaxTimes());
+                && (!challenge.isRepeatable() || (challenge.getMaxTimes() > 0 && doneTimes >= challenge.getMaxTimes()));
 
-        final String reference = Constants.DESCRIPTIONS + "challenge.";
+        // Build a reference key for translation lookups
+        final String referenceKey = Constants.DESCRIPTIONS + "challenge.";
 
-        // Get description from custom translations
+        // Fetch a custom description translation; if empty, fallback to challenge's own description
         String description = this.user
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".description");
-
         if (description.isEmpty()) {
-            // Get data from object in single string.
+            // Combine the challenge description list into a single string and translate color codes
             description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
         }
+        // Replace any [label] placeholder with the actual top label
+        description = description.replace("[label]", this.topLabel);
 
-        // Non-memory optimal code used for easier debugging and nicer code layout for
-        // my eye :)
-        // Get status in single string
+        // Generate dynamic sections of the challenge lore
         String status = this.generateChallengeStatus(isCompletedOnce, isCompletedAll, doneTimes,
                 challenge.getMaxTimes());
-        // Get requirements in single string
         String requirements = isCompletedAll ? "" : this.generateRequirements(challenge, target);
-        // Get rewards in single string
         String rewards = isCompletedAll ? "" : this.generateRewards(challenge, isCompletedOnce);
-        // Get coolDown in single string
-        String coolDown = isCompletedAll || challenge.getTimeout() <= 0 ? "" : this.generateCoolDown(challenge, target);
+        String coolDown = (isCompletedAll || challenge.getTimeout() <= 0) ? ""
+                : this.generateCoolDown(challenge, target);
 
+        String returnString;
+        // Check if the description (after removing blank lines) is not empty
         if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty()) {
-            String returnString = this.user.getTranslationOrNothing(reference + "lore", "[requirements]", requirements,
+            // Retrieve the lore translation without the description placeholder
+            returnString = this.user.getTranslationOrNothing(referenceKey + "lore", "[requirements]", requirements,
                     "[rewards]", rewards, "[status]", status, "[cooldown]", coolDown);
 
-            // remove empty lines from the generated text.
-            List<String> collect = Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+            // Remove any empty lines from the translated text and split it into individual lines
+            final String finalDescription = description; // ensure it's effectively final
+
+            List<String> lines = Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+                    .map(line -> line.contains(Constants.PARAMETER_DESCRIPTION)
+                            ? line.replace(Constants.PARAMETER_DESCRIPTION, finalDescription)
+                            : line)
                     .collect(Collectors.toList());
 
-            // find and replace description from collected blocks.
-
-            for (int i = 0; i < collect.size(); i++) {
-                if (collect.get(i).contains(Constants.PARAMETER_DESCRIPTION)) {
-                    collect.set(i, collect.get(i).replace(Constants.PARAMETER_DESCRIPTION, description));
-                }
-            }
-
-            return collect;
+            return lines;
         } else {
-            String returnString = this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_DESCRIPTION,
+            // If description is empty, pass it directly as a parameter to the translation
+            returnString = this.user.getTranslationOrNothing(referenceKey + "lore", Constants.PARAMETER_DESCRIPTION,
                     description, "[requirements]", requirements, "[rewards]", rewards, "[status]", status, "[cooldown]",
                     coolDown);
 
-            // Remove empty lines and returns as a list.
-
+            // Remove empty lines and return the resulting lines as a list
             return Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
                     .collect(Collectors.toList());
         }
     }
+
 
     /**
      * Generate cool down string.
