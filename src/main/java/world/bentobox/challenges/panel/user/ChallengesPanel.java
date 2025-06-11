@@ -554,6 +554,20 @@ public class ChallengesPanel extends CommonPanel
                 this.addon.getChallengesSettings().isAddCompletedLevelGlow() &&
                 this.manager.isLevelCompleted(this.user, this.world, level.getLevel()));
 
+        // Change icon for completed level
+        if( level.isUnlocked() &&
+                this.manager.isLevelCompleted(this.user, this.world, level.getLevel()) &&
+                this.addon.getChallengesSettings().getCompletedLevelIcon() != null
+        ) {
+            builder.icon(this.addon.getChallengesSettings().getCompletedLevelIcon().clone());
+        }
+
+        // Change icon for selected level
+        if(level == this.lastSelectedLevel &&
+                this.addon.getChallengesSettings().getSelectedLevelIcon() != null){
+            builder.icon(this.addon.getChallengesSettings().getSelectedLevelIcon().clone());
+        }
+
         // Click Handlers are managed by custom addon buttons.
         return builder.build();
     }
