@@ -101,6 +101,12 @@ public class Settings implements ConfigObject
     @ConfigEntry(path = "gui-settings.add-completed-glow")
     private boolean addCompletedGlow = true;
 
+
+    @ConfigComment("")
+    @ConfigComment("Add enchanted glow to completed levels")
+    @ConfigEntry(path = "gui-settings.add-completed-level-glow")
+    private boolean addCompletedLevelGlow = true;
+
     @ConfigComment("")
     @ConfigComment("This variable allows to choose which Challenges users can see in Challenges GUI.")
     @ConfigComment("Valid values are:")
@@ -221,6 +227,15 @@ public class Settings implements ConfigObject
     public boolean isAddCompletedGlow()
     {
         return this.addCompletedGlow;
+    }
+
+
+    /**
+     * @return addCompletedLevelGlow value.
+     */
+    public boolean isAddCompletedLevelGlow()
+    {
+        return this.addCompletedLevelGlow;
     }
 
 
@@ -488,6 +503,14 @@ public class Settings implements ConfigObject
     public void setAddCompletedGlow(boolean addCompletedGlow)
     {
         this.addCompletedGlow = addCompletedGlow;
+    }
+
+    /**
+     * @param addCompletedLevelGlow new addCompletedLevelGlow value.
+     */
+    public void setAddCompletedLevelGlow(boolean addCompletedLevelGlow)
+    {
+        this.addCompletedLevelGlow = addCompletedLevelGlow;
     }
 
 

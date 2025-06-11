@@ -551,7 +551,7 @@ public class ChallengesPanel extends CommonPanel
         // Glow the icon.
         builder.glow(level == this.lastSelectedLevel ||
             level.isUnlocked() &&
-                this.addon.getChallengesSettings().isAddCompletedGlow() &&
+                this.addon.getChallengesSettings().isAddCompletedLevelGlow() &&
                 this.manager.isLevelCompleted(this.user, this.world, level.getLevel()));
 
         // Click Handlers are managed by custom addon buttons.
