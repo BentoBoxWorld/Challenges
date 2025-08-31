@@ -63,7 +63,7 @@ challenges:
           &7 lub wyjście z GUI
       previous:
         name: "&f&l Poprzednia strona"
-        description: "&7 Przełącz na &e [numer] &7 stronę"
+        description: "&7 Przełącz na &e [number] &7 stronę"
       next:
         name: "&f&l Następna strona"
         description: "&7 Przełącz na &e [number] &7 stronę"
@@ -367,7 +367,7 @@ challenges:
         description: |-
           &7 Pozwala na zmianę
           &7 statystyk bloku docelowego.
-        value: "&7 Bieżący blok: &e [blok]"
+        value: "&7 Bieżący blok: &e [block]"
       statistic_items:
         name: "&f&l Element docelowy"
         description: |-
@@ -709,7 +709,7 @@ challenges:
         name: "&f&l [statistic]"
         description: "[description]\t\n"
       environment_element:
-        name: "&f&l [enviroment]"
+        name: "&f&l [environment]"
         description: "[description]"
       search:
         name: "&f&l Szukaj"
@@ -777,7 +777,7 @@ challenges:
         status:
           completed: "&2&l Zakończono"
           completed-times: "&2 Ukończono &7&l [number] &r&2 raz(-y)"
-          completed-times-of: "&2 Zakończono &7&l [number] &r&2 z &7&l [maks.] &r&2
+          completed-times-of: "&2 Zakończono &7&l [number] &r&2 z &7&l [max] &r&2
             razy"
           completed-times-reached: "&2&l Ukończono wszystkie &7 [max] &2 razy"
         cooldown:
@@ -798,9 +798,9 @@ challenges:
           environment-single: "&7 Ograniczone do [environment]"
           environment-title: "&7 Ograniczone do:"
           environment-list: "&7 - &e [environment]\t\n"
-          permission-single: "&c Wymaga uprawnień [permissions]"
+          permission-single: "&c Wymaga uprawnień [permission]"
           permissions-title: "&c Wymaga uprawnień:"
-          permissions-list: "  &c - [permissions]"
+          permissions-list: "  &c - [permission]"
           island:
             lore: |-
               [blocks]
@@ -823,7 +823,7 @@ challenges:
               [warning]
             item-title: "&7&l Wymagane pozycje:"
             item-value: "  &7 - &e [item]"
-            items-value: "  &7 - &e [numer] x [item]"
+            items-value: "  &7 - &e [number] x [item]"
             warning: "&e Przedmiot(y) zostaną &c usunięte"
           other:
             lore: |-
@@ -836,7 +836,7 @@ challenges:
             experience-warning: "&e Doświadczenie zostanie &c usunięte"
             money: "&7&l Wymagane pieniądze: &r&e [number]"
             money-warning: "&e Pieniądze zostaną &c usunięte"
-            level: "&7&l Wymagany poziom wyspy: &r&e [liczba]"
+            level: "&7&l Wymagany poziom wyspy: &r&e [number]"
           statistic:
             lore: |-
               [statistic]
@@ -996,7 +996,7 @@ challenges:
     unknown-challenge: "&cNieznane wyzwanie"
     not-valid-integer: |-
       &c Podana liczba całkowita "[value]" jest nieprawidłowa!
-      Wartość powinna mieścić się w zakresie od [min] do [maks].
+      Wartość powinna mieścić się w zakresie od [min] do [max].
     not-deployed: "&c Challenge nie został wdrożony!"
     not-on-island: "&cMusisz być na swojej wyspie by to zrobic!"
     challenge-level-not-available: "&c  Nie odblokowałeś wymaganego poziomu, aby ukończyć
