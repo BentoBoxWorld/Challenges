@@ -635,10 +635,17 @@ challenges:
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             glow_completed:
-                name: "&f&l Glow Completed"
+                name: "&f&l Glow Completed Challenges"
                 description: |-
                     &7 Applies an enchantment glow
                     &7 to completed challenges.
+                enabled: "&2 Enabled"
+                disabled: "&c Disabled"
+            glow_completed_levels:
+                name: "&f&l Glow Completed Levels"
+                description: |-
+                    &7 Applies an enchantment glow
+                    &7 to completed levels.
                 enabled: "&2 Enabled"
                 disabled: "&c Disabled"
             store_history:

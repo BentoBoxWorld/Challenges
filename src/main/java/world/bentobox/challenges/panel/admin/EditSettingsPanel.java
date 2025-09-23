@@ -117,6 +117,7 @@ public class EditSettingsPanel extends CommonPanel
         panelBuilder.item(28, this.getSettingsButton(Button.BROADCAST));
 
         panelBuilder.item(11, this.getSettingsButton(Button.GLOW_COMPLETED));
+        panelBuilder.item(12, this.getSettingsButton(Button.GLOW_COMPLETED_LEVELS));
         panelBuilder.item(20, this.getSettingsButton(Button.REMOVE_COMPLETED));
         panelBuilder.item(29, this.getSettingsButton(Button.VISIBILITY_MODE));
         panelBuilder.item(30, this.getSettingsButton(Button.INCLUDE_UNDEPLOYED));
@@ -327,6 +328,22 @@ public class EditSettingsPanel extends CommonPanel
                     return true;
                 };
                 glow = this.settings.isAddCompletedGlow();
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+            }
+            case GLOW_COMPLETED_LEVELS -> {
+                description.add(this.user.getTranslation(reference +
+                        (this.settings.isAddCompletedLevelGlow() ? "enabled" : "disabled")));
+
+                icon = new ItemStack(Material.GLOWSTONE);
+                clickHandler = (panel, user1, clickType, i) -> {
+                    this.settings.setAddCompletedLevelGlow(!this.settings.isAddCompletedLevelGlow());
+                    panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+                    this.addon.saveSettings();
+                    return true;
+                };
+                glow = this.settings.isAddCompletedLevelGlow();
 
                 description.add("");
                 description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
@@ -568,6 +585,7 @@ public class EditSettingsPanel extends CommonPanel
         PURGE_HISTORY,
         DATA_PER_ISLAND,
         GLOW_COMPLETED,
+        GLOW_COMPLETED_LEVELS,
         LOCKED_LEVEL_ICON,
         SHOW_TITLE,
         TITLE_SHOWTIME,
