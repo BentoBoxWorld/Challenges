@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.Tag;
@@ -183,7 +182,7 @@ public class Utils
 	 */
 	public static String sanitizeInput(String input)
 	{
-		return ChatColor.stripColor(
+		return Util.stripColor(
 			Util.translateColorCodes(input.toLowerCase(Locale.ENGLISH).
 				replace(" ", "_").
 				replace("-", "_")));
@@ -776,7 +775,6 @@ public class Utils
 			String meta = user.getTranslationOrNothing(metaReference + "potion-meta",
 				"[type]", type,
                     "[upgraded]", "", "[extended]", "");
-            BentoBox.getInstance().logDebug("Generic ref: " + Constants.ITEM_STACKS + "generic");
 			specific = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
 				"[type]", prettifyObject(itemType, user),
 				"[meta]", meta);
@@ -785,7 +783,6 @@ public class Utils
             // Last ditch
             specific = prettifyObject(itemType, user) + ": " + type;
         }
-        BentoBox.getInstance().logDebug(specific);
 		return specific;
 	}
 
