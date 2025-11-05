@@ -101,6 +101,12 @@ public class Settings implements ConfigObject
     @ConfigEntry(path = "gui-settings.add-completed-glow")
     private boolean addCompletedGlow = true;
 
+
+    @ConfigComment("")
+    @ConfigComment("Add enchanted glow to completed levels")
+    @ConfigEntry(path = "gui-settings.add-completed-level-glow")
+    private boolean addCompletedLevelGlow = true;
+
     @ConfigComment("")
     @ConfigComment("This variable allows to choose which Challenges users can see in Challenges GUI.")
     @ConfigComment("Valid values are:")
@@ -116,6 +122,20 @@ public class Settings implements ConfigObject
     @ConfigComment("their locked level icon, then it will be used, instead of this one.")
     @ConfigEntry(path = "gui-settings.locked-level-icon")
     private ItemStack lockedLevelIcon = new ItemStack(Material.BOOK);
+
+
+    @ConfigComment("")
+    @ConfigComment("This allows to change default completed level icon. If this option is set")
+    @ConfigComment("to null, the level icon will not be overwritten.")
+    @ConfigEntry(path = "gui-settings.completed-level-icon")
+    private ItemStack completedLevelIcon = null;
+
+
+    @ConfigComment("")
+    @ConfigComment("This allows to change default selected level icon. If this option is set")
+    @ConfigComment("to null, the level icon will not be overwritten.")
+    @ConfigEntry(path = "gui-settings.selected-level-icon")
+    private ItemStack selectedLevelIcon = null;
 
     @ConfigComment("")
     @ConfigComment("This indicate if challenges data will be stored per island (true) or per player (false).")
@@ -221,6 +241,15 @@ public class Settings implements ConfigObject
     public boolean isAddCompletedGlow()
     {
         return this.addCompletedGlow;
+    }
+
+
+    /**
+     * @return addCompletedLevelGlow value.
+     */
+    public boolean isAddCompletedLevelGlow()
+    {
+        return this.addCompletedLevelGlow;
     }
 
 
@@ -347,6 +376,34 @@ public class Settings implements ConfigObject
 
 
     /**
+     * This method returns the selectedLevelIcon value.
+     * @return the value of selectedLevelIcon.
+     */
+    public ItemStack getSelectedLevelIcon()
+    {
+        if (selectedLevelIcon != null)
+        {
+            return selectedLevelIcon.clone();
+        }
+        return null;
+    }
+
+
+    /**
+     * This method returns the completedLevelIcon value.
+     * @return the value of completedLevelIcon.
+     */
+    public ItemStack getCompletedLevelIcon()
+    {
+        if (completedLevelIcon != null)
+        {
+            return completedLevelIcon.clone();
+        }
+        return null;
+    }
+
+
+    /**
      * This method returns the showCompletionTitle object.
      * @return the showCompletionTitle object.
      */
@@ -436,6 +493,28 @@ public class Settings implements ConfigObject
 
 
     /**
+     * This method sets the selectedLevelIcon value.
+     * @param selectedLevelIcon the selectedLevelIcon new value.
+     *
+     */
+    public void setSelectedLevelIcon(ItemStack selectedLevelIcon)
+    {
+        this.selectedLevelIcon = selectedLevelIcon;
+    }
+
+
+    /**
+     * This method sets the completedLevelIcon value.
+     * @param completedLevelIcon the completedLevelIcon new value.
+     *
+     */
+    public void setCompletedLevelIcon(ItemStack completedLevelIcon)
+    {
+        this.completedLevelIcon = completedLevelIcon;
+    }
+
+
+    /**
      * This method sets the userGuiMode value.
      * @param userGuiMode the userGuiMode new value.
      */
@@ -488,6 +567,14 @@ public class Settings implements ConfigObject
     public void setAddCompletedGlow(boolean addCompletedGlow)
     {
         this.addCompletedGlow = addCompletedGlow;
+    }
+
+    /**
+     * @param addCompletedLevelGlow new addCompletedLevelGlow value.
+     */
+    public void setAddCompletedLevelGlow(boolean addCompletedLevelGlow)
+    {
+        this.addCompletedLevelGlow = addCompletedLevelGlow;
     }
 
 
