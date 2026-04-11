@@ -9,10 +9,15 @@ import java.util.function.Function;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import world.bentobox.bentobox.api.panels.Panel;
 import world.bentobox.bentobox.api.panels.PanelItem;
+import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
@@ -81,6 +86,13 @@ public class AdminPanel extends CommonPanel
     @Override
     protected void build()
     {
+        // Cancel any leftover refresh task from a previous build.
+        if (this.libraryRefreshTask != null)
+        {
+            this.libraryRefreshTask.cancel();
+            this.libraryRefreshTask = null;
+        }
+
         PanelBuilder panelBuilder = new PanelBuilder().user(this.user).name(
             this.user.getTranslation(Constants.TITLE + "admin-gui"));
 
@@ -107,7 +119,7 @@ public class AdminPanel extends CommonPanel
         // Import Challenges
         panelBuilder.item(14, this.createButton(Button.IMPORT_TEMPLATE));
         panelBuilder.item(15, this.createButton(Button.IMPORT_DATABASE));
-        panelBuilder.item(33, this.createButton(Button.LIBRARY));
+        panelBuilder.item(LIBRARY_SLOT, this.createButton(Button.LIBRARY));
         // Export Challenges
         panelBuilder.item(24, this.createButton(Button.EXPORT_CHALLENGES));
 
@@ -127,7 +139,49 @@ public class AdminPanel extends CommonPanel
 
         panelBuilder.item(44, this.returnButton);
 
-        panelBuilder.build();
+        panelBuilder.listener(new RefreshCanceller());
+
+        this.activePanel = panelBuilder.build();
+
+        // If the library button is currently pending, poll for readiness and swap
+        // the icon in place without reopening the inventory.
+        if (WebManager.isEnabled() &&
+            this.addon.getWebManager().getLibraryEntries().isEmpty())
+        {
+            this.scheduleLibraryRefresh();
+        }
+    }
+
+
+    /**
+     * Polls every second until the web library catalog has loaded, then swaps
+     * slot 33 from the pending barrier to the ready cobweb without closing the
+     * panel.
+     */
+    private void scheduleLibraryRefresh()
+    {
+        this.libraryRefreshTask = this.addon.getPlugin().getServer().getScheduler().
+            runTaskTimer(this.addon.getPlugin(), () ->
+            {
+                if (this.activePanel == null)
+                {
+                    return;
+                }
+                if (this.addon.getWebManager().getLibraryEntries().isEmpty())
+                {
+                    return;
+                }
+
+                PanelItem ready = this.createButton(Button.LIBRARY);
+                this.activePanel.getItems().put(LIBRARY_SLOT, ready);
+                this.activePanel.getInventory().setItem(LIBRARY_SLOT, ready.getItem());
+
+                if (this.libraryRefreshTask != null)
+                {
+                    this.libraryRefreshTask.cancel();
+                    this.libraryRefreshTask = null;
+                }
+            }, 20L, 20L);
     }
 
 
@@ -390,27 +444,45 @@ public class AdminPanel extends CommonPanel
                 description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-export"));
             }
             case LIBRARY -> {
-                if (WebManager.isEnabled())
+                if (!WebManager.isEnabled())
                 {
-                    icon = new ItemStack(Material.COBWEB);
+                    icon = new ItemStack(Material.STRUCTURE_VOID);
+                    clickHandler = (panel, user, clickType, slot) -> true;
+                    glow = false;
+
+                    description.add("");
+                    description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                }
+                else if (this.addon.getWebManager().getLibraryEntries().isEmpty())
+                {
+                    // Catalog not yet available. Kick off an immediate download if one
+                    // hasn't been started already, and render a pending barrier.
+                    if (this.addon.getWebManager().getCatalogState() == WebManager.CatalogState.IDLE)
+                    {
+                        this.addon.getPlugin().getServer().getScheduler().
+                            runTaskAsynchronously(this.addon.getPlugin(),
+                                () -> this.addon.getWebManager().requestCatalogGitHubData(false));
+                    }
+
+                    icon = new ItemStack(Material.BARRIER);
+                    clickHandler = (panel, user, clickType, slot) -> true;
+                    glow = false;
+
+                    description.clear();
+                    description.add(this.user.getTranslation(Constants.BUTTON + "library.downloading"));
                 }
                 else
                 {
-                    icon = new ItemStack(Material.STRUCTURE_VOID);
-                }
-
-                clickHandler = (panel, user, clickType, slot) -> {
-                    if (WebManager.isEnabled())
-                    {
+                    icon = new ItemStack(Material.COBWEB);
+                    clickHandler = (panel, user, clickType, slot) -> {
                         LibraryPanel.open(this, LibraryPanel.Library.WEB);
-                    }
+                        return true;
+                    };
+                    glow = false;
 
-                    return true;
-                };
-                glow = false;
-
-                description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                    description.add("");
+                    description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                }
             }
             case COMPLETE_WIPE -> {
                 icon = new ItemStack(Material.TNT);
@@ -590,4 +662,53 @@ public class AdminPanel extends CommonPanel
      * This indicates if wipe button should clear all data, or only challenges.
      */
     private boolean wipeAll;
+
+    /**
+     * Slot hosting the web-library button.
+     */
+    private static final int LIBRARY_SLOT = 33;
+
+    /**
+     * Currently open Panel, retained so the library button can be swapped in
+     * place when the catalog finishes downloading.
+     */
+    private Panel activePanel;
+
+    /**
+     * Repeating task that polls for catalog readiness while the library button
+     * is rendered as a pending barrier.
+     */
+    private BukkitTask libraryRefreshTask;
+
+
+    /**
+     * Cancels the library refresh task when the admin panel is closed.
+     */
+    private class RefreshCanceller implements PanelListener
+    {
+        @Override
+        public void onInventoryClick(User user, InventoryClickEvent event)
+        {
+            // no-op
+        }
+
+
+        @Override
+        public void onInventoryClose(InventoryCloseEvent event)
+        {
+            if (AdminPanel.this.libraryRefreshTask != null)
+            {
+                AdminPanel.this.libraryRefreshTask.cancel();
+                AdminPanel.this.libraryRefreshTask = null;
+            }
+            AdminPanel.this.activePanel = null;
+        }
+
+
+        @Override
+        public void setup()
+        {
+            // no-op
+        }
+    }
 }

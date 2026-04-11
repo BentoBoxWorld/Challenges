@@ -64,53 +64,61 @@ public class WebManager
 	 */
 	public void requestCatalogGitHubData(boolean clearCache)
 	{
-		this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
+		this.catalogState = CatalogState.DOWNLOADING;
+		try
 		{
-			if (this.plugin.getSettings().isLogGithubDownloadData())
+			this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
 			{
-				this.plugin.log("Downloading data from GitHub...");
-			}
-
-			String catalogContent = "";
-
-			// Downloading the data
-			try
-			{
-				catalogContent = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
-					getContent("challenges/catalog.json").
-					getContent().replaceAll("\\n", "");
-			}
-			catch (Exception e)
-			{
-				this.plugin.logError("An error occurred when downloading data from GitHub...");
-				this.plugin.logStacktrace(e);
-			}
-
-			// People were concerned that the download took ages, so we need to tell them it's over now.
-			if (this.plugin.getSettings().isLogGithubDownloadData())
-			{
-				this.plugin.log("Successfully downloaded data from GitHub.");
-			}
-
-			// Decoding the Base64 encoded contents
-			catalogContent = new String(Base64.getDecoder().decode(catalogContent),
-				StandardCharsets.UTF_8);
-
-			/* Parsing the data */
-
-			// Register the catalog data
-			if (!catalogContent.isEmpty())
-			{
-				if (clearCache)
+				if (this.plugin.getSettings().isLogGithubDownloadData())
 				{
-					this.library.clear();
+					this.plugin.log("Downloading data from GitHub...");
 				}
 
-				JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
-				catalog.getAsJsonArray("challenges").forEach(gamemode ->
-					this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
-			}
-		});
+				String catalogContent = "";
+
+				// Downloading the data
+				try
+				{
+					catalogContent = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
+						getContent("challenges/catalog.json").
+						getContent().replaceAll("\\n", "");
+				}
+				catch (Exception e)
+				{
+					this.plugin.logError("An error occurred when downloading data from GitHub...");
+					this.plugin.logStacktrace(e);
+				}
+
+				// People were concerned that the download took ages, so we need to tell them it's over now.
+				if (this.plugin.getSettings().isLogGithubDownloadData())
+				{
+					this.plugin.log("Successfully downloaded data from GitHub.");
+				}
+
+				// Decoding the Base64 encoded contents
+				catalogContent = new String(Base64.getDecoder().decode(catalogContent),
+					StandardCharsets.UTF_8);
+
+				/* Parsing the data */
+
+				// Register the catalog data
+				if (!catalogContent.isEmpty())
+				{
+					if (clearCache)
+					{
+						this.library.clear();
+					}
+
+					JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
+					catalog.getAsJsonArray("challenges").forEach(gamemode ->
+						this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
+				}
+			});
+		}
+		finally
+		{
+			this.catalogState = CatalogState.READY;
+		}
 	}
 
 
@@ -213,4 +221,32 @@ public class WebManager
 	 * This list contains all entries that were downloaded from GitHub.
 	 */
 	private final List<LibraryEntry> library;
+
+	/**
+	 * Tracks the state of the catalog download so UI can render a pending indicator.
+	 */
+	private volatile CatalogState catalogState = CatalogState.IDLE;
+
+
+	/**
+	 * Returns the current catalog download state.
+	 */
+	public CatalogState getCatalogState()
+	{
+		return this.catalogState;
+	}
+
+
+	/**
+	 * State of the GitHub catalog download.
+	 */
+	public enum CatalogState
+	{
+		/** No download has been requested yet. */
+		IDLE,
+		/** A download is currently in flight. */
+		DOWNLOADING,
+		/** A download has completed (successfully or not). */
+		READY
+	}
 }

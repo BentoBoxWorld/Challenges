@@ -184,6 +184,9 @@ challenges:
                 description: |-
                     &7 Opens the public
                     &7 challenges library.
+                downloading: |-
+                    &7 Library download
+                    &7 requested...
             import_database:
                 name: "&f&l Import Database"
                 description: |-
