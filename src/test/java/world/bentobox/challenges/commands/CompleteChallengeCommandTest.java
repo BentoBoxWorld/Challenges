@@ -1,8 +1,8 @@
 package world.bentobox.challenges.commands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -24,15 +24,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eclipse.jdt.annotation.NonNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
@@ -45,6 +46,7 @@ import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.WhiteBox;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.database.object.Challenge;
@@ -57,8 +59,6 @@ import world.bentobox.challenges.utils.Utils;
  * @author tastybento
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Bukkit.class, BentoBox.class, Utils.class, TryToComplete.class, Util.class })
 public class CompleteChallengeCommandTest {
 
     @Mock
@@ -85,14 +85,23 @@ public class CompleteChallengeCommandTest {
     @Mock
     private Challenge challenge;
 
-    /**
-     */
+    private AutoCloseable closeable;
+    private ServerMock server;
+    private MockedStatic<Bukkit> mockedBukkit;
+    private MockedStatic<Utils> mockedUtils;
+    private MockedStatic<TryToComplete> mockedTtc;
+    private MockedStatic<Util> mockedUtil;
+
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+        server = MockBukkit.mock();
+        @SuppressWarnings("unused")
+        var unusedTagRef = org.bukkit.Tag.LEAVES;
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
-        Whitebox.setInternalState(BentoBox.class, "instance", plugin);
+        WhiteBox.setInternalState(BentoBox.class, "instance", plugin);
         User.setPlugin(plugin);
 
         // Command manager
@@ -123,7 +132,6 @@ public class CompleteChallengeCommandTest {
 
         // Player
         Player p = mock(Player.class);
-        // Sometimes use Mockito.withSettings().verboseLogging()
         when(user.isOp()).thenReturn(false);
         UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
@@ -132,19 +140,15 @@ public class CompleteChallengeCommandTest {
         when(user.getPermissionValue(anyString(), anyInt())).thenReturn(-1);
         when(user.isPlayer()).thenReturn(true);
 
-        // Mock item factory (for itemstacks)
-        PowerMockito.mockStatic(Bukkit.class);
-        ItemFactory itemFactory = mock(ItemFactory.class);
-        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-        ItemMeta itemMeta = mock(ItemMeta.class);
-        when(itemFactory.getItemMeta(any())).thenReturn(itemMeta);
+        // Bukkit static mock — delegate item factory to MockBukkit's real one.
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(server);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(server.getItemFactory());
 
         // Addon & Challenge Manager
         when(addon.getChallengesManager()).thenReturn(chm);
         when(chm.getAllChallengeLevelStatus(any(), any())).thenReturn(Collections.emptyList());
-        // Challenges exist
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(true);
-        // Challenges
         when(chm.getChallenge(anyString())).thenReturn(challenge);
         List<String> nameList = Arrays.asList("world_maker", "world_placer", "bad_challenge_name", "world_breaker");
         when(chm.getAllChallengesNames(any())).thenReturn(nameList);
@@ -159,100 +163,85 @@ public class CompleteChallengeCommandTest {
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
 
         // Utils
-        PowerMockito.mockStatic(Utils.class);
-        when(Utils.getGameMode(any())).thenReturn("world");
+        mockedUtils = Mockito.mockStatic(Utils.class);
+        mockedUtils.when(() -> Utils.getGameMode(any())).thenReturn("world");
 
         // Try to complete
-        PowerMockito.mockStatic(TryToComplete.class);
-        // All challenges are successful!
-        when(TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt())).thenReturn(true);
+        mockedTtc = Mockito.mockStatic(TryToComplete.class);
+        mockedTtc.when(() -> TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt()))
+                .thenReturn(true);
 
         // Util
-        PowerMockito.mockStatic(Util.class);
-        when(Util.tabLimit(any(), any())).thenAnswer((Answer<List<String>>) invocation -> (List<String>)invocation.getArgument(0, List.class));
-        when(Util.translateColorCodes(anyString()))
+        mockedUtil = Mockito.mockStatic(Util.class, Mockito.CALLS_REAL_METHODS);
+        mockedUtil.when(() -> Util.tabLimit(any(), any()))
+                .thenAnswer((Answer<List<String>>) invocation -> (List<String>) invocation.getArgument(0, List.class));
+        mockedUtil.when(() -> Util.translateColorCodes(anyString()))
                 .thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 
         // Command under test
         cc = new CompleteChallengeCommand(addon, ic);
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#CompleteChallengeCommand(world.bentobox.bentobox.api.addons.Addon, world.bentobox.bentobox.api.commands.CompositeCommand)}.
-     */
+    @AfterEach
+    public void tearDown() throws Exception {
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (mockedUtils != null) mockedUtils.closeOnDemand();
+        if (mockedTtc != null) mockedTtc.closeOnDemand();
+        if (mockedUtil != null) mockedUtil.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
+    }
+
     @Test
     public void testCompleteChallengeCommand() {
         assertEquals("complete", cc.getLabel());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#setup()}.
-     */
     @Test
     public void testSetup() {
         assertEquals("bskyblock.challenges", cc.getPermission());
         assertEquals("challenges.commands.user.complete.parameters", cc.getParameters());
         assertEquals("challenges.commands.user.complete.description", cc.getDescription());
         assertTrue(cc.isOnlyPlayer());
-        // No sub commands
         assertEquals(0, cc.getSubCommands(true).size());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringNoArgs() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
-        PowerMockito.verifyStatic(Utils.class);
-        Utils.sendMessage(user, world, Constants.ERRORS + "no-name");
+        mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "no-name"));
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringUnknownChallenge() {
         when(chm.getChallenge(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
-        PowerMockito.verifyStatic(Utils.class);
-        Utils.sendMessage(user, world, Constants.ERRORS + "unknown-challenge");
+        mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "unknown-challenge"));
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeFail() {
-        when(TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt())).thenReturn(false);
+        mockedTtc.when(() -> TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt()))
+                .thenReturn(false);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
         verify(user, never()).sendMessage(any());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeSuccess() {
         assertTrue(cc.execute(user, "complete", Collections.singletonList("mychal")));
         verify(user, never()).sendMessage(any());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesNoPerm() {
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
-        PowerMockito.verifyStatic(Utils.class);
-        Utils.sendMessage(user, world, Constants.ERRORS + "no-multiple-permission");
+        mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "no-multiple-permission"));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesHasPerm() {
         when(user.hasPermission(anyString())).thenReturn(true);
@@ -260,17 +249,11 @@ public class CompleteChallengeCommandTest {
         verify(user, never()).sendMessage(any());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringNoArgs() {
         cc.tabComplete(user, "complete", Collections.emptyList());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringOneArg() {
         List<String> list = cc.tabComplete(user, "complete", Collections.singletonList("arg")).get();
@@ -278,9 +261,6 @@ public class CompleteChallengeCommandTest {
         assertEquals("help", list.get(0));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringTwoArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2")).get();
@@ -288,9 +268,6 @@ public class CompleteChallengeCommandTest {
         assertEquals("help", list.get(0));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringThreeArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3")).get();
@@ -300,18 +277,12 @@ public class CompleteChallengeCommandTest {
         assertEquals("breaker", list.get(2));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringFourArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "arg4")).get();
         assertTrue(list.isEmpty());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringFourArgsNumber() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "4")).get();
@@ -319,9 +290,6 @@ public class CompleteChallengeCommandTest {
         assertEquals("<number>", list.get(0));
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.commands.CompleteChallengeCommand#tabComplete(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testTabCompleteUserStringListOfStringFiveArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg23", "arg4", "arg5")).get();

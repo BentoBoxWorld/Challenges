@@ -38,6 +38,7 @@ import org.bukkit.util.BoundingBox;
 
 import com.google.common.collect.UnmodifiableIterator;
 
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
@@ -1433,7 +1434,7 @@ public class TryToComplete
             requirements.getAdvancements().stream().filter(ad -> !user.getPlayer().getAdvancementProgress(ad).isDone())
                     .forEach(ad -> Utils.sendMessage(this.user, this.world,
                             "challenges.gui.buttons.advancement_element.name", "[name]",
-                            ad.getDisplay().getTitle()));
+                            PlainTextComponentSerializer.plainText().serialize(ad.getDisplay().title())));
         }
         else
         {

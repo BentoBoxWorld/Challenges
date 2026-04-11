@@ -80,13 +80,6 @@ public class WebManager
 					getContent("challenges/catalog.json").
 					getContent().replaceAll("\\n", "");
 			}
-			catch (IllegalAccessException e)
-			{
-				if (this.plugin.getSettings().isLogGithubDownloadData())
-				{
-					this.plugin.log("Could not connect to GitHub.");
-				}
-			}
 			catch (Exception e)
 			{
 				this.plugin.logError("An error occurred when downloading data from GitHub...");
@@ -145,18 +138,6 @@ public class WebManager
 					getContent("challenges/library/" + entry.repository() + ".json").
 					getContent().
 					replaceAll("\\n", "");
-			}
-			catch (IllegalAccessException e)
-			{
-				if (this.plugin.getSettings().isLogGithubDownloadData())
-				{
-					this.plugin.log("Could not connect to GitHub.");
-                    this.plugin.log(
-                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
-                    user.sendRawMessage("Could not connect to GitHub.");
-                    user.sendRawMessage(
-                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
-				}
 			}
 			catch (Exception e)
 			{

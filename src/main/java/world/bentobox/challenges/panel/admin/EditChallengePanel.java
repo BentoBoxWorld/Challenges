@@ -20,6 +20,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.PanelListener;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -1135,7 +1136,7 @@ public class EditChallengePanel extends CommonPanel {
         }
         case REQUIRED_ADVANCEMENTS -> {
             requirements.getAdvancements().forEach(adv -> description
-                    .add(this.user.getTranslation(reference + "list", "[name]", adv.getDisplay().getTitle())));
+                    .add(this.user.getTranslation(reference + "list", "[name]", PlainTextComponentSerializer.plainText().serialize(adv.getDisplay().title()))));
 
             icon = new ItemStack(Material.CYAN_BANNER);
             clickHandler = (panel, user, clickType, i) -> {

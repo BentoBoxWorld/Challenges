@@ -1,8 +1,8 @@
 package world.bentobox.challenges.commands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -21,16 +21,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eclipse.jdt.annotation.NonNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
@@ -43,6 +43,7 @@ import world.bentobox.bentobox.managers.IslandWorldManager;
 import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.WhiteBox;
 import world.bentobox.challenges.config.Settings;
 import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 import world.bentobox.challenges.managers.ChallengesManager;
@@ -51,8 +52,6 @@ import world.bentobox.challenges.managers.ChallengesManager;
  * @author tastybento
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Bukkit.class, BentoBox.class, Util.class })
 public class ChallengesCommandTest {
 
     @Mock
@@ -75,13 +74,22 @@ public class ChallengesCommandTest {
     @Mock
     private GameModeAddon gameModeAddon;
 
-    /**
-     */
-    @Before
+    private AutoCloseable closeable;
+    private ServerMock server;
+    private MockedStatic<Bukkit> mockedBukkit;
+    private MockedStatic<Util> mockedUtil;
+
+    @BeforeEach
     public void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+        server = MockBukkit.mock();
+        // Force Paper static fields to initialize against the real MockBukkit server
+        // before mockStatic(Bukkit) replaces Bukkit with Mockito stubs.
+        @SuppressWarnings("unused")
+        var unusedTagRef = org.bukkit.Tag.LEAVES;
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
-        Whitebox.setInternalState(BentoBox.class, "instance", plugin);
+        WhiteBox.setInternalState(BentoBox.class, "instance", plugin);
         User.setPlugin(plugin);
 
         // Command manager
@@ -116,7 +124,6 @@ public class ChallengesCommandTest {
 
         // Player
         Player p = mock(Player.class);
-        // Sometimes use Mockito.withSettings().verboseLogging()
         when(user.isOp()).thenReturn(false);
         UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
@@ -127,12 +134,11 @@ public class ChallengesCommandTest {
         when(user.getTranslationOrNothing(anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
         when(user.getWorld()).thenReturn(world);
 
-        // Mock item factory (for itemstacks)
-        PowerMockito.mockStatic(Bukkit.class);
-        ItemFactory itemFactory = mock(ItemFactory.class);
-        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-        ItemMeta itemMeta = mock(ItemMeta.class);
-        when(itemFactory.getItemMeta(any())).thenReturn(itemMeta);
+        // Bukkit static mock — leave most calls as deep stubs and delegate
+        // server/itemFactory to the real MockBukkit instance.
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(server);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(server.getItemFactory());
 
         // Addon
         when(addon.getChallengesManager()).thenReturn(chm);
@@ -148,22 +154,27 @@ public class ChallengesCommandTest {
         // Island
         when(plugin.getIslands()).thenReturn(im);
         when(im.getIsland(any(), any(User.class))).thenReturn(island);
-        // Default to player being on the island
         when(im.locationIsOnIsland(any(Player.class), any())).thenReturn(true);
 
         // Util
-        PowerMockito.mockStatic(Util.class, Mockito.RETURNS_MOCKS);
-        when(Util.sameWorld(any(), any())).thenReturn(true);
-        when(Util.translateColorCodes(anyString()))
+        mockedUtil = Mockito.mockStatic(Util.class, Mockito.CALLS_REAL_METHODS);
+        mockedUtil.when(() -> Util.sameWorld(any(), any())).thenReturn(true);
+        mockedUtil.when(() -> Util.translateColorCodes(anyString()))
                 .thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 
         // Command under test
         cc = new ChallengesPlayerCommand(addon, ic);
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
+    @AfterEach
+    public void tearDown() throws Exception {
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (mockedUtil != null) mockedUtil.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
+    }
+
     @Test
     public void testCanExecuteWrongWorld() {
         when(iwm.inWorld(any(World.class))).thenReturn(false);
@@ -171,9 +182,6 @@ public class ChallengesCommandTest {
         verify(user).getTranslation(world, "general.errors.wrong-world");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteNoChallenges() {
         when(iwm.inWorld(any(World.class))).thenReturn(true);
@@ -183,9 +191,6 @@ public class ChallengesCommandTest {
         verify(user).getTranslation(world, "challenges.errors.no-challenges");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteNoChallengesOp() {
         when(user.isOp()).thenReturn(true);
@@ -196,9 +201,6 @@ public class ChallengesCommandTest {
         verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteNoChallengesHasPerm() {
         when(user.hasPermission(anyString())).thenReturn(true);
@@ -209,9 +211,6 @@ public class ChallengesCommandTest {
         verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteNoAdminCommand() {
         when(gameModeAddon.getAdminCommand()).thenReturn(Optional.empty());
@@ -223,9 +222,6 @@ public class ChallengesCommandTest {
         verify(user, never()).getTranslation(world, "challenges.errors.no-challenges");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteNoIsland() {
         when(im.getIsland(any(), any(User.class))).thenReturn(null);
@@ -233,26 +229,17 @@ public class ChallengesCommandTest {
         verify(user).getTranslation(world, "general.errors.no-island");
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#canExecute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testCanExecuteSuccess() {
         assertTrue(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(user, never()).sendMessage(anyString());
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#execute(world.bentobox.bentobox.api.user.User, java.lang.String, java.util.List)}.
-     */
     @Test
     public void testExecuteUserStringListOfStringUser() {
         assertTrue(cc.execute(user, "challenges", Collections.emptyList()));
     }
 
-    /**
-     * Test method for {@link ChallengesPlayerCommand#setup()}.
-     */
     @Test
     public void testSetup() {
         assertEquals("bskyblock.challenges", cc.getPermission());
