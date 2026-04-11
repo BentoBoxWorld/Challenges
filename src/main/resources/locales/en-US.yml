@@ -731,10 +731,17 @@ challenges:
             download:
                 name: "&f&l Download Libraries"
                 description: |-
-                    &7 Manually updates the available 
+                    &7 Manually updates the available
                     &7 challenges libraries.
                 enabled: "&2 With cache clear"
                 disabled: "&c Without cache clear"
+            language:
+                name: "&f&l Language"
+                description: |-
+                    &7 Filter challenge libraries
+                    &7 by language.
+                current: "&7 Showing: &e [lang]"
+                all: "All"
             player:
                 name: "&f&l [name]"
                 description: |-
@@ -927,6 +934,7 @@ challenges:
             click-to-reset-all: "&e Click &7 to reset all."
             right-click-to-select: "&e Right Click &7 to select."
             right-click-to-deselect: "&e Right Click &7 to deselect."
+            right-click-to-reset: "&e Right Click &7 to reset."
             left-click-to-choose: "&e Left Click &7 to choose."
             click-to-cancel: "&e Click &7 to cancel."
             click-to-save: "&e Click &7 to save."
