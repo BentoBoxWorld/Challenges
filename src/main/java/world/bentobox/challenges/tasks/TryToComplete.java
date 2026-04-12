@@ -38,6 +38,7 @@ import org.bukkit.util.BoundingBox;
 
 import com.google.common.collect.UnmodifiableIterator;
 
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
@@ -151,7 +152,7 @@ public class TryToComplete
         this.manager = addon.getChallengesManager();
         // To avoid any modifications that may occur to challenges in current completion
         // just clone it.
-        this.challenge = challenge.clone();
+        this.challenge = challenge.copy();
     }
 
 
@@ -1160,8 +1161,8 @@ public class TryToComplete
         Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-close-enough", Constants.PARAMETER_NUMBER,
                 String.valueOf(this.getIslandRequirements().getSearchRadius()));
 
-        tags.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need", "[amount]",
-                String.valueOf(v), "[item]", Utils.prettifyObject(k, this.user)));
+        tags.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.YOU_STILL_NEED, Constants.PARAMETER_AMOUNT,
+                String.valueOf(v), Constants.PARAMETER_ITEM, Utils.prettifyObject(k, this.user)));
 
         // kick garbage collector
         tags.clear();
@@ -1245,8 +1246,8 @@ public class TryToComplete
         Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-close-enough", Constants.PARAMETER_NUMBER,
                 String.valueOf(this.getIslandRequirements().getSearchRadius()));
 
-        blocks.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need",
-                "[amount]", String.valueOf(v), "[item]", Utils.prettifyObject(k, this.user)));
+        blocks.forEach((k, v) -> Utils.sendMessage(this.user, this.world, Constants.YOU_STILL_NEED,
+                Constants.PARAMETER_AMOUNT, String.valueOf(v), Constants.PARAMETER_ITEM, Utils.prettifyObject(k, this.user)));
 
 
         // kick garbage collector
@@ -1319,8 +1320,8 @@ public class TryToComplete
         }
 
         minimalRequirements.forEach(
-                (reqEnt, amount) -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "you-still-need",
-                        "[amount]", String.valueOf(amount), "[item]", Utils.prettifyObject(reqEnt, this.user)));
+                (reqEnt, amount) -> Utils.sendMessage(this.user, this.world, Constants.YOU_STILL_NEED,
+                        Constants.PARAMETER_AMOUNT, String.valueOf(amount), Constants.PARAMETER_ITEM, Utils.prettifyObject(reqEnt, this.user)));
 
         // Kick garbage collector
         entitiesFound.clear();
@@ -1400,13 +1401,13 @@ public class TryToComplete
         } else if (!this.addon.isEconomyProvided() && requirements.getRequiredMoney() != 0) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "missing-addon");
         } else if (this.addon.isEconomyProvided() && requirements.getRequiredMoney() < 0) {
-            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            Utils.sendMessage(this.user, this.world, Constants.INCORRECT);
         } else if (this.addon.isEconomyProvided()
                 && !this.addon.getEconomyProvider().has(this.user, requirements.getRequiredMoney())) {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-money", Constants.PARAMETER_VALUE,
                     Double.toString(requirements.getRequiredMoney()));
         } else if (requirements.getRequiredExperience() < 0) {
-            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            Utils.sendMessage(this.user, this.world, Constants.INCORRECT);
         } else if (this.user.getPlayer().getTotalExperience() < requirements.getRequiredExperience()
                 && this.user.getPlayer().getGameMode() != GameMode.CREATIVE) {
             // Players in creative gamemode has infinite amount of EXP.
@@ -1420,7 +1421,7 @@ public class TryToComplete
         } else if (this.addon.getPlugin().getHooks().getHook("PlaceholderAPI").isPresent()
                 && !requirements.getPapiString().isEmpty()
                 && !CheckPapi.evaluate(user.getPlayer(), requirements.getPapiString())) {
-            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            Utils.sendMessage(this.user, this.world, Constants.INCORRECT);
             if (!requirements.getPapiString().isEmpty()) {
                 addon.log("FYI:.Challenge failed for " + user.getName() + ". PAPI formula: "
                         + requirements.getPapiString() + " = "
@@ -1428,12 +1429,12 @@ public class TryToComplete
             }
         } else if (!requirements.getAdvancements().stream().map(user.getPlayer()::getAdvancementProgress)
                 .allMatch(AdvancementProgress::isDone)) {
-            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "incorrect");
+            Utils.sendMessage(this.user, this.world, Constants.INCORRECT);
             user.sendMessage("challenges.gui.buttons.required_advancements.title");
             requirements.getAdvancements().stream().filter(ad -> !user.getPlayer().getAdvancementProgress(ad).isDone())
                     .forEach(ad -> Utils.sendMessage(this.user, this.world,
                             "challenges.gui.buttons.advancement_element.name", "[name]",
-                            ad.getDisplay().getTitle()));
+                            PlainTextComponentSerializer.plainText().serialize(ad.getDisplay().title())));
         }
         else
         {
@@ -1495,21 +1496,21 @@ public class TryToComplete
                 switch (Objects.requireNonNull(s.statistic()).getType()) {
                 case ITEM, BLOCK -> {
                     Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
                             Utils.prettifyObject(s.statistic(), this.user), "[material]",
                             Utils.prettifyObject(s.material(), this.user), Constants.PARAMETER_VALUE,
                             String.valueOf(currentValue));
                 }
                 case ENTITY -> {
                     Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-entity",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
                             Utils.prettifyObject(s.statistic(), this.user), "[entity]",
                             Utils.prettifyObject(s.entity(), this.user), Constants.PARAMETER_VALUE,
                             String.valueOf(currentValue));
                 }
                 default -> {
                     Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), "[statistic]",
+                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
                             Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_VALUE,
                             String.valueOf(currentValue));
                 }

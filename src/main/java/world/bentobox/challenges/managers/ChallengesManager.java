@@ -273,7 +273,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, "NULL");
             }
 
@@ -372,7 +372,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, "NULL");
             }
 
@@ -399,7 +399,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, level.getFriendlyName());
             }
             else

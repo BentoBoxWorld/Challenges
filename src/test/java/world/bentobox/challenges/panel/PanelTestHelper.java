@@ -1,25 +1,19 @@
 package world.bentobox.challenges.panel;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 
-import world.bentobox.bentobox.BentoBox;
-import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.api.panels.TemplatedPanel;
 import world.bentobox.bentobox.api.panels.reader.ItemTemplateRecord;
+import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
 
@@ -29,63 +23,30 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 public class PanelTestHelper {
 
     /**
-     * Set Bukkit.server via reflection.
-     */
-    public static void setServer(Server server) throws Exception {
-        Field field = Bukkit.class.getDeclaredField("server");
-        field.setAccessible(true);
-        field.set(null, server);
-    }
-
-    /**
-     * Set BentoBox.instance via reflection.
-     */
-    public static void setBentoBoxInstance(BentoBox instance) throws Exception {
-        Field field = BentoBox.class.getDeclaredField("instance");
-        field.setAccessible(true);
-        field.set(null, instance);
-    }
-
-    /**
-     * Set up user translation mocks to return the key for any number of args.
-     * Uses Mockito.doAnswer to properly handle String... varargs.
+     * Set up user translation mocks to return the key for any invocation.
+     * Uses a lenient default answer that returns the first String argument
+     * for any method that returns String.
      */
     public static void setupUserTranslations(User user) {
-        // Use doAnswer for varargs - order matters: more specific first, then general
+        // Catch-all for getTranslation(String, String...) — returns the first arg
+        Mockito.lenient().when(user.getTranslation(Mockito.anyString()))
+            .thenAnswer((Answer<String>) inv -> inv.getArgument(0, String.class));
+
+        // For varargs overloads, Mockito 5 needs any(String[].class) to match the whole varargs array
+        Mockito.lenient().doAnswer((Answer<String>) inv -> inv.getArgument(0, String.class))
+            .when(user).getTranslation(Mockito.anyString(), Mockito.any(String[].class));
 
         // getTranslation(World, String, String...)
-        Mockito.doAnswer((Answer<String>) inv -> inv.getArgument(1, String.class))
+        Mockito.lenient().doAnswer((Answer<String>) inv -> inv.getArgument(1, String.class))
             .when(user).getTranslation(Mockito.any(org.bukkit.World.class),
-                Mockito.anyString(), Mockito.<String>any());
+                Mockito.anyString(), Mockito.any(String[].class));
 
-        // getTranslation(String, String...)
-        Mockito.doAnswer((Answer<String>) inv -> inv.getArgument(0, String.class))
-            .when(user).getTranslation(Mockito.anyString(), Mockito.<String>any());
+        // getTranslationOrNothing(String, String...) — catch-all
+        Mockito.lenient().when(user.getTranslationOrNothing(Mockito.anyString()))
+            .thenAnswer((Answer<String>) inv -> inv.getArgument(0, String.class));
 
-        // getTranslationOrNothing(String, String...)
-        Mockito.doAnswer((Answer<String>) inv -> inv.getArgument(0, String.class))
-            .when(user).getTranslationOrNothing(Mockito.anyString(), Mockito.<String>any());
-    }
-
-    /**
-     * Set the server field on a BentoBox/JavaPlugin instance via reflection.
-     * This is needed because getServer() is final in PluginBase.
-     */
-    public static void setPluginServer(Object plugin, org.bukkit.Server server) throws Exception {
-        // Try JavaPlugin's server field, then PluginBase
-        Class<?> clazz = plugin.getClass();
-        while (clazz != null) {
-            try {
-                Field field = clazz.getDeclaredField("server");
-                field.setAccessible(true);
-                field.set(plugin, server);
-                return;
-            } catch (NoSuchFieldException e) {
-                clazz = clazz.getSuperclass();
-            }
-        }
-        // If no server field found, try setting it via the Bukkit.server approach
-        // as a fallback (ConversationFactory calls Bukkit.getServer() in some cases)
+        Mockito.lenient().doAnswer((Answer<String>) inv -> inv.getArgument(0, String.class))
+            .when(user).getTranslationOrNothing(Mockito.anyString(), Mockito.any(String[].class));
     }
 
     /**
@@ -121,9 +82,6 @@ public class PanelTestHelper {
      */
     public static TemplatedPanel.ItemSlot createItemSlot(int slot,
             Map<String, Integer> typeSlotMap) throws Exception {
-        // Create a TemplatedPanel shell with just the typeSlotMap set via reflection
-        // We can't construct it normally (needs builder + template file), so use Objenesis-style creation
-        // Use sun.misc.Unsafe or similar
         TemplatedPanel panel = createTemplatedPanelStub(typeSlotMap);
         return new TemplatedPanel.ItemSlot(slot, panel);
     }

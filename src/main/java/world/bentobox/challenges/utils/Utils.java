@@ -217,7 +217,7 @@ public class Utils
 		//   environments:
 		//     [environment]:
 		//       name: [name]
-		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + ".name");
+		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + Constants.DOT_NAME);
 
 		if (!translation.isEmpty())
 		{
@@ -271,7 +271,7 @@ public class Utils
 		//   environments:
 		//     [environment]:
 		//       description: [text]
-		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + ".description");
+		String translation = user.getTranslationOrNothing(Constants.ENVIRONMENTS + object.name().toLowerCase() + Constants.DOT_DESCRIPTION);
 
 		if (!translation.isEmpty())
 		{
@@ -295,7 +295,7 @@ public class Utils
             return "";
         }
         String translation = user.getTranslationOrNothing(
-                Constants.MATERIALS + object.getKey().getKey().toLowerCase(Locale.ENGLISH) + ".name");
+                Constants.MATERIALS + object.getKey().getKey().toLowerCase(Locale.ENGLISH) + Constants.DOT_NAME);
         String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
         // Prettify and remove last s
         String tag = any + Util.prettifyText(object.getKey().getKey()).replaceAll("s$", "");
@@ -319,7 +319,7 @@ public class Utils
         }
         // Build a translation key using the enum name.
         String translation = user
-                .getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase(Locale.ENGLISH) + ".name");
+                .getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase(Locale.ENGLISH) + Constants.DOT_NAME);
         String any = user.getTranslationOrNothing(Constants.MATERIALS + "any");
         // Use the enum's name and prettify it (for example, convert ALL_HANGING_SIGNS to "All Hanging Sign")
         String tag = any + Util.prettifyText(object.name()).replaceAll("s$", "");
@@ -345,7 +345,7 @@ public class Utils
 		//   materials:
 		//     [material]:
 		//       name: [name]
-		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + ".name");
+		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + Constants.DOT_NAME);
 
 		if (!translation.isEmpty())
 		{
@@ -402,7 +402,7 @@ public class Utils
 		//   materials:
 		//     [material]:
 		//       description: [text]
-		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + ".description");
+		String translation = user.getTranslationOrNothing(Constants.MATERIALS + object.name().toLowerCase() + Constants.DOT_DESCRIPTION);
 
 		if (!translation.isEmpty())
 		{
@@ -434,7 +434,7 @@ public class Utils
 		//   entities:
 		//     [entity]:
 		//       name: [name]
-		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + ".name");
+		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + Constants.DOT_NAME);
 
 		if (!translation.isEmpty())
 		{
@@ -491,7 +491,7 @@ public class Utils
 		//   entities:
 		//     [entity]:
 		//       description: [text]
-		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + ".description");
+		String translation = user.getTranslationOrNothing(Constants.ENTITIES + object.name().toLowerCase() + Constants.DOT_DESCRIPTION);
 
 		if (!translation.isEmpty())
 		{
@@ -523,7 +523,7 @@ public class Utils
 		//   statistics:
 		//     [statistic]:
 		//       name: [name]
-		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + ".name");
+		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + Constants.DOT_NAME);
 
 		if (!translation.isEmpty())
 		{
@@ -581,7 +581,7 @@ public class Utils
 		//   statistics:
 		//     [statistic]:
 		//       description: [text]
-		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + ".description");
+		String translation = user.getTranslationOrNothing(Constants.STATISTICS + object.name().toLowerCase() + Constants.DOT_DESCRIPTION);
 
 		if (!translation.isEmpty())
 		{
@@ -753,7 +753,7 @@ public class Utils
 		Material itemType = item.getType();
 
 		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
-		final String metaReference = Constants.ITEM_STACKS + "meta.";
+		final String metaReference = Constants.META_PREFIX;
 
         PotionType potionData = potionMeta.getBasePotionType();
 
@@ -766,18 +766,18 @@ public class Utils
 		}
 		// Get item specific translation.
 		String specific = user.getTranslationOrNothing(itemReference + "name",
-			"[type]", type,
+			Constants.PARAMETER_TYPE, type,
                 "[upgraded]", "", "[extended]", "");
 
 		if (specific.isEmpty())
 		{
 			// Use generic translation.
 			String meta = user.getTranslationOrNothing(metaReference + "potion-meta",
-				"[type]", type,
+				Constants.PARAMETER_TYPE, type,
                     "[upgraded]", "", "[extended]", "");
-			specific = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-				"[type]", prettifyObject(itemType, user),
-				"[meta]", meta);
+			specific = user.getTranslationOrNothing(Constants.GENERIC,
+				Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
+				Constants.PARAMETER_META, meta);
 		}
         if (specific.isEmpty()) {
             // Last ditch
@@ -803,14 +803,14 @@ public class Utils
 		}
 
 		Material itemType = item.getType();
-		final String metaReference = Constants.ITEM_STACKS + "meta.";
+		final String metaReference = Constants.META_PREFIX;
 
 		String meta = user.getTranslationOrNothing(metaReference + "skull-meta",
 			"[player-name]", skullMeta.getDisplayName());
 
-		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-			"[type]", prettifyObject(itemType, user),
-			"[meta]", meta);
+		return user.getTranslationOrNothing(Constants.GENERIC,
+			Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
+			Constants.PARAMETER_META, meta);
 	}
 
 
@@ -834,7 +834,7 @@ public class Utils
 		itemMeta.getEnchants().forEach((enchantment, level) -> {
 			builder.append("\n");
 			builder.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "meta.enchant-meta",
-				"[type]", prettifyObject(enchantment, user),
+				Constants.PARAMETER_TYPE, prettifyObject(enchantment, user),
 				"[level]", String.valueOf(level)));
 		});
 
@@ -843,14 +843,14 @@ public class Utils
 		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
 
 		String translation = user.getTranslationOrNothing(itemReference + "name",
-			"[type]", prettifyObject(itemType, user),
+			Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
 			"[enchant]", builder.toString());
 
 		if (translation.isEmpty())
 		{
-			translation = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-				"[type]", prettifyObject(itemType, user),
-				"[meta]", builder.toString());
+			translation = user.getTranslationOrNothing(Constants.GENERIC,
+				Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
+				Constants.PARAMETER_META, builder.toString());
 		}
 
 		return translation;
@@ -877,7 +877,7 @@ public class Utils
 		enchantmentMeta.getStoredEnchants().forEach((enchantment, level) -> {
 			builder.append("\n");
 			builder.append(user.getTranslationOrNothing(Constants.ITEM_STACKS + "meta.enchant-meta",
-				"[type]", prettifyObject(enchantment, user),
+				Constants.PARAMETER_TYPE, prettifyObject(enchantment, user),
 				"[level]", String.valueOf(level)));
 		});
 
@@ -886,14 +886,14 @@ public class Utils
 		final String itemReference = Constants.ITEM_STACKS + itemType.name().toLowerCase() + ".";
 
 		String translation = user.getTranslationOrNothing(itemReference + "name",
-			"[type]", prettifyObject(itemType, user),
+			Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
 			"[enchant]", builder.toString());
 
 		if (translation.isEmpty())
 		{
-			translation = user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-				"[type]", prettifyObject(itemType, user),
-				"[meta]", builder.toString());
+			translation = user.getTranslationOrNothing(Constants.GENERIC,
+				Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
+				Constants.PARAMETER_META, builder.toString());
 		}
 
 		return translation;
@@ -916,15 +916,15 @@ public class Utils
 		}
 
 		Material itemType = item.getType();
-		final String metaReference = Constants.ITEM_STACKS + "meta.";
+		final String metaReference = Constants.META_PREFIX;
 
 		String meta = user.getTranslationOrNothing(metaReference + "book-meta",
 			"[title]", bookMeta.hasTitle() ? bookMeta.getTitle() : "",
 			"[author]", bookMeta.hasAuthor() ? bookMeta.getAuthor() : "");
 
-		return user.getTranslationOrNothing(Constants.ITEM_STACKS + "generic",
-			"[type]", prettifyObject(itemType, user),
-			"[meta]", meta);
+		return user.getTranslationOrNothing(Constants.GENERIC,
+			Constants.PARAMETER_TYPE, prettifyObject(itemType, user),
+			Constants.PARAMETER_META, meta);
 	}
 
 

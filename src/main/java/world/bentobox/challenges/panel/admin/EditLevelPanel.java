@@ -353,7 +353,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
             case REWARD_TEXT -> {
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
-                description.add(this.user.getTranslation(reference + "value"));
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY));
                 description.add(Util.translateColorCodes(this.challengeLevel.getRewardText()));
 
                 clickHandler = (panel, user, clickType, i) ->
@@ -389,11 +389,11 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
 
                 if (!this.challengeLevel.getRewardText().isEmpty())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+                    description.add(this.user.getTranslation(Constants.SHIFT_CLICK_TO_RESET));
                 }
             }
             case REWARD_ITEMS -> {
@@ -433,10 +433,10 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case REWARD_EXPERIENCE -> {
-                description.add(this.user.getTranslation(reference + "value",
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getRewardExperience())));
                 icon = new ItemStack(Material.EXPERIENCE_BOTTLE);
                 clickHandler = (panel, user, clickType, i) -> {
@@ -451,7 +451,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                     };
                     ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
-                        this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
+                        this.user.getTranslation(Constants.INPUT_NUMBER),
                         0,
                         Integer.MAX_VALUE);
 
@@ -460,10 +460,10 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case REWARD_MONEY -> {
-                description.add(this.user.getTranslation(reference + "value",
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getRewardMoney())));
                 icon = new ItemStack(this.addon.isEconomyProvided() ? Material.GOLD_INGOT : Material.BARRIER);
                 clickHandler = (panel, user, clickType, i) -> {
@@ -478,7 +478,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                     };
                     ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
-                        this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
+                        this.user.getTranslation(Constants.INPUT_NUMBER),
                         0,
                         Double.MAX_VALUE);
 
@@ -487,12 +487,12 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case REWARD_COMMANDS -> {
                 icon = new ItemStack(Material.COMMAND_BLOCK);
 
-                description.add(this.user.getTranslation(reference + "value"));
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY));
                 description.addAll(this.challengeLevel.getRewardCommands());
 
                 clickHandler = (panel, user, clickType, i) ->
@@ -527,11 +527,11 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
 
                 if (!this.challengeLevel.getRewardCommands().isEmpty())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+                    description.add(this.user.getTranslation(Constants.SHIFT_CLICK_TO_RESET));
                 }
             }
             case ADD_IGNORED_META -> {
@@ -626,7 +626,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 description.add(this.user.getTranslation(Constants.TIPS + "click-to-remove"));
             }
             case NAME -> {
-                description.add(this.user.getTranslation(reference + "value",
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
                     Constants.PARAMETER_NAME, this.challengeLevel.getFriendlyName()));
 
                 icon = new ItemStack(Material.NAME_TAG);
@@ -655,12 +655,12 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case DESCRIPTION -> {
                 icon = new ItemStack(Material.WRITTEN_BOOK);
 
-                description.add(this.user.getTranslation(reference + "value"));
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY));
                 description.add(Util.translateColorCodes(this.challengeLevel.getUnlockMessage()));
 
                 clickHandler = (panel, user, clickType, i) ->
@@ -695,11 +695,11 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
 
                 if (!this.challengeLevel.getUnlockMessage().isEmpty())
                 {
-                    description.add(this.user.getTranslation(Constants.TIPS + "shift-click-to-reset"));
+                    description.add(this.user.getTranslation(Constants.SHIFT_CLICK_TO_RESET));
                 }
             }
             case ICON, LOCKED_ICON -> {
@@ -717,7 +717,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 if (this.selectedButton != button)
                 {
                     description.add("");
-                    description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                    description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
                 }
                 else
                 {
@@ -728,7 +728,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = this.selectedButton == button;
             }
             case ORDER -> {
-                description.add(this.user.getTranslation(reference + "value",
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
                     Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getOrder())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challengeLevel.getOrder()));
@@ -745,7 +745,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
 
                     ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
-                        this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
+                        this.user.getTranslation(Constants.INPUT_NUMBER),
                         0,
                         2000);
 
@@ -754,10 +754,10 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case WAIVER_AMOUNT -> {
-                description.add(this.user.getTranslation(reference + "value",
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
                         Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getWaiverAmount())));
 
                 icon = new ItemStack(Material.HOPPER, Math.max(1, this.challengeLevel.getWaiverAmount()));
@@ -774,7 +774,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
 
                     ConversationUtils.createNumericInput(numberConsumer,
                         this.user,
-                        this.user.getTranslation(Constants.CONVERSATIONS + "input-number"),
+                        this.user.getTranslation(Constants.INPUT_NUMBER),
                         0,
                         2000);
 
@@ -783,7 +783,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case ADD_CHALLENGES -> {
                 icon = new ItemStack(Material.WATER_BUCKET);

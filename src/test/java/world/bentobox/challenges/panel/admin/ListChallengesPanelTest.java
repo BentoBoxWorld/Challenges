@@ -2,28 +2,22 @@ package world.bentobox.challenges.panel.admin;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.inventory.ItemFactory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.user.User;
@@ -35,8 +29,6 @@ import world.bentobox.challenges.panel.PanelTestHelper;
 /**
  * Tests for {@link ListChallengesPanel} element button creation.
  */
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class ListChallengesPanelTest {
 
     @Mock
@@ -47,29 +39,31 @@ public class ListChallengesPanelTest {
     private World world;
     @Mock
     private ChallengesManager manager;
-    @Mock
-    private Server server;
-    @Mock
-    private ItemFactory itemFactory;
-    @Mock
-    private ItemMeta meta;
 
-    private Server previousServer;
+    private AutoCloseable closeable;
+    private ServerMock mbServer;
+    private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     public void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
+        mbServer = MockBukkit.mock();
+
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);
 
-        when(server.getItemFactory()).thenReturn(itemFactory);
-        when(itemFactory.getItemMeta(any(Material.class))).thenReturn(meta);
-        previousServer = Bukkit.getServer();
-        PanelTestHelper.setServer(server);
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(mbServer);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(mbServer.getItemFactory());
+        mockedBukkit.when(Bukkit::getUnsafe).thenReturn(mbServer.getUnsafe());
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        PanelTestHelper.setServer(previousServer);
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
     }
 
     private ListChallengesPanel createPanel(ListChallengesPanel.Mode mode) throws Exception {

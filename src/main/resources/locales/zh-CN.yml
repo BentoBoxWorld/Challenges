@@ -27,592 +27,592 @@ challenges:
         parameters: "<challenge_id> [count]"
   gui:
     titles:
-      player-gui: "&0&l 挑战菜单"
-      gamemode-gui: "&0&l 选择游戏模式"
-      multiple-gui: "&0&l 多少次？"
-      admin-gui: "&0&l 管理员挑战菜单"
-      edit-challenge: "&0&l 编辑 [challenge]"
-      edit-level: "&0&l 编辑 [level]"
-      settings: "&0&l 设置"
-      choose-challenge: "&0&l 选择挑战"
-      choose-level: "&0&l 选择挑战等级"
-      choose-player: "&0&l 选择玩家"
-      library: "&0&l 库"
-      manage-blocks: "&0&l 管理方块"
-      manage-entities: "&0&l 管理实体"
-      type-selector: "&0&l 选择挑战类型"
-      item-selector: "&0&l 选择物品"
-      block-selector: "&0&l 选择方块"
-      entity-selector: "&0&l 选择实体"
-      challenge-selector: "&0&l 选择挑战"
-      statistic-selector: "&0&l 选择统计数据"
-      environment-selector: "&0&l 选择环境条件"
+      player-gui: "<black><bold>挑战菜单"
+      gamemode-gui: "<black><bold>选择游戏模式"
+      multiple-gui: "<black><bold>多少次？"
+      admin-gui: "<black><bold>管理员挑战菜单"
+      edit-challenge: "<black><bold>编辑 [challenge]"
+      edit-level: "<black><bold>编辑 [level]"
+      settings: "<black><bold>设置"
+      choose-challenge: "<black><bold>选择挑战"
+      choose-level: "<black><bold>选择挑战等级"
+      choose-player: "<black><bold>选择玩家"
+      library: "<black><bold>库"
+      manage-blocks: "<black><bold>管理方块"
+      manage-entities: "<black><bold>管理实体"
+      type-selector: "<black><bold>选择挑战类型"
+      item-selector: "<black><bold>选择物品"
+      block-selector: "<black><bold>选择方块"
+      entity-selector: "<black><bold>选择实体"
+      challenge-selector: "<black><bold>选择挑战"
+      statistic-selector: "<black><bold>选择统计数据"
+      environment-selector: "<black><bold>选择环境条件"
     buttons:
       free-challenges:
-        name: "&f&l 自由挑战"
+        name: "<white><bold>自由挑战"
         description: |-
-          &7 显示自由
-          &7 挑战列表
+          <gray>显示自由
+          <gray>挑战列表
       return:
-        name: "&f&l 返回"
+        name: "<white><bold>返回"
         description: |-
-          &7 返回上一级菜单
-          &7 或关闭菜单
+          <gray>返回上一级菜单
+          <gray>或关闭菜单
       previous:
-        name: "&f&l 上一页"
-        description: "&7 跳转到 &e [number] &7 页"
+        name: "<white><bold>上一页"
+        description: "<gray>跳转到 <yellow>[number] <gray>页"
       next:
-        name: "&f&l 下一页"
-        description: "&7 跳转到 &e [number] &7 页"
+        name: "<white><bold>下一页"
+        description: "<gray>跳转到 <yellow>[number] <gray>页"
       reduce:
-        name: "&f&l 减少"
-        description: "&7 已减少 &e [number]"
+        name: "<white><bold>减少"
+        description: "<gray>已减少 <yellow>[number]"
       increase:
-        name: "&f&l 增加"
-        description: "&7 已增加 &e [number]"
+        name: "<white><bold>增加"
+        description: "<gray>已增加 <yellow>[number]"
       accept:
-        name: "&f&l 完成"
+        name: "<white><bold>完成"
         description: |-
-          &7 已完成该挑战
-          &e [number] &7次
+          <gray>已完成该挑战
+          <yellow>[number] <gray>次
       quit:
-        name: "&f&l 退出"
-        description: "&7 关闭菜单。"
+        name: "<white><bold>退出"
+        description: "<gray>关闭菜单。"
       complete_user_challenges:
-        name: "&f&l 完成玩家的挑战"
+        name: "<white><bold>完成玩家的挑战"
         description: |-
-          &7 在这里选择
-          &7 玩家并为他
-          &7 完成挑战
+          <gray>在这里选择
+          <gray>玩家并为他
+          <gray>完成挑战
       reset_user_challenges:
-        name: "&f&l 重置玩家的挑战"
+        name: "<white><bold>重置玩家的挑战"
         description: |-
-          &7 在这里选择玩家并
-          &7 重置他的挑战
+          <gray>在这里选择玩家并
+          <gray>重置他的挑战
       add_challenge:
-        name: "&f&l 创建挑战"
+        name: "<white><bold>创建挑战"
         description: |-
-          &7 进入挑战
-          &7 创建模式。
+          <gray>进入挑战
+          <gray>创建模式。
       add_level:
-        name: "&f&l 创建挑战等级"
+        name: "<white><bold>创建挑战等级"
         description: |-
-          &7 进入挑战等级
-          &7 创建模式。
+          <gray>进入挑战等级
+          <gray>创建模式。
       edit_challenge:
-        name: "&f&l 编辑挑战"
+        name: "<white><bold>编辑挑战"
         description: |-
-          &7 在这里选择和
-          &7 编辑挑战。
+          <gray>在这里选择和
+          <gray>编辑挑战。
       edit_level:
-        name: "&f&l 编辑挑战等级"
+        name: "<white><bold>编辑挑战等级"
         description: |-
-          &7 在这里选择和
-          &7 编辑挑战等级。
+          <gray>在这里选择和
+          <gray>编辑挑战等级。
       delete_challenge:
-        name: "&f&l 删除挑战"
+        name: "<white><bold>删除挑战"
         description: |-
-          &7 在这里选择并删除
-          &7 挑战。
+          <gray>在这里选择并删除
+          <gray>挑战。
       delete_level:
-        name: "&f&l 删除挑战等级"
+        name: "<white><bold>删除挑战等级"
         description: |-
-          &7 在这里选择并删除
-          &7 某个挑战等级。
+          <gray>在这里选择并删除
+          <gray>某个挑战等级。
       edit_settings:
-        name: "&f&l 设置"
+        name: "<white><bold>设置"
         description: |-
-          &7 在这里查看和编辑
-          &7 扩展设置。
+          <gray>在这里查看和编辑
+          <gray>扩展设置。
       complete_wipe:
-        name: "&f&l 清除所有数据"
-        description: "&7 彻底清除挑战扩展数据，包括用户数据。"
+        name: "<white><bold>清除所有数据"
+        description: "<gray>彻底清除挑战扩展数据，包括用户数据。"
       challenge_wipe:
-        name: "&f&l 清除挑战数据"
+        name: "<white><bold>清除挑战数据"
         description: |-
-          &7 彻底清除挑战
-          &7 及挑战等级数据。
+          <gray>彻底清除挑战
+          <gray>及挑战等级数据。
       user_wipe:
-        name: "&f&l 清除玩家数据"
-        description: "&7 彻底清除玩家数据。"
+        name: "<white><bold>清除玩家数据"
+        description: "<gray>彻底清除玩家数据。"
       library:
-        name: "&f&l 库"
-        description: "&7 打开公共挑战库。"
+        name: "<white><bold>库"
+        description: "<gray>打开公共挑战库。"
       import_database:
-        name: "&f&l 导入数据"
-        description: "&7 导入或导出挑战扩展数据。"
+        name: "<white><bold>导入数据"
+        description: "<gray>导入或导出挑战扩展数据。"
       import_template:
-        name: "&f&l 导入模板"
-        description: "&7 点击导入挑战模板文件。"
+        name: "<white><bold>导入模板"
+        description: "<gray>点击导入挑战模板文件。"
       export_challenges:
-        name: "&f&l 导出挑战"
-        description: "&7 导出挑战数据到本地文件。"
+        name: "<white><bold>导出挑战"
+        description: "<gray>导出挑战数据到本地文件。"
       properties:
-        name: "&f&l 属性"
-        description: "&7 查看所有主要属性。"
+        name: "<white><bold>属性"
+        description: "<gray>查看所有主要属性。"
       requirements:
-        name: "&f&l 要求"
-        description: "&7 查看要求。"
+        name: "<white><bold>要求"
+        description: "<gray>查看要求。"
       rewards:
-        name: "&f&l 奖励"
-        description: "&7 查看奖励。"
+        name: "<white><bold>奖励"
+        description: "<gray>查看奖励。"
       deployed:
-        name: "&f&l 发布"
+        name: "<white><bold>发布"
         description: |-
-          &7切换挑战是否部署完成
-          &7从而玩家可以完成它。
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>切换挑战是否部署完成
+          <gray>从而玩家可以完成它。
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       name:
-        name: "&f&l 名称"
+        name: "<white><bold>名称"
         description: |-
-          &7 在这里修改
-          &7 挑战名称。
-        value: "&7 当前名称：&r [name]"
+          <gray>在这里修改
+          <gray>挑战名称。
+        value: "<gray>当前名称：<reset>[name]"
       remove_on_complete:
-        name: "&f&l 完成后隐藏"
-        description: "&7 切换是否隐藏已完成挑战"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>完成后隐藏"
+        description: "<gray>切换是否隐藏已完成挑战"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       description:
-        name: "&f&l 说明"
+        name: "<white><bold>说明"
         description: |-
-          &7关于该挑战的详细描述。
-          &7必须使用颜色代码。
-        value: "&7 当前描述："
+          <gray>关于该挑战的详细描述。
+          <gray>必须使用颜色代码。
+        value: "<gray>当前描述："
       environment:
-        name: "&f&l 维度"
+        name: "<white><bold>维度"
         description: |-
-          &7 限制哪些维度
-          &7 可以完成此挑战。
-        enabled: "&2"
-        disabled: "&c"
+          <gray>限制哪些维度
+          <gray>可以完成此挑战。
+        enabled: "<dark_green>"
+        disabled: "<red>"
       order:
-        name: "&f&l 位置"
+        name: "<white><bold>位置"
         description: |-
-          &7允许修改挑战的排序
-          &7带有相同序号的挑战会通过ID排序
-        value: "&7 当前位置值：&e [number]"
+          <gray>允许修改挑战的排序
+          <gray>带有相同序号的挑战会通过ID排序
+        value: "<gray>当前位置值：<yellow>[number]"
       icon:
-        name: "&f&l 图标"
-        description: "&7修改此挑战的图标。"
+        name: "<white><bold>图标"
+        description: "<gray>修改此挑战的图标。"
       locked_icon:
-        name: "&f&l 未解锁图标"
+        name: "<white><bold>未解锁图标"
         description: |-
-          &7 修改未解锁
-          &7 等级的图标。
+          <gray>修改未解锁
+          <gray>等级的图标。
       required_permissions:
-        name: "&f&l 所需权限"
-        description: "&7 修改完成此挑战所需的权限。"
-        title: "&7 权限："
-        permission: " &8 - [permission]"
-        none: "&7 未设置权限。"
+        name: "<white><bold>所需权限"
+        description: "<gray>修改完成此挑战所需的权限。"
+        title: "<gray>权限："
+        permission: " <dark_gray>- [permission]"
+        none: "<gray>未设置权限。"
       remove_entities:
-        name: "&f&l 移除实体"
+        name: "<white><bold>移除实体"
         description: |-
-          &7 是否在完成挑战后
-          &7移除所需的实体
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>是否在完成挑战后
+          <gray>移除所需的实体
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       required_entities:
-        name: "&f&l 所需实体"
-        description: "&7允许修改完成挑战所需的实体"
-        title: "&7 实体："
-        list: " &8 - [number] x [entity]"
-        none: "&7 不添加实体。"
+        name: "<white><bold>所需实体"
+        description: "<gray>允许修改完成挑战所需的实体"
+        title: "<gray>实体："
+        list: " <dark_gray>- [number] x [entity]"
+        none: "<gray>不添加实体。"
       remove_blocks:
-        name: "&f&l 移除方块"
+        name: "<white><bold>移除方块"
         description: |-
-          &7允许切换是否在挑战完成后
-          &7移除所需方块
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>允许切换是否在挑战完成后
+          <gray>移除所需方块
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       required_blocks:
-        name: "&f&l 所需方块"
+        name: "<white><bold>所需方块"
         description: |-
-          &7允许更改为完成挑战
-          &7所需要的方块
-        title: "&7 方块："
-        list: " &8 - [number] x [block]"
-        none: "&7 块不被添加。"
+          <gray>允许更改为完成挑战
+          <gray>所需要的方块
+        title: "<gray>方块："
+        list: " <dark_gray>- [number] x [block]"
+        none: "<gray>块不被添加。"
       search_radius:
-        name: "&f&l 搜索半径"
+        name: "<white><bold>搜索半径"
         description: |-
-          &7 允许更改任务所需的方块
-          &7 或实体的检测半径。
-          &7 (部分任务需要玩家周围
-          &7 有一定数量的方块/实体)
-        value: "&7 当前距离：&e [number]"
+          <gray>允许更改任务所需的方块
+          <gray>或实体的检测半径。
+          <gray>(部分任务需要玩家周围
+          <gray>有一定数量的方块/实体)
+        value: "<gray>当前距离：<yellow>[number]"
       remove_items:
-        name: "&f&l 删除道具"
-        description: "&7允许切换是否在完成挑战后移除所需物品"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>删除道具"
+        description: "<gray>允许切换是否在完成挑战后移除所需物品"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       required_items:
-        name: "&f&l 需求道具"
-        description: "&7 允许更改待完成任务中所需的物品"
-        title: "&7 项："
-        list: " &8 - [number] x [item]"
-        none: "&7 项目未添加。"
+        name: "<white><bold>需求道具"
+        description: "<gray>允许更改待完成任务中所需的物品"
+        title: "<gray>项："
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>项目未添加。"
       add_ignored_meta:
-        name: "&f&l 添加忽略元数据"
-        description: "&7允许添加忽略所有元数据的物品"
-        title: "&7 项："
-        list: " &8 - [number] x [item]"
-        none: "&7 物品未添加。"
+        name: "<white><bold>添加忽略元数据"
+        description: "<gray>允许添加忽略所有元数据的物品"
+        title: "<gray>项："
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>物品未添加。"
       remove_ignored_meta:
-        name: "&f&l 删除忽略元数据"
-        description: "&7允许移除忽略所有元数据的物品"
+        name: "<white><bold>删除忽略元数据"
+        description: "<gray>允许移除忽略所有元数据的物品"
       remove_experience:
-        name: "&f&l 移除经验"
+        name: "<white><bold>移除经验"
         description: |-
-          &7允许切换是否在挑战完成后
-          &7移除玩家经验
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>允许切换是否在挑战完成后
+          <gray>移除玩家经验
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       required_experience:
-        name: "&f&l 所需经验"
+        name: "<white><bold>所需经验"
         description: |-
-          &7 允许更改
-          &7 所需经验
-          &7 玩家。
-        value: "&7 当前经验：&e [number]"
+          <gray>允许更改
+          <gray>所需经验
+          <gray>玩家。
+        value: "<gray>当前经验：<yellow>[number]"
       required_level:
-        name: "&f&l 所需岛屿等级"
-        description: "&7允许更改挑战所需的岛屿等级"
-        value: "&7 当前级别：&e [number]"
+        name: "<white><bold>所需岛屿等级"
+        description: "<gray>允许更改挑战所需的岛屿等级"
+        value: "<gray>当前级别：<yellow>[number]"
       remove_money:
-        name: "&f&l 移除金钱"
-        description: "&7允许切换是否在玩家完成任务后移除所需金额"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>移除金钱"
+        description: "<gray>允许切换是否在玩家完成任务后移除所需金额"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       required_money:
-        name: "&f&l 所需资金"
+        name: "<white><bold>所需资金"
         description: |-
-          &7允许更改挑战所需
-          &7玩家账户里的钱
-        value: "&7 当前值：&e [number]"
+          <gray>允许更改挑战所需
+          <gray>玩家账户里的钱
+        value: "<gray>当前值：<yellow>[number]"
       statistic:
-        name: "&f&l 统计"
-        description: "&7允许修改该挑战所检查的统计类型"
-        value: "&7 当前值：&e [statistic]"
+        name: "<white><bold>统计"
+        description: "<gray>允许修改该挑战所检查的统计类型"
+        value: "<gray>当前值：<yellow>[statistic]"
       statistic_amount:
-        name: "&f&l 目标值"
-        description: "&7允许更改必须完成的统计目标"
-        value: "&7 当前值：&e [number]"
+        name: "<white><bold>目标值"
+        description: "<gray>允许更改必须完成的统计目标"
+        value: "<gray>当前值：<yellow>[number]"
       remove_statistic:
-        name: "&f&l 减少统计量"
+        name: "<white><bold>减少统计量"
         description: |-
-          &7允许切换是否在完成挑战后
-          &7减少对应数目的统计值
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>允许切换是否在完成挑战后
+          <gray>减少对应数目的统计值
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       statistic_blocks:
-        name: "&f&l 目标方块"
-        description: "&7允许更改方块统计目标。"
-        value: "&7 当前方块：&e [block]"
+        name: "<white><bold>目标方块"
+        description: "<gray>允许更改方块统计目标。"
+        value: "<gray>当前方块：<yellow>[block]"
       statistic_items:
-        name: "&f&l 目标项目"
-        description: "&7 允许更改物品统计目标"
-        value: "&7 当前项目：&e [item]"
+        name: "<white><bold>目标项目"
+        description: "<gray>允许更改物品统计目标"
+        value: "<gray>当前项目：<yellow>[item]"
       statistic_entities:
-        name: "&f&l 目标实体"
-        description: "&7 允许更改实体统计目标"
-        value: "&7 当前实体：&e [entity]"
+        name: "<white><bold>目标实体"
+        description: "<gray>允许更改实体统计目标"
+        value: "<gray>当前实体：<yellow>[entity]"
       reward_text:
-        name: "&f&l 奖励文本"
+        name: "<white><bold>奖励文本"
         description: |-
-          &7 具体奖励文本。
-          &7 必须应用颜色代码
-        value: "&7 当前文本："
+          <gray>具体奖励文本。
+          <gray>必须应用颜色代码
+        value: "<gray>当前文本："
       repeat_reward_text:
-        name: "&f&l 重复奖励文本"
+        name: "<white><bold>重复奖励文本"
         description: |-
-          &7 该挑战特定的重复奖励文本
-          &7 必须使用颜色代码。
-        value: "&7 当前文本："
+          <gray>该挑战特定的重复奖励文本
+          <gray>必须使用颜色代码。
+        value: "<gray>当前文本："
       reward_items:
-        name: "&f&l 奖励物品"
-        description: "&7 允许更改奖励物品"
-        title: "&7 项："
-        list: " &8 - [number] x [item]"
-        none: "&7 项目未添加。"
+        name: "<white><bold>奖励物品"
+        description: "<gray>允许更改奖励物品"
+        title: "<gray>项："
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>项目未添加。"
       repeat_reward_items:
-        name: "&f&l 重复奖励物品"
-        description: "&7允许更改该挑战的重复奖励物品"
-        title: "&7 物品："
-        list: " &8 - [number] x [item]"
-        none: "&7 物品未添加。"
+        name: "<white><bold>重复奖励物品"
+        description: "<gray>允许更改该挑战的重复奖励物品"
+        title: "<gray>物品："
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>物品未添加。"
       reward_experience:
-        name: "&f&l 奖励经验"
-        description: "&7 允许更改对玩家的经验奖励"
-        value: "&7 奖励经验：&e [number]"
+        name: "<white><bold>奖励经验"
+        description: "<gray>允许更改对玩家的经验奖励"
+        value: "<gray>奖励经验：<yellow>[number]"
       repeat_reward_experience:
-        name: "&f&l 重复奖励体验"
-        description: "&7 允许更改给玩家的重复经验奖励"
-        value: "&7 奖励经验：&e [number]"
+        name: "<white><bold>重复奖励体验"
+        description: "<gray>允许更改给玩家的重复经验奖励"
+        value: "<gray>奖励经验：<yellow>[number]"
       reward_money:
-        name: "&f&l 奖励金"
-        description: "&7 允许更改金钱奖励"
-        value: "&7 当前值：&e [number]"
+        name: "<white><bold>奖励金"
+        description: "<gray>允许更改金钱奖励"
+        value: "<gray>当前值：<yellow>[number]"
       repeat_reward_money:
-        name: "&f&l 重复奖励金钱"
-        description: "&7 允许更改重复挑战的金钱奖励"
-        value: "&7 当前值：&e [number]"
+        name: "<white><bold>重复奖励金钱"
+        description: "<gray>允许更改重复挑战的金钱奖励"
+        value: "<gray>当前值：<yellow>[number]"
       reward_commands:
-        name: "&f&l 奖励命令"
+        name: "<white><bold>奖励命令"
         description: |-
-          &7 具体奖励命令。
-          &8 该命令不需要输入 `/`
-          &8 默认情况下，命令将由服务器执行。
-          &8 在开头添加 `[SELF]`时，命令由玩家执行。
-          &8 支持占位符`[player]`，代表完成该挑战的玩家
-        value: "&7 当前命令："
+          <gray>具体奖励命令。
+          <dark_gray>该命令不需要输入 `/`
+          <dark_gray>默认情况下，命令将由服务器执行。
+          <dark_gray>在开头添加 `[SELF]`时，命令由玩家执行。
+          <dark_gray>支持占位符`[player]`，代表完成该挑战的玩家
+        value: "<gray>当前命令："
       repeat_reward_commands:
-        name: "&f&l 重复奖励命令"
+        name: "<white><bold>重复奖励命令"
         description: |-
-          &7 重复奖励命令。
-          &8 该命令不需要输入 `/`
-          &8 默认情况下，命令将由服务器执行。
-          &8 在开头添加 `[SELF]`时，命令由玩家执行。
-          &8 支持占位符`[player]`，代表完成该挑战的玩家
-        value: "&7 当前命令："
+          <gray>重复奖励命令。
+          <dark_gray>该命令不需要输入 `/`
+          <dark_gray>默认情况下，命令将由服务器执行。
+          <dark_gray>在开头添加 `[SELF]`时，命令由玩家执行。
+          <dark_gray>支持占位符`[player]`，代表完成该挑战的玩家
+        value: "<gray>当前命令："
       repeatable:
-        name: "&f&l 可重复"
-        description: "&7 允许切换挑战是否可重复"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>可重复"
+        description: "<gray>允许切换挑战是否可重复"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       repeat_count:
-        name: "&f&l 重复次数"
-        description: "&7 允许更改挑战的重复次数"
-        value: "&7 当前值：&e [number]"
+        name: "<white><bold>重复次数"
+        description: "<gray>允许更改挑战的重复次数"
+        value: "<gray>当前值：<yellow>[number]"
       cool_down:
-        name: "&f&l 冷却"
-        description: "&7允许更改重复挑战的冷却时间"
-        value: "&7 当前值：&e [time]"
+        name: "<white><bold>冷却"
+        description: "<gray>允许更改重复挑战的冷却时间"
+        value: "<gray>当前值：<yellow>[time]"
       challenges:
-        name: "&f&l 挑战"
-        description: "&7查看当前等级的挑战"
+        name: "<white><bold>挑战"
+        description: "<gray>查看当前等级的挑战"
       waiver_amount:
-        name: "&f&l 豁免金额"
+        name: "<white><bold>豁免金额"
         description: |-
-          &7 允许设置一些挑战，
-          &7 解锁下一级时，这些挑战可以未完成
-        value: "&7 当前值：&e [number]"
+          <gray>允许设置一些挑战，
+          <gray>解锁下一级时，这些挑战可以未完成
+        value: "<gray>当前值：<yellow>[number]"
       add_challenges:
-        name: "&f&l 添加挑战(-s)"
-        description: "&7允许向该等级选择并添加挑战"
+        name: "<white><bold>添加挑战(-s)"
+        description: "<gray>允许向该等级选择并添加挑战"
       remove_challenges:
-        name: "&f&l 移除挑战(-s)"
-        description: "&7允许向该等级选择并删除挑战"
+        name: "<white><bold>移除挑战(-s)"
+        description: "<gray>允许向该等级选择并删除挑战"
       reset_on_new:
-        name: "&f&l 重置"
-        description: "&7允许切换玩家创建新岛/离开旧岛时是否重置挑战"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>重置"
+        description: "<gray>允许切换玩家创建新岛/离开旧岛时是否重置挑战"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       broadcast:
-        name: "&f&l 广播"
-        description: "&7 首次完成挑战与级别时向所有玩家广播"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>广播"
+        description: "<gray>首次完成挑战与级别时向所有玩家广播"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       remove_completed:
-        name: "&f&l 隐藏完成"
-        description: "&7 从菜单中隐藏已完成的挑战"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>隐藏完成"
+        description: "<gray>从菜单中隐藏已完成的挑战"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       glow_completed:
-        name: "&f&l 完成后发光"
-        description: "&7 为完成的挑战添加附魔光效"
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+        name: "<white><bold>完成后发光"
+        description: "<gray>为完成的挑战添加附魔光效"
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       store_history:
-        name: "&f&l 商店历史"
+        name: "<white><bold>商店历史"
         description: |-
-          &7 每个挑战被完成时都将其存储
-          &7 当前只能在数据库查看
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>每个挑战被完成时都将其存储
+          <gray>当前只能在数据库查看
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       data_per_island:
-        name: "&f&l 每岛商店"
+        name: "<white><bold>每岛商店"
         description: |-
-          &7存储每个岛屿完成的挑战
-          &7该岛屿团队会共享进度
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>存储每个岛屿完成的挑战
+          <gray>该岛屿团队会共享进度
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       show_title:
-        name: "&f&l 显示标题"
+        name: "<white><bold>显示标题"
         description: |-
-          &7 当一个完成挑战或级别时
-          &7 在标题栏展示
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>当一个完成挑战或级别时
+          <gray>在标题栏展示
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       gamemode_gui:
-        name: "&f&l 游戏模式选择界面"
+        name: "<white><bold>游戏模式选择界面"
         description: |-
-          &7允许/challenges开启GUI
-          &c 需要重新启动服务器。
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>允许/challenges开启GUI
+          <red>需要重新启动服务器。
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       locked_level_icon:
-        name: "&f&l 默认锁定级别图标"
+        name: "<white><bold>默认锁定级别图标"
         description: |-
-          &7 等级锁定时的默认图标。
-          &7 每个级别都可以单独修改。
+          <gray>等级锁定时的默认图标。
+          <gray>每个级别都可以单独修改。
       purge_history:
-        name: "&f&l 数据存储时间"
+        name: "<white><bold>数据存储时间"
         description: |-
-          &7用户历史数据存储的时间
-          &70代表永远不会移除老旧数据
-        value: "&7 当前值：&e [number]"
+          <gray>用户历史数据存储的时间
+          <gray>0代表永远不会移除老旧数据
+        value: "<gray>当前值：<yellow>[number]"
       title_showtime:
-        name: "&f&l 标题显示时间"
-        description: "&7标题栏显示的时间(以tick计)"
-        value: "&7 当前值：&e [number]"
+        name: "<white><bold>标题显示时间"
+        description: "<gray>标题栏显示的时间(以tick计)"
+        value: "<gray>当前值：<yellow>[number]"
       active_world_list:
-        name: "&f&l 仅显示活跃世界"
+        name: "<white><bold>仅显示活跃世界"
         description: |-
-          &7 如果启用游戏模式选择 GUI，这个可以切换
-          &7 GUI 是否显示游戏模式选择或当前世界的挑战。
-          &c 需要重新启动服务器
-        enabled: "&2 已启用"
-        disabled: "&c 已禁用"
+          <gray>如果启用游戏模式选择 GUI，这个可以切换
+          <gray>GUI 是否显示游戏模式选择或当前世界的挑战。
+          <red>需要重新启动服务器
+        enabled: "<dark_green>已启用"
+        disabled: "<red>已禁用"
       visibility_mode:
-        name: "&f&l 可见性模式"
-        description: "&7隐藏挑战的可见性"
-        enabled: "&2"
+        name: "<white><bold>可见性模式"
+        description: "<gray>隐藏挑战的可见性"
+        enabled: "<dark_green>"
         disabled: "＆C"
         visible: 显示可见的挑战
         hidden: 显示所有挑战
         toggleable: 允许切换
       include_undeployed:
-        name: "&f&l 包括未部署的挑战"
-        description: "&7是否把未部署挑战纳入对应级别的进度中"
-        enabled: "&2 启用"
-        disabled: "&c 禁用"
+        name: "<white><bold>包括未部署的挑战"
+        description: "<gray>是否把未部署挑战纳入对应级别的进度中"
+        enabled: "<dark_green>启用"
+        disabled: "<red>禁用"
       download:
-        name: "&f&l 下载库"
-        description: "&7 可手动更新挑战库。"
-        enabled: "&2 清除缓存"
-        disabled: "&c 不清除缓存"
+        name: "<white><bold>下载库"
+        description: "<gray>可手动更新挑战库。"
+        enabled: "<dark_green>清除缓存"
+        disabled: "<red>不清除缓存"
       player:
-        name: "&f&l [name]"
-        description: "&7 岛主：[owner]"
-        members: "&7 岛成员："
-        member: "&8 - [name]"
-        no-island: "&c 玩家没有岛屿。"
+        name: "<white><bold>[name]"
+        description: "<gray>岛主：[owner]"
+        members: "<gray>岛成员："
+        member: "<dark_gray>- [name]"
+        no-island: "<red>玩家没有岛屿。"
       player_list:
-        name: "&f&l 选择用户列表"
-        description: "&7 选择应该显示哪个用户列表 "
-        enabled: "&2"
-        disabled: "&c"
+        name: "<white><bold>选择用户列表"
+        description: "<gray>选择应该显示哪个用户列表 "
+        enabled: "<dark_green>"
+        disabled: "<red>"
         online: 在线玩家
         with_island: 有岛屿的玩家
         in_world: 世界玩家
       add_block:
-        name: "&f&l 添加方块"
-        description: "&7 允许添加一个新的方块到列表中。"
+        name: "<white><bold>添加方块"
+        description: "<gray>允许添加一个新的方块到列表中。"
       remove_block:
-        name: "&f&l 删除方块"
-        description: "&7 允许从列表删除选定的方块"
-        title: "&7 已选择材料："
-        material: "&8 - [material]"
+        name: "<white><bold>删除方块"
+        description: "<gray>允许从列表删除选定的方块"
+        title: "<gray>已选择材料："
+        material: "<dark_gray>- [material]"
       material:
-        name: "&f&l [material]"
-        description: "&7 材料 ID：[id]"
-        selected: "&2 已选择"
+        name: "<white><bold>[material]"
+        description: "<gray>材料 ID：[id]"
+        selected: "<dark_green>已选择"
       add_entity:
-        name: "&f&l 添加实体"
-        description: "&7 允许添加一个新的实体到列表中。"
+        name: "<white><bold>添加实体"
+        description: "<gray>允许添加一个新的实体到列表中。"
       switch_entity:
-        name: "&f&l 交换鸡蛋"
-        description: "&7 允许从鸡蛋转换到怪物头"
+        name: "<white><bold>交换鸡蛋"
+        description: "<gray>允许从鸡蛋转换到怪物头"
       remove_entity:
-        name: "&f&l 删除实体"
-        description: "&7 允许从列表删除选定的实体"
-        title: "&7 选定实体："
-        entity: "&8 - [entity]"
+        name: "<white><bold>删除实体"
+        description: "<gray>允许从列表删除选定的实体"
+        title: "<gray>选定实体："
+        entity: "<dark_gray>- [entity]"
       entity:
-        name: "&f&l [entity]"
-        description: "&7 实体 ID：[id]"
-        selected: "&2 已选择"
+        name: "<white><bold>[entity]"
+        description: "<gray>实体 ID：[id]"
+        selected: "<dark_green>已选择"
       inventory_type:
-        name: "&f&l 库存类型"
-        description: "&7 检查的玩家物品栏中物品的挑战"
+        name: "<white><bold>库存类型"
+        description: "<gray>检查的玩家物品栏中物品的挑战"
       island_type:
-        name: "&f&l 空岛类型"
-        description: "&7 检查的周围的方块或实体玩家的挑战。"
+        name: "<white><bold>空岛类型"
+        description: "<gray>检查的周围的方块或实体玩家的挑战。"
       other_type:
-        name: "&f&l 其他类型"
-        description: "&7使用插件的东西的挑战，如等级和金钱。"
+        name: "<white><bold>其他类型"
+        description: "<gray>使用插件的东西的挑战，如等级和金钱。"
       statistic_type:
-        name: "&f&l 统计类型"
-        description: "&7 检查的挑战玩家统计数据。"
+        name: "<white><bold>统计类型"
+        description: "<gray>检查的挑战玩家统计数据。"
       save:
-        name: "&f&l 保存"
-        description: "&7 保存更改并返回。"
+        name: "<white><bold>保存"
+        description: "<gray>保存更改并返回。"
       cancel:
-        name: "&f&l 取消"
-        description: "&7 放弃更改并返回。"
+        name: "<white><bold>取消"
+        description: "<gray>放弃更改并返回。"
       accept_selected:
-        name: "&f&l 接受选择"
-        description: "&7 返回选中的元素并打开上一个GUI。"
-        title: "&7 已选择："
-        element: "&8 - [element]"
+        name: "<white><bold>接受选择"
+        description: "<gray>返回选中的元素并打开上一个GUI。"
+        title: "<gray>已选择："
+        element: "<dark_gray>- [element]"
       statistic_element:
-        name: "&f&l [statistic]"
+        name: "<white><bold>[statistic]"
         description: "[description]"
       environment_element:
-        name: "&f&l [environment]"
+        name: "<white><bold>[environment]"
         description: "[description]"
       search:
-        name: "&f&l 搜索"
-        description: "&7 允许通过输入文本值搜索元素"
-        search: "&b 值：[value]"
+        name: "<white><bold>搜索"
+        description: "<gray>允许通过输入文本值搜索元素"
+        search: "<aqua>值：[value]"
     tips:
-      click-to-select: "&e 单击 &7 进行选择。"
-      click-to-choose: "&e 单击 &7 进行选择。"
-      click-to-complete: "&e 单击 &7 完成。"
-      right-click-multiple-open: "&e 右击 &7 选择完成挑战的次数。"
-      shift-left-click-to-complete-all: "&e 按住Shift并左击 &7 一键完成(根据背包中所需道具数量)。"
-      left-click-to-accept: "&e 左击 &7 接受。"
-      right-click-to-write: "&e 右击 &7 写入。"
-      click-to-reduce: "&e 点击 &7 减少。"
-      click-to-increase: "&e 点击 &7 增加。"
-      click-to-return: "&e 单击 &7 返回。"
-      click-to-quit: "&e 点击 &7 退出。"
-      click-to-wipe: "&e 单击 &7 清除。"
-      left-click-to-wipe: "&e 左键单击 &7 清除。"
-      right-click-to-switch: "&e 右键 &7 切换。"
-      click-to-open: "&e 点击 &7 打开。"
-      click-to-export: "&e 点击 &7 导出。"
-      click-to-create: "&e 点击 &7 创建。"
-      left-click-to-open: "&e 左键单击 &7 打开。"
-      right-click-to-reset-all: "&e 右键单击 &7 重置所有内容。"
-      click-to-toggle: "&e 单击 &7 进行切换。"
-      click-to-change: "&e 单击 &7 进行更改。"
-      shift-click-to-reset: "&e Shift 单击 &7 进行重置。"
-      click-to-add: "&e 点击 &7 添加。"
-      click-to-remove: "&e 单击 &7 删除。"
-      left-click-to-cycle: "&e 左键单击 &7 向下循环。"
-      right-click-to-cycle: "&e 右键单击 &7 向上循环。"
-      click-to-edit: "&e 单击 &7 进行编辑。"
-      left-click-to-download: "&e 左键 &7 下载。"
-      right-click-to-toggle: "&e 右键单击 &7 进行切换。"
-      click-to-install: "&e 点击 &7 安装。"
-      click-to-reset-all: "&e 点击 &7 全部重置。"
-      right-click-to-select: "&e 右击 &7 选择。"
-      right-click-to-deselect: "&e 右击 &7 取消选择。"
-      left-click-to-choose: "&e 左键单击 &7 进行选择。"
-      click-to-cancel: "&e 单击 &7 取消。"
-      click-to-save: "&e 点击 &7 保存。"
-      click-to-deselect: "&e 单击 &7 取消选择。"
+      click-to-select: "<yellow>单击 <gray>进行选择。"
+      click-to-choose: "<yellow>单击 <gray>进行选择。"
+      click-to-complete: "<yellow>单击 <gray>完成。"
+      right-click-multiple-open: "<yellow>右击 <gray>选择完成挑战的次数。"
+      shift-left-click-to-complete-all: "<yellow>按住Shift并左击 <gray>一键完成(根据背包中所需道具数量)。"
+      left-click-to-accept: "<yellow>左击 <gray>接受。"
+      right-click-to-write: "<yellow>右击 <gray>写入。"
+      click-to-reduce: "<yellow>点击 <gray>减少。"
+      click-to-increase: "<yellow>点击 <gray>增加。"
+      click-to-return: "<yellow>单击 <gray>返回。"
+      click-to-quit: "<yellow>点击 <gray>退出。"
+      click-to-wipe: "<yellow>单击 <gray>清除。"
+      left-click-to-wipe: "<yellow>左键单击 <gray>清除。"
+      right-click-to-switch: "<yellow>右键 <gray>切换。"
+      click-to-open: "<yellow>点击 <gray>打开。"
+      click-to-export: "<yellow>点击 <gray>导出。"
+      click-to-create: "<yellow>点击 <gray>创建。"
+      left-click-to-open: "<yellow>左键单击 <gray>打开。"
+      right-click-to-reset-all: "<yellow>右键单击 <gray>重置所有内容。"
+      click-to-toggle: "<yellow>单击 <gray>进行切换。"
+      click-to-change: "<yellow>单击 <gray>进行更改。"
+      shift-click-to-reset: "<yellow>Shift 单击 <gray>进行重置。"
+      click-to-add: "<yellow>点击 <gray>添加。"
+      click-to-remove: "<yellow>单击 <gray>删除。"
+      left-click-to-cycle: "<yellow>左键单击 <gray>向下循环。"
+      right-click-to-cycle: "<yellow>右键单击 <gray>向上循环。"
+      click-to-edit: "<yellow>单击 <gray>进行编辑。"
+      left-click-to-download: "<yellow>左键 <gray>下载。"
+      right-click-to-toggle: "<yellow>右键单击 <gray>进行切换。"
+      click-to-install: "<yellow>点击 <gray>安装。"
+      click-to-reset-all: "<yellow>点击 <gray>全部重置。"
+      right-click-to-select: "<yellow>右击 <gray>选择。"
+      right-click-to-deselect: "<yellow>右击 <gray>取消选择。"
+      left-click-to-choose: "<yellow>左键单击 <gray>进行选择。"
+      click-to-cancel: "<yellow>单击 <gray>取消。"
+      click-to-save: "<yellow>点击 <gray>保存。"
+      click-to-deselect: "<yellow>单击 <gray>取消选择。"
       click-on-item: |-
-        &e 在项目中单击 &7
-        &7 您的库存。
-      left-click-to-edit: "&e 左键单击 &7 进行编辑。"
-      right-click-to-clear: "&e 右击 &7 清除。"
-      click-to-previous: "&e 点击 &7 查看上一页。"
-      click-to-next: "&e 点击 &7 查看下一页。"
+        <yellow>在项目中单击 <gray>
+        <gray>您的库存。
+      left-click-to-edit: "<yellow>左键单击 <gray>进行编辑。"
+      right-click-to-clear: "<yellow>右击 <gray>清除。"
+      click-to-previous: "<yellow>点击 <gray>查看上一页。"
+      click-to-next: "<yellow>点击 <gray>查看下一页。"
     descriptions:
       challenge:
         lore: |-
@@ -622,16 +622,16 @@ challenges:
           [requirements]
           [rewards]
         status:
-          completed: "&2&l 已完成"
-          completed-times: "&2 已完成&7&l [number] &r&2次"
-          completed-times-of: "&2 已完成&7&l [number] &r&2次，最多完成&7&l [max] &r&2次"
-          completed-times-reached: "&2&l 你最多只能完成&7 [max] &2次"
+          completed: "<dark_green><bold>已完成"
+          completed-times: "<dark_green>已完成<gray><bold>[number] <reset><dark_green>次"
+          completed-times-of: "<dark_green>已完成<gray><bold>[number] <reset><dark_green>次，最多完成<gray><bold>[max] <reset><dark_green>次"
+          completed-times-reached: "<dark_green><bold>你最多只能完成<gray>[max] <dark_green>次"
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
-          timeout: "&7&l 冷却时间：&r&7[time]"
-          wait-time: "&c&l 冷却中：&r&c[time]"
+          timeout: "<gray><bold>冷却时间：<reset><gray>[time]"
+          wait-time: "<red><bold>冷却中：<reset><red>[time]"
           in-days: "[number] 天"
           in-hours: "[number] 小时"
           in-minutes: "[number] 分钟"
@@ -641,12 +641,12 @@ challenges:
             [environment]
             [type-requirement]
             [permissions]
-          environment-single: "&7 仅限在 [environment] 完成"
-          environment-title: "&7 仅限在这些维度完成："
-          environment-list: "  &7 - &e [environment]"
-          permission-single: "&c 需要 [permission] 权限"
-          permissions-title: "&c 需要权限："
-          permissions-list: "  &c - [permission]"
+          environment-single: "<gray>仅限在 [environment] 完成"
+          environment-title: "<gray>仅限在这些维度完成："
+          environment-list: "  <gray>- <yellow>[environment]"
+          permission-single: "<red>需要 [permission] 权限"
+          permissions-title: "<red>需要权限："
+          permissions-list: "  <red>- [permission]"
           island:
             lore: |-
               [blocks]
@@ -654,23 +654,23 @@ challenges:
               [search-radius]
               [warning-block]
               [warning-entity]
-            blocks-title: "&7&l 所需方块："
-            block-value: "  &7 - &e [material]"
-            blocks-value: "  &7 - &e [number] x [material]"
-            entities-title: "&7&l 所需实体："
-            entity-value: "  &7 - &e [entity]"
-            entities-value: "  &7 - &e [number] x [entity]"
-            search-radius: "&7 必须在在&e [number] &7米范围内"
-            warning-block: "&e 所需方块将在完成挑战时&c移除"
-            warning-entity: "&e 所需实体将在完成挑战时&c移除"
+            blocks-title: "<gray><bold>所需方块："
+            block-value: "  <gray>- <yellow>[material]"
+            blocks-value: "  <gray>- <yellow>[number] x [material]"
+            entities-title: "<gray><bold>所需实体："
+            entity-value: "  <gray>- <yellow>[entity]"
+            entities-value: "  <gray>- <yellow>[number] x [entity]"
+            search-radius: "<gray>必须在在<yellow>[number] <gray>米范围内"
+            warning-block: "<yellow>所需方块将在完成挑战时<red>移除"
+            warning-entity: "<yellow>所需实体将在完成挑战时<red>移除"
           inventory:
             lore: |-
               [items]
               [warning]
-            item-title: "&7&l 所需物品："
-            item-value: "  &7 - &e [item]"
-            items-value: "  &7 - &e [number] x [item]"
-            warning: "&e 所需物品将在挑战完成时&c移除"
+            item-title: "<gray><bold>所需物品："
+            item-value: "  <gray>- <yellow>[item]"
+            items-value: "  <gray>- <yellow>[number] x [item]"
+            warning: "<yellow>所需物品将在挑战完成时<red>移除"
           other:
             lore: |-
               [experience]
@@ -678,34 +678,34 @@ challenges:
               [money]
               [money-warning]
               [level]
-            experience: "&7&l 所需经验：&r&e[number]"
-            experience-warning: "&e 所需经验将在挑战完成时&c扣除"
-            money: "&7&l 所需金钱：&r&e[number]"
-            money-warning: "&e 所需金钱将在挑战完成时&c扣除"
-            level: "&7&l 所需岛屿等级：&r&e[number]"
+            experience: "<gray><bold>所需经验：<reset><yellow>[number]"
+            experience-warning: "<yellow>所需经验将在挑战完成时<red>扣除"
+            money: "<gray><bold>所需金钱：<reset><yellow>[number]"
+            money-warning: "<yellow>所需金钱将在挑战完成时<red>扣除"
+            level: "<gray><bold>所需岛屿等级：<reset><yellow>[number]"
           statistic:
             lore: |-
               [statistic]
               [warning]
-            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
-            single-target: "&7&l [statistic]: &r&e [target]"
-            statistic: "&7&l [statistic] &r&e [number]"
-            warning: "&e 统计数据将 &c 减少"
+            multiple-target: "<gray><bold>[statistic]: <reset><yellow>[number] x [target]"
+            single-target: "<gray><bold>[statistic]: <reset><yellow>[target]"
+            statistic: "<gray><bold>[statistic] <reset><yellow>[number]"
+            warning: "<yellow>统计数据将 <red>减少"
         rewards:
           lore: |-
-            &7&l 奖励：
+            <gray><bold>奖励：
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 物品："
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 经验：&r&e [number]"
-          money: "&7 金钱：&r&e [number]"
-          commands-title: "&7 指令："
-          command: "  &7 - &e [command]"
+          item-title: "<gray>物品："
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>经验：<reset><yellow>[number]"
+          money: "<gray>金钱：<reset><yellow>[number]"
+          commands-title: "<gray>指令："
+          command: "  <gray>- <yellow>[command]"
       level:
         lore: |-
           [text]
@@ -713,150 +713,150 @@ challenges:
           [waiver]
           [rewards]
         status:
-          completed: "&2&l 已完成"
+          completed: "<dark_green><bold>已完成"
           completed-challenges-of: |-
-            &2 已完成&7&l [number] &r&2个挑战，
-            &7&l 共 [max] &r&2个挑战。
-          locked: "&c&l 未解锁"
+            <dark_green>已完成<gray><bold>[number] <reset><dark_green>个挑战，
+            <gray><bold>共 [max] <reset><dark_green>个挑战。
+          locked: "<red><bold>未解锁"
           missing-challenges: |-
-            &7 你需要再完成 [number] 个挑战
-            &7 才能解锁此等级。
+            <gray>你需要再完成 [number] 个挑战
+            <gray>才能解锁此等级。
         waiver: |-
-          &7&l 你可以跳过 [number] 个挑战
-          &7 来解锁下一等级。
+          <gray><bold>你可以跳过 [number] 个挑战
+          <gray>来解锁下一等级。
         rewards:
           lore: |-
-            &7&l 奖励：
+            <gray><bold>奖励：
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 物品："
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 经验：&r&e [number]"
-          money: "&7 金钱：&r&e [number]"
-          commands-title: "&7 指令："
-          command: "  &7 - &e [command]"
+          item-title: "<gray>物品："
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>经验：<reset><yellow>[number]"
+          money: "<gray>金钱：<reset><yellow>[number]"
+          commands-title: "<gray>指令："
+          command: "  <gray>- <yellow>[command]"
       library:
-        author: "&7 作者：&e[author]"
-        version: "&7 使用 Challenges &e [version] 制作"
-        lang: "&7 语言：&e [lang]"
-        gamemode: "&7 主要用于 &e [gamemode]"
+        author: "<gray>作者：<yellow>[author]"
+        version: "<gray>使用 Challenges <yellow>[version] 制作"
+        lang: "<gray>语言：<yellow>[lang]"
+        gamemode: "<gray>主要用于 <yellow>[gamemode]"
   conversations:
-    prefix: "&l&6 [BentoBox]: &r"
+    prefix: "<bold><gold>[BentoBox]: <reset>"
     confirm-string: true, on, yes, confirm, y, valid, correct, 是, 确认, 对
     deny-string: false, off, no, deny, n, invalid, incorrect, 否, 错, 不是
     cancel-string: cancel, 取消
     exit-string: cancel, exit, quit, 取消, 退出
-    cancelled: "&c 会话已取消！"
-    input-number: "&e 请在聊天中输入一个数字。"
-    input-seconds: "&e 请在聊天中输入秒数。"
-    numeric-only: "&c 你输入的 [value] 不是数字！"
-    not-valid-value: "&c 你输入的的数字 [value] 无效。它必须大于 [min] 且小于 [max]！"
-    user-data-removed: "&a 已清除 [gamemode] 的所有玩家数据。"
-    confirm-user-data-deletion: "&e 请确认您要清除 [gamemode] 的玩家数据。"
-    challenge-data-removed: "&a 已清除 [gamemode] 的所有挑战数据。"
-    confirm-challenge-data-deletion: "&e 请确认您要清除 [gamemode] 的挑战数据。"
-    all-data-removed: "&a 已清除 [gamemode] 的所有扩展数据。"
-    confirm-all-data-deletion: "&e 请确认您要清除 [gamemode] 的扩展数据。"
-    write-name: "&e 请在聊天中输入一个名字。"
-    new-object-created: "&a 为 [gamemode] 创建了一个新对象。"
-    object-already-exists: "&c 对象 &7 [id] &c 已经存在。选择不同的名称。"
-    invalid-challenge: "&c 挑战 [challenge] 包含无效数据。无法发布！"
-    name-changed: "&a 成功，名称已更新。"
-    write-description: "&e 请在聊天中输入新的描述，可输入多行，输入 'quit' 完成编辑。"
-    description-changed: "&a 成功，描述已更新。"
-    write-permissions: "&e 请输入所需的权限，每次输入一个，输入 'quit' 完成编辑。"
-    permissions-changed: "&a 成功，挑战权限已更新。"
-    write-reward-text: "&e 请在聊天中输入新的奖励提示，输入 'quit' 完成编辑。"
-    reward-text-changed: "&a 成功，奖励提示已更新。"
-    write-repeat-reward-text: "&e 请在聊天中输入新的重复奖励提示，输入 'quit' 结束编辑。"
-    repeat-reward-text-changed: "&a 成功，重复奖励提示已更新。"
-    write-reward-commands: "&e 请在聊天中每行输入新的奖励命令，输入 'quit' 结束编辑。"
-    reward-commands-changed: "&a 成功，奖励命令已更新。"
-    write-repeat-reward-commands: "&e 请在聊天中每行输入一个新的重复奖励命令，输入 'quit' 结束编辑。"
-    repeat-reward-commands-changed: "&a 成功，重复奖励命令已更新。"
-    challenge-removed: "&a 已删除 [gamemode] 中的挑战 [challenge]。"
-    confirm-challenge-deletion: "&e 请确认您要删除 [gamemode] 中的 [challenge]。"
-    level-removed: "&a [gamemode] 中的挑战等级 [level] 已删除。"
-    confirm-level-deletion: "&e 请确认您要删除 [gamemode] 中的 [level]。"
-    start-downloading: "&a 开始下载和导入挑战库。"
-    written-text: "&a 输入文本："
-    confirm-data-replacement: "&e 请确认您想用新的挑战替换当前的挑战。"
-    new-challenges-imported: "&a 成功，[gamemode] 的新挑战已导入。"
-    exported-file-name: "&e 请输入导出的数据库文件的文件名。（输入 'cancel ' 退出）"
-    database-export-completed: "&a 成功，[world] 的数据库导出完成。文件 [file] 已生成。"
-    file-name-exist: "&c 名称为 “[id]” 的文件已存在。无法覆盖。"
-    write-search: "&e 请写一个搜索值。（输入 'cancel' 取消）"
-    search-updated: "&a 搜索值已更新。"
+    cancelled: "<red>会话已取消！"
+    input-number: "<yellow>请在聊天中输入一个数字。"
+    input-seconds: "<yellow>请在聊天中输入秒数。"
+    numeric-only: "<red>你输入的 [value] 不是数字！"
+    not-valid-value: "<red>你输入的的数字 [value] 无效。它必须大于 [min] 且小于 [max]！"
+    user-data-removed: "<green>已清除 [gamemode] 的所有玩家数据。"
+    confirm-user-data-deletion: "<yellow>请确认您要清除 [gamemode] 的玩家数据。"
+    challenge-data-removed: "<green>已清除 [gamemode] 的所有挑战数据。"
+    confirm-challenge-data-deletion: "<yellow>请确认您要清除 [gamemode] 的挑战数据。"
+    all-data-removed: "<green>已清除 [gamemode] 的所有扩展数据。"
+    confirm-all-data-deletion: "<yellow>请确认您要清除 [gamemode] 的扩展数据。"
+    write-name: "<yellow>请在聊天中输入一个名字。"
+    new-object-created: "<green>为 [gamemode] 创建了一个新对象。"
+    object-already-exists: "<red>对象 <gray>[id] <red>已经存在。选择不同的名称。"
+    invalid-challenge: "<red>挑战 [challenge] 包含无效数据。无法发布！"
+    name-changed: "<green>成功，名称已更新。"
+    write-description: "<yellow>请在聊天中输入新的描述，可输入多行，输入 'quit' 完成编辑。"
+    description-changed: "<green>成功，描述已更新。"
+    write-permissions: "<yellow>请输入所需的权限，每次输入一个，输入 'quit' 完成编辑。"
+    permissions-changed: "<green>成功，挑战权限已更新。"
+    write-reward-text: "<yellow>请在聊天中输入新的奖励提示，输入 'quit' 完成编辑。"
+    reward-text-changed: "<green>成功，奖励提示已更新。"
+    write-repeat-reward-text: "<yellow>请在聊天中输入新的重复奖励提示，输入 'quit' 结束编辑。"
+    repeat-reward-text-changed: "<green>成功，重复奖励提示已更新。"
+    write-reward-commands: "<yellow>请在聊天中每行输入新的奖励命令，输入 'quit' 结束编辑。"
+    reward-commands-changed: "<green>成功，奖励命令已更新。"
+    write-repeat-reward-commands: "<yellow>请在聊天中每行输入一个新的重复奖励命令，输入 'quit' 结束编辑。"
+    repeat-reward-commands-changed: "<green>成功，重复奖励命令已更新。"
+    challenge-removed: "<green>已删除 [gamemode] 中的挑战 [challenge]。"
+    confirm-challenge-deletion: "<yellow>请确认您要删除 [gamemode] 中的 [challenge]。"
+    level-removed: "<green>[gamemode] 中的挑战等级 [level] 已删除。"
+    confirm-level-deletion: "<yellow>请确认您要删除 [gamemode] 中的 [level]。"
+    start-downloading: "<green>开始下载和导入挑战库。"
+    written-text: "<green>输入文本："
+    confirm-data-replacement: "<yellow>请确认您想用新的挑战替换当前的挑战。"
+    new-challenges-imported: "<green>成功，[gamemode] 的新挑战已导入。"
+    exported-file-name: "<yellow>请输入导出的数据库文件的文件名。（输入 'cancel ' 退出）"
+    database-export-completed: "<green>成功，[world] 的数据库导出完成。文件 [file] 已生成。"
+    file-name-exist: "<red>名称为 “[id]” 的文件已存在。无法覆盖。"
+    write-search: "<yellow>请写一个搜索值。（输入 'cancel' 取消）"
+    search-updated: "<green>搜索值已更新。"
   titles:
-    challenge-title: "&a已完成"
+    challenge-title: "<green>已完成"
     challenge-subtitle: "[friendlyName]"
-    level-title: "&a已完成"
+    level-title: "<green>已完成"
     level-subtitle: "[friendlyName]"
   messages:
-    completed: "&2 你为[player]完成了挑战[name]！"
-    already-completed: "&2 这个挑战已经完成了！"
-    reset: "&2 你为 [player] 重置挑战 [name]！"
-    reset-all: "&2 所有[player]挑战均已重置！"
-    not-completed: "&2 此挑战尚未完成！"
-    migrate-start: "&2 开始转换挑战扩展数据。"
-    migrate-end: "&2 挑战扩展数据已更新为新格式。"
-    migrate-not: "&2 所有数据均有效。"
-    start-downloading: "&5 开始下载和导入挑战库。"
-    you-completed-challenge: "&2你完成了挑战 &r[value] &2！"
-    you-repeated-challenge: "&2你再次完成了挑战 &r[value] &2！"
-    you-repeated-challenge-multiple: "&2你完成挑战 &r[value] &r[count] &2次了！"
-    you-completed-level: "&2恭喜，你已完成挑战等级 &r[value]&2！"
-    name-has-completed-challenge: "&a恭喜！ &r[name] &a完成了挑战 [value] &a！"
-    name-has-completed-level: "&a恭喜！ &r[name] &a已完成挑战等级 [value]&a！"
-    load-skipping: '&c挑战项 "[value]" &c已存在 - 将跳过'
-    load-overwriting: '&6覆盖了已载入的挑战： "[value]"'
-    load-add: "&a新增了挑战： [value]"
+    completed: "<dark_green>你为[player]完成了挑战[name]！"
+    already-completed: "<dark_green>这个挑战已经完成了！"
+    reset: "<dark_green>你为 [player] 重置挑战 [name]！"
+    reset-all: "<dark_green>所有[player]挑战均已重置！"
+    not-completed: "<dark_green>此挑战尚未完成！"
+    migrate-start: "<dark_green>开始转换挑战扩展数据。"
+    migrate-end: "<dark_green>挑战扩展数据已更新为新格式。"
+    migrate-not: "<dark_green>所有数据均有效。"
+    start-downloading: "<dark_purple>开始下载和导入挑战库。"
+    you-completed-challenge: "<dark_green>你完成了挑战 <reset>[value] <dark_green>！"
+    you-repeated-challenge: "<dark_green>你再次完成了挑战 <reset>[value] <dark_green>！"
+    you-repeated-challenge-multiple: "<dark_green>你完成挑战 <reset>[value] <reset>[count] <dark_green>次了！"
+    you-completed-level: "<dark_green>恭喜，你已完成挑战等级 <reset>[value]<dark_green>！"
+    name-has-completed-challenge: "<green>恭喜！ <reset>[name] <green>完成了挑战 [value] <green>！"
+    name-has-completed-level: "<green>恭喜！ <reset>[name] <green>已完成挑战等级 [value]<green>！"
+    load-skipping: '<red>挑战项 "[value]" <red>已存在 - 将跳过'
+    load-overwriting: '<gold>覆盖了已载入的挑战： "[value]"'
+    load-add: "<green>新增了挑战： [value]"
   errors:
-    no-name: "&c缺少挑战名称。"
-    unknown-challenge: "&c未知的挑战。"
-    not-valid-integer: "&c给定整数“[value]”无效！|值应介于[min]和[max]之间。"
-    not-deployed: "&c这个挑战还未发布！"
-    not-on-island: "&c您必须在您的岛上才能完成挑战！"
-    challenge-level-not-available: "&c您还未解锁这个挑战等级。"
-    not-repeatable: "&c这项挑战不可重复进行！"
-    wrong-environment: "&c你不在指定的维度中！"
-    not-enough-items: "&c你没有足够的 &r[items] &c来完成这项挑战。"
-    not-close-enough: "&c要完成挑战，你必须站在所需物品 &f[number] &c格范围内。"
-    you-still-need: "&c你还差 &f[amount] &c个 &f[item] &c才能完成挑战。"
-    missing-addon: "&c无法完成挑战：缺少必需的扩展或插件。"
-    incorrect: "&c无法完成挑战：必要条件设定错误。"
-    not-enough-money: "&c你必须有 &f[value] &c金钱才能完成任务。"
-    not-enough-experience: "&c你必须有 &f[value] &c经验值才能完成任务。"
-    island-level: "&c你的岛屿等级必须达到 &flv[number] &c才能完成任务！"
-    no-load: "&c错误： 无法载入 &fchallenges.yml&c. [message]"
-    load-error: "&c错误： 无法载入 &r[value]&c。"
-    no-rank: "&c你没有等级可以做到这一点."
-    cannot-remove-items: "&c有些物品无法从你的物品栏中删除！"
+    no-name: "<red>缺少挑战名称。"
+    unknown-challenge: "<red>未知的挑战。"
+    not-valid-integer: "<red>给定整数“[value]”无效！|值应介于[min]和[max]之间。"
+    not-deployed: "<red>这个挑战还未发布！"
+    not-on-island: "<red>您必须在您的岛上才能完成挑战！"
+    challenge-level-not-available: "<red>您还未解锁这个挑战等级。"
+    not-repeatable: "<red>这项挑战不可重复进行！"
+    wrong-environment: "<red>你不在指定的维度中！"
+    not-enough-items: "<red>你没有足够的 <reset>[items] <red>来完成这项挑战。"
+    not-close-enough: "<red>要完成挑战，你必须站在所需物品 <white>[number] <red>格范围内。"
+    you-still-need: "<red>你还差 <white>[amount] <red>个 <white>[item] <red>才能完成挑战。"
+    missing-addon: "<red>无法完成挑战：缺少必需的扩展或插件。"
+    incorrect: "<red>无法完成挑战：必要条件设定错误。"
+    not-enough-money: "<red>你必须有 <white>[value] <red>金钱才能完成任务。"
+    not-enough-experience: "<red>你必须有 <white>[value] <red>经验值才能完成任务。"
+    island-level: "<red>你的岛屿等级必须达到 <white>lv[number] <red>才能完成任务！"
+    no-load: "<red>错误： 无法载入 <white>challenges.yml<red>. [message]"
+    load-error: "<red>错误： 无法载入 <reset>[value]<red>。"
+    no-rank: "<red>你没有等级可以做到这一点."
+    cannot-remove-items: "<red>有些物品无法从你的物品栏中删除！"
     exist-challenges-or-levels: "＆c挑战已经存在于您的世界中。无法继续！"
-    no-challenges: "&c这个游戏模式没有可进行的挑战！"
-    no-challenges-admin: "&c这个游戏模式还没有可进行的挑战！请使用 &f/[command] &c来添加挑战。"
-    missing-arguments: "&c命令缺少参数。"
-    no-multiple-permission: "&c你没有权限多次完成这项挑战。"
-    invalid-level: "&c挑战等级 [level] &c包含错误，它不会从数据库中加载！"
-    invalid-challenge: "&c挑战项 [challenge] &c包含错误，它不会从数据库中加载！"
-    no-library-entries: "&c 找不到任何库条目。没什么可显示的。"
-    not-hooked: "&c Challenges Addon 找不到任何游戏模式。"
-    timeout: "&c 此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
-    requirement-not-met: "&c 这个挑战需要 [statistic] 至少为 [number]. 你只有 [value]. "
-    requirement-not-met-entity: "&c 这个挑战需要 [number] 个 [statistic] [entity]. 你只有 [value]. "
-    requirement-not-met-material: "&c 这个挑战需要 [number] 个 [statistic] [material]. 你只有
+    no-challenges: "<red>这个游戏模式没有可进行的挑战！"
+    no-challenges-admin: "<red>这个游戏模式还没有可进行的挑战！请使用 <white>/[command] <red>来添加挑战。"
+    missing-arguments: "<red>命令缺少参数。"
+    no-multiple-permission: "<red>你没有权限多次完成这项挑战。"
+    invalid-level: "<red>挑战等级 [level] <red>包含错误，它不会从数据库中加载！"
+    invalid-challenge: "<red>挑战项 [challenge] <red>包含错误，它不会从数据库中加载！"
+    no-library-entries: "<red>找不到任何库条目。没什么可显示的。"
+    not-hooked: "<red>Challenges Addon 找不到任何游戏模式。"
+    timeout: "<red>此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
+    requirement-not-met: "<red>这个挑战需要 [statistic] 至少为 [number]. 你只有 [value]. "
+    requirement-not-met-entity: "<red>这个挑战需要 [number] 个 [statistic] [entity]. 你只有 [value]. "
+    requirement-not-met-material: "<red>这个挑战需要 [number] 个 [statistic] [material]. 你只有
       [value]. "
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: "&5 &o 切换可以完成挑战的人"
+      description: "<dark_purple><italic>切换可以完成挑战的人"
       name: 挑战保护
     CHALLENGES_WORLD_PROTECTION:
-      description: "&5 &o 启用 / 禁用 玩家在自己空岛完成挑战的要求"
+      description: "<dark_purple><italic>启用 / 禁用 玩家在自己空岛完成挑战的要求"
       name: 岛屿挑战限制
       hint: 岛屿外无挑战
 version: 12

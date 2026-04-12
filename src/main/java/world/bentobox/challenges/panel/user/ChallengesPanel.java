@@ -96,8 +96,8 @@ public class ChallengesPanel extends CommonPanel
         panelBuilder.world(this.user.getWorld());
 
         // Register button builders
-        panelBuilder.registerTypeBuilder("CHALLENGE", this::createChallengeButton);
-        panelBuilder.registerTypeBuilder("LEVEL", this::createLevelButton);
+        panelBuilder.registerTypeBuilder(Constants.CHALLENGE_BUILDER_KEY, this::createChallengeButton);
+        panelBuilder.registerTypeBuilder(Constants.LEVEL_BUILDER_KEY, this::createLevelButton);
 
         panelBuilder.registerTypeBuilder("UNASSIGNED_CHALLENGES", this::createFreeChallengesButton);
 
@@ -232,7 +232,7 @@ public class ChallengesPanel extends CommonPanel
         }
         else
         {
-            int index = this.challengeIndex * slot.amountMap().getOrDefault("CHALLENGE", 1) + slot.slot();
+            int index = this.challengeIndex * slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) + slot.slot();
 
             if (index >= this.challengeList.size())
             {
@@ -455,7 +455,7 @@ public class ChallengesPanel extends CommonPanel
         }
         else
         {
-            int index = this.levelIndex * slot.amountMap().getOrDefault("LEVEL", 1) + slot.slot();
+            int index = this.levelIndex * slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) + slot.slot();
 
             if (index >= this.levelList.size())
             {
@@ -641,11 +641,11 @@ public class ChallengesPanel extends CommonPanel
 
         switch (target)
         {
-            case "CHALLENGE" -> {
+            case Constants.CHALLENGE_BUILDER_KEY -> {
                 int size = this.challengeList.size();
 
-                if (size <= slot.amountMap().getOrDefault("CHALLENGE", 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault("CHALLENGE", 1) <= this.challengeIndex + 1)
+                if (size <= slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) ||
+                    1.0 * size / slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) <= this.challengeIndex + 1)
                 {
                     // There are no next elements
                     return null;
@@ -653,11 +653,11 @@ public class ChallengesPanel extends CommonPanel
 
                 nextPageIndex = this.challengeIndex + 2;
             }
-            case "LEVEL" -> {
+            case Constants.LEVEL_BUILDER_KEY -> {
                 int size = this.levelList.size();
 
-                if (size <= slot.amountMap().getOrDefault("LEVEL", 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault("LEVEL", 1) <= this.levelIndex + 1)
+                if (size <= slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) ||
+                    1.0 * size / slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) <= this.levelIndex + 1)
                 {
                     // There are no next elements
                     return null;
@@ -702,8 +702,8 @@ public class ChallengesPanel extends CommonPanel
             // Next button ignores click type currently.
             switch (target)
             {
-                case "CHALLENGE" -> this.challengeIndex++;
-                case "LEVEL" -> this.levelIndex++;
+                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex++;
+                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex++;
             }
 
             this.build();
@@ -738,7 +738,7 @@ public class ChallengesPanel extends CommonPanel
 
         int previousPageIndex;
 
-        if ("CHALLENGE".equals(target))
+        if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
         {
             if (this.challengeIndex == 0)
             {
@@ -748,7 +748,7 @@ public class ChallengesPanel extends CommonPanel
 
             previousPageIndex = this.challengeIndex;
         }
-        else if ("LEVEL".equals(target))
+        else if (Constants.LEVEL_BUILDER_KEY.equals(target))
         {
             if (this.levelIndex == 0)
             {
@@ -795,8 +795,8 @@ public class ChallengesPanel extends CommonPanel
             // Next button ignores click type currently.
             switch (target)
             {
-                case "CHALLENGE" -> this.challengeIndex--;
-                case "LEVEL" -> this.levelIndex--;
+                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex--;
+                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex--;
             }
 
             this.build();

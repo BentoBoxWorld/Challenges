@@ -8,6 +8,7 @@ import java.util.Map;
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.utils.Constants;
 
 
 /**
@@ -57,13 +58,13 @@ public class ChallengeDataRequestHandler extends AddonRequestHandler
 
         if (metaData == null ||
                 metaData.isEmpty() ||
-                metaData.get("challenge-name") == null ||
-                !(metaData.get("challenge-name") instanceof String))
+                metaData.get(Constants.CHALLENGE_NAME_KEY) == null ||
+                !(metaData.get(Constants.CHALLENGE_NAME_KEY) instanceof String))
         {
             return Collections.emptyMap();
         }
 
-        Challenge challenge = this.addon.getChallengesManager().getChallenge((String) metaData.get("challenge-name"));
+        Challenge challenge = this.addon.getChallengesManager().getChallenge((String) metaData.get(Constants.CHALLENGE_NAME_KEY));
 
         Map<String, Object> challengeDataMap;
 

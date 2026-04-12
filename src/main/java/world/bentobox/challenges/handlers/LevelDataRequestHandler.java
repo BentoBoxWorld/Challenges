@@ -8,6 +8,7 @@ import java.util.Map;
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.utils.Constants;
 
 
 /**
@@ -54,13 +55,13 @@ public class LevelDataRequestHandler extends AddonRequestHandler
 
         if (metaData == null ||
                 metaData.isEmpty() ||
-                metaData.get("level-name") == null ||
-                !(metaData.get("level-name") instanceof String))
+                metaData.get(Constants.LEVEL_NAME_KEY) == null ||
+                !(metaData.get(Constants.LEVEL_NAME_KEY) instanceof String))
         {
             return Collections.emptyMap();
         }
 
-        ChallengeLevel level = this.addon.getChallengesManager().getLevel((String) metaData.get("level-name"));
+        ChallengeLevel level = this.addon.getChallengesManager().getLevel((String) metaData.get(Constants.LEVEL_NAME_KEY));
 
         Map<String, Object> levelDataMap;
 

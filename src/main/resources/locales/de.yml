@@ -32,800 +32,800 @@ challenges:
         parameters: "<challenge_id> [count]"
   gui:
     titles:
-      player-gui: "&0&l Herausforderungsmenü"
-      gamemode-gui: "&0&l Spielmodus auswählen"
-      multiple-gui: "&0&l Wie oft?"
-      admin-gui: "&0&l Herausforderung Admin Menu"
-      edit-challenge: "&0&l Herausforderung [challenge]"
-      edit-level: "&0&l Level Bearbeiten [level]"
-      settings: "&0&l Einstellungen"
-      choose-challenge: "&0&l Herausforderung wählen"
-      choose-level: "&0&l Level wählen"
-      choose-player: "&0&l Spieler wählen"
-      library: "&0&l Bibliothek"
-      manage-blocks: "&0&l Blöcke verwalten"
-      manage-entities: "&0&l Einheiten verwalten"
-      type-selector: "&0&l Wahl des Herausforderungstyps"
-      item-selector: "&0&l Item Auswahl"
-      block-selector: "&0&l Block wählen"
-      entity-selector: "&0&l Mob wählen"
-      challenge-selector: "&0&l Herausforderungsauswahl"
-      statistic-selector: "&0&l Statistik Auswahl"
-      environment-selector: "&0&l Umgebungs Auswahl"
+      player-gui: "<black><bold>Herausforderungsmenü"
+      gamemode-gui: "<black><bold>Spielmodus auswählen"
+      multiple-gui: "<black><bold>Wie oft?"
+      admin-gui: "<black><bold>Herausforderung Admin Menu"
+      edit-challenge: "<black><bold>Herausforderung [challenge]"
+      edit-level: "<black><bold>Level Bearbeiten [level]"
+      settings: "<black><bold>Einstellungen"
+      choose-challenge: "<black><bold>Herausforderung wählen"
+      choose-level: "<black><bold>Level wählen"
+      choose-player: "<black><bold>Spieler wählen"
+      library: "<black><bold>Bibliothek"
+      manage-blocks: "<black><bold>Blöcke verwalten"
+      manage-entities: "<black><bold>Einheiten verwalten"
+      type-selector: "<black><bold>Wahl des Herausforderungstyps"
+      item-selector: "<black><bold>Item Auswahl"
+      block-selector: "<black><bold>Block wählen"
+      entity-selector: "<black><bold>Mob wählen"
+      challenge-selector: "<black><bold>Herausforderungsauswahl"
+      statistic-selector: "<black><bold>Statistik Auswahl"
+      environment-selector: "<black><bold>Umgebungs Auswahl"
     buttons:
       free-challenges:
-        name: "&f&l Kostenlose Herausforderungen"
+        name: "<white><bold>Kostenlose Herausforderungen"
         description: |-
-          &7 Zeigt eine Liste von
-          &7 kostenlose Herausforderungen
+          <gray>Zeigt eine Liste von
+          <gray>kostenlose Herausforderungen
       return:
-        name: "&f&l Zurück"
+        name: "<white><bold>Zurück"
         description: |-
-          &7 Zurück zum vorherigen Menü
-          &7 oder beenden Sie die GUI
+          <gray>Zurück zum vorherigen Menü
+          <gray>oder beenden Sie die GUI
       previous:
-        name: "&f&l Vorherige Seite"
-        description: "&7 Zur Seite &e [number] &7 wechseln"
+        name: "<white><bold>Vorherige Seite"
+        description: "<gray>Zur Seite <yellow>[number] <gray>wechseln"
       next:
-        name: "&f&l Nächste Seite"
-        description: "&7 Zur Seite &e [number] &7 wechseln"
+        name: "<white><bold>Nächste Seite"
+        description: "<gray>Zur Seite <yellow>[number] <gray>wechseln"
       reduce:
-        name: "&f&l Verringern"
-        description: "&7 verringern um &e [Zahl]"
+        name: "<white><bold>Verringern"
+        description: "<gray>verringern um <yellow>[Zahl]"
       increase:
-        name: "&f&l Erhöhen"
-        description: "&7 Erhöhen um &e [number]"
+        name: "<white><bold>Erhöhen"
+        description: "<gray>Erhöhen um <yellow>[number]"
       accept:
-        name: "&f&l Abgeschlossen"
+        name: "<white><bold>Abgeschlossen"
         description: |-
-          &7 Erledige Herausforderung &e [number]
-          &7 time(-s)
+          <gray>Erledige Herausforderung <yellow>[number]
+          <gray>time(-s)
       quit:
-        name: "&f&l Beenden"
-        description: "&7 Verlasse die GUI."
+        name: "<white><bold>Beenden"
+        description: "<gray>Verlasse die GUI."
       complete_user_challenges:
-        name: "&f&l Schließe die  Benutzerherausforderung(en) ab"
+        name: "<white><bold>Schließe die  Benutzerherausforderung(en) ab"
         description: |-
-          &7 Ermöglicht die Auswahl von einem Spieler und
-          &7 das Abschließen von Herausforderung(en) für
-          &7 ihn
+          <gray>Ermöglicht die Auswahl von einem Spieler und
+          <gray>das Abschließen von Herausforderung(en) für
+          <gray>ihn
       reset_user_challenges:
-        name: "&f&l Benutzerherausforderungen zurücksetzen"
+        name: "<white><bold>Benutzerherausforderungen zurücksetzen"
         description: |-
-          &7 Ermöglicht die Auswahl von einem Spieler und
-          &7 setzt seine Herausforderungen zurück
+          <gray>Ermöglicht die Auswahl von einem Spieler und
+          <gray>setzt seine Herausforderungen zurück
       add_challenge:
-        name: "&f&l Herausforderung erstellen"
+        name: "<white><bold>Herausforderung erstellen"
         description: |-
-          &7 Startet einen Prozess um
-          &7 einer neue Herausforderung ertellen.
+          <gray>Startet einen Prozess um
+          <gray>einer neue Herausforderung ertellen.
       add_level:
-        name: "&f&l Level erstellen"
+        name: "<white><bold>Level erstellen"
         description: |-
-          &7 Startet einen Prozess für
-          &7 Erstellen eines neuen Level.
+          <gray>Startet einen Prozess für
+          <gray>Erstellen eines neuen Level.
       edit_challenge:
-        name: "&f&l Herausforderung bearbeiten"
+        name: "<white><bold>Herausforderung bearbeiten"
         description: |-
-          &7 Ermöglicht die Auswahl und Bearbeitung
-          &7 eine Herausforderung.
+          <gray>Ermöglicht die Auswahl und Bearbeitung
+          <gray>eine Herausforderung.
       edit_level:
-        name: "&f&l Level bearbeiten"
+        name: "<white><bold>Level bearbeiten"
         description: |-
-          &7 Ermöglicht die Auswahl und Bearbeitung
-          &7 eines Level's.
+          <gray>Ermöglicht die Auswahl und Bearbeitung
+          <gray>eines Level's.
       delete_challenge:
-        name: "&f&l Herausforderung löschen"
+        name: "<white><bold>Herausforderung löschen"
         description: |-
-          &7 Ermöglicht das Auswählen und Löschen
-          &7 eine Herausforderung.
+          <gray>Ermöglicht das Auswählen und Löschen
+          <gray>eine Herausforderung.
       delete_level:
-        name: "&f&l Level löschen"
+        name: "<white><bold>Level löschen"
         description: |-
-          &7 Ermöglicht das Auswählen und Löschen
-          &7 eines Level.
+          <gray>Ermöglicht das Auswählen und Löschen
+          <gray>eines Level.
       edit_settings:
-        name: "&f&l Einstellungen"
+        name: "<white><bold>Einstellungen"
         description: |-
-          &7 Ermöglicht das Anzeigen und Bearbeiten der
-          &7 Add-on-Einstellungen.
+          <gray>Ermöglicht das Anzeigen und Bearbeiten der
+          <gray>Add-on-Einstellungen.
       complete_wipe:
-        name: "&f&l Löschen abschließen"
+        name: "<white><bold>Löschen abschließen"
         description: |-
-          &7 Löscht Herausforderungen vollständig
-          &7 Zusatzdatenbank, einschließlich
-          &7 Benutzerdaten.
+          <gray>Löscht Herausforderungen vollständig
+          <gray>Zusatzdatenbank, einschließlich
+          <gray>Benutzerdaten.
       challenge_wipe:
-        name: "&f&l Herausforderung Löschen"
+        name: "<white><bold>Herausforderung Löschen"
         description: |-
-          &7 Löscht Herausforderungen vollständig
-          &7 und Level aus der Datenbank.
+          <gray>Löscht Herausforderungen vollständig
+          <gray>und Level aus der Datenbank.
       user_wipe:
-        name: "&f&l Benutzerlöschung"
+        name: "<white><bold>Benutzerlöschung"
         description: |-
-          &7 Benutzer vollständig aus der
-          &7 Datenbank löschen.
+          <gray>Benutzer vollständig aus der
+          <gray>Datenbank löschen.
       library:
-        name: "&f&l Bibliothek"
+        name: "<white><bold>Bibliothek"
         description: |-
-          &7 Öffnet eine öffentliche
-          Bibliothek für &7-Herausforderungen.
+          <gray>Öffnet eine öffentliche
+          Bibliothek für <gray>-Herausforderungen.
       import_database:
-        name: "&f&l Datenbank importieren"
+        name: "<white><bold>Datenbank importieren"
         description: |-
-          &7 Ermöglicht den Import von Exportierten
-          &7 Herausforderungen.
+          <gray>Ermöglicht den Import von Exportierten
+          <gray>Herausforderungen.
       import_template:
-        name: "&f&l Vorlage importieren"
+        name: "<white><bold>Vorlage importieren"
         description: |-
-          &7 Ermöglicht das Importieren einer Vorlagen Datei
-          &7 mit Herausforderungen.
+          <gray>Ermöglicht das Importieren einer Vorlagen Datei
+          <gray>mit Herausforderungen.
       export_challenges:
-        name: "&f&l Export der Herausforderungen"
+        name: "<white><bold>Export der Herausforderungen"
         description: |-
-          &7 Ermöglicht den Export der Datenbank
-          &7 in eine lokale Datei.
+          <gray>Ermöglicht den Export der Datenbank
+          <gray>in eine lokale Datei.
       properties:
-        name: "&f&l Eigenschaften"
-        description: "&7 Alle Haupteigenschaften anzeigen."
+        name: "<white><bold>Eigenschaften"
+        description: "<gray>Alle Haupteigenschaften anzeigen."
       requirements:
-        name: "&f&l Voraussetzungen"
-        description: "&7 Anforderungseigenschaften anzeigen."
+        name: "<white><bold>Voraussetzungen"
+        description: "<gray>Anforderungseigenschaften anzeigen."
       rewards:
-        name: "&f&l Belohnungen"
-        description: "&7 Belohnung Eigenschaften anzeigen."
+        name: "<white><bold>Belohnungen"
+        description: "<gray>Belohnung Eigenschaften anzeigen."
       deployed:
-        name: "&f&l Bereitstellung"
-        description: "&7 Umschalten, wenn Herausforderung \n&7 bereitgestellt ist
-          und Benutzer sie abschließen\n&7 können."
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+        name: "<white><bold>Bereitstellung"
+        description: "<gray>Umschalten, wenn Herausforderung \n<gray>bereitgestellt ist
+          und Benutzer sie abschließen\n<gray>können."
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       name:
-        name: "&f&l Name"
+        name: "<white><bold>Name"
         description: |-
-          &7 Änderung erlaubt
-          &7 der Anzeigename.
-        value: "&7 Aktuell: &r [name]"
+          <gray>Änderung erlaubt
+          <gray>der Anzeigename.
+        value: "<gray>Aktuell: <reset>[name]"
       remove_on_complete:
-        name: "&f&l Nach Abschluss ausblenden"
+        name: "<white><bold>Nach Abschluss ausblenden"
         description: |-
-          &7 Umschalten ob Herausforderungen
-          &7 verborgen werden wenn diese
-          &7 vom Spieler abgeschlossen wurden.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Umschalten ob Herausforderungen
+          <gray>verborgen werden wenn diese
+          <gray>vom Spieler abgeschlossen wurden.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       description:
-        name: "&f&l Beschreibung"
+        name: "<white><bold>Beschreibung"
         description: |-
-          &7 Die spezifische Beschreibung
-          &7 für die Herausforderung. Die FarbCodes
-          &7 müssen darauf angewendet werden.
-        value: "&7 Aktuelle Beschreibung:"
+          <gray>Die spezifische Beschreibung
+          <gray>für die Herausforderung. Die FarbCodes
+          <gray>müssen darauf angewendet werden.
+        value: "<gray>Aktuelle Beschreibung:"
       environment:
-        name: "&f&l Dimension"
+        name: "<white><bold>Dimension"
         description: |-
-          &7 Erlaubt die Limitierung
-          &7 in welcher Welt Sie die Herausforderung
-          &7 abgeschlossen werden kann.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Erlaubt die Limitierung
+          <gray>in welcher Welt Sie die Herausforderung
+          <gray>abgeschlossen werden kann.
+        enabled: "<dark_green>"
+        disabled: "<red>"
       order:
-        name: "&f&l Reihenfolge"
+        name: "<white><bold>Reihenfolge"
         description: |-
-          &7 Ermöglicht das Ändern der Reihenfolge von
-          &7 Items.
-          &7 Items mit gleichen Nummern
-          &7 werden sortiert nach
-          &7 eindeutigem ID-Namen.
-        value: "&7 Aktueller Auftrag: &e [number]"
+          <gray>Ermöglicht das Ändern der Reihenfolge von
+          <gray>Items.
+          <gray>Items mit gleichen Nummern
+          <gray>werden sortiert nach
+          <gray>eindeutigem ID-Namen.
+        value: "<gray>Aktueller Auftrag: <yellow>[number]"
       icon:
-        name: "&f&l Icon"
+        name: "<white><bold>Icon"
         description: |-
-          &7 Ermöglicht das Ändern des Symbols
-          &7 für diese Herausforderung.
+          <gray>Ermöglicht das Ändern des Symbols
+          <gray>für diese Herausforderung.
       locked_icon:
-        name: "&f&l Sperrsymbol"
+        name: "<white><bold>Sperrsymbol"
         description: |-
-          &7 Erlaubt Änderung gesperrt
-          &7 des Level-Symbol.
+          <gray>Erlaubt Änderung gesperrt
+          <gray>des Level-Symbol.
       required_permissions:
-        name: "&f&l Erforderliche Berechtigungen"
-        description: "&7 Änderungserlaubnis erforderlich,\n&7 Berechtigungen welche
-          benötigt werden damit die \n&7 Herausforderung  abgeschlossen werden kann."
-        title: "&7 Berechtigungen:"
-        permission: " &8 - [permission]"
-        none: "&7 Berechtigungen sind nicht gesetzt."
+        name: "<white><bold>Erforderliche Berechtigungen"
+        description: "<gray>Änderungserlaubnis erforderlich,\n<gray>Berechtigungen welche
+          benötigt werden damit die \n<gray>Herausforderung  abgeschlossen werden kann."
+        title: "<gray>Berechtigungen:"
+        permission: " <dark_gray>- [permission]"
+        none: "<gray>Berechtigungen sind nicht gesetzt."
       remove_entities:
-        name: "&f&l Mobs entfernen"
+        name: "<white><bold>Mobs entfernen"
         description: |-
-          &7 Erlaubt Umschalten ob
-          &7 erforderliche Mobs
-          &7 aus der Welt entfernt werden
-          &7 nach Abschluss der
-          &7 Herausforderung.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Erlaubt Umschalten ob
+          <gray>erforderliche Mobs
+          <gray>aus der Welt entfernt werden
+          <gray>nach Abschluss der
+          <gray>Herausforderung.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       required_entities:
-        name: "&f&l Erforderliche Mobs"
+        name: "<white><bold>Erforderliche Mobs"
         description: |-
-          &7 Ermöglicht die Änderung der erforderlichen
-          &7 Mobs, damit diese
-          &7 Herausforderung abgeschlossen werden kann.
-        title: "&7 Mobs: "
-        list: " &8 - [number] x [entity]"
-        none: "&7 Mobs werden nicht hinzugefügt."
+          <gray>Ermöglicht die Änderung der erforderlichen
+          <gray>Mobs, damit diese
+          <gray>Herausforderung abgeschlossen werden kann.
+        title: "<gray>Mobs: "
+        list: " <dark_gray>- [number] x [entity]"
+        none: "<gray>Mobs werden nicht hinzugefügt."
       remove_blocks:
-        name: "&f&l Blöcke entfernen"
-        description: "&7 Ermöglicht das Umschalten, ob\n&7 erforderliche Blöcke\n&7
-          aus der Welt entfernt werden\n&7 nach Beendigung \n&7 der Herausforderung"
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+        name: "<white><bold>Blöcke entfernen"
+        description: "<gray>Ermöglicht das Umschalten, ob\n<gray>erforderliche Blöcke\n<gray>
+          aus der Welt entfernt werden\n<gray>nach Beendigung \n<gray>der Herausforderung"
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       required_blocks:
-        name: "&f&l Erforderliche Blöcke"
+        name: "<white><bold>Erforderliche Blöcke"
         description: |-
-          &7 Ermöglicht die Änderung der erforderlichen
-          &7 Blöcke um die
-          &7 Aufgabe abschließen zu können.
-        title: "&7 Blöcke:"
-        list: " &8 - [number] x [block]"
-        none: "&7 Blöcke werden nicht hinzugefügt."
+          <gray>Ermöglicht die Änderung der erforderlichen
+          <gray>Blöcke um die
+          <gray>Aufgabe abschließen zu können.
+        title: "<gray>Blöcke:"
+        list: " <dark_gray>- [number] x [block]"
+        none: "<gray>Blöcke werden nicht hinzugefügt."
       search_radius:
-        name: "&f&l Suchradius"
+        name: "<white><bold>Suchradius"
         description: |-
-          &7 Ermöglicht die Änderung des Radius
-          &7 um den Spieler, von dem aus
-          &7 Blöcke und/oder Objekte
-          &7 erkannt werden.
-        value: "&7 Aktueller Abstand: &e [number]"
+          <gray>Ermöglicht die Änderung des Radius
+          <gray>um den Spieler, von dem aus
+          <gray>Blöcke und/oder Objekte
+          <gray>erkannt werden.
+        value: "<gray>Aktueller Abstand: <yellow>[number]"
       remove_items:
-        name: "&f&l Items entfernen"
+        name: "<white><bold>Items entfernen"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 benötigte Gegenstände
-          &7 aus dem Inventar entfernt werden
-          &7 nach Beendigung der
-          &7 Herausforderung.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>benötigte Gegenstände
+          <gray>aus dem Inventar entfernt werden
+          <gray>nach Beendigung der
+          <gray>Herausforderung.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       required_items:
-        name: "&f&l Erforderliche Gegenstände"
+        name: "<white><bold>Erforderliche Gegenstände"
         description: |-
-          &7 Ermöglicht die Änderung der erforderlichen
-          &7 Elemente für diese
-          &7 Herausforderung abgeschlossen werden kann.
-        title: "&7 Items: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Items werden nicht hinzugefügt."
+          <gray>Ermöglicht die Änderung der erforderlichen
+          <gray>Elemente für diese
+          <gray>Herausforderung abgeschlossen werden kann.
+        title: "<gray>Items: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Items werden nicht hinzugefügt."
       add_ignored_meta:
-        name: "&f&l Metadaten ignorieren hinzufügen"
+        name: "<white><bold>Metadaten ignorieren hinzufügen"
         description: |-
-          &7 Ermöglicht das Hinzufügen, welche
-          &7 Items ignoriert werden sollen, inkl.
-          &7 aller Metadaten, die
-          &7 ihnen zugewiesen sind.
-        title: "&7 Items: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Items werden nicht hinzugefügt."
+          <gray>Ermöglicht das Hinzufügen, welche
+          <gray>Items ignoriert werden sollen, inkl.
+          <gray>aller Metadaten, die
+          <gray>ihnen zugewiesen sind.
+        title: "<gray>Items: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Items werden nicht hinzugefügt."
       remove_ignored_meta:
-        name: "&f&l Entfernen Metadaten ignorieren"
+        name: "<white><bold>Entfernen Metadaten ignorieren"
         description: |-
-          &7 Ermöglicht das Entfernen der
-          &7 Items, die ignoriert werden sollen und
-          &7 allen Metadaten, die
-          &7 ihnen zugewiesen sind.
+          <gray>Ermöglicht das Entfernen der
+          <gray>Items, die ignoriert werden sollen und
+          <gray>allen Metadaten, die
+          <gray>ihnen zugewiesen sind.
       remove_experience:
-        name: "&f&l Erfahrung entfernen"
+        name: "<white><bold>Erfahrung entfernen"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 erforderliche Erfahrung
-          &7 vom Spieler entfernt wird
-          &7 nach Beendigung der
-          &7 Herausforderung.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>erforderliche Erfahrung
+          <gray>vom Spieler entfernt wird
+          <gray>nach Beendigung der
+          <gray>Herausforderung.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       required_experience:
-        name: "&f&l Erforderliche Erfahrung"
+        name: "<white><bold>Erforderliche Erfahrung"
         description: |-
-          &7 Ermöglicht die Änderung der
-          &7 erforderliche Erfahrung für
-          &7 den Spieler.
-        value: "&7 Aktuelle Erfahrung: &e [number]"
+          <gray>Ermöglicht die Änderung der
+          <gray>erforderliche Erfahrung für
+          <gray>den Spieler.
+        value: "<gray>Aktuelle Erfahrung: <yellow>[number]"
       required_level:
-        name: "&f&l Erforderliche Inselstufe"
+        name: "<white><bold>Erforderliche Inselstufe"
         description: |-
-          &7 Ermöglicht die Änderung der
-          &7 erforderliche Inselstufe
-          &7 für die Herausforderung.
-        value: "&7 Aktuelle Ebene: &e [number]"
+          <gray>Ermöglicht die Änderung der
+          <gray>erforderliche Inselstufe
+          <gray>für die Herausforderung.
+        value: "<gray>Aktuelle Ebene: <yellow>[number]"
       remove_money:
-        name: "&f&l Geld entfernen"
+        name: "<white><bold>Geld entfernen"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 das benötigte Geld
-          &7 vom Spieler entfernt wird,das
-          &7 Konto entfernt wird, nachdem er die
-          &7 die Herausforderung.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>das benötigte Geld
+          <gray>vom Spieler entfernt wird,das
+          <gray>Konto entfernt wird, nachdem er die
+          <gray>die Herausforderung.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       required_money:
-        name: "&f&l Benötigtes Geld"
+        name: "<white><bold>Benötigtes Geld"
         description: |-
-          &7 Ermöglicht die Änderung der
-          &7 erforderliche Geld auf dem Spieler
-          &7 Konto für die Herausforderung.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Änderung der
+          <gray>erforderliche Geld auf dem Spieler
+          <gray>Konto für die Herausforderung.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       statistic:
-        name: "&f&l Statistik"
+        name: "<white><bold>Statistik"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 Statistiktyp, der
-          &7 in dieser Challenge geprüft wird.
-        value: "&7 Aktueller Wert: &e [statistic]"
+          <gray>Ermöglicht die Änderung des
+          <gray>Statistiktyp, der
+          <gray>in dieser Challenge geprüft wird.
+        value: "<gray>Aktueller Wert: <yellow>[statistic]"
       statistic_amount:
-        name: "&f&l Zielwert"
+        name: "<white><bold>Zielwert"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 statistischen Zielwert
-          &7, der erfüllt werden muss.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Änderung des
+          <gray>statistischen Zielwert
+          <gray>, der erfüllt werden muss.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       remove_statistic:
-        name: "&f&l Statistik verkleinern"
+        name: "<white><bold>Statistik verkleinern"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 der statistische Wert
-          &7 nach Beendigung der Herausforderung
-          &7 die Herausforderung.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>der statistische Wert
+          <gray>nach Beendigung der Herausforderung
+          <gray>die Herausforderung.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       statistic_blocks:
-        name: "&f&l Zielblock"
+        name: "<white><bold>Zielblock"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 statistischen Zielblocks.
-        value: "&7 Aktueller Block: &e [block]"
+          <gray>Ermöglicht die Änderung des
+          <gray>statistischen Zielblocks.
+        value: "<gray>Aktueller Block: <yellow>[block]"
       statistic_items:
-        name: "&f&l Ziel Item"
+        name: "<white><bold>Ziel Item"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 statistische Zielposition.
-        value: "&7 Aktuelles Element: &e [item]"
+          <gray>Ermöglicht die Änderung des
+          <gray>statistische Zielposition.
+        value: "<gray>Aktuelles Element: <yellow>[item]"
       statistic_entities:
-        name: "&f&l Ziel Mob"
+        name: "<white><bold>Ziel Mob"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 statistischen Zielobjekts.
-        value: "&7 Aktuelle Mob: &e [entity]"
+          <gray>Ermöglicht die Änderung des
+          <gray>statistischen Zielobjekts.
+        value: "<gray>Aktuelle Mob: <yellow>[entity]"
       reward_text:
-        name: "&f&l Belohnungstext"
+        name: "<white><bold>Belohnungstext"
         description: |-
-          &7 Der spezifische Belohnungstext.
-          &7 Die Farbcodes müssen
-          &7 darauf angewendet werden.
-        value: "&7 Aktueller Text:"
+          <gray>Der spezifische Belohnungstext.
+          <gray>Die Farbcodes müssen
+          <gray>darauf angewendet werden.
+        value: "<gray>Aktueller Text:"
       repeat_reward_text:
-        name: "&f&l Belohnungstext wiederholen"
+        name: "<white><bold>Belohnungstext wiederholen"
         description: |-
-          &7 Der spezifische Wiederholungsbelohnungstext
-          &7 für die Herausforderung. Die Farb
-          &7 Codes müssen darauf angewendet werden.
-        value: "&7 Aktueller Text:"
+          <gray>Der spezifische Wiederholungsbelohnungstext
+          <gray>für die Herausforderung. Die Farb
+          <gray>Codes müssen darauf angewendet werden.
+        value: "<gray>Aktueller Text:"
       reward_items:
-        name: "&f&l Belohnungsgegenstände"
+        name: "<white><bold>Belohnungsgegenstände"
         description: |-
-          &7 Ermöglicht das Ändern von Belohnungen
-          &7 Gegenstände.
-        title: "&7 Items: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Items werden nicht hinzugefügt."
+          <gray>Ermöglicht das Ändern von Belohnungen
+          <gray>Gegenstände.
+        title: "<gray>Items: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Items werden nicht hinzugefügt."
       repeat_reward_items:
-        name: "&f&l Belohnungs Item wiederholen"
+        name: "<white><bold>Belohnungs Item wiederholen"
         description: |-
-          &7 Ermöglicht die Änderung der Wiederholung
-          &7 Belohnungsgegenstände für diese
-          &7-Herausforderung.
-        title: "&7 Items: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Items werden nicht hinzugefügt."
+          <gray>Ermöglicht die Änderung der Wiederholung
+          <gray>Belohnungsgegenstände für diese
+          <gray>-Herausforderung.
+        title: "<gray>Items: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Items werden nicht hinzugefügt."
       reward_experience:
-        name: "&f&l Belohnungserfahrung"
+        name: "<white><bold>Belohnungserfahrung"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 Belohnungserlebnis für
-          &7 den Spieler.
-        value: "&7 Belohnungserfahrung: &e [number]"
+          <gray>Ermöglicht die Änderung des
+          <gray>Belohnungserlebnis für
+          <gray>den Spieler.
+        value: "<gray>Belohnungserfahrung: <yellow>[number]"
       repeat_reward_experience:
-        name: "&f&l Belohnungserfahrung wiederholen"
+        name: "<white><bold>Belohnungserfahrung wiederholen"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 Wiederholung der Belohnungserfahrung
-          &7 für den Spieler.
-        value: "&7 Belohnungserlebnis: &e [number]"
+          <gray>Ermöglicht die Änderung des
+          <gray>Wiederholung der Belohnungserfahrung
+          <gray>für den Spieler.
+        value: "<gray>Belohnungserlebnis: <yellow>[number]"
       reward_money:
-        name: "&f&l Belohnungsgeld"
+        name: "<white><bold>Belohnungsgeld"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 Belohnungsgeld.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Änderung des
+          <gray>Belohnungsgeld.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       repeat_reward_money:
-        name: "&f&l Belohnungsgeld wiederholen"
+        name: "<white><bold>Belohnungsgeld wiederholen"
         description: |-
-          &7 Ermöglicht die Änderung des
-          &7 Wiederholung des Belohnungsgeldes
-          &7 für die Herausforderung.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Änderung des
+          <gray>Wiederholung des Belohnungsgeldes
+          <gray>für die Herausforderung.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       reward_commands:
-        name: "&f&l Belohnungsbefehle"
+        name: "<white><bold>Belohnungsbefehle"
         description: |-
-          &7 Die spezifischen Belohnungsbefehle.
-          &8 Tipp:
-          &8 Der Befehl muss
-          &8 zuerst mit `/` geschrieben werden, da er
-          &8 automatisch angewendet wird.
-          &8 Standardmäßig werden die Befehle
-          &8 vom Server ausgeführt. Jedoch
-          &8 das Hinzufügen von `[SELF]` am Anfang
-          &8 ermöglicht es, dass der Befehl
-          &8 vom Spieler ausgeführt werden. Außerdem
-          &8 unterstützt einen Platzhalter
-          &8 `[player]`, der dann
-          &8 durch einen Spielernamen ersetzt wird
-          &8 der die Herausforderung abgeschlossen hat.
-        value: "&7 Aktuelle Befehle:"
+          <gray>Die spezifischen Belohnungsbefehle.
+          <dark_gray>Tipp:
+          <dark_gray>Der Befehl muss
+          <dark_gray>zuerst mit `/` geschrieben werden, da er
+          <dark_gray>automatisch angewendet wird.
+          <dark_gray>Standardmäßig werden die Befehle
+          <dark_gray>vom Server ausgeführt. Jedoch
+          <dark_gray>das Hinzufügen von `[SELF]` am Anfang
+          <dark_gray>ermöglicht es, dass der Befehl
+          <dark_gray>vom Spieler ausgeführt werden. Außerdem
+          <dark_gray>unterstützt einen Platzhalter
+          <dark_gray>`[player]`, der dann
+          <dark_gray>durch einen Spielernamen ersetzt wird
+          <dark_gray>der die Herausforderung abgeschlossen hat.
+        value: "<gray>Aktuelle Befehle:"
       repeat_reward_commands:
-        name: "&f&l Belohnungsbefehle wiederholen"
+        name: "<white><bold>Belohnungsbefehle wiederholen"
         description: |-
-          &7 Die spezifische Wiederholungsbelohnung
-          &7 Befehle für die Herausforderung.
-          &8 Tipp:
-          &8 Der Befehl muss
-          &8 zuerst mit `/` geschrieben werden, da er
-          &8 automatisch angewendet wird.
-          &8 Standardmäßig werden die Befehle
-          &8 vom Server ausgeführt. Jedoch
-          &8 das Hinzufügen von `[SELF]` am Anfang
-          &8 ermöglicht es, dass der Befehl
-          &8 vom Spieler ausgeführt werden. Außerdem
-          &8 unterstützt einen Platzhalter
-          &8 `[player]`, der dann
-          &8 durch einen Spielernamen ersetzt wird
-          &8 der die Herausforderung abgeschlossen hat.
-        value: "&7 Aktuelle Befehle:"
+          <gray>Die spezifische Wiederholungsbelohnung
+          <gray>Befehle für die Herausforderung.
+          <dark_gray>Tipp:
+          <dark_gray>Der Befehl muss
+          <dark_gray>zuerst mit `/` geschrieben werden, da er
+          <dark_gray>automatisch angewendet wird.
+          <dark_gray>Standardmäßig werden die Befehle
+          <dark_gray>vom Server ausgeführt. Jedoch
+          <dark_gray>das Hinzufügen von `[SELF]` am Anfang
+          <dark_gray>ermöglicht es, dass der Befehl
+          <dark_gray>vom Spieler ausgeführt werden. Außerdem
+          <dark_gray>unterstützt einen Platzhalter
+          <dark_gray>`[player]`, der dann
+          <dark_gray>durch einen Spielernamen ersetzt wird
+          <dark_gray>der die Herausforderung abgeschlossen hat.
+        value: "<gray>Aktuelle Befehle:"
       repeatable:
-        name: "&f&l Wiederholbar"
+        name: "<white><bold>Wiederholbar"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 die Herausforderung
-          &7 wiederholbar ist.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>die Herausforderung
+          <gray>wiederholbar ist.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       repeat_count:
-        name: "&f&l Wiederholungszähler"
+        name: "<white><bold>Wiederholungszähler"
         description: |-
-          &7 Ermöglicht die Änderung der
-          &7 Anzahl der Wiederholungen
-          &7 für die Herausforderung.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Änderung der
+          <gray>Anzahl der Wiederholungen
+          <gray>für die Herausforderung.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       cool_down:
-        name: "&f&l Abkühlen"
+        name: "<white><bold>Abkühlen"
         description: |-
-          &7 Ermöglicht die Änderung der
-          &7 Abkühlsekunden, die
-          &7 gewartet werden muss zwischen
-          &7 wiederholbaren Herausforderungen
-          &7 und deren Beendigung gewartet werden muss.
-        value: "&7 Aktueller Wert: &e [time]"
+          <gray>Ermöglicht die Änderung der
+          <gray>Abkühlsekunden, die
+          <gray>gewartet werden muss zwischen
+          <gray>wiederholbaren Herausforderungen
+          <gray>und deren Beendigung gewartet werden muss.
+        value: "<gray>Aktueller Wert: <yellow>[time]"
       challenges:
-        name: "&f&l Herausforderungen"
+        name: "<white><bold>Herausforderungen"
         description: |-
-          &7 Zugewiesene Herausforderungen anzeigen
-          &7 zum Level.
+          <gray>Zugewiesene Herausforderungen anzeigen
+          <gray>zum Level.
       waiver_amount:
-        name: "&f&l Verzichtsbetrag"
+        name: "<white><bold>Verzichtsbetrag"
         description: |-
-          &7 Ermöglicht die Festlegung einer Anzahl
-          &7 von Herausforderungen, die
-          &7 unvollendet gelassen werden können, um
-          &7 das nächste Level freizuschalten.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Ermöglicht die Festlegung einer Anzahl
+          <gray>von Herausforderungen, die
+          <gray>unvollendet gelassen werden können, um
+          <gray>das nächste Level freizuschalten.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       add_challenges:
-        name: "&f&l Herausforderung(en) hinzufügen"
+        name: "<white><bold>Herausforderung(en) hinzufügen"
         description: |-
-          &7 Ermöglicht die Auswahl und
-          &7 fügt Herausforderungen zum
-          &7 leveln.
+          <gray>Ermöglicht die Auswahl und
+          <gray>fügt Herausforderungen zum
+          <gray>leveln.
       remove_challenges:
-        name: "&f&l Herausforderung(en) entfernen"
+        name: "<white><bold>Herausforderung(en) entfernen"
         description: |-
-          &7 Ermöglicht die Auswahl und
-          &7 Entfernen von Herausforderungen auf dem
-          &7 Level.
+          <gray>Ermöglicht die Auswahl und
+          <gray>Entfernen von Herausforderungen auf dem
+          <gray>Level.
       reset_on_new:
-        name: "&f&l Zurücksetzen auf Neu"
+        name: "<white><bold>Zurücksetzen auf Neu"
         description: |-
-          &7 Ermöglicht das Umschalten, ob
-          &7 Herausforderungen
-          &7 zurückgesetzt werden sollen, wenn der Benutzer die
-          &7 Insel verlässt oder eine neue
-          &7 Insel erstellt.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht das Umschalten, ob
+          <gray>Herausforderungen
+          <gray>zurückgesetzt werden sollen, wenn der Benutzer die
+          <gray>Insel verlässt oder eine neue
+          <gray>Insel erstellt.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       broadcast:
-        name: "&f&l Broadcast"
+        name: "<white><bold>Broadcast"
         description: |-
-          &7 Sendungen Herausforderung und
-          &7 Erstmaliger Abschluss eines Levels
-          &7 an alle.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Sendungen Herausforderung und
+          <gray>Erstmaliger Abschluss eines Levels
+          <gray>an alle.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       remove_completed:
-        name: "&f&l Ausblenden abgeschlossen"
+        name: "<white><bold>Ausblenden abgeschlossen"
         description: |-
-          &7 Versteckt abgeschlossene Herausforderungen
-          &7 aus dem Menü.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Versteckt abgeschlossene Herausforderungen
+          <gray>aus dem Menü.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       glow_completed:
-        name: "&f&l Glühen wenn abgeschlossen"
+        name: "<white><bold>Glühen wenn abgeschlossen"
         description: |-
-          &7 Fügt Verzauberungsglühen
-          &7 zu den abgeschlossenen Herausforderungen.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Fügt Verzauberungsglühen
+          <gray>zu den abgeschlossenen Herausforderungen.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       store_history:
-        name: "&f&l Store-Verlauf"
+        name: "<white><bold>Store-Verlauf"
         description: |-
-          &7 Speichert den internen Verlauf
-          &7 wenn jede Herausforderung
-          &7 abgeschlossen ist.
-          &7 Derzeit nur einsehbar
-          &7 in der Datenbank.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Speichert den internen Verlauf
+          <gray>wenn jede Herausforderung
+          <gray>abgeschlossen ist.
+          <gray>Derzeit nur einsehbar
+          <gray>in der Datenbank.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       data_per_island:
-        name: "&f&l Speichern pro Insel"
+        name: "<white><bold>Speichern pro Insel"
         description: |-
-          &7 Speichert die abgeschlossenen
-          &7 Herausforderungen pro Insel.
-          &7 Der Fortschritt wird mit allen
-          &7 mit allen Spielern im Team geteilt.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Speichert die abgeschlossenen
+          <gray>Herausforderungen pro Insel.
+          <gray>Der Fortschritt wird mit allen
+          <gray>mit allen Spielern im Team geteilt.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       show_title:
-        name: "&f&l Titel anzeigen"
+        name: "<white><bold>Titel anzeigen"
         description: |-
-          &7 Zeigt den Titel an, wenn eine
-          &7 Herausforderung oder Level
-          &7 abgeschlossen ist.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Zeigt den Titel an, wenn eine
+          <gray>Herausforderung oder Level
+          <gray>abgeschlossen ist.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       gamemode_gui:
-        name: "&f&l GameMode-Auswahl-GUI"
+        name: "<white><bold>GameMode-Auswahl-GUI"
         description: |-
-          &7 Ermöglicht eine einzige GUI, die
-          &7 verfügbar über /challenges
-          &7 Befehl.
-          &c Erfordert einen Neustart des Servers.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Ermöglicht eine einzige GUI, die
+          <gray>verfügbar über /challenges
+          <gray>Befehl.
+          <red>Erfordert einen Neustart des Servers.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       locked_level_icon:
-        name: "&f&l Standardsymbol für gesperrte Icon"
+        name: "<white><bold>Standardsymbol für gesperrte Icon"
         description: |-
-          &7 Standardsymbol für alle gesperrten
-          &7 Level. Jedes Level kann
-          &7 dieses Symbol ändern.
+          <gray>Standardsymbol für alle gesperrten
+          <gray>Level. Jedes Level kann
+          <gray>dieses Symbol ändern.
       purge_history:
-        name: "&f&l Geschichte Lebenszeit"
+        name: "<white><bold>Geschichte Lebenszeit"
         description: |-
-          &7 Anzahl der Tage, wie lange
-          &7 Verlaufsdaten gespeichert werden
-          &7 in den Benutzerdaten.
-          &7 0 bedeutet, dass die Daten
-          &7 nicht entfernt werden.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Anzahl der Tage, wie lange
+          <gray>Verlaufsdaten gespeichert werden
+          <gray>in den Benutzerdaten.
+          <gray>0 bedeutet, dass die Daten
+          <gray>nicht entfernt werden.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       title_showtime:
-        name: "&f&l Titel Showtime"
+        name: "<white><bold>Titel Showtime"
         description: |-
-          &7 Anzahl der Ticks, die der Titel
-          &7 dem Spieler angezeigt wird.
-        value: "&7 Aktueller Wert: &e [number]"
+          <gray>Anzahl der Ticks, die der Titel
+          <gray>dem Spieler angezeigt wird.
+        value: "<gray>Aktueller Wert: <yellow>[number]"
       active_world_list:
-        name: "&f&l Nur aktive Welt anzeigen"
+        name: "<white><bold>Nur aktive Welt anzeigen"
         description: |-
-          &7 Wenn GameMode Selection GUI
-          &7 aktiviert ist, kann dieser Schalter
-          &7 die GUI GameMode-Auswahl anzeigen
-          &7 oder Herausforderungen für die aktuelle Welt anzeigt.
-          &c Erfordert einen Server-Neustart.
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+          <gray>Wenn GameMode Selection GUI
+          <gray>aktiviert ist, kann dieser Schalter
+          <gray>die GUI GameMode-Auswahl anzeigen
+          <gray>oder Herausforderungen für die aktuelle Welt anzeigt.
+          <red>Erfordert einen Server-Neustart.
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       visibility_mode:
-        name: "&f&l Sichtbarkeitsmodus"
+        name: "<white><bold>Sichtbarkeitsmodus"
         description: |-
-          &7 Sichtbarkeitsmodus für
-          &7 Herausforderungen, die
-          &7 versteckt sind.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Sichtbarkeitsmodus für
+          <gray>Herausforderungen, die
+          <gray>versteckt sind.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         visible: Zeigen Sie sichtbare Herausforderungen
         hidden: Alle Herausforderungen anzeigen
         toggleable: Umschalten zulassen
       include_undeployed:
-        name: "&f&l Nicht bereitgestellte Herausforderungen einschließen"
-        description: "&7 Gibt an, ob nicht bereitgestellte \n&7 Herausforderungen
-          \n&7 für den Abschluss von Level \n&7 angerechnet werden sollen."
-        enabled: "&2 Aktiviert"
-        disabled: "&c Deaktiviert"
+        name: "<white><bold>Nicht bereitgestellte Herausforderungen einschließen"
+        description: "<gray>Gibt an, ob nicht bereitgestellte \n<gray>Herausforderungen
+          \n<gray>für den Abschluss von Level \n<gray>angerechnet werden sollen."
+        enabled: "<dark_green>Aktiviert"
+        disabled: "<red>Deaktiviert"
       download:
-        name: "&f&l Bibliotheken herunterladen"
+        name: "<white><bold>Bibliotheken herunterladen"
         description: |-
-          &7 Manuelle Aktualisierung verfügbar für
-          &7 die Herausforderungs Bibliotheken.
-        enabled: "&2 Mit Cache löschen"
-        disabled: "&c Ohne Cache löschen"
+          <gray>Manuelle Aktualisierung verfügbar für
+          <gray>die Herausforderungs Bibliotheken.
+        enabled: "<dark_green>Mit Cache löschen"
+        disabled: "<red>Ohne Cache löschen"
       player:
-        name: "&f&l [name]"
-        description: "&7 Insel Owner: [owner]"
-        members: "&7 Inselmitglieder:"
-        member: "&8 - [name]"
+        name: "<white><bold>[name]"
+        description: "<gray>Insel Owner: [owner]"
+        members: "<gray>Inselmitglieder:"
+        member: "<dark_gray>- [name]"
         no-island: |-
-          &c Player hat
-          &c keine Insel.
+          <red>Player hat
+          <red>keine Insel.
       player_list:
-        name: "&f&l Spielerliste wählen"
+        name: "<white><bold>Spielerliste wählen"
         description: |-
-          &7 Wählen Sie, welche Benutzerliste
-          &7 angezeigt werden soll.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Wählen Sie, welche Benutzerliste
+          <gray>angezeigt werden soll.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         online: Online-Spieler
         with_island: Spieler mit Inseln
         in_world: Spieler in der Welt
       add_block:
-        name: "&f&l Block hinzufügen"
+        name: "<white><bold>Block hinzufügen"
         description: |-
-          &7 Ermöglicht das Hinzufügen eines neuen
-          &7 Blocks zur Liste.
+          <gray>Ermöglicht das Hinzufügen eines neuen
+          <gray>Blocks zur Liste.
       remove_block:
-        name: "&f&l Block entfernen"
+        name: "<white><bold>Block entfernen"
         description: |-
-          &7 Ermöglicht das Entfernen
-          &7 ausgewählte Blöcke
-          &7 aus Listen zu entfernen.
-        title: "&7 Ausgewählte Materialien:"
-        material: "&8 - [material]"
+          <gray>Ermöglicht das Entfernen
+          <gray>ausgewählte Blöcke
+          <gray>aus Listen zu entfernen.
+        title: "<gray>Ausgewählte Materialien:"
+        material: "<dark_gray>- [material]"
       material:
-        name: "&f&l [material]"
-        description: "&7 Material ID: [id]"
-        selected: "&2 Ausgewählt"
+        name: "<white><bold>[material]"
+        description: "<gray>Material ID: [id]"
+        selected: "<dark_green>Ausgewählt"
       add_entity:
-        name: "&f&l Mob hinzufügen"
+        name: "<white><bold>Mob hinzufügen"
         description: |-
-          &7 Ermöglicht das Hinzufügen einer neuen
-          &7 Mobs zur Liste.
+          <gray>Ermöglicht das Hinzufügen einer neuen
+          <gray>Mobs zur Liste.
       switch_entity:
-        name: "&f&l Eier wechseln"
+        name: "<white><bold>Eier wechseln"
         description: |-
-          &7 Ermöglicht Umschalten von
-          &7 Eier zu Mob-Köpfe.
+          <gray>Ermöglicht Umschalten von
+          <gray>Eier zu Mob-Köpfe.
       remove_entity:
-        name: "&f&l Mob entfernen"
+        name: "<white><bold>Mob entfernen"
         description: |-
-          &7 Ermöglicht das Entfernen von
-          &7 ausgewählte Objekte
-          &7 aus Listen zu entfernen.
-        title: "&7 Ausgewählte Mobs:"
-        entity: "&8 - [entity]"
+          <gray>Ermöglicht das Entfernen von
+          <gray>ausgewählte Objekte
+          <gray>aus Listen zu entfernen.
+        title: "<gray>Ausgewählte Mobs:"
+        entity: "<dark_gray>- [entity]"
       entity:
-        name: "&f&l [entity]"
-        description: "&7 Mob ID: [id]"
-        selected: "&2 Ausgewählt"
+        name: "<white><bold>[entity]"
+        description: "<gray>Mob ID: [id]"
+        selected: "<dark_green>Ausgewählt"
       inventory_type:
-        name: "&f&l Inventartyp"
+        name: "<white><bold>Inventartyp"
         description: |-
-          &7 Herausforderung, die nach
-          &7 Gegenständen im Inventar des Spielers prüft
+          <gray>Herausforderung, die nach
+          <gray>Gegenständen im Inventar des Spielers prüft
       island_type:
-        name: "&f&l Inseltyp"
+        name: "<white><bold>Inseltyp"
         description: |-
-          &7 Herausforderung, die nach
-          &7 Blöcke oder Mob um den
-          &7 Spieler prüft.
+          <gray>Herausforderung, die nach
+          <gray>Blöcke oder Mob um den
+          <gray>Spieler prüft.
       other_type:
-        name: "&f&l Anderer Typ"
+        name: "<white><bold>Anderer Typ"
         description: |-
-          &7 Challenge, die verwendet
-          &7 Plugins oder Addons Dinge,
-          &7 wie Level und Geld.
+          <gray>Challenge, die verwendet
+          <gray>Plugins oder Addons Dinge,
+          <gray>wie Level und Geld.
       statistic_type:
-        name: "&f&l Statistiktyp"
+        name: "<white><bold>Statistiktyp"
         description: |-
-          &7 Challenge, die die
-          &7 Spieler-Statistiken prüfen.
+          <gray>Challenge, die die
+          <gray>Spieler-Statistiken prüfen.
       save:
-        name: "&f&l Speichern"
+        name: "<white><bold>Speichern"
         description: |-
-          &7 Speichert Änderungen und
-          &7 kehrt zurück.
+          <gray>Speichert Änderungen und
+          <gray>kehrt zurück.
       cancel:
-        name: "&f&l Abbrechen"
+        name: "<white><bold>Abbrechen"
         description: |-
-          &7 Verwirft Änderungen und
-          &7 kehrt zurück.
+          <gray>Verwirft Änderungen und
+          <gray>kehrt zurück.
       accept_selected:
-        name: "&f&l Ausgewählte akzeptieren"
+        name: "<white><bold>Ausgewählte akzeptieren"
         description: |-
-          &7 Gibt ausgewählte Elemente zurück
-          &7 und öffnet die vorherige GUI.
-        title: "&7 Ausgewählt:"
-        element: "&8 - [element]"
+          <gray>Gibt ausgewählte Elemente zurück
+          <gray>und öffnet die vorherige GUI.
+        title: "<gray>Ausgewählt:"
+        element: "<dark_gray>- [element]"
       statistic_element:
-        name: "&f&l [statistic]"
+        name: "<white><bold>[statistic]"
         description: "[description]"
       environment_element:
-        name: "&f&l [environment]"
+        name: "<white><bold>[environment]"
         description: "[description]"
       search:
-        name: "&f&l Suchen"
+        name: "<white><bold>Suchen"
         description: |-
-          &7 Ermöglicht die Suche nach einem
-          &7 Element mit Eingabe des
-          &7 Textwert.
-        search: "&b Wert: [value]"
+          <gray>Ermöglicht die Suche nach einem
+          <gray>Element mit Eingabe des
+          <gray>Textwert.
+        search: "<aqua>Wert: [value]"
     tips:
-      click-to-select: "&e Klick &7 zu markieren."
-      click-to-choose: "&e Klick &7 zum wählen."
-      click-to-complete: "&e Klick &7 zum Abschließen."
-      right-click-multiple-open: "&e Klicken Sie mit der rechten Maustaste &7, um
+      click-to-select: "<yellow>Klick <gray>zu markieren."
+      click-to-choose: "<yellow>Klick <gray>zum wählen."
+      click-to-complete: "<yellow>Klick <gray>zum Abschließen."
+      right-click-multiple-open: "<yellow>Klicken Sie mit der rechten Maustaste <gray>, um
         den Fertigstellungsgrad auszuwählen."
-      shift-left-click-to-complete-all: "&e Klicken Sie mit gedrückter Umschalttaste
-        &7, um alles abzuschließen."
-      left-click-to-accept: "&e Klicken Sie zum Abschließen mit der &7 linken Maustaste."
-      right-click-to-write: "&e Rechtsklick &7 zum Schreiben."
-      click-to-reduce: "&e Klicken Sie zum Reduzieren &7."
-      click-to-increase: "&e Zum Erhöhen &7 klicken."
-      click-to-return: "&e Klicken Sie &7, um zurückzukehren."
-      click-to-quit: "&e Zum Beenden &7 klicken."
-      click-to-wipe: "&e Zum Löschen &7 klicken."
-      left-click-to-wipe: "&e Klicken Sie zum Löschen mit der linken Maustaste &7."
-      right-click-to-switch: "&e Rechtsklick &7 zum Umschalten."
-      click-to-open: "&e Klicken zum Öffnen&7."
-      click-to-export: "&e Zum Exportieren &7 klicken."
-      click-to-create: "&e Zum Exportieren &7 klicken."
-      left-click-to-open: "&e Klicken Sie zum Öffnen mit der linken Maustaste &7."
-      right-click-to-reset-all: "&e Klicken Sie mit der rechten Maustaste &7, um alles
+      shift-left-click-to-complete-all: "<yellow>Klicken Sie mit gedrückter Umschalttaste
+        <gray>, um alles abzuschließen."
+      left-click-to-accept: "<yellow>Klicken Sie zum Abschließen mit der <gray>linken Maustaste."
+      right-click-to-write: "<yellow>Rechtsklick <gray>zum Schreiben."
+      click-to-reduce: "<yellow>Klicken Sie zum Reduzieren <gray>."
+      click-to-increase: "<yellow>Zum Erhöhen <gray>klicken."
+      click-to-return: "<yellow>Klicken Sie <gray>, um zurückzukehren."
+      click-to-quit: "<yellow>Zum Beenden <gray>klicken."
+      click-to-wipe: "<yellow>Zum Löschen <gray>klicken."
+      left-click-to-wipe: "<yellow>Klicken Sie zum Löschen mit der linken Maustaste <gray>."
+      right-click-to-switch: "<yellow>Rechtsklick <gray>zum Umschalten."
+      click-to-open: "<yellow>Klicken zum Öffnen<gray>."
+      click-to-export: "<yellow>Zum Exportieren <gray>klicken."
+      click-to-create: "<yellow>Zum Exportieren <gray>klicken."
+      left-click-to-open: "<yellow>Klicken Sie zum Öffnen mit der linken Maustaste <gray>."
+      right-click-to-reset-all: "<yellow>Klicken Sie mit der rechten Maustaste <gray>, um alles
         zu löschen."
-      click-to-toggle: "&e Zum Umschalten &7 klicken."
-      click-to-change: "&e Zum Ändern &7 klicken."
-      shift-click-to-reset: "&e Shift Klicken Sie zum Zurücksetzen &7."
-      click-to-add: "&e Zum Hinzufügen &7 klicken."
-      click-to-remove: "&e Zum Entfernen &7 klicken."
-      left-click-to-cycle: "&e Klicken Sie mit der linken Maustaste &7, um nach unten
+      click-to-toggle: "<yellow>Zum Umschalten <gray>klicken."
+      click-to-change: "<yellow>Zum Ändern <gray>klicken."
+      shift-click-to-reset: "<yellow>Shift Klicken Sie zum Zurücksetzen <gray>."
+      click-to-add: "<yellow>Zum Hinzufügen <gray>klicken."
+      click-to-remove: "<yellow>Zum Entfernen <gray>klicken."
+      left-click-to-cycle: "<yellow>Klicken Sie mit der linken Maustaste <gray>, um nach unten
         zu blättern."
-      right-click-to-cycle: "&e Klicken Sie mit der rechten Maustaste &7, um nach
+      right-click-to-cycle: "<yellow>Klicken Sie mit der rechten Maustaste <gray>, um nach
         oben zu wechseln."
-      click-to-edit: "&e Zum Bearbeiten &7 klicken."
-      left-click-to-download: "&e Klicken Sie zum Herunterladen mit der linken Maustaste
-        &7."
-      right-click-to-toggle: "&e Klicken Sie mit der rechten Maustaste &7, um umzuschalten."
-      click-to-install: "&e Zum Installieren &7 klicken."
-      click-to-reset-all: "&e Klicken Sie &7, um alle zurückzusetzen."
-      right-click-to-select: "&e Klicken Sie zum Auswählen mit der rechten Maustaste
-        &7."
-      right-click-to-deselect: "&e Klicken Sie mit der rechten Maustaste &7, um die
+      click-to-edit: "<yellow>Zum Bearbeiten <gray>klicken."
+      left-click-to-download: "<yellow>Klicken Sie zum Herunterladen mit der linken Maustaste
+        <gray>."
+      right-click-to-toggle: "<yellow>Klicken Sie mit der rechten Maustaste <gray>, um umzuschalten."
+      click-to-install: "<yellow>Zum Installieren <gray>klicken."
+      click-to-reset-all: "<yellow>Klicken Sie <gray>, um alle zurückzusetzen."
+      right-click-to-select: "<yellow>Klicken Sie zum Auswählen mit der rechten Maustaste
+        <gray>."
+      right-click-to-deselect: "<yellow>Klicken Sie mit der rechten Maustaste <gray>, um die
         Auswahl aufzuheben."
-      left-click-to-choose: "&e Klicken Sie mit der linken Maustaste &7, um auszuwählen."
-      click-to-cancel: "&e Zum Abbrechen &7 klicken."
-      click-to-save: "&e Zum Speichern &7 klicken."
-      click-to-deselect: "&e Klicken Sie &7, um die Auswahl aufzuheben."
+      left-click-to-choose: "<yellow>Klicken Sie mit der linken Maustaste <gray>, um auszuwählen."
+      click-to-cancel: "<yellow>Zum Abbrechen <gray>klicken."
+      click-to-save: "<yellow>Zum Speichern <gray>klicken."
+      click-to-deselect: "<yellow>Klicken Sie <gray>, um die Auswahl aufzuheben."
       click-on-item: |-
-        &e Klicken Sie &7 auf ein Item im
-        &7 Inventar.
-      left-click-to-edit: "&e Klicken Sie zum Bearbeiten mit der linken Maustaste
-        &7."
-      right-click-to-clear: "&e Klicken Sie zum Löschen mit der rechten Maustaste
-        &7."
-      click-to-previous: "&e Klicken Sie &7, um die vorherige Seite anzuzeigen."
-      click-to-next: "&e Klicken Sie &7, um die nächste Seite anzuzeigen."
+        <yellow>Klicken Sie <gray>auf ein Item im
+        <gray>Inventar.
+      left-click-to-edit: "<yellow>Klicken Sie zum Bearbeiten mit der linken Maustaste
+        <gray>."
+      right-click-to-clear: "<yellow>Klicken Sie zum Löschen mit der rechten Maustaste
+        <gray>."
+      click-to-previous: "<yellow>Klicken Sie <gray>, um die vorherige Seite anzuzeigen."
+      click-to-next: "<yellow>Klicken Sie <gray>, um die nächste Seite anzuzeigen."
     descriptions:
       challenge:
         lore: |-
@@ -835,16 +835,16 @@ challenges:
           [requirements]
           [rewards]
         status:
-          completed: "&2&l Abgeschlossen"
-          completed-times: "&2 Abgeschlossen &7&l [number] &r&2 time(-s)"
-          completed-times-of: "&2 &7&l [number] &r&2 von &7&l [max] &r&2 mal abgeschlossen"
-          completed-times-reached: "&2&l Alle Abschließen &7 [max] &2 times"
+          completed: "<dark_green><bold>Abgeschlossen"
+          completed-times: "<dark_green>Abgeschlossen <gray><bold>[number] <reset><dark_green>time(-s)"
+          completed-times-of: "<dark_green><gray><bold>[number] <reset><dark_green>von <gray><bold>[max] <reset><dark_green>mal abgeschlossen"
+          completed-times-reached: "<dark_green><bold>Alle Abschließen <gray>[max] <dark_green>times"
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
-          timeout: "&7&l Cool down: &r&7 [time]"
-          wait-time: "&c&l Verfügbar nach: &r&c [time]"
+          timeout: "<gray><bold>Cool down: <reset><gray>[time]"
+          wait-time: "<red><bold>Verfügbar nach: <reset><red>[time]"
           in-days: "[number] d "
           in-hours: "[number] H"
           in-minutes: "[number] min "
@@ -854,12 +854,12 @@ challenges:
             [environment]
             [type-requirement]
             [permissions]
-          environment-single: "&7 Limitiert auf [environment]"
-          environment-title: "&7 Limitiert auf:"
-          environment-list: "  &7 - &e [environment]"
-          permission-single: "&c Erfordert die Berechtigung [permission]"
-          permissions-title: "&c Erfordert Berechtigungen:"
-          permissions-list: "  &c - [permission]"
+          environment-single: "<gray>Limitiert auf [environment]"
+          environment-title: "<gray>Limitiert auf:"
+          environment-list: "  <gray>- <yellow>[environment]"
+          permission-single: "<red>Erfordert die Berechtigung [permission]"
+          permissions-title: "<red>Erfordert Berechtigungen:"
+          permissions-list: "  <red>- [permission]"
           island:
             lore: |-
               [blocks]
@@ -867,23 +867,23 @@ challenges:
               [search-radius]
               [warning-block]
               [warning-entity]
-            blocks-title: "&7&l Erforderliche Blöcke:"
-            block-value: "  &7 - &e [material]"
-            blocks-value: "  &7 - &e [number] x [material]"
-            entities-title: "&7&l Erforderliche Entitäten:"
-            entity-value: "  &7 - &e [entity]"
-            entities-value: "  &7 - &e [number] x [entity]"
-            search-radius: "&7 Nicht weiter als &e [number] &7 Meter"
-            warning-block: "&e Blöcke werden &c entfernt"
-            warning-entity: "&e Mobs werden &c entfernt"
+            blocks-title: "<gray><bold>Erforderliche Blöcke:"
+            block-value: "  <gray>- <yellow>[material]"
+            blocks-value: "  <gray>- <yellow>[number] x [material]"
+            entities-title: "<gray><bold>Erforderliche Entitäten:"
+            entity-value: "  <gray>- <yellow>[entity]"
+            entities-value: "  <gray>- <yellow>[number] x [entity]"
+            search-radius: "<gray>Nicht weiter als <yellow>[number] <gray>Meter"
+            warning-block: "<yellow>Blöcke werden <red>entfernt"
+            warning-entity: "<yellow>Mobs werden <red>entfernt"
           inventory:
             lore: |-
               [items]
               [warning]
-            item-title: "&7&l Erforderliche Items:"
-            item-value: "  &7 - &e [item]"
-            items-value: "  &7 - &e [number] x [item]"
-            warning: "&e Item(-s) wird &c entfernt werden"
+            item-title: "<gray><bold>Erforderliche Items:"
+            item-value: "  <gray>- <yellow>[item]"
+            items-value: "  <gray>- <yellow>[number] x [item]"
+            warning: "<yellow>Item(-s) wird <red>entfernt werden"
           other:
             lore: |-
               [experience]
@@ -891,34 +891,34 @@ challenges:
               [money]
               [money-warning]
               [level]
-            experience: "&7&l Erforderliche Erfahrung: &r&e [number]"
-            experience-warning: "&e Erfahrung wird &c entfernt"
-            money: "&7&l Benötigtes Geld: &r&e [number]"
-            money-warning: "&e Geld wird &c entfernt"
-            level: "&7&l Erforderliches Insellevel: &r&e [number]"
+            experience: "<gray><bold>Erforderliche Erfahrung: <reset><yellow>[number]"
+            experience-warning: "<yellow>Erfahrung wird <red>entfernt"
+            money: "<gray><bold>Benötigtes Geld: <reset><yellow>[number]"
+            money-warning: "<yellow>Geld wird <red>entfernt"
+            level: "<gray><bold>Erforderliches Insellevel: <reset><yellow>[number]"
           statistic:
             lore: |-
               [statistic]
               [warning]
-            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
-            single-target: "&7&l [statistic]: &r&e [target]"
-            statistic: "&7&l [statistic] &r&e [number]"
-            warning: "&e Statistikdaten werden &c reduziert"
+            multiple-target: "<gray><bold>[statistic]: <reset><yellow>[number] x [target]"
+            single-target: "<gray><bold>[statistic]: <reset><yellow>[target]"
+            statistic: "<gray><bold>[statistic] <reset><yellow>[number]"
+            warning: "<yellow>Statistikdaten werden <red>reduziert"
         rewards:
           lore: |-
-            &7&l Rewards:
+            <gray><bold>Rewards:
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 Items:"
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 Erfahrung: &r&e [number]"
-          money: "&7 Geld: &r&e [number]"
-          commands-title: "&7 Befehle:"
-          command: "  &7 - &e [command]"
+          item-title: "<gray>Items:"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>Erfahrung: <reset><yellow>[number]"
+          money: "<gray>Geld: <reset><yellow>[number]"
+          commands-title: "<gray>Befehle:"
+          command: "  <gray>- <yellow>[command]"
       level:
         lore: |-
           [text]
@@ -926,198 +926,198 @@ challenges:
           [waiver]
           [rewards]
         status:
-          completed: "&2&l Abgeschlossen"
+          completed: "<dark_green><bold>Abgeschlossen"
           completed-challenges-of: |-
-            &2 Abgeschlossen &7&l [number] &r&2 aus
-            &7&l [max] &r&2 Herausforderungen.
-          locked: "&c&l Gesperrt"
-          missing-challenges: "&7 [number] weitere Herausforderungen müssen \n&7 abgeschlossen
+            <dark_green>Abgeschlossen <gray><bold>[number] <reset><dark_green>aus
+            <gray><bold>[max] <reset><dark_green>Herausforderungen.
+          locked: "<red><bold>Gesperrt"
+          missing-challenges: "<gray>[number] weitere Herausforderungen müssen \n<gray>abgeschlossen
             sein, um diese Stufe freizuschalten."
         waiver: |-
-          &7&l [number] Herausforderung(en) &r&7 können
-          &7 übersprungen werden, um die nächste Stufe freizuschalten.
+          <gray><bold>[number] Herausforderung(en) <reset><gray>können
+          <gray>übersprungen werden, um die nächste Stufe freizuschalten.
         rewards:
           lore: |-
-            &7&l Rewards:
+            <gray><bold>Rewards:
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 Items:"
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 Erfahrung: &r&e [number]"
-          money: "&7 Geld: &r&e [number]"
-          commands-title: "&7 Befehle:"
-          command: "  &7 - &e [command]"
+          item-title: "<gray>Items:"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>Erfahrung: <reset><yellow>[number]"
+          money: "<gray>Geld: <reset><yellow>[number]"
+          commands-title: "<gray>Befehle:"
+          command: "  <gray>- <yellow>[command]"
       library:
-        author: "&7 by &e [author]"
-        version: "&7 Made with Challenges &e [version]"
-        lang: "&7 Sprache: &e [lang]"
-        gamemode: "&7 Primär für &e [gamemode]"
+        author: "<gray>by <yellow>[author]"
+        version: "<gray>Made with Challenges <yellow>[version]"
+        lang: "<gray>Sprache: <yellow>[lang]"
+        gamemode: "<gray>Primär für <yellow>[gamemode]"
   conversations:
-    prefix: "&l&6 [BentoBox]: &r"
+    prefix: "<bold><gold>[BentoBox]: <reset>"
     confirm-string: zustimmen, an, ja, bestätigen, ja, gültig, richtig
     deny-string: falsch, aus, nein, verweigern, n, ungültig, falsch
     cancel-string: Abbrechen
     exit-string: abbrechen, beenden, beenden
-    cancelled: "&c Gespräch abgebrochen!"
-    input-number: "&e Bitte geben Sie im Chat eine Nummer ein."
-    input-seconds: "&e Bitte geben Sie im Chat eine Sekunde ein."
-    numeric-only: "&c Der angegebene [value] ist keine Zahl!"
-    not-valid-value: "&c Die angegebene Zahl [value] ist ungültig. Er muss größer
+    cancelled: "<red>Gespräch abgebrochen!"
+    input-number: "<yellow>Bitte geben Sie im Chat eine Nummer ein."
+    input-seconds: "<yellow>Bitte geben Sie im Chat eine Sekunde ein."
+    numeric-only: "<red>Der angegebene [value] ist keine Zahl!"
+    not-valid-value: "<red>Die angegebene Zahl [value] ist ungültig. Er muss größer
       als [min] und kleiner als [max] sein!"
-    user-data-removed: "&a Alle Benutzerdaten für [gamemode] werden aus der Datenbank
+    user-data-removed: "<green>Alle Benutzerdaten für [gamemode] werden aus der Datenbank
       gelöscht."
-    confirm-user-data-deletion: "&e Bitte bestätigen Sie, dass Sie die Benutzerdatenbank
+    confirm-user-data-deletion: "<yellow>Bitte bestätigen Sie, dass Sie die Benutzerdatenbank
       für [gamemode] löschen möchten."
-    challenge-data-removed: "&a Alle Herausforderungsdaten für [gamemode] werden aus
+    challenge-data-removed: "<green>Alle Herausforderungsdaten für [gamemode] werden aus
       der Datenbank gelöscht."
-    confirm-challenge-data-deletion: "&e Bitte bestätigen Sie, dass Sie die Herausforderungsdatenbank
+    confirm-challenge-data-deletion: "<yellow>Bitte bestätigen Sie, dass Sie die Herausforderungsdatenbank
       für [gamemode] löschen möchten."
-    all-data-removed: "&a Alle Addon-Daten für [gamemode] werden aus der Datenbank
+    all-data-removed: "<green>Alle Addon-Daten für [gamemode] werden aus der Datenbank
       gelöscht."
-    confirm-all-data-deletion: "&e Bitte bestätigen Sie, dass Sie Addon-Daten für
+    confirm-all-data-deletion: "<yellow>Bitte bestätigen Sie, dass Sie Addon-Daten für
       [gamemode] löschen möchten."
-    write-name: "&e Bitte schreiben Sie einen Namen in den Chat."
-    new-object-created: "&ein neues Objekt für [gamemode] wird erstellt."
-    object-already-exists: "&c Objekt &7 [id] &c existiert bereits. Wählen Sie einen
+    write-name: "<yellow>Bitte schreiben Sie einen Namen in den Chat."
+    new-object-created: "<yellow>in neues Objekt für [gamemode] wird erstellt."
+    object-already-exists: "<red>Objekt <gray>[id] <red>existiert bereits. Wählen Sie einen
       anderen Namen."
-    invalid-challenge: "&c Challenge [challenge] enthält ungültige Daten. Es kann
+    invalid-challenge: "<red>Challenge [challenge] enthält ungültige Daten. Es kann
       nicht eingesetzt werden!"
-    name-changed: "&a Erfolg, der Name wurde aktualisiert."
-    write-description: "&e Bitte geben Sie eine neue Beschreibung im Chat ein und
+    name-changed: "<green>Erfolg, der Name wurde aktualisiert."
+    write-description: "<yellow>Bitte geben Sie eine neue Beschreibung im Chat ein und
       beenden Sie den Chat in einer eigenen Zeile."
-    description-changed: "&a Erfolg, die Beschreibung wurde aktualisiert."
-    write-permissions: "&e Bitte geben Sie die erforderlichen Berechtigungen ein,
+    description-changed: "<green>Erfolg, die Beschreibung wurde aktualisiert."
+    write-permissions: "<yellow>Bitte geben Sie die erforderlichen Berechtigungen ein,
       eine pro Zeile im Chat, und 'beenden' in einer eigenen Zeile, um den Chat zu
       beenden."
-    permissions-changed: "&a Erfolg, Challenge-Berechtigungen wurden aktualisiert."
-    write-reward-text: "&e Bitte geben Sie einen neuen Belohnungstext im Chat ein
+    permissions-changed: "<green>Erfolg, Challenge-Berechtigungen wurden aktualisiert."
+    write-reward-text: "<yellow>Bitte geben Sie einen neuen Belohnungstext im Chat ein
       und beenden Sie den Chat in einer eigenen Zeile."
-    reward-text-changed: "&a Erfolg, der Belohnungstext wurde aktualisiert."
-    write-repeat-reward-text: "&e Bitte geben Sie einen neuen Wiederholungsbelohnungstext
+    reward-text-changed: "<green>Erfolg, der Belohnungstext wurde aktualisiert."
+    write-repeat-reward-text: "<yellow>Bitte geben Sie einen neuen Wiederholungsbelohnungstext
       im Chat ein und beenden Sie den Chat in einer eigenen Zeile."
-    repeat-reward-text-changed: "&a Erfolg, der Wiederholungsbelohnungstext wurde
+    repeat-reward-text-changed: "<green>Erfolg, der Wiederholungsbelohnungstext wurde
       aktualisiert."
-    write-reward-commands: "&e Bitte geben Sie pro Zeile im Chat einen neuen Belohnungsbefehl
+    write-reward-commands: "<yellow>Bitte geben Sie pro Zeile im Chat einen neuen Belohnungsbefehl
       ein und beenden Sie den Chat in einer eigenen Zeile."
-    reward-commands-changed: "&a Erfolg, die Belohnungsbefehle wurden aktualisiert."
-    write-repeat-reward-commands: "&e Geben Sie bitte pro Zeile im Chat einen neuen
+    reward-commands-changed: "<green>Erfolg, die Belohnungsbefehle wurden aktualisiert."
+    write-repeat-reward-commands: "<yellow>Geben Sie bitte pro Zeile im Chat einen neuen
       Befehl zur Wiederholung der Belohnung ein und klicken Sie zum Beenden auf „Beenden“
       in einer eigenen Zeile."
-    repeat-reward-commands-changed: "&a Erfolg, die Wiederholungsbelohnungsbefehle
+    repeat-reward-commands-changed: "<green>Erfolg, die Wiederholungsbelohnungsbefehle
       wurden aktualisiert."
-    challenge-removed: "&a Herausforderungen [challende] für [gamemode] wird aus der
+    challenge-removed: "<green>Herausforderungen [challende] für [gamemode] wird aus der
       Datenbank entfernt."
-    confirm-challenge-deletion: "&e Bitte bestätigen Sie, dass Sie [challenge] für
+    confirm-challenge-deletion: "<yellow>Bitte bestätigen Sie, dass Sie [challenge] für
       [gamemode] aus der Datenbank entfernen möchten."
-    level-removed: "&a Level [level] für [gamemode] wird aus der Datenbank entfernt."
-    confirm-level-deletion: "&e Bitte bestätigen Sie, dass Sie [level] für [gamemode]
+    level-removed: "<green>Level [level] für [gamemode] wird aus der Datenbank entfernt."
+    confirm-level-deletion: "<yellow>Bitte bestätigen Sie, dass Sie [level] für [gamemode]
       aus der Datenbank entfernen möchten."
-    start-downloading: "&a Herunterladen und Importieren der Challenges-Bibliothek
+    start-downloading: "<green>Herunterladen und Importieren der Challenges-Bibliothek
       beginnen."
-    written-text: "&a Eingabetext:"
-    confirm-data-replacement: "&e Bitte bestätigen Sie, dass Sie Ihre aktuellen Herausforderungen
+    written-text: "<green>Eingabetext:"
+    confirm-data-replacement: "<yellow>Bitte bestätigen Sie, dass Sie Ihre aktuellen Herausforderungen
       durch neue ersetzen möchten."
-    new-challenges-imported: "&a Erfolg, neue Herausforderungen für [gamemode] wurden
+    new-challenges-imported: "<green>Erfolg, neue Herausforderungen für [gamemode] wurden
       importiert."
-    exported-file-name: "&e Bitte geben Sie einen Dateinamen für die exportierte Datenbankdatei
+    exported-file-name: "<yellow>Bitte geben Sie einen Dateinamen für die exportierte Datenbankdatei
       ein. (zum Beenden 'cancel' schreiben)"
-    database-export-completed: "&a Erfolg, der Datenbankexport für [world] ist abgeschlossen.
+    database-export-completed: "<green>Erfolg, der Datenbankexport für [world] ist abgeschlossen.
       Datei wurde [file] generiert."
-    file-name-exist: "&c Datei mit dem Namen '[id]' existiert. Kann nicht überschrieben
+    file-name-exist: "<red>Datei mit dem Namen '[id]' existiert. Kann nicht überschrieben
       werden."
-    write-search: "&e Bitte geben Sie einen Suchwert ein. (zum Beenden 'cancel' schreiben)"
-    search-updated: "&a Suchwert aktualisiert."
+    write-search: "<yellow>Bitte geben Sie einen Suchwert ein. (zum Beenden 'cancel' schreiben)"
+    search-updated: "<green>Suchwert aktualisiert."
   titles:
     challenge-title: Erfolgreich abgeschlossen
     challenge-subtitle: "[friendlyName]"
     level-title: Erfolgreich abgeschlossen
     level-subtitle: "[friendlyName]"
   messages:
-    completed: "&2 Sie haben die Herausforderung [name] für [player] abgeschlossen!"
-    already-completed: "&2 Diese Herausforderung wurde bereits abgeschlossen!"
-    reset: "&2 Sie haben die Herausforderung [name] für [player] zurückgesetzt!"
-    reset-all: "&2 Alle [player]-Herausforderungen wurden zurückgesetzt!"
-    not-completed: "&2 Diese Herausforderung ist noch nicht abgeschlossen!"
-    migrate-start: "&2 Starten Sie die Migration von Challenges-Addon-Daten."
-    migrate-end: "&2 Challenges-Addon-Daten auf neues Format aktualisiert."
-    migrate-not: "&2 Alle Daten sind gültig."
-    start-downloading: "&5 Herunterladen und Importieren der Challenges-Bibliothek
+    completed: "<dark_green>Sie haben die Herausforderung [name] für [player] abgeschlossen!"
+    already-completed: "<dark_green>Diese Herausforderung wurde bereits abgeschlossen!"
+    reset: "<dark_green>Sie haben die Herausforderung [name] für [player] zurückgesetzt!"
+    reset-all: "<dark_green>Alle [player]-Herausforderungen wurden zurückgesetzt!"
+    not-completed: "<dark_green>Diese Herausforderung ist noch nicht abgeschlossen!"
+    migrate-start: "<dark_green>Starten Sie die Migration von Challenges-Addon-Daten."
+    migrate-end: "<dark_green>Challenges-Addon-Daten auf neues Format aktualisiert."
+    migrate-not: "<dark_green>Alle Daten sind gültig."
+    start-downloading: "<dark_purple>Herunterladen und Importieren der Challenges-Bibliothek
       beginnen."
-    you-completed-challenge: "&2Du hast die [value] &r&2Herausforderungen abgeschlossen!"
-    you-repeated-challenge: "&2Du hast die [value] &r&2Herausforderung wiederholt!"
-    you-repeated-challenge-multiple: "&2Du hast die [value] &r&2Herausforderungen
+    you-completed-challenge: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderungen abgeschlossen!"
+    you-repeated-challenge: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderung wiederholt!"
+    you-repeated-challenge-multiple: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderungen
       [count] mal wiederholt!"
-    you-completed-level: "&2Du hast den [value] &r&2level abgeschlossen!"
-    name-has-completed-challenge: "&5[name] hat die [value] &r&5-Herausforderung abgeschlossen!"
-    name-has-completed-level: "&5[name] hat den [value] &r&5Level abgeschlossen!"
+    you-completed-level: "<dark_green>Du hast den [value] <reset><dark_green>level abgeschlossen!"
+    name-has-completed-challenge: "<dark_purple>[name] hat die [value] <reset><dark_purple>-Herausforderung abgeschlossen!"
+    name-has-completed-level: "<dark_purple>[name] hat den [value] <reset><dark_purple>Level abgeschlossen!"
     load-skipping: '"[value]" existiert bereits - überspringen'
     load-overwriting: Überschreibt "[value]"
     load-add: 'Neues Objekt hinzufügen: [value]'
   errors:
-    no-name: "&cFehlender Herausforderungsname"
-    unknown-challenge: "&cUnbekannte Herausforderung"
+    no-name: "<red>Fehlender Herausforderungsname"
+    unknown-challenge: "<red>Unbekannte Herausforderung"
     not-valid-integer: |-
-      &cDie Angabe der ganzen Zahl "[value]" ist nicht gültig!
+      <red>Die Angabe der ganzen Zahl "[value]" ist nicht gültig!
       Der Wert sollte zwischen [min] und [max] liegen.
-    not-deployed: "&cHerausforderung wird nicht eingesetzt!"
-    not-on-island: "&cDu musst auf deiner Insel sein, um das zu tun!"
-    challenge-level-not-available: "&cDu hast das erforderliche Level nicht freigeschaltet,
+    not-deployed: "<red>Herausforderung wird nicht eingesetzt!"
+    not-on-island: "<red>Du musst auf deiner Insel sein, um das zu tun!"
+    challenge-level-not-available: "<red>Du hast das erforderliche Level nicht freigeschaltet,
       um diese Herausforderung abzuschließen."
-    not-repeatable: "&cDiese Herausforderung ist nicht wiederholbar!"
-    wrong-environment: "&cDu bist in der falschen Umgebung!"
-    not-enough-items: "&cDu hast nicht genug [items], um diese Herausforderung abzuschließen!"
-    not-close-enough: "&cDu musst innerhalb von [number] Blöcken aller benötigten
+    not-repeatable: "<red>Diese Herausforderung ist nicht wiederholbar!"
+    wrong-environment: "<red>Du bist in der falschen Umgebung!"
+    not-enough-items: "<red>Du hast nicht genug [items], um diese Herausforderung abzuschließen!"
+    not-close-enough: "<red>Du musst innerhalb von [number] Blöcken aller benötigten
       Positionen stehen."
-    you-still-need: "&cDu brauchst noch [amount] x [item]"
-    missing-addon: "&cKann die Herausforderung nicht vollenden: Benötigtes Addon oder
+    you-still-need: "<red>Du brauchst noch [amount] x [item]"
+    missing-addon: "<red>Kann die Herausforderung nicht vollenden: Benötigtes Addon oder
       Plugin fehlt."
-    incorrect: "&cKann die Herausforderung nicht abschließen: Anforderungen sind falsch."
-    not-enough-money: "&cEs ist notwendig, [value] auf deinem Konto zu haben, um die
+    incorrect: "<red>Kann die Herausforderung nicht abschließen: Anforderungen sind falsch."
+    not-enough-money: "<red>Es ist notwendig, [value] auf deinem Konto zu haben, um die
       Herausforderung abzuschließen."
-    not-enough-experience: "&cEs ist notwendig [value] EXP zu haben, um diese Herausforderung
+    not-enough-experience: "<red>Es ist notwendig [value] EXP zu haben, um diese Herausforderung
       abzuschließen."
-    island-level: "&cDeine Insel muss mindestens Level [number] oder höher sein, um
+    island-level: "<red>Deine Insel muss mindestens Level [number] oder höher sein, um
       diese Herausforderung abzuschließen!"
-    no-load: "&cFehler: Die challenges.yml konnte nicht geladen werden.[message]"
-    load-error: "&cFehler: [value] kann nicht geladen werden."
-    no-rank: "&cDu hast keinen Rang, der hoch genug ist, um das zu tun."
-    cannot-remove-items: "&cEinige Items können nicht aus deinem Inventar entfernt
+    no-load: "<red>Fehler: Die challenges.yml konnte nicht geladen werden.[message]"
+    load-error: "<red>Fehler: [value] kann nicht geladen werden."
+    no-rank: "<red>Du hast keinen Rang, der hoch genug ist, um das zu tun."
+    cannot-remove-items: "<red>Einige Items können nicht aus deinem Inventar entfernt
       werden!"
-    exist-challenges-or-levels: "&cDie Herausforderung existiert bereits in deiner
+    exist-challenges-or-levels: "<red>Die Herausforderung existiert bereits in deiner
       Welt. Kann nicht fortfahren!"
-    no-challenges: "&cDie Herausforderungen sind in dieser Welt noch nicht implementiert!"
-    no-challenges-admin: "&cDie Herausforderungen sind in dieser Welt noch nicht implementiert!
-      Verwende &5/[command] &cum sie hinzuzufügen!"
-    missing-arguments: "&cDem Befehl fehlen Argumente."
-    no-multiple-permission: "&cDu hast keine Berechtigung, diese Herausforderung mehrmals
+    no-challenges: "<red>Die Herausforderungen sind in dieser Welt noch nicht implementiert!"
+    no-challenges-admin: "<red>Die Herausforderungen sind in dieser Welt noch nicht implementiert!
+      Verwende <dark_purple>/[command] <red>um sie hinzuzufügen!"
+    missing-arguments: "<red>Dem Befehl fehlen Argumente."
+    no-multiple-permission: "<red>Du hast keine Berechtigung, diese Herausforderung mehrmals
       hintereinander auszuführen."
     invalid-level: "& c Level [Level] enthält ungültige Daten. Es wird nicht aus der
       Datenbank geladen!"
     invalid-challenge: "& c Challenge [Challenge] enthält ungültige Daten. Sie wird
       nicht aus der Datenbank geladen!"
-    no-library-entries: "&c Es können keine Bibliothekseinträge gefunden werden. Nichts
+    no-library-entries: "<red>Es können keine Bibliothekseinträge gefunden werden. Nichts
       zu zeigen."
-    not-hooked: "&c Challenges Addon konnte keinen GameMode finden."
-    timeout: "&c Diese Abfrage erfordert eine Wartezeit von [timeout] zwischen den
+    not-hooked: "<red>Challenges Addon konnte keinen GameMode finden."
+    timeout: "<red>Diese Abfrage erfordert eine Wartezeit von [timeout] zwischen den
       Vervollständigungen. Sie müssen [wait-time] warten, bis Sie es erneut abschließen."
-    requirement-not-met: "&c Für diese Herausforderung muss [statistic] [number] haben.
+    requirement-not-met: "<red>Für diese Herausforderung muss [statistic] [number] haben.
       Sie haben nur [value]."
-    requirement-not-met-entity: "&c Für diese Herausforderung muss [statistic] [entity]
+    requirement-not-met-entity: "<red>Für diese Herausforderung muss [statistic] [entity]
       über [number] verfügen. Sie haben nur [value]."
-    requirement-not-met-material: "&c Diese Herausforderung erfordert, dass [statistic]
+    requirement-not-met-material: "<red>Diese Herausforderung erfordert, dass [statistic]
       [material] [number] hat. Sie haben nur [value]."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: "&5Umschalten, wer &5Herausforderungen erledigen kann"
+      description: "<dark_purple>Umschalten, wer <dark_purple>Herausforderungen erledigen kann"
       name: Herausforderungen Schutz
     CHALLENGES_WORLD_PROTECTION:
-      description: "&5&oAktivieren/Deaktivieren von \n&5&oAnforderung für Spieler,\n&5&oauf
-        ihrer Insel zu sein, um \n&5&oeine Herausforderung abzuschließen."
+      description: "<dark_purple><italic>Aktivieren/Deaktivieren von \n<dark_purple><italic>Anforderung für Spieler,\n<dark_purple><italic>auf
+        ihrer Insel zu sein, um \n<dark_purple><italic>eine Herausforderung abzuschließen."
       name: Herausforderungen Inselbegrenzung
       hint: Keine Herausforderungen außerhalb der Insel
 version: 12

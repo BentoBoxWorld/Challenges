@@ -68,13 +68,13 @@ challenges:
       free-challenges:
         name: 無料の課題
         description: |-
-          &7 無料の課題
-          &7 のリストを表示します
+          <gray>無料の課題
+          <gray>のリストを表示します
       return:
         name: 戻る
         description: |-
-          &7 前のメニューに戻ります
-          &7 またはGUIを終了します
+          <gray>前のメニューに戻ります
+          <gray>またはGUIを終了します
       previous:
         name: 前のページ
         description: ページに切り替えます[number]
@@ -190,16 +190,16 @@ challenges:
         description: |-
           報酬アイテムかどうかを切り替えます
           GUIに表示されるかどうか。
-        hide: '&2 隠れる'
-        show: '&c 見せる'
+        hide: '<dark_green>隠れる'
+        show: '<red>見せる'
       deployed:
         name: 展開
         description: |-
           課題があるかどうかを切り替えます
           展開され、完了することができます
           ユーザーによって。
-        enabled: '&2 有効になっています'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効になっています'
+        disabled: '<red>無効'
       name:
         name: 名前
         description: |-
@@ -212,8 +212,8 @@ challenges:
           チャレンジがすべきかどうかを切り替えます
           その後プレイヤーから隠されてください
           完成しました。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       description:
         name: 説明
         description: |-
@@ -225,8 +225,8 @@ challenges:
         description: |-
           課題を制限することができます
           特定の次元に。
-        enabled: '&2'
-        disabled: '&c'
+        enabled: '<dark_green>'
+        disabled: '<red>'
       order:
         name: 注文
         description: |-
@@ -253,7 +253,7 @@ challenges:
           この課題の許可
           完成します。
         title: 許可：
-        permission: ' &8 - [permission]'
+        permission: ' <dark_gray>- [permission]'
         none: 許可は設定されていません。
       remove_entities:
         name: エンティティを削除します
@@ -261,8 +261,8 @@ challenges:
           必要なエンティティがそうするかどうかを切り替えます
           その後世界から除外されます
           チャレンジを完了します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       required_entities:
         name: 必要なエンティティ
         description: |-
@@ -270,7 +270,7 @@ challenges:
           この課題のエンティティはそうです
           完了しました。
         title: エンティティ：
-        list: ' &8 - [number] x [entity]'
+        list: ' <dark_gray>- [number] x [entity]'
         none: エンティティは追加されていません。
       remove_blocks:
         name: ブロックを削除します
@@ -278,8 +278,8 @@ challenges:
           必要なブロックがそうなるかどうかを切り替えます
           その後世界から除外されます
           チャレンジを完了します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       required_blocks:
         name: 必要なブロック
         description: |-
@@ -287,7 +287,7 @@ challenges:
           この課題があるためにブロックされます
           完了しました。
         title: ブロック：
-        list: ' &8 - [number] x [block]'
+        list: ' <dark_gray>- [number] x [block]'
         none: ブロックは追加されていません。
       required_statistics:
         name: 必要な統計
@@ -295,8 +295,8 @@ challenges:
           必要なものを変更できます
           この課題の統計
           完了しました。
-        title: '&7 統計：'
-        list: ' &8 - [name]'
+        title: '<gray>統計：'
+        list: ' <dark_gray>- [name]'
         none: 統計は追加されていません。
       required_advancements:
         name: 必要な進歩
@@ -305,7 +305,7 @@ challenges:
           この挑戦の進歩
           完成します。
         title: 進歩：
-        list: ' &8 - [name]'
+        list: ' <dark_gray>- [name]'
         none: 進歩は追加されていません。
       search_radius:
         name: 半径を検索します
@@ -320,15 +320,15 @@ challenges:
           必要なアイテムがそうなるかどうかを切り替えます
           その後、在庫から削除されます
           チャレンジを完了します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       required_items:
         name: 必要なアイテム
         description: |-
           必要なものを変更できます
           この課題が完了するための項目。
         title: アイテム：
-        list: ' &8 - [number] x [item]'
+        list: ' <dark_gray>- [number] x [item]'
         none: アイテムは追加されていません。
       add_ignored_meta:
         name: メタデータを無視します
@@ -337,7 +337,7 @@ challenges:
           メタデータを無視する必要があります
           それらに割り当てられます。
         title: アイテム：
-        list: ' &8 - [number] x [item]'
+        list: ' <dark_gray>- [number] x [item]'
         none: アイテムは追加されていません。
       remove_ignored_meta:
         name: 削除メタデータを無視します
@@ -351,8 +351,8 @@ challenges:
           経験は削除されます
           完了した後のプレイヤーから
           挑戦。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       required_experience:
         name: 必要な経験
         description: |-
@@ -373,7 +373,7 @@ challenges:
           この挑戦のためのグループをブロックします
           完成します。
         title: ブロックグループ：
-        list: ' &8 - [number] x [tag]'
+        list: ' <dark_gray>- [number] x [tag]'
         none: ブロックグループは追加されていません。
       required_entitytags:
         name: 必要なエンティティグループ
@@ -382,7 +382,7 @@ challenges:
           この課題のためのエンティティグループ
           完成します。
         title: エンティティグループ：
-        list: ' &8 - [number] x [tag]'
+        list: ' <dark_gray>- [number] x [tag]'
         none: エンティティグループは追加されていません。
       remove_money:
         name: お金を削除します
@@ -391,8 +391,8 @@ challenges:
           お金は削除されます
           プレイヤーのアカウントの後
           チャレンジを完了します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       required_money:
         name: 必要なお金
         description: |-
@@ -432,8 +432,8 @@ challenges:
           削除できます
           選択された統計
           リストから。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       advancement:
         name: '[name]'
         description: '[description]'
@@ -448,8 +448,8 @@ challenges:
           削除できます
           選択された進歩
           リストから。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       statistic_blocks:
         name: ターゲットブロック
         description: |-
@@ -485,7 +485,7 @@ challenges:
         name: 報酬アイテム
         description: 報酬アイテムを変更できます。
         title: アイテム：
-        list: ' &8 - [number] x [item]'
+        list: ' <dark_gray>- [number] x [item]'
         none: アイテムは追加されていません。
       repeat_reward_items:
         name: 報酬アイテムを繰り返します
@@ -493,7 +493,7 @@ challenges:
           繰り返しを変更できます
           この課題のためにアイテムに報いる。
         title: アイテム：
-        list: ' &8 - [number] x [item]'
+        list: ' <dark_gray>- [number] x [item]'
         none: アイテムは追加されていません。
       reward_experience:
         name: 報酬体験
@@ -546,8 +546,8 @@ challenges:
       repeatable:
         name: 繰り返し可能
         description: チャレンジが再現可能かどうかを切り替えます。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       repeat_count:
         name: 繰り返しカウント
         description: |-
@@ -589,29 +589,29 @@ challenges:
           課題がすべきかどうかを切り替えます
           ＆ユーザーが去るときにリセットします
           彼らの島または新しい島を作成します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       broadcast:
         name: 放送
         description: |-
           初めての完了を放送します
           皆への挑戦やレベルの。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       remove_completed:
         name: 完成した非表示
         description: |-
           完了した課題を隠します
           メニューから。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       glow_completed:
         name: グローが完成しました
         description: |-
           エンチャントグローを適用します
           完了した課題に。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       store_history:
         name: 履歴を保存します
         description: |-
@@ -619,8 +619,8 @@ challenges:
           チャレンジが完了しました。
           現在、でのみ表示可能です
           データベース。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       data_per_island:
         name: 島ごとの店
         description: |-
@@ -628,23 +628,23 @@ challenges:
           島ごとに。
           進捗が共有されます
           すべてのチームメンバーと。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       show_title:
         name: ショータイトル
         description: |-
           チャレンジ時にタイトルを表示します
           またはレベルが完了します。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       gamemode_gui:
         name: GameMode選択GUI
         description: |-
           単一のGUIにアクセスできるようにします
           /Challengesコマンドを介して。
           （サーバーの再起動が必要です。）
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       locked_level_icon:
         name: デフォルトのロックレベルアイコン
         description: |-
@@ -674,13 +674,13 @@ challenges:
           ゲームモードの選択または課題
           現在の世界のために。
           （サーバーの再起動が必要です。）
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       visibility_mode:
         name: 可視性モード
         description: 非表示の課題の可視性モード。
-        enabled: '&2'
-        disabled: '&c'
+        enabled: '<dark_green>'
+        disabled: '<red>'
         visible: 目に見える課題を示します
         hidden: すべての課題を示します
         toggleable: 切り替えを許可します
@@ -689,30 +689,30 @@ challenges:
         description: |-
           展開されていない課題があるかどうかを示します
           レベル完了にカウントする必要があります。
-        enabled: '&2 有効'
-        disabled: '&c 無効'
+        enabled: '<dark_green>有効'
+        disabled: '<red>無効'
       download:
         name: ライブラリをダウンロードします
         description: |-
           使用可能なものを手動で更新します
           ライブラリに挑戦します。
-        enabled: '&2 キャッシュがクリアされています'
-        disabled: '&c キャッシュがクリアされていません'
+        enabled: '<dark_green>キャッシュがクリアされています'
+        disabled: '<red>キャッシュがクリアされていません'
       player:
         name: '[name]'
         description: 島の所有者：[owner]
         members: 島のメンバー：
-        member: '&8 - [name]'
+        member: '<dark_gray>- [name]'
         no-island: |-
-          &c このプレーヤーは島が
-          &c ありません。
+          <red>このプレーヤーは島が
+          <red>ありません。
       player_list:
         name: ユーザーリストを選択します
         description: |-
           ユーザーリストを選択します
           表示する必要があります。
-        enabled: '&2'
-        disabled: '&c'
+        enabled: '<dark_green>'
+        disabled: '<red>'
         online: オンラインプレーヤー
         with_island: 島のプレイヤー
         in_world: 世界のプレイヤー
@@ -733,7 +733,7 @@ challenges:
           選択したブロック
           リストから。
         title: 選択した資料：
-        material: '&8 - [material]'
+        material: '<dark_gray>- [material]'
       remove_block_group:
         name: ブロックグループを削除します
         description: |-
@@ -741,15 +741,15 @@ challenges:
           選択されたブロックグループ
           リストから。
         title: 選択されたブロックグループ：
-        material: '&8 - [material]'
+        material: '<dark_gray>- [material]'
       material:
-        name: '&f&l [material]'
+        name: '<white><bold>[material]'
         description: マテリアルID：[id]
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       block-group:
-        name: '&f&l [id]'
+        name: '<white><bold>[id]'
         description: ''
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       add_entity:
         name: 追加エンティティ
         description: |-
@@ -772,7 +772,7 @@ challenges:
           選択されたエンティティ
           リストから。
         title: 選択されたエンティティ：
-        entity: '&8 - [entity]'
+        entity: '<dark_gray>- [entity]'
       remove_entity_group:
         name: エンティティグループを削除します
         description: |-
@@ -780,15 +780,15 @@ challenges:
           選択されたエンティティグループ
           リストから。
         title: 選択されたエンティティグループ：
-        entity: '&8 - [tag]'
+        entity: '<dark_gray>- [tag]'
       entity:
-        name: '&f&l [entity]'
+        name: '<white><bold>[entity]'
         description: エンティティID：[id]
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       entity-group:
-        name: '&f&l [id]'
+        name: '<white><bold>[id]'
         description: ''
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       inventory_type:
         name: 在庫タイプ
         description: |-
@@ -826,33 +826,33 @@ challenges:
           選択した要素を返します
           以前のGUIを再開します。
         title: 選択：
-        element: '&8 - [element]'
+        element: '<dark_gray>- [element]'
       advancement_element:
-        name: '&f&l [name]'
+        name: '<white><bold>[name]'
         description: '[description]'
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       statistic_element:
-        name: '&f&l [statistic]'
+        name: '<white><bold>[statistic]'
         amount: 目標値：[number]
         remove:
           name: 統計を減らす：[value]
           value:
-            enabled: '&c 有効'
-            disabled: '&2 無効'
+            enabled: '<red>有効'
+            disabled: '<dark_green>無効'
         block: ターゲットブロック：[block]
         item: ターゲットアイテム：[item]
         entity: ターゲットエンティティ：[entity]
         description: '[description]'
-        selected: '&2 選択'
+        selected: '<dark_green>選択'
       environment_element:
-        name: '&f&l [environment]'
+        name: '<white><bold>[environment]'
         description: '[description]'
       search:
         name: 検索
         description: |-
-          &7 テキスト入力値を使用
-          &7 して要素を検索できます。
-        search: '&b 値：[value]'
+          <gray>テキスト入力値を使用
+          <gray>して要素を検索できます。
+        search: '<aqua>値：[value]'
     tips:
       click-to-select: クリックして選択します。
       click-to-choose: クリックして選択します。
@@ -907,16 +907,16 @@ challenges:
           [requirements]
           [rewards]
         status:
-          completed: '&2 完了しました'
-          completed-times: '&2 完了[number]時間'
-          completed-times-of: '&2 [number] 回のうち [max] 回完了しました'
+          completed: '<dark_green>完了しました'
+          completed-times: '<dark_green>完了[number]時間'
+          completed-times-of: '<dark_green>[number] 回のうち [max] 回完了しました'
           completed-times-reached: すべての[max]を完了しました
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
           timeout: クールダウン：[time]
-          wait-time: '&c 後に利用可能：[time]'
+          wait-time: '<red>後に利用可能：[time]'
           in-days: '[number] 日'
           in-hours: '[number] 時'
           in-minutes: '[number] 分 '
@@ -928,10 +928,10 @@ challenges:
             [permissions]
           environment-single: '[environment]に制限されています'
           environment-title: 制限：
-          environment-list: '  &7 - &e [environment]'
+          environment-list: '  <gray>- <yellow>[environment]'
           permission-single: ＆c[permission]の許可が必要です。
           permissions-title: ＆c許可が必要です：
-          permissions-list: '  &c - [permission]'
+          permissions-list: '  <red>- [permission]'
           island:
             lore: |-
               [blocks]
@@ -940,11 +940,11 @@ challenges:
               [warning-block]
               [warning-entity]
             blocks-title: 必須ブロック：
-            block-value: '  &7 - &e [material]'
-            blocks-value: '  &7 - &e [number] x [material]'
+            block-value: '  <gray>- <yellow>[material]'
+            blocks-value: '  <gray>- <yellow>[number] x [material]'
             entities-title: 必要なエンティティ：
-            entity-value: '  &7 - &e [entity]'
-            entities-value: '  &7 - &e [number] x [entity]'
+            entity-value: '  <gray>- <yellow>[entity]'
+            entities-value: '  <gray>- <yellow>[number] x [entity]'
             search-radius: '[number]メートル以下'
             warning-block: ブロックが削除されます
             warning-entity: エンティティは削除されます
@@ -953,8 +953,8 @@ challenges:
               [items]
               [warning]
             item-title: 必要なアイテム：
-            item-value: '  &7 - &e [item]'
-            items-value: '  &7 - &e [number] x [item]'
+            item-value: '  <gray>- <yellow>[item]'
+            items-value: '  <gray>- <yellow>[number] x [item]'
             warning: アイテムは削除されます
           other:
             lore: |-
@@ -972,9 +972,9 @@ challenges:
             lore: |-
               [statistic]
               [warning]
-            multiple-target: '&7&l [statistic]: &r&e [number] x [target]'
-            single-target: '&7&l [statistic]: &r&e [target]'
-            statistic: '&7&l [statistic] &r&e [number]'
+            multiple-target: '<gray><bold>[statistic]: <reset><yellow>[number] x [target]'
+            single-target: '<gray><bold>[statistic]: <reset><yellow>[target]'
+            statistic: '<gray><bold>[statistic] <reset><yellow>[number]'
             warning: 統計データが削減されます
         rewards:
           lore: |-
@@ -985,12 +985,12 @@ challenges:
             [money]
             [commands]
           item-title: アイテム：
-          item-value: '  &7 - &e [item]'
-          items-value: '  &7 - &e [number] x [item]'
+          item-value: '  <gray>- <yellow>[item]'
+          items-value: '  <gray>- <yellow>[number] x [item]'
           experience: 経験：[number]
           money: お金：[number]
           commands-title: コマンド：
-          command: '  &7 - &e [command]'
+          command: '  <gray>- <yellow>[command]'
       level:
         lore: |-
           [text]
@@ -999,15 +999,15 @@ challenges:
           [rewards]
         status:
           completed: 完了しました
-          completed-challenges-of: '&2 [max] 個のチャレンジのうち [number] 個を完了しました。'
-          locked: '&c ロックされています'
+          completed-challenges-of: '<dark_green>[max] 個のチャレンジのうち [number] 個を完了しました。'
+          locked: '<red>ロックされています'
           missing-challenges: |-
             [number]_より多くの課題が必要です
             このレベルのロックを解除するために完了しました。
         waiver: |-
-          &7 [number]チャレンジができます
-          &7 次のレベルのロックを解除する
-          &7 ためにスキップしました。
+          <gray>[number]チャレンジができます
+          <gray>次のレベルのロックを解除する
+          <gray>ためにスキップしました。
         rewards:
           lore: |-
             報酬：
@@ -1017,86 +1017,86 @@ challenges:
             [money]
             [commands]
           item-title: アイテム：
-          item-value: '  &7 - &e [item]'
-          items-value: '  &7 - &e [number] x [item]'
+          item-value: '  <gray>- <yellow>[item]'
+          items-value: '  <gray>- <yellow>[number] x [item]'
           experience: 経験：[number]
           money: お金：[number]
           commands-title: コマンド：
-          command: '  &7 - &e [command]'
+          command: '  <gray>- <yellow>[command]'
       library:
-        author: '&e [author]'
+        author: '<yellow>[author]'
         version: 課題で作られた[version]
         lang: 言語：[lang]
         gamemode: '[gamemode]のプライマリ'
   conversations:
-    prefix: '&l&6 [BentoBox]: &r'
+    prefix: '<bold><gold>[BentoBox]: <reset>'
     confirm-string: 確かに、はい、確認、y、有効、正しい
     deny-string: false、off、no、deny、n、無効、間違っています
     cancel-string: 終了
     exit-string: キャンセル、出口、終了
-    cancelled: '&c 会話がキャンセルされました！'
+    cancelled: '<red>会話がキャンセルされました！'
     input-number: チャットに番号を入力してください。
     input-seconds: チャットに数秒を入力してください。
-    numeric-only: '&c 与えられた[value]は数字ではありません！'
-    not-valid-value: '&c 指定された番号[value]は無効です。 [min]よりも大きく、[max]未満でなければなりません！'
-    user-data-removed: '&a [gamemode]のすべてのユーザーデータは、データベースからクリアされています。'
+    numeric-only: '<red>与えられた[value]は数字ではありません！'
+    not-valid-value: '<red>指定された番号[value]は無効です。 [min]よりも大きく、[max]未満でなければなりません！'
+    user-data-removed: '<green>[gamemode]のすべてのユーザーデータは、データベースからクリアされています。'
     confirm-user-data-deletion: '[gamemode]のユーザーデータベースをクリアすることを確認してください。'
-    challenge-data-removed: '&a [gamemode]のすべてのチャレンジデータは、データベースからクリアされています。'
+    challenge-data-removed: '<green>[gamemode]のすべてのチャレンジデータは、データベースからクリアされています。'
     confirm-challenge-data-deletion: '[gamemode]の課題データベースをクリアしたいことを確認してください。'
-    all-data-removed: '&a [gamemode]のすべてのアドオンデータは、データベースからクリアされています。'
+    all-data-removed: '<green>[gamemode]のすべてのアドオンデータは、データベースからクリアされています。'
     confirm-all-data-deletion: '[gamemode]のアドオンデータをクリアすることを確認してください。'
     write-name: チャットに名前を入力してください。
-    new-object-created: '&a [gamemode]の新しいオブジェクトが作成されました。'
-    object-already-exists: '&c オブジェクト[id]はすでに存在しています。別の名前を選択してください。'
-    invalid-challenge: '&c 課題[challenge]展開できません！'
-    name-changed: '&a 成功：名前が更新されました。'
+    new-object-created: '<green>[gamemode]の新しいオブジェクトが作成されました。'
+    object-already-exists: '<red>オブジェクト[id]はすでに存在しています。別の名前を選択してください。'
+    invalid-challenge: '<red>課題[challenge]展開できません！'
+    name-changed: '<green>成功：名前が更新されました。'
     write-description: チャットに新しい説明を入力してください。新しいラインで「終了」と入力して終了します。
-    description-changed: '&a 成功：説明が更新されました。'
+    description-changed: '<green>成功：説明が更新されました。'
     write-permissions: チャットに必要な権限を1行に1行に入力してください。新しいラインで「終了」と入力して終了します。
-    permissions-changed: '&a 成功：チャレンジ許可が更新されました。'
+    permissions-changed: '<green>成功：チャレンジ許可が更新されました。'
     write-reward-text: チャットに新しい報酬テキストを入力してください。新しいラインで「終了」と入力して終了します。
-    reward-text-changed: '&a 成功：報酬テキストが更新されました。'
+    reward-text-changed: '<green>成功：報酬テキストが更新されました。'
     write-repeat-reward-text: チャットに新しい繰り返し報酬テキストを入力してください。新しいラインで「終了」と入力して終了します。
-    repeat-reward-text-changed: '&a 成功：繰り返し報酬テキストが更新されました。'
+    repeat-reward-text-changed: '<green>成功：繰り返し報酬テキストが更新されました。'
     write-reward-commands: チャット内の各行に新しい報酬コマンドを入力してください。新しいラインで「終了」と入力して終了します。
-    reward-commands-changed: '&a 成功：報酬コマンドが更新されました。'
+    reward-commands-changed: '<green>成功：報酬コマンドが更新されました。'
     write-repeat-reward-commands: チャット内の各行に新しい繰り返し報酬コマンドを入力してください。新しいラインで「終了」と入力して終了します。
-    repeat-reward-commands-changed: '&a 成功：繰り返し報酬コマンドが更新されました。'
-    challenge-removed: '&a [gamemode]の課題[challenge]はデータベースから削除されました。'
+    repeat-reward-commands-changed: '<green>成功：繰り返し報酬コマンドが更新されました。'
+    challenge-removed: '<green>[gamemode]の課題[challenge]はデータベースから削除されました。'
     confirm-challenge-deletion: データベースから[gamemode]の[challenge]を削除することを確認してください。
-    level-removed: '&a [gamemode]のレベル[level]はデータベースから削除されました。'
+    level-removed: '<green>[gamemode]のレベル[level]はデータベースから削除されました。'
     confirm-level-deletion: データベースから[gamemode]の[level]を削除することを確認してください。
-    start-downloading: '&a Challenges Libraryのダウンロードとインポートを開始します。'
-    written-text: '&a 入力テキスト：'
+    start-downloading: '<green>Challenges Libraryのダウンロードとインポートを開始します。'
+    written-text: '<green>入力テキスト：'
     confirm-data-replacement: 現在の課題を新しい課題に置き換えたいことを確認してください。
-    new-challenges-imported: '&a 成功：[gamemode]の新しい課題がインポートされています。'
+    new-challenges-imported: '<green>成功：[gamemode]の新しい課題がインポートされています。'
     exported-file-name: エクスポートされたデータベースファイルのファイル名を入力してください。 （「キャンセル」と入力して終了します）
-    database-export-completed: '&a 成功：[world]のデータベースエクスポートは完了しました。ファイル[file]生成。'
-    file-name-exist: '&c「[id]」という名前のファイルがすでに存在しています。上書きできません。'
+    database-export-completed: '<green>成功：[world]のデータベースエクスポートは完了しました。ファイル[file]生成。'
+    file-name-exist: '<red>「[id]」という名前のファイルがすでに存在しています。上書きできません。'
     write-search: 検索値を入力してください。 （「キャンセル」と入力して終了します）
-    search-updated: '&a 検索値が更新されました。'
+    search-updated: '<green>検索値が更新されました。'
     enter-formula: |-
-      &a Papiプレースホルダーとシンボルを使用する式を入力します=、<>、<+、> =、==、！=、および、またはのみ。
-      &a 例：&7 ％my_lifetime_count％> = 1000および％Island_Level％> = 100
+      <green>Papiプレースホルダーとシンボルを使用する式を入力します=、<>、<+、> =、==、！=、および、またはのみ。
+      <green>例：<gray>％my_lifetime_count％> = 1000および％Island_Level％> = 100
   titles:
     challenge-title: 正常に完了しました
     challenge-subtitle: '[friendlyName]'
     level-title: 正常に完了しました
     level-subtitle: '[friendlyName]'
   messages:
-    completed: '&2 [player]のチャレンジ[name]_を完了しました！'
-    already-completed: '&2 この課題はすでに完了しています！'
-    reset: '&2 [player]のチャレンジ[name]をリセットしました！'
-    reset-all: '&2 [player]のすべての課題がリセットされました！'
-    not-completed: '&2 この課題はまだ完了していません！'
-    migrate-start: '&2 課題の移行の開始アドオンデータ。'
-    migrate-end: '&2 課題アドオンデータは新しい形式に更新されました。'
-    migrate-not: '&2 すべてのデータが有効です。'
+    completed: '<dark_green>[player]のチャレンジ[name]_を完了しました！'
+    already-completed: '<dark_green>この課題はすでに完了しています！'
+    reset: '<dark_green>[player]のチャレンジ[name]をリセットしました！'
+    reset-all: '<dark_green>[player]のすべての課題がリセットされました！'
+    not-completed: '<dark_green>この課題はまだ完了していません！'
+    migrate-start: '<dark_green>課題の移行の開始アドオンデータ。'
+    migrate-end: '<dark_green>課題アドオンデータは新しい形式に更新されました。'
+    migrate-not: '<dark_green>すべてのデータが有効です。'
     start-downloading: Challenges Libraryのダウンロードとインポートを開始します。
-    you-completed-challenge: ＆2 [value]&r&2チャレンジを完了しました！
-    you-repeated-challenge: ＆2 [value]&r&2チャレンジを繰り返しました！
-    you-repeated-challenge-multiple: ＆2 [value]&r&2チャレンジ [count]回繰り返しました！
-    you-completed-level: ＆2 [value]&r&2レベルを完了しました！
+    you-completed-challenge: ＆2 [value]<reset><dark_green>チャレンジを完了しました！
+    you-repeated-challenge: ＆2 [value]<reset><dark_green>チャレンジを繰り返しました！
+    you-repeated-challenge-multiple: ＆2 [value]<reset><dark_green>チャレンジ [count]回繰り返しました！
+    you-completed-level: ＆2 [value]<reset><dark_green>レベルを完了しました！
     name-has-completed-challenge: ＆5 [name]は[value]＆r＆5チャレンジ を完了しました！
     name-has-completed-level: ＆5 [name]は[value]＆r＆5レベルを完了しました！
     load-skipping: 「[value]」は既に存在します-スキップします
@@ -1128,17 +1128,17 @@ challenges:
     no-challenges-admin: ＆cチャレンジは現在の世界では実装されていません！それらを追加するには＆5 / [command]＆cを使用する必要があります。
     missing-arguments: ＆cコマンドに引数がありません。
     no-multiple-permission: ＆cチャレンジを一度に複数回完了する権限がありません。
-    invalid-level: '&c レベル[level]は無効なデータを含み、データベースからロードされません！'
-    invalid-challenge: '&c 課題[challenge]はデータベースからロードされません！'
-    no-library-entries: '&c ライブラリエントリは見つかりませんでした。表示するものは何もありません。'
-    not-hooked: '&c 課題アドオンはゲームモードを見つけることができませんでした。'
-    timeout: '&c この課題には、完了の間に[timeout]の待ち時間が必要です。 [wait-time]をもう一度完了する前に待つ必要があります。'
-    requirement-not-met: '&c この課題には、[number]の[statistic]が必要です。 [value]のみがあります。'
+    invalid-level: '<red>レベル[level]は無効なデータを含み、データベースからロードされません！'
+    invalid-challenge: '<red>課題[challenge]はデータベースからロードされません！'
+    no-library-entries: '<red>ライブラリエントリは見つかりませんでした。表示するものは何もありません。'
+    not-hooked: '<red>課題アドオンはゲームモードを見つけることができませんでした。'
+    timeout: '<red>この課題には、完了の間に[timeout]の待ち時間が必要です。 [wait-time]をもう一度完了する前に待つ必要があります。'
+    requirement-not-met: '<red>この課題には、[number]の[statistic]が必要です。 [value]のみがあります。'
     requirement-not-met-entity: >-
-      &c このチャレンジでは、[entity] の [statistic] が [number] である必要があります。持っているのは [value]
+      <red>このチャレンジでは、[entity] の [statistic] が [number] である必要があります。持っているのは [value]
       のみです。
     requirement-not-met-material: >-
-      &c このチャレンジでは、[material] の [statistic] が [number] である必要があります。持っているのは
+      <red>このチャレンジでは、[material] の [statistic] が [number] である必要があります。持っているのは
       [value] のみです。
 protection:
   flags:

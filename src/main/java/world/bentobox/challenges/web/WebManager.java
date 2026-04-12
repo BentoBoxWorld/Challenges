@@ -64,60 +64,80 @@ public class WebManager
 	 */
 	public void requestCatalogGitHubData(boolean clearCache)
 	{
-		this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
+		this.catalogState = CatalogState.DOWNLOADING;
+		try
 		{
-			if (this.plugin.getSettings().isLogGithubDownloadData())
-			{
-				this.plugin.log("Downloading data from GitHub...");
-			}
-
-			String catalogContent = "";
-
-			// Downloading the data
-			try
-			{
-				catalogContent = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
-					getContent("challenges/catalog.json").
-					getContent().replaceAll("\\n", "");
-			}
-			catch (IllegalAccessException e)
+			this.plugin.getWebManager().getGitHub().ifPresent(gitHubWebAPI ->
 			{
 				if (this.plugin.getSettings().isLogGithubDownloadData())
 				{
-					this.plugin.log("Could not connect to GitHub.");
+					this.plugin.log("Downloading data from GitHub...");
 				}
-			}
-			catch (Exception e)
-			{
-				this.plugin.logError("An error occurred when downloading data from GitHub...");
-				this.plugin.logStacktrace(e);
-			}
 
-			// People were concerned that the download took ages, so we need to tell them it's over now.
-			if (this.plugin.getSettings().isLogGithubDownloadData())
-			{
-				this.plugin.log("Successfully downloaded data from GitHub.");
-			}
+				String catalogContent = "";
 
-			// Decoding the Base64 encoded contents
-			catalogContent = new String(Base64.getDecoder().decode(catalogContent),
-				StandardCharsets.UTF_8);
-
-			/* Parsing the data */
-
-			// Register the catalog data
-			if (!catalogContent.isEmpty())
-			{
-				if (clearCache)
+				// Downloading the data
+				try
 				{
-					this.library.clear();
+					catalogContent = gitHubWebAPI.getRepository("BentoBoxWorld", "weblink").
+						getContent("challenges/catalog.json").
+						getContent().replaceAll("\\n", "");
+				}
+				catch (Exception e)
+				{
+					this.plugin.logError("An error occurred when downloading data from GitHub...");
+					this.plugin.logStacktrace(e);
 				}
 
-				JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
-				catalog.getAsJsonArray("challenges").forEach(gamemode ->
-					this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
-			}
-		});
+				// People were concerned that the download took ages, so we need to tell them it's over now.
+				if (this.plugin.getSettings().isLogGithubDownloadData())
+				{
+					this.plugin.log("Successfully downloaded data from GitHub.");
+				}
+
+				// Decoding the Base64 encoded contents
+				catalogContent = new String(Base64.getDecoder().decode(catalogContent),
+					StandardCharsets.UTF_8);
+
+				/* Parsing the data */
+
+				// Register the catalog data
+				if (!catalogContent.isEmpty())
+				{
+					if (clearCache)
+					{
+						this.library.clear();
+					}
+
+					JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
+					catalog.getAsJsonArray("challenges").forEach(gamemode ->
+					{
+						JsonObject entryJson = gamemode.getAsJsonObject();
+						try
+						{
+							LibraryEntry entry = LibraryEntry.fromJson(entryJson);
+							if (entry.repository() == null || entry.repository().isBlank())
+							{
+								this.addon.logWarning("Skipping catalog entry with missing 'repository' field: " + entryJson);
+							}
+							else
+							{
+								this.library.add(entry);
+							}
+						}
+						catch (Exception e)
+						{
+							this.addon.logWarning("Skipping malformed catalog entry: " + entryJson);
+							this.addon.logWarning("Reason: " + e.getMessage());
+						}
+					});
+				}
+			});
+		}
+		finally
+		{
+			this.catalogState = CatalogState.READY;
+		}
 	}
 
 
@@ -145,18 +165,6 @@ public class WebManager
 					getContent("challenges/library/" + entry.repository() + ".json").
 					getContent().
 					replaceAll("\\n", "");
-			}
-			catch (IllegalAccessException e)
-			{
-				if (this.plugin.getSettings().isLogGithubDownloadData())
-				{
-					this.plugin.log("Could not connect to GitHub.");
-                    this.plugin.log(
-                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
-                    user.sendRawMessage("Could not connect to GitHub.");
-                    user.sendRawMessage(
-                            "JSON files can be found at https://github.com/BentoBoxWorld/weblink/tree/master/challenges/library");
-				}
 			}
 			catch (Exception e)
 			{
@@ -232,4 +240,32 @@ public class WebManager
 	 * This list contains all entries that were downloaded from GitHub.
 	 */
 	private final List<LibraryEntry> library;
+
+	/**
+	 * Tracks the state of the catalog download so UI can render a pending indicator.
+	 */
+	private volatile CatalogState catalogState = CatalogState.IDLE;
+
+
+	/**
+	 * Returns the current catalog download state.
+	 */
+	public CatalogState getCatalogState()
+	{
+		return this.catalogState;
+	}
+
+
+	/**
+	 * State of the GitHub catalog download.
+	 */
+	public enum CatalogState
+	{
+		/** No download has been requested yet. */
+		IDLE,
+		/** A download is currently in flight. */
+		DOWNLOADING,
+		/** A download has completed (successfully or not). */
+		READY
+	}
 }

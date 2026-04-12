@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -19,21 +18,17 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.inventory.ItemFactory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
@@ -44,8 +39,6 @@ import world.bentobox.challenges.managers.ChallengesManager;
 /**
  * Tests for {@link CommonPagedPanel} pagination and button creation logic.
  */
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class CommonPagedPanelTest {
 
     @Mock
@@ -58,15 +51,11 @@ public class CommonPagedPanelTest {
     private ChallengesManager manager;
     @Mock
     private PanelBuilder panelBuilder;
-    @Mock
-    private Server server;
-    @Mock
-    private ItemFactory itemFactory;
-    @Mock
-    private ItemMeta meta;
 
     private TestablePagedPanel panel;
-    private Server previousServer;
+    private AutoCloseable closeable;
+    private ServerMock mbServer;
+    private MockedStatic<Bukkit> mockedBukkit;
 
     private static class TestablePagedPanel extends CommonPagedPanel<String> {
         private boolean filterUpdated = false;
@@ -127,22 +116,27 @@ public class CommonPagedPanelTest {
 
     @BeforeEach
     public void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
+        mbServer = MockBukkit.mock();
+
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);
-
         when(panelBuilder.slotOccupied(anyInt())).thenReturn(false);
 
-        when(server.getItemFactory()).thenReturn(itemFactory);
-        when(itemFactory.getItemMeta(any(Material.class))).thenReturn(meta);
-        previousServer = Bukkit.getServer();
-        PanelTestHelper.setServer(server);
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(mbServer);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(mbServer.getItemFactory());
+        mockedBukkit.when(Bukkit::getUnsafe).thenReturn(mbServer.getUnsafe());
 
         panel = new TestablePagedPanel(addon, user, world, "island", "bskyblock.");
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        PanelTestHelper.setServer(previousServer);
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
     }
 
     @Test
@@ -267,10 +261,8 @@ public class CommonPagedPanelTest {
         panel.callPopulateElements(panelBuilder, elements);
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
         // 21 items + previous button + search button = 23
-        // (slot 26 is used by a regular element, not as next button)
         verify(panelBuilder, times(23)).item(slotCaptor.capture(), any(PanelItem.class));
-        assertTrue(slotCaptor.getAllValues().contains(18)); // previous button present
-        // Verify we're on the last page by checking pageIndex
+        assertTrue(slotCaptor.getAllValues().contains(18));
         assertEquals(1, panel.getPageIndex());
     }
 
@@ -281,9 +273,7 @@ public class CommonPagedPanelTest {
         // First page: 21 items + next button + search button = 23
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
         verify(panelBuilder, times(23)).item(slotCaptor.capture(), any(PanelItem.class));
-        assertTrue(slotCaptor.getAllValues().contains(26)); // next button present
-        // Slot 18 is used by element (slots 10-30), but NOT by previous button.
-        // Verify pageIndex is still 0 (no previous page).
+        assertTrue(slotCaptor.getAllValues().contains(26));
         assertEquals(0, panel.getPageIndex());
     }
 }

@@ -2,41 +2,36 @@ package world.bentobox.challenges.panel.admin;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.inventory.ItemFactory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.managers.WebManager;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.WhiteBox;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.panel.PanelTestHelper;
 
 /**
  * Tests for {@link AdminPanel} button creation logic.
  */
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class AdminPanelTest {
 
     @Mock
@@ -48,36 +43,32 @@ public class AdminPanelTest {
     @Mock
     private ChallengesManager manager;
     @Mock
-    private Server server;
-    @Mock
-    private ItemFactory itemFactory;
-    @Mock
-    private ItemMeta meta;
-
-    @Mock
     private BentoBox plugin;
     @Mock
     private WebManager webManager;
 
     private Object adminPanel;
-    private Server previousServer;
-    private BentoBox previousInstance;
+    private AutoCloseable closeable;
+    private ServerMock mbServer;
+    private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     public void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
+        mbServer = MockBukkit.mock();
+
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);
 
-        when(server.getItemFactory()).thenReturn(itemFactory);
-        when(itemFactory.getItemMeta(any(Material.class))).thenReturn(meta);
-        previousServer = Bukkit.getServer();
-        PanelTestHelper.setServer(server);
-
-        // Set up BentoBox instance for WebManager.isEnabled()
+        // BentoBox instance for WebManager.isEnabled()
         when(plugin.getWebManager()).thenReturn(webManager);
-        when(webManager.getGitHub()).thenReturn(java.util.Optional.empty());
-        previousInstance = BentoBox.getInstance();
-        PanelTestHelper.setBentoBoxInstance(plugin);
+        when(webManager.getGitHub()).thenReturn(Optional.empty());
+        WhiteBox.setInternalState(BentoBox.class, "instance", plugin);
+
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(mbServer);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(mbServer.getItemFactory());
+        mockedBukkit.when(Bukkit::getUnsafe).thenReturn(mbServer.getUnsafe());
 
         var ctor = AdminPanel.class.getDeclaredConstructor(
             ChallengesAddon.class, World.class, User.class, String.class, String.class);
@@ -87,8 +78,10 @@ public class AdminPanelTest {
 
     @AfterEach
     public void tearDown() throws Exception {
-        PanelTestHelper.setServer(previousServer);
-        PanelTestHelper.setBentoBoxInstance(previousInstance);
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
     }
 
     private PanelItem callCreateButton(String buttonName) throws Exception {
@@ -183,7 +176,6 @@ public class AdminPanelTest {
 
     @Test
     public void testCreateLibraryButton() throws Exception {
-        // WebManager.isEnabled() is static - may return false by default
         assertNotNull(callCreateButton("LIBRARY"));
     }
 

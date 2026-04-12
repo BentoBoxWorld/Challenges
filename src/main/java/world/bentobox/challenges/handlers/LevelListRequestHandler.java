@@ -9,6 +9,7 @@ import org.bukkit.World;
 
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
+import world.bentobox.challenges.utils.Constants;
 
 
 /**
@@ -46,13 +47,13 @@ public class LevelListRequestHandler extends AddonRequestHandler
 
         if (metaData == null ||
             metaData.isEmpty() ||
-            metaData.get("world-name") == null ||
-            !(metaData.get("world-name") instanceof String))
+            metaData.get(Constants.WORLD_NAME_KEY) == null ||
+            !(metaData.get(Constants.WORLD_NAME_KEY) instanceof String))
         {
             return Collections.emptyList();
         }
 
-        World world = Bukkit.getWorld((String) metaData.get("world-name"));
+        World world = Bukkit.getWorld((String) metaData.get(Constants.WORLD_NAME_KEY));
 
         if (world == null)
         {

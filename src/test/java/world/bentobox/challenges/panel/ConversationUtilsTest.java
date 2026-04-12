@@ -11,72 +11,65 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.challenges.WhiteBox;
 
 /**
  * Tests for {@link ConversationUtils} conversation creation methods.
- * ConversationFactory gets the server from the Plugin instance.
- * BentoBox extends JavaPlugin where getServer() is final, so we set the
- * Bukkit.server field to a mock server whose getScheduler() etc. are stubbed.
+ * Uses MockBukkit + mockStatic(Bukkit.class) for server infrastructure.
  */
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class ConversationUtilsTest {
 
     @Mock
     private User user;
     @Mock
     private Player player;
-    @Mock
-    private Server server;
-    @Mock
-    private BukkitScheduler scheduler;
-    @Mock
-    private PluginManager pluginManager;
 
-    private BentoBox previousInstance;
-    private Server previousServer;
+    private AutoCloseable closeable;
+    private ServerMock mbServer;
+    private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     public void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
+        mbServer = MockBukkit.mock();
+
         when(user.getTranslation(anyString())).thenAnswer(
             (Answer<String>) inv -> inv.getArgument(0, String.class));
         when(user.getPlayer()).thenReturn(player);
         when(user.getUniqueId()).thenReturn(UUID.randomUUID());
 
-        // Set up server mock for ConversationFactory (which calls Plugin.getServer())
-        when(server.getScheduler()).thenReturn(scheduler);
-        when(server.getPluginManager()).thenReturn(pluginManager);
-        previousServer = Bukkit.getServer();
-        PanelTestHelper.setServer(server);
-
-        // BentoBox.getInstance() must return a real-ish instance.
-        // getServer() is final from JavaPlugin, so we set the server field via reflection.
+        // BentoBox.getInstance() for ConversationFactory.
+        // getServer() is final from JavaPlugin — Mockito 5 inline mock maker can stub finals.
         BentoBox bentoBox = mock(BentoBox.class);
-        previousInstance = BentoBox.getInstance();
-        PanelTestHelper.setBentoBoxInstance(bentoBox);
-        PanelTestHelper.setPluginServer(bentoBox, server);
+        WhiteBox.setInternalState(BentoBox.class, "instance", bentoBox);
+        when(bentoBox.getServer()).thenReturn(mbServer);
+
+        mockedBukkit = Mockito.mockStatic(Bukkit.class, Mockito.RETURNS_DEEP_STUBS);
+        mockedBukkit.when(Bukkit::getServer).thenReturn(mbServer);
+        mockedBukkit.when(Bukkit::getScheduler).thenReturn(mbServer.getScheduler());
+        mockedBukkit.when(Bukkit::getPluginManager).thenReturn(mbServer.getPluginManager());
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        PanelTestHelper.setBentoBoxInstance(previousInstance);
-        PanelTestHelper.setServer(previousServer);
+        if (mockedBukkit != null) mockedBukkit.closeOnDemand();
+        if (closeable != null) closeable.close();
+        MockBukkit.unmock();
+        Mockito.framework().clearInlineMocks();
     }
 
     @Test

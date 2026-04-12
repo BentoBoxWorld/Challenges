@@ -191,7 +191,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
 				{
 					description.add(this.user.getTranslation(reference + "title"));
                     this.selectedStats.forEach(stat ->
-                    description.add(this.user.getTranslation(reference + "statistic_element", "[statistic]",
+                    description.add(this.user.getTranslation(reference + "statistic_element", Constants.PARAMETER_STATISTIC,
                             Utils.prettifyObject(stat.statistic(), this.user))));
 				}
 
@@ -287,7 +287,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
 		}
 
 		return new PanelItemBuilder().
-                name(this.user.getTranslation(reference + "name", "[statistic]",
+                name(this.user.getTranslation(reference + "name", Constants.PARAMETER_STATISTIC,
                         Utils.prettifyObject(rec.statistic(), this.user)))
                 .icon(getStatisticIcon(rec.statistic())).
 			description(description).
@@ -461,7 +461,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
 
         switch (button) {
         case STATISTIC -> {
-            description.add(this.user.getTranslation(reference + "value", "[statistic]",
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_STATISTIC,
                     Utils.prettifyObject(req.statistic(), this.user)));
 
             icon = new ItemStack(req.statistic() == null ? Material.BARRIER : Material.PAPER);
@@ -479,10 +479,10 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
         case STATISTIC_AMOUNT -> {
-            description.add(this.user.getTranslation(reference + "value", Constants.PARAMETER_NUMBER,
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
                     String.valueOf(req.amount())));
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, i) -> {
@@ -505,7 +505,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
         case REMOVE_STATISTIC -> {
             description.add(this.user.getTranslation(reference + (req.reduceStatistic() ? "enabled" : "disabled")));
@@ -526,7 +526,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
         }
         case STATISTIC_BLOCKS -> {
-            description.add(this.user.getTranslation(reference + "value", "[block]",
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, "[block]",
                     Utils.prettifyObject(req.material(), this.user)));
 
             icon = req.material() == null ? new ItemStack(Material.BARRIER) : new ItemStack(req.material());
@@ -548,10 +548,10 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
         case STATISTIC_ITEMS -> {
-            description.add(this.user.getTranslation(reference + "value", "[item]",
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, "[item]",
                     Utils.prettifyObject(req.material(), this.user)));
 
             icon = req.material() == null ? new ItemStack(Material.BARRIER) : new ItemStack(req.material());
@@ -572,10 +572,10 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
         case STATISTIC_ENTITIES -> {
-            description.add(this.user.getTranslation(reference + "value", "[entity]",
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, "[entity]",
                     Utils.prettifyObject(req.entity(), this.user)));
 
             icon = req.entity() == null ? new ItemStack(Material.BARRIER)
@@ -597,7 +597,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
         default -> {
             icon = new ItemStack(Material.PAPER);
