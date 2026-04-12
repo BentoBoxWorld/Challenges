@@ -860,7 +860,7 @@ public class ChallengesImportManager
                     stream().
                     map(challenge -> {
                         // Use clone to avoid any changes in existing challenges.
-                        Challenge clone = challenge.clone();
+                        Challenge clone = challenge.copy();
                         // Remove world name from challenge id.
                         clone.setUniqueId(challenge.getUniqueId().replaceFirst(replacementString, ""));
                         // Remove world name from level id.

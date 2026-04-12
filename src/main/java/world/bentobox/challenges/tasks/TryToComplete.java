@@ -152,7 +152,7 @@ public class TryToComplete
         this.manager = addon.getChallengesManager();
         // To avoid any modifications that may occur to challenges in current completion
         // just clone it.
-        this.challenge = challenge.clone();
+        this.challenge = challenge.copy();
     }
 
 

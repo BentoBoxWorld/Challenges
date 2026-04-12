@@ -251,7 +251,8 @@ public class CompleteChallengeCommandTest {
 
     @Test
     public void testTabCompleteUserStringListOfStringNoArgs() {
-        cc.tabComplete(user, "complete", Collections.emptyList());
+        Optional<List<String>> result = cc.tabComplete(user, "complete", Collections.emptyList());
+        assertTrue(result.isEmpty() || result.get().isEmpty());
     }
 
     @Test

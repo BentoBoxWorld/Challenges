@@ -360,11 +360,13 @@ public class ChallengesManagerTest {
     @Test
     public void testMigrateDatabase() {
         cm.migrateDatabase(user, world);
+        verify(addon, never()).logError(anyString());
     }
 
     @Test
     public void testSave() {
         cm.save();
+        verify(addon, never()).logError(anyString());
     }
 
     @Test
@@ -919,13 +921,9 @@ public class ChallengesManagerTest {
     @Test
     public void testGetLatestUnlockedLevelSingleLevel() {
         cm.loadLevel(level, world, false, user, true);
-        // First level is always unlocked; getLatestUnlockedLevel returns previousLevel of the last unlocked status
-        // With a single level that is unlocked, previousLevel is null for the first status
+        // With a single unlocked level, previousLevel is null for the first status
         ChallengeLevel result = cm.getLatestUnlockedLevel(user, world);
-        // The method returns lastStatus.getPreviousLevel() — for the first (and only) level, previousLevel is null
-        // unless there's a preceding level. This tests the method runs without error.
-        // Result depends on internal LevelStatus construction; just verify no exception.
-        // With one unlocked level, the iterator goes through it, lastStatus is the level status, and returns its previousLevel
+        assertNull(result);
     }
 
     // -------------------------------------------------------------------------

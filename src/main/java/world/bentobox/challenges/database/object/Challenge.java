@@ -852,11 +852,10 @@ public class Challenge implements DataObject
     }
 
     /**
-     * Clone method that returns clone of current challenge.
-     * @return Challenge that is cloned from current object.
+     * Returns a deep copy of this challenge.
+     * @return a new Challenge copied from this object.
      */
-    @Override
-    public Challenge clone()
+    public Challenge copy()
     {
         Challenge clone;
 
