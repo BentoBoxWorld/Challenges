@@ -12,6 +12,7 @@ import org.bukkit.World;
 import world.bentobox.bentobox.api.addons.request.AddonRequestHandler;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.managers.ChallengesManager;
+import world.bentobox.challenges.utils.Constants;
 
 
 /**
@@ -51,15 +52,15 @@ public class CompletedChallengesRequestHandler extends AddonRequestHandler
 
         if (metaData == null ||
             metaData.isEmpty() ||
-            metaData.get("world-name") == null ||
-            !(metaData.get("world-name") instanceof String) ||
+            metaData.get(Constants.WORLD_NAME_KEY) == null ||
+            !(metaData.get(Constants.WORLD_NAME_KEY) instanceof String) ||
             metaData.get("player") == null ||
             !(metaData.get("player") instanceof UUID player))
         {
             return Collections.emptySet();
         }
 
-        World world = Bukkit.getWorld((String) metaData.get("world-name"));
+        World world = Bukkit.getWorld((String) metaData.get(Constants.WORLD_NAME_KEY));
 
         if (world == null)
         {

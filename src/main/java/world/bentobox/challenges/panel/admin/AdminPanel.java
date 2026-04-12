@@ -212,7 +212,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case RESET_USER_CHALLENGES -> {
                 icon = new ItemStack(Material.WRITABLE_BOOK);
@@ -335,7 +335,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case EDIT_LEVEL -> {
                 icon = new ItemStack(Material.ANVIL);
@@ -346,7 +346,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case DELETE_CHALLENGE -> {
                 icon = new ItemStack(Material.LAVA_BUCKET);
@@ -357,7 +357,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case DELETE_LEVEL -> {
                 icon = new ItemStack(Material.LAVA_BUCKET);
@@ -368,7 +368,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case EDIT_SETTINGS -> {
                 icon = new ItemStack(Material.CRAFTING_TABLE);
@@ -379,7 +379,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case IMPORT_DATABASE -> {
                 icon = new ItemStack(Material.BOOKSHELF);
@@ -390,7 +390,7 @@ public class AdminPanel extends CommonPanel
                 glow = true;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case IMPORT_TEMPLATE -> {
                 icon = new ItemStack(Material.BOOKSHELF);
@@ -401,7 +401,7 @@ public class AdminPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
             }
             case EXPORT_CHALLENGES -> {
                 icon = new ItemStack(Material.HOPPER);
@@ -451,7 +451,7 @@ public class AdminPanel extends CommonPanel
                     glow = false;
 
                     description.add("");
-                    description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                    description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
                 }
                 else if (this.addon.getWebManager().getLibraryEntries().isEmpty())
                 {
@@ -481,7 +481,7 @@ public class AdminPanel extends CommonPanel
                     glow = false;
 
                     description.add("");
-                    description.add(this.user.getTranslationOrNothing(Constants.TIPS + "click-to-open"));
+                    description.add(this.user.getTranslationOrNothing(Constants.CLICK_TO_OPEN));
                 }
             }
             case COMPLETE_WIPE -> {

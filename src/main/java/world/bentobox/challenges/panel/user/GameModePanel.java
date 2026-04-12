@@ -77,7 +77,7 @@ public class GameModePanel extends CommonPanel
         panelBuilder.world(this.user.getWorld());
 
         // Register button builders
-        panelBuilder.registerTypeBuilder("GAMEMODE", this::createGameModeButton);
+        panelBuilder.registerTypeBuilder(Constants.GAMEMODE_BUILDER_KEY, this::createGameModeButton);
 
         panelBuilder.registerTypeBuilder("NEXT", this::createNextButton);
         panelBuilder.registerTypeBuilder("PREVIOUS", this::createPreviousButton);
@@ -117,7 +117,7 @@ public class GameModePanel extends CommonPanel
         }
         else
         {
-            int index = this.addonIndex * slot.amountMap().getOrDefault("GAMEMODE", 1) + slot.slot();
+            int index = this.addonIndex * slot.amountMap().getOrDefault(Constants.GAMEMODE_BUILDER_KEY, 1) + slot.slot();
 
             if (index >= this.addonList.size())
             {
@@ -217,12 +217,12 @@ public class GameModePanel extends CommonPanel
 
         int nextPageIndex;
 
-        if ("GAMEMODE".equals(target))
+        if (Constants.GAMEMODE_BUILDER_KEY.equals(target))
         {
             int size = this.addonList.size();
 
-            if (size <= slot.amountMap().getOrDefault("GAMEMODE", 1) ||
-                1.0 * size / slot.amountMap().getOrDefault("GAMEMODE", 1) <= this.addonIndex + 1)
+            if (size <= slot.amountMap().getOrDefault(Constants.GAMEMODE_BUILDER_KEY, 1) ||
+                1.0 * size / slot.amountMap().getOrDefault(Constants.GAMEMODE_BUILDER_KEY, 1) <= this.addonIndex + 1)
             {
                 // There are no next elements
                 return null;
@@ -295,7 +295,7 @@ public class GameModePanel extends CommonPanel
 
         int previousPageIndex;
 
-        if ("GAMEMODE".equals(target))
+        if (Constants.GAMEMODE_BUILDER_KEY.equals(target))
         {
             if (this.addonIndex == 0)
             {

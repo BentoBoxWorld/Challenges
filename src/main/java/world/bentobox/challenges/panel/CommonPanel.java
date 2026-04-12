@@ -139,7 +139,7 @@ public abstract class CommonPanel {
 
         // Fetch a custom description translation; if empty, fallback to challenge's own description
         String description = this.user
-                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".description");
+                .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".description");
         if (description.isEmpty()) {
             // Combine the challenge description list into a single string and translate color codes
             description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
@@ -157,15 +157,15 @@ public abstract class CommonPanel {
 
         String returnString;
         // Check if the description (after removing blank lines) is not empty
-        if (!description.replaceAll("(?m)^[ \\t]*\\r?\\n", "").isEmpty()) {
+        if (!description.replaceAll(Constants.BLANK_LINE_REGEX, "").isEmpty()) {
             // Retrieve the lore translation without the description placeholder
             returnString = this.user.getTranslationOrNothing(referenceKey + "lore", "[requirements]", requirements,
-                    "[rewards]", rewards, "[status]", status, "[cooldown]", coolDown);
+                    Constants.PARAMETER_REWARDS, rewards, Constants.PARAMETER_STATUS, status, "[cooldown]", coolDown);
 
             // Remove any empty lines from the translated text and split it into individual lines
             final String finalDescription = description; // ensure it's effectively final
 
-            List<String> lines = Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+            List<String> lines = Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                     .map(line -> line.contains(Constants.PARAMETER_DESCRIPTION)
                             ? line.replace(Constants.PARAMETER_DESCRIPTION, finalDescription)
                             : line)
@@ -175,11 +175,11 @@ public abstract class CommonPanel {
         } else {
             // If description is empty, pass it directly as a parameter to the translation
             returnString = this.user.getTranslationOrNothing(referenceKey + "lore", Constants.PARAMETER_DESCRIPTION,
-                    description, "[requirements]", requirements, "[rewards]", rewards, "[status]", status, "[cooldown]",
+                    description, "[requirements]", requirements, Constants.PARAMETER_REWARDS, rewards, Constants.PARAMETER_STATUS, status, "[cooldown]",
                     coolDown);
 
             // Remove empty lines and return the resulting lines as a list
-            return Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+            return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                     .collect(Collectors.toList());
         }
     }
@@ -297,11 +297,11 @@ public abstract class CommonPanel {
                 blocks.append("\n");
 
                 if (entry.getValue() > 1) {
-                    blocks.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                    blocks.append(this.user.getTranslationOrNothing(reference + Constants.BLOCKS_VALUE,
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
                             Utils.prettifyObject(entry.getKey(), this.user)));
                 } else {
-                    blocks.append(this.user.getTranslationOrNothing(reference + "block-value",
+                    blocks.append(this.user.getTranslationOrNothing(reference + Constants.BLOCK_VALUE,
                             Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                 }
             });
@@ -355,11 +355,11 @@ public abstract class CommonPanel {
                 builder.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                    builder.append(this.user.getTranslationOrNothing(reference + Constants.BLOCKS_VALUE,
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
                             Utils.prettifyObject(entry.getKey(), this.user)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                    builder.append(this.user.getTranslationOrNothing(reference + Constants.BLOCK_VALUE,
                             Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                 }
             });
@@ -380,11 +380,11 @@ public abstract class CommonPanel {
                 builder.append("\n");
 
                 if (entry.getValue() > 1) {
-                    builder.append(this.user.getTranslationOrNothing(reference + "blocks-value",
+                    builder.append(this.user.getTranslationOrNothing(reference + Constants.BLOCKS_VALUE,
                             Constants.PARAMETER_NUMBER, String.valueOf(entry.getValue()), Constants.PARAMETER_MATERIAL,
                             Utils.prettifyObject(entry.getKey(), this.user)));
                 } else {
-                    builder.append(this.user.getTranslationOrNothing(reference + "block-value",
+                    builder.append(this.user.getTranslationOrNothing(reference + Constants.BLOCK_VALUE,
                             Constants.PARAMETER_MATERIAL, Utils.prettifyObject(entry.getKey(), this.user)));
                 }
             });
@@ -412,17 +412,17 @@ public abstract class CommonPanel {
 
         if (!requirement.getRequiredItems().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_TITLE));
             Utils.groupEqualItems(requirement.getRequiredItems(), requirement.getIgnoreMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
-                                    String.valueOf(itemStack.getAmount()), "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEMS_VALUE, Constants.PARAMETER_NUMBER,
+                                    String.valueOf(itemStack.getAmount()), Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_VALUE, Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         }
                     });
@@ -434,7 +434,7 @@ public abstract class CommonPanel {
 
         String warning = requirement.isTakeItems() ? this.user.getTranslationOrNothing(reference + "warning") : "";
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[items]", items, "[warning]", warning);
+        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_ITEMS, items, "[warning]", warning);
     }
 
     /**
@@ -447,7 +447,7 @@ public abstract class CommonPanel {
         final String reference = Constants.DESCRIPTIONS + "challenge.requirements.other.";
 
         String experience = requirement.getRequiredExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.EXPERIENCE_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(requirement.getRequiredExperience()));
 
         String experienceWarning = requirement.getRequiredExperience() > 0 && requirement.isTakeExperience()
@@ -455,18 +455,18 @@ public abstract class CommonPanel {
                 : "";
 
         String money = !this.addon.isEconomyProvided() || requirement.getRequiredMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.MONEY_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(requirement.getRequiredMoney()));
 
         String moneyWarning = this.addon.isEconomyProvided() && requirement.getRequiredMoney() > 0
                 && requirement.isTakeMoney() ? this.user.getTranslationOrNothing(reference + "money-warning") : "";
 
         String level = !this.addon.isLevelProvided() || requirement.getRequiredIslandLevel() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "level", "[number]",
+                : this.user.getTranslationOrNothing(reference + "level", Constants.PARAMETER_NUMBER,
                         String.valueOf(requirement.getRequiredIslandLevel()));
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[experience]", experience, "[experience-warning]",
-                experienceWarning, "[money]", money, "[money-warning]", moneyWarning, "[level]", level);
+        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_EXPERIENCE, experience, "[experience-warning]",
+                experienceWarning, Constants.PARAMETER_MONEY, money, "[money-warning]", moneyWarning, "[level]", level);
     }
 
     /**
@@ -486,27 +486,27 @@ public abstract class CommonPanel {
         StringBuilder statistics = new StringBuilder();
         for (StatisticRec s : requirement.getRequiredStatistics()) {
             String statistic = switch (s.statistic().getType()) {
-            case UNTYPED -> this.user.getTranslationOrNothing(reference + "statistic", "[statistic]",
-                    Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()));
+            case UNTYPED -> this.user.getTranslationOrNothing(reference + "statistic", Constants.PARAMETER_STATISTIC,
+                    Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_NUMBER, String.valueOf(s.amount()));
         case ITEM, BLOCK -> {
                 if (s.amount() > 1) {
-                    yield this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                            Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()),
-                            "[target]", Utils.prettifyObject(s.material(), this.user));
+                    yield this.user.getTranslationOrNothing(reference + "multiple-target", Constants.PARAMETER_STATISTIC,
+                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_NUMBER, String.valueOf(s.amount()),
+                            Constants.PARAMETER_TARGET, Utils.prettifyObject(s.material(), this.user));
             } else {
-                    yield this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                            Utils.prettifyObject(s.statistic(), this.user), "[target]",
+                    yield this.user.getTranslationOrNothing(reference + "single-target", Constants.PARAMETER_STATISTIC,
+                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_TARGET,
                             Utils.prettifyObject(s.material(), this.user));
             }
         }
         case ENTITY -> {
                 if (s.amount() > 1) {
-                    yield this.user.getTranslationOrNothing(reference + "multiple-target", "[statistic]",
-                            Utils.prettifyObject(s.statistic(), this.user), "[number]", String.valueOf(s.amount()),
-                            "[target]", Utils.prettifyObject(s.entity(), this.user));
+                    yield this.user.getTranslationOrNothing(reference + "multiple-target", Constants.PARAMETER_STATISTIC,
+                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_NUMBER, String.valueOf(s.amount()),
+                            Constants.PARAMETER_TARGET, Utils.prettifyObject(s.entity(), this.user));
             } else {
-                    yield this.user.getTranslationOrNothing(reference + "single-target", "[statistic]",
-                            Utils.prettifyObject(s.statistic(), this.user), "[target]",
+                    yield this.user.getTranslationOrNothing(reference + "single-target", Constants.PARAMETER_STATISTIC,
+                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_TARGET,
                             Utils.prettifyObject(s.entity(), this.user));
             }
         }
@@ -515,7 +515,7 @@ public abstract class CommonPanel {
 
             String warning = s.reduceStatistic() ? this.user.getTranslationOrNothing(reference + "warning")
                     : "";
-            statistics.append(this.user.getTranslationOrNothing(reference + "lore", "[statistic]", statistic, "[warning]",
+            statistics.append(this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_STATISTIC, statistic, "[warning]",
                     warning));
             statistics.append("\n");
 
@@ -586,17 +586,17 @@ public abstract class CommonPanel {
 
         if (!challenge.getRepeatItemReward().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_TITLE));
             Utils.groupEqualItems(challenge.getRepeatItemReward(), challenge.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
-                                    String.valueOf(itemStack.getAmount()), "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEMS_VALUE, Constants.PARAMETER_NUMBER,
+                                    String.valueOf(itemStack.getAmount()), Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_VALUE, Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         }
                     });
@@ -607,11 +607,11 @@ public abstract class CommonPanel {
         }
 
         String experience = challenge.getRepeatExperienceReward() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.EXPERIENCE_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(challenge.getRepeatExperienceReward()));
 
         String money = !this.addon.isEconomyProvided() || challenge.getRepeatMoneyReward() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.MONEY_KEY, Constants.PARAMETER_NUMBER,
                         addon.getPlugin().getVault().map(v -> v.format(challenge.getRepeatMoneyReward()))
                                 .orElse(String.valueOf(challenge.getRepeatMoneyReward())));
 
@@ -621,12 +621,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!challenge.getRepeatRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.user.getTranslationOrNothing(reference + Constants.COMMANDS_TITLE));
 
                 challenge.getRepeatRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.user.getTranslationOrNothing(reference + Constants.COMMAND_KEY, Constants.PARAMETER_COMMAND, command));
                 });
             }
 
@@ -642,19 +642,19 @@ public abstract class CommonPanel {
         }
 
         String rewardText = this.user
-                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".repeat-reward-text");
+                .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".repeat-reward-text");
 
         if (rewardText.isEmpty()) {
             rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText())), 30);
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
-                "[experience]", experience, "[money]", money, "[commands]", commands);
+        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
+                Constants.PARAMETER_EXPERIENCE, experience, Constants.PARAMETER_MONEY, money, Constants.PARAMETER_COMMANDS, commands);
     }
 
     /**
      * This method creates reward lore text.
-     * 
+     *
      * @param challenge Challenge which reward lore must be generated.
      * @return Reward text.
      */
@@ -665,17 +665,17 @@ public abstract class CommonPanel {
 
         if (!challenge.getRewardItems().isEmpty() && !challenge.isHideRewardItems()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_TITLE));
             Utils.groupEqualItems(challenge.getRewardItems(), challenge.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
-                                    String.valueOf(itemStack.getAmount()), "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEMS_VALUE, Constants.PARAMETER_NUMBER,
+                                    String.valueOf(itemStack.getAmount()), Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_VALUE, Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         }
                     });
@@ -686,11 +686,11 @@ public abstract class CommonPanel {
         }
 
         String experience = challenge.getRewardExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.EXPERIENCE_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(challenge.getRewardExperience()));
 
         String money = !this.addon.isEconomyProvided() || challenge.getRewardMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.MONEY_KEY, Constants.PARAMETER_NUMBER,
                         addon.getPlugin().getVault().map(v -> v.format(challenge.getRewardMoney()))
                                 .orElse(String.valueOf(challenge.getRewardMoney())));
 
@@ -700,12 +700,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!challenge.getRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.user.getTranslationOrNothing(reference + Constants.COMMANDS_TITLE));
 
                 challenge.getRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.user.getTranslationOrNothing(reference + Constants.COMMAND_KEY, Constants.PARAMETER_COMMAND, command));
                 });
             }
 
@@ -721,14 +721,14 @@ public abstract class CommonPanel {
         }
 
         String rewardText = this.user
-                .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".reward-text");
+                .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
             rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRewardText())), 30);
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
-                "[experience]", experience, "[money]", money, "[commands]", commands);
+        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
+                Constants.PARAMETER_EXPERIENCE, experience, Constants.PARAMETER_MONEY, money, Constants.PARAMETER_COMMANDS, commands);
     }
 
     /**
@@ -753,24 +753,24 @@ public abstract class CommonPanel {
         waiverAdd += level.getWaiverAmount();
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) ? ""
-                : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
+                : this.user.getTranslationOrNothing(reference + "waiver", Constants.PARAMETER_NUMBER,
                         String.valueOf(waiverAdd));
         // Get rewards in single string
         String rewards = this.generateReward(level);
 
-        String returnString = this.user.getTranslation(reference + "lore", "[text]",
-                Util.translateColorCodes(level.getUnlockMessage()), "[waiver]", waiver, "[rewards]", rewards,
-                "[status]", status);
+        String returnString = this.user.getTranslation(reference + "lore", Constants.PARAMETER_TEXT,
+                Util.translateColorCodes(level.getUnlockMessage()), "[waiver]", waiver, Constants.PARAMETER_REWARDS, rewards,
+                Constants.PARAMETER_STATUS, status);
 
         // Remove empty lines and returns as a list.
 
-        return Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+        return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                 .collect(Collectors.toList());
     }
 
     /**
      * This method generates level description string.
-     * 
+     *
      * @param levelStatus Level which string must be generated.
      * @param user        User who calls generation.
      * @return List with generated description.
@@ -794,7 +794,7 @@ public abstract class CommonPanel {
         // Get requirements in single string
         String waiver = this.manager.isLastLevel(level, this.world) || !levelStatus.isUnlocked()
                 || levelStatus.isComplete() ? ""
-                        : this.user.getTranslationOrNothing(reference + "waiver", "[number]",
+                        : this.user.getTranslationOrNothing(reference + "waiver", Constants.PARAMETER_NUMBER,
                                 String.valueOf(waiverAdd));
         // Get rewards in single string
         String rewards = !levelStatus.isUnlocked() ? "" : this.generateReward(level);
@@ -806,12 +806,12 @@ public abstract class CommonPanel {
             description = Util.translateColorCodes(String.join("\n", level.getUnlockMessage()));
         }
 
-        String returnString = this.user.getTranslation(reference + "lore", "[text]", description, "[waiver]", waiver,
-                "[rewards]", rewards, "[status]", status);
+        String returnString = this.user.getTranslation(reference + "lore", Constants.PARAMETER_TEXT, description, "[waiver]", waiver,
+                Constants.PARAMETER_REWARDS, rewards, Constants.PARAMETER_STATUS, status);
 
         // Remove empty lines and returns as a list.
 
-        return Arrays.stream(returnString.replaceAll("(?m)^[ \\t]*\\r?\\n", "").split("\n"))
+        return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                 .collect(Collectors.toList());
     }
 
@@ -826,7 +826,7 @@ public abstract class CommonPanel {
 
         if (!levelStatus.isUnlocked()) {
             return this.user.getTranslationOrNothing(reference + "locked") + "\n"
-                    + this.user.getTranslationOrNothing(reference + "missing-challenges", "[number]",
+                    + this.user.getTranslationOrNothing(reference + "missing-challenges", Constants.PARAMETER_NUMBER,
                             String.valueOf(levelStatus.getNumberOfChallengesStillToDo()));
         } else if (levelStatus.isComplete()) {
             return this.user.getTranslationOrNothing(reference + "completed");
@@ -838,7 +838,7 @@ public abstract class CommonPanel {
             int doneChallenges = (int) challengeList.stream().filter(challenge -> this.addon.getChallengesManager()
                     .isChallengeComplete(user.getUniqueId(), world, challenge)).count();
 
-            return this.user.getTranslation(reference + "completed-challenges-of", "[number]",
+            return this.user.getTranslation(reference + "completed-challenges-of", Constants.PARAMETER_NUMBER,
                     String.valueOf(doneChallenges), "[max]", String.valueOf(challengeList.size()));
         }
     }
@@ -856,17 +856,17 @@ public abstract class CommonPanel {
 
         if (!level.getRewardItems().isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            builder.append(this.user.getTranslationOrNothing(reference + "item-title"));
+            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_TITLE));
             Utils.groupEqualItems(level.getRewardItems(), level.getIgnoreRewardMetaData()).stream()
                     .sorted(Comparator.comparing(ItemStack::getType)).forEach(itemStack -> {
                         builder.append("\n");
 
                         if (itemStack.getAmount() > 1) {
-                            builder.append(this.user.getTranslationOrNothing(reference + "items-value", "[number]",
-                                    String.valueOf(itemStack.getAmount()), "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEMS_VALUE, Constants.PARAMETER_NUMBER,
+                                    String.valueOf(itemStack.getAmount()), Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         } else {
-                            builder.append(this.user.getTranslationOrNothing(reference + "item-value", "[item]",
+                            builder.append(this.user.getTranslationOrNothing(reference + Constants.ITEM_VALUE, Constants.PARAMETER_ITEM,
                                     Utils.prettifyObject(itemStack, this.user)));
                         }
                     });
@@ -877,11 +877,11 @@ public abstract class CommonPanel {
         }
 
         String experience = level.getRewardExperience() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "experience", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.EXPERIENCE_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(level.getRewardExperience()));
 
         String money = !this.addon.isEconomyProvided() || level.getRewardMoney() <= 0 ? ""
-                : this.user.getTranslationOrNothing(reference + "money", "[number]",
+                : this.user.getTranslationOrNothing(reference + Constants.MONEY_KEY, Constants.PARAMETER_NUMBER,
                         String.valueOf(level.getRewardMoney()));
 
         String commands;
@@ -890,12 +890,12 @@ public abstract class CommonPanel {
             StringBuilder permissionBuilder = new StringBuilder();
 
             if (!level.getRewardCommands().isEmpty()) {
-                permissionBuilder.append(this.user.getTranslationOrNothing(reference + "commands-title"));
+                permissionBuilder.append(this.user.getTranslationOrNothing(reference + Constants.COMMANDS_TITLE));
 
                 level.getRewardCommands().forEach(command -> {
                     permissionBuilder.append("\n");
                     permissionBuilder
-                            .append(this.user.getTranslationOrNothing(reference + "command", "[command]", command));
+                            .append(this.user.getTranslationOrNothing(reference + Constants.COMMAND_KEY, Constants.PARAMETER_COMMAND, command));
                 });
             }
 
@@ -917,8 +917,8 @@ public abstract class CommonPanel {
             rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", level.getRewardText())), 30);
         }
 
-        return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
-                "[experience]", experience, "[money]", money, "[commands]", commands);
+        return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
+                Constants.PARAMETER_EXPERIENCE, experience, Constants.PARAMETER_MONEY, money, Constants.PARAMETER_COMMANDS, commands);
     }
 
     // ---------------------------------------------------------------------

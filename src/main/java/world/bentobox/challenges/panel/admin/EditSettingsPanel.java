@@ -165,7 +165,7 @@ public class EditSettingsPanel extends CommonPanel
         {
             case RESET_ON_NEW -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isResetChallenges() ? "enabled" : "disabled")));
+                    (this.settings.isResetChallenges() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.LAVA_BUCKET);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -177,11 +177,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isResetChallenges();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case BROADCAST -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isBroadcastMessages() ? "enabled" : "disabled")));
+                    (this.settings.isBroadcastMessages() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.JUKEBOX);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -193,11 +193,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isBroadcastMessages();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case REMOVE_COMPLETED -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isRemoveCompleteOneTimeChallenges() ? "enabled" : "disabled")));
+                    (this.settings.isRemoveCompleteOneTimeChallenges() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.MAGMA_BLOCK);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -209,12 +209,12 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isRemoveCompleteOneTimeChallenges();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case ACTIVE_WORLD_LIST -> {
                 description.add(this.user.getTranslation(reference +
                     (this.settings.getUserGuiMode().equals(GuiMode.GAMEMODE_LIST) ?
-                        "disabled" : "enabled")));
+                        Constants.DISABLED_KEY : Constants.ENABLED_KEY)));
 
                 icon = new ItemStack(Material.STONE_BUTTON);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -234,11 +234,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.getUserGuiMode().equals(GuiMode.GAMEMODE_LIST);
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case GAMEMODE_GUI -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isUseCommonGUI() ? "enabled" : "disabled")));
+                    (this.settings.isUseCommonGUI() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -251,11 +251,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isUseCommonGUI();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case STORE_HISTORY -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isStoreHistory() ? "enabled" : "disabled")));
+                    (this.settings.isStoreHistory() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.WRITTEN_BOOK);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -267,7 +267,7 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isStoreHistory();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case PURGE_HISTORY -> {
                 description.add(this.user.getTranslation(reference + "value",
@@ -297,11 +297,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case DATA_PER_ISLAND -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isStoreAsIslandData() ? "enabled" : "disabled")));
+                    (this.settings.isStoreAsIslandData() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.GRASS_BLOCK);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -314,11 +314,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isStoreAsIslandData();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case GLOW_COMPLETED -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isAddCompletedGlow() ? "enabled" : "disabled")));
+                    (this.settings.isAddCompletedGlow() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.GLOWSTONE);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -330,11 +330,11 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isAddCompletedGlow();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case GLOW_COMPLETED_LEVELS -> {
                 description.add(this.user.getTranslation(reference +
-                        (this.settings.isAddCompletedLevelGlow() ? "enabled" : "disabled")));
+                        (this.settings.isAddCompletedLevelGlow() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.GLOWSTONE);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -346,7 +346,7 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isAddCompletedLevelGlow();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case LOCKED_LEVEL_ICON -> {
                 icon = this.settings.getLockedLevelIcon();
@@ -369,7 +369,7 @@ public class EditSettingsPanel extends CommonPanel
                 if (this.selectedButton != button)
                 {
                     description.add("");
-                    description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                    description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
                 }
                 else
                 {
@@ -381,7 +381,7 @@ public class EditSettingsPanel extends CommonPanel
             }
             case SHOW_TITLE -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isShowCompletionTitle() ? "enabled" : "disabled")));
+                    (this.settings.isShowCompletionTitle() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.OAK_SIGN);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -393,7 +393,7 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isShowCompletionTitle();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             case TITLE_SHOWTIME -> {
                 description.add(this.user.getTranslation(reference + "value",
@@ -423,14 +423,14 @@ public class EditSettingsPanel extends CommonPanel
                 glow = false;
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-change"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
             }
             case VISIBILITY_MODE -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE) ? "enabled" : "disabled")) +
+                    (this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE) ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)) +
                     this.user.getTranslation(reference + "visible"));
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN) ? "enabled" : "disabled")) +
+                    (this.settings.getVisibilityMode().equals(VisibilityMode.HIDDEN) ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)) +
                     this.user.getTranslation(reference + "hidden"));
 
                 if (this.settings.getVisibilityMode().equals(VisibilityMode.VISIBLE))
@@ -471,7 +471,7 @@ public class EditSettingsPanel extends CommonPanel
             }
             case INCLUDE_UNDEPLOYED -> {
                 description.add(this.user.getTranslation(reference +
-                    (this.settings.isIncludeUndeployed() ? "enabled" : "disabled")));
+                    (this.settings.isIncludeUndeployed() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
 
                 icon = new ItemStack(Material.BARREL);
                 clickHandler = (panel, user1, clickType, i) -> {
@@ -483,7 +483,7 @@ public class EditSettingsPanel extends CommonPanel
                 glow = this.settings.isIncludeUndeployed();
 
                 description.add("");
-                description.add(this.user.getTranslation(Constants.TIPS + "click-to-toggle"));
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
             default -> {
                 icon = new ItemStack(Material.PAPER);
