@@ -162,7 +162,7 @@ public class CheckPapi {
             }
             // Collect tokens for the left operand until an operator is encountered.
             while (hasNext() && !isOperator(peek())) {
-                if (leftSB.length() > 0) {
+                if (!leftSB.isEmpty()) {
                     leftSB.append(" ");
                 }
                 leftSB.append(next());
@@ -178,7 +178,7 @@ public class CheckPapi {
             // Parse right operand.
             StringBuilder rightSB = new StringBuilder();
             while (hasNext() && !isBooleanOperator(peek())) {
-                if (rightSB.length() > 0) {
+                if (!rightSB.isEmpty()) {
                     rightSB.append(" ");
                 }
                 rightSB.append(next());

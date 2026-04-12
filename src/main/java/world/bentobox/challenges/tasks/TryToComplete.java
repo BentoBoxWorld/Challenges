@@ -1493,26 +1493,20 @@ public class TryToComplete
 
             if (currentValue < s.amount()) {
                 switch (Objects.requireNonNull(s.statistic()).getType()) {
-                case ITEM, BLOCK -> {
-                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
-                            Utils.prettifyObject(s.statistic(), this.user), "[material]",
-                            Utils.prettifyObject(s.material(), this.user), Constants.PARAMETER_VALUE,
-                            String.valueOf(currentValue));
-                }
-                case ENTITY -> {
-                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-entity",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
-                            Utils.prettifyObject(s.statistic(), this.user), "[entity]",
-                            Utils.prettifyObject(s.entity(), this.user), Constants.PARAMETER_VALUE,
-                            String.valueOf(currentValue));
-                }
-                default -> {
-                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met",
-                            TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
-                            Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_VALUE,
-                            String.valueOf(currentValue));
-                }
+                case ITEM, BLOCK -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-material",
+                        TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
+                        Utils.prettifyObject(s.statistic(), this.user), "[material]",
+                        Utils.prettifyObject(s.material(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
+                case ENTITY -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met-entity",
+                        TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
+                        Utils.prettifyObject(s.statistic(), this.user), "[entity]",
+                        Utils.prettifyObject(s.entity(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
+                default -> Utils.sendMessage(this.user, this.world, Constants.ERRORS + "requirement-not-met",
+                        TextVariables.NUMBER, String.valueOf(s.amount()), Constants.PARAMETER_STATISTIC,
+                        Utils.prettifyObject(s.statistic(), this.user), Constants.PARAMETER_VALUE,
+                        String.valueOf(currentValue));
                 }
             } else {
                 factor = s.amount() == 0 ? factor : Math.min(factor, currentValue / s.amount());

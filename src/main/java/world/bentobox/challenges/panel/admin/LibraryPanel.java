@@ -560,7 +560,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
             }
         }
 
-        if (current.length() > 0)
+        if (!current.isEmpty())
         {
             lines.add(current.toString());
         }

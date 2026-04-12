@@ -332,7 +332,7 @@ public class ChallengesManagerTest {
 
         cm.setChallengeComplete(user, world, challenge, 20);
         File plData = new File(database, "ChallengesPlayerData");
-        File checkPd = new File(plData, playerID.toString() + ".json");
+        File checkPd = new File(plData, playerID + ".json");
         assertTrue(checkPd.exists());
 
         cm.wipeDatabase(false, "");
@@ -350,7 +350,7 @@ public class ChallengesManagerTest {
         cm.setChallengeComplete(user, world, challenge, 20);
         cm.save();
         File plData = new File(database, "ChallengesPlayerData");
-        File checkLv = new File(plData, playerID.toString() + ".json");
+        File checkLv = new File(plData, playerID + ".json");
         assertTrue(checkLv.exists());
         cm.wipePlayers("");
     }

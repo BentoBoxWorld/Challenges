@@ -979,7 +979,7 @@ public abstract class CommonPanel {
                 }
             }
 
-            if (current.length() > 0)
+            if (!current.isEmpty())
             {
                 result.add(current.toString());
             }
