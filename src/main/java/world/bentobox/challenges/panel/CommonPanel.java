@@ -7,6 +7,7 @@ package world.bentobox.challenges.panel;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -644,7 +645,7 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".repeat-reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText()));
+            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
@@ -723,7 +724,7 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing("challenges.challenges." + challenge.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = Util.translateColorCodes(String.join("\n", challenge.getRewardText()));
+            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRewardText())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
@@ -913,12 +914,88 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing("challenges.levels." + level.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = Util.translateColorCodes(String.join("\n", level.getRewardText()));
+            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", level.getRewardText())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", "[text]", rewardText, "[items]", items,
                 "[experience]", experience, "[money]", money, "[commands]", commands);
     }
+
+    // ---------------------------------------------------------------------
+    // Section: Utilities
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * Word-wraps {@code text} so that no visible line exceeds {@code width} characters.
+     * MiniMessage tags ({@code <tag>}) and legacy §x codes are excluded from the width
+     * measurement. Existing newlines in the source text are preserved as line breaks.
+     *
+     * @param text  the text to wrap (may contain {@code \n} and formatting tags)
+     * @param width maximum visible characters per line
+     * @return the wrapped text with lines joined by {@code \n}
+     */
+    private static String wrapToWidth(String text, int width)
+    {
+        if (text == null || text.isEmpty())
+        {
+            return text == null ? "" : text;
+        }
+
+        List<String> result = new ArrayList<>();
+
+        for (String line : text.split("\n", -1))
+        {
+            if (line.isEmpty())
+            {
+                result.add("");
+                continue;
+            }
+
+            StringBuilder current = new StringBuilder();
+
+            for (String word : line.split("\\s+"))
+            {
+                if (word.isEmpty())
+                {
+                    continue;
+                }
+
+                int currentLen = stripFormatting(current.toString()).length();
+                int wordLen    = stripFormatting(word).length();
+
+                if (currentLen == 0)
+                {
+                    current.append(word);
+                }
+                else if (currentLen + 1 + wordLen <= width)
+                {
+                    current.append(' ').append(word);
+                }
+                else
+                {
+                    result.add(current.toString());
+                    current.setLength(0);
+                    current.append(word);
+                }
+            }
+
+            if (current.length() > 0)
+            {
+                result.add(current.toString());
+            }
+        }
+
+        return String.join("\n", result);
+    }
+
+
+    /** Strips MiniMessage {@code <tag>} sequences and legacy {@code §x} codes. */
+    private static String stripFormatting(String text)
+    {
+        return text.replaceAll("<[^>]+>", "").replaceAll("§[0-9a-fk-orA-FK-OR]", "");
+    }
+
 
     // ---------------------------------------------------------------------
     // Section: Variables
