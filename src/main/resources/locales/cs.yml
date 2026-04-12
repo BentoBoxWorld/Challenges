@@ -31,799 +31,799 @@ challenges:
         parameters: "<challenge_id> [count]"
   gui:
     titles:
-      player-gui: "&0&l Nabídka výzev"
-      gamemode-gui: "&0&l Vyberte GameMode"
-      multiple-gui: "&0&l Kolikrát?"
-      admin-gui: "&0&l Nabídka správce výzev"
-      edit-challenge: "&0&l Upravit [challenge]"
-      edit-level: "&0&l Upravit [level]"
-      settings: "&0&l Nastavení"
-      choose-challenge: "&0&l Vyber výzvu"
-      choose-level: "&0&l Vyber level"
-      choose-player: "&0&l Vyber hráče"
-      library: Knihovna &0&l
-      manage-blocks: "&0&l Spravovat bloky"
-      manage-entities: "&0&l Spravovat entity"
-      type-selector: "&0&l Výběr typu výzvy"
-      item-selector: "&0&l Výběr položek"
-      block-selector: "&0&l Výběr bloku"
-      entity-selector: "&0&l Výběr entity"
-      challenge-selector: "&0&l Výběr výzvy"
-      statistic-selector: "&0&l Výběr statistiky"
-      environment-selector: "&0&l Výběr prostředí"
+      player-gui: "<black><bold>Nabídka výzev"
+      gamemode-gui: "<black><bold>Vyberte GameMode"
+      multiple-gui: "<black><bold>Kolikrát?"
+      admin-gui: "<black><bold>Nabídka správce výzev"
+      edit-challenge: "<black><bold>Upravit [challenge]"
+      edit-level: "<black><bold>Upravit [level]"
+      settings: "<black><bold>Nastavení"
+      choose-challenge: "<black><bold>Vyber výzvu"
+      choose-level: "<black><bold>Vyber level"
+      choose-player: "<black><bold>Vyber hráče"
+      library: Knihovna <black><bold>
+      manage-blocks: "<black><bold>Spravovat bloky"
+      manage-entities: "<black><bold>Spravovat entity"
+      type-selector: "<black><bold>Výběr typu výzvy"
+      item-selector: "<black><bold>Výběr položek"
+      block-selector: "<black><bold>Výběr bloku"
+      entity-selector: "<black><bold>Výběr entity"
+      challenge-selector: "<black><bold>Výběr výzvy"
+      statistic-selector: "<black><bold>Výběr statistiky"
+      environment-selector: "<black><bold>Výběr prostředí"
     buttons:
       free-challenges:
-        name: "&f&l Výzvy zdarma"
+        name: "<white><bold>Výzvy zdarma"
         description: |-
-          &7 Zobrazí seznam
-          &7 bezplatných výzev
+          <gray>Zobrazí seznam
+          <gray>bezplatných výzev
       return:
-        name: "&f&l Návrat"
+        name: "<white><bold>Návrat"
         description: |-
-          &7 Návrat do předchozí nabídky
-          &7 nebo ukončete GUI
+          <gray>Návrat do předchozí nabídky
+          <gray>nebo ukončete GUI
       previous:
-        name: "&f&l Předchozí stránka"
-        description: "&7 Přepnout na stránku &e [number] &7"
+        name: "<white><bold>Předchozí stránka"
+        description: "<gray>Přepnout na stránku <yellow>[number] <gray>"
       next:
-        name: "&f&l Další stránka"
-        description: "&7 Přepnout na stránku &e [number] &7"
+        name: "<white><bold>Další stránka"
+        description: "<gray>Přepnout na stránku <yellow>[number] <gray>"
       reduce:
-        name: "&f&l Snížit"
-        description: "&7 Snížit o &e [number]"
+        name: "<white><bold>Snížit"
+        description: "<gray>Snížit o <yellow>[number]"
       increase:
-        name: "&f&l Zvýšit"
-        description: "&7 Zvýšit o &e [number]"
+        name: "<white><bold>Zvýšit"
+        description: "<gray>Zvýšit o <yellow>[number]"
       accept:
-        name: "&f&l Hotovo"
+        name: "<white><bold>Hotovo"
         description: |-
-          &7 Dokonči výzvu &e [number]
-          &7 krát (-s)
+          <gray>Dokonči výzvu <yellow>[number]
+          <gray>krát (-s)
       quit:
-        name: "&f&l Ukončit"
-        description: "&7 Ukončete GUI."
+        name: "<white><bold>Ukončit"
+        description: "<gray>Ukončete GUI."
       complete_user_challenges:
-        name: "&f&l Dokončit uživatelskou výzvu(-y)"
+        name: "<white><bold>Dokončit uživatelskou výzvu(-y)"
         description: |-
-          &7 Umožňuje vybrat uživatele a
-          &7 kompletních výzev pro
-          &7 ho
+          <gray>Umožňuje vybrat uživatele a
+          <gray>kompletních výzev pro
+          <gray>ho
       reset_user_challenges:
-        name: "&f&l Obnovit uživatelské výzvy"
+        name: "<white><bold>Obnovit uživatelské výzvy"
         description: |-
-          &7 Umožňuje vybrat uživatele a
-          &7 resetoval své výzvy
+          <gray>Umožňuje vybrat uživatele a
+          <gray>resetoval své výzvy
       add_challenge:
-        name: "&f&l Vytvořit výzvu"
+        name: "<white><bold>Vytvořit výzvu"
         description: |-
-          &7 Spustí proces pro
-          &7 vytvoření nové výzvy.
+          <gray>Spustí proces pro
+          <gray>vytvoření nové výzvy.
       add_level:
-        name: "&f&l Vytvořit úroveň"
+        name: "<white><bold>Vytvořit úroveň"
         description: |-
-          &7 Spustí proces pro
-          &7 vytvoření nové úrovně.
+          <gray>Spustí proces pro
+          <gray>vytvoření nové úrovně.
       edit_challenge:
-        name: "&f&l Upravit výzvu"
+        name: "<white><bold>Upravit výzvu"
         description: |-
-          &7 Umožňuje vybrat a upravit
-          &7 výzva.
+          <gray>Umožňuje vybrat a upravit
+          <gray>výzva.
       edit_level:
-        name: "&f&l Upravit úroveň"
+        name: "<white><bold>Upravit úroveň"
         description: |-
-          &7 Umožňuje vybrat a upravit
-          &7 úroveň.
+          <gray>Umožňuje vybrat a upravit
+          <gray>úroveň.
       delete_challenge:
-        name: "&f&l Smazat výzvu"
+        name: "<white><bold>Smazat výzvu"
         description: |-
-          &7 Umožňuje vybrat a odstranit
-          &7 výzva.
+          <gray>Umožňuje vybrat a odstranit
+          <gray>výzva.
       delete_level:
-        name: "&f&l Odstranit úroveň"
+        name: "<white><bold>Odstranit úroveň"
         description: |-
-          &7 Umožňuje vybrat a odstranit
-          &7 úroveň.
+          <gray>Umožňuje vybrat a odstranit
+          <gray>úroveň.
       edit_settings:
-        name: "&f&l Nastavení"
+        name: "<white><bold>Nastavení"
         description: |-
-          &7 Umožňuje prohlížet a upravovat
-          &7 nastavení doplňku.
+          <gray>Umožňuje prohlížet a upravovat
+          <gray>nastavení doplňku.
       complete_wipe:
-        name: "&f&l Kompletní vymazání"
+        name: "<white><bold>Kompletní vymazání"
         description: |-
-          &7 Zcela odstraňuje výzvy
-          Databáze doplňků &7, včetně
-          &7 uživatelských dat.
+          <gray>Zcela odstraňuje výzvy
+          Databáze doplňků <gray>, včetně
+          <gray>uživatelských dat.
       challenge_wipe:
-        name: "&f&l Vymazání výzvy"
+        name: "<white><bold>Vymazání výzvy"
         description: |-
-          &7 Zcela odstraňuje výzvy
-          &7 a úrovně z databáze.
+          <gray>Zcela odstraňuje výzvy
+          <gray>a úrovně z databáze.
       user_wipe:
-        name: "&f&l Vymazání uživatele"
+        name: "<white><bold>Vymazání uživatele"
         description: |-
-          &7 Úplně vymaže uživatele
-          &7 data z databáze.
+          <gray>Úplně vymaže uživatele
+          <gray>data z databáze.
       library:
-        name: "&f&l Knihovna"
+        name: "<white><bold>Knihovna"
         description: |-
-          &7 Otevře veřejnost
-          Knihovna výzev &7.
+          <gray>Otevře veřejnost
+          Knihovna výzev <gray>.
       import_database:
-        name: "&f&l Importovat databázi"
+        name: "<white><bold>Importovat databázi"
         description: |-
-          &7 Umožňuje exportovat import
-          &7 databáze výzev.
+          <gray>Umožňuje exportovat import
+          <gray>databáze výzev.
       import_template:
-        name: "&f&l Importovat šablonu"
+        name: "<white><bold>Importovat šablonu"
         description: |-
-          &7 Umožňuje importovat šablonu
-          &7 soubor s výzvami.
+          <gray>Umožňuje importovat šablonu
+          <gray>soubor s výzvami.
       export_challenges:
-        name: "&f&l Výzvy exportu"
+        name: "<white><bold>Výzvy exportu"
         description: |-
-          &7 Umožňuje exportovat databázi
-          &7 do místního souboru.
+          <gray>Umožňuje exportovat databázi
+          <gray>do místního souboru.
       properties:
-        name: "&f&l Vlastnosti"
-        description: "&7 Zobrazit všechny hlavní vlastnosti."
+        name: "<white><bold>Vlastnosti"
+        description: "<gray>Zobrazit všechny hlavní vlastnosti."
       requirements:
-        name: "&f&l Požadavky"
-        description: "&7 Zobrazit vlastnosti požadavků."
+        name: "<white><bold>Požadavky"
+        description: "<gray>Zobrazit vlastnosti požadavků."
       rewards:
-        name: "&f&l Odměny"
-        description: "&7 Zobrazit vlastnosti odměn."
+        name: "<white><bold>Odměny"
+        description: "<gray>Zobrazit vlastnosti odměn."
       deployed:
-        name: "&f&l Nasazení"
+        name: "<white><bold>Nasazení"
         description: |-
-          &7 Přepnout, pokud je výzva
-          &7 nasazeno a uživatelé mohou
-          &7 dokončit.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Přepnout, pokud je výzva
+          <gray>nasazeno a uživatelé mohou
+          <gray>dokončit.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       name:
-        name: "&f&l Jméno"
+        name: "<white><bold>Jméno"
         description: |-
-          &7 Umožňuje změnu
-          &7 zobrazovaný název.
-        value: "&7 Aktuálně: &r [name]"
+          <gray>Umožňuje změnu
+          <gray>zobrazovaný název.
+        value: "<gray>Aktuálně: <reset>[name]"
       remove_on_complete:
-        name: "&f&l Skrýt po dokončení"
+        name: "<white><bold>Skrýt po dokončení"
         description: |-
-          &7 Přepnout, pokud má být výzva
-          &7 poté skryto před hráčem
-          &7 je hotovo.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Přepnout, pokud má být výzva
+          <gray>poté skryto před hráčem
+          <gray>je hotovo.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       description:
-        name: "&f&l Popis"
+        name: "<white><bold>Popis"
         description: |-
-          &7 Konkrétní popis
-          &7 za výzvu. Barva
-          Musí na něj být použity kódy &7.
-        value: "&7 Aktuální popis:"
+          <gray>Konkrétní popis
+          <gray>za výzvu. Barva
+          Musí na něj být použity kódy <gray>.
+        value: "<gray>Aktuální popis:"
       environment:
-        name: "&f&l rozměr"
+        name: "<white><bold>rozměr"
         description: |-
-          &7 Umožňuje omezit ve kterém
-          &7 rozměr výzvy
-          &7 lze dokončit.
-        enabled: "&2"
-        disabled: "&C"
+          <gray>Umožňuje omezit ve kterém
+          <gray>rozměr výzvy
+          <gray>lze dokončit.
+        enabled: "<dark_green>"
+        disabled: "<red>"
       order:
-        name: "&f&l Objednávka"
+        name: "<white><bold>Objednávka"
         description: |-
-          &7 Umožňuje změnit pořadí
-          &7 objektů.
-          &7 Objekty se stejnými čísly
-          &7 bude objednáno jejich
-          &7 jedinečných ID jmen.
-        value: "&7 Aktuální objednávka: &e [number]"
+          <gray>Umožňuje změnit pořadí
+          <gray>objektů.
+          <gray>Objekty se stejnými čísly
+          <gray>bude objednáno jejich
+          <gray>jedinečných ID jmen.
+        value: "<gray>Aktuální objednávka: <yellow>[number]"
       icon:
-        name: Ikona &f&l
+        name: Ikona <white><bold>
         description: |-
-          &7 Umožňuje změnit ikonu
-          &7 pro tuto výzvu.
+          <gray>Umožňuje změnit ikonu
+          <gray>pro tuto výzvu.
       locked_icon:
-        name: "&f&l Ikona uzamčení"
+        name: "<white><bold>Ikona uzamčení"
         description: |-
-          &7 Umožňuje změnit uzamčeno
-          Ikona úrovně &7.
+          <gray>Umožňuje změnit uzamčeno
+          Ikona úrovně <gray>.
       required_permissions:
-        name: "&f&l Požadovaná oprávnění"
+        name: "<white><bold>Požadovaná oprávnění"
         description: |-
-          &7 Umožňuje požadovanou změnu
-          &7 oprávnění pro toto
-          &7 výzva k dokončení.
-        title: "&7 Oprávnění: "
-        permission: " &8 – [permission]"
-        none: "&7 Oprávnění nejsou nastavena."
+          <gray>Umožňuje požadovanou změnu
+          <gray>oprávnění pro toto
+          <gray>výzva k dokončení.
+        title: "<gray>Oprávnění: "
+        permission: " <dark_gray>– [permission]"
+        none: "<gray>Oprávnění nejsou nastavena."
       remove_entities:
-        name: "&f&l Odebrat entity"
+        name: "<white><bold>Odebrat entity"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 požadovaných subjektů
-          &7 být odstraněn ze světa
-          &7 po dokončení
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>požadovaných subjektů
+          <gray>být odstraněn ze světa
+          <gray>po dokončení
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       required_entities:
-        name: "&f&l Požadované entity"
+        name: "<white><bold>Požadované entity"
         description: |-
-          &7 Umožňuje požadovanou změnu
-          &7 subjektů za to
-          &7 výzva k dokončení.
-        title: "&7 entity: "
-        list: " &8 - [number] x [entity]"
-        none: "&7 Entity nejsou přidány."
+          <gray>Umožňuje požadovanou změnu
+          <gray>subjektů za to
+          <gray>výzva k dokončení.
+        title: "<gray>entity: "
+        list: " <dark_gray>- [number] x [entity]"
+        none: "<gray>Entity nejsou přidány."
       remove_blocks:
-        name: "&f&l Odebrat bloky"
+        name: "<white><bold>Odebrat bloky"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 požadovaných bloků bude
-          &7 být odstraněn ze světa
-          &7 po dokončení
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>požadovaných bloků bude
+          <gray>být odstraněn ze světa
+          <gray>po dokončení
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       required_blocks:
-        name: "&f&l Požadované bloky"
+        name: "<white><bold>Požadované bloky"
         description: |-
-          &7 Umožňuje požadovanou změnu
-          K tomu &7 bloků
-          &7 výzva k dokončení.
-        title: "&7 bloků: "
-        list: " &8 - [number] x [block]"
-        none: "&7 Bloky nejsou přidány."
+          <gray>Umožňuje požadovanou změnu
+          K tomu <gray>bloků
+          <gray>výzva k dokončení.
+        title: "<gray>bloků: "
+        list: " <dark_gray>- [number] x [block]"
+        none: "<gray>Bloky nejsou přidány."
       search_radius:
-        name: "&f&l Poloměr hledání"
+        name: "<white><bold>Poloměr hledání"
         description: |-
-          &7 Umožňuje změnit poloměr
-          &7 kolem hráče, ze kterého
-          &7 bloků a/nebo entit
-          &7 zjištěno.
-        value: "&7 Aktuální vzdálenost: &e [number]"
+          <gray>Umožňuje změnit poloměr
+          <gray>kolem hráče, ze kterého
+          <gray>bloků a/nebo entit
+          <gray>zjištěno.
+        value: "<gray>Aktuální vzdálenost: <yellow>[number]"
       remove_items:
-        name: "&f&l Odebrat položky"
+        name: "<white><bold>Odebrat položky"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 požadovaných položek bude
-          &7 být odstraněn z inventáře
-          &7 po dokončení
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>požadovaných položek bude
+          <gray>být odstraněn z inventáře
+          <gray>po dokončení
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       required_items:
-        name: "&f&l Požadované položky"
+        name: "<white><bold>Požadované položky"
         description: |-
-          &7 Umožňuje požadovanou změnu
-          &7 položek k tomu
-          &7 výzva k dokončení.
-        title: "&7 položek: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Itemy nejsou přidány."
+          <gray>Umožňuje požadovanou změnu
+          <gray>položek k tomu
+          <gray>výzva k dokončení.
+        title: "<gray>položek: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Itemy nejsou přidány."
       add_ignored_meta:
-        name: "&f&l Přidat Ignorovat metadata"
+        name: "<white><bold>Přidat Ignorovat metadata"
         description: |-
-          &7 Umožňuje přidat které
-          &7 položky by měly být ignorovány
-          &7 jakákoli metadata, která
-          Je jim přiřazen &7.
-        title: "&7 Itemy: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Položky nejsou přidány."
+          <gray>Umožňuje přidat které
+          <gray>položky by měly být ignorovány
+          <gray>jakákoli metadata, která
+          Je jim přiřazen <gray>.
+        title: "<gray>Itemy: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Položky nejsou přidány."
       remove_ignored_meta:
-        name: "&f&l Odebrat Ignorovat metadata"
+        name: "<white><bold>Odebrat Ignorovat metadata"
         description: |-
-          &7 Umožňuje odstranit které
-          &7 položky by měly být ignorovány
-          &7 jakákoli metadata, která
-          Je jim přiřazen &7.
+          <gray>Umožňuje odstranit které
+          <gray>položky by měly být ignorovány
+          <gray>jakákoli metadata, která
+          Je jim přiřazen <gray>.
       remove_experience:
-        name: "&f&l Odebrat zážitek"
+        name: "<white><bold>Odebrat zážitek"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 požadované zkušenosti budou
-          &7 být odstraněn z přehrávače
-          &7 po dokončení
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>požadované zkušenosti budou
+          <gray>být odstraněn z přehrávače
+          <gray>po dokončení
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       required_experience:
-        name: "&f&l Požadované zkušenosti"
+        name: "<white><bold>Požadované zkušenosti"
         description: |-
-          &7 Umožňuje změnit
-          &7 požadované zkušenosti pro
-          &7 přehrávač.
-        value: "&7 Aktuální zkušenost: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>požadované zkušenosti pro
+          <gray>přehrávač.
+        value: "<gray>Aktuální zkušenost: <yellow>[number]"
       required_level:
-        name: "&f&l Požadovaná úroveň ostrova"
+        name: "<white><bold>Požadovaná úroveň ostrova"
         description: |-
-          &7 Umožňuje změnit
-          &7 požadovaná úroveň ostrova
-          &7 za výzvu.
-        value: "&7 Aktuální úroveň: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>požadovaná úroveň ostrova
+          <gray>za výzvu.
+        value: "<gray>Aktuální úroveň: <yellow>[number]"
       remove_money:
-        name: "&f&l Odebrat peníze"
+        name: "<white><bold>Odebrat peníze"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 požadované peníze budou
-          &7 být odstraněn z přehrávače
-          &7 účet po dokončení
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>požadované peníze budou
+          <gray>být odstraněn z přehrávače
+          <gray>účet po dokončení
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       required_money:
-        name: "&f&l Požadované peníze"
+        name: "<white><bold>Požadované peníze"
         description: |-
-          &7 Umožňuje změnit
-          &7 vyžaduje od hráče peníze
-          &7 odpovídá za výzvu.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>vyžaduje od hráče peníze
+          <gray>odpovídá za výzvu.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       statistic:
-        name: "&f&l Statistika"
+        name: "<white><bold>Statistika"
         description: |-
-          &7 Umožňuje změnit
-          Typ statistiky &7
-          &7 se zapsal do této výzvy.
-        value: "&7 Aktuální hodnota: &e [statistic]"
+          <gray>Umožňuje změnit
+          Typ statistiky <gray>
+          <gray>se zapsal do této výzvy.
+        value: "<gray>Aktuální hodnota: <yellow>[statistic]"
       statistic_amount:
-        name: "&f&l Cílová hodnota"
+        name: "<white><bold>Cílová hodnota"
         description: |-
-          &7 Umožňuje změnit
-          &7 statistická cílová hodnota
-          &7, které musí být splněny.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>statistická cílová hodnota
+          <gray>, které musí být splněny.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       remove_statistic:
-        name: "&f&l Snížit statistiku"
+        name: "<white><bold>Snížit statistiku"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 statistická hodnota bude
-          &7 se po dokončení sníží
-          &7 výzva.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>statistická hodnota bude
+          <gray>se po dokončení sníží
+          <gray>výzva.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       statistic_blocks:
-        name: "&f&l Cílový blok"
+        name: "<white><bold>Cílový blok"
         description: |-
-          &7 Umožňuje změnit
-          &7 statistický cílový blok.
-        value: "&7 Aktuální blok: &e [block]"
+          <gray>Umožňuje změnit
+          <gray>statistický cílový blok.
+        value: "<gray>Aktuální blok: <yellow>[block]"
       statistic_items:
-        name: "&f&l Cílová položka"
+        name: "<white><bold>Cílová položka"
         description: |-
-          &7 Umožňuje změnit
-          &7 statistická cílová položka.
-        value: "&7 Aktuální položka: &e [item]"
+          <gray>Umožňuje změnit
+          <gray>statistická cílová položka.
+        value: "<gray>Aktuální položka: <yellow>[item]"
       statistic_entities:
-        name: "&f&l Cílová entita"
+        name: "<white><bold>Cílová entita"
         description: |-
-          &7 Umožňuje změnit
-          &7 statistická cílová entita.
-        value: "&7 Aktuální entita: &e [entity]"
+          <gray>Umožňuje změnit
+          <gray>statistická cílová entita.
+        value: "<gray>Aktuální entita: <yellow>[entity]"
       reward_text:
-        name: "&f&l Text odměny"
+        name: "<white><bold>Text odměny"
         description: |-
-          &7 Konkrétní text odměny.
-          &7 Kódy barev musí být
-          &7 se na něj vztahovalo.
-        value: "&7 Aktuální text:"
+          <gray>Konkrétní text odměny.
+          <gray>Kódy barev musí být
+          <gray>se na něj vztahovalo.
+        value: "<gray>Aktuální text:"
       repeat_reward_text:
-        name: "&f&l Opakovat text odměny"
+        name: "<white><bold>Opakovat text odměny"
         description: |-
-          &7 Specifický text odměny za opakování
-          &7 za výzvu. Barva
-          Musí na něj být použity kódy &7.
-        value: "&7 Aktuální text:"
+          <gray>Specifický text odměny za opakování
+          <gray>za výzvu. Barva
+          Musí na něj být použity kódy <gray>.
+        value: "<gray>Aktuální text:"
       reward_items:
-        name: "&f&l Odměnové položky"
+        name: "<white><bold>Odměnové položky"
         description: |-
-          &7 Umožňuje změnit odměnu
-          &7 položek.
-        title: "&7 položek: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Položky nejsou přidány."
+          <gray>Umožňuje změnit odměnu
+          <gray>položek.
+        title: "<gray>položek: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Položky nejsou přidány."
       repeat_reward_items:
-        name: "&f&l Opakovat položky odměn"
+        name: "<white><bold>Opakovat položky odměn"
         description: |-
-          &7 Umožňuje změnit opakování
-          &7 odměn za to
-          &7 výzva.
-        title: "&7 Itemy: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Položky nejsou přidány."
+          <gray>Umožňuje změnit opakování
+          <gray>odměn za to
+          <gray>výzva.
+        title: "<gray>Itemy: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Položky nejsou přidány."
       reward_experience:
-        name: "&f&l Zkušenosti s odměnou"
+        name: "<white><bold>Zkušenosti s odměnou"
         description: |-
-          &7 Umožňuje změnit
-          &7 zkušenost s odměnou za
-          &7 přehrávač.
-        value: "&7 Zkušenosti s odměnou: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>zkušenost s odměnou za
+          <gray>přehrávač.
+        value: "<gray>Zkušenosti s odměnou: <yellow>[number]"
       repeat_reward_experience:
-        name: "&f&l Opakovat odměnu"
+        name: "<white><bold>Opakovat odměnu"
         description: |-
-          &7 Umožňuje změnit
-          &7 opakování odměny
-          &7 pro hráče.
-        value: "&7 Zkušenosti s odměnou: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>opakování odměny
+          <gray>pro hráče.
+        value: "<gray>Zkušenosti s odměnou: <yellow>[number]"
       reward_money:
-        name: "&f&l Odměna"
+        name: "<white><bold>Odměna"
         description: |-
-          &7 Umožňuje změnit
-          &7 peníze na odměnu.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>peníze na odměnu.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       repeat_reward_money:
-        name: "&f&l Opakovat odměnu"
+        name: "<white><bold>Opakovat odměnu"
         description: |-
-          &7 Umožňuje změnit
-          &7 opakování peněz za odměnu
-          &7 za výzvu.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>opakování peněz za odměnu
+          <gray>za výzvu.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       reward_commands:
-        name: "&f&l Příkazy odměny"
+        name: "<white><bold>Příkazy odměny"
         description: |-
-          &7 Konkrétní příkazy k odměně.
-          &8 Tip:
-          &8 Příkaz nevyžaduje
-          &8 zapsat jako první `/`
-          &8 se použije automaticky.
-          &8 Ve výchozím nastavení budou příkazy
-          &8 spuštěný serverem. Však
-          &8 přidání „[SELF]“ na začátku
-          &8 umožní příkaz být
-          &8 provedená hráčem. To také
-          &8 podporuje jeden zástupný symbol
-          &8 `[player]` to bude
-          &8 nahrazeno jménem hráče
-          &8, kteří dokončili výzvu.
-        value: "&7 Aktuální příkazy:"
+          <gray>Konkrétní příkazy k odměně.
+          <dark_gray>Tip:
+          <dark_gray>Příkaz nevyžaduje
+          <dark_gray>zapsat jako první `/`
+          <dark_gray>se použije automaticky.
+          <dark_gray>Ve výchozím nastavení budou příkazy
+          <dark_gray>spuštěný serverem. Však
+          <dark_gray>přidání „[SELF]“ na začátku
+          <dark_gray>umožní příkaz být
+          <dark_gray>provedená hráčem. To také
+          <dark_gray>podporuje jeden zástupný symbol
+          <dark_gray>`[player]` to bude
+          <dark_gray>nahrazeno jménem hráče
+          <dark_gray>, kteří dokončili výzvu.
+        value: "<gray>Aktuální příkazy:"
       repeat_reward_commands:
-        name: "&f&l Opakovat příkazy odměny"
+        name: "<white><bold>Opakovat příkazy odměny"
         description: |-
-          &7 Konkrétní opakovací odměna
-          &7 příkazů pro výzvu.
-          &8 Tip:
-          &8 Příkaz nevyžaduje
-          &8 zapsat jako první `/`
-          &8 se použije automaticky.
-          &8 Ve výchozím nastavení budou příkazy
-          &8 spuštěný serverem. Však
-          &8 přidání „[SELF]“ na začátku
-          &8 umožní příkaz být
-          &8 provedená hráčem. To také
-          &8 podporuje jeden zástupný symbol
-          &8 `[player]` to bude
-          &8 nahrazeno jménem hráče
-          &8, kteří dokončili výzvu.
-        value: "&7 Aktuální příkazy:"
+          <gray>Konkrétní opakovací odměna
+          <gray>příkazů pro výzvu.
+          <dark_gray>Tip:
+          <dark_gray>Příkaz nevyžaduje
+          <dark_gray>zapsat jako první `/`
+          <dark_gray>se použije automaticky.
+          <dark_gray>Ve výchozím nastavení budou příkazy
+          <dark_gray>spuštěný serverem. Však
+          <dark_gray>přidání „[SELF]“ na začátku
+          <dark_gray>umožní příkaz být
+          <dark_gray>provedená hráčem. To také
+          <dark_gray>podporuje jeden zástupný symbol
+          <dark_gray>`[player]` to bude
+          <dark_gray>nahrazeno jménem hráče
+          <dark_gray>, kteří dokončili výzvu.
+        value: "<gray>Aktuální příkazy:"
       repeatable:
-        name: "&f&l Opakovatelné"
+        name: "<white><bold>Opakovatelné"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 výzvou je
-          &7 opakovatelné.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>výzvou je
+          <gray>opakovatelné.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       repeat_count:
-        name: "&f&l Počet opakování"
+        name: "<white><bold>Počet opakování"
         description: |-
-          &7 Umožňuje změnit
-          &7 počet opakování
-          &7 za výzvu.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje změnit
+          <gray>počet opakování
+          <gray>za výzvu.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       cool_down:
-        name: "&f&l Vychladnout"
+        name: "<white><bold>Vychladnout"
         description: |-
-          &7 Umožňuje změnit
-          &7 vychladnout sekund, že
-          Mezi tím je třeba počkat na &7
-          &7 opakovatelná výzva
-          &7 dokončení.
-        value: "&7 Aktuální hodnota: &e [time]"
+          <gray>Umožňuje změnit
+          <gray>vychladnout sekund, že
+          Mezi tím je třeba počkat na <gray>
+          <gray>opakovatelná výzva
+          <gray>dokončení.
+        value: "<gray>Aktuální hodnota: <yellow>[time]"
       challenges:
-        name: "&f&l Výzvy"
+        name: "<white><bold>Výzvy"
         description: |-
-          &7 Zobrazit přiřazené výzvy
-          &7 na úroveň.
+          <gray>Zobrazit přiřazené výzvy
+          <gray>na úroveň.
       waiver_amount:
-        name: "&f&l Částka prominutí"
+        name: "<white><bold>Částka prominutí"
         description: |-
-          &7 Umožňuje nastavit číslo
-          &7 výzev, které mohou
-          &7 bude ponecháno nevyplněno pro
-          &7 odemknutí další úrovně.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Umožňuje nastavit číslo
+          <gray>výzev, které mohou
+          <gray>bude ponecháno nevyplněno pro
+          <gray>odemknutí další úrovně.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       add_challenges:
-        name: "&f&l Přidat výzvu(-y)"
+        name: "<white><bold>Přidat výzvu(-y)"
         description: |-
-          &7 Umožňuje vybrat a
-          &7 přidává výzvy k
-          &7 úroveň.
+          <gray>Umožňuje vybrat a
+          <gray>přidává výzvy k
+          <gray>úroveň.
       remove_challenges:
-        name: "&f&l Odstranit výzvy"
+        name: "<white><bold>Odstranit výzvy"
         description: |-
-          &7 Umožňuje vybrat a
-          &7 odstranit výzvy k
-          &7 úroveň.
+          <gray>Umožňuje vybrat a
+          <gray>odstranit výzvy k
+          <gray>úroveň.
       reset_on_new:
-        name: "&f&l Resetovat na Nový"
+        name: "<white><bold>Resetovat na Nový"
         description: |-
-          &7 Umožňuje přepínat, pokud
-          &7 výzvy by měly být
-          &7 se resetuje, když uživatel odejde
-          &7 ostrov nebo vytvoří nový
-          Ostrov &7.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Umožňuje přepínat, pokud
+          <gray>výzvy by měly být
+          <gray>se resetuje, když uživatel odejde
+          <gray>ostrov nebo vytvoří nový
+          Ostrov <gray>.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       broadcast:
-        name: "&f&l Vysílat"
+        name: "<white><bold>Vysílat"
         description: |-
-          &7 Vysílá výzva a
-          První dokončení úrovně &7
-          &7 všem.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Vysílá výzva a
+          První dokončení úrovně <gray>
+          <gray>všem.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       remove_completed:
-        name: "&f&l Skrýt dokončené"
+        name: "<white><bold>Skrýt dokončené"
         description: |-
-          &7 Skryje dokončené výzvy
-          &7 z nabídky.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Skryje dokončené výzvy
+          <gray>z nabídky.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       glow_completed:
-        name: "&f&l Záře dokončena"
+        name: "<white><bold>Záře dokončena"
         description: |-
-          &7 Přidá okouzlující záři
-          &7 k dokončeným výzvám.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Přidá okouzlující záři
+          <gray>k dokončeným výzvám.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       store_history:
-        name: "&f&l Historie obchodu"
+        name: "<white><bold>Historie obchodu"
         description: |-
-          &7 Ukládá interní historii
-          &7, když je každá výzva
-          &7 dokončeno.
-          &7 Aktuálně pouze k zobrazení
-          &7 v databázi.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Ukládá interní historii
+          <gray>, když je každá výzva
+          <gray>dokončeno.
+          <gray>Aktuálně pouze k zobrazení
+          <gray>v databázi.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       data_per_island:
-        name: "&f&l Obchod na ostrově"
+        name: "<white><bold>Obchod na ostrově"
         description: |-
-          &7 Uloží dokončené
-          &7 výzev na ostrov.
-          &7 Průběh bude sdílen
-          &7 se všemi hráči v týmu.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Uloží dokončené
+          <gray>výzev na ostrov.
+          <gray>Průběh bude sdílen
+          <gray>se všemi hráči v týmu.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       show_title:
-        name: "&f&l Zobrazit název"
+        name: "<white><bold>Zobrazit název"
         description: |-
-          &7 Zobrazí název, když a
-          &7 výzva nebo úroveň
-          &7 je dokončena.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Zobrazí název, když a
+          <gray>výzva nebo úroveň
+          <gray>je dokončena.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       gamemode_gui:
-        name: "&f&l GUI pro výběr herního režimu"
+        name: "<white><bold>GUI pro výběr herního režimu"
         description: |-
-          &7 Povolí jediné GUI
-          &7 je k dispozici přes /challenges
-          příkaz &7.
-          &c Vyžaduje restart serveru.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Povolí jediné GUI
+          <gray>je k dispozici přes /challenges
+          příkaz <gray>.
+          <red>Vyžaduje restart serveru.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       locked_level_icon:
-        name: "&f&l Výchozí ikona uzamčené úrovně"
+        name: "<white><bold>Výchozí ikona uzamčené úrovně"
         description: |-
-          &7 Výchozí ikona pro všechny uzamčené
-          &7 úrovní. Každá úroveň se může změnit
-          &7 této ikony.
+          <gray>Výchozí ikona pro všechny uzamčené
+          <gray>úrovní. Každá úroveň se může změnit
+          <gray>této ikony.
       purge_history:
-        name: "&f&l Životnost historie"
+        name: "<white><bold>Životnost historie"
         description: |-
-          &7 Počet dní, jak dlouho
-          &7 data historie jsou uložena
-          &7 v uživatelských datech.
-          &7 0 znamená, že data budou
-          &7 nelze odstranit.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Počet dní, jak dlouho
+          <gray>data historie jsou uložena
+          <gray>v uživatelských datech.
+          <gray>0 znamená, že data budou
+          <gray>nelze odstranit.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       title_showtime:
-        name: "&f&l Název Showtime"
+        name: "<white><bold>Název Showtime"
         description: |-
-          &7 Počet zaškrtnutí tohoto titulu
-          &7 se zobrazí přehrávači.
-        value: "&7 Aktuální hodnota: &e [number]"
+          <gray>Počet zaškrtnutí tohoto titulu
+          <gray>se zobrazí přehrávači.
+        value: "<gray>Aktuální hodnota: <yellow>[number]"
       active_world_list:
-        name: "&f&l Zobrazit pouze aktivní svět"
+        name: "<white><bold>Zobrazit pouze aktivní svět"
         description: |-
-          &7 Pokud GUI pro výběr herního režimu
-          &7 je povoleno, může se přepínat
-          &7, pokud GUI zobrazuje výběr GameMode
-          &7 aneb výzvy pro současný svět.
-          &c Vyžaduje restart serveru.
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+          <gray>Pokud GUI pro výběr herního režimu
+          <gray>je povoleno, může se přepínat
+          <gray>, pokud GUI zobrazuje výběr GameMode
+          <gray>aneb výzvy pro současný svět.
+          <red>Vyžaduje restart serveru.
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       visibility_mode:
-        name: "&f&l Režim viditelnosti"
+        name: "<white><bold>Režim viditelnosti"
         description: |-
-          &7 Režim viditelnosti pro
-          &7 výzev, které jsou
-          &7 skrytý.
-        enabled: "&2"
-        disabled: "&C"
+          <gray>Režim viditelnosti pro
+          <gray>výzev, které jsou
+          <gray>skrytý.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         visible: Zobrazit viditelné výzvy
         hidden: Zobrazit všechny výzvy
         toggleable: Povolit přepínání
       include_undeployed:
-        name: "&f&l Zahrnout nenasazené výzvy"
-        description: "&7 Označuje, zda není rozmístěno \n&7 výzvy by měly být \n&7
-          se počítá do úrovně \n&7 dokončení."
-        enabled: "&2 Povoleno"
-        disabled: "&c Zakázáno"
+        name: "<white><bold>Zahrnout nenasazené výzvy"
+        description: "<gray>Označuje, zda není rozmístěno \n<gray>výzvy by měly být \n<gray>
+          se počítá do úrovně \n<gray>dokončení."
+        enabled: "<dark_green>Povoleno"
+        disabled: "<red>Zakázáno"
       download:
-        name: "&f&l Stáhnout knihovny"
+        name: "<white><bold>Stáhnout knihovny"
         description: |-
-          &7 K dispozici je ruční aktualizace
-          &7 vyzývá knihovny.
-        enabled: "&2 S vymazáním mezipaměti"
-        disabled: "&c Bez vymazání mezipaměti"
+          <gray>K dispozici je ruční aktualizace
+          <gray>vyzývá knihovny.
+        enabled: "<dark_green>S vymazáním mezipaměti"
+        disabled: "<red>Bez vymazání mezipaměti"
       player:
-        name: "&f&l [name]"
-        description: "&7 Vlastník ostrova: [owner]"
-        members: "&7 Island Members:"
-        member: "&8 - [name]"
+        name: "<white><bold>[name]"
+        description: "<gray>Vlastník ostrova: [owner]"
+        members: "<gray>Island Members:"
+        member: "<dark_gray>- [name]"
         no-island: |-
-          &c Hráč nemá
-          &c ostrov.
+          <red>Hráč nemá
+          <red>ostrov.
       player_list:
-        name: "&f&l Vyberte seznam uživatelů"
+        name: "<white><bold>Vyberte seznam uživatelů"
         description: |-
-          &7 Vyberte seznam uživatelů
-          Mělo by se zobrazit &7.
-        enabled: "&2"
-        disabled: "&C"
+          <gray>Vyberte seznam uživatelů
+          Mělo by se zobrazit <gray>.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         online: Online hráči
         with_island: Hráči s ostrovy
         in_world: Hráči ve světě
       add_block:
-        name: "&f&l Přidat blok"
+        name: "<white><bold>Přidat blok"
         description: |-
-          &7 Umožňuje přidat nový
-          &7 blokovat do seznamu.
+          <gray>Umožňuje přidat nový
+          <gray>blokovat do seznamu.
       remove_block:
-        name: "&f&l Odebrat blok"
+        name: "<white><bold>Odebrat blok"
         description: |-
-          &7 Umožňuje odstranit
-          &7 vybraných bloků
-          &7 ze seznamů.
-        title: "&7 Vybrané materiály:"
-        material: "&8 - [material]"
+          <gray>Umožňuje odstranit
+          <gray>vybraných bloků
+          <gray>ze seznamů.
+        title: "<gray>Vybrané materiály:"
+        material: "<dark_gray>- [material]"
       material:
-        name: "&f&l [material]"
-        description: "&7 ID materiálu: [id]"
-        selected: "&2 Vybráno"
+        name: "<white><bold>[material]"
+        description: "<gray>ID materiálu: [id]"
+        selected: "<dark_green>Vybráno"
       add_entity:
-        name: "&f&l Přidat entitu"
+        name: "<white><bold>Přidat entitu"
         description: |-
-          &7 Umožňuje přidat nový
-          &7 entity do seznamu.
+          <gray>Umožňuje přidat nový
+          <gray>entity do seznamu.
       switch_entity:
-        name: "&f&l Přepnout vejce"
+        name: "<white><bold>Přepnout vejce"
         description: |-
-          &7 Umožňuje přepnout z
-          &7 vajec do hlav davů.
+          <gray>Umožňuje přepnout z
+          <gray>vajec do hlav davů.
       remove_entity:
-        name: "&f&l Odebrat entitu"
+        name: "<white><bold>Odebrat entitu"
         description: |-
-          &7 Umožňuje odstranit
-          &7 vybraných subjektů
-          &7 ze seznamů.
-        title: "&7 vybrané entity:"
-        entity: "&8 - [entity]"
+          <gray>Umožňuje odstranit
+          <gray>vybraných subjektů
+          <gray>ze seznamů.
+        title: "<gray>vybrané entity:"
+        entity: "<dark_gray>- [entity]"
       entity:
-        name: "&f&l [entity]"
-        description: "&7 ID entity: [id]"
-        selected: "&2 Vybráno"
+        name: "<white><bold>[entity]"
+        description: "<gray>ID entity: [id]"
+        selected: "<dark_green>Vybráno"
       inventory_type:
-        name: "&f&l Typ inventáře"
+        name: "<white><bold>Typ inventáře"
         description: |-
-          &7 Výzva, která kontroluje
-          &7 položek v inventáři hráče
+          <gray>Výzva, která kontroluje
+          <gray>položek v inventáři hráče
       island_type:
-        name: "&f&l Typ ostrova"
+        name: "<white><bold>Typ ostrova"
         description: |-
-          &7 Výzva, která kontroluje
-          &7 bloků nebo entit kolem
-          Hráč &7.
+          <gray>Výzva, která kontroluje
+          <gray>bloků nebo entit kolem
+          Hráč <gray>.
       other_type:
-        name: "&f&l Jiný typ"
+        name: "<white><bold>Jiný typ"
         description: |-
-          &7 Výzva, která využívá
-          &7 pluginy nebo doplňky,
-          &7 jako úroveň a peníze.
+          <gray>Výzva, která využívá
+          <gray>pluginy nebo doplňky,
+          <gray>jako úroveň a peníze.
       statistic_type:
-        name: "&f&l Typ statistiky"
+        name: "<white><bold>Typ statistiky"
         description: |-
-          &7 Výzva, která kontroluje
-          Statistika hráče &7.
+          <gray>Výzva, která kontroluje
+          Statistika hráče <gray>.
       save:
-        name: "&f&l Uložit"
+        name: "<white><bold>Uložit"
         description: |-
-          &7 Uloží změny a
-          &7 se vrací.
+          <gray>Uloží změny a
+          <gray>se vrací.
       cancel:
-        name: "&f&l Zrušit"
+        name: "<white><bold>Zrušit"
         description: |-
-          &7 Zahodí změny a
-          &7 se vrací.
+          <gray>Zahodí změny a
+          <gray>se vrací.
       accept_selected:
-        name: "&f&l Přijmout vybrané"
+        name: "<white><bold>Přijmout vybrané"
         description: |-
-          &7 Vrátí vybrané prvky
-          &7 a otevře předchozí GUI.
-        title: "&7 Vybráno: "
-        element: "&8 - [element]"
+          <gray>Vrátí vybrané prvky
+          <gray>a otevře předchozí GUI.
+        title: "<gray>Vybráno: "
+        element: "<dark_gray>- [element]"
       statistic_element:
-        name: "&f&l [statistic]"
+        name: "<white><bold>[statistic]"
         description: "[description]"
       environment_element:
-        name: "&f&l [environment]"
+        name: "<white><bold>[environment]"
         description: "[description]"
       search:
-        name: "&f&l Hledat"
+        name: "<white><bold>Hledat"
         description: |-
-          &7 Umožňuje vyhledávat
-          &7 prvek se vstupem
-          textová hodnota &7.
-        search: "&b Hodnota: [value]"
+          <gray>Umožňuje vyhledávat
+          <gray>prvek se vstupem
+          textová hodnota <gray>.
+        search: "<aqua>Hodnota: [value]"
     tips:
-      click-to-select: "&e Klepnutím na &7 vyberte."
-      click-to-choose: "&e Klepnutím na &7 vyberte."
-      click-to-complete: "&e Dokončete kliknutím na &7."
-      right-click-multiple-open: "&e Klikněte pravým tlačítkem na &7 pro výběr počtu
+      click-to-select: "<yellow>Klepnutím na <gray>vyberte."
+      click-to-choose: "<yellow>Klepnutím na <gray>vyberte."
+      click-to-complete: "<yellow>Dokončete kliknutím na <gray>."
+      right-click-multiple-open: "<yellow>Klikněte pravým tlačítkem na <gray>pro výběr počtu
         dokončení."
-      shift-left-click-to-complete-all: "&e Shift Klepnutím na &7 vše dokončíte."
-      left-click-to-accept: "&e Klikněte levým tlačítkem &7 pro dokončení."
-      right-click-to-write: "&e Klikněte pravým tlačítkem na &7 pro psaní."
-      click-to-reduce: "&e Klikněte na &7 pro zmenšení."
-      click-to-increase: "&e Klikněte na &7 pro zvýšení."
-      click-to-return: "&e Klepnutím na &7 se vrátíte."
-      click-to-quit: "&e Klikněte na &7 pro ukončení."
-      click-to-wipe: "&e Klepnutím na &7 vymažete."
-      left-click-to-wipe: "&e Levým kliknutím &7 vymažete."
-      right-click-to-switch: "&e Klepnutím pravým tlačítkem na &7 přepnete."
-      click-to-open: "&e Klepnutím na &7 otevřete."
-      click-to-export: "&e Klepnutím na &7 exportujte."
-      click-to-create: "&e Klepnutím na &7 vytvořte."
-      left-click-to-open: "&e Levým tlačítkem otevřete &7."
-      right-click-to-reset-all: "&e Klikněte pravým tlačítkem na &7 pro vymazání všech."
-      click-to-toggle: "&e Klepnutím na &7 přepnete."
-      click-to-change: "&e Klikněte na &7 pro změnu."
-      shift-click-to-reset: "&e Shift Klepnutím na &7 resetujete."
-      click-to-add: "&e Klepnutím na &7 přidejte."
-      click-to-remove: "&e Klikni &7 pro odebrání."
-      left-click-to-cycle: "&e Levým kliknutím &7 přejdete dolů."
-      right-click-to-cycle: "&e Klikněte pravým tlačítkem na &7 pro přechod nahoru."
-      click-to-edit: "&e Klikni &7 pro editaci."
-      left-click-to-download: "&e Klikněte levým tlačítkem &7 pro stažení."
-      right-click-to-toggle: "&e Klepnutím pravým tlačítkem &7 přepnete."
-      click-to-install: "&e Klikni &7 pro instalaci."
-      click-to-reset-all: "&e klikni &7 pro resetování všeho."
-      right-click-to-select: "&e Klikni pravým tlačítkem na &7 pro výběr."
-      right-click-to-deselect: "&e Klikněte pravým tlačítkem na &7 pro zrušení výběru."
-      left-click-to-choose: "&e Levým tlačítkem vyberte &7."
-      click-to-cancel: "&e Klepnutím na &7 zrušíte."
-      click-to-save: "&e Klepnutím na &7 uložíte."
-      click-to-deselect: "&e Klepnutím na &7 zrušíte výběr."
+      shift-left-click-to-complete-all: "<yellow>Shift Klepnutím na <gray>vše dokončíte."
+      left-click-to-accept: "<yellow>Klikněte levým tlačítkem <gray>pro dokončení."
+      right-click-to-write: "<yellow>Klikněte pravým tlačítkem na <gray>pro psaní."
+      click-to-reduce: "<yellow>Klikněte na <gray>pro zmenšení."
+      click-to-increase: "<yellow>Klikněte na <gray>pro zvýšení."
+      click-to-return: "<yellow>Klepnutím na <gray>se vrátíte."
+      click-to-quit: "<yellow>Klikněte na <gray>pro ukončení."
+      click-to-wipe: "<yellow>Klepnutím na <gray>vymažete."
+      left-click-to-wipe: "<yellow>Levým kliknutím <gray>vymažete."
+      right-click-to-switch: "<yellow>Klepnutím pravým tlačítkem na <gray>přepnete."
+      click-to-open: "<yellow>Klepnutím na <gray>otevřete."
+      click-to-export: "<yellow>Klepnutím na <gray>exportujte."
+      click-to-create: "<yellow>Klepnutím na <gray>vytvořte."
+      left-click-to-open: "<yellow>Levým tlačítkem otevřete <gray>."
+      right-click-to-reset-all: "<yellow>Klikněte pravým tlačítkem na <gray>pro vymazání všech."
+      click-to-toggle: "<yellow>Klepnutím na <gray>přepnete."
+      click-to-change: "<yellow>Klikněte na <gray>pro změnu."
+      shift-click-to-reset: "<yellow>Shift Klepnutím na <gray>resetujete."
+      click-to-add: "<yellow>Klepnutím na <gray>přidejte."
+      click-to-remove: "<yellow>Klikni <gray>pro odebrání."
+      left-click-to-cycle: "<yellow>Levým kliknutím <gray>přejdete dolů."
+      right-click-to-cycle: "<yellow>Klikněte pravým tlačítkem na <gray>pro přechod nahoru."
+      click-to-edit: "<yellow>Klikni <gray>pro editaci."
+      left-click-to-download: "<yellow>Klikněte levým tlačítkem <gray>pro stažení."
+      right-click-to-toggle: "<yellow>Klepnutím pravým tlačítkem <gray>přepnete."
+      click-to-install: "<yellow>Klikni <gray>pro instalaci."
+      click-to-reset-all: "<yellow>klikni <gray>pro resetování všeho."
+      right-click-to-select: "<yellow>Klikni pravým tlačítkem na <gray>pro výběr."
+      right-click-to-deselect: "<yellow>Klikněte pravým tlačítkem na <gray>pro zrušení výběru."
+      left-click-to-choose: "<yellow>Levým tlačítkem vyberte <gray>."
+      click-to-cancel: "<yellow>Klepnutím na <gray>zrušíte."
+      click-to-save: "<yellow>Klepnutím na <gray>uložíte."
+      click-to-deselect: "<yellow>Klepnutím na <gray>zrušíte výběr."
       click-on-item: |-
-        &e Klikněte na &7 na položku v
-        &7 váš inventář.
-      left-click-to-edit: "&e Levým tlačítkem myši &7 upravíte."
-      right-click-to-clear: "&e Klikněte pravým tlačítkem na &7 pro vymazání."
-      click-to-previous: "&e Klepnutím na &7 zobrazíte předchozí stránku."
-      click-to-next: "&e Klepnutím na &7 zobrazíte další stránku."
+        <yellow>Klikněte na <gray>na položku v
+        <gray>váš inventář.
+      left-click-to-edit: "<yellow>Levým tlačítkem myši <gray>upravíte."
+      right-click-to-clear: "<yellow>Klikněte pravým tlačítkem na <gray>pro vymazání."
+      click-to-previous: "<yellow>Klepnutím na <gray>zobrazíte předchozí stránku."
+      click-to-next: "<yellow>Klepnutím na <gray>zobrazíte další stránku."
     descriptions:
       challenge:
         lore: |-
@@ -833,16 +833,16 @@ challenges:
           [requirements]
           [rewards]
         status:
-          completed: "&2&l Dokončeno"
-          completed-times: "&2 Dokončeno &7&l [number] &r&2 čas(-y)"
-          completed-times-of: "&2 Dokončeno &7&l [number] &r&2 z &7&l [max] &r&2krát"
-          completed-times-reached: "&2&l Dokončeno vše &7 [max] &2krát"
+          completed: "<dark_green><bold>Dokončeno"
+          completed-times: "<dark_green>Dokončeno <gray><bold>[number] <reset><dark_green>čas(-y)"
+          completed-times-of: "<dark_green>Dokončeno <gray><bold>[number] <reset><dark_green>z <gray><bold>[max] <reset><dark_green>krát"
+          completed-times-reached: "<dark_green><bold>Dokončeno vše <gray>[max] <dark_green>krát"
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
-          timeout: "&7&l Vychladnout: &r&7 [time]"
-          wait-time: "&c&l Dostupné po: &r&c [time]"
+          timeout: "<gray><bold>Vychladnout: <reset><gray>[time]"
+          wait-time: "<red><bold>Dostupné po: <reset><red>[time]"
           in-days: "[number] d "
           in-hours: "[number] h "
           in-minutes: "[number] min "
@@ -852,12 +852,12 @@ challenges:
             [environment]
             [type-requirement]
             [permissions]
-          environment-single: "&7 Omezeno na [environment]"
-          environment-title: "&7 Omezeno na: "
-          environment-list: "  &7 - &e [environment]"
-          permission-single: "&c Vyžaduje oprávnění [permission]"
-          permissions-title: "&c Vyžaduje oprávnění: "
-          permissions-list: "  &c - [permission]"
+          environment-single: "<gray>Omezeno na [environment]"
+          environment-title: "<gray>Omezeno na: "
+          environment-list: "  <gray>- <yellow>[environment]"
+          permission-single: "<red>Vyžaduje oprávnění [permission]"
+          permissions-title: "<red>Vyžaduje oprávnění: "
+          permissions-list: "  <red>- [permission]"
           island:
             lore: |-
               [blocks]
@@ -865,23 +865,23 @@ challenges:
               [search-radius]
               [warning-block]
               [warning-entity]
-            blocks-title: "&7&l Požadované bloky:"
-            block-value: "  &7 - &e [material]"
-            blocks-value: "  &7 - &e [number] x [material]"
-            entities-title: "&7&l Požadované entity:"
-            entity-value: "  &7 - &e [entity]"
-            entities-value: "  &7 - &e [number] x [entity]"
-            search-radius: "&7 Ne dále než &e [number] &7 metrů"
-            warning-block: "&e Bloky budou odstraněny &c"
-            warning-entity: "&e Entity budou &c odstraněny"
+            blocks-title: "<gray><bold>Požadované bloky:"
+            block-value: "  <gray>- <yellow>[material]"
+            blocks-value: "  <gray>- <yellow>[number] x [material]"
+            entities-title: "<gray><bold>Požadované entity:"
+            entity-value: "  <gray>- <yellow>[entity]"
+            entities-value: "  <gray>- <yellow>[number] x [entity]"
+            search-radius: "<gray>Ne dále než <yellow>[number] <gray>metrů"
+            warning-block: "<yellow>Bloky budou odstraněny <red>"
+            warning-entity: "<yellow>Entity budou <red>odstraněny"
           inventory:
             lore: |-
               [items]
               [warning]
-            item-title: "&7&l Požadované položky:"
-            item-value: "  &7 - &e [item]"
-            items-value: "  &7 - &e [number] x [item]"
-            warning: "&e Položky budou odstraněny &c"
+            item-title: "<gray><bold>Požadované položky:"
+            item-value: "  <gray>- <yellow>[item]"
+            items-value: "  <gray>- <yellow>[number] x [item]"
+            warning: "<yellow>Položky budou odstraněny <red>"
           other:
             lore: |-
               [experience]
@@ -889,34 +889,34 @@ challenges:
               [money]
               [money-warning]
               [level]
-            experience: "&7&l Požadovaná zkušenost: &r&e [number]"
-            experience-warning: "&e Zkušenosti budou &c odstraněny"
-            money: "&7&l Požadované peníze: &r&e [number]"
-            money-warning: "&e Peníze budou odebrány &c"
-            level: "&7&l Požadovaná úroveň ostrova: &r&e [number]"
+            experience: "<gray><bold>Požadovaná zkušenost: <reset><yellow>[number]"
+            experience-warning: "<yellow>Zkušenosti budou <red>odstraněny"
+            money: "<gray><bold>Požadované peníze: <reset><yellow>[number]"
+            money-warning: "<yellow>Peníze budou odebrány <red>"
+            level: "<gray><bold>Požadovaná úroveň ostrova: <reset><yellow>[number]"
           statistic:
             lore: |-
               [statistic]
               [warning]
-            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
-            single-target: "&7&l [statistic]: &r&e [target]"
-            statistic: "&7&l [statistic] &r&e [number]"
-            warning: "&e Statistická data se sníží &c"
+            multiple-target: "<gray><bold>[statistic]: <reset><yellow>[number] x [target]"
+            single-target: "<gray><bold>[statistic]: <reset><yellow>[target]"
+            statistic: "<gray><bold>[statistic] <reset><yellow>[number]"
+            warning: "<yellow>Statistická data se sníží <red>"
         rewards:
           lore: |-
-            Odměny &7&l:
+            Odměny <gray><bold>:
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 Itemy:"
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 Zkušenosti: &r&e [number]"
-          money: "&7 Peníze: &r&e [number]"
-          commands-title: "&7 příkazy:"
-          command: "  &7 - &e [command]"
+          item-title: "<gray>Itemy:"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>Zkušenosti: <reset><yellow>[number]"
+          money: "<gray>Peníze: <reset><yellow>[number]"
+          commands-title: "<gray>příkazy:"
+          command: "  <gray>- <yellow>[command]"
       level:
         lore: |-
           [text]
@@ -924,179 +924,179 @@ challenges:
           [waiver]
           [rewards]
         status:
-          completed: "&2&l Dokončeno"
+          completed: "<dark_green><bold>Dokončeno"
           completed-challenges-of: |-
-            &2 Dokončeno &7&l [number] &r&2 z
-            &7&l [max] &r&2 výzvy.
-          locked: "&c&l Uzamčeno"
+            <dark_green>Dokončeno <gray><bold>[number] <reset><dark_green>z
+            <gray><bold>[max] <reset><dark_green>výzvy.
+          locked: "<red><bold>Uzamčeno"
           missing-challenges: |-
-            &7 [number] musí být další výzvy
-            Dokončeno &7 k odemknutí této úrovně.
+            <gray>[number] musí být další výzvy
+            Dokončeno <gray>k odemknutí této úrovně.
         waiver: |-
-          &7&l [number] výzva(-y) &r&7 může být
-          &7 přeskočeno k odemknutí další úrovně.
+          <gray><bold>[number] výzva(-y) <reset><gray>může být
+          <gray>přeskočeno k odemknutí další úrovně.
         rewards:
           lore: |-
-            Odměny &7&l:
+            Odměny <gray><bold>:
             [text]
             [items]
             [experience]
             [money]
             [commands]
-          item-title: "&7 Itemy:"
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
-          experience: "&7 Zkušenosti: &r&e [number]"
-          money: "&7 Peníze: &r&e [number]"
-          commands-title: "&7 příkazy:"
-          command: "  &7 - &e [command]"
+          item-title: "<gray>Itemy:"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
+          experience: "<gray>Zkušenosti: <reset><yellow>[number]"
+          money: "<gray>Peníze: <reset><yellow>[number]"
+          commands-title: "<gray>příkazy:"
+          command: "  <gray>- <yellow>[command]"
       library:
-        author: "&7 od &e [autor]"
-        version: "&7 Made with Challenges &e [version]"
-        lang: "&7 Jazyk: &e [lang]"
-        gamemode: "&7 Primární pro &e [gamemode]"
+        author: "<gray>od <yellow>[autor]"
+        version: "<gray>Made with Challenges <yellow>[version]"
+        lang: "<gray>Jazyk: <yellow>[lang]"
+        gamemode: "<gray>Primární pro <yellow>[gamemode]"
   conversations:
-    prefix: "&l&6 [BentoBox]: &r"
+    prefix: "<bold><gold>[BentoBox]: <reset>"
     confirm-string: pravda, na, ano, potvrdit, y, platný, správný
     deny-string: nepravdivý, vypnutý, ne, popřít, n, neplatný, nesprávný
     cancel-string: zrušit
     exit-string: zrušit, odejít, ukončit
-    cancelled: "&c Konverzace zrušena!"
-    input-number: "&e Zadejte prosím číslo do chatu."
-    input-seconds: "&e Zadejte prosím sekundy do chatu."
-    numeric-only: "&c Daná [value] není číslo!"
-    not-valid-value: "&c Dané číslo [value] není platné. Musí být větší než [min]
+    cancelled: "<red>Konverzace zrušena!"
+    input-number: "<yellow>Zadejte prosím číslo do chatu."
+    input-seconds: "<yellow>Zadejte prosím sekundy do chatu."
+    numeric-only: "<red>Daná [value] není číslo!"
+    not-valid-value: "<red>Dané číslo [value] není platné. Musí být větší než [min]
       a menší než [max]!"
-    user-data-removed: "&a Všechna uživatelská data pro [gamemode] jsou vymazána
+    user-data-removed: "<green>Všechna uživatelská data pro [gamemode] jsou vymazána
       z databáze."
-    confirm-user-data-deletion: "&e Potvrďte prosím, že chcete vymazat databázi uživatelů
+    confirm-user-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi uživatelů
       pro [gamemode]."
-    challenge-data-removed: "&a Všechna data výzev pro [gamemode] jsou vymazána
+    challenge-data-removed: "<green>Všechna data výzev pro [gamemode] jsou vymazána
       z databáze."
-    confirm-challenge-data-deletion: "&e Potvrďte prosím, že chcete vymazat databázi
+    confirm-challenge-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi
       výzev pro [gamemode]."
-    all-data-removed: "&a Všechna data doplňků pro [gamemode] jsou vymazána z databáze."
-    confirm-all-data-deletion: "&e Potvrďte, že chcete vymazat data doplňků pro [herní
+    all-data-removed: "<green>Všechna data doplňků pro [gamemode] jsou vymazána z databáze."
+    confirm-all-data-deletion: "<yellow>Potvrďte, že chcete vymazat data doplňků pro [herní
       režim]."
-    write-name: "&e Napiš prosím jméno do chatu."
-    new-object-created: "&a Je vytvořen nový objekt pro [gamemode]."
-    object-already-exists: "&c Objekt &7 [id] &c již existuje. Vyberte jiný název."
-    invalid-challenge: "&c Výzva [challenge] obsahuje neplatná data. Nelze jej nasadit!"
-    name-changed: "&a Úspěch, název byl aktualizován."
-    write-description: "&e Zadejte prosím nový popis v chatu a 'konec' na samostatném
+    write-name: "<yellow>Napiš prosím jméno do chatu."
+    new-object-created: "<green>Je vytvořen nový objekt pro [gamemode]."
+    object-already-exists: "<red>Objekt <gray>[id] <red>již existuje. Vyberte jiný název."
+    invalid-challenge: "<red>Výzva [challenge] obsahuje neplatná data. Nelze jej nasadit!"
+    name-changed: "<green>Úspěch, název byl aktualizován."
+    write-description: "<yellow>Zadejte prosím nový popis v chatu a 'konec' na samostatném
       řádku pro dokončení."
-    description-changed: "&a Úspěch, popis byl aktualizován."
-    write-permissions: "&e Zadejte prosím požadovaná oprávnění, jedno na každý řádek
+    description-changed: "<green>Úspěch, popis byl aktualizován."
+    write-permissions: "<yellow>Zadejte prosím požadovaná oprávnění, jedno na každý řádek
       v chatu, a dokončete ukončení na samostatném řádku."
-    permissions-changed: "&a Úspěch, oprávnění k výzvě byla aktualizována."
-    write-reward-text: "&e Zadejte prosím nový text odměny do chatu a dokončete ho
+    permissions-changed: "<green>Úspěch, oprávnění k výzvě byla aktualizována."
+    write-reward-text: "<yellow>Zadejte prosím nový text odměny do chatu a dokončete ho
       na samostatném řádku."
-    reward-text-changed: "&a Úspěch, text odměny byl aktualizován."
-    write-repeat-reward-text: "&e Zadejte prosím nový opakující se text odměny v chatu
+    reward-text-changed: "<green>Úspěch, text odměny byl aktualizován."
+    write-repeat-reward-text: "<yellow>Zadejte prosím nový opakující se text odměny v chatu
       a dokončete jej na samostatném řádku."
-    repeat-reward-text-changed: "&a Úspěch, text opakování odměny byl aktualizován."
-    write-reward-commands: "&e Zadejte prosím nový příkaz pro odměnu na řádek v chatu
+    repeat-reward-text-changed: "<green>Úspěch, text opakování odměny byl aktualizován."
+    write-reward-commands: "<yellow>Zadejte prosím nový příkaz pro odměnu na řádek v chatu
       a dokončete jej na samostatném řádku."
-    reward-commands-changed: "&a Úspěch, příkazy odměn byly aktualizovány."
-    write-repeat-reward-commands: "&e Zadejte prosím nový příkaz pro opakování odměny
+    reward-commands-changed: "<green>Úspěch, příkazy odměn byly aktualizovány."
+    write-repeat-reward-commands: "<yellow>Zadejte prosím nový příkaz pro opakování odměny
       na řádek v chatu a dokončete jej na samostatném řádku."
-    repeat-reward-commands-changed: "&a Úspěch, příkazy k opakování odměny byly aktualizovány."
-    challenge-removed: "&a Výzvy [challenge] pro [gamemode] jsou odstraněny z databáze."
-    confirm-challenge-deletion: "&e Potvrďte, že chcete odstranit [challenge] pro [gamemode]
+    repeat-reward-commands-changed: "<green>Úspěch, příkazy k opakování odměny byly aktualizovány."
+    challenge-removed: "<green>Výzvy [challenge] pro [gamemode] jsou odstraněny z databáze."
+    confirm-challenge-deletion: "<yellow>Potvrďte, že chcete odstranit [challenge] pro [gamemode]
       z databáze."
-    level-removed: "&a Úroveň [level] pro [gamemode] je odstraněna z databáze."
-    confirm-level-deletion: "&e Potvrďte prosím, že chcete odstranit [level] pro
+    level-removed: "<green>Úroveň [level] pro [gamemode] je odstraněna z databáze."
+    confirm-level-deletion: "<yellow>Potvrďte prosím, že chcete odstranit [level] pro
       [gamemode] z databáze."
-    start-downloading: "&a Začíná stahování a import knihovny výzev."
-    written-text: "&a Vstupní text:"
-    confirm-data-replacement: "&e Potvrďte prosím, že chcete nahradit své stávající
+    start-downloading: "<green>Začíná stahování a import knihovny výzev."
+    written-text: "<green>Vstupní text:"
+    confirm-data-replacement: "<yellow>Potvrďte prosím, že chcete nahradit své stávající
       výzvy novými."
-    new-challenges-imported: "&a Úspěch, byly importovány nové výzvy pro [gamemode]."
-    exported-file-name: "&e Zadejte prosím název souboru pro exportovaný databázový
+    new-challenges-imported: "<green>Úspěch, byly importovány nové výzvy pro [gamemode]."
+    exported-file-name: "<yellow>Zadejte prosím název souboru pro exportovaný databázový
       soubor. (pro ukončení napište 'zrušit')"
-    database-export-completed: "&a Úspěch, export databáze pro [world] je dokončen.
+    database-export-completed: "<green>Úspěch, export databáze pro [world] je dokončen.
       Vygenerován soubor [file]."
-    file-name-exist: "&c Soubor s názvem '[id]' existuje. Nelze jej přepsat."
-    write-search: "&e Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
-    search-updated: "&a Hodnota vyhledávání byla aktualizována."
+    file-name-exist: "<red>Soubor s názvem '[id]' existuje. Nelze jej přepsat."
+    write-search: "<yellow>Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
+    search-updated: "<green>Hodnota vyhledávání byla aktualizována."
   titles:
     challenge-title: Úspěšně dokončeno
     challenge-subtitle: "[friendlyName]"
     level-title: Úspěšně dokončeno
     level-subtitle: "[friendlyName]"
   messages:
-    completed: "&2 Dokončili jste výzvu [name] pro [player]!"
-    already-completed: "&2 Tato výzva již byla dokončena!"
-    reset: "&2 Resetoval jsi výzvu[name] hráči [player]!"
-    reset-all: "&2 Všechny [player] výzvy byly resetovány!"
-    not-completed: "&2 Tato výzva ještě není dokončena!"
-    migrate-start: "&2 Začněte migrovat data doplňků výzev."
-    migrate-end: Data doplňků &2 Challenges aktualizována na nový formát.
-    migrate-not: "&2 Všechna data jsou platná."
-    start-downloading: "&5 Začíná stahování a import knihovny výzev."
-    you-completed-challenge: "&2Dokončil jsi výzvu [value]&r&2!"
-    you-repeated-challenge: "&2Zopakoval jsi výzvu [value]&r&2!"
-    you-repeated-challenge-multiple: "&2Zopakoval jsi výzvu [value] &r&2[count]x!"
-    you-completed-level: "&2Dokončil jsi úroveň [value]&r&2!"
-    name-has-completed-challenge: "&5[name] dokončil výzvu [value]&r&5!"
-    name-has-completed-level: "&5[name] dokončil úroveň [value]&r&5!"
+    completed: "<dark_green>Dokončili jste výzvu [name] pro [player]!"
+    already-completed: "<dark_green>Tato výzva již byla dokončena!"
+    reset: "<dark_green>Resetoval jsi výzvu[name] hráči [player]!"
+    reset-all: "<dark_green>Všechny [player] výzvy byly resetovány!"
+    not-completed: "<dark_green>Tato výzva ještě není dokončena!"
+    migrate-start: "<dark_green>Začněte migrovat data doplňků výzev."
+    migrate-end: Data doplňků <dark_green>Challenges aktualizována na nový formát.
+    migrate-not: "<dark_green>Všechna data jsou platná."
+    start-downloading: "<dark_purple>Začíná stahování a import knihovny výzev."
+    you-completed-challenge: "<dark_green>Dokončil jsi výzvu [value]<reset><dark_green>!"
+    you-repeated-challenge: "<dark_green>Zopakoval jsi výzvu [value]<reset><dark_green>!"
+    you-repeated-challenge-multiple: "<dark_green>Zopakoval jsi výzvu [value] <reset><dark_green>[count]x!"
+    you-completed-level: "<dark_green>Dokončil jsi úroveň [value]<reset><dark_green>!"
+    name-has-completed-challenge: "<dark_purple>[name] dokončil výzvu [value]<reset><dark_purple>!"
+    name-has-completed-level: "<dark_purple>[name] dokončil úroveň [value]<reset><dark_purple>!"
     load-skipping: '"[value]" již existuje - přeskakuji'
     load-overwriting: Přepisuji "[value]"
     load-add: 'Přidávám nový objekt: [value]'
   errors:
-    no-name: "&cChybějící název výzvy"
-    unknown-challenge: "&cNeznámá výzva"
-    not-valid-integer: '&cUvedené celé číslo "[value]" je neplatné!|Hodnota by měla
+    no-name: "<red>Chybějící název výzvy"
+    unknown-challenge: "<red>Neznámá výzva"
+    not-valid-integer: '<red>Uvedené celé číslo "[value]" je neplatné!|Hodnota by měla
       být mezi [min] a [max].'
-    not-deployed: "&cVýzva není zveřejněna!"
-    not-on-island: "&cK tomuto musíš být na svém ostrově!"
-    challenge-level-not-available: "&cNeodemkl jsi úroveň k dokončení této výzvy."
-    not-repeatable: "&cTato výzva není opakovatelná!"
-    wrong-environment: "&cJsi ve špatném prostředí!"
-    not-enough-items: "&cNemáš dostatek [items] k dokončení této výzvy!"
-    not-close-enough: "&cMusíš stát alespoň [number] bloků od požadovaných položek."
-    you-still-need: "&cStále potřebuješ [amount] x [item]"
-    missing-addon: "&cNelze dokončit výzvu. Vyžadovaný doplňek nebo plugin chybí."
-    incorrect: "&cNelze dokončit výzvu. Požadavky nejsou správně."
-    not-enough-money: "&cJe důležité mít [value] na svém účtu k dokončení této výzvy."
-    not-enough-experience: "&cJe důležité mít [value] zkuš. k dokončení této výzvy."
-    island-level: "&cÚroveň tvého ostrova musí být [number] k dokončení této výzvy!"
-    no-load: "&cChyba: Nelze načíst soubor challenges.yml. [message]"
-    load-error: "&cChyba: Nelze načíst [value]."
-    no-rank: "&cNa toto nemáš hodnost."
-    cannot-remove-items: "&cNěkteré předměty nelze odebrat z tvého inventáře!"
-    exist-challenges-or-levels: "&cVe tvém světě již existují výzvy. Nelze pokračovat!"
-    no-challenges: "&cVýzvy nejsou v aktuálním světě implementovány!"
-    no-challenges-admin: "&cVýzvy nejsou v aktuálním světě implementovány! Měl bys
-      použít &5/[command] &ck jejich přidání!"
-    missing-arguments: "&cPříkaz postrádá argumenty."
-    no-multiple-permission: "&cNemáš oprávnění k dokončení výzev vícekrát najednou."
-    invalid-level: "&c Level [level] obsahuje neplatná data. Nebude načten z databáze!"
-    invalid-challenge: "&c Challenge [challenge] obsahuje neplatná data. Nebude načtena
+    not-deployed: "<red>Výzva není zveřejněna!"
+    not-on-island: "<red>K tomuto musíš být na svém ostrově!"
+    challenge-level-not-available: "<red>Neodemkl jsi úroveň k dokončení této výzvy."
+    not-repeatable: "<red>Tato výzva není opakovatelná!"
+    wrong-environment: "<red>Jsi ve špatném prostředí!"
+    not-enough-items: "<red>Nemáš dostatek [items] k dokončení této výzvy!"
+    not-close-enough: "<red>Musíš stát alespoň [number] bloků od požadovaných položek."
+    you-still-need: "<red>Stále potřebuješ [amount] x [item]"
+    missing-addon: "<red>Nelze dokončit výzvu. Vyžadovaný doplňek nebo plugin chybí."
+    incorrect: "<red>Nelze dokončit výzvu. Požadavky nejsou správně."
+    not-enough-money: "<red>Je důležité mít [value] na svém účtu k dokončení této výzvy."
+    not-enough-experience: "<red>Je důležité mít [value] zkuš. k dokončení této výzvy."
+    island-level: "<red>Úroveň tvého ostrova musí být [number] k dokončení této výzvy!"
+    no-load: "<red>Chyba: Nelze načíst soubor challenges.yml. [message]"
+    load-error: "<red>Chyba: Nelze načíst [value]."
+    no-rank: "<red>Na toto nemáš hodnost."
+    cannot-remove-items: "<red>Některé předměty nelze odebrat z tvého inventáře!"
+    exist-challenges-or-levels: "<red>Ve tvém světě již existují výzvy. Nelze pokračovat!"
+    no-challenges: "<red>Výzvy nejsou v aktuálním světě implementovány!"
+    no-challenges-admin: "<red>Výzvy nejsou v aktuálním světě implementovány! Měl bys
+      použít <dark_purple>/[command] <red>k jejich přidání!"
+    missing-arguments: "<red>Příkaz postrádá argumenty."
+    no-multiple-permission: "<red>Nemáš oprávnění k dokončení výzev vícekrát najednou."
+    invalid-level: "<red>Level [level] obsahuje neplatná data. Nebude načten z databáze!"
+    invalid-challenge: "<red>Challenge [challenge] obsahuje neplatná data. Nebude načtena
       z databáze!"
-    no-library-entries: "&c Nelze najít žádné položky knihovny. Nic k zobrazení."
-    not-hooked: "&c Výzvy Addon nenašel žádný GameMode."
-    timeout: "&c Tato výzva vyžaduje mezi dokončeními čekat [timeout]. Musíte
+    no-library-entries: "<red>Nelze najít žádné položky knihovny. Nic k zobrazení."
+    not-hooked: "<red>Výzvy Addon nenašel žádný GameMode."
+    timeout: "<red>Tato výzva vyžaduje mezi dokončeními čekat [timeout]. Musíte
       počkat [wait-time], než to znovu dokončíte."
-    requirement-not-met: "&c Tato výzva vyžaduje, aby [statistic] měla [number]. Máte
+    requirement-not-met: "<red>Tato výzva vyžaduje, aby [statistic] měla [number]. Máte
       pouze [hodnotu]. "
-    requirement-not-met-entity: "&c Tato výzva vyžaduje, aby [statistic] [entity]
+    requirement-not-met-entity: "<red>Tato výzva vyžaduje, aby [statistic] [entity]
       měla [number]. Máte pouze [hodnotu]. "
-    requirement-not-met-material: "&c Tato výzva vyžaduje, aby [statistic] [material]
+    requirement-not-met-material: "<red>Tato výzva vyžaduje, aby [statistic] [material]
       měl [number]. Máte pouze [hodnotu]. "
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
       description: |-
-        &5&oPřepnout, kdo může
-        &5&odokončit výzvy
+        <dark_purple><italic>Přepnout, kdo může
+        <dark_purple><italic>dokončit výzvy
       name: Protekce výzev
     CHALLENGES_WORLD_PROTECTION:
       description: |-
-        &5&oToto umožní zapnout/vypnout
-        &5&opožadavky hráčů
-        &5&obýt na jejich ostrově
-        &5&ok dokončení výzvy.
+        <dark_purple><italic>Toto umožní zapnout/vypnout
+        <dark_purple><italic>požadavky hráčů
+        <dark_purple><italic>být na jejich ostrově
+        <dark_purple><italic>k dokončení výzvy.
       name: Limitace výzev na ostrov
       hint: Žádné výzvy mimo ostrov
 version: 11
