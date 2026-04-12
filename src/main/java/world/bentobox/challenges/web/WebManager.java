@@ -111,7 +111,26 @@ public class WebManager
 
 					JsonObject catalog = new JsonParser().parse(catalogContent).getAsJsonObject();
 					catalog.getAsJsonArray("challenges").forEach(gamemode ->
-						this.library.add(LibraryEntry.fromJson(gamemode.getAsJsonObject())));
+					{
+						JsonObject entryJson = gamemode.getAsJsonObject();
+						try
+						{
+							LibraryEntry entry = LibraryEntry.fromJson(entryJson);
+							if (entry.repository() == null || entry.repository().isBlank())
+							{
+								this.addon.logWarning("Skipping catalog entry with missing 'repository' field: " + entryJson);
+							}
+							else
+							{
+								this.library.add(entry);
+							}
+						}
+						catch (Exception e)
+						{
+							this.addon.logWarning("Skipping malformed catalog entry: " + entryJson);
+							this.addon.logWarning("Reason: " + e.getMessage());
+						}
+					});
 				}
 			});
 		}

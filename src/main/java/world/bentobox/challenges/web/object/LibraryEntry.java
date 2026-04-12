@@ -25,20 +25,45 @@ public record LibraryEntry(String name, Material icon, String description, Strin
 	/**
 	 * Default constructor.
 	 * @param object Json Object that must be translated to LibraryEntry.
+	 * @throws IllegalArgumentException if a required field is missing or null.
 	 */
 	public static LibraryEntry fromJson(@NonNull JsonObject object)
 	{
-		Material material = Material.matchMaterial(object.get("icon").getAsString());
+		String iconStr = getString(object, "icon");
+		Material material = iconStr != null ? Material.matchMaterial(iconStr) : null;
 
-		return new LibraryEntry(object.get("name").getAsString(),
+		return new LibraryEntry(
+			getString(object, "name"),
 			(material != null) ? material : Material.PAPER,
-			object.get("description").getAsString(),
-			object.get("repository").getAsString(),
-			object.get("language").getAsString(),
-			object.get("slot").getAsInt(),
-			object.get("for").getAsString(),
-			object.get("author").getAsString(),
-			object.get("version").getAsString());
+			getString(object, "description"),
+			getString(object, "repository"),
+			getString(object, "language"),
+			getInt(object, "slot"),
+			getString(object, "for"),
+			getString(object, "author"),
+			getString(object, "version"));
+	}
+
+
+	private static String getString(@NonNull JsonObject obj, @NonNull String key)
+	{
+		var el = obj.get(key);
+		if (el == null || el.isJsonNull())
+		{
+			throw new IllegalArgumentException("Missing required field: \"" + key + "\"");
+		}
+		return el.getAsString();
+	}
+
+
+	private static int getInt(@NonNull JsonObject obj, @NonNull String key)
+	{
+		var el = obj.get(key);
+		if (el == null || el.isJsonNull())
+		{
+			throw new IllegalArgumentException("Missing required field: \"" + key + "\"");
+		}
+		return el.getAsInt();
 	}
 
 
