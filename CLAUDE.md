@@ -145,6 +145,32 @@ Related projects are checked out as siblings under `~/git/`:
 
 Check these for source before any network fetch.
 
+## Testing
+
+The project uses a mixed test stack:
+
+- **JUnit 4 + PowerMock** — existing tests in `commands/`, `tasks/`, `utils/`, `database/`, and top-level addon/manager tests. These use `@RunWith(PowerMockRunner.class)` and `@PrepareForTest`.
+- **JUnit 5 + Mockito** — newer tests in `panel/` package. These use `@ExtendWith(MockitoExtension.class)` with `@MockitoSettings(strictness = Strictness.LENIENT)`.
+- Both frameworks coexist via `junit-vintage-engine` which runs JUnit 4 tests on the JUnit 5 platform.
+
+### Writing new JUnit 5 tests alongside PowerMock
+
+PowerMock's MockMaker conflicts with mockito-inline, so **`mockStatic()` and `mockConstruction()` are not available** in JUnit 5 tests. Use these workarounds:
+
+- **Static singletons** (`Bukkit.getServer()`, `BentoBox.getInstance()`): Set via reflection on the private static field. See `PanelTestHelper.setServer()` and `setBentoBoxInstance()` for examples. Always save/restore the previous value in `@BeforeEach`/`@AfterEach`.
+- **Final methods** (`JavaPlugin.getServer()` is final): Set the `server` field on the plugin object via reflection walking the class hierarchy. See `PanelTestHelper.setPluginServer()`.
+- **Java records** (`ItemTemplateRecord`, `TemplatedPanel.ItemSlot`): Cannot be mocked. Create real instances using their public constructors. For `TemplatedPanel` (which has no public constructor), use `sun.misc.Unsafe.allocateInstance()` then set fields via reflection. See `PanelTestHelper.createItemSlot()`.
+- **Varargs methods** (`User.getTranslation(String, String...)`): Use `Mockito.doAnswer().when()` with `Mockito.<String>any()` instead of `when().thenAnswer()`. The `doAnswer` pattern handles varargs correctly. See `PanelTestHelper.setupUserTranslations()`.
+
+### PanelTestHelper
+
+`src/test/java/world/bentobox/challenges/panel/PanelTestHelper.java` is a shared utility for all panel tests. It provides:
+- Reflection helpers for Bukkit/BentoBox static fields
+- `ItemTemplateRecord` factory methods (`createTemplate`, `createSimpleTemplate`, `createEmptyTemplate`)
+- `createItemSlot()` for `TemplatedPanel.ItemSlot` records
+- `createBasicChallenge()` for fully-mocked `Challenge` objects
+- `setupUserTranslations()` for varargs-safe translation mocking
+
 ## Key Dependencies (source locations)
 
 - `world.bentobox:bentobox` → `~/git/bentobox/src/`
