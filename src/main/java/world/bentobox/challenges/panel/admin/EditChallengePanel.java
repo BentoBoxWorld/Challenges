@@ -840,9 +840,8 @@ public class EditChallengePanel extends CommonPanel {
         PanelItem.ClickHandler clickHandler;
 
         final StatisticRequirements requirements = this.challenge.getRequirements();
-        switch (button) {
         // Just one special statistic button right now
-        case REQUIRED_STATISTICS -> {
+        if (button == RequirementButton.REQUIRED_STATISTICS) {
             if (requirements.getRequiredStatistics().isEmpty()) {
                 description.add(this.user.getTranslation(reference + "none"));
             } else {
@@ -862,13 +861,10 @@ public class EditChallengePanel extends CommonPanel {
                 return true;
             };
             glow = false;
-        }
-        default -> {
-            // This should never need to be shown. Just for future expansion.
+        } else {// This should never need to be shown. Just for future expansion.
             glow = false;
             icon = new ItemStack(Material.PAPER);
             clickHandler = null;
-        }
         }
 
         description.add("");
