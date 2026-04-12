@@ -27,10 +27,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSet;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.Statistic;
 import org.bukkit.UnsafeValues;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
@@ -52,7 +58,9 @@ import world.bentobox.bentobox.api.addons.AddonDescription;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.DatabaseSetup.DatabaseType;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.IslandWorldManager;
+import world.bentobox.bentobox.managers.IslandsManager;
 import world.bentobox.bentobox.managers.PlaceholdersManager;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.config.Settings;
@@ -682,6 +690,344 @@ public class ChallengesManagerTest {
         assertFalse(cm.hasAnyChallengeData("BSkyBlock"));
         this.testLoad();
         assertTrue(cm.hasAnyChallengeData("BSkyBlock"));
+    }
+
+    // -------------------------------------------------------------------------
+    // Section: getStatisticData tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testGetStatisticDataPlayerOnly() {
+        Player mockPlayer = mock(Player.class);
+        when(mockPlayer.getStatistic(Statistic.JUMP)).thenReturn(42);
+        when(user.getPlayer()).thenReturn(mockPlayer);
+
+        assertEquals(42, cm.getStatisticData(user, world, Statistic.JUMP));
+    }
+
+    @Test
+    public void testGetStatisticDataIslandAggregation() {
+        settings.setStoreAsIslandData(true);
+
+        IslandsManager islandsManager = mock(IslandsManager.class);
+        when(addon.getIslands()).thenReturn(islandsManager);
+        Island island = mock(Island.class);
+        when(islandsManager.getIsland(any(World.class), any(User.class))).thenReturn(island);
+
+        UUID member1 = UUID.randomUUID();
+        UUID member2 = UUID.randomUUID();
+        when(island.getMemberSet()).thenReturn(ImmutableSet.of(member1, member2));
+
+        Player p1 = mock(Player.class);
+        Player p2 = mock(Player.class);
+        when(p1.getStatistic(Statistic.JUMP)).thenReturn(10);
+        when(p2.getStatistic(Statistic.JUMP)).thenReturn(15);
+
+        mockedBukkit.when(() -> Bukkit.getPlayer(member1)).thenReturn(p1);
+        mockedBukkit.when(() -> Bukkit.getPlayer(member2)).thenReturn(p2);
+
+        assertEquals(25, cm.getStatisticData(user, world, Statistic.JUMP));
+    }
+
+    @Test
+    public void testGetStatisticDataIslandNoIsland() {
+        settings.setStoreAsIslandData(true);
+
+        IslandsManager islandsManager = mock(IslandsManager.class);
+        when(addon.getIslands()).thenReturn(islandsManager);
+        when(islandsManager.getIsland(any(World.class), any(User.class))).thenReturn(null);
+
+        assertEquals(0, cm.getStatisticData(user, world, Statistic.JUMP));
+    }
+
+    @Test
+    public void testGetStatisticDataMaterialPlayerOnly() {
+        Player mockPlayer = mock(Player.class);
+        when(mockPlayer.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE)).thenReturn(100);
+        when(user.getPlayer()).thenReturn(mockPlayer);
+
+        assertEquals(100, cm.getStatisticData(user, world, Statistic.MINE_BLOCK, Material.DIAMOND_ORE));
+    }
+
+    @Test
+    public void testGetStatisticDataMaterialIslandAggregation() {
+        settings.setStoreAsIslandData(true);
+
+        IslandsManager islandsManager = mock(IslandsManager.class);
+        when(addon.getIslands()).thenReturn(islandsManager);
+        Island island = mock(Island.class);
+        when(islandsManager.getIsland(any(World.class), any(User.class))).thenReturn(island);
+
+        UUID member1 = UUID.randomUUID();
+        when(island.getMemberSet()).thenReturn(ImmutableSet.of(member1));
+
+        Player p1 = mock(Player.class);
+        when(p1.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE)).thenReturn(50);
+        mockedBukkit.when(() -> Bukkit.getPlayer(member1)).thenReturn(p1);
+
+        assertEquals(50, cm.getStatisticData(user, world, Statistic.MINE_BLOCK, Material.DIAMOND_ORE));
+    }
+
+    @Test
+    public void testGetStatisticDataEntityPlayerOnly() {
+        Player mockPlayer = mock(Player.class);
+        when(mockPlayer.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)).thenReturn(77);
+        when(user.getPlayer()).thenReturn(mockPlayer);
+
+        assertEquals(77, cm.getStatisticData(user, world, Statistic.KILL_ENTITY, EntityType.ZOMBIE));
+    }
+
+    @Test
+    public void testGetStatisticDataEntityIslandAggregation() {
+        settings.setStoreAsIslandData(true);
+
+        IslandsManager islandsManager = mock(IslandsManager.class);
+        when(addon.getIslands()).thenReturn(islandsManager);
+        Island island = mock(Island.class);
+        when(islandsManager.getIsland(any(World.class), any(User.class))).thenReturn(island);
+
+        UUID member1 = UUID.randomUUID();
+        UUID member2 = UUID.randomUUID();
+        when(island.getMemberSet()).thenReturn(ImmutableSet.of(member1, member2));
+
+        Player p1 = mock(Player.class);
+        Player p2 = mock(Player.class);
+        when(p1.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)).thenReturn(20);
+        when(p2.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)).thenReturn(30);
+        mockedBukkit.when(() -> Bukkit.getPlayer(member1)).thenReturn(p1);
+        mockedBukkit.when(() -> Bukkit.getPlayer(member2)).thenReturn(p2);
+
+        assertEquals(50, cm.getStatisticData(user, world, Statistic.KILL_ENTITY, EntityType.ZOMBIE));
+    }
+
+    @Test
+    public void testGetStatisticDataIslandOfflineMemberFiltered() {
+        settings.setStoreAsIslandData(true);
+
+        IslandsManager islandsManager = mock(IslandsManager.class);
+        when(addon.getIslands()).thenReturn(islandsManager);
+        Island island = mock(Island.class);
+        when(islandsManager.getIsland(any(World.class), any(User.class))).thenReturn(island);
+
+        UUID onlineMember = UUID.randomUUID();
+        UUID offlineMember = UUID.randomUUID();
+        when(island.getMemberSet()).thenReturn(ImmutableSet.of(onlineMember, offlineMember));
+
+        Player p1 = mock(Player.class);
+        when(p1.getStatistic(Statistic.JUMP)).thenReturn(10);
+        mockedBukkit.when(() -> Bukkit.getPlayer(onlineMember)).thenReturn(p1);
+        // offlineMember returns null from Bukkit.getPlayer()
+        mockedBukkit.when(() -> Bukkit.getPlayer(offlineMember)).thenReturn(null);
+
+        // Only the online member's stat should count
+        assertEquals(10, cm.getStatisticData(user, world, Statistic.JUMP));
+    }
+
+    // -------------------------------------------------------------------------
+    // Section: isBreachingTimeOut / getLastCompletionDate tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testIsBreachingTimeOutNoTimeout() {
+        challenge.setTimeout(0);
+        assertFalse(cm.isBreachingTimeOut(user, world, challenge));
+    }
+
+    @Test
+    public void testIsBreachingTimeOutNeverCompleted() {
+        challenge.setTimeout(60000);
+        // Never completed => lastCompletionDate=0 => 0+60000 < currentTimeMillis => false
+        assertFalse(cm.isBreachingTimeOut(user, world, challenge));
+    }
+
+    @Test
+    public void testIsBreachingTimeOutRecentCompletion() {
+        challenge.setTimeout(600000); // 10 minutes
+        cm.loadChallenge(challenge, world, false, user, true);
+        cm.setChallengeComplete(user, world, challenge, 1);
+
+        // Just completed => lastCompletionDate ~ now => now < now + 600000 => true
+        assertTrue(cm.isBreachingTimeOut(user, world, challenge));
+    }
+
+    @Test
+    public void testGetLastCompletionDateNeverCompleted() {
+        assertEquals(0L, cm.getLastCompletionDate(user, world, challenge));
+    }
+
+    @Test
+    public void testGetLastCompletionDateAfterCompletion() {
+        cm.loadChallenge(challenge, world, false, user, true);
+        long before = System.currentTimeMillis();
+        cm.setChallengeComplete(user, world, challenge, 1);
+        long after = System.currentTimeMillis();
+
+        long lastDate = cm.getLastCompletionDate(user, world, challenge);
+        assertTrue(lastDate >= before && lastDate <= after,
+                "Last completion date should be between before and after timestamps");
+    }
+
+    // -------------------------------------------------------------------------
+    // Section: Level query tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testGetLevelNamesEmpty() {
+        assertTrue(cm.getLevelNames(world).isEmpty());
+    }
+
+    @Test
+    public void testGetLevelNamesWithLevel() {
+        cm.loadLevel(level, world, false, user, true);
+        List<String> names = cm.getLevelNames(world);
+        assertEquals(1, names.size());
+        assertEquals(levelName, names.get(0));
+    }
+
+    @Test
+    public void testGetLevelCount() {
+        assertEquals(0, cm.getLevelCount(world));
+        cm.loadLevel(level, world, false, user, true);
+        assertEquals(1, cm.getLevelCount(world));
+    }
+
+    @Test
+    public void testIsLastLevelSingleLevel() {
+        cm.loadLevel(level, world, false, user, true);
+        assertTrue(cm.isLastLevel(level, world));
+    }
+
+    @Test
+    public void testIsLastLevelMultipleLevels() {
+        cm.loadLevel(level, world, false, user, true);
+
+        ChallengeLevel level2 = new ChallengeLevel();
+        level2.setUniqueId(GAME_MODE_NAME + "_expert");
+        level2.setFriendlyName("Expert");
+        level2.setOrder(10);
+        cm.loadLevel(level2, world, false, user, true);
+
+        assertFalse(cm.isLastLevel(level, world));
+        assertTrue(cm.isLastLevel(level2, world));
+    }
+
+    @Test
+    public void testGetLatestUnlockedLevelNoLevels() {
+        assertNull(cm.getLatestUnlockedLevel(user, world));
+    }
+
+    @Test
+    public void testGetLatestUnlockedLevelSingleLevel() {
+        cm.loadLevel(level, world, false, user, true);
+        // First level is always unlocked; getLatestUnlockedLevel returns previousLevel of the last unlocked status
+        // With a single level that is unlocked, previousLevel is null for the first status
+        ChallengeLevel result = cm.getLatestUnlockedLevel(user, world);
+        // The method returns lastStatus.getPreviousLevel() — for the first (and only) level, previousLevel is null
+        // unless there's a preceding level. This tests the method runs without error.
+        // Result depends on internal LevelStatus construction; just verify no exception.
+        // With one unlocked level, the iterator goes through it, lastStatus is the level status, and returns its previousLevel
+    }
+
+    // -------------------------------------------------------------------------
+    // Section: Challenge/Level count tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testGetChallengeCountEmpty() {
+        assertEquals(0, cm.getChallengeCount(world));
+    }
+
+    @Test
+    public void testGetChallengeCountWithChallenge() {
+        challenge.setDeployed(true);
+        cm.loadChallenge(challenge, world, false, user, true);
+        assertEquals(1, cm.getChallengeCount(world));
+    }
+
+    @Test
+    public void testGetChallengeCountUndeployedExcluded() {
+        challenge.setDeployed(false);
+        settings.setIncludeUndeployed(false);
+        cm.loadChallenge(challenge, world, false, user, true);
+        assertEquals(0, cm.getChallengeCount(world));
+    }
+
+    @Test
+    public void testGetChallengeCountUndeployedIncluded() {
+        challenge.setDeployed(false);
+        settings.setIncludeUndeployed(true);
+        cm.loadChallenge(challenge, world, false, user, true);
+        assertEquals(1, cm.getChallengeCount(world));
+    }
+
+    @Test
+    public void testGetCompletedChallengeCountNone() {
+        cm.loadChallenge(challenge, world, false, user, true);
+        assertEquals(0L, cm.getCompletedChallengeCount(user, world));
+    }
+
+    @Test
+    public void testGetCompletedChallengeCountOne() {
+        cm.loadChallenge(challenge, world, false, user, true);
+        cm.setChallengeComplete(user, world, challenge, 1);
+        assertEquals(1L, cm.getCompletedChallengeCount(user, world));
+    }
+
+    @Test
+    public void testGetTotalChallengeCompletionCountZero() {
+        cm.loadChallenge(challenge, world, false, user, true);
+        assertEquals(0L, cm.getTotalChallengeCompletionCount(user, world));
+    }
+
+    @Test
+    public void testGetTotalChallengeCompletionCountMultiple() {
+        cm.loadChallenge(challenge, world, false, user, true);
+        cm.setChallengeComplete(user, world, challenge, 5);
+        assertEquals(5L, cm.getTotalChallengeCompletionCount(user, world));
+    }
+
+    @Test
+    public void testGetLevelCompletedChallengeCountNone() {
+        cm.loadLevel(level, world, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
+        level.setChallenges(Collections.singleton(challenge.getUniqueId()));
+        assertEquals(0L, cm.getLevelCompletedChallengeCount(user, world, level));
+    }
+
+    @Test
+    public void testGetLevelCompletedChallengeCountOne() {
+        cm.loadLevel(level, world, false, user, true);
+        cm.loadChallenge(challenge, world, false, user, true);
+        level.setChallenges(Collections.singleton(challenge.getUniqueId()));
+        cm.setChallengeComplete(user, world, challenge, 1);
+        assertEquals(1L, cm.getLevelCompletedChallengeCount(user, world, level));
+    }
+
+    @Test
+    public void testGetCompletedLevelCountNone() {
+        // A level with no challenges is considered complete, so with one empty level
+        // the completed count is 1
+        cm.loadLevel(level, world, false, user, true);
+        assertEquals(1L, cm.getCompletedLevelCount(user, world));
+    }
+
+    @Test
+    public void testGetCompletedLevelCountOne() {
+        cm.loadLevel(level, world, false, user, true);
+        cm.setLevelComplete(user, world, level);
+        assertEquals(1L, cm.getCompletedLevelCount(user, world));
+    }
+
+    @Test
+    public void testGetUnlockedLevelCountEmpty() {
+        assertEquals(0L, cm.getUnlockedLevelCount(user, world));
+    }
+
+    @Test
+    public void testGetUnlockedLevelCountWithLevel() {
+        cm.loadLevel(level, world, false, user, true);
+        // First level is always unlocked
+        assertEquals(1L, cm.getUnlockedLevelCount(user, world));
     }
 
 }
