@@ -75,7 +75,7 @@ class CommonPanelTest {
     }
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock mbServer = MockBukkit.mock();
 
