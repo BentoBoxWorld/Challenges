@@ -40,7 +40,7 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
             BiConsumer<Boolean, Advancement> consumer)
     {
         super(user);
-        this.elements = new ArrayList<Advancement>();
+        this.elements = new ArrayList<>();
         this.consumer = consumer;
         Bukkit.advancementIterator().forEachRemaining(elements::add);
         elements.removeIf(a -> a.getDisplay() == null); // Remove any that don't get displayed

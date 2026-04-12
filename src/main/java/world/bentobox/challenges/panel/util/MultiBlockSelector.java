@@ -78,14 +78,11 @@ public class MultiBlockSelector extends UnifiedMultiSelector<Material> {
     protected List<Material> getElements() {
         return Arrays.stream(Material.values()).filter(material -> excluded == null || !excluded.contains(material))
                 .filter(material -> {
-            switch (mode) {
-            case BLOCKS:
-                return material.isBlock();
-            case ITEMS:
-                return material.isItem();
-            default:
-                return true;
-            }
+                    return switch (mode) {
+                        case BLOCKS -> material.isBlock();
+                        case ITEMS -> material.isItem();
+                        default -> true;
+                    };
         }).sorted(Comparator.comparing(Material::name)).collect(Collectors.toList());
     }
 

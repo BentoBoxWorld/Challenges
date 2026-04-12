@@ -197,48 +197,34 @@ public class CheckPapi {
             Double rightNum = tryParseDouble(rightOperand);
             if (leftNum != null && rightNum != null) {
                 // Numeric comparison.
-                switch (operator) {
-                case "=":
-                case "==":
-                    return Double.compare(leftNum, rightNum) == 0;
-                case "<>":
-                case "!=":
-                    return Double.compare(leftNum, rightNum) != 0;
-                case "<=":
-                    return leftNum <= rightNum;
-                case ">=":
-                    return leftNum >= rightNum;
-                case "<":
-                    return leftNum < rightNum;
-                case ">":
-                    return leftNum > rightNum;
-                default:
-                    BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
-                    return false;
-                }
+                return switch (operator) {
+                    case "=", "==" -> Double.compare(leftNum, rightNum) == 0;
+                    case "<>", "!=" -> Double.compare(leftNum, rightNum) != 0;
+                    case "<=" -> leftNum <= rightNum;
+                    case ">=" -> leftNum >= rightNum;
+                    case "<" -> leftNum < rightNum;
+                    case ">" -> leftNum > rightNum;
+                    default -> {
+                        BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
+                        yield false;
+                    }
+                };
             } else {
                 // String comparison.
-                switch (operator) {
-                case "=":
-                    return leftOperand.equalsIgnoreCase(rightOperand);
-                case "==":
-                    return leftOperand.equals(rightOperand);
-                case "<>":
-                    return !leftOperand.equalsIgnoreCase(rightOperand);
-                case "!=":
-                    return !leftOperand.equals(rightOperand);
-                case "<=":
-                    return leftOperand.compareTo(rightOperand) <= 0;
-                case ">=":
-                    return leftOperand.compareTo(rightOperand) >= 0;
-                case "<":
-                    return leftOperand.compareTo(rightOperand) < 0;
-                case ">":
-                    return leftOperand.compareTo(rightOperand) > 0;
-                default:
-                    BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
-                    return false;
-                }
+                return switch (operator) {
+                    case "=" -> leftOperand.equalsIgnoreCase(rightOperand);
+                    case "==" -> leftOperand.equals(rightOperand);
+                    case "<>" -> !leftOperand.equalsIgnoreCase(rightOperand);
+                    case "!=" -> !leftOperand.equals(rightOperand);
+                    case "<=" -> leftOperand.compareTo(rightOperand) <= 0;
+                    case ">=" -> leftOperand.compareTo(rightOperand) >= 0;
+                    case "<" -> leftOperand.compareTo(rightOperand) < 0;
+                    case ">" -> leftOperand.compareTo(rightOperand) > 0;
+                    default -> {
+                        BentoBox.getInstance().logError("Challenges PAPI formula error: Unsupported operator: " + operator);
+                        yield false;
+                    }
+                };
             }
         }
 
