@@ -165,13 +165,11 @@ public abstract class CommonPanel {
             // Remove any empty lines from the translated text and split it into individual lines
             final String finalDescription = description; // ensure it's effectively final
 
-            List<String> lines = Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
+            return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                     .map(line -> line.contains(Constants.PARAMETER_DESCRIPTION)
                             ? line.replace(Constants.PARAMETER_DESCRIPTION, finalDescription)
                             : line)
                     .collect(Collectors.toList());
-
-            return lines;
         } else {
             // If description is empty, pass it directly as a parameter to the translation
             returnString = this.user.getTranslationOrNothing(referenceKey + "lore", Constants.PARAMETER_DESCRIPTION,
