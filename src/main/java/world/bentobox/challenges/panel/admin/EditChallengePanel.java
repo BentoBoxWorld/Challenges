@@ -8,13 +8,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.advancement.Advancement;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -38,8 +36,6 @@ import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.EnvironmentSelector;
 import world.bentobox.challenges.panel.util.ItemSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
-import world.bentobox.challenges.panel.util.SingleAdvancementSelector;
-import world.bentobox.challenges.panel.util.SingleAdvancementSelector.Mode;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 

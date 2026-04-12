@@ -39,7 +39,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.stubbing.Answer;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import world.bentobox.bentobox.hooks.VaultHook;

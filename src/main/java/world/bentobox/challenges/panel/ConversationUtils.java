@@ -421,12 +421,12 @@ public class ConversationUtils
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.append(user.getTranslation(Constants.CONVERSATIONS + "written-text"));
-                    sb.append(System.getProperty("line.separator"));
+                    sb.append(System.lineSeparator());
 
                     for (String line : ((List<String>) context.getSessionData(SESSION_CONSTANT)))
                     {
                         sb.append(line);
-                        sb.append(System.getProperty("line.separator"));
+                        sb.append(System.lineSeparator());
                     }
 
                     return sb.toString();

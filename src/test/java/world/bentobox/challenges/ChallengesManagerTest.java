@@ -38,7 +38,6 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -391,7 +390,7 @@ public class ChallengesManagerTest {
                 while ((currentLine = reader.readLine()) != null) {
                     String trimmedLine = currentLine.trim();
                     if (trimmedLine.startsWith(lineToRemove)) continue;
-                    writer.write(currentLine + System.getProperty("line.separator"));
+                    writer.write(currentLine + System.lineSeparator());
                 }
             }
         } catch (IOException e) {

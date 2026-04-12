@@ -39,7 +39,6 @@ import org.bukkit.util.BoundingBox;
 import com.google.common.collect.UnmodifiableIterator;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
