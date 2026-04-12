@@ -127,7 +127,7 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
 
     /**
      * This method builds PanelItem for given entity.
-     * @param entity Entity which PanelItem must be created.
+     * @param advancement advancement to build button for.
      * @return new PanelItem for given Entity.
      */
     @Override
@@ -152,7 +152,7 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
 
     /**
      * Get an ItemStack icon for any entity type, or PAPER if it's not really known
-     * @param et entity type
+     * @param advancement the advancement to get the icon for
      * @return ItemStack
      */
     public static ItemStack getIcon(Advancement advancement) {

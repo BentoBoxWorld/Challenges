@@ -1116,7 +1116,8 @@ public class ChallengesManager
     /**
      * Get the status on every level for required world and playerData
      *
-     * @param storageDataID - playerData ID
+     * @param user - player which level status must be acquired.
+     * @param world - world which level status must be acquired.
      * @param gameMode - World Name where levels should be searched.
      * @return Level status - how many challenges still to do on which level
      */

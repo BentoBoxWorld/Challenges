@@ -45,7 +45,6 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
      * Instantiates a new Single entity selector.
      *
      * @param user the user
-     * @param asEggs the boolean
      * @param mode the mode
      * @param excluded the excluded
      * @param consumer the consumer

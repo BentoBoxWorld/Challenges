@@ -445,7 +445,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
      * Creates a button for statistic requirements.
      * 
      * @param button Button that must be created.
-     * @param req 
+     * @param req Statistic requirement
      * @return PanelItem button.
      */
     private PanelItem createStatisticRequirementButton(RequirementButton button, StatisticRec req) {
