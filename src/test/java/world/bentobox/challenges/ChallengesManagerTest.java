@@ -116,14 +116,13 @@ public class ChallengesManagerTest {
     private String levelName;
 
     private AutoCloseable closeable;
-    private ServerMock mbServer;
     private MockedStatic<Bukkit> mockedBukkit;
     private MockedStatic<Util> mockedUtil;
 
     @BeforeEach
     public void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
-        mbServer = MockBukkit.mock();
+        ServerMock mbServer = MockBukkit.mock();
         @SuppressWarnings("unused")
         var unusedTagRef = org.bukkit.Tag.LEAVES;
         // Database folder must exist before any DatabaseType class init,
@@ -518,7 +517,7 @@ public class ChallengesManagerTest {
     public void testGetChallengeLevelStatus() {
         this.testLoadLevelNoOverwriteSilent();
         LevelStatus cls = cm.getChallengeLevelStatus(playerID, world, level);
-        assertTrue(cls.getNumberOfChallengesStillToDo() == 0);
+        assertEquals(0, cls.getNumberOfChallengesStillToDo());
         assertEquals(level, cls.getLevel());
         assertTrue(cls.isComplete());
         assertTrue(cls.isUnlocked());
@@ -529,9 +528,9 @@ public class ChallengesManagerTest {
     public void testGetAllChallengeLevelStatus() {
         this.testLoadLevelNoOverwriteSilent();
         List<LevelStatus> list = cm.getAllChallengeLevelStatus(user, world);
-        assertTrue(list.size() == 1);
+        assertEquals(1, list.size());
         LevelStatus cls = list.get(0);
-        assertTrue(cls.getNumberOfChallengesStillToDo() == 0);
+        assertEquals(0, cls.getNumberOfChallengesStillToDo());
         assertEquals(level, cls.getLevel());
         assertTrue(cls.isComplete());
         assertTrue(cls.isUnlocked());

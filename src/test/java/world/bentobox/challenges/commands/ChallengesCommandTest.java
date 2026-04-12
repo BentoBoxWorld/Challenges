@@ -73,14 +73,13 @@ public class ChallengesCommandTest {
     private GameModeAddon gameModeAddon;
 
     private AutoCloseable closeable;
-    private ServerMock server;
     private MockedStatic<Bukkit> mockedBukkit;
     private MockedStatic<Util> mockedUtil;
 
     @BeforeEach
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        server = MockBukkit.mock();
+        ServerMock server = MockBukkit.mock();
         // Force Paper static fields to initialize against the real MockBukkit server
         // before mockStatic(Bukkit) replaces Bukkit with Mockito stubs.
         @SuppressWarnings("unused")

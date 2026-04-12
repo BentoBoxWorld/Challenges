@@ -54,11 +54,9 @@ class CommonPagedPanelTest {
 
     private TestablePagedPanel panel;
     private AutoCloseable closeable;
-    private ServerMock mbServer;
     private MockedStatic<Bukkit> mockedBukkit;
 
     private static class TestablePagedPanel extends CommonPagedPanel<String> {
-        private boolean filterUpdated = false;
         private final List<PanelItem> createdButtons = new ArrayList<>();
 
         protected TestablePagedPanel(ChallengesAddon addon, User user, World world,
@@ -71,7 +69,7 @@ class CommonPagedPanelTest {
 
         @Override
         protected void updateFilters() {
-            this.filterUpdated = true;
+            boolean filterUpdated = true;
         }
 
         @Override
@@ -117,7 +115,7 @@ class CommonPagedPanelTest {
     @BeforeEach
     void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
-        mbServer = MockBukkit.mock();
+        ServerMock mbServer = MockBukkit.mock();
 
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);

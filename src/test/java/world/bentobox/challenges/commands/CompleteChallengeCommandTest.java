@@ -84,7 +84,6 @@ public class CompleteChallengeCommandTest {
     private Challenge challenge;
 
     private AutoCloseable closeable;
-    private ServerMock server;
     private MockedStatic<Bukkit> mockedBukkit;
     private MockedStatic<Utils> mockedUtils;
     private MockedStatic<TryToComplete> mockedTtc;
@@ -94,7 +93,7 @@ public class CompleteChallengeCommandTest {
     @BeforeEach
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        server = MockBukkit.mock();
+        ServerMock server = MockBukkit.mock();
         @SuppressWarnings("unused")
         var unusedTagRef = org.bukkit.Tag.LEAVES;
         // Set up plugin

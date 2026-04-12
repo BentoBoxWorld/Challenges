@@ -39,13 +39,12 @@ class ConversationUtilsTest {
     private Player player;
 
     private AutoCloseable closeable;
-    private ServerMock mbServer;
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
-        mbServer = MockBukkit.mock();
+        ServerMock mbServer = MockBukkit.mock();
 
         when(user.getTranslation(anyString())).thenAnswer(
             (Answer<String>) inv -> inv.getArgument(0, String.class));

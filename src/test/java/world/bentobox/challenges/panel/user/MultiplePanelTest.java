@@ -47,13 +47,12 @@ class MultiplePanelTest {
     private World world;
 
     private AutoCloseable closeable;
-    private ServerMock mbServer;
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
-        mbServer = MockBukkit.mock();
+        ServerMock mbServer = MockBukkit.mock();
 
         PanelTestHelper.setupUserTranslations(user);
         when(user.getWorld()).thenReturn(world);

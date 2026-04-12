@@ -52,13 +52,12 @@ class GameModePanelTest {
     private ChallengesManager manager;
 
     private AutoCloseable closeable;
-    private ServerMock mbServer;
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
-        mbServer = MockBukkit.mock();
+        ServerMock mbServer = MockBukkit.mock();
 
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);

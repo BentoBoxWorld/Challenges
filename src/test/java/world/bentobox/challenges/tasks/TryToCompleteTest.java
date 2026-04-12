@@ -70,7 +70,6 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     private final String topLabel = "island";
     private final String permissionPrefix = "perm.";
     private final ItemStack[] contents = {};
-    private Set<Player> onlinePlayers;
 
     @Override
     @BeforeEach
@@ -105,7 +104,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
         when(inv.getContents()).thenReturn(contents);
 
         // Bukkit - online players
-        onlinePlayers = new HashSet<>();
+        Set<Player> onlinePlayers = new HashSet<>();
         for (String name : NAMES) {
             Player p1 = mock(Player.class);
             UUID uuid2 = UUID.randomUUID();

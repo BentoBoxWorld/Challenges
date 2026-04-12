@@ -510,7 +510,6 @@ public abstract class CommonPanel {
                             Utils.prettifyObject(s.entity(), this.user));
             }
         }
-            default -> "";
             };
 
             String warning = s.reduceStatistic() ? this.user.getTranslationOrNothing(reference + "warning")
