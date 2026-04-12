@@ -31,7 +31,7 @@ import world.bentobox.challenges.managers.ChallengesManager;
 /**
  * Tests for {@link CommonPanel} including description generation.
  */
-public class CommonPanelTest {
+class CommonPanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -78,7 +78,7 @@ public class CommonPanelTest {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -94,7 +94,7 @@ public class CommonPanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -102,7 +102,7 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testMainConstructorSetsFields() {
+    void testMainConstructorSetsFields() {
         assertEquals(addon, panel.addon);
         assertEquals(manager, panel.manager);
         assertEquals(user, panel.user);
@@ -112,12 +112,12 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testMainConstructorCreatesReturnButton() {
+    void testMainConstructorCreatesReturnButton() {
         assertNotNull(panel.getReturnButton());
     }
 
     @Test
-    public void testChildConstructorInheritsFields() {
+    void testChildConstructorInheritsFields() {
         TestableCommonPanel child = new TestableCommonPanel(panel);
         assertEquals(addon, child.addon);
         assertEquals(manager, child.manager);
@@ -128,19 +128,19 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testChildConstructorCreatesReturnButton() {
+    void testChildConstructorCreatesReturnButton() {
         TestableCommonPanel child = new TestableCommonPanel(panel);
         assertNotNull(child.getReturnButton());
     }
 
     @Test
-    public void testReopenCallsBuild() {
+    void testReopenCallsBuild() {
         CommonPanel.reopen(panel);
         assertEquals(1, panel.getBuildCount());
     }
 
     @Test
-    public void testReopenMultipleTimes() {
+    void testReopenMultipleTimes() {
         CommonPanel.reopen(panel);
         CommonPanel.reopen(panel);
         CommonPanel.reopen(panel);
@@ -148,14 +148,14 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testGenerateChallengeDescriptionNullTarget() {
+    void testGenerateChallengeDescriptionNullTarget() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         List<String> description = panel.callGenerateChallengeDescription(challenge, null);
         assertNotNull(description);
     }
 
     @Test
-    public void testGenerateChallengeDescriptionCompletedChallenge() {
+    void testGenerateChallengeDescriptionCompletedChallenge() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
@@ -166,7 +166,7 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testGenerateChallengeDescriptionRepeatableChallenge() {
+    void testGenerateChallengeDescriptionRepeatableChallenge() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         when(challenge.isRepeatable()).thenReturn(true);
         when(challenge.getMaxTimes()).thenReturn(5);
@@ -180,7 +180,7 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testGenerateChallengeDescriptionFullyCompletedRepeatable() {
+    void testGenerateChallengeDescriptionFullyCompletedRepeatable() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         when(challenge.isRepeatable()).thenReturn(true);
         when(challenge.getMaxTimes()).thenReturn(5);
@@ -194,7 +194,7 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testGenerateChallengeDescriptionWithCustomDescription() {
+    void testGenerateChallengeDescriptionWithCustomDescription() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         when(challenge.getDescription()).thenReturn(List.of("Custom line 1", "Custom line 2"));
 
@@ -203,7 +203,7 @@ public class CommonPanelTest {
     }
 
     @Test
-    public void testGenerateChallengeDescriptionEmptyDescription() {
+    void testGenerateChallengeDescriptionEmptyDescription() {
         Challenge challenge = PanelTestHelper.createBasicChallenge("Test", true);
         when(challenge.getDescription()).thenReturn(Collections.emptyList());
 

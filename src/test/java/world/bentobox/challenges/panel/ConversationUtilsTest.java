@@ -31,7 +31,7 @@ import world.bentobox.challenges.WhiteBox;
  * Tests for {@link ConversationUtils} conversation creation methods.
  * Uses MockBukkit + mockStatic(Bukkit.class) for server infrastructure.
  */
-public class ConversationUtilsTest {
+class ConversationUtilsTest {
 
     @Mock
     private User user;
@@ -43,7 +43,7 @@ public class ConversationUtilsTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -65,7 +65,7 @@ public class ConversationUtilsTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -73,7 +73,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateConfirmation() {
+    void testCreateConfirmation() {
         @SuppressWarnings("unchecked")
         Consumer<Boolean> consumer = mock(Consumer.class);
         ConversationUtils.createConfirmation(consumer, user, "Are you sure?", "Done!");
@@ -81,7 +81,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateConfirmationWithNullSuccessMessage() {
+    void testCreateConfirmationWithNullSuccessMessage() {
         @SuppressWarnings("unchecked")
         Consumer<Boolean> consumer = mock(Consumer.class);
         ConversationUtils.createConfirmation(consumer, user, "Are you sure?", null);
@@ -89,7 +89,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateIDStringInput() {
+    void testCreateIDStringInput() {
         @SuppressWarnings("unchecked")
         Consumer<String> consumer = mock(Consumer.class);
         Function<String, Boolean> validation = input -> true;
@@ -99,7 +99,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateNumericInput() {
+    void testCreateNumericInput() {
         @SuppressWarnings("unchecked")
         Consumer<Number> consumer = mock(Consumer.class);
         ConversationUtils.createNumericInput(consumer, user, "Enter number:", 1, 100);
@@ -107,7 +107,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateNumericInputWithBounds() {
+    void testCreateNumericInputWithBounds() {
         @SuppressWarnings("unchecked")
         Consumer<Number> consumer = mock(Consumer.class);
         ConversationUtils.createNumericInput(consumer, user, "Enter:", 0, 2000);
@@ -115,7 +115,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateStringInput() {
+    void testCreateStringInput() {
         @SuppressWarnings("unchecked")
         Consumer<String> consumer = mock(Consumer.class);
         ConversationUtils.createStringInput(consumer, user, "Enter text:", "Saved!");
@@ -123,7 +123,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateStringInputWithNullSuccess() {
+    void testCreateStringInputWithNullSuccess() {
         @SuppressWarnings("unchecked")
         Consumer<String> consumer = mock(Consumer.class);
         ConversationUtils.createStringInput(consumer, user, "Enter text:", null);
@@ -131,7 +131,7 @@ public class ConversationUtilsTest {
     }
 
     @Test
-    public void testCreateStringListInput() {
+    void testCreateStringListInput() {
         @SuppressWarnings("unchecked")
         Consumer<List<String>> consumer = mock(Consumer.class);
         ConversationUtils.createStringListInput(consumer, user, "Enter lines:", "Saved!");

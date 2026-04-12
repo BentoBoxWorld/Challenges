@@ -40,7 +40,7 @@ import world.bentobox.challenges.panel.PanelTestHelper;
 /**
  * Tests for {@link GameModePanel} button creation logic.
  */
-public class GameModePanelTest {
+class GameModePanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -56,7 +56,7 @@ public class GameModePanelTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -71,7 +71,7 @@ public class GameModePanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -118,7 +118,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonReturnsNullForEmptyList() throws Exception {
+    void testCreateGameModeButtonReturnsNullForEmptyList() throws Exception {
         GameModePanel panel = createPanel(Collections.emptyList(), false);
 
         ItemTemplateRecord template = PanelTestHelper.createSimpleTemplate(new HashMap<>());
@@ -130,7 +130,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonWithAddon() throws Exception {
+    void testCreateGameModeButtonWithAddon() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         when(gm.inWorld(any(World.class))).thenReturn(false);
         GameModePanel panel = createPanel(List.of(gm), false);
@@ -144,7 +144,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonWithIdMatch() throws Exception {
+    void testCreateGameModeButtonWithIdMatch() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         when(gm.inWorld(any(World.class))).thenReturn(false);
         GameModePanel panel = createPanel(List.of(gm), false);
@@ -159,7 +159,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonWithIdNoMatch() throws Exception {
+    void testCreateGameModeButtonWithIdNoMatch() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         GameModePanel panel = createPanel(List.of(gm), false);
 
@@ -173,7 +173,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonOutOfRange() throws Exception {
+    void testCreateGameModeButtonOutOfRange() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         GameModePanel panel = createPanel(List.of(gm), false);
 
@@ -186,7 +186,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateNextButtonNoTarget() throws Exception {
+    void testCreateNextButtonNoTarget() throws Exception {
         GameModePanel panel = createPanel(Collections.emptyList(), false);
 
         ItemTemplateRecord template = PanelTestHelper.createSimpleTemplate(new HashMap<>());
@@ -197,7 +197,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreatePreviousButtonAtStart() throws Exception {
+    void testCreatePreviousButtonAtStart() throws Exception {
         GameModePanel panel = createPanel(Collections.emptyList(), false);
 
         Map<String, Object> dataMap = new HashMap<>();
@@ -210,7 +210,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateNextButtonNotEnoughAddons() throws Exception {
+    void testCreateNextButtonNotEnoughAddons() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         GameModePanel panel = createPanel(List.of(gm), false);
 
@@ -225,7 +225,7 @@ public class GameModePanelTest {
     }
 
     @Test
-    public void testCreateGameModeButtonWithCustomTemplate() throws Exception {
+    void testCreateGameModeButtonWithCustomTemplate() throws Exception {
         GameModeAddon gm = createMockGameMode("BSkyBlock");
         when(gm.inWorld(any(World.class))).thenReturn(true);
         GameModePanel panel = createPanel(List.of(gm), false);

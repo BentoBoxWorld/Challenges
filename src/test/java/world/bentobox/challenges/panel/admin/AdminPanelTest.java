@@ -32,7 +32,7 @@ import world.bentobox.challenges.panel.PanelTestHelper;
 /**
  * Tests for {@link AdminPanel} button creation logic.
  */
-public class AdminPanelTest {
+class AdminPanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -53,7 +53,7 @@ public class AdminPanelTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -77,7 +77,7 @@ public class AdminPanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -100,87 +100,87 @@ public class AdminPanelTest {
     }
 
     @Test
-    public void testCreateCompleteUserChallengesButton() throws Exception {
+    void testCreateCompleteUserChallengesButton() throws Exception {
         assertNotNull(callCreateButton("COMPLETE_USER_CHALLENGES"));
     }
 
     @Test
-    public void testCreateResetUserChallengesButton() throws Exception {
+    void testCreateResetUserChallengesButton() throws Exception {
         assertNotNull(callCreateButton("RESET_USER_CHALLENGES"));
     }
 
     @Test
-    public void testCreateAddChallengeButton() throws Exception {
+    void testCreateAddChallengeButton() throws Exception {
         assertNotNull(callCreateButton("ADD_CHALLENGE"));
     }
 
     @Test
-    public void testCreateAddLevelButton() throws Exception {
+    void testCreateAddLevelButton() throws Exception {
         assertNotNull(callCreateButton("ADD_LEVEL"));
     }
 
     @Test
-    public void testCreateEditChallengeButton() throws Exception {
+    void testCreateEditChallengeButton() throws Exception {
         assertNotNull(callCreateButton("EDIT_CHALLENGE"));
     }
 
     @Test
-    public void testCreateEditLevelButton() throws Exception {
+    void testCreateEditLevelButton() throws Exception {
         assertNotNull(callCreateButton("EDIT_LEVEL"));
     }
 
     @Test
-    public void testCreateDeleteChallengeButton() throws Exception {
+    void testCreateDeleteChallengeButton() throws Exception {
         assertNotNull(callCreateButton("DELETE_CHALLENGE"));
     }
 
     @Test
-    public void testCreateDeleteLevelButton() throws Exception {
+    void testCreateDeleteLevelButton() throws Exception {
         assertNotNull(callCreateButton("DELETE_LEVEL"));
     }
 
     @Test
-    public void testCreateEditSettingsButton() throws Exception {
+    void testCreateEditSettingsButton() throws Exception {
         assertNotNull(callCreateButton("EDIT_SETTINGS"));
     }
 
     @Test
-    public void testCreateImportDatabaseButton() throws Exception {
+    void testCreateImportDatabaseButton() throws Exception {
         assertNotNull(callCreateButton("IMPORT_DATABASE"));
     }
 
     @Test
-    public void testCreateImportTemplateButton() throws Exception {
+    void testCreateImportTemplateButton() throws Exception {
         assertNotNull(callCreateButton("IMPORT_TEMPLATE"));
     }
 
     @Test
-    public void testCreateExportChallengesButton() throws Exception {
+    void testCreateExportChallengesButton() throws Exception {
         assertNotNull(callCreateButton("EXPORT_CHALLENGES"));
     }
 
     @Test
-    public void testCreateChallengeWipeButton() throws Exception {
+    void testCreateChallengeWipeButton() throws Exception {
         assertNotNull(callCreateButton("CHALLENGE_WIPE"));
     }
 
     @Test
-    public void testCreateCompleteWipeButton() throws Exception {
+    void testCreateCompleteWipeButton() throws Exception {
         assertNotNull(callCreateButton("COMPLETE_WIPE"));
     }
 
     @Test
-    public void testCreateUserWipeButton() throws Exception {
+    void testCreateUserWipeButton() throws Exception {
         assertNotNull(callCreateButton("USER_WIPE"));
     }
 
     @Test
-    public void testCreateLibraryButton() throws Exception {
+    void testCreateLibraryButton() throws Exception {
         assertNotNull(callCreateButton("LIBRARY"));
     }
 
     @Test
-    public void testAllButtonsCreateSuccessfully() throws Exception {
+    void testAllButtonsCreateSuccessfully() throws Exception {
         Class<?> buttonEnum = Class.forName(
             "world.bentobox.challenges.panel.admin.AdminPanel$Button");
 

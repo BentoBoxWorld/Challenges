@@ -37,7 +37,7 @@ import world.bentobox.challenges.panel.PanelTestHelper;
 /**
  * Tests for {@link MultiplePanel} button creation logic.
  */
-public class MultiplePanelTest {
+class MultiplePanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -51,7 +51,7 @@ public class MultiplePanelTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -65,7 +65,7 @@ public class MultiplePanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -117,7 +117,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testDefaultCompletionValueIsOne() throws Exception {
+    void testDefaultCompletionValueIsOne() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -125,7 +125,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateIncreaseButton() throws Exception {
+    void testCreateIncreaseButton() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -142,7 +142,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateReduceButton() throws Exception {
+    void testCreateReduceButton() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -159,7 +159,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateValueButton() throws Exception {
+    void testCreateValueButton() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -176,7 +176,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateIncreaseButtonWithNullIcon() throws Exception {
+    void testCreateIncreaseButtonWithNullIcon() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -191,7 +191,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateReduceButtonWithNullIcon() throws Exception {
+    void testCreateReduceButtonWithNullIcon() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -206,7 +206,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCreateIncreaseButtonDefaultValue() throws Exception {
+    void testCreateIncreaseButtonDefaultValue() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);
@@ -221,7 +221,7 @@ public class MultiplePanelTest {
     }
 
     @Test
-    public void testCompletionValueSetAndGet() throws Exception {
+    void testCompletionValueSetAndGet() throws Exception {
         @SuppressWarnings("unchecked")
         Consumer<Integer> action = mock(Consumer.class);
         MultiplePanel panel = createPanel(action);

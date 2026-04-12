@@ -39,7 +39,7 @@ import world.bentobox.challenges.managers.ChallengesManager;
 /**
  * Tests for {@link CommonPagedPanel} pagination and button creation logic.
  */
-public class CommonPagedPanelTest {
+class CommonPagedPanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -115,7 +115,7 @@ public class CommonPagedPanelTest {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -132,7 +132,7 @@ public class CommonPagedPanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -140,27 +140,27 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testPopulateEmptyList() {
+    void testPopulateEmptyList() {
         panel.callPopulateElements(panelBuilder, List.of());
         verify(panelBuilder, never()).item(anyInt(), any(PanelItem.class));
     }
 
     @Test
-    public void testPopulateSingleElement() {
+    void testPopulateSingleElement() {
         panel.callPopulateElements(panelBuilder, List.of("one"));
         verify(panelBuilder).item(eq(10), any(PanelItem.class));
         assertEquals(1, panel.createdButtons.size());
     }
 
     @Test
-    public void testPopulateExactlyMaxElements() {
+    void testPopulateExactlyMaxElements() {
         List<String> elements = IntStream.range(0, 21).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
         assertEquals(21, panel.createdButtons.size());
     }
 
     @Test
-    public void testPopulateMoreThanMaxShowsNextButton() {
+    void testPopulateMoreThanMaxShowsNextButton() {
         List<String> elements = IntStream.range(0, 22).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -169,7 +169,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testPopulateSecondPageShowsPreviousButton() throws Exception {
+    void testPopulateSecondPageShowsPreviousButton() throws Exception {
         panel.setPageIndex(1);
         List<String> elements = IntStream.range(0, 42).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
@@ -180,7 +180,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testPopulateSkipsOccupiedSlots() {
+    void testPopulateSkipsOccupiedSlots() {
         when(panelBuilder.slotOccupied(10)).thenReturn(true);
         panel.callPopulateElements(panelBuilder, List.of("one", "two", "three"));
         verify(panelBuilder, never()).item(eq(10), any(PanelItem.class));
@@ -188,7 +188,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testNegativePageIndexWrapsToLastPage() throws Exception {
+    void testNegativePageIndexWrapsToLastPage() throws Exception {
         panel.setPageIndex(-1);
         List<String> elements = IntStream.range(0, 42).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
@@ -196,7 +196,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testPageIndexBeyondMaxWrapsToZero() throws Exception {
+    void testPageIndexBeyondMaxWrapsToZero() throws Exception {
         panel.setPageIndex(5);
         List<String> elements = IntStream.range(0, 21).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
@@ -204,7 +204,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testSearchButtonAppearsWhenMoreThanMaxElements() {
+    void testSearchButtonAppearsWhenMoreThanMaxElements() {
         List<String> elements = IntStream.range(0, 22).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -213,7 +213,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testSearchButtonAppearsWhenSearchStringSet() {
+    void testSearchButtonAppearsWhenSearchStringSet() {
         panel.searchString = "test";
         panel.callPopulateElements(panelBuilder, List.of("one"));
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -222,7 +222,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testNoSearchButtonWhenFewElementsAndNoSearch() {
+    void testNoSearchButtonWhenFewElementsAndNoSearch() {
         panel.callPopulateElements(panelBuilder, List.of("one", "two"));
         ArgumentCaptor<Integer> slotCaptor = ArgumentCaptor.forClass(Integer.class);
         verify(panelBuilder, times(2)).item(slotCaptor.capture(), any(PanelItem.class));
@@ -230,32 +230,32 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testGetNextButton() throws Exception {
+    void testGetNextButton() throws Exception {
         PanelItem nextButton = panel.callGetButton("NEXT");
         assertNotNull(nextButton);
     }
 
     @Test
-    public void testGetPreviousButton() throws Exception {
+    void testGetPreviousButton() throws Exception {
         PanelItem prevButton = panel.callGetButton("PREVIOUS");
         assertNotNull(prevButton);
     }
 
     @Test
-    public void testGetSearchButton() throws Exception {
+    void testGetSearchButton() throws Exception {
         PanelItem searchButton = panel.callGetButton("SEARCH");
         assertNotNull(searchButton);
     }
 
     @Test
-    public void testGetSearchButtonWithExistingSearchString() throws Exception {
+    void testGetSearchButtonWithExistingSearchString() throws Exception {
         panel.searchString = "diamond";
         PanelItem searchButton = panel.callGetButton("SEARCH");
         assertNotNull(searchButton);
     }
 
     @Test
-    public void testPopulateLastPageNoNextButton() throws Exception {
+    void testPopulateLastPageNoNextButton() throws Exception {
         panel.setPageIndex(1);
         List<String> elements = IntStream.range(0, 42).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
@@ -267,7 +267,7 @@ public class CommonPagedPanelTest {
     }
 
     @Test
-    public void testPopulateFirstPageNoPreviousButton() throws Exception {
+    void testPopulateFirstPageNoPreviousButton() throws Exception {
         List<String> elements = IntStream.range(0, 42).mapToObj(i -> "item" + i).toList();
         panel.callPopulateElements(panelBuilder, elements);
         // First page: 21 items + next button + search button = 23

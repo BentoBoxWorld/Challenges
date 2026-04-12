@@ -29,7 +29,7 @@ import world.bentobox.challenges.panel.PanelTestHelper;
 /**
  * Tests for {@link ListChallengesPanel} element button creation.
  */
-public class ListChallengesPanelTest {
+class ListChallengesPanelTest {
 
     @Mock
     private ChallengesAddon addon;
@@ -45,7 +45,7 @@ public class ListChallengesPanelTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
 
@@ -59,7 +59,7 @@ public class ListChallengesPanelTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (closeable != null) closeable.close();
         MockBukkit.unmock();
@@ -83,7 +83,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testCreateElementButtonEditMode() throws Exception {
+    void testCreateElementButtonEditMode() throws Exception {
         ListChallengesPanel panel = createPanel(ListChallengesPanel.Mode.EDIT);
         Challenge challenge = PanelTestHelper.createBasicChallenge("Diamond Challenge", true);
         PanelItem item = callCreateElementButton(panel, challenge);
@@ -91,7 +91,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testCreateElementButtonDeleteMode() throws Exception {
+    void testCreateElementButtonDeleteMode() throws Exception {
         ListChallengesPanel panel = createPanel(ListChallengesPanel.Mode.DELETE);
         Challenge challenge = PanelTestHelper.createBasicChallenge("Diamond Challenge", true);
         PanelItem item = callCreateElementButton(panel, challenge);
@@ -99,7 +99,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testCreateElementButtonUndeployedChallengeGlows() throws Exception {
+    void testCreateElementButtonUndeployedChallengeGlows() throws Exception {
         ListChallengesPanel panel = createPanel(ListChallengesPanel.Mode.EDIT);
         Challenge challenge = PanelTestHelper.createBasicChallenge("Undeployed", false);
         PanelItem item = callCreateElementButton(panel, challenge);
@@ -107,7 +107,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testCreateElementButtonDeployedChallengeNoGlow() throws Exception {
+    void testCreateElementButtonDeployedChallengeNoGlow() throws Exception {
         ListChallengesPanel panel = createPanel(ListChallengesPanel.Mode.EDIT);
         Challenge challenge = PanelTestHelper.createBasicChallenge("Deployed", true);
         PanelItem item = callCreateElementButton(panel, challenge);
@@ -115,7 +115,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testCreateMultipleElementButtons() throws Exception {
+    void testCreateMultipleElementButtons() throws Exception {
         ListChallengesPanel panel = createPanel(ListChallengesPanel.Mode.EDIT);
         for (int i = 0; i < 5; i++) {
             Challenge challenge = PanelTestHelper.createBasicChallenge("Challenge " + i, true);
@@ -125,7 +125,7 @@ public class ListChallengesPanelTest {
     }
 
     @Test
-    public void testBothModesCreateButtons() {
+    void testBothModesCreateButtons() {
         for (ListChallengesPanel.Mode mode : ListChallengesPanel.Mode.values()) {
             assertDoesNotThrow(() -> {
                 ListChallengesPanel panel = createPanel(mode);
