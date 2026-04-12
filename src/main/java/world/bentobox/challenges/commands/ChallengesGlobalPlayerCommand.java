@@ -60,7 +60,7 @@ public class ChallengesGlobalPlayerCommand extends CompositeCommand
 		}
 		else if (this.gameModeAddons.size() == 1)
 		{
-			this.gameModeAddons.get(0).getPlayerCommand().ifPresent(compositeCommand ->
+			this.gameModeAddons.getFirst().getPlayerCommand().ifPresent(compositeCommand ->
 				user.performCommand(compositeCommand.getTopLabel() + " " +
 					this.<ChallengesAddon>getAddon().getChallengesSettings().getPlayerMainCommand().split(" ")[0]));
 			return true;

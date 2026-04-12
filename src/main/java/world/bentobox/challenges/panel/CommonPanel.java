@@ -254,7 +254,7 @@ public abstract class CommonPanel {
 
             if (missingPermissions.size() == 1) {
                 permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permission-single",
-                        Constants.PARAMETER_PERMISSION, missingPermissions.get(0)));
+                        Constants.PARAMETER_PERMISSION, missingPermissions.getFirst()));
             } else if (!missingPermissions.isEmpty()) {
                 permissionBuilder.append(this.user.getTranslationOrNothing(reference + "permissions-title"));
                 missingPermissions.forEach(permission -> {

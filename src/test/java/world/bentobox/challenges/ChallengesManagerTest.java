@@ -529,7 +529,7 @@ public class ChallengesManagerTest {
         this.testLoadLevelNoOverwriteSilent();
         List<LevelStatus> list = cm.getAllChallengeLevelStatus(user, world);
         assertEquals(1, list.size());
-        LevelStatus cls = list.get(0);
+        LevelStatus cls = list.getFirst();
         assertEquals(0, cls.getNumberOfChallengesStillToDo());
         assertEquals(level, cls.getLevel());
         assertTrue(cls.isComplete());
@@ -544,7 +544,7 @@ public class ChallengesManagerTest {
         cm.loadChallenge(challenge, world, false, user, true);
         List<String> list = cm.getAllChallengesNames(world);
         assertFalse(list.isEmpty());
-        assertEquals(cName, list.get(0));
+        assertEquals(cName, list.getFirst());
     }
 
     @Test
@@ -554,7 +554,7 @@ public class ChallengesManagerTest {
         cm.loadChallenge(challenge, world, false, user, true);
         List<Challenge> list = cm.getAllChallenges(world);
         assertFalse(list.isEmpty());
-        assertEquals(challenge, list.get(0));
+        assertEquals(challenge, list.getFirst());
     }
 
     @Test
@@ -568,7 +568,7 @@ public class ChallengesManagerTest {
         cm.loadChallenge(challenge, world, false, user, true);
         List<Challenge> list = cm.getFreeChallenges(world);
         assertFalse(list.isEmpty());
-        assertEquals(challenge, list.get(0));
+        assertEquals(challenge, list.getFirst());
     }
 
     @Test
@@ -579,7 +579,7 @@ public class ChallengesManagerTest {
         level.setChallenges(Collections.singleton(challenge.getUniqueId()));
         List<Challenge> list = cm.getLevelChallenges(level);
         assertFalse(list.isEmpty());
-        assertEquals(challenge, list.get(0));
+        assertEquals(challenge, list.getFirst());
     }
 
     @Test
@@ -622,7 +622,7 @@ public class ChallengesManagerTest {
         this.testGetLevelString();
         List<ChallengeLevel> lvs = cm.getLevels(world);
         assertFalse(lvs.isEmpty());
-        assertEquals(level, lvs.get(0));
+        assertEquals(level, lvs.getFirst());
     }
 
     @Test
@@ -881,7 +881,7 @@ public class ChallengesManagerTest {
         cm.loadLevel(level, world, false, user, true);
         List<String> names = cm.getLevelNames(world);
         assertEquals(1, names.size());
-        assertEquals(levelName, names.get(0));
+        assertEquals(levelName, names.getFirst());
     }
 
     @Test

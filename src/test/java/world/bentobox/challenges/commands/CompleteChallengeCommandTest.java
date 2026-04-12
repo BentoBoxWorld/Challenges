@@ -256,14 +256,14 @@ public class CompleteChallengeCommandTest {
     public void testTabCompleteUserStringListOfStringOneArg() {
         List<String> list = cc.tabComplete(user, "complete", Collections.singletonList("arg")).get();
         assertFalse(list.isEmpty());
-        assertEquals("help", list.get(0));
+        assertEquals("help", list.getFirst());
     }
 
     @Test
     public void testTabCompleteUserStringListOfStringTwoArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2")).get();
         assertFalse(list.isEmpty());
-        assertEquals("help", list.get(0));
+        assertEquals("help", list.getFirst());
     }
 
     @Test
@@ -285,14 +285,14 @@ public class CompleteChallengeCommandTest {
     public void testTabCompleteUserStringListOfStringFourArgsNumber() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "4")).get();
         assertFalse(list.isEmpty());
-        assertEquals("<number>", list.get(0));
+        assertEquals("<number>", list.getFirst());
     }
 
     @Test
     public void testTabCompleteUserStringListOfStringFiveArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg23", "arg4", "arg5")).get();
         assertFalse(list.isEmpty());
-        assertEquals("help", list.get(0));
+        assertEquals("help", list.getFirst());
     }
 
 }

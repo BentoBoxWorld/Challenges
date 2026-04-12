@@ -1772,7 +1772,7 @@ public class ChallengesManager
     {
         List<ChallengeLevel> levels = this.getLevels(world);
 
-        return levels.get(levels.size() - 1) == level;
+        return levels.getLast() == level;
     }
 
 

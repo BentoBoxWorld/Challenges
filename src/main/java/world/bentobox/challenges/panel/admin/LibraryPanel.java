@@ -250,7 +250,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
         // No point to display. Single element.
         if (this.libraryEntries.size() == 1 && !this.mode.equals(Library.WEB))
         {
-            this.generateConfirmationInput(this.libraryEntries.get(0));
+            this.generateConfirmationInput(this.libraryEntries.getFirst());
             return;
         }
 
@@ -370,7 +370,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
                 // Cycle order: [current lang] -> next lang -> ... -> null (All) -> first lang
                 if (this.selectedLanguage == null)
                 {
-                    this.selectedLanguage = this.availableLanguages.get(0);
+                    this.selectedLanguage = this.availableLanguages.getFirst();
                 }
                 else
                 {

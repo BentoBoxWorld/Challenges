@@ -86,11 +86,11 @@ public class CompleteCommand extends CompositeCommand
 						this.getWorld(),
 						"general.errors.unknown-player",
 						TextVariables.NAME,
-						args.get(0));
+						args.getFirst());
 				}
 				else
 				{
-					this.addon.logError("Unknown player name " + args.get(0));
+					this.addon.logError("Unknown player name " + args.getFirst());
 				}
 
 				return false;
@@ -167,7 +167,7 @@ public class CompleteCommand extends CompositeCommand
 	@Override
 	public Optional<List<String>> tabComplete(User user, String alias, List<String> args)
 	{
-		String lastString = args.get(args.size() - 1);
+		String lastString = args.getLast();
 
 		final List<String> returnList = new ArrayList<>();
 		final int size = args.size();

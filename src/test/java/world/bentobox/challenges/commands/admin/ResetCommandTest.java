@@ -215,6 +215,6 @@ public class ResetCommandTest extends AdminCommandTestBase {
         Optional<List<String>> result = rc.tabComplete(user, "reset",
                 Arrays.asList("reset", "x", "alice", "chal", "extra"));
         assertTrue(result.isPresent());
-        assertEquals("help", result.get().get(0));
+        assertEquals("help", result.get().getFirst());
     }
 }
