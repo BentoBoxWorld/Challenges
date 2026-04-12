@@ -77,13 +77,11 @@ public class MultiBlockSelector extends UnifiedMultiSelector<Material> {
     @Override
     protected List<Material> getElements() {
         return Arrays.stream(Material.values()).filter(material -> excluded == null || !excluded.contains(material))
-                .filter(material -> {
-                    return switch (mode) {
-                        case BLOCKS -> material.isBlock();
-                        case ITEMS -> material.isItem();
-                        default -> true;
-                    };
-        }).sorted(Comparator.comparing(Material::name)).collect(Collectors.toList());
+                .filter(material -> switch (mode) {
+                    case BLOCKS -> material.isBlock();
+                    case ITEMS -> material.isItem();
+                    default -> true;
+                }).sorted(Comparator.comparing(Material::name)).collect(Collectors.toList());
     }
 
     @Override
