@@ -38,835 +38,835 @@ challenges:
   gui:
     titles:
       # The title for the Main GUI
-      player-gui: "&0&l Uzdevumu Izvēlne"
+      player-gui: "<black><bold>Uzdevumu Izvēlne"
       # The title for the Main GUI
-      gamemode-gui: "&0&l Izvēlies Spēles Režīmu"
+      gamemode-gui: "<black><bold>Izvēlies Spēles Režīmu"
       # The title for the Multiple Completion GUI
-      multiple-gui: "&0&l Cik daudz reižu?"
+      multiple-gui: "<black><bold>Cik daudz reižu?"
       # GUI titles below is visible just for Admins.
-      admin-gui: "&0&l Administratora Izvēlne"
-      edit-challenge: "&0&l Mainīt [challenge]"
-      edit-level: "&0&l Mainīt [level]"
-      settings: "&0&l Iestatījumi"
-      choose-challenge: "&0&l Izvēlies Uzdevumu"
-      choose-level: "&0&l Izvēlies Līmeni"
-      choose-player: "&0&l Izvēlies Spēlētāju"
-      library: "&0&l Bibliotēka"
-      manage-blocks: "&0&l Pārvaldīt Blokus"
-      manage-entities: "&0&l Pārvaldīt Radības"
-      type-selector: "&0&l Uzdevumu Tipu Izvēlne"
-      item-selector: "&0&l Lietu Izvēlne"
-      block-selector: "&0&l Bloku Izvēlne"
-      entity-selector: "&0&l Radību Izvēlne"
-      challenge-selector: "&0&l Uzdevumu Izvēlne"
-      statistic-selector: "&0&l Statistikas Izvēlne"
-      environment-selector: "&0&l Vides Izvēlne"
+      admin-gui: "<black><bold>Administratora Izvēlne"
+      edit-challenge: "<black><bold>Mainīt [challenge]"
+      edit-level: "<black><bold>Mainīt [level]"
+      settings: "<black><bold>Iestatījumi"
+      choose-challenge: "<black><bold>Izvēlies Uzdevumu"
+      choose-level: "<black><bold>Izvēlies Līmeni"
+      choose-player: "<black><bold>Izvēlies Spēlētāju"
+      library: "<black><bold>Bibliotēka"
+      manage-blocks: "<black><bold>Pārvaldīt Blokus"
+      manage-entities: "<black><bold>Pārvaldīt Radības"
+      type-selector: "<black><bold>Uzdevumu Tipu Izvēlne"
+      item-selector: "<black><bold>Lietu Izvēlne"
+      block-selector: "<black><bold>Bloku Izvēlne"
+      entity-selector: "<black><bold>Radību Izvēlne"
+      challenge-selector: "<black><bold>Uzdevumu Izvēlne"
+      statistic-selector: "<black><bold>Statistikas Izvēlne"
+      environment-selector: "<black><bold>Vides Izvēlne"
     buttons:
       # Button in the Challenges GUI that allows to select free challenges.
       free-challenges:
-        name: "&f&l Brīvie Uzdevumi"
+        name: "<white><bold>Brīvie Uzdevumi"
         description: |-
-          &7 Attainos visus brīvos
-          &7 uzdevumus
+          <gray>Attainos visus brīvos
+          <gray>uzdevumus
       # Button that is used to return to previous GUI or exit it completely.
       return:
-        name: "&f&l Atgriezties"
+        name: "<white><bold>Atgriezties"
         description: |-
-          &7 Atgriežas uz iepriekšējo
-          &7 izvēlni vai iziet no
-          &7 izvēlnes.
+          <gray>Atgriežas uz iepriekšējo
+          <gray>izvēlni vai iziet no
+          <gray>izvēlnes.
       # Button that is used in multi-page GUIs which allows to return to previous page.
       previous:
-        name: "&f&l Iepriekšējā Lapa"
+        name: "<white><bold>Iepriekšējā Lapa"
         description: |-
-          &7 Pārslēgties uz &e [number] &7 lapu
+          <gray>Pārslēgties uz <yellow>[number] <gray>lapu
       # Button that is used in multi-page GUIs which allows to go to next page.
       next:
-        name: "&f&l Nākošā Lapa"
+        name: "<white><bold>Nākošā Lapa"
         description: |-
-          &7 Pārslēgties uz &e [number] &7 lapu
+          <gray>Pārslēgties uz <yellow>[number] <gray>lapu
       # Button that allows to reduce number
       reduce:
-        name: "&f&l Samazināt"
+        name: "<white><bold>Samazināt"
         description: |-
-          &7 Samazināt par &e [number]
+          <gray>Samazināt par <yellow>[number]
       # Button that allows to increase number
       increase:
-        name: "&f&l Palielināt"
+        name: "<white><bold>Palielināt"
         description: |-
-          &7 Palielināt par &e [number]
+          <gray>Palielināt par <yellow>[number]
       # Button that displays and allows completing challenge
       accept:
-        name: "&f&l Pabeigt"
+        name: "<white><bold>Pabeigt"
         description: |-
-          &7 Pabeigt uzdevumu &e [number]
-          &7 reizi(-es)
+          <gray>Pabeigt uzdevumu <yellow>[number]
+          <gray>reizi(-es)
       # Button that allows to quit the current gui.
       quit:
-        name: "&f&l Iziet"
+        name: "<white><bold>Iziet"
         description: |-
-          &7 Iziet no izvēlnes.
+          <gray>Iziet no izvēlnes.
       # All following buttons are mainly for Admin GUI.
       complete_user_challenges:
-        name: "&f&l Pabeigt Spēlētāja Uzdevumu(-s)"
+        name: "<white><bold>Pabeigt Spēlētāja Uzdevumu(-s)"
         description: |-
-          &7 Ļauj pabeigt uzdevumu(-s)
-          &7 spēlētāja vietā.
+          <gray>Ļauj pabeigt uzdevumu(-s)
+          <gray>spēlētāja vietā.
       reset_user_challenges:
-        name: "&f&l Atjaunot Spēlētāja Uzdevumu(-s)"
+        name: "<white><bold>Atjaunot Spēlētāja Uzdevumu(-s)"
         description: |-
-          &7 Ļauj atjaunot uzdevumu(-s)
-          &7 priekš spēlētāja.
+          <gray>Ļauj atjaunot uzdevumu(-s)
+          <gray>priekš spēlētāja.
       add_challenge:
-        name: "&f&l Izveidot Uzdevumu"
+        name: "<white><bold>Izveidot Uzdevumu"
         description: |-
-          &7 Sāk uzdevuma izveides
-          &7 procesu.
+          <gray>Sāk uzdevuma izveides
+          <gray>procesu.
       add_level:
-        name: "&f&l Izveidot Līmeni"
+        name: "<white><bold>Izveidot Līmeni"
         description: |-
-          &7 Sāk līmeņa izveides
-          &7 procesu.
+          <gray>Sāk līmeņa izveides
+          <gray>procesu.
       edit_challenge:
-        name: "&f&l Labot Uzdevumu"
+        name: "<white><bold>Labot Uzdevumu"
         description: |-
-          &7 Ļauj izvēlēties un
-          &7 labot uzdevumu.
+          <gray>Ļauj izvēlēties un
+          <gray>labot uzdevumu.
       edit_level:
-        name: "&f&l Labot Līmeni"
+        name: "<white><bold>Labot Līmeni"
         description: |-
-          &7 Ļauj izvēlēties un
-          &7 labot līmeni.
+          <gray>Ļauj izvēlēties un
+          <gray>labot līmeni.
       delete_challenge:
-        name: "&f&l Dzēst Uzdevumu"
+        name: "<white><bold>Dzēst Uzdevumu"
         description: |-
-          &7 Ļauj izvēlēties un
-          &7 dzēst uzdevumu.
+          <gray>Ļauj izvēlēties un
+          <gray>dzēst uzdevumu.
       delete_level:
-        name: "&f&l Dzēst Līmeni"
+        name: "<white><bold>Dzēst Līmeni"
         description: |-
-          &7 Ļauj izvēlēties un
-          &7 dzēst līmeni.
+          <gray>Ļauj izvēlēties un
+          <gray>dzēst līmeni.
       edit_settings:
-        name: "&f&l Iestatījumi"
+        name: "<white><bold>Iestatījumi"
         description: |-
-          &7 Ļauj skatīt un mainīt
-          &7 papildinājuma iestatījumus.
+          <gray>Ļauj skatīt un mainīt
+          <gray>papildinājuma iestatījumus.
       complete_wipe:
-        name: "&f&l Pilnīga Datu Dzēšana"
+        name: "<white><bold>Pilnīga Datu Dzēšana"
         description: |-
-          &7 Pilnībā dzēš visus
-          &7 datus no papildinājuma
-          &7 datubāzes.
+          <gray>Pilnībā dzēš visus
+          <gray>datus no papildinājuma
+          <gray>datubāzes.
       challenge_wipe:
-        name: "&f&l Uzdevumu Dzēšana"
+        name: "<white><bold>Uzdevumu Dzēšana"
         description: |-
-          &7 Pilnībā dzēš uzdevumu un
-          &7 līmeņu datus no papildinājuma
-          &7 datubāzes.
+          <gray>Pilnībā dzēš uzdevumu un
+          <gray>līmeņu datus no papildinājuma
+          <gray>datubāzes.
       user_wipe:
-        name: "&f&l Lietotāju Datu Dzēšana"
+        name: "<white><bold>Lietotāju Datu Dzēšana"
         description: |-
-          &7 Pilnībā dzēš lietotāju
-          &7 datus no papildinājuma
-          &7 datubāzes.
+          <gray>Pilnībā dzēš lietotāju
+          <gray>datus no papildinājuma
+          <gray>datubāzes.
       library:
-        name: "&f&l Bibliotēka"
+        name: "<white><bold>Bibliotēka"
         description: |-
-          &7 Atver publisko
-          &7 uzdevumu datubāzi.
+          <gray>Atver publisko
+          <gray>uzdevumu datubāzi.
       import_database:
-        name: "&f&l Ielādēt Datubāzi"
+        name: "<white><bold>Ielādēt Datubāzi"
         description: |-
-          &7 Ļauj ielādēt eksportētu
-          &7 datubāzes failu.
+          <gray>Ļauj ielādēt eksportētu
+          <gray>datubāzes failu.
       import_template:
-        name: "&f&l Ielādēt Paraugu"
+        name: "<white><bold>Ielādēt Paraugu"
         description: |-
-          &7 Ļauj ielādēt parauga
-          &7 failu.
+          <gray>Ļauj ielādēt parauga
+          <gray>failu.
       export_challenges:
-        name: "&f&l Eksportēt Uzdevumus"
+        name: "<white><bold>Eksportēt Uzdevumus"
         description: |-
-          &7 Ļauj eksportēt datubāzi
-          &7 uz failu.
+          <gray>Ļauj eksportēt datubāzi
+          <gray>uz failu.
       properties:
-        name: "&f&l Iestatījumi"
+        name: "<white><bold>Iestatījumi"
         description: |-
-          &7 Skatīt galvenos iestatījumus.
+          <gray>Skatīt galvenos iestatījumus.
       requirements:
-        name: "&f&l Prasības"
+        name: "<white><bold>Prasības"
         description: |-
-          &7 Skatīt prasības.
+          <gray>Skatīt prasības.
       rewards:
-        name: "&f&l Atlīdzības"
+        name: "<white><bold>Atlīdzības"
         description: |-
-          &7 Skatīt atlīdzības.
+          <gray>Skatīt atlīdzības.
       deployed:
-        name: "&f&l Strādājošs"
+        name: "<white><bold>Strādājošs"
         description: |-
-          &7 Ļauj pārslēgt vai
-          &7 uzdevums ir pieejams
-          &7 priekš spēlētājiem.
-        enabled: "&2 Pieejams"
-        disabled: "&c Nepieejams"
+          <gray>Ļauj pārslēgt vai
+          <gray>uzdevums ir pieejams
+          <gray>priekš spēlētājiem.
+        enabled: "<dark_green>Pieejams"
+        disabled: "<red>Nepieejams"
       name:
-        name: "&f&l Nosaukums"
+        name: "<white><bold>Nosaukums"
         description: |-
-          &7 Ļauj mainīt uzdevuma
-          &7 nosaukumu.
-        value: "&7 Šobrīd: &r [name]"
+          <gray>Ļauj mainīt uzdevuma
+          <gray>nosaukumu.
+        value: "<gray>Šobrīd: <reset>[name]"
       remove_on_complete:
-        name: "&f&l Slēpt pēc Pabeigšanas"
+        name: "<white><bold>Slēpt pēc Pabeigšanas"
         description: |-
-          &7 Ļauj pārslēgt uzdevumu
-          &7 paslēpšanu pēc pilnīga
-          &7 uzdevuma izpildes.
-        enabled: "&2 Ieslēgs"
-        disabled: "&c Izslēgs"
+          <gray>Ļauj pārslēgt uzdevumu
+          <gray>paslēpšanu pēc pilnīga
+          <gray>uzdevuma izpildes.
+        enabled: "<dark_green>Ieslēgs"
+        disabled: "<red>Izslēgs"
       description:
-        name: "&f&l Apraksts"
+        name: "<white><bold>Apraksts"
         description: |-
-          &7 Ļauj uzstādīt un mainīt
-          &7 uzdevumam specifisku
-          &7 aprakstu.
-        value: "&7 Esošais apraksts:"
+          <gray>Ļauj uzstādīt un mainīt
+          <gray>uzdevumam specifisku
+          <gray>aprakstu.
+        value: "<gray>Esošais apraksts:"
       environment:
-        name: "&f&l Dimensija"
+        name: "<white><bold>Dimensija"
         description: |-
-          &7 Ļauj limitēt uzdevuma
-          &7 izpildes vidi.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Ļauj limitēt uzdevuma
+          <gray>izpildes vidi.
+        enabled: "<dark_green>"
+        disabled: "<red>"
       order:
-        name: "&f&l Prioritāte"
+        name: "<white><bold>Prioritāte"
         description: |-
-          &7 Ļauj uzstādīt prioritātes
-          &7 numuru.
-          &7 Objekti tiks sakārtoti augošā
-          &7 secībā. Ja prioritātes numuri
-          &7 ir vienādi, tad objekti tiks
-          &7 kārtoti pēc to `id` vārdiem..
-        value: "&7 Esošais numurs: &e [number]"
+          <gray>Ļauj uzstādīt prioritātes
+          <gray>numuru.
+          <gray>Objekti tiks sakārtoti augošā
+          <gray>secībā. Ja prioritātes numuri
+          <gray>ir vienādi, tad objekti tiks
+          <gray>kārtoti pēc to `id` vārdiem..
+        value: "<gray>Esošais numurs: <yellow>[number]"
       icon:
-        name: "&f&l Ikona"
+        name: "<white><bold>Ikona"
         description: |-
-          &7 Ļauj mainīt ikonu.
+          <gray>Ļauj mainīt ikonu.
       locked_icon:
-        name: "&f&l Slēgtā Ikona"
+        name: "<white><bold>Slēgtā Ikona"
         description: |-
-          &7 Ļauj mainīt slēgta
-          &7 līmeņa ikonu.
+          <gray>Ļauj mainīt slēgta
+          <gray>līmeņa ikonu.
       required_permissions:
-        name: "&f&l Nepieciešamās Atļaujas"
+        name: "<white><bold>Nepieciešamās Atļaujas"
         description: |-
-          &7 Ļauj uzstādīt un mainīt
-          &7 atļaujas, lai uzdevumu
-          &7 varētu izpildīt.
-        title: "&7 Atļaujas: "
-        permission: " &8 - [permission]"
-        none: "&7 Atļaujas nav uzstādītas."
+          <gray>Ļauj uzstādīt un mainīt
+          <gray>atļaujas, lai uzdevumu
+          <gray>varētu izpildīt.
+        title: "<gray>Atļaujas: "
+        permission: " <dark_gray>- [permission]"
+        none: "<gray>Atļaujas nav uzstādītas."
       remove_entities:
-        name: "&f&l Izņemt Radības"
+        name: "<white><bold>Izņemt Radības"
         description: |-
-          &7 Ļauj pārslēgt vai
-          &7 radības tiks izņemtas
-          &7 no pasaules pēc
-          &7 uzdevuma izpildes.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai
+          <gray>radības tiks izņemtas
+          <gray>no pasaules pēc
+          <gray>uzdevuma izpildes.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       required_entities:
-        name: "&f&l Nepieciešamās Radības"
+        name: "<white><bold>Nepieciešamās Radības"
         description: |-
-          &7 Ļauj mainīt uzdevuma
-          &7 radības, kas nepieciešamas
-          &7 uzdevuma izpildei.
-        title: "&7 Radības: "
-        list: " &8 - [number] x [entity]"
-        none: "&7 Radības nav uzstādītas."
+          <gray>Ļauj mainīt uzdevuma
+          <gray>radības, kas nepieciešamas
+          <gray>uzdevuma izpildei.
+        title: "<gray>Radības: "
+        list: " <dark_gray>- [number] x [entity]"
+        none: "<gray>Radības nav uzstādītas."
       remove_blocks:
-        name: "&f&l Izņemt Blokus"
+        name: "<white><bold>Izņemt Blokus"
         description: |-
-          &7 Ļauj pārslēgt vai
-          &7 bloki tiks izņemti
-          &7 no pasaules pēc
-          &7 uzdevuma izpildes.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai
+          <gray>bloki tiks izņemti
+          <gray>no pasaules pēc
+          <gray>uzdevuma izpildes.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       required_blocks:
-        name: "&f&l Nepieciešamie Bloki"
+        name: "<white><bold>Nepieciešamie Bloki"
         description: |-
-          &7 Ļauj mainīt uzdevuma
-          &7 blokus, kas nepieciešamas
-          &7 uzdevuma izpildei.
-        title: "&7 Bloki: "
-        list: " &8 - [number] x [block]"
-        none: "&7 Bloki nav uzstādīti."
+          <gray>Ļauj mainīt uzdevuma
+          <gray>blokus, kas nepieciešamas
+          <gray>uzdevuma izpildei.
+        title: "<gray>Bloki: "
+        list: " <dark_gray>- [number] x [block]"
+        none: "<gray>Bloki nav uzstādīti."
       search_radius:
-        name: "&f&l Meklēšanas Rādiuss"
+        name: "<white><bold>Meklēšanas Rādiuss"
         description: |-
-          &7 Ļauj mainīt bloku un radību
-          &7 meklēšanas rādiusu.
-        value: "&7 Esošā distance: &e [number]"
+          <gray>Ļauj mainīt bloku un radību
+          <gray>meklēšanas rādiusu.
+        value: "<gray>Esošā distance: <yellow>[number]"
       remove_items:
-        name: "&f&l Izņemt Priekšmetus"
+        name: "<white><bold>Izņemt Priekšmetus"
         description: |-
-          &7 Ļauj pārslēgt vai
-          &7 priekšmetus tiks izņemtas
-          &7 no spēlētāja inventāra
-          &7 pēc uzdevuma izpildes.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai
+          <gray>priekšmetus tiks izņemtas
+          <gray>no spēlētāja inventāra
+          <gray>pēc uzdevuma izpildes.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       required_items:
-        name: "&f&l Priekšmeti"
+        name: "<white><bold>Priekšmeti"
         description: |-
-          &7 Ļauj mainīt uzdevuma
-          &7 priekšmeti, kas nepieciešamas
-          &7 uzdevuma izpildei.
-        title: "&7 Priekšmeti: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Priekšmeti nav uzstādīti."
+          <gray>Ļauj mainīt uzdevuma
+          <gray>priekšmeti, kas nepieciešamas
+          <gray>uzdevuma izpildei.
+        title: "<gray>Priekšmeti: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Priekšmeti nav uzstādīti."
       add_ignored_meta:
-        name: "&f&l Pievienot Meta-datu Ignorēšanu"
+        name: "<white><bold>Pievienot Meta-datu Ignorēšanu"
         description: |-
-          &7 Ļauj uzstādīt, kuriem
-          &7 priekšmetiem drīkst
-          &7 ignorēt meta-datus, kā
-          &7 bojājumi, vārdi, uzlabojumi.
-        title: "&7 Priekšmeti: "
-        list: " &8 - [item]"
-        none: "&7 Priekšmeti nav uzstādīti."
+          <gray>Ļauj uzstādīt, kuriem
+          <gray>priekšmetiem drīkst
+          <gray>ignorēt meta-datus, kā
+          <gray>bojājumi, vārdi, uzlabojumi.
+        title: "<gray>Priekšmeti: "
+        list: " <dark_gray>- [item]"
+        none: "<gray>Priekšmeti nav uzstādīti."
       remove_ignored_meta:
-        name: "&f&l Noņemt Meta-datu Ignorēšanu"
+        name: "<white><bold>Noņemt Meta-datu Ignorēšanu"
         description: |-
-          &7 Ļauj noņemt, kuriem
-          &7 priekšmetiem drīkst
-          &7 ignorēt meta-datus, kā
-          &7 bojājumi, vārdi, uzlabojumi.
+          <gray>Ļauj noņemt, kuriem
+          <gray>priekšmetiem drīkst
+          <gray>ignorēt meta-datus, kā
+          <gray>bojājumi, vārdi, uzlabojumi.
       remove_experience:
-        name: "&f&l Noņemt Pieredzi"
+        name: "<white><bold>Noņemt Pieredzi"
         description: |-
-          &7 Ļauj pārslēgt vai pēc
-          &7 uzdevuma izpildes
-          &7 pieredzes punkti
-          &7 spēlētājam tiks noņemti.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai pēc
+          <gray>uzdevuma izpildes
+          <gray>pieredzes punkti
+          <gray>spēlētājam tiks noņemti.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       required_experience:
-        name: "&f&l Nepieciešamā Pieredze"
+        name: "<white><bold>Nepieciešamā Pieredze"
         description: |-
-          &7 Ļauj uzstādīt nepieciešamo
-          &7 pieredzi uzdevuma izpildei.
-        value: "&7 Pieredze: &e [number]"
+          <gray>Ļauj uzstādīt nepieciešamo
+          <gray>pieredzi uzdevuma izpildei.
+        value: "<gray>Pieredze: <yellow>[number]"
       required_level:
-        name: "&f&l Salas Līmenis"
+        name: "<white><bold>Salas Līmenis"
         description: |-
-          &7 Ļauj uzstādīt nepieciešamo
-          &7 salas līmeni uzdevuma
+          <gray>Ļauj uzstādīt nepieciešamo
+          <gray>salas līmeni uzdevuma
           77 izpildei.
-        value: "&7 Līmenis: &e [number]"
+        value: "<gray>Līmenis: <yellow>[number]"
       remove_money:
-        name: "&f&l Noskaitīt Naudu"
+        name: "<white><bold>Noskaitīt Naudu"
         description: |-
-          &7 Ļauj pārslēgt vai pēc
-          &7 uzdevuma izpildes
-          &7 nauda tiks noskaitīta
-          &7 spēlētāja maka.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai pēc
+          <gray>uzdevuma izpildes
+          <gray>nauda tiks noskaitīta
+          <gray>spēlētāja maka.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       required_money:
-        name: "&f&l Nepieciešamā Nauda"
+        name: "<white><bold>Nepieciešamā Nauda"
         description: |-
-          &7 Ļauj uzstādīt nepieciešamo
-          &7 naudas daudzumu spēlētāja
-          &7 makā.
-        value: "&7 Naudas Daudzums: &e [number]"
+          <gray>Ļauj uzstādīt nepieciešamo
+          <gray>naudas daudzumu spēlētāja
+          <gray>makā.
+        value: "<gray>Naudas Daudzums: <yellow>[number]"
       statistic:
-        name: "&f&l Statistika"
+        name: "<white><bold>Statistika"
         description: |-
-          &7 Ļauj mainīt, kura
-          &7 statistikas vērtība
-          &7 tiks skatīta.
-        value: "&7 Vērtība: &e [statistic]"
+          <gray>Ļauj mainīt, kura
+          <gray>statistikas vērtība
+          <gray>tiks skatīta.
+        value: "<gray>Vērtība: <yellow>[statistic]"
       statistic_amount:
-        name: "&f&l Nepieciešamā Vērtība"
+        name: "<white><bold>Nepieciešamā Vērtība"
         description: |-
-          &7 Ļauj uzstādīt kādu
-          &7 vērtību statistikas
-          &7 rādītājam ir jāsasniedz.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Ļauj uzstādīt kādu
+          <gray>vērtību statistikas
+          <gray>rādītājam ir jāsasniedz.
+        value: "<gray>Vērtība: <yellow>[number]"
       remove_statistic:
-        name: "&f&l Samazināt Statistiku"
+        name: "<white><bold>Samazināt Statistiku"
         description: |-
-          &7 Ļauj pārslēgt vai pēc
-          &7 uzdevuma izpildes
-          &7 no statistikas datiem
-          &7 nepieciešamā vērtība
-          &7 tiks noskaitīta.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai pēc
+          <gray>uzdevuma izpildes
+          <gray>no statistikas datiem
+          <gray>nepieciešamā vērtība
+          <gray>tiks noskaitīta.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       statistic_blocks:
-        name: "&f&l Bloks"
+        name: "<white><bold>Bloks"
         description: |-
-          &7 Ļauj uzstādīt bloku,
-          &7 ko skatīs statistika.
-        value: "&7 Bloks: &e [block]"
+          <gray>Ļauj uzstādīt bloku,
+          <gray>ko skatīs statistika.
+        value: "<gray>Bloks: <yellow>[block]"
       statistic_items:
-        name: "&f&l Priekšmets"
+        name: "<white><bold>Priekšmets"
         description: |-
-          &7 Ļauj uzstādīt priekšmetu,
-          &7 ko skatīs statistika.
-        value: "&7 Priekšmets: &e [item]"
+          <gray>Ļauj uzstādīt priekšmetu,
+          <gray>ko skatīs statistika.
+        value: "<gray>Priekšmets: <yellow>[item]"
       statistic_entities:
-        name: "&f&l Radība"
+        name: "<white><bold>Radība"
         description: |-
-          &7 Ļauj uzstādīt radību,
-          &7 ko skatīs statistika.
-        value: "&7 Radība: &e [entity]"
+          <gray>Ļauj uzstādīt radību,
+          <gray>ko skatīs statistika.
+        value: "<gray>Radība: <yellow>[entity]"
       reward_text:
-        name: "&f&l Atlīdzības Teksts"
+        name: "<white><bold>Atlīdzības Teksts"
         description: |-
-          &7 Ļauj uzrakstīt uzdevumam
-          &7 specifisku atlīdzības
-          &7 tekstu.
-        value: "&7 Teksts:"
+          <gray>Ļauj uzrakstīt uzdevumam
+          <gray>specifisku atlīdzības
+          <gray>tekstu.
+        value: "<gray>Teksts:"
       repeat_reward_text:
-        name: "&f&l Atkārtotas Atlīdzības Teksts"
+        name: "<white><bold>Atkārtotas Atlīdzības Teksts"
         description: |-
-          &7 Ļauj uzrakstīt uzdevumam
-          &7 specifisku atkārtotas
-          &7 atlīdzības tekstu.
-        value: "&7 Teksts:"
+          <gray>Ļauj uzrakstīt uzdevumam
+          <gray>specifisku atkārtotas
+          <gray>atlīdzības tekstu.
+        value: "<gray>Teksts:"
       reward_items:
-        name: "&f&l Atlīdzības Priekšmeti"
+        name: "<white><bold>Atlīdzības Priekšmeti"
         description: |-
-          &7 Ļauj uzstādīt atlīdzības
-          &7 priekšmetus.
-        title: "&7 Priekšmeti: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Priekšmeti nav uzstādīti."
+          <gray>Ļauj uzstādīt atlīdzības
+          <gray>priekšmetus.
+        title: "<gray>Priekšmeti: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Priekšmeti nav uzstādīti."
       repeat_reward_items:
-        name: "&f&l Atkārtotas Atlīdzības Priekšmeti"
+        name: "<white><bold>Atkārtotas Atlīdzības Priekšmeti"
         description: |-
-          &7 Ļauj uzstādīt atkārtotās
-          &7 atlīdzības priekšmetus.
-        title: "&7 Priekšmeti: "
-        list: " &8 - [number] x [item]"
-        none: "&7 Priekšmeti nav uzstādīti."
+          <gray>Ļauj uzstādīt atkārtotās
+          <gray>atlīdzības priekšmetus.
+        title: "<gray>Priekšmeti: "
+        list: " <dark_gray>- [number] x [item]"
+        none: "<gray>Priekšmeti nav uzstādīti."
       reward_experience:
-        name: "&f&l Atlīdzības Pieredze"
+        name: "<white><bold>Atlīdzības Pieredze"
         description: |-
-          &7 Ļauj uzstādīt atlīdzības
-          &7 pieredzi spēlētājam.
-        value: "&7 Pieredze: &e [number]"
+          <gray>Ļauj uzstādīt atlīdzības
+          <gray>pieredzi spēlētājam.
+        value: "<gray>Pieredze: <yellow>[number]"
       repeat_reward_experience:
-        name: "&f&l Atkārtotas Atlīdzības Pieredze"
+        name: "<white><bold>Atkārtotas Atlīdzības Pieredze"
         description: |-
-          &7 Ļauj uzstādīt atkārtotas
-          &7 atlīdzības pieredzi
-          &7 spēlētājam.
-        value: "&7 Pieredze: &e [number]"
+          <gray>Ļauj uzstādīt atkārtotas
+          <gray>atlīdzības pieredzi
+          <gray>spēlētājam.
+        value: "<gray>Pieredze: <yellow>[number]"
       reward_money:
-        name: "&f&l Atlīdzības Nauda"
+        name: "<white><bold>Atlīdzības Nauda"
         description: |-
-          &7 Ļauj uzstādīt atlīdzības
-          &7 naudu spēlētājam.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Ļauj uzstādīt atlīdzības
+          <gray>naudu spēlētājam.
+        value: "<gray>Vērtība: <yellow>[number]"
       repeat_reward_money:
-        name: "&f&l Atkārtotas Atlīdzības Nauda"
+        name: "<white><bold>Atkārtotas Atlīdzības Nauda"
         description: |-
-          &7 Ļauj uzstādīt atkārtotas
-          &7 atlīdzības naudu spēlētājam.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Ļauj uzstādīt atkārtotas
+          <gray>atlīdzības naudu spēlētājam.
+        value: "<gray>Vērtība: <yellow>[number]"
       reward_commands:
-        name: "&f&l Atlīdzības Komandas"
+        name: "<white><bold>Atlīdzības Komandas"
         description: |-
-          &7 Ļauj uzstādīt atlīdzības
-          &7 komandas.
-          &8 Padomi:
-          &8 Komandām nav nepieciešams
-          &8 pirmais `/` to sākumā.
-          &8 Pēc noklusējuma komandas
-          &8 izpildīs serveris. Taču
-          &8 pievienojot `[SELF]` sākumā
-          &8 komanda tiks izpildīta no
-          &8 spēlētāja konta.
-          &8 Komanda atbalsta arī
-          &8 `[player]` aizvietotāju,
-          &8 kurš tiks pārvidots par
-          &8 spēlētāja vārdu.
-        value: "&7 Komandas:"
+          <gray>Ļauj uzstādīt atlīdzības
+          <gray>komandas.
+          <dark_gray>Padomi:
+          <dark_gray>Komandām nav nepieciešams
+          <dark_gray>pirmais `/` to sākumā.
+          <dark_gray>Pēc noklusējuma komandas
+          <dark_gray>izpildīs serveris. Taču
+          <dark_gray>pievienojot `[SELF]` sākumā
+          <dark_gray>komanda tiks izpildīta no
+          <dark_gray>spēlētāja konta.
+          <dark_gray>Komanda atbalsta arī
+          <dark_gray>`[player]` aizvietotāju,
+          <dark_gray>kurš tiks pārvidots par
+          <dark_gray>spēlētāja vārdu.
+        value: "<gray>Komandas:"
       repeat_reward_commands:
-        name: "&f&l Atkārtotas Atlīdzības Komandas"
+        name: "<white><bold>Atkārtotas Atlīdzības Komandas"
         description: |-
-          &7 Ļauj uzstādīt atkārtotas
-          &7 atlīdzības komandas.
-          &8 Padomi:
-          &8 Komandām nav nepieciešams
-          &8 pirmais `/` to sākumā.
-          &8 Pēc noklusējuma komandas
-          &8 izpildīs serveris. Taču
-          &8 pievienojot `[SELF]` sākumā
-          &8 komanda tiks izpildīta no
-          &8 spēlētāja konta.
-          &8 Komanda atbalsta arī
-          &8 `[player]` aizvietotāju,
-          &8 kurš tiks pārvidots par
-          &8 spēlētāja vārdu.
-        value: "&7 Komandas:"
+          <gray>Ļauj uzstādīt atkārtotas
+          <gray>atlīdzības komandas.
+          <dark_gray>Padomi:
+          <dark_gray>Komandām nav nepieciešams
+          <dark_gray>pirmais `/` to sākumā.
+          <dark_gray>Pēc noklusējuma komandas
+          <dark_gray>izpildīs serveris. Taču
+          <dark_gray>pievienojot `[SELF]` sākumā
+          <dark_gray>komanda tiks izpildīta no
+          <dark_gray>spēlētāja konta.
+          <dark_gray>Komanda atbalsta arī
+          <dark_gray>`[player]` aizvietotāju,
+          <dark_gray>kurš tiks pārvidots par
+          <dark_gray>spēlētāja vārdu.
+        value: "<gray>Komandas:"
       repeatable:
-        name: "&f&l Atkārtojams"
+        name: "<white><bold>Atkārtojams"
         description: |-
-          &7 Ļauj pārslēgt vai
-          &7 uzdevums ir atkārtojams.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai
+          <gray>uzdevums ir atkārtojams.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       repeat_count:
-        name: "&f&l Atkārtojumu Daudzums"
+        name: "<white><bold>Atkārtojumu Daudzums"
         description: |-
-          &7 Ļauj uzstādīt cik
-          &7 daudz reižu uzdevumu
-          &7 varēs izpildīt.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Ļauj uzstādīt cik
+          <gray>daudz reižu uzdevumu
+          <gray>varēs izpildīt.
+        value: "<gray>Vērtība: <yellow>[number]"
       cool_down:
-        name: "&f&l Taimouts"
+        name: "<white><bold>Taimouts"
         description: |-
-          &7 Ļauj uzstādīt sekunžu
-          &7 daudzumu, kas jānogaida
-          &7 starp sekunžu izpildīšanu
-          &7 starp atkārtojamajiem
-          &7 uzdevumiem.
-        value: "&7 Current value: &e [time]"
+          <gray>Ļauj uzstādīt sekunžu
+          <gray>daudzumu, kas jānogaida
+          <gray>starp sekunžu izpildīšanu
+          <gray>starp atkārtojamajiem
+          <gray>uzdevumiem.
+        value: "<gray>Current value: <yellow>[time]"
       challenges:
-        name: "&f&l Uzdevumi"
+        name: "<white><bold>Uzdevumi"
         description: |-
-          &7 Skatīt uzdevumus, kas
-          &7 piesaistīti līmenim.
+          <gray>Skatīt uzdevumus, kas
+          <gray>piesaistīti līmenim.
       waiver_amount:
-        name: "&f&l Atbrīvojuma Daudzums"
+        name: "<white><bold>Atbrīvojuma Daudzums"
         description: |-
-          &7 Ļauj uzstādīt cik daudz
-          &7 uzdevumu var palikt
-          &7 neizpildīti iekš līmeņa,
-          &7 lai atvērtu nākošo līmeni.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Ļauj uzstādīt cik daudz
+          <gray>uzdevumu var palikt
+          <gray>neizpildīti iekš līmeņa,
+          <gray>lai atvērtu nākošo līmeni.
+        value: "<gray>Vērtība: <yellow>[number]"
       add_challenges:
-        name: "&f&l Pievienot Uzdevumu(-us)"
+        name: "<white><bold>Pievienot Uzdevumu(-us)"
         description: |-
-          &7 Ļauj pievienot uzdevumus
-          &7 līmenim.
+          <gray>Ļauj pievienot uzdevumus
+          <gray>līmenim.
       remove_challenges:
-        name: "&f&l Noņemt Uzdevumu(-us)"
+        name: "<white><bold>Noņemt Uzdevumu(-us)"
         description: |-
-          &7 Ļauj noņemt uzdevumus
-          &7 no līmeņa.
+          <gray>Ļauj noņemt uzdevumus
+          <gray>no līmeņa.
       reset_on_new:
-        name: "&f&l Atjaunot pēc Iziešanas"
+        name: "<white><bold>Atjaunot pēc Iziešanas"
         description: |-
-          &7 Ļauj ieslēgt uzdevumu
-          &7 progresa atjaunošanu
-          &7 pēc iziešanas no komandas
-          &7 vai jaunas salas izveidi.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj ieslēgt uzdevumu
+          <gray>progresa atjaunošanu
+          <gray>pēc iziešanas no komandas
+          <gray>vai jaunas salas izveidi.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       broadcast:
-        name: "&f&l Izziņot"
+        name: "<white><bold>Izziņot"
         description: |-
-          &7 Paziņot uzdevuma un līmeņa
-          &7 pirmās reizes pabeigšanu
-          &7 visiem spēlētājiem.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Paziņot uzdevuma un līmeņa
+          <gray>pirmās reizes pabeigšanu
+          <gray>visiem spēlētājiem.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       remove_completed:
-        name: "&f&l Slēpt Izpildītos"
+        name: "<white><bold>Slēpt Izpildītos"
         description: |-
-          &7 Ļauj slēpt izpildītos
-          &7 uzdevumus no spēlētāju
-          &7 izvēlnēm.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj slēpt izpildītos
+          <gray>uzdevumus no spēlētāju
+          <gray>izvēlnēm.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       glow_completed:
-        name: "&f&l Atzīmēt Izpildītos"
+        name: "<white><bold>Atzīmēt Izpildītos"
         description: |-
-          &7 Pievienot uzlabojuma
-          &7 mirdzēšanu izpildītajiem
-          &7 uzdevumiem.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Pievienot uzlabojuma
+          <gray>mirdzēšanu izpildītajiem
+          <gray>uzdevumiem.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       store_history:
-        name: "&f&l Saglabāt Vēsturi"
+        name: "<white><bold>Saglabāt Vēsturi"
         description: |-
-          &7 Saglabā vēsturi par
-          &7 uzdevumu izpildīšanu.
-          &7 Šobrīd skatāms tikai
-          &7 datubāzē.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Saglabā vēsturi par
+          <gray>uzdevumu izpildīšanu.
+          <gray>Šobrīd skatāms tikai
+          <gray>datubāzē.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       data_per_island:
-        name: "&f&l Kopīgot Salām"
+        name: "<white><bold>Kopīgot Salām"
         description: |-
-          &7 Uzdevumi tiek kopīgoti
-          &7 visiem salas biedriem,
-          &7 ja ieslēgts, vai katram
-          &7 atsevišķi, ja izslēgts.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Uzdevumi tiek kopīgoti
+          <gray>visiem salas biedriem,
+          <gray>ja ieslēgts, vai katram
+          <gray>atsevišķi, ja izslēgts.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       show_title:
-        name: "&f&l Rādīt Virsrakstu"
+        name: "<white><bold>Rādīt Virsrakstu"
         description: |-
-          &7 Rādīt virsrakstu par
-          &7 uzdevuma izpildīšanu.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Rādīt virsrakstu par
+          <gray>uzdevuma izpildīšanu.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       gamemode_gui:
-        name: "&f&l Globālā Komanda"
+        name: "<white><bold>Globālā Komanda"
         description: |-
-          &7 Ļauj ieslēgt vienotu globālo
-          &7 komandu priekš šī papildinājuma.
-          &7 Pēc noklusējuma: /challenges
-          &c Nepieciešams restarts.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj ieslēgt vienotu globālo
+          <gray>komandu priekš šī papildinājuma.
+          <gray>Pēc noklusējuma: /challenges
+          <red>Nepieciešams restarts.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       locked_level_icon:
-        name: "&f&l Noklusējuma Slēgta Līmeņa Ikona"
+        name: "<white><bold>Noklusējuma Slēgta Līmeņa Ikona"
         description: |-
-          &7 Noklusējuma ikona priekš visiem
-          &7 slēgtajiem līmeņiem, kam nav
-          &7 sava specificējuma.
+          <gray>Noklusējuma ikona priekš visiem
+          <gray>slēgtajiem līmeņiem, kam nav
+          <gray>sava specificējuma.
       purge_history:
-        name: "&f&l Vēstures Ilgums"
+        name: "<white><bold>Vēstures Ilgums"
         description: |-
-          &7 Dienu skaits cik ilgi
-          &7 vēsture tiks glabāta.
-        value: "&7 Dienas: &e [number]"
+          <gray>Dienu skaits cik ilgi
+          <gray>vēsture tiks glabāta.
+        value: "<gray>Dienas: <yellow>[number]"
       title_showtime:
-        name: "&f&l Virsraksta Ilgums"
+        name: "<white><bold>Virsraksta Ilgums"
         description: |-
-          &7 Virsraksta rādīšanas ilgums.
-        value: "&7 Vērtība: &e [number]"
+          <gray>Virsraksta rādīšanas ilgums.
+        value: "<gray>Vērtība: <yellow>[number]"
       active_world_list:
-        name: "&f&l Spēlētāja Pasaules Izvēlne"
+        name: "<white><bold>Spēlētāja Pasaules Izvēlne"
         description: |-
-          &7 Ļauj pārslēgt vai globālā
-          &7 komanda atvērs spēles režīmu
-          &7 izvēlni vai uzdevumu izvēlni
-          &7 no spēlētāja pasaules.
-        enabled: "&2 Ieslēgts"
-        disabled: "&c Izslēgts"
+          <gray>Ļauj pārslēgt vai globālā
+          <gray>komanda atvērs spēles režīmu
+          <gray>izvēlni vai uzdevumu izvēlni
+          <gray>no spēlētāja pasaules.
+        enabled: "<dark_green>Ieslēgts"
+        disabled: "<red>Izslēgts"
       visibility_mode:
-        name: "&f&l Redzamība"
+        name: "<white><bold>Redzamība"
         description: |-
-          &7 Redzamība priekš
-          &7 uzdevumiem spēlētāju
-          &7 izvēlnēs.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Redzamība priekš
+          <gray>uzdevumiem spēlētāju
+          <gray>izvēlnēs.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         visible: "Rādīt Pieejamos Uzdevumus"
         hidden: "Rādīt Visus Uzdevumus"
         toggleable: "Pārslēdzams"
       download:
-        name: "&f&l Lejupielādēt Bibliotēku"
+        name: "<white><bold>Lejupielādēt Bibliotēku"
         description: |-
-          &7 Manuāli lejupielādēt
-          &7 bibliotētku.
-        enabled: "&2 Notīrīt iekšējo atmiņu"
-        disabled: "&c Netīrīt iekšējo atmiņu"
+          <gray>Manuāli lejupielādēt
+          <gray>bibliotētku.
+        enabled: "<dark_green>Notīrīt iekšējo atmiņu"
+        disabled: "<red>Netīrīt iekšējo atmiņu"
       player:
-        name: "&f&l [name]"
+        name: "<white><bold>[name]"
         description: |-
-          &7 Salas īpašnieks: [owner]
-        members: "&7 Salas biedri:"
-        member: "&8 - [name]"
+          <gray>Salas īpašnieks: [owner]
+        members: "<gray>Salas biedri:"
+        member: "<dark_gray>- [name]"
         no-island: |-
-          &c Spēlētājam nav salas.
+          <red>Spēlētājam nav salas.
       player_list:
-        name: "&f&l Filtrēt Spēlētājus"
+        name: "<white><bold>Filtrēt Spēlētājus"
         description: |-
-          &7 Ļauj filtrēt spēlētājus.
-        enabled: "&2"
-        disabled: "&c"
+          <gray>Ļauj filtrēt spēlētājus.
+        enabled: "<dark_green>"
+        disabled: "<red>"
         online: "Spēlētāji Tiešsaitē"
         with_island: "Spēlētāji ar Salām"
         in_world: "Spēlētāji šajā Pasaulē"
       add_block:
-        name: "&f&l Pievienot Bloku"
+        name: "<white><bold>Pievienot Bloku"
         description: |-
-          &7 Ļauj pievienot bloku
-          &7 sarakstam.
+          <gray>Ļauj pievienot bloku
+          <gray>sarakstam.
       remove_block:
-        name: "&f&l Noņemt Bloku(-us)"
+        name: "<white><bold>Noņemt Bloku(-us)"
         description: |-
-          &7 Ļauj noņemt iezīmētos
-          &7 blokus no saraksta.
-        title: "&7 Iezīmētie Bloki:"
-        material: "&8 - [material]"
+          <gray>Ļauj noņemt iezīmētos
+          <gray>blokus no saraksta.
+        title: "<gray>Iezīmētie Bloki:"
+        material: "<dark_gray>- [material]"
       material:
-        name: "&f&l [material]"
+        name: "<white><bold>[material]"
         description: |-
-          &7 Materiāla ID: [id]
-        selected: "&2 Iezīmēts"
+          <gray>Materiāla ID: [id]
+        selected: "<dark_green>Iezīmēts"
       add_entity:
-        name: "&f&l Pievienot Radību"
+        name: "<white><bold>Pievienot Radību"
         description: |-
-          &7 Ļauj pievienot jaunu
-          &7 radību sarakstam.
+          <gray>Ļauj pievienot jaunu
+          <gray>radību sarakstam.
       switch_entity:
-        name: "&f&l Pārslēgt Ikonas"
+        name: "<white><bold>Pārslēgt Ikonas"
         description: |-
-          &7 Ļauj pārslēgt radību
-          &7 olas uz radību galvām.
+          <gray>Ļauj pārslēgt radību
+          <gray>olas uz radību galvām.
       remove_entity:
-        name: "&f&l Dzēst Radības"
+        name: "<white><bold>Dzēst Radības"
         description: |-
-          &7 Ļauj noņemt iezīmētās
-          &7 radības no saraksta.
-        title: "&7 Iezīmētās Radības:"
-        entity: "&8 - [entity]"
+          <gray>Ļauj noņemt iezīmētās
+          <gray>radības no saraksta.
+        title: "<gray>Iezīmētās Radības:"
+        entity: "<dark_gray>- [entity]"
       entity:
-        name: "&f&l [entity]"
+        name: "<white><bold>[entity]"
         description: |-
-          &7 Radības ID: [id]
-        selected: "&2 Iezīmēts"
+          <gray>Radības ID: [id]
+        selected: "<dark_green>Iezīmēts"
       inventory_type:
-        name: "&f&l Inventāra Tips"
+        name: "<white><bold>Inventāra Tips"
         description: |-
-          &7 Uzdevums, kas skatās
-          &7 priekšmetus spēlētāja
-          &7 inventārā.
+          <gray>Uzdevums, kas skatās
+          <gray>priekšmetus spēlētāja
+          <gray>inventārā.
       island_type:
-        name: "&f&l Salas Tips"
+        name: "<white><bold>Salas Tips"
         description: |-
-          &7 Uzdevums, kas skatās
-          &7 lietas uz spēlētāja salas.
+          <gray>Uzdevums, kas skatās
+          <gray>lietas uz spēlētāja salas.
       other_type:
-        name: "&f&l Cits Tips"
+        name: "<white><bold>Cits Tips"
         description: |-
-          &7 Uzdevums, kas skatās
-          &7 pieredzi, naudu un salas
-          &7 līmeni.
+          <gray>Uzdevums, kas skatās
+          <gray>pieredzi, naudu un salas
+          <gray>līmeni.
       statistic_type:
-        name: "&f&l Statistikas Tips"
+        name: "<white><bold>Statistikas Tips"
         description: |-
-          &7 Uzdevums, kas skatās
-          &7 spēlētāja statistiku.
+          <gray>Uzdevums, kas skatās
+          <gray>spēlētāja statistiku.
       save:
-        name: "&f&l Saglabāt"
+        name: "<white><bold>Saglabāt"
         description: |-
-          &7 Saglabāt izmaiņas un
-          &7 atgriezties.
+          <gray>Saglabāt izmaiņas un
+          <gray>atgriezties.
       cancel:
-        name: "&f&l Atcelt"
+        name: "<white><bold>Atcelt"
         description: |-
-          &7 Atcelt izmaiņas un
-          &7 atgriezties iepriekšējā
-          &7 izvēlnē.
+          <gray>Atcelt izmaiņas un
+          <gray>atgriezties iepriekšējā
+          <gray>izvēlnē.
       accept_selected:
-        name: "&f&l Akceptēt Atzīmētos"
+        name: "<white><bold>Akceptēt Atzīmētos"
         description: |-
-          &7 Akceptēt atzīmētos un
-          &7 atgriezties iepriekšējā
-          &7 izvēlnē.
-        title: "&7 Atzīmēti: "
-        element: "&8 - [element]"
+          <gray>Akceptēt atzīmētos un
+          <gray>atgriezties iepriekšējā
+          <gray>izvēlnē.
+        title: "<gray>Atzīmēti: "
+        element: "<dark_gray>- [element]"
       statistic_element:
-        name: "&f&l [statistic]"
+        name: "<white><bold>[statistic]"
         description: "[description]"
       environment_element:
-        name: "&f&l [environment]"
+        name: "<white><bold>[environment]"
         description: "[description]"
       search:
-        name: "&f&l Meklēt"
+        name: "<white><bold>Meklēt"
         description: |-
-          &7 Ļauj ievadīt meklēšanas
-          &7 tekstu.
-        search: "&b Vērtība: [value]"
+          <gray>Ļauj ievadīt meklēšanas
+          <gray>tekstu.
+        search: "<aqua>Vērtība: [value]"
     tips:
-      click-to-select: "&e Klikšķini, &7 lai atlasītu."
-      click-to-choose: "&e Klikšķini, &7 lai izvēlētos."
-      click-to-complete: "&e Klikšķini, &7 lai pabeigtu."
+      click-to-select: "<yellow>Klikšķini, <gray>lai atlasītu."
+      click-to-choose: "<yellow>Klikšķini, <gray>lai izvēlētos."
+      click-to-complete: "<yellow>Klikšķini, <gray>lai pabeigtu."
       right-click-multiple-open: |-
-        &e Labais klikšķis,
-        &7 lai izvēlētos daudzumu.
+        <yellow>Labais klikšķis,
+        <gray>lai izvēlētos daudzumu.
       shift-left-click-to-complete-all: |-
-        &e Shift un klikšķis,
-        &7 lai pabeigtu visus.
+        <yellow>Shift un klikšķis,
+        <gray>lai pabeigtu visus.
       left-click-to-accept: |-
-        &e Kreisais klikšķis,
-        &7 lai pabeigtu.
+        <yellow>Kreisais klikšķis,
+        <gray>lai pabeigtu.
       right-click-to-write: |-
-        &e Labais klikšķis,
-        &7 lai rakstītu.
-      click-to-reduce: "&e Klikšķini, &7 lai samazinātu."
-      click-to-increase: "&e Klikšķini, &7 lai palielinātu."
-      click-to-return: "&e Klikšķini, &7 lai atgrieztos."
-      click-to-quit: "&e Klikšķini, &7 lai izietu."
-      click-to-wipe: "&e Klikšķini, &7 lai dzēstu."
+        <yellow>Labais klikšķis,
+        <gray>lai rakstītu.
+      click-to-reduce: "<yellow>Klikšķini, <gray>lai samazinātu."
+      click-to-increase: "<yellow>Klikšķini, <gray>lai palielinātu."
+      click-to-return: "<yellow>Klikšķini, <gray>lai atgrieztos."
+      click-to-quit: "<yellow>Klikšķini, <gray>lai izietu."
+      click-to-wipe: "<yellow>Klikšķini, <gray>lai dzēstu."
       left-click-to-wipe: |-
-        &e Kreisais klikšķis,
-        &7 lai dzēstu.
+        <yellow>Kreisais klikšķis,
+        <gray>lai dzēstu.
       right-click-to-switch: |-
-        &e Labais klikšķis,
-        &7 lai mainītu.
-      click-to-open: "&e Klikšķini, &7 lai atvērtu."
-      click-to-export: "&e Klikšķini, &7 lai eksportētu."
-      click-to-create: "&e Klikšķini, &7 lai izveidotu."
+        <yellow>Labais klikšķis,
+        <gray>lai mainītu.
+      click-to-open: "<yellow>Klikšķini, <gray>lai atvērtu."
+      click-to-export: "<yellow>Klikšķini, <gray>lai eksportētu."
+      click-to-create: "<yellow>Klikšķini, <gray>lai izveidotu."
       left-click-to-open: |-
-        &e Kreisais klikšķis,
-        &7 lai atvērtu.
+        <yellow>Kreisais klikšķis,
+        <gray>lai atvērtu.
       right-click-to-reset-all: |-
-        &e Labais klikšķis,
-        &7 lai dzēstu visu.
-      click-to-toggle: "&e Klikšķini, &7 lai pārslēgtu."
-      click-to-change: "&e Klikšķini, &7 lai mainītu."
+        <yellow>Labais klikšķis,
+        <gray>lai dzēstu visu.
+      click-to-toggle: "<yellow>Klikšķini, <gray>lai pārslēgtu."
+      click-to-change: "<yellow>Klikšķini, <gray>lai mainītu."
       shift-click-to-reset: |-
-        &e Shift un klikšķis,
-        &7 lai dzēstu.
-      click-to-add: "&e Klikšķini, &7 lai pievienotu."
-      click-to-remove: "&e Klikšķini, &7 lai noņemtu."
+        <yellow>Shift un klikšķis,
+        <gray>lai dzēstu.
+      click-to-add: "<yellow>Klikšķini, <gray>lai pievienotu."
+      click-to-remove: "<yellow>Klikšķini, <gray>lai noņemtu."
       left-click-to-cycle: |-
-        &e Kreisais klikšķis,
-        &7 pārslēgtu uz leju.
+        <yellow>Kreisais klikšķis,
+        <gray>pārslēgtu uz leju.
       right-click-to-cycle: |-
-        &e Labais klikšķis,
-        &7 pārslēgtu uz augšu.
-      click-to-edit: "&e Klikšķini, &7 lai labotu."
+        <yellow>Labais klikšķis,
+        <gray>pārslēgtu uz augšu.
+      click-to-edit: "<yellow>Klikšķini, <gray>lai labotu."
       left-click-to-download: |-
-        &e Kreisais klikšķis,
-        &7 lai lejupielādētu
+        <yellow>Kreisais klikšķis,
+        <gray>lai lejupielādētu
       right-click-to-toggle: |-
-        &e Labais klikšķis,
-        &7 lai pārslēgtu.
-      click-to-install: "&e Klikšķini, &7 lai instalētu."
-      click-to-reset-all: "&e Klikšķini, &7 lai dzēstu visu."
+        <yellow>Labais klikšķis,
+        <gray>lai pārslēgtu.
+      click-to-install: "<yellow>Klikšķini, <gray>lai instalētu."
+      click-to-reset-all: "<yellow>Klikšķini, <gray>lai dzēstu visu."
       right-click-to-select: |-
-        &e Labais klikšķis,
-        &7 lai atzīmētu.
+        <yellow>Labais klikšķis,
+        <gray>lai atzīmētu.
       right-click-to-deselect: |-
-        &e Labais klikšķis,
-        &7 lai atceltu atzīmi.
+        <yellow>Labais klikšķis,
+        <gray>lai atceltu atzīmi.
       left-click-to-choose: |-
-        &e Kreisais klikšķis,
-        &7 lai izvēlētos.
-      click-to-cancel: "&e Klikšķini, &7 lai atceltu."
-      click-to-save: "&e Klikšķini, &7 lai saglabātu."
+        <yellow>Kreisais klikšķis,
+        <gray>lai izvēlētos.
+      click-to-cancel: "<yellow>Klikšķini, <gray>lai atceltu."
+      click-to-save: "<yellow>Klikšķini, <gray>lai saglabātu."
       click-to-deselect: |-
-        &e Klikšķini, &7 lai
-        &7 atceltu atzīmi.
+        <yellow>Klikšķini, <gray>lai
+        <gray>atceltu atzīmi.
       click-on-item: |-
-        &e Klikšķini, &7 uz priekšmeta
-        &7 tavā inventārā.
+        <yellow>Klikšķini, <gray>uz priekšmeta
+        <gray>tavā inventārā.
       left-click-to-edit: |-
-        &e Kreisais klikšķis,
-        &7 lai labotu.
+        <yellow>Kreisais klikšķis,
+        <gray>lai labotu.
       right-click-to-clear: |-
-        &e Labais klikšķis,
-        &7 lai notīrītu.
+        <yellow>Labais klikšķis,
+        <gray>lai notīrītu.
       click-to-previous: |-
-        &e Klikšķini, &7 lai
-        &7 skatītu iepriekšējo.
+        <yellow>Klikšķini, <gray>lai
+        <gray>skatītu iepriekšējo.
       click-to-next: |-
-        &e Klikšķini, &7 lai
-        &7 skatītu nākošo.
+        <yellow>Klikšķini, <gray>lai
+        <gray>skatītu nākošo.
     descriptions:
       # This part generates description text for challenges object in all GUI's.
       challenge:
@@ -881,22 +881,22 @@ challenges:
         # Contains a text generated inside [status] lore
         status:
           # Status message for completed unrepeatable challenge
-          completed: "&2&l Izpildīts"
+          completed: "<dark_green><bold>Izpildīts"
           # Status message that contains number of completions for unlimited repeatable challenge
-          completed-times: "&2 Izpildīts &7&l [number] &r&2 reizi(-es)"
+          completed-times: "<dark_green>Izpildīts <gray><bold>[number] <reset><dark_green>reizi(-es)"
           # Status message that contains number of completions from max available for repeatable challenge
-          completed-times-of: "&2 Izpildīts &7&l [number] &r&2 no &7&l [max] &r&2 reizēm"
+          completed-times-of: "<dark_green>Izpildīts <gray><bold>[number] <reset><dark_green>no <gray><bold>[max] <reset><dark_green>reizēm"
           # Status message that indicates that max completion count reached for repeatable challenge
-          completed-times-reached: "&2&l Izpildīts visas &7 [max] &2 reizes"
+          completed-times-reached: "<dark_green><bold>Izpildīts visas <gray>[max] <dark_green>reizes"
         # Contains a text generated inside [cooldown] lore
         cooldown:
           lore: |-
             [timeout]
             [wait-time]
           # Text message that shows challenges timeout.
-          timeout: "&7&l Taimauts: &r&7 [time]"
+          timeout: "<gray><bold>Taimauts: <reset><gray>[time]"
           # Text message that shows challenges wait time if it is larger than 0.
-          wait-time: "&c&l Jānogaida: &r&c [time]"
+          wait-time: "<red><bold>Jānogaida: <reset><red>[time]"
           # Text message that replaces days if number > 1
           in-days: "[number] d "
           # Text message that replaces hours if number > 1
@@ -912,17 +912,17 @@ challenges:
             [type-requirement]
             [permissions]
           # Message that will replace [environment] placeholder if there is just a single environment.
-          environment-single: "&7 Limitēts iekš [environment]"
+          environment-single: "<gray>Limitēts iekš [environment]"
           # Message that will replace [environment] placeholder if there are multiple environments.
-          environment-title: "&7 Limitēts iekš: "
+          environment-title: "<gray>Limitēts iekš: "
           # Message that will be added after environment-title-multiple.
-          environment-list: "  &7 - &e [environment]"
+          environment-list: "  <gray>- <yellow>[environment]"
           # Message that will replace [permissions] placeholder if there is just a single permission.
-          permission-single: "&c Nepieciešama [permissions] atļauja"
+          permission-single: "<red>Nepieciešama [permissions] atļauja"
           # Message that will replace [permissions] placeholder if there are multiple permissions.
-          permissions-title: "&c Nepieciešamās atļaujas: "
+          permissions-title: "<red>Nepieciešamās atļaujas: "
           # Message that will be added after permissions-title-multiple.
-          permissions-list: "  &c - [permission]"
+          permissions-list: "  <red>- [permission]"
           # Message that will generate for island type requirements and replace [type-requirements]
           island:
             lore: |-
@@ -932,34 +932,34 @@ challenges:
               [warning-block]
               [warning-entity]
             # Title that will be used if there are defined blocks in island challenge
-            blocks-title: "&7&l Nepieciešamie bloki:"
+            blocks-title: "<gray><bold>Nepieciešamie bloki:"
             # Listing of blocks that are required on the island.
-            block-value: "  &7 - &e [material]"
-            blocks-value: "  &7 - &e [number] x [material]"
+            block-value: "  <gray>- <yellow>[material]"
+            blocks-value: "  <gray>- <yellow>[number] x [material]"
             # Title that will be used if there are defined entities in island challenge
-            entities-title: "&7&l Nepieciešamās radības:"
+            entities-title: "<gray><bold>Nepieciešamās radības:"
             # Listing of entities that are required on the island.
-            entity-value: "  &7 - &e [entity]"
-            entities-value: "  &7 - &e [number] x [entity]"
+            entity-value: "  <gray>- <yellow>[entity]"
+            entities-value: "  <gray>- <yellow>[number] x [entity]"
             # Search radius for the blocks/entities
             search-radius: |-
-              &7 Ne tālāk kā &e [number]
-              &7 metru attālumā
+              <gray>Ne tālāk kā <yellow>[number]
+              <gray>metru attālumā
             # Waning about block/entity removing
-            warning-block: "&e Bloks(-i) tiks &c dzēsti"
-            warning-entity: "&e Radība(-as) tiks &c dzēstas"
+            warning-block: "<yellow>Bloks(-i) tiks <red>dzēsti"
+            warning-entity: "<yellow>Radība(-as) tiks <red>dzēstas"
           # Message that will generate for inventory type requirements and replace [type-requirements]
           inventory:
             lore: |-
               [items]
               [warning]
             # Title that will be used if there are list of items for challenge
-            item-title: "&7&l Nepieciešamie Priekšmeti:"
+            item-title: "<gray><bold>Nepieciešamie Priekšmeti:"
             # Listing of an item that are required multiple times.
-            item-value: "  &7 - &e [item]"
-            items-value: "  &7 - &e [number] x [item]"
+            item-value: "  <gray>- <yellow>[item]"
+            items-value: "  <gray>- <yellow>[number] x [item]"
             # Warning that items will be removed
-            warning: "&e Priekšmets(-i) tiks &c dzēsti"
+            warning: "<yellow>Priekšmets(-i) tiks <red>dzēsti"
           # Message that will generate for other type requirements and replace [type-requirements]
           other:
             lore: |-
@@ -969,51 +969,51 @@ challenges:
               [money-warning]
               [level]
             # Text for required experience
-            experience: "&7&l Nepieciešamā pieredze: &r&e [number]"
+            experience: "<gray><bold>Nepieciešamā pieredze: <reset><yellow>[number]"
             # Warning that experience will be reduced
-            experience-warning: "&e Pieredze tiks &c noņemta"
+            experience-warning: "<yellow>Pieredze tiks <red>noņemta"
             # Text for required money
-            money: "&7&l Nepieciešamā nauda: &r&e [number]"
+            money: "<gray><bold>Nepieciešamā nauda: <reset><yellow>[number]"
             # Warning that money will be reduced
-            money-warning: "&e Nauda tiks &c noskaitīta"
+            money-warning: "<yellow>Nauda tiks <red>noskaitīta"
             # Text for required island level
-            level: "&7&l Nepieciešamais salas līmenis: &r&e [number]"
+            level: "<gray><bold>Nepieciešamais salas līmenis: <reset><yellow>[number]"
           # Message that will generate for statistic type requirements and replace [type-requirements]
           statistic:
             lore: |-
               [statistic]
               [warning]
             # Type of statistic for multiple target counter. Target may be entity or material/block
-            multiple-target: "&7&l [statistic]: &r&e [number] x [target]"
+            multiple-target: "<gray><bold>[statistic]: <reset><yellow>[number] x [target]"
             # Type of statistic for single target. Target may be entity or material/block
-            single-target: "&7&l [statistic]: &r&e [target]"
+            single-target: "<gray><bold>[statistic]: <reset><yellow>[target]"
             # Type of statistic without entity/block target
-            statistic: "&7&l [statistic] &r&e [number]"
+            statistic: "<gray><bold>[statistic] <reset><yellow>[number]"
             # Warning that statistic will be removed
-            warning: "&e Statistikas dati tiks &c samazināti"
+            warning: "<yellow>Statistikas dati tiks <red>samazināti"
         # Contains a text generated inside [rewards] lore
         rewards:
           # [text] comes from challenge.rewardText and challenge.repeatRewardText
           lore: |-
-            &7&l Atlīdzības:
+            <gray><bold>Atlīdzības:
             [text]
             [items]
             [experience]
             [money]
             [commands]
           # Title that will be used if there are list of items for rewards
-          item-title: "&7 Priekšmeti:"
+          item-title: "<gray>Priekšmeti:"
           # Listing of an item that are rewards multiple times.
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
           # Text for reward experience
-          experience: "&7 Pieredze: &r&e [number]"
+          experience: "<gray>Pieredze: <reset><yellow>[number]"
           # Text for reward money
-          money: "&7 Nauda: &r&e [number]"
+          money: "<gray>Nauda: <reset><yellow>[number]"
           # Title for commands listing:
-          commands-title: "&7 Komandas:"
+          commands-title: "<gray>Komandas:"
           # Command listing element
-          command: "  &7 - &e [command]"
+          command: "  <gray>- <yellow>[command]"
       # This part generates description text for levels object in all GUI's.
       level:
         lore: |-
@@ -1024,54 +1024,54 @@ challenges:
         # Status is either challengeLevel.unlockMessage or current status of the level
         status:
           # Status message for completed unrepeatable challenge
-          completed: "&2&l Izpildīts"
+          completed: "<dark_green><bold>Izpildīts"
           # Status message that contains number of completed challenges from all challenges
           completed-challenges-of: |-
-            &2 Izpildīti &7&l [number] &r&2 no
-            &7&l [max] &r&2 uzdevumiem.
+            <dark_green>Izpildīti <gray><bold>[number] <reset><dark_green>no
+            <gray><bold>[max] <reset><dark_green>uzdevumiem.
           # Status message for locked level
-          locked: "&c&l Slēgts"
+          locked: "<red><bold>Slēgts"
           # Status message for locked level that will show missing challenge count.
           missing-challenges: |-
-            &7 Nepieciešams izpildīt vēl [number]
-            &7 uzdevumus, lai atvērtu šo līmeni.
+            <gray>Nepieciešams izpildīt vēl [number]
+            <gray>uzdevumus, lai atvērtu šo līmeni.
         # Contains a text for waiver amount to unlock next level
         waiver: |-
-          &7&l [number] uzdevums(-i) &r&7 var
-          &7 palikt neizpildīti, lai atvērtu
-          &7 nākošo līmeni.
+          <gray><bold>[number] uzdevums(-i) <reset><gray>var
+          <gray>palikt neizpildīti, lai atvērtu
+          <gray>nākošo līmeni.
         # Contains a text generated inside [rewards] lore
         rewards:
           # [text] comes from challengeLevel.rewardText
           lore: |-
-            &7&l Atlīdzības:
+            <gray><bold>Atlīdzības:
             [text]
             [items]
             [experience]
             [money]
             [commands]
           # Title that will be used if there are list of items for rewards
-          item-title: "&7 Priekšmeti:"
+          item-title: "<gray>Priekšmeti:"
           # Listing of an item that are rewards multiple times.
-          item-value: "  &7 - &e [item]"
-          items-value: "  &7 - &e [number] x [item]"
+          item-value: "  <gray>- <yellow>[item]"
+          items-value: "  <gray>- <yellow>[number] x [item]"
           # Text for reward experience
-          experience: "&7 Pieredze: &r&e [number]"
+          experience: "<gray>Pieredze: <reset><yellow>[number]"
           # Text for reward money
-          money: "&7 Nauda: &r&e [number]"
+          money: "<gray>Nauda: <reset><yellow>[number]"
           # Title for commands listing:
-          commands-title: "&7 Komandas:"
+          commands-title: "<gray>Komandas:"
           # Command listing element
-          command: "  &7 - &e [command]"
+          command: "  <gray>- <yellow>[command]"
       # This part generates description for the Library Entry
       library:
-        author: '&7 veidoja &e [author]'
-        version: '&7 Uzdevuma Versija: &e [version]'
-        lang: '&7 Valoda: &e [lang]'
-        gamemode: '&7 Priekš &e [gamemode]'
+        author: '<gray>veidoja <yellow>[author]'
+        version: '<gray>Uzdevuma Versija: <yellow>[version]'
+        lang: '<gray>Valoda: <yellow>[lang]'
+        gamemode: '<gray>Priekš <yellow>[gamemode]'
   conversations:
     # Prefix for messages that are send from server.
-    prefix: "&l&6 [BentoBox]: &r"
+    prefix: "<bold><gold>[BentoBox]: <reset>"
     # List of strings that are valid for confirming input. (separated with ,)
     confirm-string: "true, on, yes, confirm, y, valid, correct, jā, ja, apstiprinu, pareizi"
     # List of strings that are valid for denying input. (separated with ,)
@@ -1081,87 +1081,87 @@ challenges:
     # List of strings that allows to exit conversation. (separated with ,)
     exit-string: "cancel, exit, quit, atcelt, iziet"
     # Message that is send to user when conversation is cancelled.
-    cancelled: "&c Saruna pārtraukta!"
+    cancelled: "<red>Saruna pārtraukta!"
     # Message that appears when admin clicks on number editing button.
-    input-number: "&e Lūdzu ieraksti skaitli sarakstē!"
+    input-number: "<yellow>Lūdzu ieraksti skaitli sarakstē!"
     # Message that appears when admin clicks on seconds editing button.
-    input-seconds: "&e Lūdzu ieraksti sekunžu skaitu sarakstē!"
+    input-seconds: "<yellow>Lūdzu ieraksti sekunžu skaitu sarakstē!"
     # Error message that is showed if user input a value that is not a number.
-    numeric-only: "&c Šis `[value]` nav skaitlis!"
+    numeric-only: "<red>Šis `[value]` nav skaitlis!"
     # Error message that is showed if user input a number that is smaller or larger that allowed.
-    not-valid-value: "&c Ierakstītais skaitlis [value] nav derīgs. Skaitlis nedrīkst būt mazāks par [min] un lielāks par [max]!"
+    not-valid-value: "<red>Ierakstītais skaitlis [value] nav derīgs. Skaitlis nedrīkst būt mazāks par [min] un lielāks par [max]!"
     # Message that confirms user data removing.
-    user-data-removed: "&a Visi lietotāju dati priekš [gamemode] ir dzēsti."
+    user-data-removed: "<green>Visi lietotāju dati priekš [gamemode] ir dzēsti."
     # Message that asks confirmation for user data removing.
-    confirm-user-data-deletion: "&e Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst lietotāju datus par [gamemode]."
+    confirm-user-data-deletion: "<yellow>Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst lietotāju datus par [gamemode]."
     # Message that confirms user data removing.
-    challenge-data-removed: "&a Visu uzdevumu dati priekš [gamemode] ir dzēsti."
+    challenge-data-removed: "<green>Visu uzdevumu dati priekš [gamemode] ir dzēsti."
     # Message that asks confirmation for user data removing.
-    confirm-challenge-data-deletion: "&e Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst uzdevumu datus par [gamemode]."
+    confirm-challenge-data-deletion: "<yellow>Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst uzdevumu datus par [gamemode]."
     # Message that confirms user data removing.
-    all-data-removed: "&a Visi dati priekš [gamemode] ir dzēsti."
+    all-data-removed: "<green>Visi dati priekš [gamemode] ir dzēsti."
     # Message that asks confirmation for user data removing.
-    confirm-all-data-deletion: "&e Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst visus datus par [gamemode]."
+    confirm-all-data-deletion: "<yellow>Lūdzu apstiprini sarakstē (jā), ka vēlies dzēst visus datus par [gamemode]."
     # Message that asks user to write a name
-    write-name: "&e Lūdzu ieraksti sarakstē vārdu."
+    write-name: "<yellow>Lūdzu ieraksti sarakstē vārdu."
     # Message that confirms new object creation.
-    new-object-created: "&a Jauns objekts priekš [gamemode] ir uztaisīts."
+    new-object-created: "<green>Jauns objekts priekš [gamemode] ir uztaisīts."
     # Error message that sends that object cannot be created with a given name
-    object-already-exists: "&c Objekts ar &7 [id] &c jau eksistē. Izvēlies citu vārdu."
+    object-already-exists: "<red>Objekts ar <gray>[id] <red>jau eksistē. Izvēlies citu vārdu."
     # Error message that sends information that challenge cannot be deployed.
-    invalid-challenge: "&c Uzdevums [challenge] satur nekorektus datus. Tas nevar tikt izlaists!"
+    invalid-challenge: "<red>Uzdevums [challenge] satur nekorektus datus. Tas nevar tikt izlaists!"
     # Message that confirms name changing
-    name-changed: "&a Nosaukums veiksmīgi mainīts."
+    name-changed: "<green>Nosaukums veiksmīgi mainīts."
     # Message that appears after clicking
-    write-description: "&e Lūdzu raksti jauno aprakstu sarakstē un 'iziet' jaunā rindā, lai beigtu."
+    write-description: "<yellow>Lūdzu raksti jauno aprakstu sarakstē un 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful description change.
-    description-changed: "&a Apraksts vaiksmīgi mainīts."
+    description-changed: "<green>Apraksts vaiksmīgi mainīts."
     # Message that appears when admin clicks on permission editing button.
-    write-permissions: "&e Lūdzu ieraksti nepieciešamās atļaujas sarakstē, katru savā rindā, and 'iziet' jaunā rindā, lai beigtu."
+    write-permissions: "<yellow>Lūdzu ieraksti nepieciešamās atļaujas sarakstē, katru savā rindā, and 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful permission updating.
-    permissions-changed: "&a Atļaujas veiksmīgi mainītas."
+    permissions-changed: "<green>Atļaujas veiksmīgi mainītas."
     # Message that appears after clicking
-    write-reward-text: "&e Lūdzu ieraksti apbalvojuma tekstu un 'iziet' jaunā rindā, lai beigtu."
+    write-reward-text: "<yellow>Lūdzu ieraksti apbalvojuma tekstu un 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful reward-text change.
-    reward-text-changed: "&a Apbalvojuma paraksts veiksmīgi mainīts."
+    reward-text-changed: "<green>Apbalvojuma paraksts veiksmīgi mainīts."
     # Message that appears after clicking
-    write-repeat-reward-text: "&e Lūdzu ieraksti atkārtotā apbalvojuma tekstu un 'iziet' jaunā rindā, lai beigtu."
+    write-repeat-reward-text: "<yellow>Lūdzu ieraksti atkārtotā apbalvojuma tekstu un 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful repeat-reward-text change.
-    repeat-reward-text-changed: "&a Atkārtotā apbalvojuma paraksts veiksmīgi mainīts."
+    repeat-reward-text-changed: "<green>Atkārtotā apbalvojuma paraksts veiksmīgi mainīts."
     # Message that appears after clicking
-    write-reward-commands: "&e Lūdzu ieraksti apbalvojuma komandas katru savā rindā, un 'iziet' jaunā rindā, lai beigtu."
+    write-reward-commands: "<yellow>Lūdzu ieraksti apbalvojuma komandas katru savā rindā, un 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful commands-text change.
-    reward-commands-changed: "&a Apbalvojuma komandas veiksmīgi mainīts."
+    reward-commands-changed: "<green>Apbalvojuma komandas veiksmīgi mainīts."
     # Message that appears after clicking
-    write-repeat-reward-commands: "&e Lūdzu ieraksti atkārtotā apbalvojuma komandas katru savā rindā, un 'iziet' jaunā rindā, lai beigtu."
+    write-repeat-reward-commands: "<yellow>Lūdzu ieraksti atkārtotā apbalvojuma komandas katru savā rindā, un 'iziet' jaunā rindā, lai beigtu."
     # Message that appears after successful repeat-commands-text change.
-    repeat-reward-commands-changed: "&a Atkārtotā apbalvojuma komandas veiksmīgi mainīts."
+    repeat-reward-commands-changed: "<green>Atkārtotā apbalvojuma komandas veiksmīgi mainīts."
     # Message that confirms user data removing.
-    challenge-removed: "&a Uzdevums [challenge] priekš [gamemode] ir dzēsts no datubāzes."
+    challenge-removed: "<green>Uzdevums [challenge] priekš [gamemode] ir dzēsts no datubāzes."
     # Message that asks confirmation for user data removing.
-    confirm-challenge-deletion: "&e Lūdzu apstiprini (jā), ka vēlies dzēst [challenge] priekš [gamemode] no datubāzes."
+    confirm-challenge-deletion: "<yellow>Lūdzu apstiprini (jā), ka vēlies dzēst [challenge] priekš [gamemode] no datubāzes."
     # Message that confirms user data removing.
-    level-removed: "&a Līmenis [level] priekš [gamemode] ir dzēsts no datubāzes."
+    level-removed: "<green>Līmenis [level] priekš [gamemode] ir dzēsts no datubāzes."
     # Message that asks confirmation for user data removing.
-    confirm-level-deletion: "&e Lūdzu apstiprini (jā), ka vēlies dzēst [level] priekš [gamemode] no datubāzes."
+    confirm-level-deletion: "<yellow>Lūdzu apstiprini (jā), ka vēlies dzēst [level] priekš [gamemode] no datubāzes."
     # Message that appears when user clicks on library installation.
-    start-downloading: "&a Sāk lejupielādēt Uzdevumu Bibliotēku."
+    start-downloading: "<green>Sāk lejupielādēt Uzdevumu Bibliotēku."
     # Message that appears when writing multiline text.
-    written-text: "&a Ievadītais teksts:"
+    written-text: "<green>Ievadītais teksts:"
     # Message that appears after importing library data into database.
-    confirm-data-replacement: "&e Lūdzu apstiprini (jā), ka vēlies dzēst esošos uzdevumus un aizstāt ar jauniem."
+    confirm-data-replacement: "<yellow>Lūdzu apstiprini (jā), ka vēlies dzēst esošos uzdevumus un aizstāt ar jauniem."
     # Message that appears after successful data importing
-    new-challenges-imported: "&a Jaunie Uzdevumi ir veiksmīgi ielādēti priekš [gamemode]."
+    new-challenges-imported: "<green>Jaunie Uzdevumi ir veiksmīgi ielādēti priekš [gamemode]."
     # Message that appears after admin clicks on database exporting button.
-    exported-file-name: "&e Lūdzu ieraksti eksportētā faila nosaukumu. (ieraksti 'atcelt', lai izietu)"
+    exported-file-name: "<yellow>Lūdzu ieraksti eksportētā faila nosaukumu. (ieraksti 'atcelt', lai izietu)"
     # Message that appears after successful database exporting to file.
-    database-export-completed: "&a Veiksmīgi eksportēti uzdevumi no [world]. Fails [file] ir izveidots."
+    database-export-completed: "<green>Veiksmīgi eksportēti uzdevumi no [world]. Fails [file] ir izveidots."
     # Message that appears if input file name is already taken.
-    file-name-exist: "&c Faila nosaukums '[id]' jau eksistē. Nevar pārrakstīt."
+    file-name-exist: "<red>Faila nosaukums '[id]' jau eksistē. Nevar pārrakstīt."
     # Message that asks for search value input.
-    write-search: "&e Lūdzu ievadi meklēšanas vērtību. (vai 'atcelt', lai izietu)"
+    write-search: "<yellow>Lūdzu ievadi meklēšanas vērtību. (vai 'atcelt', lai izietu)"
     # Message that appears after updating search value.
-    search-updated: "&a Meklēšanas vērtība atjaunota."
+    search-updated: "<green>Meklēšanas vērtība atjaunota."
 
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
@@ -1177,56 +1177,56 @@ challenges:
     level-subtitle: '[friendlyName]'
 
   messages:
-    completed: '&2 Tu izpildīji uzdevumu [name] priekš [player]!'
-    already-completed: '&2 Šis uzdevums jau bija izpildīts!'
-    reset: '&2 Tu atjaunoji uzdevumu [name] priekš [player]!'
-    reset-all: '&2 Visi spēlētāja [player] uzdevumi ir atjaunoti!'
-    not-completed: '&2 Šis uzdevums vēl nav izpildīts!'
-    migrate-start: '&2 Sāk migrēt papildinājuma datus.'
-    migrate-end: '&2 Papildinājuma dati ir migrēti.'
-    migrate-not: '&2 Visi dati ir derīgi.'
-    start-downloading: '&5 Sāk lejupielādēt un importēt uzdevumus.'
-    you-completed-challenge: '&2 Tu izpildīji [value] &r&2 uzdevumu!'
-    you-repeated-challenge: '&2 Tu atkārtoti izpildīji [value] &r&2 uzdevumu!'
-    you-repeated-challenge-multiple: '&2 Tu atkārtoji [value] &r&2 uzdevumu [count] reizes!'
-    you-completed-level: '&2 Tu pabeidzi [value] &r&2 līmeni!'
-    name-has-completed-challenge: '&5 [name] pabeidza [value] &r&5 uzdevumu!'
-    name-has-completed-level: '&5 [name] pabeidza [value] &r&5 līmeni!'
+    completed: '<dark_green>Tu izpildīji uzdevumu [name] priekš [player]!'
+    already-completed: '<dark_green>Šis uzdevums jau bija izpildīts!'
+    reset: '<dark_green>Tu atjaunoji uzdevumu [name] priekš [player]!'
+    reset-all: '<dark_green>Visi spēlētāja [player] uzdevumi ir atjaunoti!'
+    not-completed: '<dark_green>Šis uzdevums vēl nav izpildīts!'
+    migrate-start: '<dark_green>Sāk migrēt papildinājuma datus.'
+    migrate-end: '<dark_green>Papildinājuma dati ir migrēti.'
+    migrate-not: '<dark_green>Visi dati ir derīgi.'
+    start-downloading: '<dark_purple>Sāk lejupielādēt un importēt uzdevumus.'
+    you-completed-challenge: '<dark_green>Tu izpildīji [value] <reset><dark_green>uzdevumu!'
+    you-repeated-challenge: '<dark_green>Tu atkārtoti izpildīji [value] <reset><dark_green>uzdevumu!'
+    you-repeated-challenge-multiple: '<dark_green>Tu atkārtoji [value] <reset><dark_green>uzdevumu [count] reizes!'
+    you-completed-level: '<dark_green>Tu pabeidzi [value] <reset><dark_green>līmeni!'
+    name-has-completed-challenge: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>uzdevumu!'
+    name-has-completed-level: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>līmeni!'
     load-skipping: '"[value]" jau eksistē - izlaiž'
     load-overwriting: 'Pārraksta "[value]"'
     load-add: 'Pievieno jaunu objektu: [value]'
   errors:
-    no-name: '&c Trūkst uzdevuma nosaukums'
-    unknown-challenge: '&c Nezināms uzdevums'
+    no-name: '<red>Trūkst uzdevuma nosaukums'
+    unknown-challenge: '<red>Nezināms uzdevums'
     not-valid-integer: |-
-      &c Ievadītais skaitlis "[value]" nau darīgs! Vērtībai jābūt no [min] līdz [max].
-    not-deployed: '&c Uzdevums nav pieejams!'
-    not-on-island: '&c Tev jābūt uz salas, lai veiktu šo darbību!'
-    challenge-level-not-available: '&c Tu neesi atvēriz nepieciešamo līmeni, lai izpildītu šo uzdevumu.'
-    not-repeatable: '&c Šis uzdevums nav atkārtojams!'
-    wrong-environment: '&c Tu neesi pareizajā vidē!'
-    not-enough-items: '&c Tev nav pietiekoši daudz [items], lai pabeigtu uzdevumu!'
-    not-close-enough: '&c Tev tuvumā nav pietiekoši daudz nepieciešamie bloki vai radības.'
-    you-still-need: '&c Tev vēl nepieciešams [amount] x [item] lietas'
-    missing-addon: '&c Nav iespējams izpildīt šo uzdevumu: trūkst nepieciešamais papildinājums vai plugins.'
-    incorrect: '&c Nav iespējams izpildīt uzdevumu. Prasības nav korektas.'
-    not-enough-money: '&c Tev ir nepieciešama [value] nauda kontā, lai izpildītu uzdevumu!'
-    not-enough-experience: '&c Tev ir nepieciešama [value] pieredze, lai izpildītu uzdevumu!'
-    island-level: '&c Tavai salai jāsasniedz [number] līmeni, lai izpildītu uzdevumu!'
-    no-load: '&c Kļūda: Nevar ielādēt failu. [message]'
-    load-error: '&c Kļūda: Nevar ielādēt [value].'
-    no-rank: "&c Tavs ranks nav pietiekoši augsts, lai veiktu šo darbību."
-    cannot-remove-items: '&c Dažus priekšmetus neizdevās izņemt no tava inventāra!'
-    exist-challenges-or-levels: '&c Šajā pasaulē jau existē uzdevumi, nevar turpināt!'
-    no-challenges: '&c Uzdevumi nav izveidoti šajā pasaulē!'
-    no-challenges-admin: '&c Uzdevumi nav izveidoti šajā pasaulē! Izmanto &5 /[command], &c lai tos pievienotu!'
-    missing-arguments: '&c Pietrūkst komandas parametri.'
-    no-multiple-permission: "&c Tev nav atļaujas, lai pildītu uzdevumu vairākas reizes."
-    invalid-level: "&c Līmenis [level] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
-    invalid-challenge: "&c Uzdevums [challenge] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
-    no-library-entries: "&c Nevar atrast bibliotēkas ierakstus. Nav ko rādīt."
-    not-hooked: "&c Uzdevumu Papildinājumam neizdevās atrast Spēles Režīmu."
-    timeout: "&c Šim uzdevumam ir uzstādīts [timeout] taimauts starp izpildēm. Tev vēl ir jāgaida [wait-time], lai varētu pildīt uzdevumu."
+      <red>Ievadītais skaitlis "[value]" nau darīgs! Vērtībai jābūt no [min] līdz [max].
+    not-deployed: '<red>Uzdevums nav pieejams!'
+    not-on-island: '<red>Tev jābūt uz salas, lai veiktu šo darbību!'
+    challenge-level-not-available: '<red>Tu neesi atvēriz nepieciešamo līmeni, lai izpildītu šo uzdevumu.'
+    not-repeatable: '<red>Šis uzdevums nav atkārtojams!'
+    wrong-environment: '<red>Tu neesi pareizajā vidē!'
+    not-enough-items: '<red>Tev nav pietiekoši daudz [items], lai pabeigtu uzdevumu!'
+    not-close-enough: '<red>Tev tuvumā nav pietiekoši daudz nepieciešamie bloki vai radības.'
+    you-still-need: '<red>Tev vēl nepieciešams [amount] x [item] lietas'
+    missing-addon: '<red>Nav iespējams izpildīt šo uzdevumu: trūkst nepieciešamais papildinājums vai plugins.'
+    incorrect: '<red>Nav iespējams izpildīt uzdevumu. Prasības nav korektas.'
+    not-enough-money: '<red>Tev ir nepieciešama [value] nauda kontā, lai izpildītu uzdevumu!'
+    not-enough-experience: '<red>Tev ir nepieciešama [value] pieredze, lai izpildītu uzdevumu!'
+    island-level: '<red>Tavai salai jāsasniedz [number] līmeni, lai izpildītu uzdevumu!'
+    no-load: '<red>Kļūda: Nevar ielādēt failu. [message]'
+    load-error: '<red>Kļūda: Nevar ielādēt [value].'
+    no-rank: "<red>Tavs ranks nav pietiekoši augsts, lai veiktu šo darbību."
+    cannot-remove-items: '<red>Dažus priekšmetus neizdevās izņemt no tava inventāra!'
+    exist-challenges-or-levels: '<red>Šajā pasaulē jau existē uzdevumi, nevar turpināt!'
+    no-challenges: '<red>Uzdevumi nav izveidoti šajā pasaulē!'
+    no-challenges-admin: '<red>Uzdevumi nav izveidoti šajā pasaulē! Izmanto <dark_purple>/[command], <red>lai tos pievienotu!'
+    missing-arguments: '<red>Pietrūkst komandas parametri.'
+    no-multiple-permission: "<red>Tev nav atļaujas, lai pildītu uzdevumu vairākas reizes."
+    invalid-level: "<red>Līmenis [level] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
+    invalid-challenge: "<red>Uzdevums [challenge] satur nekorektus datus. Tas var tikt ielādēts nekorekti!"
+    no-library-entries: "<red>Nevar atrast bibliotēkas ierakstus. Nav ko rādīt."
+    not-hooked: "<red>Uzdevumu Papildinājumam neizdevās atrast Spēles Režīmu."
+    timeout: "<red>Šim uzdevumam ir uzstādīts [timeout] taimauts starp izpildēm. Tev vēl ir jāgaida [wait-time], lai varētu pildīt uzdevumu."
 #  # Showcase for manual material translation
 #  materials:
 #    # Names should be lowercase.
@@ -1244,11 +1244,11 @@ challenges:
 #    meta:
 #      upgraded: "Uzlabots"
 #      extended: "Pagarināts"
-#      potion-meta: "&e [type] [upgraded] [extended]"
+#      potion-meta: "<yellow>[type] [upgraded] [extended]"
 #      # Be aware, enchants are always listed below item in separate line.
-#      enchant-meta: "    &7 - &e [type] [level]"
-#      skull-meta: ": &e [player-name]"
-#      book-meta: "&e [title] [author]"
+#      enchant-meta: "    <gray>- <yellow>[type] [level]"
+#      skull-meta: ": <yellow>[player-name]"
+#      book-meta: "<yellow>[title] [author]"
 #    # Custom Enchantment Translation.
 #    enchant:
 #      menting: "Lāpīšana"
@@ -1271,15 +1271,15 @@ protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
       description: |-
-        &5&o Pārslēdz kurš var
-        &5&o pildīt uzdevumus
+        <dark_purple><italic>Pārslēdz kurš var
+        <dark_purple><italic>pildīt uzdevumus
       name: Uzdevumu izpildes aizsardzība
     CHALLENGES_WORLD_PROTECTION:
       description: |-
-        &5&o Ļauj pārslēgt vai
-        &5&o spēlētājam ir nepieciešams
-        &5&o būt uz salais,
-        &5&o lai pildītu uzdevumus.
+        <dark_purple><italic>Ļauj pārslēgt vai
+        <dark_purple><italic>spēlētājam ir nepieciešams
+        <dark_purple><italic>būt uz salais,
+        <dark_purple><italic>lai pildītu uzdevumus.
       hint: Uzdevumus nevar pildīt ārpus salas
       name: Uzdevumu salas ierobežosāna
 version: 12

@@ -69,7 +69,7 @@ public class ConversationUtils
                 String validEntry = user.getTranslation(Constants.CONVERSATIONS + "confirm-string") +
                         "," + user.getTranslation(Constants.CONVERSATIONS + "deny-string") +
                         "," + user.getTranslation(Constants.CONVERSATIONS + "exit-string") +
-                        "," + user.getTranslation(Constants.CONVERSATIONS + "cancel-string");
+                        "," + user.getTranslation(Constants.CANCEL_STRING);
 
                 // Split and check if they exist in valid entries.
                 String[] accepted = validEntry.toLowerCase().replaceAll("\\s", "").split(",");
@@ -103,7 +103,7 @@ public class ConversationUtils
 
                     // Return message about failed operation.
                     return ConversationUtils.endMessagePrompt(
-                            user.getTranslation(Constants.CONVERSATIONS + "cancelled"));
+                            user.getTranslation(Constants.CANCELLED));
                 }
             }
 
@@ -123,7 +123,7 @@ public class ConversationUtils
         };
 
         new ConversationFactory(BentoBox.getInstance()).
-            withPrefix(context -> user.getTranslation(Constants.CONVERSATIONS + "prefix")).
+            withPrefix(context -> user.getTranslation(Constants.PREFIX)).
             withFirstPrompt(confirmationPrompt).
             withLocalEcho(false).
             withTimeout(90).
@@ -238,12 +238,12 @@ public class ConversationUtils
         };
 
         new ConversationFactory(BentoBox.getInstance()).
-            withPrefix(context -> user.getTranslation(Constants.CONVERSATIONS + "prefix")).
+            withPrefix(context -> user.getTranslation(Constants.PREFIX)).
             withFirstPrompt(validatingPrompt).
             withLocalEcho(false).
             withTimeout(90).
             // On cancel conversation will be closed.
-            withEscapeSequence(user.getTranslation(Constants.CONVERSATIONS + "cancel-string")).
+            withEscapeSequence(user.getTranslation(Constants.CANCEL_STRING)).
             // Use null value in consumer to detect if user has abandoned conversation.
             addConversationAbandonedListener(ConversationUtils.getAbandonListener(consumer, user)).
             buildConversation(user.getPlayer()).
@@ -353,11 +353,11 @@ public class ConversationUtils
 
         // Init conversation api.
         new ConversationFactory(BentoBox.getInstance()).
-            withPrefix(context -> user.getTranslation(Constants.CONVERSATIONS + "prefix")).
+            withPrefix(context -> user.getTranslation(Constants.PREFIX)).
             withFirstPrompt(numberPrompt).
             withLocalEcho(false).
             withTimeout(90).
-            withEscapeSequence(user.getTranslation(Constants.CONVERSATIONS + "cancel-string")).
+            withEscapeSequence(user.getTranslation(Constants.CANCEL_STRING)).
             // Use null value in consumer to detect if user has abandoned conversation.
             addConversationAbandonedListener(ConversationUtils.getAbandonListener(consumer, user)).
             buildConversation(user.getPlayer()).
@@ -396,7 +396,7 @@ public class ConversationUtils
                 }
                 else
                 {
-                    return user.getTranslation(Constants.CONVERSATIONS + "cancelled");
+                    return user.getTranslation(Constants.CANCELLED);
                 }
             }
 
@@ -421,12 +421,12 @@ public class ConversationUtils
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.append(user.getTranslation(Constants.CONVERSATIONS + "written-text"));
-                    sb.append(System.getProperty("line.separator"));
+                    sb.append(System.lineSeparator());
 
                     for (String line : ((List<String>) context.getSessionData(SESSION_CONSTANT)))
                     {
                         sb.append(line);
-                        sb.append(System.getProperty("line.separator"));
+                        sb.append(System.lineSeparator());
                     }
 
                     return sb.toString();
@@ -463,12 +463,12 @@ public class ConversationUtils
         };
 
         new ConversationFactory(BentoBox.getInstance()).
-            withPrefix(context -> user.getTranslation(Constants.CONVERSATIONS + "prefix")).
+            withPrefix(context -> user.getTranslation(Constants.PREFIX)).
             withFirstPrompt(stringPrompt).
             withModality(true).
             withLocalEcho(false).
             withTimeout(90).
-            withEscapeSequence(user.getTranslation(Constants.CONVERSATIONS + "cancel-string")).
+            withEscapeSequence(user.getTranslation(Constants.CANCEL_STRING)).
             addConversationAbandonedListener(ConversationUtils.getAbandonListener(consumer, user)).
             buildConversation(user.getPlayer()).
             begin();
@@ -510,12 +510,12 @@ public class ConversationUtils
         };
 
         new ConversationFactory(BentoBox.getInstance()).
-            withPrefix(context -> user.getTranslation(Constants.CONVERSATIONS + "prefix")).
+            withPrefix(context -> user.getTranslation(Constants.PREFIX)).
             withFirstPrompt(stringPrompt).
             // On cancel conversation will be closed.
             withLocalEcho(false).
             withTimeout(90).
-            withEscapeSequence(user.getTranslation(Constants.CONVERSATIONS + "cancel-string")).
+            withEscapeSequence(user.getTranslation(Constants.CANCEL_STRING)).
             // Use null value in consumer to detect if user has abandoned conversation.
             addConversationAbandonedListener(ConversationUtils.getAbandonListener(consumer, user)).
             buildConversation(user.getPlayer()).
@@ -567,8 +567,8 @@ public class ConversationUtils
                 consumer.accept(null);
                 // send cancell message
                 abandonedEvent.getContext().getForWhom().sendRawMessage(
-                        user.getTranslation(Constants.CONVERSATIONS + "prefix") +
-                        user.getTranslation(Constants.CONVERSATIONS + "cancelled"));
+                        user.getTranslation(Constants.PREFIX) +
+                        user.getTranslation(Constants.CANCELLED));
             }
         };
     }

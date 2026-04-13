@@ -76,7 +76,7 @@ public class ResetCommand extends CompositeCommand
         }
         else if (!args.get(1).isEmpty())
         {
-            UUID targetUUID = this.getPlayers().getUUID(args.get(0));
+            UUID targetUUID = this.getPlayers().getUUID(args.getFirst());
 
             if (targetUUID == null)
             {
@@ -86,11 +86,11 @@ public class ResetCommand extends CompositeCommand
                         this.getWorld(),
                         Constants.ERRORS + "unknown-player",
                         TextVariables.NAME,
-                        args.get(0));
+                        args.getFirst());
                 }
                 else
                 {
-                    this.addon.logError("Unknown player name " + args.get(0));
+                    this.addon.logError("Unknown player name " + args.getFirst());
                 }
 
                 return false;
@@ -188,7 +188,7 @@ public class ResetCommand extends CompositeCommand
     @Override
     public Optional<List<String>> tabComplete(User user, String alias, List<String> args)
     {
-        String lastString = args.get(args.size() - 1);
+        String lastString = args.getLast();
 
         final List<String> returnList = new ArrayList<>();
         final int size = args.size();

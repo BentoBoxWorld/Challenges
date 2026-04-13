@@ -228,4 +228,158 @@ public class Constants
      * Regex escape chars.
      */
     public static final String ESC = "\\";
+
+// ---------------------------------------------------------------------
+// Section: GUI Description Keys
+// ---------------------------------------------------------------------
+
+    public static final String DESCRIPTION_KEY = "description";
+
+    public static final String TITLE_KEY = "title";
+
+    public static final String VALUE_KEY = "value";
+
+    public static final String ENABLED_KEY = "enabled";
+
+    public static final String DISABLED_KEY = "disabled";
+
+// ---------------------------------------------------------------------
+// Section: GUI Tip Keys
+// ---------------------------------------------------------------------
+
+    public static final String CLICK_TO_CHANGE = TIPS + "click-to-change";
+
+    public static final String CLICK_TO_TOGGLE = TIPS + "click-to-toggle";
+
+    public static final String CLICK_TO_OPEN = TIPS + "click-to-open";
+
+    public static final String SHIFT_CLICK_TO_RESET = TIPS + "shift-click-to-reset";
+
+// ---------------------------------------------------------------------
+// Section: Conversation Keys
+// ---------------------------------------------------------------------
+
+    public static final String INPUT_NUMBER = CONVERSATIONS + "input-number";
+
+    public static final String CANCEL_STRING = CONVERSATIONS + "cancel-string";
+
+    public static final String CANCELLED = CONVERSATIONS + "cancelled";
+
+    public static final String PREFIX = CONVERSATIONS + "prefix";
+
+// ---------------------------------------------------------------------
+// Section: Additional Parameters
+// ---------------------------------------------------------------------
+
+    public static final String PARAMETER_ITEM = "[item]";
+
+    public static final String PARAMETER_ITEMS = "[items]";
+
+    public static final String PARAMETER_AMOUNT = "[amount]";
+
+    public static final String PARAMETER_STATISTIC = "[statistic]";
+
+    public static final String PARAMETER_TARGET = "[target]";
+
+    public static final String PARAMETER_STATUS = "[status]";
+
+    public static final String PARAMETER_REWARDS = "[rewards]";
+
+    public static final String PARAMETER_EXPERIENCE = "[experience]";
+
+    public static final String PARAMETER_MONEY = "[money]";
+
+    public static final String PARAMETER_COMMAND = "[command]";
+
+    public static final String PARAMETER_COMMANDS = "[commands]";
+
+    public static final String PARAMETER_TEXT = "[text]";
+
+    public static final String PARAMETER_TYPE = "[type]";
+
+    public static final String PARAMETER_META = "[meta]";
+
+// ---------------------------------------------------------------------
+// Section: Error Keys
+// ---------------------------------------------------------------------
+
+    public static final String LOAD_ERROR = ERRORS + "load-error";
+
+    public static final String INCORRECT = ERRORS + "incorrect";
+
+    public static final String YOU_STILL_NEED = ERRORS + "you-still-need";
+
+// ---------------------------------------------------------------------
+// Section: Panel Description Suffixes
+// ---------------------------------------------------------------------
+
+    public static final String BLOCKS_VALUE = "blocks-value";
+
+    public static final String BLOCK_VALUE = "block-value";
+
+    public static final String ITEMS_VALUE = "items-value";
+
+    public static final String ITEM_VALUE = "item-value";
+
+    public static final String ITEM_TITLE = "item-title";
+
+    public static final String COMMANDS_TITLE = "commands-title";
+
+    public static final String EXPERIENCE_KEY = "experience";
+
+    public static final String MONEY_KEY = "money";
+
+    public static final String COMMAND_KEY = "command";
+
+// ---------------------------------------------------------------------
+// Section: Misc
+// ---------------------------------------------------------------------
+
+    public static final String CHALLENGES_CHALLENGES = "challenges.challenges.";
+
+    public static final String BLANK_LINE_REGEX = "(?m)^[ \\t]*\\r?\\n";
+
+    public static final String DOT_NAME = ".name";
+
+    public static final String DOT_DESCRIPTION = ".description";
+
+    public static final String META_PREFIX = ITEM_STACKS + "meta.";
+
+    public static final String GENERIC = ITEM_STACKS + "generic";
+
+    public static final String JSON_EXTENSION = ".json";
+
+// ---------------------------------------------------------------------
+// Section: Panel Type Builder Keys
+// ---------------------------------------------------------------------
+
+    public static final String CHALLENGE_BUILDER_KEY = "CHALLENGE";
+
+    public static final String LEVEL_BUILDER_KEY = "LEVEL";
+
+    public static final String GAMEMODE_BUILDER_KEY = "GAMEMODE";
+
+// ---------------------------------------------------------------------
+// Section: Handler Keys
+// ---------------------------------------------------------------------
+
+    public static final String WORLD_NAME_KEY = "world-name";
+
+    public static final String CHALLENGE_NAME_KEY = "challenge-name";
+
+    public static final String LEVEL_NAME_KEY = "level-name";
+
+// ---------------------------------------------------------------------
+// Section: Import Manager Keys
+// ---------------------------------------------------------------------
+
+    public static final String CHALLENGES_KEY = "challenges";
+
+    public static final String ENVIRONMENTS_KEY = "environments";
+
+    public static final String ITEMS_KEY = "items";
+
+    public static final String PERMISSIONS_KEY = "permissions";
+
+    public static final String COMMANDS_KEY = "commands";
 }

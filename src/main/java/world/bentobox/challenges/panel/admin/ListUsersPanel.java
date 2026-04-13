@@ -313,13 +313,13 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
 
         description.add(this.user.getTranslation(reference + "description"));
         description.add(this.user.getTranslation(reference +
-            (ViewMode.ONLINE == this.mode ? "enabled" : "disabled")) +
+            (ViewMode.ONLINE == this.mode ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)) +
             this.user.getTranslation(reference + "online"));
         description.add(this.user.getTranslation(reference +
-            (ViewMode.WITH_ISLAND == this.mode ? "enabled" : "disabled")) +
+            (ViewMode.WITH_ISLAND == this.mode ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)) +
             this.user.getTranslation(reference + "with_island"));
         description.add(this.user.getTranslation(reference +
-            (ViewMode.IN_WORLD == this.mode ? "enabled" : "disabled")) +
+            (ViewMode.IN_WORLD == this.mode ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)) +
             this.user.getTranslation(reference + "in_world"));
 
         description.add("");

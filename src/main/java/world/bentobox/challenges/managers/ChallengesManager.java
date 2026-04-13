@@ -273,7 +273,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, "NULL");
             }
 
@@ -372,7 +372,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, "NULL");
             }
 
@@ -399,7 +399,7 @@ public class ChallengesManager
             {
                 Utils.sendMessage(user,
                     world,
-                    Constants.ERRORS + "load-error",
+                    Constants.LOAD_ERROR,
                     Constants.PARAMETER_VALUE, level.getFriendlyName());
             }
             else
@@ -1116,7 +1116,8 @@ public class ChallengesManager
     /**
      * Get the status on every level for required world and playerData
      *
-     * @param storageDataID - playerData ID
+     * @param user - player which level status must be acquired.
+     * @param world - world which level status must be acquired.
      * @param gameMode - World Name where levels should be searched.
      * @return Level status - how many challenges still to do on which level
      */
@@ -1771,7 +1772,7 @@ public class ChallengesManager
     {
         List<ChallengeLevel> levels = this.getLevels(world);
 
-        return levels.get(levels.size() - 1) == level;
+        return levels.getLast() == level;
     }
 
 

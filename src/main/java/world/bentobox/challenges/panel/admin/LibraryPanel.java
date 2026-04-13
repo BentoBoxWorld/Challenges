@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -55,7 +57,78 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
             case TEMPLATE -> this.generateTemplateEntries();
         };
 
-        this.filterElements = this.libraryEntries;
+        if (mode == Library.WEB)
+        {
+            this.availableLanguages = this.libraryEntries.stream().
+                map(LibraryEntry::language).
+                filter(lang -> lang != null && !lang.isBlank()).
+                distinct().
+                sorted(String.CASE_INSENSITIVE_ORDER).
+                collect(Collectors.toList());
+            this.selectedLanguage = this.pickInitialLanguage();
+        }
+        else
+        {
+            this.availableLanguages = Collections.emptyList();
+            this.selectedLanguage = null;
+        }
+
+        this.updateFilters();
+    }
+
+
+    /**
+     * Picks the initial language to display based on the user's locale,
+     * falling back to English, then to {@code null} (show all).
+     */
+    private String pickInitialLanguage()
+    {
+        if (this.availableLanguages.isEmpty())
+        {
+            return null;
+        }
+
+        Locale locale = this.user.getLocale();
+        if (locale != null)
+        {
+            String tag = locale.toLanguageTag();
+            for (String lang : this.availableLanguages)
+            {
+                if (lang.equalsIgnoreCase(tag))
+                {
+                    return lang;
+                }
+            }
+
+            String language = locale.getLanguage();
+            if (language != null && !language.isEmpty())
+            {
+                for (String lang : this.availableLanguages)
+                {
+                    if (lang.equalsIgnoreCase(language))
+                    {
+                        return lang;
+                    }
+                }
+                for (String lang : this.availableLanguages)
+                {
+                    if (lang.toLowerCase(Locale.ROOT).startsWith(language.toLowerCase(Locale.ROOT)))
+                    {
+                        return lang;
+                    }
+                }
+            }
+        }
+
+        for (String lang : this.availableLanguages)
+        {
+            if (lang.equalsIgnoreCase("en") || lang.toLowerCase(Locale.ROOT).startsWith("en"))
+            {
+                return lang;
+            }
+        }
+
+        return null;
     }
 
 
@@ -138,23 +211,25 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
     @Override
     protected void updateFilters()
     {
-        if (this.searchString == null || this.searchString.isBlank())
+        Stream<LibraryEntry> stream = this.libraryEntries.stream();
+
+        if (this.mode == Library.WEB && this.selectedLanguage != null)
         {
-            this.filterElements = this.libraryEntries;
+            stream = stream.filter(element ->
+                this.selectedLanguage.equalsIgnoreCase(element.language()));
         }
-        else
+
+        if (this.searchString != null && !this.searchString.isBlank())
         {
-            this.filterElements = this.libraryEntries.stream().
-                filter(element -> {
-                    // If element name is set and name contains search field, then do not filter out.
-                    return element.name().toLowerCase().contains(this.searchString.toLowerCase()) ||
-                        element.author().toLowerCase().contains(this.searchString.toLowerCase()) ||
-                        element.gameMode().toLowerCase().contains(this.searchString.toLowerCase()) ||
-                        element.language().toLowerCase().contains(this.searchString.toLowerCase());
-                }).
-                distinct().
-                collect(Collectors.toList());
+            String query = this.searchString.toLowerCase();
+            stream = stream.filter(element ->
+                element.name().toLowerCase().contains(query) ||
+                element.author().toLowerCase().contains(query) ||
+                element.gameMode().toLowerCase().contains(query) ||
+                element.language().toLowerCase().contains(query));
         }
+
+        this.filterElements = stream.distinct().collect(Collectors.toList());
     }
 
 
@@ -175,7 +250,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
         // No point to display. Single element.
         if (this.libraryEntries.size() == 1 && !this.mode.equals(Library.WEB))
         {
-            this.generateConfirmationInput(this.libraryEntries.get(0));
+            this.generateConfirmationInput(this.libraryEntries.getFirst());
             return;
         }
 
@@ -190,6 +265,11 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
         if (this.mode == Library.WEB)
         {
             panelBuilder.item(4, this.createDownloadNow());
+
+            if (this.availableLanguages.size() > 1)
+            {
+                panelBuilder.item(5, this.createLanguageButton());
+            }
         }
 
         panelBuilder.item(44, this.returnButton);
@@ -247,6 +327,71 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
                     100L);
             }
 
+            return true;
+        });
+
+        return itemBuilder.build();
+    }
+
+
+    /**
+     * This creates the language filter cycle button for the web library.
+     * @return PanelItem that cycles through available languages.
+     */
+    private PanelItem createLanguageButton()
+    {
+        final String reference = Constants.BUTTON + "language.";
+
+        String display = this.selectedLanguage != null ? this.selectedLanguage :
+            this.user.getTranslation(reference + "all");
+
+        final List<String> description = new ArrayList<>();
+        description.add(this.user.getTranslation(reference + "description"));
+        description.add(this.user.getTranslation(reference + "current", "[lang]", display));
+
+        description.add("");
+        description.add(this.user.getTranslation(Constants.TIPS + "left-click-to-cycle"));
+        description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-reset"));
+
+        PanelItemBuilder itemBuilder = new PanelItemBuilder().
+            name(this.user.getTranslation(reference + "name")).
+            description(description).
+            icon(Material.WRITABLE_BOOK).
+            glow(this.selectedLanguage != null);
+
+        itemBuilder.clickHandler((panel, user1, clickType, slot) ->
+        {
+            if (clickType.isRightClick())
+            {
+                this.selectedLanguage = this.pickInitialLanguage();
+            }
+            else
+            {
+                // Cycle order: [current lang] -> next lang -> ... -> null (All) -> first lang
+                if (this.selectedLanguage == null)
+                {
+                    this.selectedLanguage = this.availableLanguages.getFirst();
+                }
+                else
+                {
+                    int index = -1;
+                    for (int i = 0; i < this.availableLanguages.size(); i++)
+                    {
+                        if (this.availableLanguages.get(i).equalsIgnoreCase(this.selectedLanguage))
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    int next = index + 1;
+                    this.selectedLanguage = next >= this.availableLanguages.size()
+                        ? null
+                        : this.availableLanguages.get(next);
+                }
+            }
+
+            this.updateFilters();
+            this.build();
             return true;
         });
 
@@ -360,7 +505,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
 
         description.add(this.user.getTranslation(reference + "author",
             "[author]", entry.author()));
-        description.add(entry.description());
+        description.addAll(wrapText(entry.description(), 22));
 
         description.add(this.user.getTranslation(reference + "gamemode",
             "[gamemode]", entry.gameMode()));
@@ -370,6 +515,57 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
             "[version]", entry.version()));
 
         return description;
+    }
+
+
+    /**
+     * Word-wraps text at the given width while preserving the leading color of
+     * the source string on each wrapped line.
+     */
+    private static List<String> wrapText(String text, int width)
+    {
+        List<String> lines = new ArrayList<>();
+        if (text == null || text.isEmpty())
+        {
+            lines.add(text == null ? "" : text);
+            return lines;
+        }
+
+        String prefix = ChatColor.getLastColors(text);
+        StringBuilder current = new StringBuilder();
+
+        for (String word : text.split("\\s+"))
+        {
+            if (word.isEmpty())
+            {
+                continue;
+            }
+
+            int visibleLen = ChatColor.stripColor(current.toString()).length();
+            int wordLen = ChatColor.stripColor(word).length();
+
+            if (visibleLen == 0)
+            {
+                current.append(word);
+            }
+            else if (visibleLen + 1 + wordLen <= width)
+            {
+                current.append(' ').append(word);
+            }
+            else
+            {
+                lines.add(current.toString());
+                current.setLength(0);
+                current.append(prefix).append(word);
+            }
+        }
+
+        if (!current.isEmpty())
+        {
+            lines.add(current.toString());
+        }
+
+        return lines;
     }
 
 
@@ -470,4 +666,14 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
      * Stores filtered items.
      */
     private List<LibraryEntry> filterElements;
+
+    /**
+     * Distinct language codes present in the loaded library entries (web mode).
+     */
+    private final List<String> availableLanguages;
+
+    /**
+     * Currently selected language filter, or {@code null} to show all.
+     */
+    private String selectedLanguage;
 }

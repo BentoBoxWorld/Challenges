@@ -1,10 +1,10 @@
 package world.bentobox.challenges;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -39,17 +39,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.eclipse.jdt.annotation.NonNull;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.Settings;
@@ -58,7 +55,6 @@ import world.bentobox.bentobox.api.addons.Addon.State;
 import world.bentobox.bentobox.api.addons.AddonDescription;
 import world.bentobox.bentobox.api.addons.GameModeAddon;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
-import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.DatabaseSetup.DatabaseType;
 import world.bentobox.bentobox.database.objects.Island;
@@ -74,8 +70,6 @@ import world.bentobox.bentobox.managers.PlaceholdersManager;
  *
  */
 @SuppressWarnings("deprecation")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class, BentoBox.class, User.class, Config.class })
 public class ChallengesAddonTest {
 
     @Mock
@@ -101,15 +95,15 @@ public class ChallengesAddonTest {
     @Mock
     private PlaceholdersManager phm;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
+    private AutoCloseable closeable;
+    private MockedStatic<Bukkit> mockedBukkit;
+
+    @BeforeEach
     public void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
         // Set up plugin
-        Whitebox.setInternalState(BentoBox.class, "instance", plugin);
+        WhiteBox.setInternalState(BentoBox.class, "instance", plugin);
         when(plugin.getLogger()).thenReturn(Logger.getAnonymousLogger());
-        //when(plugin.isEnabled()).thenReturn(true);
         // Command manager
         CommandsManager cm = mock(CommandsManager.class);
         when(plugin.getCommandsManager()).thenReturn(cm);
@@ -119,7 +113,6 @@ public class ChallengesAddonTest {
 
         // Player
         Player p = mock(Player.class);
-        // Sometimes use Mockito.withSettings().verboseLogging()
         when(user.isOp()).thenReturn(false);
         UUID uuid = UUID.randomUUID();
         when(user.getUniqueId()).thenReturn(uuid);
@@ -131,22 +124,20 @@ public class ChallengesAddonTest {
         IslandWorldManager iwm = mock(IslandWorldManager.class);
         when(plugin.getIWM()).thenReturn(iwm);
 
-
         // Player has island to begin with
         island = mock(Island.class);
         when(im.getIsland(Mockito.any(), Mockito.any(UUID.class))).thenReturn(island);
         when(plugin.getIslands()).thenReturn(im);
 
         // Locales
-        // Return the reference (USE THIS IN THE FUTURE)
         when(user.getTranslation(Mockito.anyString())).thenAnswer((Answer<String>) invocation -> invocation.getArgument(0, String.class));
 
         // Server
-        PowerMockito.mockStatic(Bukkit.class);
+        mockedBukkit = Mockito.mockStatic(Bukkit.class);
         Server server = mock(Server.class);
-        when(Bukkit.getServer()).thenReturn(server);
-        when(Bukkit.getLogger()).thenReturn(Logger.getAnonymousLogger());
-        when(Bukkit.getPluginManager()).thenReturn(mock(PluginManager.class));
+        mockedBukkit.when(Bukkit::getServer).thenReturn(server);
+        mockedBukkit.when(Bukkit::getLogger).thenReturn(Logger.getAnonymousLogger());
+        mockedBukkit.when(Bukkit::getPluginManager).thenReturn(mock(PluginManager.class));
 
         // Addon
         addon = new ChallengesAddon();
@@ -179,51 +170,44 @@ public class ChallengesAddonTest {
         @NonNull
         Optional<CompositeCommand> opCmd = Optional.of(cmd);
         when(gameMode.getPlayerCommand()).thenReturn(opCmd);
-        // Admin command
         when(gameMode.getAdminCommand()).thenReturn(opCmd);
 
         // Flags manager
         when(plugin.getFlagsManager()).thenReturn(fm);
         when(fm.getFlags()).thenReturn(Collections.emptyList());
 
-        // The database type has to be created one line before the thenReturn() to work!
         when(plugin.getSettings()).thenReturn(settings);
         DatabaseType value = DatabaseType.JSON;
         when(settings.getDatabaseType()).thenReturn(value);
 
         // Bukkit
-        PowerMockito.mockStatic(Bukkit.class);
-        when(Bukkit.getScheduler()).thenReturn(scheduler);
+        mockedBukkit.when(Bukkit::getScheduler).thenReturn(scheduler);
         ItemMeta meta = mock(ItemMeta.class);
         ItemFactory itemFactory = mock(ItemFactory.class);
         when(itemFactory.getItemMeta(any())).thenReturn(meta);
-        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
+        mockedBukkit.when(Bukkit::getItemFactory).thenReturn(itemFactory);
         UnsafeValues unsafe = mock(UnsafeValues.class);
         when(unsafe.getDataVersion()).thenReturn(777);
-        when(Bukkit.getUnsafe()).thenReturn(unsafe);
-
-
+        mockedBukkit.when(Bukkit::getUnsafe).thenReturn(unsafe);
     }
 
     private void addToJar(JarOutputStream tempJarOutputStream, Path path) throws IOException {
-        //Added the new files to the jar.
         try (FileInputStream fis = new FileInputStream(path.toFile())) {
-
             byte[] buffer = new byte[1024];
             int bytesRead = 0;
             JarEntry entry = new JarEntry(path.toString().replace("src/main/resources/", ""));
             tempJarOutputStream.putNextEntry(entry);
-            while((bytesRead = fis.read(buffer)) != -1) {
+            while ((bytesRead = fis.read(buffer)) != -1) {
                 tempJarOutputStream.write(buffer, 0, bytesRead);
             }
         }
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
+        mockedBukkit.closeOnDemand();
+        closeable.close();
+        Mockito.framework().clearInlineMocks();
         new File("addon.jar").delete();
         new File("config.yml").delete();
         deleteAll(new File("addons"));
@@ -238,23 +222,15 @@ public class ChallengesAddonTest {
             .map(Path::toFile)
             .forEach(File::delete);
         }
-
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onLoad()}.
-     */
     @Test
     public void testOnLoad() {
         addon.onLoad();
-        // Check that config.yml file has been saved
-        File check = new File("addons/Challenges","config.yml");
+        File check = new File("addons/Challenges", "config.yml");
         assertTrue(check.exists());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
-     */
     @Test
     public void testOnEnableDisabledPlugin() {
         when(plugin.isEnabled()).thenReturn(false);
@@ -263,9 +239,6 @@ public class ChallengesAddonTest {
         assertEquals(Addon.State.DISABLED, addon.getState());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
-     */
     @Test
     public void testOnEnableDisabledAddon() {
         when(plugin.isEnabled()).thenReturn(true);
@@ -274,12 +247,8 @@ public class ChallengesAddonTest {
         verify(plugin).logError("[challenges] Challenges Addon is not available or disabled!");
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
-     */
     @Test
     public void testOnEnableIncompatibleDatabase() {
-        // The database type has to be created one line before the thenReturn() to work!
         DatabaseType value = DatabaseType.YAML;
         when(settings.getDatabaseType()).thenReturn(value);
         when(plugin.isEnabled()).thenReturn(true);
@@ -290,9 +259,6 @@ public class ChallengesAddonTest {
         assertEquals(State.INCOMPATIBLE, addon.getState());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
-     */
     @Test
     public void testOnEnableHooked() {
         addon.onLoad();
@@ -301,12 +267,8 @@ public class ChallengesAddonTest {
         addon.onEnable();
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin, never()).logError("Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
-
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onEnable()}.
-     */
     @Test
     public void testOnEnableNotHooked() {
         addon.onLoad();
@@ -316,37 +278,25 @@ public class ChallengesAddonTest {
         addon.onEnable();
         verify(plugin).log("[challenges] Loading challenges...");
         verify(plugin).logError("[challenges] Challenges could not hook into AcidIsland or BSkyBlock so will not do anything!");
-
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onReload()}.
-     */
     @Test
     public void testOnReloadNotHooked() {
         addon.onReload();
         verify(plugin, never()).log(anyString());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#onDisable()}.
-     */
     @Test
     public void testOnDisable() {
         this.testOnEnableHooked();
         addon.onDisable();
 
-        // Verify database saved exists
         File chDir = new File("database", "Challenge");
         assertTrue(chDir.exists());
         File lvDir = new File("database", "ChallengeLevel");
         assertTrue(lvDir.exists());
-
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getChallengesManager()}.
-     */
     @Test
     public void testGetChallengesManager() {
         assertNull(addon.getChallengesManager());
@@ -354,17 +304,11 @@ public class ChallengesAddonTest {
         assertNotNull(addon.getChallengesManager());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getPermissionPrefix()}.
-     */
     @Test
     public void testGetPermissionPrefix() {
         assertEquals("addon.", addon.getPermissionPrefix());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getImportManager()}.
-     */
     @Test
     public void testGetImportManager() {
         assertNull(addon.getImportManager());
@@ -372,9 +316,6 @@ public class ChallengesAddonTest {
         assertNotNull(addon.getImportManager());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getWebManager()}.
-     */
     @Test
     public void testGetWebManager() {
         assertNull(addon.getWebManager());
@@ -382,44 +323,28 @@ public class ChallengesAddonTest {
         assertNotNull(addon.getWebManager());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getChallengesSettings()}.
-     */
     @Test
     public void testGetChallengesSettings() {
         assertNull(addon.getChallengesSettings());
         addon.onLoad();
         assertNotNull(addon.getChallengesSettings());
-
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#isEconomyProvided()}.
-     */
     @Test
     public void testIsEconomyProvided() {
         assertFalse(addon.isEconomyProvided());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getEconomyProvider()}.
-     */
     @Test
     public void testGetEconomyProvider() {
         assertNull(addon.getEconomyProvider());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#isLevelProvided()}.
-     */
     @Test
     public void testIsLevelProvided() {
         assertFalse(addon.isLevelProvided());
     }
 
-    /**
-     * Test method for {@link world.bentobox.challenges.ChallengesAddon#getLevelAddon()}.
-     */
     @Test
     public void testGetLevelAddon() {
         assertNull(addon.getLevelAddon());

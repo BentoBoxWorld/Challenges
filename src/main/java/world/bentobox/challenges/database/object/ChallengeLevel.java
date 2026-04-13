@@ -466,7 +466,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     /**
      * This method match if given gameMode relates to current level. It is detected
      * via level uniqueId, as it always must start with gameMode name.
-     *
+     * <p>
      * This method is created to avoid issues with capital letters in world names in 1.14.
      * It is reused for GameMode storage change.
      * @param gameMode Name that must be checked.

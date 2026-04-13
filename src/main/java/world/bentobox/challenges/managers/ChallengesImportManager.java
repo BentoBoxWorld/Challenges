@@ -161,9 +161,9 @@ public class ChallengesImportManager
         long challengeCount = 0;
         long levelCount = 0;
 
-        if (config.contains("challenges"))
+        if (config.contains(Constants.CHALLENGES_KEY))
         {
-            ConfigurationSection reader = config.getConfigurationSection("challenges");
+            ConfigurationSection reader = config.getConfigurationSection(Constants.CHALLENGES_KEY);
 
             if (reader != null)
             {
@@ -232,13 +232,13 @@ public class ChallengesImportManager
             challenge.setIcon(matchIcon(section.getString("icon"), new ItemStack(Material.PAPER)));
 
             // Read description
-            if (section.isList("description"))
+            if (section.isList(Constants.DESCRIPTION_KEY))
             {
-                challenge.setDescription(section.getStringList("description"));
+                challenge.setDescription(section.getStringList(Constants.DESCRIPTION_KEY));
             }
-            else if (section.isString("description"))
+            else if (section.isString(Constants.DESCRIPTION_KEY))
             {
-                String description = section.getString("description");
+                String description = section.getString(Constants.DESCRIPTION_KEY);
 
                 if (description != null)
                 {
@@ -258,15 +258,15 @@ public class ChallengesImportManager
             Set<World.Environment> environments = new HashSet<>();
             challenge.setEnvironment(environments);
 
-            if (section.isList("environments"))
+            if (section.isList(Constants.ENVIRONMENTS_KEY))
             {
-                section.getStringList("environments").
+                section.getStringList(Constants.ENVIRONMENTS_KEY).
                     forEach(text -> environments.add(matchEnvironment(text,
                         World.Environment.NORMAL)));
             }
-            else if (section.isString("environments"))
+            else if (section.isString(Constants.ENVIRONMENTS_KEY))
             {
-                environments.add(matchEnvironment(section.getString("environments"),
+                environments.add(matchEnvironment(section.getString(Constants.ENVIRONMENTS_KEY),
                     World.Environment.NORMAL));
             }
 
@@ -318,9 +318,9 @@ public class ChallengesImportManager
                 List<ItemStack> requiredItems = new ArrayList<>();
                 requirements.setRequiredItems(requiredItems);
 
-                if (section.isList("items"))
+                if (section.isList(Constants.ITEMS_KEY))
                 {
-                    section.getStringList("items").
+                    section.getStringList(Constants.ITEMS_KEY).
                         forEach(text -> {
                             ItemStack itemStack = ItemParser.parse(text);
 
@@ -348,10 +348,10 @@ public class ChallengesImportManager
                 challenge.setRequirements(requirements);
 
                 requirements.setTakeMoney(section.getBoolean("take-money", false));
-                requirements.setRequiredMoney(section.getDouble("money", 0));
+                requirements.setRequiredMoney(section.getDouble(Constants.MONEY_KEY, 0));
 
                 requirements.setTakeExperience(section.getBoolean("take-experience", false));
-                requirements.setRequiredExperience(section.getInt("experience", 0));
+                requirements.setRequiredExperience(section.getInt(Constants.EXPERIENCE_KEY, 0));
 
                 requirements.setRequiredIslandLevel(section.getInt("level", 0));
             }
@@ -373,13 +373,13 @@ public class ChallengesImportManager
             Set<String> permissions = new HashSet<>();
             challenge.getRequirements().setRequiredPermissions(permissions);
 
-            if (section.isList("permissions"))
+            if (section.isList(Constants.PERMISSIONS_KEY))
             {
-                permissions.addAll(section.getStringList("permissions"));
+                permissions.addAll(section.getStringList(Constants.PERMISSIONS_KEY));
             }
-            else if (section.isString("permissions"))
+            else if (section.isString(Constants.PERMISSIONS_KEY))
             {
-                String description = section.getString("permissions");
+                String description = section.getString(Constants.PERMISSIONS_KEY);
 
                 if (description != null)
                 {
@@ -462,9 +462,9 @@ public class ChallengesImportManager
 
         challenge.setRewardText(section.getString("text", ""));
 
-        if (section.isList("items"))
+        if (section.isList(Constants.ITEMS_KEY))
         {
-            section.getStringList("items").
+            section.getStringList(Constants.ITEMS_KEY).
                 forEach(text -> {
                     ItemStack itemStack = ItemParser.parse(text);
 
@@ -475,16 +475,16 @@ public class ChallengesImportManager
                 });
         }
 
-        challenge.setRewardExperience(section.getInt("experience", 0));
-        challenge.setRewardMoney(section.getDouble("money", 0));
+        challenge.setRewardExperience(section.getInt(Constants.EXPERIENCE_KEY, 0));
+        challenge.setRewardMoney(section.getDouble(Constants.MONEY_KEY, 0));
 
-        if (section.isList("commands"))
+        if (section.isList(Constants.COMMANDS_KEY))
         {
-            challenge.setRewardCommands(section.getStringList("commands"));
+            challenge.setRewardCommands(section.getStringList(Constants.COMMANDS_KEY));
         }
-        else if (section.isString("commands"))
+        else if (section.isString(Constants.COMMANDS_KEY))
         {
-            String description = section.getString("commands");
+            String description = section.getString(Constants.COMMANDS_KEY);
 
             if (description != null)
             {
@@ -514,9 +514,9 @@ public class ChallengesImportManager
 
         challenge.setRepeatRewardText(section.getString("text", ""));
 
-        if (section.isList("items"))
+        if (section.isList(Constants.ITEMS_KEY))
         {
-            section.getStringList("items").
+            section.getStringList(Constants.ITEMS_KEY).
                 forEach(text -> {
                     ItemStack itemStack = ItemParser.parse(text);
 
@@ -527,16 +527,16 @@ public class ChallengesImportManager
                 });
         }
 
-        challenge.setRepeatExperienceReward(section.getInt("experience", 0));
-        challenge.setRepeatMoneyReward(section.getDouble("money", 0));
+        challenge.setRepeatExperienceReward(section.getInt(Constants.EXPERIENCE_KEY, 0));
+        challenge.setRepeatMoneyReward(section.getDouble(Constants.MONEY_KEY, 0));
 
-        if (section.isList("commands"))
+        if (section.isList(Constants.COMMANDS_KEY))
         {
-            challenge.setRepeatRewardCommands(section.getStringList("commands"));
+            challenge.setRepeatRewardCommands(section.getStringList(Constants.COMMANDS_KEY));
         }
-        else if (section.isString("commands"))
+        else if (section.isString(Constants.COMMANDS_KEY))
         {
-            String description = section.getString("commands");
+            String description = section.getString(Constants.COMMANDS_KEY);
 
             if (description != null)
             {
@@ -566,9 +566,9 @@ public class ChallengesImportManager
 
         level.setRewardText(section.getString("text", ""));
 
-        if (section.isList("items"))
+        if (section.isList(Constants.ITEMS_KEY))
         {
-            section.getStringList("items").
+            section.getStringList(Constants.ITEMS_KEY).
                 forEach(text -> {
                     ItemStack itemStack = ItemParser.parse(text);
 
@@ -579,16 +579,16 @@ public class ChallengesImportManager
                 });
         }
 
-        level.setRewardExperience(section.getInt("experience", 0));
-        level.setRewardMoney(section.getDouble("money", 0));
+        level.setRewardExperience(section.getInt(Constants.EXPERIENCE_KEY, 0));
+        level.setRewardMoney(section.getDouble(Constants.MONEY_KEY, 0));
 
-        if (section.isList("commands"))
+        if (section.isList(Constants.COMMANDS_KEY))
         {
-            level.setRewardCommands(section.getStringList("commands"));
+            level.setRewardCommands(section.getStringList(Constants.COMMANDS_KEY));
         }
-        else if (section.isString("commands"))
+        else if (section.isString(Constants.COMMANDS_KEY))
         {
-            String description = section.getString("commands");
+            String description = section.getString(Constants.COMMANDS_KEY);
 
             if (description != null)
             {
@@ -633,16 +633,16 @@ public class ChallengesImportManager
             level.setOrder(section.getInt("order", 0));
             level.setWaiverAmount(section.getInt("waiver", 0));
 
-            level.setUnlockMessage(section.getString("description", ""));
+            level.setUnlockMessage(section.getString(Constants.DESCRIPTION_KEY, ""));
 
             this.populateRewards(level, section.getConfigurationSection("rewards"));
 
             Set<String> challenges = new HashSet<>();
             level.setChallenges(challenges);
 
-            if (section.isList("challenges"))
+            if (section.isList(Constants.CHALLENGES_KEY))
             {
-                section.getStringList("challenges").forEach(text -> {
+                section.getStringList(Constants.CHALLENGES_KEY).forEach(text -> {
                     Challenge challenge = this.addon.getChallengesManager().getChallenge(prefix + text);
 
                     if (challenge != null)
@@ -830,7 +830,7 @@ public class ChallengesImportManager
     public void generateDatabaseFile(User user, World world, String fileName)
     {
         File defaultFile = new File(this.addon.getDataFolder(),
-            fileName.endsWith(".json") ? fileName : fileName + ".json");
+            fileName.endsWith(Constants.JSON_EXTENSION) ? fileName : fileName + Constants.JSON_EXTENSION);
 
         if (defaultFile.exists())
         {
@@ -860,7 +860,7 @@ public class ChallengesImportManager
                     stream().
                     map(challenge -> {
                         // Use clone to avoid any changes in existing challenges.
-                        Challenge clone = challenge.clone();
+                        Challenge clone = challenge.copy();
                         // Remove world name from challenge id.
                         clone.setUniqueId(challenge.getUniqueId().replaceFirst(replacementString, ""));
                         // Remove world name from level id.
@@ -1183,9 +1183,9 @@ public class ChallengesImportManager
          */
         DefaultDataHolder loadObject(String fileName)
         {
-            if (!fileName.endsWith(".json"))
+            if (!fileName.endsWith(Constants.JSON_EXTENSION))
             {
-                fileName = fileName + ".json";
+                fileName = fileName + Constants.JSON_EXTENSION;
             }
 
             File defaultFile = new File(this.addon.getDataFolder(), fileName);

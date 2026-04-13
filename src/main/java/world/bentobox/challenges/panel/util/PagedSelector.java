@@ -137,7 +137,7 @@ public abstract class PagedSelector<T>
 
         if (button == CommonButtons.NEXT)
         {
-            description.add(this.user.getTranslation(reference + "description",
+            description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY,
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex + 2)));
 
             description.add("");
@@ -153,7 +153,7 @@ public abstract class PagedSelector<T>
         }
         else if (button == CommonButtons.PREVIOUS)
         {
-            description.add(this.user.getTranslation(reference + "description",
+            description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY,
                 Constants.PARAMETER_NUMBER, String.valueOf(this.pageIndex)));
 
             description.add("");
@@ -169,7 +169,7 @@ public abstract class PagedSelector<T>
         }
         else if (button == CommonButtons.SEARCH)
         {
-            description.add(this.user.getTranslation(reference + "description"));
+            description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY));
 
             if (this.searchString != null && !this.searchString.isEmpty())
             {

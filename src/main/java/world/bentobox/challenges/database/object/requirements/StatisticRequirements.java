@@ -27,11 +27,12 @@ public class StatisticRequirements extends Requirements
 {
     /**
      * Record for this requirement
-     * @param Statistic statistic
-     * @param EntityType entity
-     * @param Material material
-     *  @param Integer amount
-     *  @param Boolean reduceStatistic
+     * @param statistic - Type of the statistic field
+     * @param entity - Type of entity for entity related statistics
+     * @param material - Type of material for block and item related statistics
+     * @param amount - Amount of the stats
+     * @param reduceStatistic - Indicate that player statistic fields must be adjusted after completing challenges
+     *
      */
     public record StatisticRec(@Expose Statistic statistic, @Expose EntityType entity, @Expose Material material,
             @Expose Integer amount, @Expose Boolean reduceStatistic) {

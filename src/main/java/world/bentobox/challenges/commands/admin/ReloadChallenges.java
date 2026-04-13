@@ -52,7 +52,7 @@ public class ReloadChallenges extends CompositeCommand
             Utils.sendMessage(user, this.getWorld(), "general.success");
             return true;
         }
-        else if (args.get(0).equalsIgnoreCase("hard"))
+        else if (args.getFirst().equalsIgnoreCase("hard"))
         {
             this.manager.reload();
             Utils.sendMessage(user, this.getWorld(), "general.success");

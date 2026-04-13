@@ -15,6 +15,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -39,11 +40,11 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
             BiConsumer<Boolean, Advancement> consumer)
     {
         super(user);
-        this.elements = new ArrayList<Advancement>();
+        this.elements = new ArrayList<>();
         this.consumer = consumer;
         Bukkit.advancementIterator().forEachRemaining(elements::add);
         elements.removeIf(a -> a.getDisplay() == null); // Remove any that don't get displayed
-        elements.sort(Comparator.comparing(advancement -> advancement.getDisplay().getTitle()));
+        elements.sort(Comparator.comparing(advancement -> PlainTextComponentSerializer.plainText().serialize(advancement.getDisplay().title())));
         // Init without filters applied.
         this.filterElements = this.elements;
     }
@@ -118,7 +119,7 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
         } else {
             this.filterElements = this.elements.stream().filter(element -> {
                 // If element name is set and name contains search field, then do not filter out.
-                return element.getDisplay().getTitle().toLowerCase().contains(this.searchString.toLowerCase());
+                return PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase().contains(this.searchString.toLowerCase());
             }).distinct().collect(Collectors.toList());
         }
     }
@@ -126,7 +127,7 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
 
     /**
      * This method builds PanelItem for given entity.
-     * @param entity Entity which PanelItem must be created.
+     * @param advancement advancement to build button for.
      * @return new PanelItem for given Entity.
      */
     @Override
@@ -134,14 +135,14 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
         final String reference = Constants.BUTTON + "advancement.";
         List<String> description = new ArrayList<>();
         description.add(this.user.getTranslation(reference + "description", "[description]",
-                advancement.getDisplay().getDescription()));
+                PlainTextComponentSerializer.plainText().serialize(advancement.getDisplay().description())));
         description.add("");
         description.add(this.user.getTranslation(Constants.TIPS + "click-to-choose"));
 
 
         return new PanelItemBuilder()
                 .name(this.user.getTranslation(reference + "name", "[name]",
-                        advancement.getDisplay().getTitle()))
+                        PlainTextComponentSerializer.plainText().serialize(advancement.getDisplay().title())))
                 .icon(getIcon(advancement)).description(description)
                 .clickHandler((panel, user1, clickType, slot) -> {
                     this.consumer.accept(true, advancement);
@@ -151,11 +152,11 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
 
     /**
      * Get an ItemStack icon for any entity type, or PAPER if it's not really known
-     * @param et entity type
+     * @param advancement the advancement to get the icon for
      * @return ItemStack
      */
     public static ItemStack getIcon(Advancement advancement) {
-        return advancement.getDisplay().getIcon();
+        return advancement.getDisplay().icon();
     }
 
     /**

@@ -14,6 +14,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.inventory.ItemStack;
 
 import lv.id.bonne.panelutils.PanelUtils;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
@@ -65,7 +66,7 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
         this.advancementsList = advancementsList;
 
         // Sort tags by their ordinal value.
-        this.advancementsList.sort(Comparator.comparing(advancement -> advancement.getDisplay().getTitle()));
+        this.advancementsList.sort(Comparator.comparing(advancement -> PlainTextComponentSerializer.plainText().serialize(advancement.getDisplay().title())));
 
         this.selectedAdvancements = new HashSet<>();
 
@@ -102,7 +103,7 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
             this.filterElements = this.advancementsList.stream().
 				filter(element -> {
 					// If element name is set and name contains search field, then do not filter out.
-                        return element.getDisplay().getTitle().toLowerCase(Locale.ENGLISH)
+                        return PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase(Locale.ENGLISH)
                                 .contains(this.searchString.toLowerCase(Locale.ENGLISH));
 				}).
 				distinct().
@@ -178,7 +179,7 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
 
                 if (!this.selectedAdvancements.isEmpty())
 				{
-                    this.selectedAdvancements.forEach(adv -> description.add(adv.getDisplay().getTitle()));
+                    this.selectedAdvancements.forEach(adv -> description.add(PlainTextComponentSerializer.plainText().serialize(adv.getDisplay().title())));
 				}
 
 				icon = new ItemStack(Material.LAVA_BUCKET);
@@ -232,7 +233,7 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
         // Show everything about this advancement
         description
                 .add(this.user.getTranslation(reference + "description", "[description]",
-                        rec.getDisplay().getDescription()));
+                        PlainTextComponentSerializer.plainText().serialize(rec.getDisplay().description())));
 
         if (this.selectedAdvancements.contains(rec))
 		{
@@ -251,8 +252,8 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
 		}
 
 		return new PanelItemBuilder().
-                name(this.user.getTranslation(reference + "name", "[name]", rec.getDisplay().getTitle()))
-                .icon(rec.getDisplay().getIcon()).
+                name(this.user.getTranslation(reference + "name", "[name]", PlainTextComponentSerializer.plainText().serialize(rec.getDisplay().title())))
+                .icon(rec.getDisplay().icon()).
 			description(description).
 			clickHandler((panel, user1, clickType, slot) -> {
 				// On right click change which entities are selected for deletion.

@@ -58,7 +58,7 @@ public class ChallengesGlobalAdminCommand extends CompositeCommand
 		}
 		else if (this.gameModeAddons.size() == 1)
 		{
-			this.gameModeAddons.get(0).getAdminCommand().ifPresent(compositeCommand ->
+			this.gameModeAddons.getFirst().getAdminCommand().ifPresent(compositeCommand ->
 				user.performCommand(compositeCommand.getTopLabel() + " " +
 					this.<ChallengesAddon>getAddon().getChallengesSettings().getAdminMainCommand().split(" ")[0]));
 		}

@@ -104,7 +104,7 @@ public class CompleteChallengeCommand extends CompositeCommand
     {
         if (args.isEmpty()) return Optional.empty();
 
-        String lastString = args.get(args.size() - 1);
+        String lastString = args.getLast();
 
         final List<String> returnList = new ArrayList<>();
         final int size = args.size();
