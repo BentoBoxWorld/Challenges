@@ -173,7 +173,7 @@ public class ListChallengesPanel extends CommonPagedPanel<Challenge>
 
             itemBuilder.clickHandler((panel, user1, clickType, i) -> {
                 Consumer<Boolean> consumer = value -> {
-                    if (value)
+                    if (Boolean.TRUE.equals(value))
                     {
                         this.addon.getChallengesManager().deleteChallenge(challenge);
                     }
