@@ -496,7 +496,7 @@ public class AdminPanel extends CommonPanel
                     else
                     {
                         Consumer<Boolean> consumer = value -> {
-                            if (value)
+                            if (Boolean.TRUE.equals(value))
                             {
                                 this.addon.getChallengesManager().wipeDatabase(this.wipeAll,
                                     Utils.getGameMode(this.world));
@@ -535,7 +535,7 @@ public class AdminPanel extends CommonPanel
                     else
                     {
                         Consumer<Boolean> consumer = value -> {
-                            if (value)
+                            if (Boolean.TRUE.equals(value))
                             {
                                 this.addon.getChallengesManager().wipeDatabase(this.wipeAll,
                                     Utils.getGameMode(this.world));
@@ -567,7 +567,7 @@ public class AdminPanel extends CommonPanel
                 clickHandler = (panel, user, clickType, slot) -> {
 
                     Consumer<Boolean> consumer = value -> {
-                        if (value)
+                        if (Boolean.TRUE.equals(value))
                         {
                             this.addon.getChallengesManager().wipePlayers(Utils.getGameMode(this.world));
                         }

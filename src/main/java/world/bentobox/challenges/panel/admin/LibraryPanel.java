@@ -434,7 +434,7 @@ public class LibraryPanel extends CommonPagedPanel<LibraryEntry>
     {
         Consumer<Boolean> consumer = value ->
         {
-            if (value)
+            if (Boolean.TRUE.equals(value))
             {
                 switch (this.mode)
                 {
