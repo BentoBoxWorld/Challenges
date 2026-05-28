@@ -1232,6 +1232,7 @@ challenges:
         island-level: "<red>Your island must be at least level [number] to complete this challenge!"
         no-load: "<red>Error: Could not load [file]. Error: [message]."
         load-error: "<red>Error: Cannot load [value]."
+        import-failed: "<red>Could not import challenges: [message]. Check the server console for details."
         no-rank: "<red>You do not have a high enough rank to do that."
         cannot-remove-items: "<red>Some items cannot be removed from your inventory!"
         exist-challenges-or-levels: "<red>Challenges already exist in your world. Cannot proceed!"

@@ -737,6 +737,11 @@ public class ChallengesImportManager
         catch (Exception e)
         {
             this.addon.getPlugin().logStacktrace(e);
+            if (user != null && user.isPlayer())
+            {
+                Utils.sendMessage(user, world, Constants.ERRORS + "import-failed",
+                    "[message]", e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
+            }
             return;
         }
 
@@ -814,6 +819,11 @@ public class ChallengesImportManager
         catch (Exception e)
         {
             this.addon.getPlugin().logStacktrace(e);
+            if (user != null && user.isPlayer())
+            {
+                Utils.sendMessage(user, world, Constants.ERRORS + "import-failed",
+                    "[message]", e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
+            }
             return;
         }
 
