@@ -736,17 +736,27 @@ public class ChallengesImportManager
         }
         catch (Exception e)
         {
-            this.addon.getPlugin().logStacktrace(e);
-            if (user != null && user.isPlayer())
-            {
-                Utils.sendMessage(user, world, Constants.ERRORS + "import-failed",
-                    "[message]", e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
-            }
+            reportImportFailure(user, world, e);
             return;
         }
 
         manager.saveChallenges();
         manager.saveLevels();
+    }
+
+
+    /**
+     * Logs the stacktrace and, if a player triggered the import, surfaces a chat error
+     * so they know to look at the server console.
+     */
+    private void reportImportFailure(User user, World world, Exception e)
+    {
+        this.addon.getPlugin().logStacktrace(e);
+        if (user != null && user.isPlayer())
+        {
+            Utils.sendMessage(user, world, Constants.ERRORS + "import-failed",
+                "[message]", e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
+        }
     }
 
 
@@ -818,12 +828,7 @@ public class ChallengesImportManager
         }
         catch (Exception e)
         {
-            this.addon.getPlugin().logStacktrace(e);
-            if (user != null && user.isPlayer())
-            {
-                Utils.sendMessage(user, world, Constants.ERRORS + "import-failed",
-                    "[message]", e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
-            }
+            reportImportFailure(user, world, e);
             return;
         }
 
