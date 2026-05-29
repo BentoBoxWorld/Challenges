@@ -45,6 +45,7 @@ class ConversationUtilsTest {
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock mbServer = MockBukkit.mock();
+        PanelTestHelper.primeBukkitRegistry();
 
         when(user.getTranslation(anyString())).thenAnswer(
             (Answer<String>) inv -> inv.getArgument(0, String.class));

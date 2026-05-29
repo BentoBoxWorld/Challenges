@@ -53,6 +53,7 @@ class MultiplePanelTest {
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock mbServer = MockBukkit.mock();
+        PanelTestHelper.primeBukkitRegistry();
 
         PanelTestHelper.setupUserTranslations(user);
         when(user.getWorld()).thenReturn(world);
