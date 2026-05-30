@@ -23,6 +23,23 @@ import world.bentobox.challenges.database.object.requirements.InventoryRequireme
 public class PanelTestHelper {
 
     /**
+     * Force Bukkit's material registry to be populated while MockBukkit's mock
+     * server is active. Call this immediately after `MockBukkit.mock()`.
+     *
+     * <p>Why: `org.bukkit.inventory.ItemType.&lt;clinit&gt;` iterates over Material and
+     * looks each entry up in the registry. If it runs before MockBukkit has populated
+     * the registry (e.g., when a panel test that doesn't extend AbstractChallengesTest
+     * runs first on CI's filesystem ordering), it throws NoSuchElementException, and
+     * ItemStackMock stays in an errored state for the rest of the JVM — poisoning every
+     * subsequent test. Touching `Tag.LEAVES` forces the registry to populate before
+     * ItemType loads.
+     */
+    public static void primeBukkitRegistry() {
+        @SuppressWarnings("unused")
+        var unused = org.bukkit.Tag.LEAVES;
+    }
+
+    /**
      * Set up user translation mocks to return the key for any invocation.
      * Uses a lenient default answer that returns the first String argument
      * for any method that returns String.

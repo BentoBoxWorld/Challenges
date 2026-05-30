@@ -42,11 +42,14 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
+
+import world.bentobox.challenges.panel.PanelTestHelper;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.Settings;
@@ -101,6 +104,15 @@ public class ChallengesAddonTest {
     @BeforeEach
     public void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
+        // Force Bukkit's Tag.<clinit> to run against a real MockBukkit ServerMock before
+        // we install the Mockito static mock below. Without this, Tag.<clinit> can later
+        // fire while Bukkit is statically mocked, permanently null-ing every Tag constant
+        // for the JVM and corrupting any subsequent test that creates an ItemStack
+        // (e.g. CommonPagedPanelTest -> ItemType.<clinit> -> MaterialTags.<clinit> ->
+        //  Objects.requireNonNull(Tag.ALL_SIGNS) -> NPE).
+        MockBukkit.mock();
+        PanelTestHelper.primeBukkitRegistry();
+        MockBukkit.unmock();
         // Set up plugin
         WhiteBox.setInternalState(BentoBox.class, "instance", plugin);
         when(plugin.getLogger()).thenReturn(Logger.getAnonymousLogger());

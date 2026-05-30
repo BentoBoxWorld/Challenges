@@ -58,6 +58,7 @@ class GameModePanelTest {
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock mbServer = MockBukkit.mock();
+        PanelTestHelper.primeBukkitRegistry();
 
         when(addon.getChallengesManager()).thenReturn(manager);
         PanelTestHelper.setupUserTranslations(user);
