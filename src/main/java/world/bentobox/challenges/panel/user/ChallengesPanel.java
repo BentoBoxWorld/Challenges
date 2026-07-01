@@ -25,6 +25,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.panels.builders.TemplatedPanelBuilder;
 import world.bentobox.bentobox.api.panels.reader.ItemTemplateRecord;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.SettingsUtils;
@@ -124,6 +125,27 @@ public class ChallengesPanel extends CommonPanel
         {
             this.freeChallengeList.removeIf(challenge -> !challenge.isDeployed());
         }
+
+        // Hide team challenges flagged hideIfNoTeam from players without a team.
+        if (!this.playerHasTeam())
+        {
+            this.freeChallengeList.removeIf(challenge -> challenge.isTeamChallenge() && challenge.isHideIfNoTeam());
+        }
+    }
+
+
+    /**
+     * @return whether the viewing user currently has a team (island membership &gt; 1).
+     */
+    private boolean playerHasTeam()
+    {
+        if (this.addon.getIslands() == null)
+        {
+            return false;
+        }
+
+        Island island = this.addon.getIslands().getIsland(this.world, this.user);
+        return island != null && island.getMemberSet().size() > 1;
     }
 
 
@@ -143,6 +165,12 @@ public class ChallengesPanel extends CommonPanel
             if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
             {
                 this.challengeList.removeIf(challenge -> !challenge.isDeployed());
+            }
+
+            // Hide team challenges flagged hideIfNoTeam from players without a team.
+            if (!this.playerHasTeam())
+            {
+                this.challengeList.removeIf(challenge -> challenge.isTeamChallenge() && challenge.isHideIfNoTeam());
             }
         }
         else
@@ -279,7 +307,7 @@ public class ChallengesPanel extends CommonPanel
         // If challenge is not repeatable, remove all other actions beside "COMPLETE".
         // If challenge is completed all possible times, remove action.
 
-        List<ItemTemplateRecord.ActionRecords> actions = template.actions().stream().
+        List<ItemTemplateRecord.ActionRecords> baseActions = template.actions().stream().
             filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
             filter(action ->
             {
@@ -307,6 +335,11 @@ public class ChallengesPanel extends CommonPanel
                 }
             }).
             toList();
+
+        // A team challenge viewed by a player without a team cannot be completed: offer no
+        // completion action (removes both the click behaviour and the "Click to complete" tooltip).
+        final List<ItemTemplateRecord.ActionRecords> actions =
+            (challenge.isTeamChallenge() && !this.playerHasTeam()) ? List.of() : baseActions;
 
         // Add Click handler
         builder.clickHandler((panel, user, clickType, i) -> {

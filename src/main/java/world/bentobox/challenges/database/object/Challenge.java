@@ -136,6 +136,49 @@ public class Challenge implements DataObject
     private String level = "";
 
     // ---------------------------------------------------------------------
+    // Section: Team related
+    // ---------------------------------------------------------------------
+
+    /**
+     * If true, this is a team challenge: it is only available to islands that have
+     * a team, its completion / cooldown are shared by the whole team (island-keyed),
+     * and any team-aware behaviour below applies.
+     */
+    @Expose
+    private boolean teamChallenge = false;
+
+    /**
+     * Fraction (0.0 - 1.0) of the team that must be online to complete this challenge.
+     * The required present count is {@code max(2, ceil(teamSize * teamPresence))}.
+     * A value of 0.0 disables the presence gate (aggregation only).
+     */
+    @Expose
+    private double teamPresence = 0.0;
+
+    /**
+     * If true, inventory items / statistics are summed across the online team members
+     * rather than checked against the single completing player.
+     */
+    @Expose
+    private boolean aggregateTeam = false;
+
+    /**
+     * If true, every online team member must individually satisfy the requirement
+     * (the "everyone pays" mechanic). For inventory costs the configured amount is the
+     * team total and each present member pays {@code ceil(amount / requiredPresentCount)}.
+     */
+    @Expose
+    private boolean perMember = false;
+
+    /**
+     * Controls visibility to players without a team. Default {@code false}: the challenge
+     * is shown greyed / disabled to soloists (a recruitment nudge). If {@code true} it is
+     * hidden entirely until the player has a team.
+     */
+    @Expose
+    private boolean hideIfNoTeam = false;
+
+    // ---------------------------------------------------------------------
     // Section: Requirement related
     // ---------------------------------------------------------------------
 
@@ -339,6 +382,51 @@ public class Challenge implements DataObject
     public boolean isRemoveWhenCompleted()
     {
         return removeWhenCompleted;
+    }
+
+
+    /**
+     * @return whether this is a team challenge
+     */
+    public boolean isTeamChallenge()
+    {
+        return teamChallenge;
+    }
+
+
+    /**
+     * @return the fraction (0.0 - 1.0) of the team that must be online
+     */
+    public double getTeamPresence()
+    {
+        return teamPresence;
+    }
+
+
+    /**
+     * @return whether inventory / statistics are aggregated across online members
+     */
+    public boolean isAggregateTeam()
+    {
+        return aggregateTeam;
+    }
+
+
+    /**
+     * @return whether every online member must individually satisfy the requirement
+     */
+    public boolean isPerMember()
+    {
+        return perMember;
+    }
+
+
+    /**
+     * @return whether the challenge is hidden entirely from players without a team
+     */
+    public boolean isHideIfNoTeam()
+    {
+        return hideIfNoTeam;
     }
 
 
@@ -593,6 +681,51 @@ public class Challenge implements DataObject
     public void setRemoveWhenCompleted(boolean removeWhenCompleted)
     {
         this.removeWhenCompleted = removeWhenCompleted;
+    }
+
+
+    /**
+     * @param teamChallenge the teamChallenge new value.
+     */
+    public void setTeamChallenge(boolean teamChallenge)
+    {
+        this.teamChallenge = teamChallenge;
+    }
+
+
+    /**
+     * @param teamPresence the teamPresence new value (0.0 - 1.0).
+     */
+    public void setTeamPresence(double teamPresence)
+    {
+        this.teamPresence = teamPresence;
+    }
+
+
+    /**
+     * @param aggregateTeam the aggregateTeam new value.
+     */
+    public void setAggregateTeam(boolean aggregateTeam)
+    {
+        this.aggregateTeam = aggregateTeam;
+    }
+
+
+    /**
+     * @param perMember the perMember new value.
+     */
+    public void setPerMember(boolean perMember)
+    {
+        this.perMember = perMember;
+    }
+
+
+    /**
+     * @param hideIfNoTeam the hideIfNoTeam new value.
+     */
+    public void setHideIfNoTeam(boolean hideIfNoTeam)
+    {
+        this.hideIfNoTeam = hideIfNoTeam;
     }
 
 
@@ -888,6 +1021,11 @@ public class Challenge implements DataObject
 
             // Clone boolean and numeric fields
             clone.setRemoveWhenCompleted(this.removeWhenCompleted);
+            clone.setTeamChallenge(this.teamChallenge);
+            clone.setTeamPresence(this.teamPresence);
+            clone.setAggregateTeam(this.aggregateTeam);
+            clone.setPerMember(this.perMember);
+            clone.setHideIfNoTeam(this.hideIfNoTeam);
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
             clone.setRepeatable(this.repeatable);
