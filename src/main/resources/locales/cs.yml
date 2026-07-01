@@ -1,31 +1,32 @@
 ---
 meta:
   authors:
-  - BONNE
+    - BONNE
 challenges:
   commands:
     admin:
       main:
         description: Hlavní administrátorský příkaz. Otevře GUI.
+        parameters: ''
       reload:
-        description: Znovu načíst výzvy z databáze|Parametr hard znamená, že doplňek
-          zresetuje připojení k databázi.
+        description: Znovu načíst výzvy z databáze|Parametr hard znamená, že doplňek zresetuje připojení k databázi.
+        parameters: ''
       show:
         description: Tato metoda vypíše do chatu všechny výzvy, které ve světě existují.
+        parameters: ''
       complete:
         description: Tento příkaz umožňuje dokončit výzvu hráči bez GUI.
         parameters: "<player> <challenge_id>"
       reset:
-        description: Tento příkaz umožňuje resetovat výzvu hráči bez GUI. Pokud je
-          "challenge_id" nastaveno na "all", potom příkaz zresetuje hráči všechny
-          výzvy.
+        description: Tento příkaz umožňuje resetovat výzvu hráči bez GUI. Pokud je "challenge_id" nastaveno na "all", potom příkaz zresetuje hráči všechny výzvy.
         parameters: "<player> <challenge_id>"
       migrate:
-        description: Tato metoda umožňuje migrovat data výzev, která referují na svět
-          nynějšího herního módu, do nového formátu úložiště 0.8.0.
+        description: Tato metoda umožňuje migrovat data výzev, která referují na svět nynějšího herního módu, do nového formátu úložiště 0.8.0.
+        parameters: ''
     user:
       main:
         description: Tato metoda otevárá GUI Výzev.
+        parameters: ''
       complete:
         description: Tato metoda umožňuje dokončit výzvu bez GUI.
         parameters: "<challenge_id> [count]"
@@ -51,6 +52,11 @@ challenges:
       challenge-selector: "<black><bold>Výběr výzvy"
       statistic-selector: "<black><bold>Výběr statistiky"
       environment-selector: "<black><bold>Výběr prostředí"
+      manage-block-groups: <black><bold>Správa skupin bloků
+      manage-entity-groups: <black><bold>Správa skupin entit
+      manage-statistics: <black><bold>Správa statistik
+      manage-advancements: <black><bold>Správa pokroků
+      advancement-selector: <black><bold>Výběr pokroku
     buttons:
       free-challenges:
         name: "<white><bold>Výzvy zdarma"
@@ -149,6 +155,7 @@ challenges:
         description: |-
           <gray>Otevře veřejnost
           Knihovna výzev <gray>.
+        downloading: "<gray>Stahování knihovny\n<gray>požadováno..."
       import_database:
         name: "<white><bold>Importovat databázi"
         description: |-
@@ -658,8 +665,7 @@ challenges:
         toggleable: Povolit přepínání
       include_undeployed:
         name: "<white><bold>Zahrnout nenasazené výzvy"
-        description: "<gray>Označuje, zda není rozmístěno \n<gray>výzvy by měly být \n<gray>
-          se počítá do úrovně \n<gray>dokončení."
+        description: "<gray>Označuje, zda není rozmístěno \n<gray>výzvy by měly být \n<gray> se počítá do úrovně \n<gray>dokončení."
         enabled: "<dark_green>Povoleno"
         disabled: "<red>Zakázáno"
       download:
@@ -768,6 +774,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>Cílová hodnota: <yellow>[number]'
+        remove:
+          name: '<gray>Snížit statistiku: [value]'
+          value:
+            enabled: <red>Povoleno
+            disabled: <dark_green>Zakázáno
+        block: '<gray>Cílový blok: <yellow>[block]'
+        item: '<gray>Cílová položka: <yellow>[item]'
+        entity: '<gray>Cílová entita: <yellow>[entity]'
+        selected: <dark_green>Vybráno
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -778,12 +794,120 @@ challenges:
           <gray>prvek se vstupem
           textová hodnota <gray>.
         search: "<aqua>Hodnota: [value]"
+      hide_reward_items:
+        name: <white><bold>Skrýt předměty odměny
+        description: "<gray>Přepněte, zda se předměty odměny\n<gray>zobrazují nebo ne v GUI."
+        hide: <dark_green>Skrýt
+        show: <red>Zobrazit
+      team_challenge:
+        name: <white><bold>Týmová výzva
+        description: "<gray>Přepněte, zda se jedná o týmovou výzvu.\n<gray>Týmové výzvy vyžadují tým a sdílí\n<gray>dokončení a období čekání na ostrově."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      team_presence:
+        name: <white><bold>Přítomnost týmu
+        description: "<gray>Procento týmu, které musí být\n<gray>online, aby bylo možné splnit tuto výzvu.\n<gray>0 zakáže přístupové brány přítomnosti."
+        value: '<gray>Aktuálně: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Agregovat napříč týmem
+        description: "<gray>Sečtěte požadované položky / statistiky napříč\n<gray>všemi online členy (Sdílená daň,\n<gray>Kombinovaná úsilí)."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      per_member:
+        name: <white><bold>Každý člen platí
+        description: "<gray>Každý online člen musí přispět svým\n<gray>podílem (požadované množství je TÝMOVÝ\n<gray>SOUČET rozdělený mezi přítomné členy)."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      hide_if_no_team:
+        name: <white><bold>Skrýt, pokud není tým
+        description: "<gray>Je-li povoleno, tato výzva je zcela skryta\n<gray>před hráči bez týmu.\n<gray>Je-li zakázáno, zobrazuje se, ale je zakázána."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      required_statistics:
+        name: <white><bold>Požadované statistiky
+        description: "<gray>Umožňuje vám změnit požadované\n<gray>statistiky pro tuto výzvu, aby byla\n<gray>dokončena."
+        title: '<gray>Statistiky: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Nebyly přidány žádné statistiky.
+      required_advancements:
+        name: <white><bold>Požadované pokroky
+        description: "<gray>Umožňuje vám změnit požadované\n<gray>pokroky pro tuto výzvu, aby byla\n<gray>dokončena."
+        title: '<gray>Pokroky: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Nebyly přidány žádné pokroky.
+      required_materialtags:
+        name: <white><bold>Požadované skupiny bloků
+        description: "<gray>Umožňuje vám změnit požadované\n<gray>skupiny bloků pro tuto výzvu, aby byla\n<gray>dokončena."
+        title: '<gray>Skupina bloků: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Nebyly přidány žádné skupiny bloků.
+      required_entitytags:
+        name: <white><bold>Požadované skupiny entit
+        description: "<gray>Umožňuje vám změnit požadované\n<gray>skupiny entit pro tuto výzvu, aby byla\n<gray>dokončena."
+        title: '<gray>Skupina entit: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Nebyly přidány žádné skupiny entit.
+      required_papi:
+        name: <white><bold>Požadované PAPI
+        description: "<gray>Kontroluje vzorec, který může\n<gray>obsahovat zástupné symboly PAPI\n<gray>a matematické a logické prvky."
+        value: '<gray>Vzorec: <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>Přidat statistiku
+        description: "<gray>Umožňuje vám přidat novou\n<gray>statistiku do seznamu."
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Přidat pokrok
+        description: "<gray>Umožňuje vám přidat nový\n<gray>pokrok do seznamu."
+      remove_advancement:
+        name: <white><bold>Odstranit pokrok
+        description: "<gray>Umožňuje vám odstranit\n<gray>vybrané pokroky\n<gray>ze seznamu."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      glow_completed_levels:
+        name: <white><bold>Zářit dokončené úrovně
+        description: "<gray>Aplikuje zář enchantmentu\n<gray>na dokončené úrovně."
+        enabled: <dark_green>Povoleno
+        disabled: <red>Zakázáno
+      language:
+        name: <white><bold>Jazyk
+        description: "<gray>Filtrujte knihovny výzev\n<gray>podle jazyka."
+        current: '<gray>Zobrazení: <yellow>[lang]'
+        all: Vše
+      add_block_group:
+        name: <white><bold>Přidat skupinu bloků
+        description: "<gray>Umožňuje vám přidat novou\n<gray>skupinu bloků do seznamu."
+      remove_block_group:
+        name: <white><bold>Odstranit skupinu bloků
+        description: "<gray>Umožňuje vám odstranit\n<gray>vybrané skupiny bloků\n<gray>ze seznamu."
+        title: '<gray>Vybrané skupiny bloků:'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Vybráno
+      add_entity_group:
+        name: <white><bold>Přidat skupinu entit
+        description: "<gray>Umožňuje vám přidat novou\n<gray>skupinu entit do seznamu."
+      remove_entity_group:
+        name: <white><bold>Odstranit skupinu entit
+        description: "<gray>Umožňuje vám odstranit\n<gray>vybrané skupiny entit\n<gray>ze seznamu."
+        title: '<gray>Vybrané skupiny entit:'
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Vybráno
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Vybráno
     tips:
       click-to-select: "<yellow>Klepnutím na <gray>vyberte."
       click-to-choose: "<yellow>Klepnutím na <gray>vyberte."
       click-to-complete: "<yellow>Dokončete kliknutím na <gray>."
-      right-click-multiple-open: "<yellow>Klikněte pravým tlačítkem na <gray>pro výběr počtu
-        dokončení."
+      right-click-multiple-open: "<yellow>Klikněte pravým tlačítkem na <gray>pro výběr počtu dokončení."
       shift-left-click-to-complete-all: "<yellow>Shift Klepnutím na <gray>vše dokončíte."
       left-click-to-accept: "<yellow>Klikněte levým tlačítkem <gray>pro dokončení."
       right-click-to-write: "<yellow>Klikněte pravým tlačítkem na <gray>pro psaní."
@@ -824,6 +948,7 @@ challenges:
       right-click-to-clear: "<yellow>Klikněte pravým tlačítkem na <gray>pro vymazání."
       click-to-previous: "<yellow>Klepnutím na <gray>zobrazíte předchozí stránku."
       click-to-next: "<yellow>Klepnutím na <gray>zobrazíte další stránku."
+      right-click-to-reset: <yellow>Kliknutí vpravo <gray>pro obnovení.
     descriptions:
       challenge:
         lore: |-
@@ -917,6 +1042,8 @@ challenges:
           money: "<gray>Peníze: <reset><yellow>[number]"
           commands-title: "<gray>příkazy:"
           command: "  <gray>- <yellow>[command]"
+        team-requirement: '<gold>Tým: <yellow>[online] <gold>online (<yellow>[number] <gold>požadováno)'
+        team-required: <red>Tým je vyžadován pro dokončení
       level:
         lore: |-
           [text]
@@ -965,60 +1092,44 @@ challenges:
     input-number: "<yellow>Zadejte prosím číslo do chatu."
     input-seconds: "<yellow>Zadejte prosím sekundy do chatu."
     numeric-only: "<red>Daná [value] není číslo!"
-    not-valid-value: "<red>Dané číslo [value] není platné. Musí být větší než [min]
-      a menší než [max]!"
-    user-data-removed: "<green>Všechna uživatelská data pro [gamemode] jsou vymazána
-      z databáze."
-    confirm-user-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi uživatelů
-      pro [gamemode]."
-    challenge-data-removed: "<green>Všechna data výzev pro [gamemode] jsou vymazána
-      z databáze."
-    confirm-challenge-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi
-      výzev pro [gamemode]."
+    not-valid-value: "<red>Dané číslo [value] není platné. Musí být větší než [min] a menší než [max]!"
+    user-data-removed: "<green>Všechna uživatelská data pro [gamemode] jsou vymazána z databáze."
+    confirm-user-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi uživatelů pro [gamemode]."
+    challenge-data-removed: "<green>Všechna data výzev pro [gamemode] jsou vymazána z databáze."
+    confirm-challenge-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi výzev pro [gamemode]."
     all-data-removed: "<green>Všechna data doplňků pro [gamemode] jsou vymazána z databáze."
-    confirm-all-data-deletion: "<yellow>Potvrďte, že chcete vymazat data doplňků pro [herní
-      režim]."
+    confirm-all-data-deletion: "<yellow>Potvrďte, že chcete vymazat data doplňků pro [herní režim]."
     write-name: "<yellow>Napiš prosím jméno do chatu."
     new-object-created: "<green>Je vytvořen nový objekt pro [gamemode]."
     object-already-exists: "<red>Objekt <gray>[id] <red>již existuje. Vyberte jiný název."
     invalid-challenge: "<red>Výzva [challenge] obsahuje neplatná data. Nelze jej nasadit!"
     name-changed: "<green>Úspěch, název byl aktualizován."
-    write-description: "<yellow>Zadejte prosím nový popis v chatu a 'konec' na samostatném
-      řádku pro dokončení."
+    write-description: "<yellow>Zadejte prosím nový popis v chatu a 'konec' na samostatném řádku pro dokončení."
     description-changed: "<green>Úspěch, popis byl aktualizován."
-    write-permissions: "<yellow>Zadejte prosím požadovaná oprávnění, jedno na každý řádek
-      v chatu, a dokončete ukončení na samostatném řádku."
+    write-permissions: "<yellow>Zadejte prosím požadovaná oprávnění, jedno na každý řádek v chatu, a dokončete ukončení na samostatném řádku."
     permissions-changed: "<green>Úspěch, oprávnění k výzvě byla aktualizována."
-    write-reward-text: "<yellow>Zadejte prosím nový text odměny do chatu a dokončete ho
-      na samostatném řádku."
+    write-reward-text: "<yellow>Zadejte prosím nový text odměny do chatu a dokončete ho na samostatném řádku."
     reward-text-changed: "<green>Úspěch, text odměny byl aktualizován."
-    write-repeat-reward-text: "<yellow>Zadejte prosím nový opakující se text odměny v chatu
-      a dokončete jej na samostatném řádku."
+    write-repeat-reward-text: "<yellow>Zadejte prosím nový opakující se text odměny v chatu a dokončete jej na samostatném řádku."
     repeat-reward-text-changed: "<green>Úspěch, text opakování odměny byl aktualizován."
-    write-reward-commands: "<yellow>Zadejte prosím nový příkaz pro odměnu na řádek v chatu
-      a dokončete jej na samostatném řádku."
+    write-reward-commands: "<yellow>Zadejte prosím nový příkaz pro odměnu na řádek v chatu a dokončete jej na samostatném řádku."
     reward-commands-changed: "<green>Úspěch, příkazy odměn byly aktualizovány."
-    write-repeat-reward-commands: "<yellow>Zadejte prosím nový příkaz pro opakování odměny
-      na řádek v chatu a dokončete jej na samostatném řádku."
+    write-repeat-reward-commands: "<yellow>Zadejte prosím nový příkaz pro opakování odměny na řádek v chatu a dokončete jej na samostatném řádku."
     repeat-reward-commands-changed: "<green>Úspěch, příkazy k opakování odměny byly aktualizovány."
     challenge-removed: "<green>Výzvy [challenge] pro [gamemode] jsou odstraněny z databáze."
-    confirm-challenge-deletion: "<yellow>Potvrďte, že chcete odstranit [challenge] pro [gamemode]
-      z databáze."
+    confirm-challenge-deletion: "<yellow>Potvrďte, že chcete odstranit [challenge] pro [gamemode] z databáze."
     level-removed: "<green>Úroveň [level] pro [gamemode] je odstraněna z databáze."
-    confirm-level-deletion: "<yellow>Potvrďte prosím, že chcete odstranit [level] pro
-      [gamemode] z databáze."
+    confirm-level-deletion: "<yellow>Potvrďte prosím, že chcete odstranit [level] pro [gamemode] z databáze."
     start-downloading: "<green>Začíná stahování a import knihovny výzev."
     written-text: "<green>Vstupní text:"
-    confirm-data-replacement: "<yellow>Potvrďte prosím, že chcete nahradit své stávající
-      výzvy novými."
+    confirm-data-replacement: "<yellow>Potvrďte prosím, že chcete nahradit své stávající výzvy novými."
     new-challenges-imported: "<green>Úspěch, byly importovány nové výzvy pro [gamemode]."
-    exported-file-name: "<yellow>Zadejte prosím název souboru pro exportovaný databázový
-      soubor. (pro ukončení napište 'zrušit')"
-    database-export-completed: "<green>Úspěch, export databáze pro [world] je dokončen.
-      Vygenerován soubor [file]."
+    exported-file-name: "<yellow>Zadejte prosím název souboru pro exportovaný databázový soubor. (pro ukončení napište 'zrušit')"
+    database-export-completed: "<green>Úspěch, export databáze pro [world] je dokončen. Vygenerován soubor [file]."
     file-name-exist: "<red>Soubor s názvem '[id]' existuje. Nelze jej přepsat."
     write-search: "<yellow>Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
     search-updated: "<green>Hodnota vyhledávání byla aktualizována."
+    enter-formula: "<green>Zadejte vzorec, který používá zástupné symboly PAPI a symboly =,<>,<+,>=, ==, !=, AND, OR pouze.\n<green>Příklad: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     challenge-title: Úspěšně dokončeno
     challenge-subtitle: "[friendlyName]"
@@ -1046,8 +1157,7 @@ challenges:
   errors:
     no-name: "<red>Chybějící název výzvy"
     unknown-challenge: "<red>Neznámá výzva"
-    not-valid-integer: '<red>Uvedené celé číslo "[value]" je neplatné!|Hodnota by měla
-      být mezi [min] a [max].'
+    not-valid-integer: '<red>Uvedené celé číslo "[value]" je neplatné!|Hodnota by měla být mezi [min] a [max].'
     not-deployed: "<red>Výzva není zveřejněna!"
     not-on-island: "<red>K tomuto musíš být na svém ostrově!"
     challenge-level-not-available: "<red>Neodemkl jsi úroveň k dokončení této výzvy."
@@ -1067,23 +1177,27 @@ challenges:
     cannot-remove-items: "<red>Některé předměty nelze odebrat z tvého inventáře!"
     exist-challenges-or-levels: "<red>Ve tvém světě již existují výzvy. Nelze pokračovat!"
     no-challenges: "<red>Výzvy nejsou v aktuálním světě implementovány!"
-    no-challenges-admin: "<red>Výzvy nejsou v aktuálním světě implementovány! Měl bys
-      použít <dark_purple>/[command] <red>k jejich přidání!"
+    no-challenges-admin: "<red>Výzvy nejsou v aktuálním světě implementovány! Měl bys použít <dark_purple>/[command] <red>k jejich přidání!"
     missing-arguments: "<red>Příkaz postrádá argumenty."
     no-multiple-permission: "<red>Nemáš oprávnění k dokončení výzev vícekrát najednou."
     invalid-level: "<red>Level [level] obsahuje neplatná data. Nebude načten z databáze!"
-    invalid-challenge: "<red>Challenge [challenge] obsahuje neplatná data. Nebude načtena
-      z databáze!"
+    invalid-challenge: "<red>Challenge [challenge] obsahuje neplatná data. Nebude načtena z databáze!"
     no-library-entries: "<red>Nelze najít žádné položky knihovny. Nic k zobrazení."
     not-hooked: "<red>Výzvy Addon nenašel žádný GameMode."
-    timeout: "<red>Tato výzva vyžaduje mezi dokončeními čekat [timeout]. Musíte
-      počkat [wait-time], než to znovu dokončíte."
-    requirement-not-met: "<red>Tato výzva vyžaduje, aby [statistic] měla [number]. Máte
-      pouze [hodnotu]. "
-    requirement-not-met-entity: "<red>Tato výzva vyžaduje, aby [statistic] [entity]
-      měla [number]. Máte pouze [hodnotu]. "
-    requirement-not-met-material: "<red>Tato výzva vyžaduje, aby [statistic] [material]
-      měl [number]. Máte pouze [hodnotu]. "
+    timeout: "<red>Tato výzva vyžaduje mezi dokončeními čekat [timeout]. Musíte počkat [wait-time], než to znovu dokončíte."
+    requirement-not-met: "<red>Tato výzva vyžaduje, aby [statistic] měla [number]. Máte pouze [hodnotu]. "
+    requirement-not-met-entity: "<red>Tato výzva vyžaduje, aby [statistic] [entity] měla [number]. Máte pouze [hodnotu]. "
+    requirement-not-met-material: "<red>Tato výzva vyžaduje, aby [statistic] [material] měl [number]. Máte pouze [hodnotu]. "
+    import-failed: '<red>Nelze importovat výzvy: [message]. Podrobnosti naleznete v konzoli serveru.'
+    no-team: <red>Toto je týmová výzva. Chcete-li ji splnit, musíte mít tým!
+    insufficient-team: <red>Tato týmová výzva potřebuje [number] členů týmu online. Online je pouze [online].
+    member-missing-share: <red>[name] nemá svůj podíl ([amount] x [item]) pro tuto týmovou výzvu.
+  materials:
+    any: 'Jakýkoli '
+    all_hanging_signs:
+      name: Jakékoli visuté znamení
+    all_signs:
+      name: Jakékoli znamení
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

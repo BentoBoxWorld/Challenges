@@ -1,16 +1,19 @@
 ---
 meta:
   authors:
-  - BONNe
+    - BONNe
 challenges:
   commands:
     admin:
       main:
         description: 管理员主指令。打开管理员菜单。
+        parameters: ''
       reload:
         description: 重新加载挑战数据
+        parameters: ''
       show:
         description: 在聊天栏中显示此世界可用的所有挑战。
+        parameters: ''
       complete:
         description: 强制为玩家完成挑战
         parameters: "<player> <challenge_id>"
@@ -19,9 +22,11 @@ challenges:
         parameters: "<player> <challenge_id>"
       migrate:
         description: 将当前世界的挑战数据转换为 0.8.0 的存储格式。
+        parameters: ''
     user:
       main:
         description: 打开挑战菜单。
+        parameters: ''
       complete:
         description: 完成挑战。
         parameters: "<challenge_id> [count]"
@@ -47,6 +52,11 @@ challenges:
       challenge-selector: "<black><bold>选择挑战"
       statistic-selector: "<black><bold>选择统计数据"
       environment-selector: "<black><bold>选择环境条件"
+      manage-block-groups: <black><bold>管理方块组
+      manage-entity-groups: <black><bold>管理实体组
+      manage-statistics: <black><bold>管理统计
+      manage-advancements: <black><bold>管理进度
+      advancement-selector: <black><bold>进度选择器
     buttons:
       free-challenges:
         name: "<white><bold>自由挑战"
@@ -138,6 +148,7 @@ challenges:
       library:
         name: "<white><bold>库"
         description: "<gray>打开公共挑战库。"
+        downloading: "<gray>库下载\n<gray>已请求..."
       import_database:
         name: "<white><bold>导入数据"
         description: "<gray>导入或导出挑战扩展数据。"
@@ -561,6 +572,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>目标值: <yellow>[number]'
+        remove:
+          name: '<gray>减少统计: [value]'
+          value:
+            enabled: <red>已启用
+            disabled: <dark_green>已禁用
+        block: '<gray>目标方块: <yellow>[block]'
+        item: '<gray>目标物品: <yellow>[item]'
+        entity: '<gray>目标实体: <yellow>[entity]'
+        selected: <dark_green>已选中
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -568,6 +589,115 @@ challenges:
         name: "<white><bold>搜索"
         description: "<gray>允许通过输入文本值搜索元素"
         search: "<aqua>值：[value]"
+      hide_reward_items:
+        name: <white><bold>隐藏奖励物品
+        description: "<gray>切换奖励物品\n<gray>是否在GUI中显示。"
+        hide: <dark_green>隐藏
+        show: <red>显示
+      team_challenge:
+        name: <white><bold>团队挑战
+        description: "<gray>切换这是否为团队挑战。\n<gray>团队挑战需要一个团队并在\n<gray>岛屿中共享完成和冷却时间。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      team_presence:
+        name: <white><bold>团队在线
+        description: "<gray>完成此挑战必须在线的\n<gray>团队成员百分比。\n<gray>0禁用在线检查。"
+        value: '<gray>当前: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>跨团队汇总
+        description: "<gray>将所有在线成员的必需物品/统计\n<gray>相加(共享贡献,\n<gray>联合努力)。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      per_member:
+        name: <white><bold>每个成员支付
+        description: "<gray>每个在线成员必须贡献他们的\n<gray>份额(所需的总量是\n<gray>团队总计,在成员间分配)。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      hide_if_no_team:
+        name: <white><bold>无团队时隐藏
+        description: "<gray>如果启用,此挑战对没有\n<gray>团队的玩家完全隐藏。\n<gray>如果禁用,它会显示但被禁用。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      required_statistics:
+        name: <white><bold>必需统计
+        description: "<gray>允许您更改完成此\n<gray>挑战所需的统计\n<gray>数据。"
+        title: '<gray>统计: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>未添加任何统计。
+      required_advancements:
+        name: <white><bold>必需进度
+        description: "<gray>允许您更改完成此\n<gray>挑战所需的进度\n<gray>数据。"
+        title: '<gray>进度: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>未添加任何进度。
+      required_materialtags:
+        name: <white><bold>必需方块组
+        description: "<gray>允许您更改完成此\n<gray>挑战所需的\n<gray>方块组。"
+        title: '<gray>方块组: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>未添加任何方块组。
+      required_entitytags:
+        name: <white><bold>必需实体组
+        description: "<gray>允许您更改完成此\n<gray>挑战所需的\n<gray>实体组。"
+        title: '<gray>实体组: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>未添加任何实体组。
+      required_papi:
+        name: <white><bold>必需PAPI
+        description: "<gray>检查可以包含\n<gray>PAPI占位符以及\n<gray>数学和逻辑元素的公式。"
+        value: '<gray>公式: <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>添加统计
+        description: "<gray>允许您向列表\n<gray>添加新统计。"
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>添加进度
+        description: "<gray>允许您向列表\n<gray>添加新进度。"
+      remove_advancement:
+        name: <white><bold>移除进度
+        description: "<gray>允许您从列表中\n<gray>移除选中的\n<gray>进度。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      glow_completed_levels:
+        name: <white><bold>闪耀已完成等级
+        description: "<gray>向已完成的等级\n<gray>应用附魔光效。"
+        enabled: <dark_green>已启用
+        disabled: <red>已禁用
+      language:
+        name: <white><bold>语言
+        description: "<gray>按语言筛选\n<gray>挑战库。"
+        current: '<gray>显示: <yellow>[lang]'
+        all: 全部
+      add_block_group:
+        name: <white><bold>添加方块组
+        description: "<gray>允许您向列表\n<gray>添加新方块组。"
+      remove_block_group:
+        name: <white><bold>移除方块组
+        description: "<gray>允许您从列表中\n<gray>移除选中的\n<gray>方块组。"
+        title: '<gray>选中的方块组:'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>已选中
+      add_entity_group:
+        name: <white><bold>添加实体组
+        description: "<gray>允许您向列表\n<gray>添加新实体组。"
+      remove_entity_group:
+        name: <white><bold>移除实体组
+        description: "<gray>允许您从列表中\n<gray>移除选中的\n<gray>实体组。"
+        title: '<gray>选中的实体组:'
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>已选中
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>已选中
     tips:
       click-to-select: "<yellow>单击 <gray>进行选择。"
       click-to-choose: "<yellow>单击 <gray>进行选择。"
@@ -613,6 +743,7 @@ challenges:
       right-click-to-clear: "<yellow>右击 <gray>清除。"
       click-to-previous: "<yellow>点击 <gray>查看上一页。"
       click-to-next: "<yellow>点击 <gray>查看下一页。"
+      right-click-to-reset: <yellow>右键单击 <gray>以重置。
     descriptions:
       challenge:
         lore: |-
@@ -706,6 +837,8 @@ challenges:
           money: "<gray>金钱：<reset><yellow>[number]"
           commands-title: "<gray>指令："
           command: "  <gray>- <yellow>[command]"
+        team-requirement: '<gold>团队: <yellow>[online] <gold>在线 (<yellow>[number] <gold>需要)'
+        team-required: <red>完成所需团队
       level:
         lore: |-
           [text]
@@ -791,6 +924,7 @@ challenges:
     file-name-exist: "<red>名称为 “[id]” 的文件已存在。无法覆盖。"
     write-search: "<yellow>请写一个搜索值。（输入 'cancel' 取消）"
     search-updated: "<green>搜索值已更新。"
+    enter-formula: "<green>输入仅使用PAPI占位符和符号=,<>,<+,>=, ==, !=, AND, OR的公式。\n<green>示例: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     challenge-title: "<green>已完成"
     challenge-subtitle: "[friendlyName]"
@@ -848,8 +982,17 @@ challenges:
     timeout: "<red>此挑战需要在完成之间等待 [timeout]。您必须等待 [wait-time] 才能再次完成。"
     requirement-not-met: "<red>这个挑战需要 [statistic] 至少为 [number]. 你只有 [value]. "
     requirement-not-met-entity: "<red>这个挑战需要 [number] 个 [statistic] [entity]. 你只有 [value]. "
-    requirement-not-met-material: "<red>这个挑战需要 [number] 个 [statistic] [material]. 你只有
-      [value]. "
+    requirement-not-met-material: "<red>这个挑战需要 [number] 个 [statistic] [material]. 你只有 [value]. "
+    import-failed: '<red>无法导入挑战: [message]。检查服务器控制台了解详情。'
+    no-team: <red>这是一个团队挑战。您必须拥有一个团队才能完成它!
+    insufficient-team: <red>此团队挑战需要[number]名团队成员在线。只有[online]名在线。
+    member-missing-share: <red>[name]对于此团队挑战没有他们的份额([amount] x [item])。
+  materials:
+    any: '任意 '
+    all_hanging_signs:
+      name: 任意悬挂告示牌
+    all_signs:
+      name: 任意告示牌
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

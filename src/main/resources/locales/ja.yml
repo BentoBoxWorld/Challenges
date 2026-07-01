@@ -1,3 +1,4 @@
+---
 meta:
   authors:
     - tastybento
@@ -161,6 +162,7 @@ challenges:
         description: |-
           一般の人々を開きます
           挑戦図書館。
+        downloading: "<gray>ライブラリのダウンロード\n<gray>がリクエストされています..."
       import_database:
         name: データベースをインポートします
         description: |-
@@ -853,6 +855,40 @@ challenges:
           <gray>テキスト入力値を使用
           <gray>して要素を検索できます。
         search: '<aqua>値：[value]'
+      team_challenge:
+        name: <white><bold>チームチャレンジ
+        description: "<gray>このチャレンジがチームチャレンジかどうかを切り替えます。\n<gray>チームチャレンジにはチームが必要で、完了と\n<gray>クールダウンが島全体で共有されます。"
+        enabled: <dark_green>有効
+        disabled: <red>無効
+      team_presence:
+        name: <white><bold>チーム出席
+        description: "<gray>このチャレンジを完了するためにオンラインで\n<gray>いなければならないチームのパーセンテージ。\n<gray>0で出席ゲートが無効になります。"
+        value: '<gray>現在: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>チーム全体で集計
+        description: "<gray>すべてのオンラインメンバー全体で\n<gray>必要なアイテム/統計を合計します(プール献金、\n<gray>共同の努力)。"
+        enabled: <dark_green>有効
+        disabled: <red>無効
+      per_member:
+        name: <white><bold>各メンバーが支払う
+        description: "<gray>オンラインの各メンバーは自分の\n<gray>シェアに貢献する必要があります(必要な金額は\n<gray>チーム合計で、現在のメンバー間で分割)。"
+        enabled: <dark_green>有効
+        disabled: <red>無効
+      hide_if_no_team:
+        name: <white><bold>チームがない場合は非表示
+        description: "<gray>有効にすると、このチャレンジは\n<gray>チームがないプレイヤーから完全に隠されます。\n<gray>無効にすると、表示されますが無効になります。"
+        enabled: <dark_green>有効
+        disabled: <red>無効
+      glow_completed_levels:
+        name: <white><bold>完了レベルを発光させる
+        description: "<gray>完了されたレベルに\n<gray>エンチャント光を適用します。"
+        enabled: <dark_green>有効
+        disabled: <red>無効
+      language:
+        name: <white><bold>言語
+        description: "<gray>チャレンジライブラリを\n<gray>言語でフィルタリングします。"
+        current: '<gray>表示中: <yellow>[lang]'
+        all: すべて
     tips:
       click-to-select: クリックして選択します。
       click-to-choose: クリックして選択します。
@@ -898,6 +934,7 @@ challenges:
       right-click-to-clear: 右クリックしてクリアします。
       click-to-previous: クリックして前のページを表示します。
       click-to-next: クリックして次のページを表示します。
+      right-click-to-reset: <yellow>右クリック <gray>でリセットします。
     descriptions:
       challenge:
         lore: |-
@@ -991,6 +1028,8 @@ challenges:
           money: お金：[number]
           commands-title: コマンド：
           command: '  <gray>- <yellow>[command]'
+        team-requirement: '<gold>チーム: <yellow>[online] <gold>オンライン (<yellow>[number] <gold>必須)'
+        team-required: <red>完了するにはチームが必須です
       level:
         lore: |-
           [text]
@@ -1140,6 +1179,10 @@ challenges:
     requirement-not-met-material: >-
       <red>このチャレンジでは、[material] の [statistic] が [number] である必要があります。持っているのは
       [value] のみです。
+    import-failed: '<red>チャレンジをインポートできませんでした: [message]。詳細についてはサーバーコンソールを確認してください。'
+    no-team: <red>これはチームチャレンジです。完了するにはチームが必要です!
+    insufficient-team: <red>このチームチャレンジは[number]人のチームメンバーがオンラインである必要があります。[online]人だけがオンラインです。
+    member-missing-share: <red>[name]はこのチームチャレンジのために自分のシェア([amount] x [item])を持っていません。
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

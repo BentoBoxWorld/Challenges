@@ -1,3 +1,4 @@
+---
 ###########################################################################################
 # This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
 # the one at http://yaml-online-parser.appspot.com                                        #
@@ -61,6 +62,11 @@ challenges:
       challenge-selector: "<black><bold>Uzdevumu Izvēlne"
       statistic-selector: "<black><bold>Statistikas Izvēlne"
       environment-selector: "<black><bold>Vides Izvēlne"
+      manage-block-groups: <black><bold>Pārvaldīt Bloku Grupas
+      manage-entity-groups: <black><bold>Pārvaldīt Objektu Grupas
+      manage-statistics: <black><bold>Pārvaldīt Statistiku
+      manage-advancements: <black><bold>Pārvaldīt Sasniegumus
+      advancement-selector: <black><bold>Sasniegumu Atlasītājs
     buttons:
       # Button in the Challenges GUI that allows to select free challenges.
       free-challenges:
@@ -175,6 +181,7 @@ challenges:
         description: |-
           <gray>Atver publisko
           <gray>uzdevumu datubāzi.
+        downloading: "<gray>Bibliotēkas lejupielāde\n<gray>pieprasīta..."
       import_database:
         name: "<white><bold>Ielādēt Datubāzi"
         description: |-
@@ -771,6 +778,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>Mērķa Vērtība: <yellow>[number]'
+        remove:
+          name: '<gray>Samazināt Statistiku: [value]'
+          value:
+            enabled: <red>Iespējots
+            disabled: <dark_green>Atspējots
+        block: '<gray>Mērķa Bloks: <yellow>[block]'
+        item: '<gray>Mērķa Priekšmets: <yellow>[item]'
+        entity: '<gray>Mērķa Objekts: <yellow>[entity]'
+        selected: <dark_green>Atlasīts
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -780,6 +797,120 @@ challenges:
           <gray>Ļauj ievadīt meklēšanas
           <gray>tekstu.
         search: "<aqua>Vērtība: [value]"
+      hide_reward_items:
+        name: <white><bold>Paslēpt Balvu Priekšmetus
+        description: "<gray>Pārslēgt, vai balvu priekšmeti\n<gray>tiek rādīti vai nē GUI."
+        hide: <dark_green>Paslēpt
+        show: <red>Rādīt
+      team_challenge:
+        name: <white><bold>Komandas Izaicinājums
+        description: "<gray>Pārslēgt, vai tas ir komandas izaicinājums.\n<gray>Komandas izaicinājumi pieprasa komandu un dala\n<gray>pabeigšanu un droseles laiku pāri salai."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      team_presence:
+        name: <white><bold>Komandas Klātbūtne
+        description: "<gray>Komandas procentuālā daļa, kurai jābūt\n<gray>tiešsaistei, lai pabeigtu šo izaicinājumu.\n<gray>0 atspējo klātbūtnes vārti."
+        value: '<gray>Pašlaik: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Apkopot Pāri Komandai
+        description: "<gray>Apkopot nepieciešamos priekšmetus / statistiku\n<gray>visiem tiešsaistes biedriem (Kopīgais Tribūts,\n<gray>Kombinēts Pūlis)."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      per_member:
+        name: <white><bold>Katrs Biedrs Maksā
+        description: "<gray>Katrs tiešsaistes biedrs jāsniedz savu\n<gray>daļu (nepieciešamais daudzums ir KOMANDAS\n<gray>KOPSUMMA, sadalīta pāri esošajiem biedriem)."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      hide_if_no_team:
+        name: <white><bold>Paslēpt, Ja Nav Komandas
+        description: "<gray>Ja iespējots, šis izaicinājums tiek paslēpts\n<gray>pilnīgi no spēlētājiem bez komandas.\n<gray>Ja atspējots, tas tiek rādīts, bet atspējots."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      required_statistics:
+        name: <white><bold>Nepieciešamā Statistika
+        description: "<gray>Ļauj mainīt nepieciešamo\n<gray>statistiku šim izaicinājumam, lai\n<gray>tas tiktu pabeigts."
+        title: '<gray>Statistika: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Statistika nav pievienota.
+      required_advancements:
+        name: <white><bold>Nepieciešamie Sasniegumi
+        description: "<gray>Ļauj mainīt nepieciešamos\n<gray>sasniegumus šim izaicinājumam,\n<gray>lai tas tiktu pabeigts."
+        title: '<gray>Sasniegumi: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Sasniegumi nav pievienoti.
+      required_materialtags:
+        name: <white><bold>Nepieciešamās Bloku Grupas
+        description: "<gray>Ļauj mainīt nepieciešamās\n<gray>bloku grupas šim izaicinājumam,\n<gray>lai tas tiktu pabeigts."
+        title: '<gray>Bloku grupa: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Bloku grupas nav pievienotas.
+      required_entitytags:
+        name: <white><bold>Nepieciešamās Objektu Grupas
+        description: "<gray>Ļauj mainīt nepieciešamās\n<gray>objektu grupas šim izaicinājumam,\n<gray>lai tas tiktu pabeigts."
+        title: '<gray>Objektu grupa: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Objektu grupas nav pievienotas.
+      required_papi:
+        name: <white><bold>Nepieciešams PAPI
+        description: "<gray>Pārbauda formulu, kas var\n<gray>iekļaut PAPI vietturus\n<gray>un matemātiskos un loģiskos elementus."
+        value: '<gray>Formula: <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>Pievienot Statistiku
+        description: "<gray>Ļauj pievienot jaunu\n<gray>statistiku sarakstam."
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Pievienot Sasniegumu
+        description: "<gray>Ļauj pievienot jaunu\n<gray>sasniegumu sarakstam."
+      remove_advancement:
+        name: <white><bold>Noņemt Sasniegumu
+        description: "<gray>Ļauj noņemt\n<gray>atlasītos sasniegumus\n<gray>no saraksta."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      glow_completed_levels:
+        name: <white><bold>Gaismas Pabeigti Līmeņi
+        description: "<gray>Piemēro burvju mirdzumu\n<gray>pabeigtiem līmeņiem."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      include_undeployed:
+        name: <white><bold>Iekļaut Neieviestos Izaicinājumus
+        description: "<gray>Norāda, vai neieviestu izaicinājumi\n<gray>ir jāieskaitīta līmeņa pabeigšanai."
+        enabled: <dark_green>Iespējots
+        disabled: <red>Atspējots
+      language:
+        name: <white><bold>Valoda
+        description: "<gray>Filtrēt izaicinājuma bibliotēkas\n<gray>pēc valodas."
+        current: '<gray>Rāda: <yellow>[lang]'
+        all: Viss
+      add_block_group:
+        name: <white><bold>Pievienot Bloku Grupu
+        description: "<gray>Ļauj pievienot jaunu\n<gray>bloku grupu sarakstam."
+      remove_block_group:
+        name: <white><bold>Noņemt Bloku Grupu
+        description: "<gray>Ļauj noņemt\n<gray>atlasītas bloku grupas\n<gray>no saraksta."
+        title: '<gray>Atlasītas Bloku Grupas:'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Atlasīts
+      add_entity_group:
+        name: <white><bold>Pievienot Objektu Grupu
+        description: "<gray>Ļauj pievienot jaunu\n<gray>objektu grupu sarakstam."
+      remove_entity_group:
+        name: <white><bold>Noņemt Objektu Grupu
+        description: "<gray>Ļauj noņemt\n<gray>atlasītās objektu grupas\n<gray>no saraksta."
+        title: '<gray>Atlasītās Objektu Grupas:'
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Atlasīts
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Atlasīts
     tips:
       click-to-select: "<yellow>Klikšķini, <gray>lai atlasītu."
       click-to-choose: "<yellow>Klikšķini, <gray>lai izvēlētos."
@@ -867,6 +998,7 @@ challenges:
       click-to-next: |-
         <yellow>Klikšķini, <gray>lai
         <gray>skatītu nākošo.
+      right-click-to-reset: <yellow>Labais Klikšķis <gray>lai atiestatītu.
     descriptions:
       # This part generates description text for challenges object in all GUI's.
       challenge:
@@ -1015,6 +1147,8 @@ challenges:
           # Command listing element
           command: "  <gray>- <yellow>[command]"
       # This part generates description text for levels object in all GUI's.
+        team-requirement: '<gold>Komanda: <yellow>[online] <gold>tiešsaistē (<yellow>[number] <gold>nepieciešams)'
+        team-required: <red>Komanda nepieciešama pabeigšanai
       level:
         lore: |-
           [text]
@@ -1163,6 +1297,7 @@ challenges:
     # Message that appears after updating search value.
     search-updated: "<green>Meklēšanas vērtība atjaunota."
 
+    enter-formula: "<green>Ievadiet formulu, kas izmanto tikai PAPI vietturus un simbolus =,<>,<+,>=, ==, !=, AND, OR.\n<green>Piemērs: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
     #       [friendlyName] will be replaced with challenge friendly name.
@@ -1267,6 +1402,19 @@ challenges:
 #      # This will mean that only stone shovels will not show
 #      # meta information.
 #      name: "[type]"
+    import-failed: '<red>Nevarēja importēt izaicinājumus: [message]. Detalizētu informāciju skatiet servera konsolē.'
+    requirement-not-met: <red>Šis izaicinājums pieprasa [statistic] no [number]. Jums ir tikai [value].
+    requirement-not-met-entity: <red>Šis izaicinājums pieprasa [statistic] par [entity], lai būtu [number]. Jums ir tikai [value].
+    requirement-not-met-material: <red>Šis izaicinājums pieprasa [statistic] par [material], lai būtu [number]. Jums ir tikai [value].
+    no-team: <red>Šis ir komandas izaicinājums. Lai to pabeigtu, jums jābūt komandai!
+    insufficient-team: <red>Šim komandas izaicinājumam nepieciešami [number] komandas biedri tiešsaistē. Tiešsaistē ir tikai [online].
+    member-missing-share: <red>[name] nav saņēmis savu daļu ([amount] x [item]) šim komandas izaicinājumam.
+  materials:
+    any: 'Jebkurš '
+    all_hanging_signs:
+      name: Jebkura Piekārtā Zīme
+    all_signs:
+      name: Jebkura Zīme
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
