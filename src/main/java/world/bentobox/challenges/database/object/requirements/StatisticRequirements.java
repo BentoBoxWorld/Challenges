@@ -106,13 +106,6 @@ public class StatisticRequirements extends Requirements
     }
 
 
-    @Override
-    public boolean isValid()
-    {
-        // TODO - do something here?
-        return super.isValid();
-    }
-
     /**
      * @return the statisticList
      */

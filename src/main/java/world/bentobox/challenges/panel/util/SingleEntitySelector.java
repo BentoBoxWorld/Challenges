@@ -137,10 +137,9 @@ public class SingleEntitySelector extends PagedSelector<EntityType>
         if (this.searchString == null || this.searchString.isBlank()) {
             this.filterElements = this.elements;
         } else {
-            this.filterElements = this.elements.stream().filter(element -> {
+            this.filterElements = this.elements.stream().filter(element ->
                 // If element name is set and name contains search field, then do not filter out.
-                return element.name().toLowerCase().contains(this.searchString.toLowerCase());
-            }).distinct().collect(Collectors.toList());
+                    element.name().toLowerCase().contains(this.searchString.toLowerCase())).distinct().collect(Collectors.toList());
         }
     }
 

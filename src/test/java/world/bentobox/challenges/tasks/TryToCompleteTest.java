@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -59,7 +60,7 @@ import world.bentobox.level.Level;
 /**
  * @author tastybento
  */
-public class TryToCompleteTest extends AbstractChallengesTest {
+class TryToCompleteTest extends AbstractChallengesTest {
 
     // Constants
     private static final String[] NAMES = { "adam", "ben", "cara", "dave", "ed", "frank", "freddy", "george", "harry",
@@ -73,7 +74,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
 
     @Override
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         super.setUp();
 
         // Challenge Level
@@ -116,7 +117,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
 
     @Override
     @AfterEach
-    public void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
 
@@ -158,27 +159,27 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testTryToCompleteChallengesAddonUserChallengeWorldStringString() {
+    void testTryToCompleteChallengesAddonUserChallengeWorldStringString() {
         ttc = new TryToComplete(addon, user, challenge, world, topLabel, permissionPrefix);
         verify(addon).getChallengesManager();
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNotDeployed() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNotDeployed() {
         challenge.setDeployed(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.not-deployed"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringWrongWorld() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringWrongWorld() {
         challenge.setUniqueId("test");
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(any(World.class), eq("general.errors.wrong-world"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNotOnIsland() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNotOnIsland() {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, true);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
@@ -186,7 +187,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNotOnIslandButOk() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNotOnIslandButOk() {
         ChallengesAddon.CHALLENGES_WORLD_PROTECTION.setSetting(world, false);
         when(im.locationIsOnIsland(any(Player.class), any(Location.class))).thenReturn(false);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
@@ -195,14 +196,14 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringLevelNotUnlocked() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringLevelNotUnlocked() {
         when(cm.isLevelUnlocked(any(), any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.challenge-level-not-available"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNotRepeatable() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNotRepeatable() {
         challenge.setRepeatable(false);
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
@@ -210,7 +211,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNotRepeatableFirstTime() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNotRepeatableFirstTime() {
         challenge.setRepeatable(false);
         challenge.setMaxTimes(0);
         when(cm.getChallengeTimes(any(), any(), any(Challenge.class))).thenReturn(0L);
@@ -220,33 +221,33 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringNoRank() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringNoRank() {
         when(island.isAllowed(any(), any())).thenReturn(false);
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(any(World.class), eq("challenges.messages.no-rank"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIntZero() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIntZero() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 0));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.not-valid-integer"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIntNegative() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIntNegative() {
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, -10));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.not-valid-integer"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveWrongEnvinonment() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveWrongEnvinonment() {
         challenge.setEnvironment(Collections.singleton(Environment.NETHER));
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 100));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.wrong-environment"));
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveNoPerm() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIntPositiveNoPerm() {
         InventoryRequirements req = new InventoryRequirements();
         req.setRequiredPermissions(Collections.singleton("perm-you-dont-have"));
         when(user.hasPermission(anyString())).thenReturn(false);
@@ -256,7 +257,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccess() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringSuccess() {
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(any(World.class), eq("challenges.messages.you-completed-challenge"), eq("[value]"),
                 eq("name"));
@@ -264,7 +265,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
 
     @Test
     @Disabled("Method is too large for JVM")
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessSingleReq() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessSingleReq() {
         InventoryRequirements req = new InventoryRequirements();
         req.setRequiredItems(Collections.singletonList(new ItemStack(Material.EMERALD_BLOCK)));
         challenge.setRequirements(req);
@@ -275,7 +276,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
 
     @Test
     @Disabled("Too big for JVM")
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessMultipleReq() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessMultipleReq() {
         InventoryRequirements req = new InventoryRequirements();
         ItemStack itemStackMock = mock(ItemStack.class);
         when(itemStackMock.getAmount()).thenReturn(3);
@@ -291,8 +292,8 @@ public class TryToCompleteTest extends AbstractChallengesTest {
         when(itemStackMock3.getType()).thenReturn(Material.EMERALD_BLOCK);
         when(itemStackMock3.getAmount()).thenReturn(15);
         when(itemStackMock3.clone()).thenReturn(itemStackMock3);
-        when(itemStackMock3.isSimilar(eq(itemStackMock))).thenReturn(true);
-        when(itemStackMock.isSimilar(eq(itemStackMock3))).thenReturn(true);
+        when(itemStackMock3.isSimilar(itemStackMock)).thenReturn(true);
+        when(itemStackMock.isSimilar(itemStackMock3)).thenReturn(true);
 
         req.setRequiredItems(Arrays.asList(itemStackMock, itemStackMock2));
         challenge.setRequirements(req);
@@ -307,7 +308,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringSuccessCreative() {
         when(player.getGameMode()).thenReturn(GameMode.CREATIVE);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(user).getTranslation(world, "challenges.messages.you-repeated-challenge-multiple", "[value]", "name",
@@ -315,7 +316,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandBBTooLarge() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandBBTooLarge() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
@@ -328,7 +329,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccessNoEntities() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccessNoEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         req.setSearchRadius(1);
@@ -339,7 +340,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailEntities() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
         Map<EntityType, Integer> requiredEntities = Collections.singletonMap(EntityType.GHAST, 3);
@@ -352,10 +353,10 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.GHAST, 3);
         requiredEntities.put(EntityType.CHICKEN, 5);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -372,10 +373,10 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.GHAST, 3);
         requiredEntities.put(EntityType.CHICKEN, 5);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -398,10 +399,10 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
         req.setRequiredEntities(requiredEntities);
         req.setSearchRadius(1);
@@ -418,7 +419,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIslandPlayerInOtherEnvironment() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIslandPlayerInOtherEnvironment() {
         challenge.setEnvironment(Collections.singleton(Environment.NETHER));
         World netherWorld = mock(World.class);
         when(user.getWorld()).thenReturn(netherWorld);
@@ -426,7 +427,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
         when(netherWorld.getEnvironment()).thenReturn(Environment.NETHER);
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
         req.setRequiredEntities(requiredEntities);
         req.setSearchRadius(1);
@@ -444,21 +445,21 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testCompleteChallengesAddonUserChallengeWorldStringStringIntMultipleTimesPositiveSuccess() {
+    void testCompleteChallengesAddonUserChallengeWorldStringStringIntMultipleTimesPositiveSuccess() {
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix, 10));
         verify(user).getTranslation(any(World.class), eq("challenges.messages.you-repeated-challenge-multiple"),
                 eq("[value]"), eq("name"), eq("[count]"), eq("7"));
     }
 
     @Test
-    public void testBuild() {
+    void testBuild() {
         this.testTryToCompleteChallengesAddonUserChallengeWorldStringString();
         ChallengeResult result = this.ttc.build(10);
         assertTrue(result.isMeetsRequirements());
     }
 
     @Test
-    public void testRemoveItemsNothing() {
+    void testRemoveItemsNothing() {
         this.testTryToCompleteChallengesAddonUserChallengeWorldStringString();
         assertTrue(ttc.removeItems(Collections.emptyList(), 1).isEmpty());
     }
@@ -483,7 +484,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testOtherTypeSuccessNoRequirements() {
+    void testOtherTypeSuccessNoRequirements() {
         OtherRequirements req = new OtherRequirements();
         setupOtherChallenge(req);
         // Stub PAPI hook absent so the check is skipped
@@ -493,7 +494,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFailIslandLevelNoAddon() {
+    void testOtherTypeFailIslandLevelNoAddon() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredIslandLevel(100);
         setupOtherChallenge(req);
@@ -503,7 +504,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFailMoneyNoEconomy() {
+    void testOtherTypeFailMoneyNoEconomy() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredMoney(100.0);
         setupOtherChallenge(req);
@@ -514,7 +515,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFailMoneyInsufficient() {
+    void testOtherTypeFailMoneyInsufficient() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredMoney(100.0);
         setupOtherChallenge(req);
@@ -526,7 +527,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeSuccessMoney() {
+    void testOtherTypeSuccessMoney() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredMoney(50.0);
         setupOtherChallenge(req);
@@ -538,7 +539,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFailExperienceInsufficient() {
+    void testOtherTypeFailExperienceInsufficient() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredExperience(100);
         setupOtherChallenge(req);
@@ -550,7 +551,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeSuccessExperienceCreative() {
+    void testOtherTypeSuccessExperienceCreative() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredExperience(100);
         setupOtherChallenge(req);
@@ -563,7 +564,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFailIslandLevelInsufficient() {
+    void testOtherTypeFailIslandLevelInsufficient() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredIslandLevel(100);
         req.setRequiredMoney(0);
@@ -575,7 +576,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeSuccessIslandLevel() {
+    void testOtherTypeSuccessIslandLevel() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredIslandLevel(50);
         req.setRequiredMoney(0);
@@ -587,7 +588,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFulfillTakesMoney() {
+    void testOtherTypeFulfillTakesMoney() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredMoney(50.0);
         req.setTakeMoney(true);
@@ -597,11 +598,11 @@ public class TryToCompleteTest extends AbstractChallengesTest {
         when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
         when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).withdraw(eq(user), eq(50.0));
+        verify(vault).withdraw(user, 50.0);
     }
 
     @Test
-    public void testOtherTypeFulfillTakesExperience() {
+    void testOtherTypeFulfillTakesExperience() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredExperience(30);
         req.setTakeExperience(true);
@@ -615,7 +616,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testOtherTypeFulfillCreativeSkipsXpTake() {
+    void testOtherTypeFulfillCreativeSkipsXpTake() {
         OtherRequirements req = new OtherRequirements();
         req.setRequiredExperience(30);
         req.setTakeExperience(true);
@@ -634,13 +635,13 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testStatisticTypeEmptyRequirements() {
+    void testStatisticTypeEmptyRequirements() {
         setupStatisticChallenge(Collections.emptyList());
         assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
     }
 
     @Test
-    public void testStatisticTypeSuccessUntyped() {
+    void testStatisticTypeSuccessUntyped() {
         StatisticRec rec = new StatisticRec(Statistic.JUMP, null, null, 10, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.JUMP))).thenReturn(15);
@@ -648,7 +649,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeFailUntypedInsufficient() {
+    void testStatisticTypeFailUntypedInsufficient() {
         StatisticRec rec = new StatisticRec(Statistic.JUMP, null, null, 10, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.JUMP))).thenReturn(5);
@@ -658,7 +659,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeSuccessItemType() {
+    void testStatisticTypeSuccessItemType() {
         StatisticRec rec = new StatisticRec(Statistic.MINE_BLOCK, null, Material.STONE, 20, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.MINE_BLOCK), eq(Material.STONE))).thenReturn(25);
@@ -666,7 +667,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeFailItemInsufficient() {
+    void testStatisticTypeFailItemInsufficient() {
         StatisticRec rec = new StatisticRec(Statistic.MINE_BLOCK, null, Material.STONE, 20, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.MINE_BLOCK), eq(Material.STONE))).thenReturn(5);
@@ -677,7 +678,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeSuccessEntityType() {
+    void testStatisticTypeSuccessEntityType() {
         StatisticRec rec = new StatisticRec(Statistic.KILL_ENTITY, EntityType.ZOMBIE, null, 5, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.KILL_ENTITY), eq(EntityType.ZOMBIE))).thenReturn(10);
@@ -685,7 +686,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeFailEntityInsufficient() {
+    void testStatisticTypeFailEntityInsufficient() {
         StatisticRec rec = new StatisticRec(Statistic.KILL_ENTITY, EntityType.ZOMBIE, null, 5, false);
         setupStatisticChallenge(List.of(rec));
         when(cm.getStatisticData(any(), any(), eq(Statistic.KILL_ENTITY), eq(EntityType.ZOMBIE))).thenReturn(2);
@@ -696,7 +697,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testStatisticTypeMultipleMixed() {
+    void testStatisticTypeMultipleMixed() {
         StatisticRec rec1 = new StatisticRec(Statistic.JUMP, null, null, 10, false);
         StatisticRec rec2 = new StatisticRec(Statistic.KILL_ENTITY, EntityType.ZOMBIE, null, 5, false);
         setupStatisticChallenge(List.of(rec1, rec2));
@@ -710,7 +711,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testTimeoutBreached() {
+    void testTimeoutBreached() {
         challenge.setTimeout(60000);
         when(cm.isBreachingTimeOut(any(), any(), any())).thenReturn(true);
         when(cm.getLastCompletionDate(any(), any(), any())).thenReturn(System.currentTimeMillis() - 10000);
@@ -720,7 +721,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testTimeoutNotBreached() {
+    void testTimeoutNotBreached() {
         challenge.setTimeout(60000);
         when(cm.isBreachingTimeOut(any(), any(), any())).thenReturn(false);
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
@@ -731,17 +732,17 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testFirstTimeRewardMoney() {
+    void testFirstTimeRewardMoney() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         challenge.setRewardMoney(100.0);
         VaultHook vault = mockEconomy(true, 1000.0);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).deposit(eq(user), eq(100.0));
+        verify(vault).deposit(user, 100.0);
     }
 
     @Test
-    public void testFirstTimeRewardExperience() {
+    void testFirstTimeRewardExperience() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         challenge.setRewardExperience(50);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
@@ -750,17 +751,17 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testRepeatRewardMoney() {
+    void testRepeatRewardMoney() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
         challenge.setRepeatMoneyReward(25.0);
         VaultHook vault = mockEconomy(true, 1000.0);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).deposit(eq(user), eq(25.0));
+        verify(vault).deposit(user, 25.0);
     }
 
     @Test
-    public void testRepeatRewardExperience() {
+    void testRepeatRewardExperience() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
         challenge.setRepeatExperienceReward(10);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
@@ -769,7 +770,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testMultipleTimesFirstCompletion() {
+    void testMultipleTimesFirstCompletion() {
         // First completion with factor > 1: first-time rewards once + repeat rewards (factor-1) times
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         challenge.setRewardMoney(100.0);
@@ -799,7 +800,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testLevelCompletionTriggered() {
+    void testLevelCompletionTriggered() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         // Non-free challenge with a level
         challenge.setLevel(GAME_MODE_NAME + "_novice");
@@ -809,7 +810,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
         lvl.setRewardExperience(200);
         // Stub both overloads: getLevel(String) used in checkIfCanCompleteChallenge,
         // getLevel(Challenge) used in build() for level completion check
-        when(cm.getLevel(eq(GAME_MODE_NAME + "_novice"))).thenReturn(lvl);
+        when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(false);
         when(cm.validateLevelCompletion(any(), any(), any())).thenReturn(true);
@@ -820,13 +821,13 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testLevelCompletionAlreadyDone() {
+    void testLevelCompletionAlreadyDone() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         challenge.setLevel(GAME_MODE_NAME + "_novice");
         ChallengeLevel lvl = new ChallengeLevel();
         lvl.setUniqueId(GAME_MODE_NAME + "_novice");
         lvl.setFriendlyName("Novice");
-        when(cm.getLevel(eq(GAME_MODE_NAME + "_novice"))).thenReturn(lvl);
+        when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(true);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
@@ -835,7 +836,7 @@ public class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testFreeChallengeNoLevelCheck() {
+    void testFreeChallengeNoLevelCheck() {
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         challenge.setLevel(ChallengesManager.FREE);
         when(inv.addItem(any())).thenReturn(new HashMap<>());

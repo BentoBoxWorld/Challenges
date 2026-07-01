@@ -207,9 +207,11 @@ public class IslandRequirements extends Requirements
         clone.setRequiredMaterialTags(new HashMap<>(this.requiredMaterialTags));
         clone.setRequiredFluidTags(new HashMap<>(this.requiredFluidTags));
         clone.setRequiredEntityTypeTags(new HashMap<>(this.requiredEntityTypeTags));
-        clone.setRequiredBlocks(new HashMap<>(this.requiredBlocks));
+        clone.setRequiredBlocks(this.requiredBlocks.isEmpty() ?
+                new EnumMap<>(Material.class) : new EnumMap<>(this.requiredBlocks));
         clone.setRemoveBlocks(this.removeBlocks);
-        clone.setRequiredEntities(new HashMap<>(this.requiredEntities));
+        clone.setRequiredEntities(this.requiredEntities.isEmpty() ?
+                new EnumMap<>(EntityType.class) : new EnumMap<>(this.requiredEntities));
         clone.setRemoveEntities(this.removeEntities);
 
         clone.setSearchRadius(this.searchRadius);

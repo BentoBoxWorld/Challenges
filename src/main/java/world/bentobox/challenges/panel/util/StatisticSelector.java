@@ -96,10 +96,9 @@ public class StatisticSelector extends PagedSelector<Statistic>
 		else
 		{
 			this.filterElements = this.elements.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
-				}).
+                    element.name().toLowerCase().contains(this.searchString.toLowerCase())).
 				distinct().
 				collect(Collectors.toList());
 		}

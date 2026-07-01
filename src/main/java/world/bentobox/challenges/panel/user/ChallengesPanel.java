@@ -25,6 +25,7 @@ import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.panels.builders.TemplatedPanelBuilder;
 import world.bentobox.bentobox.api.panels.reader.ItemTemplateRecord;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.config.SettingsUtils;
@@ -124,6 +125,27 @@ public class ChallengesPanel extends CommonPanel
         {
             this.freeChallengeList.removeIf(challenge -> !challenge.isDeployed());
         }
+
+        // Hide team challenges flagged hideIfNoTeam from players without a team.
+        if (!this.playerHasTeam())
+        {
+            this.freeChallengeList.removeIf(challenge -> challenge.isTeamChallenge() && challenge.isHideIfNoTeam());
+        }
+    }
+
+
+    /**
+     * @return whether the viewing user currently has a team (island membership &gt; 1).
+     */
+    private boolean playerHasTeam()
+    {
+        if (this.addon.getIslands() == null)
+        {
+            return false;
+        }
+
+        Island island = this.addon.getIslands().getIsland(this.world, this.user);
+        return island != null && island.getMemberSet().size() > 1;
     }
 
 
@@ -143,6 +165,12 @@ public class ChallengesPanel extends CommonPanel
             if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
             {
                 this.challengeList.removeIf(challenge -> !challenge.isDeployed());
+            }
+
+            // Hide team challenges flagged hideIfNoTeam from players without a team.
+            if (!this.playerHasTeam())
+            {
+                this.challengeList.removeIf(challenge -> challenge.isTeamChallenge() && challenge.isHideIfNoTeam());
             }
         }
         else
@@ -279,7 +307,7 @@ public class ChallengesPanel extends CommonPanel
         // If challenge is not repeatable, remove all other actions beside "COMPLETE".
         // If challenge is completed all possible times, remove action.
 
-        List<ItemTemplateRecord.ActionRecords> actions = template.actions().stream().
+        List<ItemTemplateRecord.ActionRecords> baseActions = template.actions().stream().
             filter(action -> challenge.isRepeatable() || "COMPLETE".equalsIgnoreCase(action.actionType())).
             filter(action ->
             {
@@ -307,6 +335,11 @@ public class ChallengesPanel extends CommonPanel
                 }
             }).
             toList();
+
+        // A team challenge viewed by a player without a team cannot be completed: offer no
+        // completion action (removes both the click behaviour and the "Click to complete" tooltip).
+        final List<ItemTemplateRecord.ActionRecords> actions =
+            (challenge.isTeamChallenge() && !this.playerHasTeam()) ? List.of() : baseActions;
 
         // Add Click handler
         builder.clickHandler((panel, user, clickType, i) -> {
@@ -639,36 +672,36 @@ public class ChallengesPanel extends CommonPanel
 
         int nextPageIndex;
 
-        switch (target)
+        if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
         {
-            case Constants.CHALLENGE_BUILDER_KEY -> {
-                int size = this.challengeList.size();
+            int size = this.challengeList.size();
 
-                if (size <= slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) <= this.challengeIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.challengeIndex + 2;
-            }
-            case Constants.LEVEL_BUILDER_KEY -> {
-                int size = this.levelList.size();
-
-                if (size <= slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) <= this.levelIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.levelIndex + 2;
-            }
-            default -> {
-                // If not assigned to any type, return null.
+            if (size <= slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) ||
+                1.0 * size / slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) <= this.challengeIndex + 1)
+            {
+                // There are no next elements
                 return null;
             }
+
+            nextPageIndex = this.challengeIndex + 2;
+        }
+        else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+        {
+            int size = this.levelList.size();
+
+            if (size <= slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) ||
+                1.0 * size / slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) <= this.levelIndex + 1)
+            {
+                // There are no next elements
+                return null;
+            }
+
+            nextPageIndex = this.levelIndex + 2;
+        }
+        else
+        {
+            // If not assigned to any type, return null.
+            return null;
         }
 
         PanelItemBuilder builder = new PanelItemBuilder();
@@ -677,7 +710,7 @@ public class ChallengesPanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(nextPageIndex);
             }
@@ -700,10 +733,13 @@ public class ChallengesPanel extends CommonPanel
         builder.clickHandler((panel, user, clickType, i) ->
         {
             // Next button ignores click type currently.
-            switch (target)
+            if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
             {
-                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex++;
-                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex++;
+                this.challengeIndex++;
+            }
+            else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+            {
+                this.levelIndex++;
             }
 
             this.build();
@@ -770,7 +806,7 @@ public class ChallengesPanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(previousPageIndex);
             }
@@ -793,10 +829,13 @@ public class ChallengesPanel extends CommonPanel
         builder.clickHandler((panel, user, clickType, i) ->
         {
             // Next button ignores click type currently.
-            switch (target)
+            if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
             {
-                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex--;
-                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex--;
+                this.challengeIndex--;
+            }
+            else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+            {
+                this.levelIndex--;
             }
 
             this.build();

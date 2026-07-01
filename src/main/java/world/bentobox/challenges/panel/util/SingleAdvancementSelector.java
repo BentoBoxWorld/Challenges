@@ -117,10 +117,9 @@ public class SingleAdvancementSelector extends PagedSelector<Advancement>
         if (this.searchString == null || this.searchString.isBlank()) {
             this.filterElements = this.elements;
         } else {
-            this.filterElements = this.elements.stream().filter(element -> {
+            this.filterElements = this.elements.stream().filter(element ->
                 // If element name is set and name contains search field, then do not filter out.
-                return PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase().contains(this.searchString.toLowerCase());
-            }).distinct().collect(Collectors.toList());
+                    PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase().contains(this.searchString.toLowerCase())).distinct().collect(Collectors.toList());
         }
     }
 

@@ -73,7 +73,7 @@ import world.bentobox.bentobox.managers.PlaceholdersManager;
  *
  */
 @SuppressWarnings("deprecation")
-public class ChallengesAddonTest {
+class ChallengesAddonTest {
 
     @Mock
     private User user;
@@ -102,7 +102,7 @@ public class ChallengesAddonTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         // Force Bukkit's Tag.<clinit> to run against a real MockBukkit ServerMock before
         // we install the Mockito static mock below. Without this, Tag.<clinit> can later
@@ -216,7 +216,7 @@ public class ChallengesAddonTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         mockedBukkit.closeOnDemand();
         closeable.close();
         Mockito.framework().clearInlineMocks();
@@ -237,14 +237,14 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnLoad() {
+    void testOnLoad() {
         addon.onLoad();
         File check = new File("addons/Challenges", "config.yml");
         assertTrue(check.exists());
     }
 
     @Test
-    public void testOnEnableDisabledPlugin() {
+    void testOnEnableDisabledPlugin() {
         when(plugin.isEnabled()).thenReturn(false);
         addon.onEnable();
         verify(plugin).logError("[challenges] BentoBox is not available or disabled!");
@@ -252,7 +252,7 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnEnableDisabledAddon() {
+    void testOnEnableDisabledAddon() {
         when(plugin.isEnabled()).thenReturn(true);
         addon.setState(State.DISABLED);
         addon.onEnable();
@@ -260,7 +260,7 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnEnableIncompatibleDatabase() {
+    void testOnEnableIncompatibleDatabase() {
         DatabaseType value = DatabaseType.YAML;
         when(settings.getDatabaseType()).thenReturn(value);
         when(plugin.isEnabled()).thenReturn(true);
@@ -272,7 +272,7 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnEnableHooked() {
+    void testOnEnableHooked() {
         addon.onLoad();
         when(plugin.isEnabled()).thenReturn(true);
         addon.setState(State.LOADED);
@@ -282,7 +282,7 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnEnableNotHooked() {
+    void testOnEnableNotHooked() {
         addon.onLoad();
         when(am.getGameModeAddons()).thenReturn(Collections.emptyList());
         when(plugin.isEnabled()).thenReturn(true);
@@ -293,13 +293,13 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testOnReloadNotHooked() {
+    void testOnReloadNotHooked() {
         addon.onReload();
         verify(plugin, never()).log(anyString());
     }
 
     @Test
-    public void testOnDisable() {
+    void testOnDisable() {
         this.testOnEnableHooked();
         addon.onDisable();
 
@@ -310,55 +310,55 @@ public class ChallengesAddonTest {
     }
 
     @Test
-    public void testGetChallengesManager() {
+    void testGetChallengesManager() {
         assertNull(addon.getChallengesManager());
         this.testOnEnableHooked();
         assertNotNull(addon.getChallengesManager());
     }
 
     @Test
-    public void testGetPermissionPrefix() {
+    void testGetPermissionPrefix() {
         assertEquals("addon.", addon.getPermissionPrefix());
     }
 
     @Test
-    public void testGetImportManager() {
+    void testGetImportManager() {
         assertNull(addon.getImportManager());
         this.testOnEnableHooked();
         assertNotNull(addon.getImportManager());
     }
 
     @Test
-    public void testGetWebManager() {
+    void testGetWebManager() {
         assertNull(addon.getWebManager());
         this.testOnEnableHooked();
         assertNotNull(addon.getWebManager());
     }
 
     @Test
-    public void testGetChallengesSettings() {
+    void testGetChallengesSettings() {
         assertNull(addon.getChallengesSettings());
         addon.onLoad();
         assertNotNull(addon.getChallengesSettings());
     }
 
     @Test
-    public void testIsEconomyProvided() {
+    void testIsEconomyProvided() {
         assertFalse(addon.isEconomyProvided());
     }
 
     @Test
-    public void testGetEconomyProvider() {
+    void testGetEconomyProvider() {
         assertNull(addon.getEconomyProvider());
     }
 
     @Test
-    public void testIsLevelProvided() {
+    void testIsLevelProvided() {
         assertFalse(addon.isLevelProvided());
     }
 
     @Test
-    public void testGetLevelAddon() {
+    void testGetLevelAddon() {
         assertNull(addon.getLevelAddon());
     }
 

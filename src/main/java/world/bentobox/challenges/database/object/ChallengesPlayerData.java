@@ -78,6 +78,15 @@ public class ChallengesPlayerData implements DataObject
     private Set<String> levelsDone = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
     /**
+     * Baseline statistic values for team statistic challenges (X3). Key is
+     * {@code challengeId|statKey|memberUuid}, value is the member's statistic value at the moment
+     * the team first started tracking the challenge. Progress is measured as {@code current - baseline}
+     * so a recruited veteran's lifetime total cannot be borrowed to complete the challenge.
+     */
+    @Expose
+    private Map<String, Integer> statisticBaseline = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+    /**
      * Stores history about challenge completion.
      */
     @Adapter(LogEntryListAdapter.class)
@@ -128,6 +137,15 @@ public class ChallengesPlayerData implements DataObject
     public Set<String> getLevelsDone()
     {
         return levelsDone;
+    }
+
+
+    /**
+     * @return the statisticBaseline map.
+     */
+    public Map<String, Integer> getStatisticBaseline()
+    {
+        return statisticBaseline;
     }
 
 
@@ -191,6 +209,15 @@ public class ChallengesPlayerData implements DataObject
 
 
     /**
+     * @param statisticBaseline the statisticBaseline map to set.
+     */
+    public void setStatisticBaseline(Map<String, Integer> statisticBaseline)
+    {
+        this.statisticBaseline = statisticBaseline;
+    }
+
+
+    /**
      * This method sets the history object value.
      * @param history the history object new value.
      */
@@ -215,6 +242,8 @@ public class ChallengesPlayerData implements DataObject
         challengeStatus.keySet().removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
         challengesTimestamp.keySet().removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
         levelsDone.removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
+        // Baseline keys are prefixed with the challenge id (which starts with the gamemode name).
+        statisticBaseline.keySet().removeIf(n -> n.regionMatches(true, 0, gameMode, 0, gameMode.length()));
     }
 
 

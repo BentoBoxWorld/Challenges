@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationAbandonedListener;
@@ -142,13 +142,13 @@ public class ConversationUtils
      * consumer for failure message.
      *
      * @param consumer Consumer that accepts player output text.
-     * @param validation Function that validates if input value is acceptable.
+     * @param validation Predicate that validates if input value is acceptable.
      * @param question Message that will be displayed in chat when player triggers conversion.
      * @param failTranslationLocation Message that will be displayed on failed operation.
      * @param user User who is targeted with current confirmation.
      */
     public static void createIDStringInput(Consumer<String> consumer,
-        Function<String, Boolean> validation,
+        Predicate<String> validation,
         User user,
         @NotNull String question,
         @Nullable String successMessage,
@@ -189,7 +189,7 @@ public class ConversationUtils
             @Override
             protected boolean isInputValid(@NotNull ConversationContext context, @NotNull String input)
             {
-                return validation.apply(input);
+                return validation.test(input);
             }
 
 
@@ -391,7 +391,7 @@ public class ConversationUtils
             {
                 if (context.getSessionData(SESSION_CONSTANT) instanceof List description)
                 {
-                    consumer.accept((List<String>) description);
+                    consumer.accept(description);
                     return successMessage;
                 }
                 else
@@ -452,7 +452,7 @@ public class ConversationUtils
 
                 if (context.getSessionData(SESSION_CONSTANT) instanceof List list)
                 {
-                    desc = (List<String>) list;
+                    desc = list;
                 }
                 if (input != null) {
                     desc.add(ChatColor.translateAlternateColorCodes('&', input));

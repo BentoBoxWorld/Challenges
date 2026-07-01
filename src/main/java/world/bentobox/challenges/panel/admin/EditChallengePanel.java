@@ -160,6 +160,17 @@ public class EditChallengePanel extends CommonPanel {
 
         panelBuilder.item(28, this.createButton(Button.ENVIRONMENT));
         panelBuilder.item(31, this.createButton(Button.REMOVE_ON_COMPLETE));
+
+        // Team challenge properties.
+        panelBuilder.item(34, this.createButton(Button.TEAM_CHALLENGE));
+
+        if (this.challenge.isTeamChallenge())
+        {
+            panelBuilder.item(37, this.createButton(Button.TEAM_PRESENCE));
+            panelBuilder.item(39, this.createButton(Button.AGGREGATE_TEAM));
+            panelBuilder.item(41, this.createButton(Button.PER_MEMBER));
+            panelBuilder.item(43, this.createButton(Button.HIDE_IF_NO_TEAM));
+        }
     }
 
     /**
@@ -523,7 +534,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
                 EnvironmentSelector.open(this.user, this.challenge.getEnvironment(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setEnvironment(value);
                     }
 
@@ -551,6 +562,103 @@ public class EditChallengePanel extends CommonPanel {
                 return true;
             };
             glow = this.challenge.isRemoveWhenCompleted();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
+        }
+        case TEAM_CHALLENGE -> {
+            description.add(this.user.getTranslation(reference +
+                    (this.challenge.isTeamChallenge() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
+
+            icon = new ItemStack(Material.PLAYER_HEAD);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setTeamChallenge(!this.challenge.isTeamChallenge());
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isTeamChallenge();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
+        }
+        case TEAM_PRESENCE -> {
+            int percent = (int) Math.round(this.challenge.getTeamPresence() * 100);
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
+                    Constants.PARAMETER_NUMBER, String.valueOf(percent)));
+
+            icon = new ItemStack(Material.COMPASS);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setTeamPresence(Math.clamp(number.intValue(), 0, 100) / 100.0);
+                    }
+
+                    this.build();
+                };
+
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, 100);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
+        case AGGREGATE_TEAM -> {
+            description.add(this.user.getTranslation(reference +
+                    (this.challenge.isAggregateTeam() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
+
+            icon = new ItemStack(Material.CHEST);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setAggregateTeam(!this.challenge.isAggregateTeam());
+
+                if (this.challenge.isAggregateTeam()) {
+                    // Aggregate and per-member are mutually exclusive.
+                    this.challenge.setPerMember(false);
+                }
+
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isAggregateTeam();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
+        }
+        case PER_MEMBER -> {
+            description.add(this.user.getTranslation(reference +
+                    (this.challenge.isPerMember() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
+
+            icon = new ItemStack(Material.PLAYER_HEAD);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setPerMember(!this.challenge.isPerMember());
+
+                if (this.challenge.isPerMember()) {
+                    // Aggregate and per-member are mutually exclusive.
+                    this.challenge.setAggregateTeam(false);
+                }
+
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isPerMember();
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
+        }
+        case HIDE_IF_NO_TEAM -> {
+            description.add(this.user.getTranslation(reference +
+                    (this.challenge.isHideIfNoTeam() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
+
+            icon = new ItemStack(Material.BARRIER);
+            clickHandler = (panel, user, clickType, slot) -> {
+                this.challenge.setHideIfNoTeam(!this.challenge.isHideIfNoTeam());
+                this.build();
+                return true;
+            };
+            glow = this.challenge.isHideIfNoTeam();
 
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
@@ -909,7 +1017,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, requirements.getRequiredItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         requirements.setRequiredItems(value);
                     }
 
@@ -967,7 +1075,7 @@ public class EditChallengePanel extends CommonPanel {
                 }
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         materials.addAll(requirements.getIgnoreMetaData());
                         requirements.setIgnoreMetaData(new HashSet<>(materials));
                     }
@@ -995,7 +1103,7 @@ public class EditChallengePanel extends CommonPanel {
                 collection.removeAll(requirements.getIgnoreMetaData());
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         requirements.getIgnoreMetaData().removeAll(materials);
                     }
 
@@ -1262,7 +1370,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRewardItems(value);
                     }
 
@@ -1475,7 +1583,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRepeatItemReward(value);
                     }
 
@@ -1603,7 +1711,7 @@ public class EditChallengePanel extends CommonPanel {
                 }
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         materials.addAll(this.challenge.getIgnoreRewardMetaData());
                         this.challenge.setIgnoreRewardMetaData(new HashSet<>(materials));
                     }
@@ -1631,7 +1739,7 @@ public class EditChallengePanel extends CommonPanel {
                 collection.removeAll(this.challenge.getIgnoreRewardMetaData());
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.getIgnoreRewardMetaData().removeAll(materials);
                     }
 
@@ -1721,6 +1829,7 @@ public class EditChallengePanel extends CommonPanel {
      */
     private enum Button {
         NAME, DEPLOYED, ICON, DESCRIPTION, ORDER, ENVIRONMENT, REMOVE_ON_COMPLETE, HIDE_REWARD_ITEMS,
+        TEAM_CHALLENGE, TEAM_PRESENCE, AGGREGATE_TEAM, PER_MEMBER, HIDE_IF_NO_TEAM,
     }
 
     /**

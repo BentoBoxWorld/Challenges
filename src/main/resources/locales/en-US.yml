@@ -243,6 +243,45 @@ challenges:
                     <gray>it is completed.
                 enabled: "<dark_green>Enabled"
                 disabled: "<red>Disabled"
+            team_challenge:
+                name: "<white><bold>Team Challenge"
+                description: |-
+                    <gray>Toggle whether this is a team challenge.
+                    <gray>Team challenges require a team and share
+                    <gray>completion and cooldown across the island.
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
+            team_presence:
+                name: "<white><bold>Team Presence"
+                description: |-
+                    <gray>Percentage of the team that must be
+                    <gray>online to complete this challenge.
+                    <gray>0 disables the presence gate.
+                value: "<gray>Currently: <yellow>[number]%"
+            aggregate_team:
+                name: "<white><bold>Aggregate Across Team"
+                description: |-
+                    <gray>Sum required items / statistics across
+                    <gray>all online members (Pooled Tribute,
+                    <gray>Combined Effort).
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
+            per_member:
+                name: "<white><bold>Every Member Pays"
+                description: |-
+                    <gray>Each online member must contribute their
+                    <gray>share (the required amount is the TEAM
+                    <gray>TOTAL, split across present members).
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
+            hide_if_no_team:
+                name: "<white><bold>Hide If No Team"
+                description: |-
+                    <gray>If enabled, this challenge is hidden
+                    <gray>entirely from players without a team.
+                    <gray>If disabled, it is shown but disabled.
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
             description:
                 name: "<white><bold>Description"
                 description: |-
@@ -960,6 +999,10 @@ challenges:
                     [cooldown]
                     [requirements]
                     [rewards]
+                # Team challenge lore line. [online] members online, [number] required, [size] team size.
+                team-requirement: "<gold>Team: <yellow>[online] <gold>online (<yellow>[number] <gold>required)"
+                # Shown instead of the above when the viewer has no team.
+                team-required: "<red>Team required to complete"
                 # Contains a text generated inside [status] lore
                 status:
                     # Status message for completed unrepeatable challenge
@@ -1248,6 +1291,9 @@ challenges:
         requirement-not-met: "<red>This challenge requires [statistic] of [number]. You only have [value]."
         requirement-not-met-entity: "<red>This challenge requires [statistic] for [entity] to be [number]. You only have [value]."
         requirement-not-met-material: "<red>This challenge requires [statistic] for [material] to be [number]. You only have [value]."
+        no-team: "<red>This is a team challenge. You must have a team to complete it!"
+        insufficient-team: "<red>This team challenge needs [number] team members online. Only [online] are online."
+        member-missing-share: "<red>[name] does not have their share ([amount] x [item]) for this team challenge."
 #    # Showcase for manual material translation
 #    materials:
 #        # Names should be lowercase.

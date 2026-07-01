@@ -2608,6 +2608,240 @@
       "repeatItemReward": [],
       "repeatMoneyReward": 0,
       "repeatRewardCommands": []
+    },
+    {
+      "uniqueId": "allhandsondeck",
+      "friendlyName": "&f&l All Hands on Deck",
+      "deployed": true,
+      "description": [
+        "&7 A team challenge.",
+        "&7 Gather your whole team online",
+        "&7 at the same time!"
+      ],
+      "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: PLAYER_HEAD\n",
+      "order": 100,
+      "challengeType": "OTHER",
+      "environment": [],
+      "removeWhenCompleted": false,
+      "level": "",
+      "teamChallenge": true,
+      "teamPresence": 1.0,
+      "aggregateTeam": false,
+      "perMember": false,
+      "hideIfNoTeam": false,
+      "requirements": {
+        "class": "OtherRequirements",
+        "parameters": {
+          "requiredExperience": 0,
+          "takeExperience": false,
+          "requiredMoney": 0.0,
+          "takeMoney": false,
+          "requiredIslandLevel": 0,
+          "requiredPermissions": []
+        }
+      },
+      "rewardText": "&7 A reward for the whole crew!",
+      "rewardItems": [
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: CAKE\n  amount: 1\n"
+      ],
+      "rewardExperience": 100,
+      "rewardMoney": 0,
+      "rewardCommands": [],
+      "repeatable": false,
+      "repeatRewardText": "",
+      "maxTimes": 1,
+      "repeatExperienceReward": 0,
+      "repeatItemReward": [],
+      "repeatMoneyReward": 0,
+      "repeatRewardCommands": []
+    },
+    {
+      "uniqueId": "pooledtribute",
+      "friendlyName": "&f&l Pooled Tribute",
+      "deployed": true,
+      "description": [
+        "&7 A team challenge.",
+        "&7 Together, hand in 100 diamonds.",
+        "&7 Anyone online can contribute."
+      ],
+      "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n",
+      "order": 101,
+      "challengeType": "INVENTORY",
+      "environment": [],
+      "removeWhenCompleted": false,
+      "level": "",
+      "teamChallenge": true,
+      "teamPresence": 0.5,
+      "aggregateTeam": true,
+      "perMember": false,
+      "hideIfNoTeam": false,
+      "requirements": {
+        "class": "InventoryRequirements",
+        "parameters": {
+          "requiredItems": [
+            "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND\n  amount: 100\n"
+          ],
+          "takeItems": true,
+          "requiredPermissions": []
+        }
+      },
+      "rewardText": "&7 A diamond block for the team.",
+      "rewardItems": [
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_BLOCK\n  amount: 1\n"
+      ],
+      "rewardExperience": 200,
+      "rewardMoney": 0,
+      "rewardCommands": [],
+      "repeatable": false,
+      "repeatRewardText": "",
+      "maxTimes": 1,
+      "repeatExperienceReward": 0,
+      "repeatItemReward": [],
+      "repeatMoneyReward": 0,
+      "repeatRewardCommands": []
+    },
+    {
+      "uniqueId": "synchronizedbuild",
+      "friendlyName": "&f&l Synchronized Build",
+      "deployed": true,
+      "description": [
+        "&7 A team challenge.",
+        "&7 Show off your build together:",
+        "&7 5 diamond blocks near you,",
+        "&7 with half the team online."
+      ],
+      "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_BLOCK\n",
+      "order": 102,
+      "challengeType": "ISLAND",
+      "environment": [],
+      "removeWhenCompleted": false,
+      "level": "",
+      "teamChallenge": true,
+      "teamPresence": 0.5,
+      "aggregateTeam": false,
+      "perMember": false,
+      "hideIfNoTeam": false,
+      "requirements": {
+        "class": "IslandRequirements",
+        "parameters": {
+          "requiredBlocks": {
+            "DIAMOND_BLOCK": 5
+          },
+          "removeBlocks": false,
+          "requiredEntities": {},
+          "removeEntities": false,
+          "searchRadius": 10,
+          "requiredPermissions": []
+        }
+      },
+      "rewardText": "&7 A beacon for your build.",
+      "rewardItems": [
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: BEACON\n  amount: 1\n"
+      ],
+      "rewardExperience": 200,
+      "rewardMoney": 0,
+      "rewardCommands": [],
+      "repeatable": false,
+      "repeatRewardText": "",
+      "maxTimes": 1,
+      "repeatExperienceReward": 0,
+      "repeatItemReward": [],
+      "repeatMoneyReward": 0,
+      "repeatRewardCommands": []
+    },
+    {
+      "uniqueId": "combinedeffort",
+      "friendlyName": "&f&l Combined Effort",
+      "deployed": true,
+      "description": [
+        "&7 A team challenge.",
+        "&7 Together, land 1000 mob kills.",
+        "&7 Only kills earned as a team count."
+      ],
+      "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: DIAMOND_SWORD\n",
+      "order": 103,
+      "challengeType": "STATISTIC",
+      "environment": [],
+      "removeWhenCompleted": false,
+      "level": "",
+      "teamChallenge": true,
+      "teamPresence": 0.0,
+      "aggregateTeam": true,
+      "perMember": false,
+      "hideIfNoTeam": false,
+      "requirements": {
+        "class": "StatisticRequirements",
+        "parameters": {
+          "statisticList": [
+            {
+              "statistic": "MOB_KILLS",
+              "amount": 1000,
+              "reduceStatistic": false
+            }
+          ],
+          "requiredPermissions": []
+        }
+      },
+      "rewardText": "&7 A totem for the team's valour.",
+      "rewardItems": [
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: TOTEM_OF_UNDYING\n  amount: 1\n"
+      ],
+      "rewardExperience": 300,
+      "rewardMoney": 0,
+      "rewardCommands": [],
+      "repeatable": false,
+      "repeatRewardText": "",
+      "maxTimes": 1,
+      "repeatExperienceReward": 0,
+      "repeatItemReward": [],
+      "repeatMoneyReward": 0,
+      "repeatRewardCommands": []
+    },
+    {
+      "uniqueId": "rollcallfeast",
+      "friendlyName": "&f&l Roll Call Feast",
+      "deployed": true,
+      "description": [
+        "&7 A team challenge.",
+        "&7 Everyone pays their share!",
+        "&7 20 steaks total, split across",
+        "&7 the whole team (all must be online)."
+      ],
+      "icon": "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COOKED_BEEF\n",
+      "order": 104,
+      "challengeType": "INVENTORY",
+      "environment": [],
+      "removeWhenCompleted": false,
+      "level": "",
+      "teamChallenge": true,
+      "teamPresence": 1.0,
+      "aggregateTeam": false,
+      "perMember": true,
+      "hideIfNoTeam": false,
+      "requirements": {
+        "class": "InventoryRequirements",
+        "parameters": {
+          "requiredItems": [
+            "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: COOKED_BEEF\n  amount: 20\n"
+          ],
+          "takeItems": true,
+          "requiredPermissions": []
+        }
+      },
+      "rewardText": "&7 Two golden apples each for the feast!",
+      "rewardItems": [
+        "is:\n  ==: org.bukkit.inventory.ItemStack\n  v: 1976\n  type: GOLDEN_APPLE\n  amount: 2\n"
+      ],
+      "rewardExperience": 150,
+      "rewardMoney": 0,
+      "rewardCommands": [],
+      "repeatable": false,
+      "repeatRewardText": "",
+      "maxTimes": 1,
+      "repeatExperienceReward": 0,
+      "repeatItemReward": [],
+      "repeatMoneyReward": 0,
+      "repeatRewardCommands": []
     }
   ],
   "challengeLevelList": [

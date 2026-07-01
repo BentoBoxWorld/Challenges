@@ -1,29 +1,32 @@
 ---
 meta:
   authors:
-  - BONNe
+    - BONNe
 challenges:
   commands:
     admin:
       main:
         description: Основна команда адміністратора. Відкриває GUI.
+        parameters: ''
       reload:
         description: Перезавантажте завдання з бази даних
+        parameters: ''
       show:
         description: Друкує всі виклики в чаті, які існують у цьому світі.
+        parameters: ''
       complete:
         description: Виконайте завдання для гравця.
         parameters: "<player> <challenge_id>"
       reset:
-        description: Скинути виклик для гравця. Якщо для «challenge_id» встановлено
-          значення «all», усі виклики буде скинуто.
+        description: Скинути виклик для гравця. Якщо для «challenge_id» встановлено значення «all», усі виклики буде скинуто.
         parameters: "<player> <challenge_id>"
       migrate:
-        description: Перенесіть поточні дані викликів ігрового світу у формат зберігання
-          0.8.0.
+        description: Перенесіть поточні дані викликів ігрового світу у формат зберігання 0.8.0.
+        parameters: ''
     user:
       main:
         description: Графічний інтерфейс Open Challenges.
+        parameters: ''
       complete:
         description: Повний виклик.
         parameters: "<challenge_id> [count]"
@@ -49,6 +52,11 @@ challenges:
       challenge-selector: "<black><bold>Вибір викликів"
       statistic-selector: "<black><bold>Селектор статистики"
       environment-selector: "<black><bold>Вибір середовища"
+      manage-block-groups: <black><bold>Керування групами блоків
+      manage-entity-groups: <black><bold>Керування групами сутностей
+      manage-statistics: <black><bold>Керування статистикою
+      manage-advancements: <black><bold>Керування досягненнями
+      advancement-selector: <black><bold>Селектор досягнень
     buttons:
       free-challenges:
         name: "<white><bold>Безкоштовні виклики"
@@ -147,6 +155,7 @@ challenges:
         description: |-
           <gray>Відкриває паблік
           Бібліотека <gray>викликів.
+        downloading: "<gray>Завантаження бібліотеки\n<gray>запроваджено..."
       import_database:
         name: "<white><bold>Імпорт бази даних"
         description: |-
@@ -769,6 +778,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>Цільове значення: <yellow>[number]'
+        remove:
+          name: '<gray>Зменшити статистику: [value]'
+          value:
+            enabled: <red>Увімкнено
+            disabled: <dark_green>Вимкнено
+        block: '<gray>Цільовий блок: <yellow>[block]'
+        item: '<gray>Цільовий предмет: <yellow>[item]'
+        entity: '<gray>Цільова сутність: <yellow>[entity]'
+        selected: <dark_green>Вибрано
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -779,12 +798,120 @@ challenges:
           <gray>елемент із введенням
           <gray>текстове значення.
         search: "<aqua>Значення: [value]"
+      hide_reward_items:
+        name: <white><bold>Сховати награди
+        description: "<gray>Переключення, чи показуються предмети награди\n<gray>в графічному інтерфейсі або ні."
+        hide: <dark_green>Сховати
+        show: <red>Показати
+      team_challenge:
+        name: <white><bold>Командний виклик
+        description: "<gray>Переключення, чи це командний виклик.\n<gray>Командні вклики потребують команди і поділяють\n<gray>завершення та перезарядку на острові."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      team_presence:
+        name: <white><bold>Присутність команди
+        description: "<gray>Відсоток команди, який має бути\n<gray>в мережі для завершення цього виклику.\n<gray>0 вимикає воріта присутності."
+        value: '<gray>Зараз: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Агрегування на весь гарнір команди
+        description: "<gray>Сума необхідних предметів / статистики на всі\n<gray>члени в мережі (Об'єднаний внесок,\n<gray>Спільні зусилля)."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      per_member:
+        name: <white><bold>Кожен член платить
+        description: "<gray>Кожен член в мережі повинен внести свою\n<gray>частину (необхідна сума - ВСЬОГО КОМАНДИ,\n<gray>розділена між присутніми членами)."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      hide_if_no_team:
+        name: <white><bold>Сховати, якщо немає команди
+        description: "<gray>Якщо ввімкнено, цей виклик повністю схований\n<gray>від гравців без команди.\n<gray>Якщо вимкнено, він показаний але вимкнено."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      required_statistics:
+        name: <white><bold>Необхідна статистика
+        description: "<gray>Дозволяє вам змінити необхідну\n<gray>статистику для цього виклику\n<gray>завершення."
+        title: '<gray>Статистика: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Статистика не додана.
+      required_advancements:
+        name: <white><bold>Необхідні досягнення
+        description: "<gray>Дозволяє вам змінити необхідні\n<gray>досягнення для цього виклику\n<gray>завершення."
+        title: '<gray>Досягнення: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Досягнення не додані.
+      required_materialtags:
+        name: <white><bold>Необхідні групи блоків
+        description: "<gray>Дозволяє вам змінити необхідні\n<gray>групи блоків для цього виклику\n<gray>завершення."
+        title: '<gray>Група блоків: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Групи блоків не додані.
+      required_entitytags:
+        name: <white><bold>Необхідні групи сутностей
+        description: "<gray>Дозволяє вам змінити необхідні\n<gray>групи сутностей для цього виклику\n<gray>завершення."
+        title: '<gray>Група сутностей: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Групи сутностей не додані.
+      required_papi:
+        name: <white><bold>Необхідний PAPI
+        description: "<gray>Перевіряє формулу, яка може\n<gray>включати заповнювачі PAPI\n<gray>та математичні та логічні елементи."
+        value: '<gray>Формула: <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>Додати статистику
+        description: "<gray>Дозволяє вам додати нову\n<gray>статистику до списку."
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Додати досягнення
+        description: "<gray>Дозволяє вам додати нове\n<gray>досягнення до списку."
+      remove_advancement:
+        name: <white><bold>Видалити досягнення
+        description: "<gray>Дозволяє видалити\n<gray>вибрані досягнення\n<gray>зі списку."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      glow_completed_levels:
+        name: <white><bold>Сяйво завершених рівнів
+        description: "<gray>Застосовує світіння чарування\n<gray>до завершених рівнів."
+        enabled: <dark_green>Увімкнено
+        disabled: <red>Вимкнено
+      language:
+        name: <white><bold>Мова
+        description: "<gray>Фільтрувати бібліотеки викликів\n<gray>за мовою."
+        current: '<gray>Показувати: <yellow>[lang]'
+        all: Усі
+      add_block_group:
+        name: <white><bold>Додати групу блоків
+        description: "<gray>Дозволяє вам додати нову\n<gray>групу блоків до списку."
+      remove_block_group:
+        name: <white><bold>Видалити групу блоків
+        description: "<gray>Дозволяє видалити\n<gray>вибрані групи блоків\n<gray>зі списку."
+        title: '<gray>Вибрані групи блоків:'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Вибрано
+      add_entity_group:
+        name: <white><bold>Додати групу сутностей
+        description: "<gray>Дозволяє вам додати нову\n<gray>групу сутностей до списку."
+      remove_entity_group:
+        name: <white><bold>Видалити групу сутностей
+        description: "<gray>Дозволяє видалити\n<gray>вибрані групи сутностей\n<gray>зі списку."
+        title: '<gray>Вибрані групи сутностей:'
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Вибрано
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Вибрано
     tips:
       click-to-select: "<yellow>Натисніть <gray>, щоб вибрати."
       click-to-choose: "<yellow>Натисніть <gray>, щоб вибрати."
       click-to-complete: "<yellow>Натисніть <gray>, щоб завершити."
-      right-click-multiple-open: "<yellow>Клацніть правою кнопкою миші <gray>, щоб вибрати
-        кількість завершень."
+      right-click-multiple-open: "<yellow>Клацніть правою кнопкою миші <gray>, щоб вибрати кількість завершень."
       shift-left-click-to-complete-all: "<yellow>Shift Натисніть <gray>, щоб завершити все."
       left-click-to-accept: "<yellow>Клацніть лівою кнопкою миші <gray>, щоб завершити."
       right-click-to-write: "<yellow>Клацніть правою кнопкою миші <gray>, щоб написати."
@@ -813,8 +940,7 @@ challenges:
       click-to-install: "<yellow>Натисніть <gray>, щоб установити."
       click-to-reset-all: "<yellow>Натисніть <gray>, щоб скинути все."
       right-click-to-select: "<yellow>Клацніть правою кнопкою миші <gray>, щоб вибрати."
-      right-click-to-deselect: "<yellow>Клацніть правою кнопкою миші <gray>, щоб скасувати
-        вибір."
+      right-click-to-deselect: "<yellow>Клацніть правою кнопкою миші <gray>, щоб скасувати вибір."
       left-click-to-choose: "<yellow>Клацніть лівою кнопкою миші <gray>, щоб вибрати."
       click-to-cancel: "<yellow>Натисніть <gray>, щоб скасувати."
       click-to-save: "<yellow>Натисніть <gray>, щоб зберегти."
@@ -826,6 +952,7 @@ challenges:
       right-click-to-clear: "<yellow>Клацніть правою кнопкою миші <gray>, щоб очистити."
       click-to-previous: "<yellow>Натисніть <gray>, щоб переглянути попередню сторінку."
       click-to-next: "<yellow>Натисніть <gray>, щоб переглянути наступну сторінку."
+      right-click-to-reset: <yellow>Натисніть праву кнопку миші <gray>щоб скинути.
     descriptions:
       challenge:
         lore: |-
@@ -919,6 +1046,8 @@ challenges:
           money: "<gray>Гроші: <reset><yellow>[number]"
           commands-title: "<gray>Команди:"
           command: "  <gray>- <yellow>[command]"
+        team-requirement: '<gold>Команда: <yellow>[online] <gold>в мережі (<yellow>[number] <gold>потрібно)'
+        team-required: <red>Команда потрібна для завершення
       level:
         lore: |-
           [text]
@@ -967,59 +1096,44 @@ challenges:
     input-number: "<yellow>Будь ласка, введіть номер у чаті."
     input-seconds: "<yellow>Будь ласка, введіть секунди в чаті."
     numeric-only: "<red>Дане [value] не є числом!"
-    not-valid-value: "<red>Дане число [value] недійсне. Він має бути більшим за [min]
-      і меншим за [max]!"
+    not-valid-value: "<red>Дане число [value] недійсне. Він має бути більшим за [min] і меншим за [max]!"
     user-data-removed: "<green>Усі дані користувача для [gamemode] видалено з бази даних."
-    confirm-user-data-deletion: "<yellow>Підтвердьте, що ви бажаєте очистити базу даних
-      користувачів для [gamemode]."
+    confirm-user-data-deletion: "<yellow>Підтвердьте, що ви бажаєте очистити базу даних користувачів для [gamemode]."
     challenge-data-removed: "<green>Усі дані викликів для [gamemode] видалено з бази даних."
-    confirm-challenge-data-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете очистити
-      базу даних викликів для [gamemode]."
+    confirm-challenge-data-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете очистити базу даних викликів для [gamemode]."
     all-data-removed: "<green>Усі дані аддонів для [gamemode] видалено з бази даних."
-    confirm-all-data-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете очистити
-      дані аддонів для [gamemode]."
+    confirm-all-data-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете очистити дані аддонів для [gamemode]."
     write-name: "<yellow>Будь ласка, напишіть ім'я в чаті."
     new-object-created: "&Створено новий об’єкт для [gamemode]."
     object-already-exists: "<red>Об'єкт <gray>[id] <red>вже існує. Виберіть інше ім'я."
-    invalid-challenge: "<red>Завдання [challenge] містить недійсні дані. Його не можна
-      розгортати!"
+    invalid-challenge: "<red>Завдання [challenge] містить недійсні дані. Його не можна розгортати!"
     name-changed: "<green>Успіх, назву оновлено."
-    write-description: "<yellow>Будь ласка, введіть новий опис у чаті та 'quit' у окремому
-      рядку, щоб завершити."
+    write-description: "<yellow>Будь ласка, введіть новий опис у чаті та 'quit' у окремому рядку, щоб завершити."
     description-changed: "<green>Успіх, опис оновлено."
-    write-permissions: "<yellow>Будь ласка, введіть необхідні дозволи, по одному на рядок
-      у чаті, і 'quit' на окремому рядку, щоб завершити."
+    write-permissions: "<yellow>Будь ласка, введіть необхідні дозволи, по одному на рядок у чаті, і 'quit' на окремому рядку, щоб завершити."
     permissions-changed: "<green>Успіх, дозволи на виклик оновлено."
-    write-reward-text: "<yellow>Будь ласка, введіть новий текст винагороди в чаті та 'quit'
-      в окремому рядку, щоб завершити."
+    write-reward-text: "<yellow>Будь ласка, введіть новий текст винагороди в чаті та 'quit' в окремому рядку, щоб завершити."
     reward-text-changed: "<green>Успіх, текст нагороди оновлено."
-    write-repeat-reward-text: "<yellow>Будь ласка, введіть новий повторний текст винагороди
-      в чаті та 'quit' в окремому рядку, щоб завершити."
+    write-repeat-reward-text: "<yellow>Будь ласка, введіть новий повторний текст винагороди в чаті та 'quit' в окремому рядку, щоб завершити."
     repeat-reward-text-changed: "<green>Успіх, текст повторної винагороди оновлено."
-    write-reward-commands: "<yellow>Будь ласка, введіть нову команду винагороди для кожного
-      рядка в чаті та 'quit' в окремому рядку, щоб завершити."
+    write-reward-commands: "<yellow>Будь ласка, введіть нову команду винагороди для кожного рядка в чаті та 'quit' в окремому рядку, щоб завершити."
     reward-commands-changed: "<green>Успіх, команди винагород оновлено."
-    write-repeat-reward-commands: "<yellow>Будь ласка, введіть нову повторну команду винагороди
-      для кожного рядка в чаті та 'quit' в окремому рядку, щоб завершити."
+    write-repeat-reward-commands: "<yellow>Будь ласка, введіть нову повторну команду винагороди для кожного рядка в чаті та 'quit' в окремому рядку, щоб завершити."
     repeat-reward-commands-changed: "<green>Успіх, повторні команди винагороди оновлено."
     challenge-removed: "<green>Challenges [challenge] для [gamemode] видалено з бази даних."
-    confirm-challenge-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете видалити
-      [challenge] для [gamemode] з бази даних."
+    confirm-challenge-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете видалити [challenge] для [gamemode] з бази даних."
     level-removed: "<green>Рівень [level] для [gamemode] видалено з бази даних."
-    confirm-level-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете видалити [level]
-      для [gamemode] з бази даних."
+    confirm-level-deletion: "<yellow>Будь ласка, підтвердьте, що ви хочете видалити [level] для [gamemode] з бази даних."
     start-downloading: "<green>Початок завантаження та імпорту бібліотеки завдань."
     written-text: "<green>Текст введення:"
-    confirm-data-replacement: "<yellow>Будь ласка, підтвердьте, що ви бажаєте замінити
-      свої поточні завдання новими."
+    confirm-data-replacement: "<yellow>Будь ласка, підтвердьте, що ви бажаєте замінити свої поточні завдання новими."
     new-challenges-imported: "<green>Успіху, нові завдання для [gamemode] імпортовано."
-    exported-file-name: "<yellow>Будь ласка, введіть назву файлу для експортованого файлу
-      бази даних. (напишіть 'cancel', щоб вийти)"
-    database-export-completed: "<green>Успіх, експорт бази даних для [world] завершено.
-      Файл [file] створено."
+    exported-file-name: "<yellow>Будь ласка, введіть назву файлу для експортованого файлу бази даних. (напишіть 'cancel', щоб вийти)"
+    database-export-completed: "<green>Успіх, експорт бази даних для [world] завершено. Файл [file] створено."
     file-name-exist: "<red>Файл із назвою '[id]' існує. Неможливо перезаписати."
     write-search: "<yellow>Введіть пошукове значення. (напишіть 'cancel', щоб вийти)"
     search-updated: "<green>Значення пошуку оновлено."
+    enter-formula: "<green>Введіть формулу, яка використовує тільки заповнювачі PAPI та символи =,<>,<+,>=, ==, !=, AND, OR.\n<green>Приклад: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     challenge-title: Успішно завершено
     challenge-subtitle: "[friendlyName]"
@@ -1037,8 +1151,7 @@ challenges:
     start-downloading: "<dark_purple>Початок завантаження та імпорту бібліотеки завдань."
     you-completed-challenge: "<dark_green>Ви завершили завдання [value] <reset><dark_green>!"
     you-repeated-challenge: "<dark_green>Ви повторили завдання [value] <reset><dark_green>!"
-    you-repeated-challenge-multiple: "<dark_green>Ви повторили завдання [value] <reset><dark_green>[count]
-      разів!"
+    you-repeated-challenge-multiple: "<dark_green>Ви повторили завдання [value] <reset><dark_green>[count] разів!"
     you-completed-level: "<dark_green>Ви завершили рівень [value] <reset><dark_green>!"
     name-has-completed-challenge: "<dark_purple>[name] виконав завдання [value] <reset><dark_purple>!"
     name-has-completed-level: "<dark_purple>[name] завершив рівень [value] <reset><dark_purple>!"
@@ -1053,48 +1166,44 @@ challenges:
       Значення має бути між [min] і [max].
     not-deployed: "<red>Challenge не розгорнуто!"
     not-on-island: "<red>Для цього ви повинні бути на своєму острові!"
-    challenge-level-not-available: "<red>Ви не розблокували необхідний рівень для виконання
-      цього завдання."
+    challenge-level-not-available: "<red>Ви не розблокували необхідний рівень для виконання цього завдання."
     not-repeatable: "<red>Цей виклик неможливо повторити!"
     wrong-environment: "<red>Ви перебуваєте в неправильному середовищі!"
     not-enough-items: "<red>У вас недостатньо [items], щоб виконати це завдання!"
-    not-close-enough: "<red>Ви повинні знаходитися в межах [number] блоків від усіх
-      необхідних елементів."
+    not-close-enough: "<red>Ви повинні знаходитися в межах [number] блоків від усіх необхідних елементів."
     you-still-need: "<red>Вам все ще потрібно [amount] x [item]"
-    missing-addon: "<red>Неможливо виконати завдання: відсутній необхідний аддон або
-      плагін."
+    missing-addon: "<red>Неможливо виконати завдання: відсутній необхідний аддон або плагін."
     incorrect: "<red>Неможливо завершити завдання: вимоги неправильні."
-    not-enough-money: "<red>Щоб виконати завдання, у вашому обліковому записі необхідно
-      мати [value]."
+    not-enough-money: "<red>Щоб виконати завдання, у вашому обліковому записі необхідно мати [value]."
     not-enough-experience: "<red>Щоб виконати це завдання, необхідно мати [value] досвіду."
-    island-level: "<red>Ваш острів має бути рівня [number] або вище, щоб виконати це
-      завдання!"
+    island-level: "<red>Ваш острів має бути рівня [number] або вище, щоб виконати це завдання!"
     no-load: "<red>Помилка: Не вдалося завантажити [file]. [message]"
     load-error: "<red>Помилка: неможливо завантажити [value]."
     no-rank: "<red>Ви не маєте достатньо високого рангу, щоб це зробити."
     cannot-remove-items: "<red>Деякі предмети не можна видалити з вашого інвентарю!"
-    exist-challenges-or-levels: "<red>Проблеми вже існують у вашому світі. Неможливо
-      продовжити!"
+    exist-challenges-or-levels: "<red>Проблеми вже існують у вашому світі. Неможливо продовжити!"
     no-challenges: "<red>Виклики ще не реалізовані в цьому світі!"
-    no-challenges-admin: "<red>Виклики ще не реалізовані в цьому світі! Використовуйте
-      <dark_purple>/[command] <red>, щоб додати їх!"
+    no-challenges-admin: "<red>Виклики ще не реалізовані в цьому світі! Використовуйте <dark_purple>/[command] <red>, щоб додати їх!"
     missing-arguments: У команді <red>відсутні аргументи.
-    no-multiple-permission: "<red>Ви не маєте дозволу виконувати це завдання кілька
-      разів одночасно."
-    invalid-level: "<red>Рівень [level] містить недійсні дані. Він не буде завантажений
-      з бази даних!"
-    invalid-challenge: "<red>Завдання [challenge] містить недійсні дані. Він не буде
-      завантажений з бази даних!"
+    no-multiple-permission: "<red>Ви не маєте дозволу виконувати це завдання кілька разів одночасно."
+    invalid-level: "<red>Рівень [level] містить недійсні дані. Він не буде завантажений з бази даних!"
+    invalid-challenge: "<red>Завдання [challenge] містить недійсні дані. Він не буде завантажений з бази даних!"
     no-library-entries: "<red>Не вдається знайти жодного запису бібліотеки. Нічого показати."
     not-hooked: "<red>Challenges Addon не вдалося знайти режим гри."
-    timeout: "<red>Цей виклик вимагає очікування [timeout] між завершеннями. Ви повинні
-      зачекати [wait-time], поки завершите його знову."
-    requirement-not-met: "<red>Цей виклик вимагає [statistic] мати [number]. У вас є
-      лише [value]."
-    requirement-not-met-entity: "<red>Цей виклик вимагає [statistic] [entity] мати [number].
-      У вас є лише [value]."
-    requirement-not-met-material: "<red>Цей виклик вимагає, щоб [statistic] [material]
-      мала [number]. У вас є лише [value]."
+    timeout: "<red>Цей виклик вимагає очікування [timeout] між завершеннями. Ви повинні зачекати [wait-time], поки завершите його знову."
+    requirement-not-met: "<red>Цей виклик вимагає [statistic] мати [number]. У вас є лише [value]."
+    requirement-not-met-entity: "<red>Цей виклик вимагає [statistic] [entity] мати [number]. У вас є лише [value]."
+    requirement-not-met-material: "<red>Цей виклик вимагає, щоб [statistic] [material] мала [number]. У вас є лише [value]."
+    import-failed: '<red>Не вдалося імпортувати вклики: [message]. Перевірте консоль сервера для деталей.'
+    no-team: <red>Це командний виклик. У вас повинна бути команда, щоб його завершити!
+    insufficient-team: <red>Цей командний виклик потребує [number] членів команди в мережі. Лише [online] в мережі.
+    member-missing-share: <red>[name] не має свою частину ([amount] x [item]) для цього командного виклику.
+  materials:
+    any: 'Будь-який '
+    all_hanging_signs:
+      name: Будь-який висячий знак
+    all_signs:
+      name: Будь-який знак
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

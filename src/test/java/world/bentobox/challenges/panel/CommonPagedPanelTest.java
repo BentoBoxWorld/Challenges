@@ -69,7 +69,6 @@ class CommonPagedPanelTest {
 
         @Override
         protected void updateFilters() {
-            boolean filterUpdated = true;
         }
 
         @Override

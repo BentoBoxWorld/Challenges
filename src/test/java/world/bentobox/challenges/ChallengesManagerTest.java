@@ -79,7 +79,7 @@ import world.bentobox.challenges.utils.LevelStatus;
  *
  */
 @SuppressWarnings("deprecation")
-public class ChallengesManagerTest {
+class ChallengesManagerTest {
 
     // Constants
     private static final String GAME_MODE_NAME = "BSkyBlock";
@@ -120,7 +120,7 @@ public class ChallengesManagerTest {
     private MockedStatic<Util> mockedUtil;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock mbServer = MockBukkit.mock();
         @SuppressWarnings("unused")
@@ -207,7 +207,7 @@ public class ChallengesManagerTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (mockedUtil != null) mockedUtil.closeOnDemand();
         if (closeable != null) closeable.close();
@@ -234,7 +234,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testLoad() throws InterruptedException {
+    void testLoad() throws InterruptedException {
         verify(addon).log("Loading challenges...");
         verify(addon, never()).logError(anyString());
         this.testSaveLevel();
@@ -246,7 +246,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testReload() throws InterruptedException {
+    void testReload() throws InterruptedException {
         cm.reload();
         verify(addon).log("Reloading challenges...");
         this.testSaveLevel();
@@ -258,54 +258,54 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testLoadChallengeNoOverwriteSilent() {
+    void testLoadChallengeNoOverwriteSilent() {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         assertFalse(cm.loadChallenge(challenge, world, false, user, true));
     }
 
     @Test
-    public void testLoadChallengeNoOverwriteNotSilent() {
+    void testLoadChallengeNoOverwriteNotSilent() {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         assertFalse(cm.loadChallenge(challenge, world, false, user, false));
         verify(user).getTranslation(world, "challenges.messages.load-skipping", "[value]", "name");
     }
 
     @Test
-    public void testLoadChallengeOverwriteSilent() {
+    void testLoadChallengeOverwriteSilent() {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         assertTrue(cm.loadChallenge(challenge, world, true, user, true));
         verify(user, never()).getTranslation(any(World.class), anyString(), anyString(), anyString());
     }
 
     @Test
-    public void testLoadChallengeOverwriteNotSilent() {
+    void testLoadChallengeOverwriteNotSilent() {
         assertTrue(cm.loadChallenge(challenge, world, false, user, true));
         assertTrue(cm.loadChallenge(challenge, world, true, user, false));
         verify(user).getTranslation(world, "challenges.messages.load-overwriting", "[value]", "name");
     }
 
     @Test
-    public void testLoadLevelNoOverwriteSilent() {
+    void testLoadLevelNoOverwriteSilent() {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         assertFalse(cm.loadLevel(level, world, false, user, true));
     }
 
     @Test
-    public void testLoadLevelNoOverwriteNotSilent() {
+    void testLoadLevelNoOverwriteNotSilent() {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         assertFalse(cm.loadLevel(level, world, false, user, false));
         verify(user).getTranslation(world, "challenges.messages.load-skipping", "[value]", "Novice");
     }
 
     @Test
-    public void testLoadLevelOverwriteSilent() {
+    void testLoadLevelOverwriteSilent() {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         assertTrue(cm.loadLevel(level, world, true, user, true));
         verify(user, never()).getTranslation(any(World.class), anyString(), anyString(), anyString());
     }
 
     @Test
-    public void testLoadLevelOverwriteNotSilent() {
+    void testLoadLevelOverwriteNotSilent() {
         assertTrue(cm.loadLevel(level, world, false, user, true));
         assertTrue(cm.loadLevel(level, world, true, user, false));
         verify(user).getTranslation(world, "challenges.messages.load-overwriting", "[value]", "Novice");
@@ -313,13 +313,13 @@ public class ChallengesManagerTest {
 
     @Disabled("This method does not do anything so there is no need to test right now.")
     @Test
-    public void testRemoveFromCache() {
+    void testRemoveFromCache() {
         cm.removeFromCache(playerID);
         verify(settings).isStoreAsIslandData();
     }
 
     @Test
-    public void testWipeDatabase() throws InterruptedException {
+    void testWipeDatabase() throws InterruptedException {
         this.testLoad();
 
         File chDir = new File(database, "Challenge");
@@ -345,7 +345,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testWipePlayers() throws InterruptedException {
+    void testWipePlayers() throws InterruptedException {
         this.testLoad();
         cm.setChallengeComplete(user, world, challenge, 20);
         cm.save();
@@ -356,19 +356,19 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testMigrateDatabase() {
+    void testMigrateDatabase() {
         cm.migrateDatabase(user, world);
         verify(addon, never()).logError(anyString());
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         cm.save();
         verify(addon, never()).logError(anyString());
     }
 
     @Test
-    public void testSaveChallenge() throws InterruptedException {
+    void testSaveChallenge() throws InterruptedException {
         cm.saveChallenge(challenge);
         Thread.sleep(500);
         File chDir = new File(database, "Challenge");
@@ -400,7 +400,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testSaveLevel() throws InterruptedException {
+    void testSaveLevel() throws InterruptedException {
         cm.saveLevel(level);
         Thread.sleep(500);
         File chDir = new File(database, "ChallengeLevel");
@@ -411,36 +411,36 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testIsChallengeCompleteUserWorldChallenge() {
+    void testIsChallengeCompleteUserWorldChallenge() {
         assertFalse(cm.isChallengeComplete(user, world, challenge));
     }
 
     @Test
-    public void testIsChallengeCompleteUUIDWorldChallenge() {
+    void testIsChallengeCompleteUUIDWorldChallenge() {
         assertFalse(cm.isChallengeComplete(playerID, world, challenge));
     }
 
     @Test
-    public void testIsChallengeCompleteUUIDWorldString() {
+    void testIsChallengeCompleteUUIDWorldString() {
         assertFalse(cm.isChallengeComplete(playerID, world, "Novice"));
     }
 
     @Test
-    public void testSetChallengeCompleteUserWorldChallengeInt() {
+    void testSetChallengeCompleteUserWorldChallengeInt() {
         cm.setChallengeComplete(user, world, challenge, 3);
         assertTrue(cm.isChallengeComplete(user, world, challenge));
         verify(pim).callEvent(any(ChallengeCompletedEvent.class));
     }
 
     @Test
-    public void testSetChallengeCompleteUUIDWorldChallengeInt() {
+    void testSetChallengeCompleteUUIDWorldChallengeInt() {
         cm.setChallengeComplete(playerID, world, challenge, 3);
         assertTrue(cm.isChallengeComplete(playerID, world, challenge));
         verify(pim).callEvent(any(ChallengeCompletedEvent.class));
     }
 
     @Test
-    public void testSetChallengeCompleteUUIDWorldChallengeUUID() {
+    void testSetChallengeCompleteUUIDWorldChallengeUUID() {
         UUID adminID = UUID.randomUUID();
         cm.setChallengeComplete(playerID, world, challenge, adminID);
         assertTrue(cm.isChallengeComplete(playerID, world, challenge));
@@ -448,7 +448,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testResetChallenge() {
+    void testResetChallenge() {
         cm.setChallengeComplete(user, world, challenge, 3);
         assertTrue(cm.isChallengeComplete(user, world, challenge));
         cm.resetChallenge(playerID, world, challenge, playerID);
@@ -457,7 +457,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testResetAllChallengesUserWorld() {
+    void testResetAllChallengesUserWorld() {
         cm.setChallengeComplete(user, world, challenge, 3);
         assertTrue(cm.isChallengeComplete(user, world, challenge));
         cm.resetAllChallenges(user, world);
@@ -466,7 +466,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testResetAllChallengesUUIDWorldUUID() {
+    void testResetAllChallengesUUIDWorldUUID() {
         cm.setChallengeComplete(user, world, challenge, 3);
         assertTrue(cm.isChallengeComplete(user, world, challenge));
         cm.resetAllChallenges(playerID, world, playerID);
@@ -475,33 +475,33 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetChallengeTimesUserWorldChallenge() {
+    void testGetChallengeTimesUserWorldChallenge() {
         assertEquals(0L, cm.getChallengeTimes(user, world, challenge));
         cm.setChallengeComplete(user, world, challenge, 6);
         assertEquals(6L, cm.getChallengeTimes(user, world, challenge));
     }
 
     @Test
-    public void testGetChallengeTimesUserWorldString() {
+    void testGetChallengeTimesUserWorldString() {
         assertEquals(0L, cm.getChallengeTimes(user, world, cName));
         cm.setChallengeComplete(user, world, challenge, 6);
         assertEquals(6L, cm.getChallengeTimes(user, world, cName));
     }
 
     @Test
-    public void testIsLevelCompleted() {
+    void testIsLevelCompleted() {
         assertFalse(cm.isLevelCompleted(user, world, level));
     }
 
     @Test
-    public void testIsLevelUnlocked() {
+    void testIsLevelUnlocked() {
         assertFalse(cm.isLevelUnlocked(user, world, level));
         this.testLoadLevelNoOverwriteSilent();
         assertTrue(cm.isLevelUnlocked(user, world, level));
     }
 
     @Test
-    public void testSetLevelComplete() {
+    void testSetLevelComplete() {
         assertFalse(cm.isLevelCompleted(user, world, level));
         cm.setLevelComplete(user, world, level);
         assertTrue(cm.isLevelCompleted(user, world, level));
@@ -509,12 +509,12 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testValidateLevelCompletion() {
+    void testValidateLevelCompletion() {
         assertTrue(cm.validateLevelCompletion(user, world, level));
     }
 
     @Test
-    public void testGetChallengeLevelStatus() {
+    void testGetChallengeLevelStatus() {
         this.testLoadLevelNoOverwriteSilent();
         LevelStatus cls = cm.getChallengeLevelStatus(playerID, world, level);
         assertEquals(0, cls.getNumberOfChallengesStillToDo());
@@ -525,7 +525,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetAllChallengeLevelStatus() {
+    void testGetAllChallengeLevelStatus() {
         this.testLoadLevelNoOverwriteSilent();
         List<LevelStatus> list = cm.getAllChallengeLevelStatus(user, world);
         assertEquals(1, list.size());
@@ -538,7 +538,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetAllChallengesNames() {
+    void testGetAllChallengesNames() {
         assertTrue(cm.getAllChallengesNames(world).isEmpty());
         cm.saveChallenge(challenge);
         cm.loadChallenge(challenge, world, false, user, true);
@@ -548,7 +548,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetAllChallenges() {
+    void testGetAllChallenges() {
         assertTrue(cm.getAllChallenges(world).isEmpty());
         cm.saveChallenge(challenge);
         cm.loadChallenge(challenge, world, false, user, true);
@@ -558,7 +558,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetFreeChallenges() {
+    void testGetFreeChallenges() {
         assertTrue(cm.getFreeChallenges(world).isEmpty());
         cm.saveChallenge(challenge);
         cm.loadChallenge(challenge, world, false, user, true);
@@ -572,7 +572,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLevelChallenges() throws InterruptedException {
+    void testGetLevelChallenges() throws InterruptedException {
         assertTrue(cm.getLevelChallenges(level).isEmpty());
         this.testSaveLevel();
         this.testSaveChallenge();
@@ -583,7 +583,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetChallenge() throws InterruptedException {
+    void testGetChallenge() throws InterruptedException {
         assertNull(cm.getChallenge(cName));
         this.testSaveLevel();
         this.testSaveChallenge();
@@ -593,12 +593,12 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testContainsChallenge() {
+    void testContainsChallenge() {
         assertFalse(cm.containsChallenge("no-such-challenge"));
     }
 
     @Test
-    public void testCreateChallenge() {
+    void testCreateChallenge() {
         @Nullable
         Challenge ch = cm.createChallenge("newChal", "newChal", ChallengeType.ISLAND_TYPE, new IslandRequirements());
         assertEquals(ChallengeType.ISLAND_TYPE, ch.getChallengeType());
@@ -606,7 +606,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testDeleteChallenge() throws InterruptedException {
+    void testDeleteChallenge() throws InterruptedException {
         this.testSaveLevel();
         this.testSaveChallenge();
         Challenge ch = cm.getChallenge(cName);
@@ -618,7 +618,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLevels() {
+    void testGetLevels() {
         this.testGetLevelString();
         List<ChallengeLevel> lvs = cm.getLevels(world);
         assertFalse(lvs.isEmpty());
@@ -626,13 +626,13 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLevelChallenge() {
+    void testGetLevelChallenge() {
         this.testGetLevelString();
         assertEquals(level, cm.getLevel(challenge));
     }
 
     @Test
-    public void testGetLevelString() {
+    void testGetLevelString() {
         assertNull(cm.getLevel("dss"));
         cm.saveLevel(level);
         cm.loadLevel(level, world, false, user, true);
@@ -640,14 +640,14 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testContainsLevel() {
+    void testContainsLevel() {
         this.testGetLevelString();
         assertFalse(cm.containsLevel("sdsd"));
         assertTrue(cm.containsLevel(levelName));
     }
 
     @Test
-    public void testAddChallengeToLevel() throws InterruptedException {
+    void testAddChallengeToLevel() throws InterruptedException {
         this.testLoad();
         cm.deleteChallenge(challenge);
         assertFalse(cm.containsChallenge(cName));
@@ -656,14 +656,14 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testRemoveChallengeFromLevel() throws InterruptedException {
+    void testRemoveChallengeFromLevel() throws InterruptedException {
         this.testAddChallengeToLevel();
         cm.removeChallengeFromLevel(challenge, level);
         assertFalse(cm.containsChallenge(cName));
     }
 
     @Test
-    public void testCreateLevel() {
+    void testCreateLevel() {
         @Nullable
         ChallengeLevel cl = cm.createLevel("Expert", "Expert", world);
         assertEquals("Expert", cl.getUniqueId());
@@ -671,7 +671,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testDeleteChallengeLevel() throws InterruptedException {
+    void testDeleteChallengeLevel() throws InterruptedException {
         this.testAddChallengeToLevel();
         assertTrue(cm.containsLevel(levelName));
         cm.deleteChallengeLevel(level);
@@ -679,14 +679,14 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testHasAnyChallengeDataWorld() throws InterruptedException {
+    void testHasAnyChallengeDataWorld() throws InterruptedException {
         assertFalse(cm.hasAnyChallengeData(world));
         this.testLoad();
         assertTrue(cm.hasAnyChallengeData(world));
     }
 
     @Test
-    public void testHasAnyChallengeDataString() throws InterruptedException {
+    void testHasAnyChallengeDataString() throws InterruptedException {
         assertFalse(cm.hasAnyChallengeData("BSkyBlock"));
         this.testLoad();
         assertTrue(cm.hasAnyChallengeData("BSkyBlock"));
@@ -697,7 +697,7 @@ public class ChallengesManagerTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testGetStatisticDataPlayerOnly() {
+    void testGetStatisticDataPlayerOnly() {
         Player mockPlayer = mock(Player.class);
         when(mockPlayer.getStatistic(Statistic.JUMP)).thenReturn(42);
         when(user.getPlayer()).thenReturn(mockPlayer);
@@ -706,7 +706,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataIslandAggregation() {
+    void testGetStatisticDataIslandAggregation() {
         settings.setStoreAsIslandData(true);
 
         IslandsManager islandsManager = mock(IslandsManager.class);
@@ -730,7 +730,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataIslandNoIsland() {
+    void testGetStatisticDataIslandNoIsland() {
         settings.setStoreAsIslandData(true);
 
         IslandsManager islandsManager = mock(IslandsManager.class);
@@ -741,7 +741,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataMaterialPlayerOnly() {
+    void testGetStatisticDataMaterialPlayerOnly() {
         Player mockPlayer = mock(Player.class);
         when(mockPlayer.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE)).thenReturn(100);
         when(user.getPlayer()).thenReturn(mockPlayer);
@@ -750,7 +750,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataMaterialIslandAggregation() {
+    void testGetStatisticDataMaterialIslandAggregation() {
         settings.setStoreAsIslandData(true);
 
         IslandsManager islandsManager = mock(IslandsManager.class);
@@ -769,7 +769,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataEntityPlayerOnly() {
+    void testGetStatisticDataEntityPlayerOnly() {
         Player mockPlayer = mock(Player.class);
         when(mockPlayer.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)).thenReturn(77);
         when(user.getPlayer()).thenReturn(mockPlayer);
@@ -778,7 +778,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataEntityIslandAggregation() {
+    void testGetStatisticDataEntityIslandAggregation() {
         settings.setStoreAsIslandData(true);
 
         IslandsManager islandsManager = mock(IslandsManager.class);
@@ -801,7 +801,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetStatisticDataIslandOfflineMemberFiltered() {
+    void testGetStatisticDataIslandOfflineMemberFiltered() {
         settings.setStoreAsIslandData(true);
 
         IslandsManager islandsManager = mock(IslandsManager.class);
@@ -828,20 +828,20 @@ public class ChallengesManagerTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testIsBreachingTimeOutNoTimeout() {
+    void testIsBreachingTimeOutNoTimeout() {
         challenge.setTimeout(0);
         assertFalse(cm.isBreachingTimeOut(user, world, challenge));
     }
 
     @Test
-    public void testIsBreachingTimeOutNeverCompleted() {
+    void testIsBreachingTimeOutNeverCompleted() {
         challenge.setTimeout(60000);
         // Never completed => lastCompletionDate=0 => 0+60000 < currentTimeMillis => false
         assertFalse(cm.isBreachingTimeOut(user, world, challenge));
     }
 
     @Test
-    public void testIsBreachingTimeOutRecentCompletion() {
+    void testIsBreachingTimeOutRecentCompletion() {
         challenge.setTimeout(600000); // 10 minutes
         cm.loadChallenge(challenge, world, false, user, true);
         cm.setChallengeComplete(user, world, challenge, 1);
@@ -851,12 +851,12 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLastCompletionDateNeverCompleted() {
+    void testGetLastCompletionDateNeverCompleted() {
         assertEquals(0L, cm.getLastCompletionDate(user, world, challenge));
     }
 
     @Test
-    public void testGetLastCompletionDateAfterCompletion() {
+    void testGetLastCompletionDateAfterCompletion() {
         cm.loadChallenge(challenge, world, false, user, true);
         long before = System.currentTimeMillis();
         cm.setChallengeComplete(user, world, challenge, 1);
@@ -872,12 +872,12 @@ public class ChallengesManagerTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testGetLevelNamesEmpty() {
+    void testGetLevelNamesEmpty() {
         assertTrue(cm.getLevelNames(world).isEmpty());
     }
 
     @Test
-    public void testGetLevelNamesWithLevel() {
+    void testGetLevelNamesWithLevel() {
         cm.loadLevel(level, world, false, user, true);
         List<String> names = cm.getLevelNames(world);
         assertEquals(1, names.size());
@@ -885,20 +885,20 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLevelCount() {
+    void testGetLevelCount() {
         assertEquals(0, cm.getLevelCount(world));
         cm.loadLevel(level, world, false, user, true);
         assertEquals(1, cm.getLevelCount(world));
     }
 
     @Test
-    public void testIsLastLevelSingleLevel() {
+    void testIsLastLevelSingleLevel() {
         cm.loadLevel(level, world, false, user, true);
         assertTrue(cm.isLastLevel(level, world));
     }
 
     @Test
-    public void testIsLastLevelMultipleLevels() {
+    void testIsLastLevelMultipleLevels() {
         cm.loadLevel(level, world, false, user, true);
 
         ChallengeLevel level2 = new ChallengeLevel();
@@ -912,12 +912,12 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLatestUnlockedLevelNoLevels() {
+    void testGetLatestUnlockedLevelNoLevels() {
         assertNull(cm.getLatestUnlockedLevel(user, world));
     }
 
     @Test
-    public void testGetLatestUnlockedLevelSingleLevel() {
+    void testGetLatestUnlockedLevelSingleLevel() {
         cm.loadLevel(level, world, false, user, true);
         // With a single unlocked level, previousLevel is null for the first status
         ChallengeLevel result = cm.getLatestUnlockedLevel(user, world);
@@ -929,19 +929,19 @@ public class ChallengesManagerTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testGetChallengeCountEmpty() {
+    void testGetChallengeCountEmpty() {
         assertEquals(0, cm.getChallengeCount(world));
     }
 
     @Test
-    public void testGetChallengeCountWithChallenge() {
+    void testGetChallengeCountWithChallenge() {
         challenge.setDeployed(true);
         cm.loadChallenge(challenge, world, false, user, true);
         assertEquals(1, cm.getChallengeCount(world));
     }
 
     @Test
-    public void testGetChallengeCountUndeployedExcluded() {
+    void testGetChallengeCountUndeployedExcluded() {
         challenge.setDeployed(false);
         settings.setIncludeUndeployed(false);
         cm.loadChallenge(challenge, world, false, user, true);
@@ -949,7 +949,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetChallengeCountUndeployedIncluded() {
+    void testGetChallengeCountUndeployedIncluded() {
         challenge.setDeployed(false);
         settings.setIncludeUndeployed(true);
         cm.loadChallenge(challenge, world, false, user, true);
@@ -957,33 +957,33 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetCompletedChallengeCountNone() {
+    void testGetCompletedChallengeCountNone() {
         cm.loadChallenge(challenge, world, false, user, true);
         assertEquals(0L, cm.getCompletedChallengeCount(user, world));
     }
 
     @Test
-    public void testGetCompletedChallengeCountOne() {
+    void testGetCompletedChallengeCountOne() {
         cm.loadChallenge(challenge, world, false, user, true);
         cm.setChallengeComplete(user, world, challenge, 1);
         assertEquals(1L, cm.getCompletedChallengeCount(user, world));
     }
 
     @Test
-    public void testGetTotalChallengeCompletionCountZero() {
+    void testGetTotalChallengeCompletionCountZero() {
         cm.loadChallenge(challenge, world, false, user, true);
         assertEquals(0L, cm.getTotalChallengeCompletionCount(user, world));
     }
 
     @Test
-    public void testGetTotalChallengeCompletionCountMultiple() {
+    void testGetTotalChallengeCompletionCountMultiple() {
         cm.loadChallenge(challenge, world, false, user, true);
         cm.setChallengeComplete(user, world, challenge, 5);
         assertEquals(5L, cm.getTotalChallengeCompletionCount(user, world));
     }
 
     @Test
-    public void testGetLevelCompletedChallengeCountNone() {
+    void testGetLevelCompletedChallengeCountNone() {
         cm.loadLevel(level, world, false, user, true);
         cm.loadChallenge(challenge, world, false, user, true);
         level.setChallenges(Collections.singleton(challenge.getUniqueId()));
@@ -991,7 +991,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetLevelCompletedChallengeCountOne() {
+    void testGetLevelCompletedChallengeCountOne() {
         cm.loadLevel(level, world, false, user, true);
         cm.loadChallenge(challenge, world, false, user, true);
         level.setChallenges(Collections.singleton(challenge.getUniqueId()));
@@ -1000,7 +1000,7 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetCompletedLevelCountNone() {
+    void testGetCompletedLevelCountNone() {
         // A level with no challenges is considered complete, so with one empty level
         // the completed count is 1
         cm.loadLevel(level, world, false, user, true);
@@ -1008,19 +1008,19 @@ public class ChallengesManagerTest {
     }
 
     @Test
-    public void testGetCompletedLevelCountOne() {
+    void testGetCompletedLevelCountOne() {
         cm.loadLevel(level, world, false, user, true);
         cm.setLevelComplete(user, world, level);
         assertEquals(1L, cm.getCompletedLevelCount(user, world));
     }
 
     @Test
-    public void testGetUnlockedLevelCountEmpty() {
+    void testGetUnlockedLevelCountEmpty() {
         assertEquals(0L, cm.getUnlockedLevelCount(user, world));
     }
 
     @Test
-    public void testGetUnlockedLevelCountWithLevel() {
+    void testGetUnlockedLevelCountWithLevel() {
         cm.loadLevel(level, world, false, user, true);
         // First level is always unlocked
         assertEquals(1L, cm.getUnlockedLevelCount(user, world));

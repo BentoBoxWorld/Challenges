@@ -17,7 +17,7 @@ import org.mockito.stubbing.Answer;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
-public class CheckPapiTest {
+class CheckPapiTest {
 
     @Mock
     private Player player;
@@ -26,7 +26,7 @@ public class CheckPapiTest {
     private MockedStatic<PlaceholderAPI> mockedPapi;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         mockedPapi = Mockito.mockStatic(PlaceholderAPI.class, Mockito.RETURNS_MOCKS);
         mockedPapi.when(() -> PlaceholderAPI.setPlaceholders(eq(player), anyString()))
@@ -34,14 +34,14 @@ public class CheckPapiTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         mockedPapi.closeOnDemand();
         closeable.close();
         Mockito.framework().clearInlineMocks();
     }
 
     @Test
-    public void testNumericEquality() {
+    void testNumericEquality() {
         assertTrue(CheckPapi.evaluate(player, "40 == 40"));
         assertFalse(CheckPapi.evaluate(player, "40 == 50"));
         assertTrue(CheckPapi.evaluate(player, "100 = 100"));
@@ -49,7 +49,7 @@ public class CheckPapiTest {
     }
 
     @Test
-    public void testNumericComparison() {
+    void testNumericComparison() {
         assertTrue(CheckPapi.evaluate(player, "40 > 20"));
         assertFalse(CheckPapi.evaluate(player, "20 > 40"));
         assertTrue(CheckPapi.evaluate(player, "20 < 40"));
@@ -62,7 +62,7 @@ public class CheckPapiTest {
     }
 
     @Test
-    public void testStringEquality() {
+    void testStringEquality() {
         assertTrue(CheckPapi.evaluate(player, "john smith == john smith"));
         assertFalse(CheckPapi.evaluate(player, "john smith == jane doe"));
         assertTrue(CheckPapi.evaluate(player, "john smith <> jane doe"));
@@ -70,7 +70,7 @@ public class CheckPapiTest {
     }
 
     @Test
-    public void testStringLexicographicalComparison() {
+    void testStringLexicographicalComparison() {
         assertTrue(CheckPapi.evaluate(player, "apple < banana"));
         assertTrue(CheckPapi.evaluate(player, "banana > apple"));
         assertTrue(CheckPapi.evaluate(player, "cat >= cat"));
@@ -78,7 +78,7 @@ public class CheckPapiTest {
     }
 
     @Test
-    public void testMultipleConditionsAndOr() {
+    void testMultipleConditionsAndOr() {
         assertTrue(CheckPapi.evaluate(player, "john smith == john smith AND 40 > 20"));
         assertTrue(CheckPapi.evaluate(player, "john smith == jane doe OR 40 > 20"));
         assertFalse(CheckPapi.evaluate(player, "john smith == jane doe AND 40 > 20"));
@@ -86,7 +86,7 @@ public class CheckPapiTest {
     }
 
     @Test
-    public void testInvalidFormula() {
+    void testInvalidFormula() {
         assertFalse(CheckPapi.evaluate(player, "40 40"));
         assertFalse(CheckPapi.evaluate(player, "40 >"));
     }

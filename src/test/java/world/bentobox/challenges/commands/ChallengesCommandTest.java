@@ -50,7 +50,7 @@ import world.bentobox.challenges.managers.ChallengesManager;
  * @author tastybento
  *
  */
-public class ChallengesCommandTest {
+class ChallengesCommandTest {
 
     @Mock
     private CompositeCommand ic;
@@ -77,7 +77,7 @@ public class ChallengesCommandTest {
     private MockedStatic<Util> mockedUtil;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock server = MockBukkit.mock();
         // Force Paper static fields to initialize against the real MockBukkit server
@@ -164,7 +164,7 @@ public class ChallengesCommandTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (mockedUtil != null) mockedUtil.closeOnDemand();
         if (closeable != null) closeable.close();
@@ -173,14 +173,14 @@ public class ChallengesCommandTest {
     }
 
     @Test
-    public void testCanExecuteWrongWorld() {
+    void testCanExecuteWrongWorld() {
         when(iwm.inWorld(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(user).getTranslation(world, "general.errors.wrong-world");
     }
 
     @Test
-    public void testCanExecuteNoChallenges() {
+    void testCanExecuteNoChallenges() {
         when(iwm.inWorld(any(World.class))).thenReturn(true);
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
@@ -189,7 +189,7 @@ public class ChallengesCommandTest {
     }
 
     @Test
-    public void testCanExecuteNoChallengesOp() {
+    void testCanExecuteNoChallengesOp() {
         when(user.isOp()).thenReturn(true);
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
@@ -199,7 +199,7 @@ public class ChallengesCommandTest {
     }
 
     @Test
-    public void testCanExecuteNoChallengesHasPerm() {
+    void testCanExecuteNoChallengesHasPerm() {
         when(user.hasPermission(anyString())).thenReturn(true);
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
@@ -209,7 +209,7 @@ public class ChallengesCommandTest {
     }
 
     @Test
-    public void testCanExecuteNoAdminCommand() {
+    void testCanExecuteNoAdminCommand() {
         when(gameModeAddon.getAdminCommand()).thenReturn(Optional.empty());
         when(user.isOp()).thenReturn(true);
         when(chm.hasAnyChallengeData(any(World.class))).thenReturn(false);
@@ -220,25 +220,25 @@ public class ChallengesCommandTest {
     }
 
     @Test
-    public void testCanExecuteNoIsland() {
+    void testCanExecuteNoIsland() {
         when(im.getIsland(any(), any(User.class))).thenReturn(null);
         assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(user).getTranslation(world, "general.errors.no-island");
     }
 
     @Test
-    public void testCanExecuteSuccess() {
+    void testCanExecuteSuccess() {
         assertTrue(cc.canExecute(user, "challenges", Collections.emptyList()));
         verify(user, never()).sendMessage(anyString());
     }
 
     @Test
-    public void testExecuteUserStringListOfStringUser() {
+    void testExecuteUserStringListOfStringUser() {
         assertTrue(cc.execute(user, "challenges", Collections.emptyList()));
     }
 
     @Test
-    public void testSetup() {
+    void testSetup() {
         assertEquals("bskyblock.challenges", cc.getPermission());
         assertEquals("challenges.commands.user.main.parameters", cc.getParameters());
         assertEquals("challenges.commands.user.main.description", cc.getDescription());

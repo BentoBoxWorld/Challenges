@@ -1,29 +1,32 @@
 ---
 meta:
   authors:
-  - BONNe
+    - BONNe
 challenges:
   commands:
     admin:
       main:
         description: Elsődleges admin parancs. Megnyitja a GUI-t
+        parameters: ''
       reload:
         description: A kihívások újratöltése az adatbázisból
+        parameters: ''
       show:
         description: Kinyomtat minden, a világban létező csevegést.
+        parameters: ''
       complete:
         description: Teljesíts egy kihívást egy játékos számára.
         parameters: "<player> <challenge_id>"
       reset:
-        description: Állítsa vissza a kihívást egy játékos számára. Ha a "challenge_id"
-          értéke "all", akkor az összes kihívást visszaállítja.
+        description: Állítsa vissza a kihívást egy játékos számára. Ha a "challenge_id" értéke "all", akkor az összes kihívást visszaállítja.
         parameters: "<player> <challenge_id>"
       migrate:
-        description: A jelenlegi játékvilág migrálása 0.8.0 tárolási formátumba próbálja
-          ki az adatokat.
+        description: A jelenlegi játékvilág migrálása 0.8.0 tárolási formátumba próbálja ki az adatokat.
+        parameters: ''
     user:
       main:
         description: Megnyitja a küldetéseket
+        parameters: ''
       complete:
         description: Teljes kihívás.
         parameters: "<challenge_id> [count]"
@@ -49,6 +52,11 @@ challenges:
       challenge-selector: "<black><bold>Kihívásválasztó"
       statistic-selector: "<black><bold>statisztikaválasztó"
       environment-selector: "<black><bold>Környezetválasztó"
+      manage-block-groups: <black><bold>Blokkcsoportok kezelése
+      manage-entity-groups: <black><bold>Entitáscsoportok kezelése
+      manage-statistics: <black><bold>Statisztikák kezelése
+      manage-advancements: <black><bold>Haladások kezelése
+      advancement-selector: <black><bold>Haladás választó
     buttons:
       free-challenges:
         name: "<white><bold>Ingyenes kihívások"
@@ -147,6 +155,7 @@ challenges:
         description: |-
           <gray>Nyit egy nyilvánosságot
           <gray>kihívások könyvtár.
+        downloading: "<gray>Könyvtár letöltés\n<gray>kérve..."
       import_database:
         name: "<white><bold>Adatbázis importálása"
         description: |-
@@ -760,6 +769,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>Cél érték: <yellow>[number]'
+        remove:
+          name: '<gray>Statisztika csökkentése: [value]'
+          value:
+            enabled: <red>Engedélyezve
+            disabled: <dark_green>Letiltva
+        block: '<gray>Cél blokk: <yellow>[block]'
+        item: '<gray>Cél tárgy: <yellow>[item]'
+        entity: '<gray>Cél entitás: <yellow>[entity]'
+        selected: <dark_green>Kiválasztva
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -770,14 +789,126 @@ challenges:
           <gray>elem bemenettel
           <gray>szövegérték.
         search: "<aqua>Érték: [value]"
+      hide_reward_items:
+        name: <white><bold>Jutalom tárgyak elrejtése
+        description: "<gray>Váltogatás, hogy a jutalom tárgyak\n<gray>megjelenjenek-e a felhasználói felületen vagy sem."
+        hide: <dark_green>Elrejtés
+        show: <red>Megjelenítés
+      team_challenge:
+        name: <white><bold>Csapatkihívás
+        description: "<gray>Váltogatás, hogy ez csapatkihívás-e.\n<gray>A csapatkihívások csapatot igényelnek és megosztják\n<gray>a befejezést és lehűlést a szigeten."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      team_presence:
+        name: <white><bold>Csapat jelenlét
+        description: "<gray>A csapatnak hány százalékának kell\n<gray>online lennie a kihívás befejezéséhez.\n<gray>0 letiltja a jelenlét kaput."
+        value: '<gray>Jelenleg: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Összesítés csapatonként
+        description: "<gray>Összefog szükséges tárgyakat / statisztikákat\n<gray>az összes online tagra (Egyesített adó,\n<gray>Közös erőfeszítés)."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      per_member:
+        name: <white><bold>Minden tag fizet
+        description: "<gray>Minden online tagnak hozzá kell járulnia a\n<gray>saját részével (a szükséges összeg a CSAPAT\n<gray>ÖSSZES, osztva a jelen lévő tagok között)."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      hide_if_no_team:
+        name: <white><bold>Rejtés, ha nincs csapat
+        description: "<gray>Ha engedélyezve van, ez a kihívás teljesen\n<gray>rejtett csapat nélküli játékosok elől.\n<gray>Ha letiltva van, megjelenik, de letiltva."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      required_statistics:
+        name: <white><bold>Szükséges statisztikák
+        description: "<gray>Lehetővé teszi, hogy megváltoztassa a szükséges\n<gray>statisztikákat ennek a kihívásnak a\n<gray>befejezéséhez."
+        title: '<gray>Statisztikák: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Nincsenek hozzáadott statisztikák.
+      required_advancements:
+        name: <white><bold>Szükséges haladások
+        description: "<gray>Lehetővé teszi, hogy megváltoztassa a szükséges\n<gray>haladásokat ennek a kihívásnak a\n<gray>befejezéséhez."
+        title: '<gray>Haladások: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Nincsenek hozzáadott haladások.
+      required_materialtags:
+        name: <white><bold>Szükséges blokkcsoportok
+        description: "<gray>Lehetővé teszi, hogy megváltoztassa a szükséges\n<gray>blokkcsoportokat ennek a kihívásnak a\n<gray>befejezéséhez."
+        title: '<gray>Blokkcsoportok: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Nincsenek hozzáadott blokkcsoportok.
+      required_entitytags:
+        name: <white><bold>Szükséges entitáscsoportok
+        description: "<gray>Lehetővé teszi, hogy megváltoztassa a szükséges\n<gray>entitáscsoportokat ennek a kihívásnak a\n<gray>befejezéséhez."
+        title: '<gray>Entitáscsoport: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Nincsenek hozzáadott entitáscsoportok.
+      required_papi:
+        name: <white><bold>Szükséges PAPI
+        description: "<gray>Ellenőriz egy képletet, amely\n<gray>tartalmazhat PAPI helyőrzőket\n<gray>és matematikai és logikai elemeket."
+        value: '<gray>Képlet: <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>Statisztika hozzáadása
+        description: "<gray>Lehetővé teszi, hogy egy új\n<gray>statisztikát adjon hozzá a listához."
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Haladás hozzáadása
+        description: "<gray>Lehetővé teszi, hogy egy új\n<gray>haladást adjon hozzá a listához."
+      remove_advancement:
+        name: <white><bold>Haladás eltávolítása
+        description: "<gray>Lehetővé teszi, hogy eltávolítsa\n<gray>a kiválasztott haladásokat\n<gray>a listából."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      glow_completed_levels:
+        name: <white><bold>Befejezett szintek ragyogása
+        description: "<gray>Varázslat ragyogást alkalmaz\n<gray>a befejezett szintekre."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      include_undeployed:
+        name: <white><bold>Telepítetlen kihívások belefoglalása
+        description: "<gray>Azt jelzi, hogy a telepítetlen kihívások\n<gray>számlálódjanak-e a szint befejezésének irányába."
+        enabled: <dark_green>Engedélyezve
+        disabled: <red>Letiltva
+      language:
+        name: <white><bold>Nyelv
+        description: "<gray>Szűrj kihívás könyvtárakat\n<gray>nyelv szerint."
+        current: '<gray>Megjelenítés: <yellow>[lang]'
+        all: Minden
+      add_block_group:
+        name: <white><bold>Blokkcsoportok hozzáadása
+        description: "<gray>Lehetővé teszi, hogy egy új\n<gray>blokkcsoportot adjon hozzá a listához."
+      remove_block_group:
+        name: <white><bold>Blokkcsoportok eltávolítása
+        description: "<gray>Lehetővé teszi, hogy eltávolítsa\n<gray>a kiválasztott blokkcsoportokat\n<gray>a listából."
+        title: '<gray>Kiválasztott blokkcsoportok:'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Kiválasztva
+      add_entity_group:
+        name: <white><bold>Entitáscsoport hozzáadása
+        description: "<gray>Lehetővé teszi, hogy egy új\n<gray>entitáscsoportot adjon hozzá a listához."
+      remove_entity_group:
+        name: <white><bold>Entitáscsoport eltávolítása
+        description: "<gray>Lehetővé teszi, hogy eltávolítsa\n<gray>a kiválasztott entitáscsoportokat\n<gray>a listából."
+        title: '<gray>Kiválasztott entitáscsoportok:'
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Kiválasztva
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Kiválasztva
     tips:
       click-to-select: "<yellow>Kattintson a <gray>gombra a kiválasztáshoz."
       click-to-choose: "<yellow>Kattintson a <gray>gombra a kiválasztáshoz."
       click-to-complete: "<yellow>Kattintson a <gray>gombra a befejezéshez."
-      right-click-multiple-open: "<yellow>Kattintson a jobb egérgombbal és a 7 gombbal
-        a befejezés számának kiválasztásához."
-      shift-left-click-to-complete-all: "<yellow>Shift Kattintson a <gray>gombra az összes
-        befejezéséhez."
+      right-click-multiple-open: "<yellow>Kattintson a jobb egérgombbal és a 7 gombbal a befejezés számának kiválasztásához."
+      shift-left-click-to-complete-all: "<yellow>Shift Kattintson a <gray>gombra az összes befejezéséhez."
       left-click-to-accept: "<yellow>A bal egérgombbal <gray>a befejezéshez."
       right-click-to-write: "<yellow>Íráshoz kattintson a jobb gombbal <gray>."
       click-to-reduce: "<yellow>Kattintson a <gray>gombra a kicsinyítéshez."
@@ -791,8 +922,7 @@ challenges:
       click-to-export: "<yellow>Kattintson a <gray>gombra az exportáláshoz."
       click-to-create: "<yellow>Kattintson a <gray>gombra a létrehozáshoz."
       left-click-to-open: "<yellow>A bal egérgombbal <gray>megnyitásához."
-      right-click-to-reset-all: "<yellow>Az összes törléséhez kattintson a jobb gombbal
-        <gray>."
+      right-click-to-reset-all: "<yellow>Az összes törléséhez kattintson a jobb gombbal <gray>."
       click-to-toggle: "<yellow>A <gray>gombra kattintva válthat."
       click-to-change: "<yellow>Kattintson a <gray>gombra a változtatáshoz."
       shift-click-to-reset: "<yellow>Shift Kattintson a <gray>gombra a visszaállításhoz."
@@ -806,8 +936,7 @@ challenges:
       click-to-install: "<yellow>Kattintson a <gray>gombra a telepítéshez."
       click-to-reset-all: "<yellow>Kattintson az <gray>gombra az összes visszaállításához."
       right-click-to-select: "<yellow>A jobb egérgombbal és a 7 gombbal választhat."
-      right-click-to-deselect: "<yellow>Kattintson a jobb egérgombbal és a 7 gombbal a
-        kijelölés megszüntetéséhez."
+      right-click-to-deselect: "<yellow>Kattintson a jobb egérgombbal és a 7 gombbal a kijelölés megszüntetéséhez."
       left-click-to-choose: "<yellow>Bal egérgombbal <gray>a kiválasztáshoz."
       click-to-cancel: "<yellow>Kattintson a <gray>gombra a törléshez."
       click-to-save: "<yellow>Kattintson a <gray>gombra a mentéshez."
@@ -819,6 +948,7 @@ challenges:
       right-click-to-clear: "<yellow>A jobb egérgombbal és a 7 törléshez."
       click-to-previous: "<yellow>Kattintson a <gray>gombra az előző oldal megtekintéséhez."
       click-to-next: "<yellow>Kattintson a <gray>gombra a következő oldal megtekintéséhez."
+      right-click-to-reset: <yellow>Jobbklikk <gray>az alaphelyzetbe állításhoz.
     descriptions:
       challenge:
         lore: |-
@@ -830,8 +960,7 @@ challenges:
         status:
           completed: "<dark_green><bold>Befejezve"
           completed-times: "<dark_green>befejezve <gray><bold>[number] <reset><dark_green>idő (k)"
-          completed-times-of: "<dark_green>befejezve <gray><bold>[number] <reset><dark_green>/ <gray><bold>[max]
-            <reset><dark_green>alkalommal"
+          completed-times-of: "<dark_green>befejezve <gray><bold>[number] <reset><dark_green>/ <gray><bold>[max] <reset><dark_green>alkalommal"
           completed-times-reached: "<dark_green><bold>Összes <gray>[max] és 2 alkalommal befejezve"
         cooldown:
           lore: |-
@@ -913,6 +1042,8 @@ challenges:
           money: "<gray>Pénz: <reset><yellow>[number]"
           commands-title: "<gray>parancs:"
           command: "  <gray>- <yellow>[command]"
+        team-requirement: '<gold>Csapat: <yellow>[online] <gold>online (<yellow>[number] <gold>szükséges)'
+        team-required: <red>Csapat szükséges a befejezéshez
       level:
         lore: |-
           [text]
@@ -961,63 +1092,44 @@ challenges:
     input-number: "<yellow>Kérjük, adjon meg egy számot a chatben."
     input-seconds: "<yellow>Kérjük, adjon meg egy másodpercet a csevegésben."
     numeric-only: "<red>A megadott [value] nem szám!"
-    not-valid-value: "<red>A megadott szám [value] nem érvényes. Nagyobbnak kell lennie,
-      mint [min] és kisebbnek, mint [max]!"
+    not-valid-value: "<red>A megadott szám [value] nem érvényes. Nagyobbnak kell lennie, mint [min] és kisebbnek, mint [max]!"
     user-data-removed: "<green>A [gamemode] összes felhasználói adata törlődik az adatbázisból."
-    confirm-user-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a
-      [gamemode] felhasználói adatbázisát."
+    confirm-user-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a [gamemode] felhasználói adatbázisát."
     challenge-data-removed: "<green>[gamemode] adatai törlődnek az adatbázisból."
-    confirm-challenge-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné
-      a [gamemode] kihívások adatbázisát."
+    confirm-challenge-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a [gamemode] kihívások adatbázisát."
     all-data-removed: "<green>A [gamemode] összes kiegészítő adata törlődik az adatbázisból."
-    confirm-all-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a
-      [gamemode] addon adatait."
+    confirm-all-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a [gamemode] addon adatait."
     write-name: "<yellow>Kérjük, írjon nevet a chatbe."
     new-object-created: "&Új objektum jön létre a [gamemode] számára."
-    object-already-exists: "<red>Az objektum <gray>[id] <red>már létezik. Válasszon másik
-      nevet."
-    invalid-challenge: "<red>Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem
-      telepíthető!"
+    object-already-exists: "<red>Az objektum <gray>[id] <red>már létezik. Válasszon másik nevet."
+    invalid-challenge: "<red>Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem telepíthető!"
     name-changed: "<green>siker, a név frissült."
-    write-description: "<yellow>Kérjük, írjon be egy új leírást a chat -be, és a befejezéshez
-      'kilép' egy sorban."
+    write-description: "<yellow>Kérjük, írjon be egy új leírást a chat -be, és a befejezéshez 'kilép' egy sorban."
     description-changed: "<green>siker, a leírás frissült."
-    write-permissions: "<yellow>Kérjük, adja meg a szükséges jogosultságokat, egyet soronként
-      a csevegésben, és 'kilép' egy soron a befejezéshez."
+    write-permissions: "<yellow>Kérjük, adja meg a szükséges jogosultságokat, egyet soronként a csevegésben, és 'kilép' egy soron a befejezéshez."
     permissions-changed: "<green>siker, a kihívási jogosultságok frissültek."
-    write-reward-text: "<yellow>Kérjük, írjon be egy új jutalomszöveget a csevegésbe,
-      és a befejezéshez 'kilép' egy sorban."
+    write-reward-text: "<yellow>Kérjük, írjon be egy új jutalomszöveget a csevegésbe, és a befejezéshez 'kilép' egy sorban."
     reward-text-changed: "<green>siker, a jutalom szövege frissült."
-    write-repeat-reward-text: "<yellow>Kérjük, írjon be egy új ismétlődő jutalomszöveget
-      a csevegésbe, és a befejezéshez 'kilép' egy sorban."
+    write-repeat-reward-text: "<yellow>Kérjük, írjon be egy új ismétlődő jutalomszöveget a csevegésbe, és a befejezéshez 'kilép' egy sorban."
     repeat-reward-text-changed: "<green>siker, az ismételt jutalom szövege frissült."
-    write-reward-commands: "<yellow>Kérjük, írjon be egy új jutalmazási parancsot a csevegés
-      minden sorába, és a befejezéshez 'kilép' egy soron."
+    write-reward-commands: "<yellow>Kérjük, írjon be egy új jutalmazási parancsot a csevegés minden sorába, és a befejezéshez 'kilép' egy soron."
     reward-commands-changed: "<green>siker, a jutalmazási parancsok frissültek."
-    write-repeat-reward-commands: "<yellow>Kérjük, írjon be egy új ismétlési jutalmazási
-      parancsot a csevegés minden sorába, és a befejezéshez 'kilép' egy soron."
-    repeat-reward-commands-changed: "<green>siker, az ismétlődő jutalmazási parancsok
-      frissültek."
-    challenge-removed: "<green>[gamemode] a [gamemode] számára eltávolításra kerül az
-      adatbázisból."
-    confirm-challenge-deletion: "<yellow>Kérjük, erősítse meg, hogy el szeretné távolítani
-      a [gamemode] [challenge] az adatbázisból."
+    write-repeat-reward-commands: "<yellow>Kérjük, írjon be egy új ismétlési jutalmazási parancsot a csevegés minden sorába, és a befejezéshez 'kilép' egy soron."
+    repeat-reward-commands-changed: "<green>siker, az ismétlődő jutalmazási parancsok frissültek."
+    challenge-removed: "<green>[gamemode] a [gamemode] számára eltávolításra kerül az adatbázisból."
+    confirm-challenge-deletion: "<yellow>Kérjük, erősítse meg, hogy el szeretné távolítani a [gamemode] [challenge] az adatbázisból."
     level-removed: "<green>[gamemode] szint [level] eltávolításra kerül az adatbázisból."
-    confirm-level-deletion: "<yellow>Kérjük, erősítse meg, hogy el szeretné távolítani
-      a [gamemode] [level] szintjét az adatbázisból."
+    confirm-level-deletion: "<yellow>Kérjük, erősítse meg, hogy el szeretné távolítani a [gamemode] [level] szintjét az adatbázisból."
     start-downloading: "<green>A kihívások könyvtárának letöltése és importálása."
     written-text: "<aqua>eviteli szöveg:"
-    confirm-data-replacement: "<yellow>Kérjük, erősítse meg, hogy a jelenlegi kihívásokat
-      újakra kívánja cserélni."
+    confirm-data-replacement: "<yellow>Kérjük, erősítse meg, hogy a jelenlegi kihívásokat újakra kívánja cserélni."
     new-challenges-imported: "<green>siker, új kihívásokat importált a [gamemode] számára."
-    exported-file-name: "<yellow>Kérjük, adja meg az exportált adatbázis fájl fájlnevét.
-      (a kilépéshez írja be: „Mégse”)"
-    database-export-completed: "<green>siker, a [world] adatbázis -exportálása befejeződött.
-      Fájl [file] létrehozva."
+    exported-file-name: "<yellow>Kérjük, adja meg az exportált adatbázis fájl fájlnevét. (a kilépéshez írja be: „Mégse”)"
+    database-export-completed: "<green>siker, a [world] adatbázis -exportálása befejeződött. Fájl [file] létrehozva."
     file-name-exist: "<red>Létezik „[id]” nevű fájl. Nem írható felül."
-    write-search: "<yellow>Kérjük, írjon be egy keresési értéket. (a kilépéshez írja be:
-      „Mégse”)"
+    write-search: "<yellow>Kérjük, írjon be egy keresési értéket. (a kilépéshez írja be: „Mégse”)"
     search-updated: "<green>keresési érték frissítve."
+    enter-formula: "<green>Írj be egy képletet, amely csak PAPI helyőrzőket és szimbólumokat =,<>,<+,>=, ==, !=, AND, OR használ.\n<green>Példa: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     challenge-title: Sikeresen teljesítve
     challenge-subtitle: "[friendlyName]"
@@ -1050,40 +1162,44 @@ challenges:
       Az értéknek [min] és [max] között kell lennie.
     not-deployed: "<red>Challenge nincs telepítve!"
     not-on-island: "<red>Ehhez a szigeten kell lennie!"
-    challenge-level-not-available: "<red>Még nem oldotta fel a kihívás teljesítéséhez
-      szükséges szintet."
+    challenge-level-not-available: "<red>Még nem oldotta fel a kihívás teljesítéséhez szükséges szintet."
     not-repeatable: "<red>Ez a kihívás nem ismételhető!"
     wrong-environment: "<red>Rossz környezetben van!"
     not-enough-items: "<red>Nincs elég [item] a kihívás teljesítéséhez!"
     not-close-enough: "<red>Az összes szükséges tétel [number] mondatán belül kell állnia."
     you-still-need: "<red>Továbbra is szüksége van [amount] x [item]"
-    missing-addon: "<red>Nem lehet teljesíteni a kihívást: Hiányzik a szükséges kiegészítő
-      vagy bővítmény."
+    missing-addon: "<red>Nem lehet teljesíteni a kihívást: Hiányzik a szükséges kiegészítő vagy bővítmény."
     incorrect: "<red>Nem lehet teljesíteni a kihívást: A követelmények helytelenek."
     not-enough-money: "<red>A kihívás teljesítéséhez fiókjában [value] szükséges."
     not-enough-experience: "<red>A kihívás teljesítéséhez [value] EXP szükséges."
-    island-level: "<red>A szigetnek [number] szintnek vagy magasabbnak kell lennie a
-      kihívás teljesítéséhez!"
+    island-level: "<red>A szigetnek [number] szintnek vagy magasabbnak kell lennie a kihívás teljesítéséhez!"
     no-load: "<red>Hiba: Nem sikerült betölteni a fájlt. [message]"
     load-error: "<red>Hiba: Nem lehet betölteni az [value] értéket."
     no-rank: "<red>Nincs elég magas rangod ahhoz."
     cannot-remove-items: "<red>Néhány elem nem távolítható el a készletből!"
-    exist-challenges-or-levels: "<red>A világban már léteznek kihívások. Nem lehet
-      folytatni!"
+    exist-challenges-or-levels: "<red>A világban már léteznek kihívások. Nem lehet folytatni!"
     no-challenges: "<red>A kihívások még nem valósultak meg ezen a világon!"
-    no-challenges-admin: "<red>A kihívások még nem valósultak meg ezen a világon! Használja
-      a <dark_purple>/[command] <red>billentyűket a hozzáadásukhoz!"
+    no-challenges-admin: "<red>A kihívások még nem valósultak meg ezen a világon! Használja a <dark_purple>/[command] <red>billentyűket a hozzáadásukhoz!"
     missing-arguments: "<red>A parancsból hiányoznak az argumentumok."
-    no-multiple-permission: "<red>Nincs engedélye arra, hogy ezt a kihívást egyszerre
-      többször teljesítse."
-    invalid-level: "<red>A [level] szint érvénytelen adatokat tartalmaz. Nem töltődik
-      be az adatbázisból!"
-    invalid-challenge: "<red>Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem
-      töltődik be az adatbázisból!"
+    no-multiple-permission: "<red>Nincs engedélye arra, hogy ezt a kihívást egyszerre többször teljesítse."
+    invalid-level: "<red>A [level] szint érvénytelen adatokat tartalmaz. Nem töltődik be az adatbázisból!"
+    invalid-challenge: "<red>Challenge [gamemode] érvénytelen adatokat tartalmaz. Nem töltődik be az adatbázisból!"
     no-library-entries: "<red>Nem találhatók könyvtári bejegyzések. Nincs mit mutatni."
     not-hooked: "<red>Challenges Az Addon nem talált GameMode módot."
-    timeout: "<red>Ehhez a kihíváshoz várni kell [timeout] a befejezések között. Meg
-      kell várnia [wait-time], amíg újra befejezi."
+    timeout: "<red>Ehhez a kihíváshoz várni kell [timeout] a befejezések között. Meg kell várnia [wait-time], amíg újra befejezi."
+    import-failed: '<red>Nem sikerült importálni a kihívásokat: [message]. Ellenőrizd a szerver konzolt a részletekért.'
+    requirement-not-met: <red>Ez a kihívás [statistic] szükséges [number] értékkel. Csak [value] van meg.
+    requirement-not-met-entity: <red>Ez a kihívás [statistic] szükséges a [entity]-hez [number] értékkel. Csak [value] van meg.
+    requirement-not-met-material: <red>Ez a kihívás [statistic] szükséges a [material]-hoz [number] értékkel. Csak [value] van meg.
+    no-team: <red>Ez egy csapatkihívás. Csapatodnak kell lennie a befejezéshez!
+    insufficient-team: <red>Ez a csapatkihívás [number] csapattag jelenlétét igényli. Csak [online] van online.
+    member-missing-share: <red>[name] nem rendelkezik a saját részével ([amount] x [item]) ehhez a csapatkihíváshoz.
+  materials:
+    any: 'Bármilyen '
+    all_hanging_signs:
+      name: Bármilyen függő tábla
+    all_signs:
+      name: Bármilyen tábla
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
