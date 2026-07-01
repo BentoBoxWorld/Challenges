@@ -109,11 +109,10 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
 		else
 		{
 			this.filterElements = this.statisticsList.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-                        return element.statistic().getKey().getKey().toLowerCase(Locale.ENGLISH)
-                                .contains(this.searchString.toLowerCase(Locale.ENGLISH));
-				}).
+                    element.statistic().getKey().getKey().toLowerCase(Locale.ENGLISH)
+                                .contains(this.searchString.toLowerCase(Locale.ENGLISH))).
 				distinct().
 				collect(Collectors.toList());
 		}
@@ -169,7 +168,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
 				{
                     StatisticSelector.open(this.user, (status, statistic) ->
 						{
-							if (status)
+							if (Boolean.TRUE.equals(status))
 							{
                             StatisticRec newItem = new StatisticRec(statistic, null, null, 0, false);
                             this.statisticsList.add(newItem);
@@ -467,7 +466,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             icon = new ItemStack(req.statistic() == null ? Material.BARRIER : Material.PAPER);
             clickHandler = (panel, user, clickType, slot) -> {
                 StatisticSelector.open(this.user, (status, statistic) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         // Replace the old with the new
                         statisticsList.removeIf(sr -> sr.equals(req));
                         statisticsList.add(new StatisticRec(statistic, null, null, 0, false));
@@ -532,7 +531,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             icon = req.material() == null ? new ItemStack(Material.BARRIER) : new ItemStack(req.material());
             clickHandler = (panel, user, clickType, slot) -> {
                 SingleBlockSelector.open(this.user, SingleBlockSelector.Mode.BLOCKS, (status, block) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         // Replace the old with the new
                         statisticsList.removeIf(sr -> sr.equals(req));
                         statisticsList.add(new StatisticRec(req.statistic(), req.entity(), block, req.amount(),
@@ -557,7 +556,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
             icon = req.material() == null ? new ItemStack(Material.BARRIER) : new ItemStack(req.material());
             clickHandler = (panel, user, clickType, slot) -> {
                 SingleBlockSelector.open(this.user, SingleBlockSelector.Mode.ITEMS, (status, block) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         // Replace the old with the new
                         statisticsList.removeIf(sr -> sr.equals(req));
                         statisticsList.add(new StatisticRec(req.statistic(), req.entity(), block, req.amount(),
@@ -582,7 +581,7 @@ public class ManageStatisticsPanel extends CommonPagedPanel<StatisticRec>
                     : new ItemStack(PanelUtils.getEntityEgg(req.entity()));
             clickHandler = (panel, user, clickType, slot) -> {
                 SingleEntitySelector.open(this.user, (status, entity) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         // Replace the old with the new
                         statisticsList.removeIf(sr -> sr.equals(req));
                         statisticsList.add(new StatisticRec(req.statistic(), entity, req.material(), req.amount(),

@@ -113,11 +113,10 @@ public class ManageBlockGroupsPanel extends CommonPagedPanel<Tag<Material>>
 		else
 		{
 			this.filterElements = this.materialList.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-                        return element.getKey().getKey().toLowerCase(Locale.ENGLISH)
-                                .contains(this.searchString.toLowerCase(Locale.ENGLISH));
-				}).
+                    element.getKey().getKey().toLowerCase(Locale.ENGLISH)
+                                .contains(this.searchString.toLowerCase(Locale.ENGLISH))).
 				distinct().
 				collect(Collectors.toList());
 		}
@@ -175,7 +174,7 @@ public class ManageBlockGroupsPanel extends CommonPagedPanel<Tag<Material>>
 						new HashSet<>(this.materialList),
 						(status, materials) ->
 						{
-							if (status)
+							if (Boolean.TRUE.equals(status))
 							{
 								materials.forEach(material ->
 								{

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -92,7 +92,7 @@ class ConversationUtilsTest {
     void testCreateIDStringInput() {
         @SuppressWarnings("unchecked")
         Consumer<String> consumer = mock(Consumer.class);
-        Function<String, Boolean> validation = input -> true;
+        Predicate<String> validation = input -> true;
         ConversationUtils.createIDStringInput(consumer, validation, user,
             "Enter ID:", "Created!", "challenges.conversations.object-already-exists");
         verify(user).getPlayer();

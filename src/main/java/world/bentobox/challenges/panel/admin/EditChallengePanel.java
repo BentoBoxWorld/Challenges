@@ -534,7 +534,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
                 EnvironmentSelector.open(this.user, this.challenge.getEnvironment(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setEnvironment(value);
                     }
 
@@ -1017,7 +1017,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, requirements.getRequiredItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         requirements.setRequiredItems(value);
                     }
 
@@ -1075,7 +1075,7 @@ public class EditChallengePanel extends CommonPanel {
                 }
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         materials.addAll(requirements.getIgnoreMetaData());
                         requirements.setIgnoreMetaData(new HashSet<>(materials));
                     }
@@ -1103,7 +1103,7 @@ public class EditChallengePanel extends CommonPanel {
                 collection.removeAll(requirements.getIgnoreMetaData());
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         requirements.getIgnoreMetaData().removeAll(materials);
                     }
 
@@ -1370,7 +1370,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRewardItems(value);
                     }
 
@@ -1583,7 +1583,7 @@ public class EditChallengePanel extends CommonPanel {
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
                 ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRepeatItemReward(value);
                     }
 
@@ -1711,7 +1711,7 @@ public class EditChallengePanel extends CommonPanel {
                 }
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         materials.addAll(this.challenge.getIgnoreRewardMetaData());
                         this.challenge.setIgnoreRewardMetaData(new HashSet<>(materials));
                     }
@@ -1739,7 +1739,7 @@ public class EditChallengePanel extends CommonPanel {
                 collection.removeAll(this.challenge.getIgnoreRewardMetaData());
 
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.ANY, collection, (status, materials) -> {
-                    if (status) {
+                    if (Boolean.TRUE.equals(status)) {
                         this.challenge.getIgnoreRewardMetaData().removeAll(materials);
                     }
 

@@ -122,7 +122,7 @@ public class CompleteChallengeCommand extends CompositeCommand
             break;
         case 4:
             // Suggest a number of completions.
-            if (lastString.isEmpty() || lastString.matches("[0-9]*"))
+            if (lastString.isEmpty() || lastString.matches("\\d*"))
             {
                 returnList.add("<number>");
             }

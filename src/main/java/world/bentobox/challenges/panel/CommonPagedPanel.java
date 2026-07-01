@@ -110,7 +110,7 @@ public abstract class CommonPagedPanel<T> extends CommonPanel
             index++;
         }
 
-        if (size > MAX_ELEMENTS && !(1.0 * size / MAX_ELEMENTS <= this.pageIndex + 1))
+        if (size > MAX_ELEMENTS && 1.0 * size / MAX_ELEMENTS > this.pageIndex + 1)
         {
             panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 

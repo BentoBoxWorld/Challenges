@@ -101,11 +101,10 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
 		else
 		{
             this.filterElements = this.advancementsList.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-                        return PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase(Locale.ENGLISH)
-                                .contains(this.searchString.toLowerCase(Locale.ENGLISH));
-				}).
+                    PlainTextComponentSerializer.plainText().serialize(element.getDisplay().title()).toLowerCase(Locale.ENGLISH)
+                                .contains(this.searchString.toLowerCase(Locale.ENGLISH))).
 				distinct().
 				collect(Collectors.toList());
 		}
@@ -161,7 +160,7 @@ public class ManageAdvancementsPanel extends CommonPagedPanel<Advancement>
 				{
                     SingleAdvancementSelector.open(this.user, (status, advancement) ->
 						{
-							if (status)
+							if (Boolean.TRUE.equals(status))
 							{
                             this.advancementsList.add(advancement);
 							}

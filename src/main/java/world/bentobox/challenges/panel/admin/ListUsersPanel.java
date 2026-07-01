@@ -119,10 +119,9 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
         else
         {
             this.filterElements = this.onlineUsers.stream().
-                filter(element -> {
+                filter(element ->
                     // If element name is set and name contains search field, then do not filter out.
-                    return element.getDisplayName().toLowerCase().contains(this.searchString.toLowerCase());
-                }).
+                    element.getDisplayName().toLowerCase().contains(this.searchString.toLowerCase())).
                 distinct().
                 collect(Collectors.toList());
         }
@@ -214,14 +213,14 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
                             collect(Collectors.toMap(challenge -> challenge,
                                 challenge -> this.generateChallengeDescription(challenge, User.getInstance(player)),
                                 (a, b) -> b,
-                                () -> new LinkedHashMap<>(challengeList.size())));
+                                () -> LinkedHashMap.newLinkedHashMap(challengeList.size())));
 
                         // Open select gui
                         ChallengeSelector.open(this.user,
                             Material.LIME_STAINED_GLASS_PANE,
                             challengeDescriptionMap,
                             (status, valueSet) -> {
-                                if (status)
+                                if (Boolean.TRUE.equals(status))
                                 {
                                     valueSet.forEach(challenge ->
                                         manager.setChallengeComplete(player.getUniqueId(),
@@ -243,14 +242,14 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
                             collect(Collectors.toMap(challenge -> challenge,
                                 challenge -> this.generateChallengeDescription(challenge, User.getInstance(player)),
                                 (a, b) -> b,
-                                () -> new LinkedHashMap<>(challengeList.size())));
+                                () -> LinkedHashMap.newLinkedHashMap(challengeList.size())));
 
                         // Open select gui
                         ChallengeSelector.open(this.user,
                             Material.ORANGE_STAINED_GLASS_PANE,
                             challengeDescriptionMap,
                             (status, valueSet) -> {
-                                if (status)
+                                if (Boolean.TRUE.equals(status))
                                 {
                                     valueSet.forEach(challenge ->
                                         this.manager.resetChallenge(player.getUniqueId(),

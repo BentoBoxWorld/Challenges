@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -263,7 +263,7 @@ public class AdminPanel extends CommonPanel
                     };
 
                     // This function checks if generator with a given ID already exist.
-                    Function<String, Boolean> validationFunction = uniqueId ->
+                    Predicate<String> validationFunction = uniqueId ->
                         !this.addon.getChallengesManager().containsChallenge(gameModePrefix + Utils.sanitizeInput(uniqueId));
 
                     // Call a conversation API to get input string.
@@ -307,7 +307,7 @@ public class AdminPanel extends CommonPanel
                     };
 
                     // This function checks if generator with a given ID already exist.
-                    Function<String, Boolean> validationFunction = uniqueId ->
+                    Predicate<String> validationFunction = uniqueId ->
                         !this.addon.getChallengesManager().containsLevel(gameModePrefix + Utils.sanitizeInput(uniqueId));
 
                     // Call a conversation API to get input string.
@@ -420,7 +420,7 @@ public class AdminPanel extends CommonPanel
                     };
 
                     // This function checks if file can be created.
-                    Function<String, Boolean> validationFunction = fileName ->
+                    Predicate<String> validationFunction = fileName ->
                     {
                         String sanitizedName = Utils.sanitizeInput(fileName);
                         return !new File(this.addon.getDataFolder(),
