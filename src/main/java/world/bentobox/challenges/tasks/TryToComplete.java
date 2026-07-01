@@ -103,7 +103,7 @@ public class TryToComplete
     /**
      * Variable that will be used to avoid multiple empty object generation.
      */
-    private final ChallengeResult EMPTY_RESULT = new ChallengeResult();
+    private final ChallengeResult emptyResult = new ChallengeResult();
 
     // ---------------------------------------------------------------------
     // Section: Builder
@@ -652,18 +652,18 @@ public class TryToComplete
         if (!this.challenge.isDeployed())
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-deployed");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         else if (maxTimes < 1)
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-valid-integer");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         else if (Util.getWorld(this.world) != Util.getWorld(this.user.getWorld()) ||
                 !this.challenge.matchGameMode(Utils.getGameMode(this.world)))
         {
             Utils.sendMessage(this.user, this.world, "general.errors.wrong-world");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Player is not on island
         else if (this.user.getLocation() == null ||
@@ -671,34 +671,34 @@ public class TryToComplete
                 !this.addon.getIslands().locationIsOnIsland(this.user.getPlayer(), this.user.getLocation()))
         {
             Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "not-on-island");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check player permission
         else if (!this.addon.getIslands().getIslandAt(this.user.getLocation()).
                 map(i -> i.isAllowed(this.user, ChallengesAddon.CHALLENGES_ISLAND_PROTECTION)).orElse(false))
         {
             Utils.sendMessage(this.user, this.world, Constants.MESSAGES + "no-rank");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check if user has unlocked challenges level.
         else if (!this.challenge.getLevel().equals(ChallengesManager.FREE) &&
                 !this.manager.isLevelUnlocked(this.user, this.world, this.manager.getLevel(this.challenge.getLevel())))
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "challenge-level-not-available");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check max times
         else if (this.challenge.isRepeatable() && this.challenge.getMaxTimes() > 0 &&
                 this.manager.getChallengeTimes(this.user, this.world, this.challenge) >= this.challenge.getMaxTimes())
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-repeatable");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check repeatability
         else if (!this.challenge.isRepeatable() && this.manager.isChallengeComplete(this.user, this.world, this.challenge))
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-repeatable");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check if timeout is not broken
         else if (this.manager.isBreachingTimeOut(this.user, this.world, this.challenge))
@@ -709,26 +709,26 @@ public class TryToComplete
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "timeout",
                     "[timeout]", Utils.parseDuration(Duration.ofMillis(this.challenge.getTimeout()), this.user),
                     "[wait-time]", Utils.parseDuration(Duration.ofMillis(missing), this.user));
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check environment
         else if (!this.challenge.getEnvironment().isEmpty() &&
                 !this.challenge.getEnvironment().contains(this.user.getWorld().getEnvironment()))
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "wrong-environment");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check permission
         else if (!this.checkPermissions())
         {
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-permission");
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         // Check team presence gate for team challenges.
         else if (this.challenge.isTeamChallenge() && !this.hasRequiredTeamPresence())
         {
             // Error message already sent by hasRequiredTeamPresence().
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
         else if (type.equals(ChallengeType.INVENTORY_TYPE))
         {
@@ -748,7 +748,7 @@ public class TryToComplete
         }
         else
         {
-            result = EMPTY_RESULT;
+            result = emptyResult;
         }
 
         // Mark if challenge is completed.
@@ -929,7 +929,7 @@ public class TryToComplete
     {
         if (maxTimes <= 0)
         {
-            return EMPTY_RESULT;
+            return emptyResult;
         }
 
         // Team challenge variants.
@@ -961,7 +961,7 @@ public class TryToComplete
                 {
                     Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-items",
                             "[items]", Utils.prettifyObject(required, this.user));
-                    return EMPTY_RESULT;
+                    return emptyResult;
                 }
 
                 maxTimes = Math.min(maxTimes, numInInventory / required.getAmount());
@@ -1005,7 +1005,7 @@ public class TryToComplete
             {
                 Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-items",
                         "[items]", Utils.prettifyObject(required, this.user));
-                return EMPTY_RESULT;
+                return emptyResult;
             }
 
             maxTimes = Math.min(maxTimes, total / required.getAmount());
@@ -1046,7 +1046,7 @@ public class TryToComplete
                             Constants.PARAMETER_NAME, member.getName(),
                             Constants.PARAMETER_AMOUNT, String.valueOf(share),
                             Constants.PARAMETER_ITEM, Utils.prettifyObject(required, this.user));
-                    return EMPTY_RESULT;
+                    return emptyResult;
                 }
             }
         }
@@ -1195,7 +1195,7 @@ public class TryToComplete
     {
         if (factor <= 0)
         {
-            return EMPTY_RESULT;
+            return emptyResult;
         }
 
         // Init location in player position.
@@ -1222,7 +1222,7 @@ public class TryToComplete
 
             if (island == null) {
                 // Just in case. Should never hit because there is a check if the player is on this island further up
-                return EMPTY_RESULT;
+                return emptyResult;
             }
 
             if (boundingBox.getMinX() < island.getMinX())
@@ -1258,7 +1258,7 @@ public class TryToComplete
                         " | Center: " + island.getCenter() +
                         " | Range: " + range);
 
-                return EMPTY_RESULT;
+                return emptyResult;
             }
         }
 
@@ -1368,7 +1368,7 @@ public class TryToComplete
         tagsFound.clear();
         blockQueue.clear();
 
-        return EMPTY_RESULT;
+        return emptyResult;
     }
 
     // Interface to get elements at a specific location
@@ -1389,7 +1389,7 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
         Map<Material, Integer> blocks = new EnumMap<>(requiredMap);
-        Map<Material, Integer> blocksFound = new HashMap<>(requiredMap.size());
+        Map<Material, Integer> blocksFound = new EnumMap<>(Material.class);
 
         // This queue will contain only blocks with the required type ordered by distance till player.
         Queue<Block> blockFromWorld = new PriorityQueue<>((o1, o2) -> {
@@ -1454,7 +1454,7 @@ public class TryToComplete
         blocksFound.clear();
         blockFromWorld.clear();
 
-        return EMPTY_RESULT;
+        return emptyResult;
     }
 
 
@@ -1472,7 +1472,7 @@ public class TryToComplete
         }
 
         // Collect all entities that could be removed.
-        Map<EntityType, Integer> entitiesFound = new HashMap<>();
+        Map<EntityType, Integer> entitiesFound = new EnumMap<>(EntityType.class);
         Map<EntityType, Integer> minimalRequirements = new EnumMap<>(requiredMap);
 
         // Create queue that contains all required entities ordered by distance till player.
@@ -1527,7 +1527,7 @@ public class TryToComplete
         minimalRequirements.clear();
         entityQueue.clear();
 
-        return EMPTY_RESULT;
+        return emptyResult;
     }
 
 
@@ -1590,7 +1590,7 @@ public class TryToComplete
      */
     private ChallengeResult checkOthers(int factor) {
         if (factor <= 0) {
-            return EMPTY_RESULT;
+            return emptyResult;
         }
 
         OtherRequirements requirements = this.getOtherRequirements();
@@ -1652,7 +1652,7 @@ public class TryToComplete
             return new ChallengeResult().setMeetsRequirements().setCompleteFactor(factor);
         }
 
-        return EMPTY_RESULT;
+        return emptyResult;
     }
 
     // ---------------------------------------------------------------------
@@ -1666,7 +1666,7 @@ public class TryToComplete
      */
     private ChallengeResult checkStatistic(int factor) {
         if (factor <= 0) {
-            return EMPTY_RESULT;
+            return emptyResult;
         }
 
         StatisticRequirements requirements = this.challenge.getRequirements();
@@ -1675,7 +1675,7 @@ public class TryToComplete
 
         if (requirements.getRequiredStatistics().isEmpty()) {
             // Sanity check.
-            return EMPTY_RESULT;
+            return emptyResult;
         }
         // Team aggregate (Combined Effort): sum the increase since baseline across online members.
         boolean teamAggregate = this.challenge.isTeamChallenge() && this.challenge.isAggregateTeam();
@@ -1729,7 +1729,7 @@ public class TryToComplete
             // Return any of them, because they pass
             return cr.getFirst();
         }
-        return EMPTY_RESULT;
+        return emptyResult;
     }
 
     // ---------------------------------------------------------------------

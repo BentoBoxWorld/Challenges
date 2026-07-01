@@ -420,7 +420,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                     ItemSelector.open(this.user,
                         this.challengeLevel.getRewardItems(),
                         (status, value) -> {
-                            if (status)
+                            if (Boolean.TRUE.equals(status))
                             {
                                 this.challengeLevel.setRewardItems(value);
                             }
@@ -577,7 +577,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         collection,
                         (status, materials) ->
                         {
-                            if (status)
+                            if (Boolean.TRUE.equals(status))
                             {
                                 materials.addAll(this.challengeLevel.getIgnoreRewardMetaData());
                                 this.challengeLevel.setIgnoreRewardMetaData(new HashSet<>(materials));
@@ -611,7 +611,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         collection,
                         (status, materials) ->
                         {
-                            if (status)
+                            if (Boolean.TRUE.equals(status))
                             {
                                 this.challengeLevel.getIgnoreRewardMetaData().removeAll(materials);
                             }
@@ -806,7 +806,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         Material.BLUE_STAINED_GLASS_PANE,
                         challengeDescriptionMap,
                         (status, valueSet) -> {
-                            if (status)
+                            if (Boolean.TRUE.equals(status))
                             {
                                 valueSet.forEach(challenge ->
                                     manager.addChallengeToLevel(challenge, this.challengeLevel));
@@ -842,7 +842,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         Material.RED_STAINED_GLASS_PANE,
                         challengeDescriptionMap,
                         (status, valueSet) -> {
-                            if (status)
+                            if (Boolean.TRUE.equals(status))
                             {
                                 valueSet.forEach(challenge ->
                                     manager.removeChallengeFromLevel(challenge, this.challengeLevel));

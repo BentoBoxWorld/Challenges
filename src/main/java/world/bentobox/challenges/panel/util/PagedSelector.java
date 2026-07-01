@@ -99,7 +99,7 @@ public abstract class PagedSelector<T>
 
         // Add next page button if there are more than MAX_ELEMENTS objects and pageIndex + 1 is
         // larger or equal to the max page count.
-        if (size > MAX_ELEMENTS && !(1.0 * size / MAX_ELEMENTS <= this.pageIndex + 1))
+        if (size > MAX_ELEMENTS && 1.0 * size / MAX_ELEMENTS > this.pageIndex + 1)
         {
             panelBuilder.item(26, this.getButton(CommonButtons.NEXT));
 

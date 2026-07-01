@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -400,7 +400,7 @@ public class ChallengesImportManager
      */
     private Map<Material, Integer> createMaterialMap(ConfigurationSection section)
     {
-        Map<Material, Integer> materialMaps = new HashMap<>();
+        Map<Material, Integer> materialMaps = new EnumMap<>(Material.class);
 
         if (section != null)
         {
@@ -426,7 +426,7 @@ public class ChallengesImportManager
      */
     private Map<EntityType, Integer> createEntityMap(ConfigurationSection section)
     {
-        Map<EntityType, Integer> entityMap = new HashMap<>();
+        Map<EntityType, Integer> entityMap = new EnumMap<>(EntityType.class);
 
         if (section != null)
         {

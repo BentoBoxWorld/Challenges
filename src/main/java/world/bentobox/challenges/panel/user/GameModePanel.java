@@ -241,7 +241,7 @@ public class GameModePanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(nextPageIndex);
             }
@@ -317,7 +317,7 @@ public class GameModePanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(previousPageIndex);
             }

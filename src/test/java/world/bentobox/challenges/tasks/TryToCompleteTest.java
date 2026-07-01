@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -291,8 +292,8 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(itemStackMock3.getType()).thenReturn(Material.EMERALD_BLOCK);
         when(itemStackMock3.getAmount()).thenReturn(15);
         when(itemStackMock3.clone()).thenReturn(itemStackMock3);
-        when(itemStackMock3.isSimilar(eq(itemStackMock))).thenReturn(true);
-        when(itemStackMock.isSimilar(eq(itemStackMock3))).thenReturn(true);
+        when(itemStackMock3.isSimilar(itemStackMock)).thenReturn(true);
+        when(itemStackMock.isSimilar(itemStackMock3)).thenReturn(true);
 
         req.setRequiredItems(Arrays.asList(itemStackMock, itemStackMock2));
         challenge.setRequirements(req);
@@ -355,7 +356,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
     void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailMultipleEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.GHAST, 3);
         requiredEntities.put(EntityType.CHICKEN, 5);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -375,7 +376,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
     void testCompleteChallengesAddonUserChallengeWorldStringStringIslandFailPartialMultipleEntities() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.GHAST, 3);
         requiredEntities.put(EntityType.CHICKEN, 5);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
@@ -401,7 +402,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
     void testCompleteChallengesAddonUserChallengeWorldStringStringIslandSuccess() {
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
         req.setRequiredEntities(requiredEntities);
         req.setSearchRadius(1);
@@ -426,7 +427,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(netherWorld.getEnvironment()).thenReturn(Environment.NETHER);
         challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
         IslandRequirements req = new IslandRequirements();
-        Map<EntityType, Integer> requiredEntities = new HashMap<>();
+        Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
         requiredEntities.put(EntityType.PUFFERFISH, 1);
         req.setRequiredEntities(requiredEntities);
         req.setSearchRadius(1);
@@ -597,7 +598,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
         when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).withdraw(eq(user), eq(50.0));
+        verify(vault).withdraw(user, 50.0);
     }
 
     @Test
@@ -737,7 +738,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         VaultHook vault = mockEconomy(true, 1000.0);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).deposit(eq(user), eq(100.0));
+        verify(vault).deposit(user, 100.0);
     }
 
     @Test
@@ -756,7 +757,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         VaultHook vault = mockEconomy(true, 1000.0);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(vault).deposit(eq(user), eq(25.0));
+        verify(vault).deposit(user, 25.0);
     }
 
     @Test
@@ -809,7 +810,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         lvl.setRewardExperience(200);
         // Stub both overloads: getLevel(String) used in checkIfCanCompleteChallenge,
         // getLevel(Challenge) used in build() for level completion check
-        when(cm.getLevel(eq(GAME_MODE_NAME + "_novice"))).thenReturn(lvl);
+        when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(false);
         when(cm.validateLevelCompletion(any(), any(), any())).thenReturn(true);
@@ -826,7 +827,7 @@ class TryToCompleteTest extends AbstractChallengesTest {
         ChallengeLevel lvl = new ChallengeLevel();
         lvl.setUniqueId(GAME_MODE_NAME + "_novice");
         lvl.setFriendlyName("Novice");
-        when(cm.getLevel(eq(GAME_MODE_NAME + "_novice"))).thenReturn(lvl);
+        when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(true);
         when(inv.addItem(any())).thenReturn(new HashMap<>());

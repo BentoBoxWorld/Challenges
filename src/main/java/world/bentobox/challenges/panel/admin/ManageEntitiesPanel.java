@@ -139,7 +139,7 @@ public class ManageEntitiesPanel extends AbstractManageEnumPanel<EntityType> {
                 // Open a multi-selection tool to add new entities.
                 MultiEntitySelector.open(this.user, MultiEntitySelector.Mode.ALIVE, this.itemsMap.keySet(),
                         (status, entities) -> {
-                            if (status) {
+                            if (Boolean.TRUE.equals(status)) {
                                 // For each selected entity, add it to the map with a default count.
                                 entities.forEach(entity -> {
                                     this.itemsMap.put(entity, 1);

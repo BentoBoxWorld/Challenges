@@ -133,7 +133,7 @@ public class ManageBlocksPanel extends AbstractManageEnumPanel<Material> {
                 // Open a multi-selection tool to add new materials.
                 MultiBlockSelector.open(this.user, MultiBlockSelector.Mode.BLOCKS, new HashSet<>(this.itemList),
                         (status, materials) -> {
-                            if (status) {
+                            if (Boolean.TRUE.equals(status)) {
                                 // For each selected material, add it to the map with a default count.
                                 materials.forEach(material -> {
                                     this.itemsMap.put(material, 1);

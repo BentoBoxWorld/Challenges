@@ -48,19 +48,11 @@ public class SingleBlockSelector extends PagedSelector<Material>
 
 		this.elements = Arrays.stream(Material.values()).
 			filter(material -> !excluded.contains(material)).
-			filter(material -> {
-				switch (mode)
-				{
-					case BLOCKS -> {
-						return material.isBlock();
-					}
-					case ITEMS -> {
-						return material.isItem();
-					}
-					default -> {
-						return true;
-					}
-				}
+			filter(material -> switch (mode)
+			{
+				case BLOCKS -> material.isBlock();
+				case ITEMS -> material.isItem();
+				default -> true;
 			}).
 			// Sort by name
 			sorted(Comparator.comparing(Material::name)).
@@ -143,10 +135,9 @@ public class SingleBlockSelector extends PagedSelector<Material>
 		else
 		{
 			this.filterElements = this.elements.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-					return element.name().toLowerCase().contains(this.searchString.toLowerCase());
-				}).
+                    element.name().toLowerCase().contains(this.searchString.toLowerCase())).
 				distinct().
 				collect(Collectors.toList());
 		}

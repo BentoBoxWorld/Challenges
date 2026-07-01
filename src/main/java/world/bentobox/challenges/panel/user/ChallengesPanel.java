@@ -672,36 +672,36 @@ public class ChallengesPanel extends CommonPanel
 
         int nextPageIndex;
 
-        switch (target)
+        if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
         {
-            case Constants.CHALLENGE_BUILDER_KEY -> {
-                int size = this.challengeList.size();
+            int size = this.challengeList.size();
 
-                if (size <= slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) <= this.challengeIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.challengeIndex + 2;
-            }
-            case Constants.LEVEL_BUILDER_KEY -> {
-                int size = this.levelList.size();
-
-                if (size <= slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) ||
-                    1.0 * size / slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) <= this.levelIndex + 1)
-                {
-                    // There are no next elements
-                    return null;
-                }
-
-                nextPageIndex = this.levelIndex + 2;
-            }
-            default -> {
-                // If not assigned to any type, return null.
+            if (size <= slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) ||
+                1.0 * size / slot.amountMap().getOrDefault(Constants.CHALLENGE_BUILDER_KEY, 1) <= this.challengeIndex + 1)
+            {
+                // There are no next elements
                 return null;
             }
+
+            nextPageIndex = this.challengeIndex + 2;
+        }
+        else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+        {
+            int size = this.levelList.size();
+
+            if (size <= slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) ||
+                1.0 * size / slot.amountMap().getOrDefault(Constants.LEVEL_BUILDER_KEY, 1) <= this.levelIndex + 1)
+            {
+                // There are no next elements
+                return null;
+            }
+
+            nextPageIndex = this.levelIndex + 2;
+        }
+        else
+        {
+            // If not assigned to any type, return null.
+            return null;
         }
 
         PanelItemBuilder builder = new PanelItemBuilder();
@@ -710,7 +710,7 @@ public class ChallengesPanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(nextPageIndex);
             }
@@ -733,10 +733,13 @@ public class ChallengesPanel extends CommonPanel
         builder.clickHandler((panel, user, clickType, i) ->
         {
             // Next button ignores click type currently.
-            switch (target)
+            if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
             {
-                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex++;
-                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex++;
+                this.challengeIndex++;
+            }
+            else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+            {
+                this.levelIndex++;
             }
 
             this.build();
@@ -803,7 +806,7 @@ public class ChallengesPanel extends CommonPanel
         {
             ItemStack clone = template.icon().clone();
 
-            if ((Boolean) template.dataMap().getOrDefault("indexing", false))
+            if (Boolean.TRUE.equals(template.dataMap().getOrDefault("indexing", false)))
             {
                 clone.setAmount(previousPageIndex);
             }
@@ -826,10 +829,13 @@ public class ChallengesPanel extends CommonPanel
         builder.clickHandler((panel, user, clickType, i) ->
         {
             // Next button ignores click type currently.
-            switch (target)
+            if (Constants.CHALLENGE_BUILDER_KEY.equals(target))
             {
-                case Constants.CHALLENGE_BUILDER_KEY -> this.challengeIndex--;
-                case Constants.LEVEL_BUILDER_KEY -> this.levelIndex--;
+                this.challengeIndex--;
+            }
+            else if (Constants.LEVEL_BUILDER_KEY.equals(target))
+            {
+                this.levelIndex--;
             }
 
             this.build();

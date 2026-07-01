@@ -208,7 +208,7 @@ class CompleteChallengeCommandTest {
     void testExecuteUserStringListOfStringNoArgs() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
         mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "no-name"));
-        verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
+        verify(user).sendMessage("commands.help.header", TextVariables.LABEL, "BSkyBlock");
     }
 
     @Test
@@ -216,7 +216,7 @@ class CompleteChallengeCommandTest {
         when(chm.getChallenge(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
         mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "unknown-challenge"));
-        verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
+        verify(user).sendMessage("commands.help.header", TextVariables.LABEL, "BSkyBlock");
     }
 
     @Test

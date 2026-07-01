@@ -35,7 +35,7 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 		this.border = border;
 
 		this.elements = challengesDescriptionMap.keySet().stream().toList();
-		this.selectedElements = new HashSet<>(this.elements.size());
+		this.selectedElements = HashSet.newHashSet(this.elements.size());
 		this.filterElements = this.elements;
 	}
 
@@ -85,13 +85,12 @@ public class ChallengeSelector extends PagedSelector<Challenge>
 		else
 		{
 			this.filterElements = this.elements.stream().
-				filter(element -> {
+				filter(element ->
 					// If element name is set and name contains search field, then do not filter out.
-					return element.getUniqueId().toLowerCase().
+                    element.getUniqueId().toLowerCase().
 						contains(this.searchString.toLowerCase()) ||
 						element.getFriendlyName().toLowerCase().
-							contains(this.searchString.toLowerCase());
-				}).
+							contains(this.searchString.toLowerCase())).
 				distinct().
 				collect(Collectors.toList());
 		}
