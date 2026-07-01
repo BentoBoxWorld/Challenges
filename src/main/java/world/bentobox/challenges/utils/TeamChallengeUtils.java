@@ -105,7 +105,32 @@ public final class TeamChallengeUtils
             return take;
         }
 
-        // Find the largest water level L such that sum(min(h, L)) <= need.
+        // Fill each member up to the water level, then hand any rounding remainder to the richest.
+        int level = findWaterLevel(holdings, need, maxHolding);
+        long base = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            take[i] = Math.clamp(holdings[i], 0, level);
+            base += take[i];
+        }
+
+        distributeRemainder(take, holdings, level, (int) (need - base));
+
+        return take;
+    }
+
+
+    /**
+     * Finds the largest water level {@code L} such that {@code sum(min(h, L)) <= need}.
+     *
+     * @param holdings holdings per member
+     * @param need target total
+     * @param maxHolding the largest single holding (upper bound on the level)
+     * @return the water level
+     */
+    private static int findWaterLevel(int[] holdings, int need, int maxHolding)
+    {
         int level = 0;
 
         for (int candidate = 0; candidate <= maxHolding; candidate++)
@@ -114,46 +139,46 @@ public final class TeamChallengeUtils
 
             for (int h : holdings)
             {
-                sum += Math.min(Math.max(0, h), candidate);
+                sum += Math.clamp(h, 0, candidate);
             }
 
-            if (sum <= need)
-            {
-                level = candidate;
-            }
-            else
+            if (sum > need)
             {
                 break;
             }
+
+            level = candidate;
         }
 
-        long base = 0;
+        return level;
+    }
 
-        for (int i = 0; i < n; i++)
+
+    /**
+     * Hands the integer rounding remainder (one unit each) to the largest holders above the water
+     * level, so the odd units are absorbed by those least hurt by them.
+     *
+     * @param take the per-member take array to top up (modified in place)
+     * @param holdings holdings per member
+     * @param level the water level
+     * @param remainder how many extra units to distribute
+     */
+    private static void distributeRemainder(int[] take, int[] holdings, int level, int remainder)
+    {
+        if (remainder <= 0)
         {
-            take[i] = Math.min(Math.max(0, holdings[i]), level);
-            base += take[i];
+            return;
         }
 
-        int remainder = (int) (need - base);
+        Integer[] order = IntStream.range(0, holdings.length).boxed().
+                filter(i -> holdings[i] > level).
+                sorted(Comparator.<Integer>comparingInt(i -> holdings[i]).reversed()).
+                toArray(Integer[]::new);
 
-        if (remainder > 0)
+        for (int k = 0; k < remainder && k < order.length; k++)
         {
-            // Give the odd unit(s) to the largest holder(s) above the water level.
-            final int waterLevel = level;
-
-            Integer[] order = IntStream.range(0, n).boxed().
-                    filter(i -> holdings[i] > waterLevel).
-                    sorted(Comparator.<Integer>comparingInt(i -> holdings[i]).reversed()).
-                    toArray(Integer[]::new);
-
-            for (int k = 0; k < remainder && k < order.length; k++)
-            {
-                take[order[k]]++;
-            }
+            take[order[k]]++;
         }
-
-        return take;
     }
 
 

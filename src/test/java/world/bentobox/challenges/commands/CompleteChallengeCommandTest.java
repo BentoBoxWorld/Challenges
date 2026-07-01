@@ -57,7 +57,7 @@ import world.bentobox.challenges.utils.Utils;
  * @author tastybento
  *
  */
-public class CompleteChallengeCommandTest {
+class CompleteChallengeCommandTest {
 
     @Mock
     private CompositeCommand ic;
@@ -91,7 +91,7 @@ public class CompleteChallengeCommandTest {
 
     @SuppressWarnings("unchecked")
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ServerMock server = MockBukkit.mock();
         @SuppressWarnings("unused")
@@ -180,7 +180,7 @@ public class CompleteChallengeCommandTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (mockedUtils != null) mockedUtils.closeOnDemand();
         if (mockedTtc != null) mockedTtc.closeOnDemand();
@@ -191,12 +191,12 @@ public class CompleteChallengeCommandTest {
     }
 
     @Test
-    public void testCompleteChallengeCommand() {
+    void testCompleteChallengeCommand() {
         assertEquals("complete", cc.getLabel());
     }
 
     @Test
-    public void testSetup() {
+    void testSetup() {
         assertEquals("bskyblock.challenges", cc.getPermission());
         assertEquals("challenges.commands.user.complete.parameters", cc.getParameters());
         assertEquals("challenges.commands.user.complete.description", cc.getDescription());
@@ -205,14 +205,14 @@ public class CompleteChallengeCommandTest {
     }
 
     @Test
-    public void testExecuteUserStringListOfStringNoArgs() {
+    void testExecuteUserStringListOfStringNoArgs() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
         mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "no-name"));
         verify(user).sendMessage(eq("commands.help.header"), eq(TextVariables.LABEL), eq("BSkyBlock"));
     }
 
     @Test
-    public void testExecuteUserStringListOfStringUnknownChallenge() {
+    void testExecuteUserStringListOfStringUnknownChallenge() {
         when(chm.getChallenge(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
         mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "unknown-challenge"));
@@ -220,7 +220,7 @@ public class CompleteChallengeCommandTest {
     }
 
     @Test
-    public void testExecuteUserStringListOfStringKnownChallengeFail() {
+    void testExecuteUserStringListOfStringKnownChallengeFail() {
         mockedTtc.when(() -> TryToComplete.complete(any(), any(), any(), any(), anyString(), anyString(), anyInt()))
                 .thenReturn(false);
         assertFalse(cc.execute(user, "complete", Collections.singletonList("mychal")));
@@ -228,46 +228,46 @@ public class CompleteChallengeCommandTest {
     }
 
     @Test
-    public void testExecuteUserStringListOfStringKnownChallengeSuccess() {
+    void testExecuteUserStringListOfStringKnownChallengeSuccess() {
         assertTrue(cc.execute(user, "complete", Collections.singletonList("mychal")));
         verify(user, never()).sendMessage(any());
     }
 
     @Test
-    public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesNoPerm() {
+    void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesNoPerm() {
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
         mockedUtils.verify(() -> Utils.sendMessage(user, world, Constants.ERRORS + "no-multiple-permission"));
     }
 
     @Test
-    public void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesHasPerm() {
+    void testExecuteUserStringListOfStringKnownChallengeSuccessMultipleTimesHasPerm() {
         when(user.hasPermission(anyString())).thenReturn(true);
         assertTrue(cc.execute(user, "complete", Arrays.asList("mychal", "5")));
         verify(user, never()).sendMessage(any());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringNoArgs() {
+    void testTabCompleteUserStringListOfStringNoArgs() {
         Optional<List<String>> result = cc.tabComplete(user, "complete", Collections.emptyList());
         assertTrue(result.isEmpty() || result.get().isEmpty());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringOneArg() {
+    void testTabCompleteUserStringListOfStringOneArg() {
         List<String> list = cc.tabComplete(user, "complete", Collections.singletonList("arg")).get();
         assertFalse(list.isEmpty());
         assertEquals("help", list.getFirst());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringTwoArgs() {
+    void testTabCompleteUserStringListOfStringTwoArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2")).get();
         assertFalse(list.isEmpty());
         assertEquals("help", list.getFirst());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringThreeArgs() {
+    void testTabCompleteUserStringListOfStringThreeArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3")).get();
         assertFalse(list.isEmpty());
         assertEquals("maker", list.get(0));
@@ -276,20 +276,20 @@ public class CompleteChallengeCommandTest {
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringFourArgs() {
+    void testTabCompleteUserStringListOfStringFourArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "arg4")).get();
         assertTrue(list.isEmpty());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringFourArgsNumber() {
+    void testTabCompleteUserStringListOfStringFourArgsNumber() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg3", "4")).get();
         assertFalse(list.isEmpty());
         assertEquals("<number>", list.getFirst());
     }
 
     @Test
-    public void testTabCompleteUserStringListOfStringFiveArgs() {
+    void testTabCompleteUserStringListOfStringFiveArgs() {
         List<String> list = cc.tabComplete(user, "complete", Arrays.asList("arg1", "arg2", "arg23", "arg4", "arg5")).get();
         assertFalse(list.isEmpty());
         assertEquals("help", list.getFirst());

@@ -28,13 +28,13 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
-public class CompleteCommandTest extends AdminCommandTestBase {
+class CompleteCommandTest extends AdminCommandTestBase {
 
     private CompleteCommand cc;
     private Challenge challenge;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         challenge = mock(Challenge.class);
         when(challenge.getFriendlyName()).thenReturn("Test Challenge");
         when(chm.getChallenge(anyString())).thenReturn(challenge);
@@ -43,7 +43,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testSetup() {
+    void testSetup() {
         assertEquals("bskyblock.complete", cc.getPermission());
         assertEquals("challenges.commands.admin.complete.parameters", cc.getParameters());
         assertEquals("challenges.commands.admin.complete.description", cc.getDescription());
@@ -52,7 +52,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: no args ---
 
     @Test
-    public void testExecuteNoArgsPlayer() {
+    void testExecuteNoArgsPlayer() {
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
         mockedUtils.verify(() ->
                 Utils.sendMessage(eq(user), any(World.class),
@@ -60,7 +60,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteNoArgsConsole() {
+    void testExecuteNoArgsConsole() {
         when(user.isPlayer()).thenReturn(false);
         assertFalse(cc.execute(user, "complete", Collections.emptyList()));
         verify(addon).logError("Missing parameters");
@@ -69,7 +69,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: one arg (missing player target) ---
 
     @Test
-    public void testExecuteOneArgPlayer() {
+    void testExecuteOneArgPlayer() {
         assertFalse(cc.execute(user, "complete", List.of("someplayer")));
         mockedUtils.verify(() ->
                 Utils.sendMessage(eq(user), any(World.class),
@@ -77,7 +77,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteOneArgConsole() {
+    void testExecuteOneArgConsole() {
         when(user.isPlayer()).thenReturn(false);
         assertFalse(cc.execute(user, "complete", List.of("someplayer")));
         verify(addon).logError("Missing parameters");
@@ -86,13 +86,13 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: unknown player ---
 
     @Test
-    public void testExecuteUnknownPlayer() {
+    void testExecuteUnknownPlayer() {
         when(pm.getUUID(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Arrays.asList("unknown", "mychal")));
     }
 
     @Test
-    public void testExecuteUnknownPlayerConsole() {
+    void testExecuteUnknownPlayerConsole() {
         when(user.isPlayer()).thenReturn(false);
         when(pm.getUUID(anyString())).thenReturn(null);
         assertFalse(cc.execute(user, "complete", Arrays.asList("unknown", "mychal")));
@@ -102,7 +102,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: unknown challenge ---
 
     @Test
-    public void testExecuteUnknownChallenge() {
+    void testExecuteUnknownChallenge() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.getChallenge(anyString())).thenReturn(null);
@@ -114,7 +114,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteUnknownChallengeConsole() {
+    void testExecuteUnknownChallengeConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -127,7 +127,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: challenge already completed ---
 
     @Test
-    public void testExecuteAlreadyCompleted() {
+    void testExecuteAlreadyCompleted() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.isChallengeComplete(any(UUID.class), any(World.class), any(Challenge.class))).thenReturn(true);
@@ -142,7 +142,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- execute: success ---
 
     @Test
-    public void testExecuteSuccess() {
+    void testExecuteSuccess() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.isChallengeComplete(any(UUID.class), any(World.class), any(Challenge.class))).thenReturn(false);
@@ -152,7 +152,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteSuccessConsole() {
+    void testExecuteSuccessConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -165,7 +165,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     // --- tabComplete ---
 
     @Test
-    public void testTabCompletePlayerNames() {
+    void testTabCompletePlayerNames() {
         mockedUtil.when(() -> Util.getOnlinePlayerList(any(User.class))).thenReturn(List.of("alice", "bob"));
         // args size 3 = player name position (label + "complete" + partial)
         Optional<List<String>> result = cc.tabComplete(user, "complete", Arrays.asList("complete", "x", "a"));
@@ -174,7 +174,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testTabCompleteChallengeNames() {
+    void testTabCompleteChallengeNames() {
         when(chm.getAllChallengesNames(any())).thenReturn(List.of("BSkyBlock_mychal", "BSkyBlock_otherchal"));
         mockedUtil.when(() -> Util.tabLimit(any(), any()))
                 .thenAnswer((Answer<List<String>>) inv -> inv.getArgument(0, List.class));
@@ -185,7 +185,7 @@ public class CompleteCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testTabCompleteDefault() {
+    void testTabCompleteDefault() {
         mockedUtil.when(() -> Util.tabLimit(any(), any()))
                 .thenAnswer((Answer<List<String>>) inv -> inv.getArgument(0, List.class));
         Optional<List<String>> result = cc.tabComplete(user, "complete",

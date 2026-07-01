@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Test;
  *
  * @author tastybento
  */
-public class TeamChallengeUtilsTest
+class TeamChallengeUtilsTest
 {
     // ---------------------------------------------------------------------
     // requiredPresentCount
     // ---------------------------------------------------------------------
 
     @Test
-    public void testRequiredPresentCountDisabledWhenZero()
+    void testRequiredPresentCountDisabledWhenZero()
     {
         // A presence of 0 disables the gate.
         assertEquals(0, TeamChallengeUtils.requiredPresentCount(5, 0.0));
@@ -27,7 +27,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testRequiredPresentCountFloorOfOne()
+    void testRequiredPresentCountFloorOfOne()
     {
         // ceil(3 * 0.1) = 1; a positive presence never rounds down to 0.
         assertEquals(1, TeamChallengeUtils.requiredPresentCount(3, 0.1));
@@ -35,7 +35,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testRequiredPresentCountHalfOfTwoIsOne()
+    void testRequiredPresentCountHalfOfTwoIsOne()
     {
         // 50% of a 2-member team is 1, not 2 (the floor-of-2 was a bug).
         assertEquals(1, TeamChallengeUtils.requiredPresentCount(2, 0.5));
@@ -43,7 +43,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testRequiredPresentCountCeil()
+    void testRequiredPresentCountCeil()
     {
         // ceil(3 * 0.5) = ceil(1.5) = 2.
         assertEquals(2, TeamChallengeUtils.requiredPresentCount(3, 0.5));
@@ -59,7 +59,7 @@ public class TeamChallengeUtilsTest
     // ---------------------------------------------------------------------
 
     @Test
-    public void testPerMemberShareRoundsUp()
+    void testPerMemberShareRoundsUp()
     {
         // 20 total across 3 present -> ceil(6.67) = 7 each.
         assertEquals(7, TeamChallengeUtils.perMemberShare(20, 3));
@@ -71,7 +71,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testPerMemberShareZeroPresent()
+    void testPerMemberShareZeroPresent()
     {
         // Degenerate case: fall back to the full total.
         assertEquals(20, TeamChallengeUtils.perMemberShare(20, 0));
@@ -83,7 +83,7 @@ public class TeamChallengeUtilsTest
     // ---------------------------------------------------------------------
 
     @Test
-    public void testWaterLevelSplitWorkedExample()
+    void testWaterLevelSplitWorkedExample()
     {
         // The canonical design example: 5 members, need 100.
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {10, 15, 20, 40, 100}, 100);
@@ -93,7 +93,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitEqualHoldings()
+    void testWaterLevelSplitEqualHoldings()
     {
         // Five members each with 20, need 100 -> everyone gives 20.
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {20, 20, 20, 20, 20}, 100);
@@ -102,7 +102,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitOneRichHolder()
+    void testWaterLevelSplitOneRichHolder()
     {
         // One holder has 96, others 1 each, need 100 -> all removed.
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {96, 1, 1, 1, 1}, 100);
@@ -112,7 +112,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitSingleHolderCarries()
+    void testWaterLevelSplitSingleHolderCarries()
     {
         // A single member holds everything; a solo contribution is allowed.
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {100, 0, 0}, 100);
@@ -121,7 +121,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitRemainderGoesToRichest()
+    void testWaterLevelSplitRemainderGoesToRichest()
     {
         // need 10, holdings [3, 3, 9]. Level 3 -> [3,3,3]=9, remainder 1 to the richest (index 2).
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {3, 3, 9}, 10);
@@ -131,7 +131,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitNeedExceedsTotalTakesEverything()
+    void testWaterLevelSplitNeedExceedsTotalTakesEverything()
     {
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {5, 5, 5}, 100);
         assertArrayEquals(new int[] {5, 5, 5}, take);
@@ -140,7 +140,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testWaterLevelSplitZeroNeed()
+    void testWaterLevelSplitZeroNeed()
     {
         int[] take = TeamChallengeUtils.waterLevelSplit(new int[] {5, 5, 5}, 0);
         assertArrayEquals(new int[] {0, 0, 0}, take);
@@ -148,7 +148,7 @@ public class TeamChallengeUtilsTest
 
 
     @Test
-    public void testTotalRemovable()
+    void testTotalRemovable()
     {
         assertEquals(100, TeamChallengeUtils.totalRemovable(new int[] {10, 15, 20, 40, 100}, 100));
         assertEquals(15, TeamChallengeUtils.totalRemovable(new int[] {5, 5, 5}, 100));

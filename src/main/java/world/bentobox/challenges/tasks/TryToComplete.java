@@ -828,53 +828,54 @@ public class TryToComplete
 
         final Island island = this.addon.getIslandsManager().getIsland(this.world, recipient);
         final String owner = island == null ? "" : this.addon.getPlayers().getName(island.getOwner());
+        final String islandName = island == null || island.getName() == null ? "" : island.getName();
 
         for (String cmd : commands)
         {
-            if (cmd.startsWith("[SELF]"))
+            this.runSingleCommand(cmd, recipient, owner, islandName);
+        }
+    }
+
+
+    /**
+     * Runs a single reward command, substituting player / owner / island-name placeholders.
+     * Commands prefixed with {@code [SELF]} are performed by the recipient; others run from console.
+     *
+     * @param cmd the command line
+     * @param recipient user the command is run for / as
+     * @param owner island owner name for the {@code [owner]} placeholder
+     * @param islandName island name for the {@code [name]} placeholder
+     */
+    private void runSingleCommand(String cmd, User recipient, String owner, String islandName)
+    {
+        boolean self = cmd.startsWith("[SELF]");
+
+        if (self)
+        {
+            this.addon.getLogger().info("Running command '" + cmd + "' as " + recipient.getName());
+            cmd = cmd.substring(6);
+        }
+
+        final String parsed = cmd.
+                replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, recipient.getName()).
+                replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                replaceAll(Constants.ESC + Constants.PARAMETER_NAME, islandName).
+                trim();
+
+        try
+        {
+            boolean success = self ?
+                    recipient.performCommand(parsed) :
+                    this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), parsed);
+
+            if (!success)
             {
-                String alert = "Running command '" + cmd + "' as " + recipient.getName();
-                this.addon.getLogger().info(alert);
-                cmd = cmd.substring(6).
-                        replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, recipient.getName())
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
-                                island == null || island.getName() == null ? "" : island.getName())
-                        .trim();
-                try
-                {
-                    if (!recipient.performCommand(cmd))
-                    {
-                        this.showError(cmd);
-                    }
-                }
-                catch (Exception e)
-                {
-                    this.showError(cmd);
-                }
-
-                continue;
+                this.showError(parsed);
             }
-
-            // Substitute in any references to player
-
-            try
-            {
-                cmd = cmd.replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, recipient.getName()).
-                        replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
-                                island == null || island.getName() == null ? "" : island.getName())
-                        .trim();
-
-                if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
-                {
-                    this.showError(cmd);
-                }
-            }
-            catch (Exception e)
-            {
-                this.showError(cmd);
-            }
+        }
+        catch (Exception e)
+        {
+            this.showError(parsed);
         }
     }
 
@@ -891,7 +892,7 @@ public class TryToComplete
         {
             List<User> recipients = this.getOnlineTeamMembers().stream().
                     map(User::getInstance).
-                    collect(Collectors.toList());
+                    toList();
 
             if (!recipients.isEmpty())
             {
@@ -954,20 +955,7 @@ public class TryToComplete
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
             {
-                int numInInventory;
-
-                if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-                {
-                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
-                            .mapToInt(ItemStack::getAmount).sum();
-                }
-                else
-                {
-                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).filter(i -> i.isSimilar(required)).mapToInt(ItemStack::getAmount)
-                            .sum();
-                }
+                int numInInventory = this.countInInventory(this.user.getPlayer(), required);
 
                 if (numInInventory < required.getAmount())
                 {
@@ -1859,7 +1847,7 @@ public class TryToComplete
         return island.getMemberSet().stream().
                 map(Bukkit::getPlayer).
                 filter(Objects::nonNull).
-                collect(Collectors.toList());
+                toList();
     }
 
 
@@ -1904,11 +1892,6 @@ public class TryToComplete
      */
     private int countInInventory(Player player, ItemStack required)
     {
-        if (player.getInventory() == null)
-        {
-            return 0;
-        }
-
         if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
         {
             return Arrays.stream(player.getInventory().getContents()).
@@ -1934,7 +1917,7 @@ public class TryToComplete
      */
     private int removeFromInventory(Player player, ItemStack required, int amount)
     {
-        if (player.getInventory() == null || amount <= 0)
+        if (amount <= 0)
         {
             return 0;
         }
@@ -1946,14 +1929,14 @@ public class TryToComplete
             itemsInInventory = Arrays.stream(player.getInventory().getContents()).
                     filter(Objects::nonNull).
                     filter(i -> i.getType().equals(required.getType())).
-                    collect(Collectors.toList());
+                    toList();
         }
         else
         {
             itemsInInventory = Arrays.stream(player.getInventory().getContents()).
                     filter(Objects::nonNull).
                     filter(i -> i.isSimilar(required)).
-                    collect(Collectors.toList());
+                    toList();
         }
 
         int toRemove = amount;

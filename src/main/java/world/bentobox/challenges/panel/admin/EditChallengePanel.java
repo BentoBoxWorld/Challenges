@@ -590,7 +590,7 @@ public class EditChallengePanel extends CommonPanel {
             clickHandler = (panel, user, clickType, i) -> {
                 Consumer<Number> numberConsumer = number -> {
                     if (number != null) {
-                        this.challenge.setTeamPresence(Math.max(0, Math.min(100, number.intValue())) / 100.0);
+                        this.challenge.setTeamPresence(Math.clamp(number.intValue(), 0, 100) / 100.0);
                     }
 
                     this.build();
