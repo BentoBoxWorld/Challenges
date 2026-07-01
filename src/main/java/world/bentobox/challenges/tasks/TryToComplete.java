@@ -55,6 +55,7 @@ import world.bentobox.challenges.database.object.requirements.StatisticRequireme
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.Constants;
+import world.bentobox.challenges.utils.TeamChallengeUtils;
 import world.bentobox.challenges.utils.Utils;
 
 
@@ -252,26 +253,30 @@ public class TryToComplete
         // If challenge was not completed then reward items for completing it first time.
         if (!result.wasCompleted())
         {
-            // Item rewards
-            for (ItemStack reward : this.challenge.getRewardItems())
+            // Reward every recipient (all present members for a team challenge, else just the user).
+            for (User recipient : this.getRewardRecipients())
             {
-                // Clone is necessary because otherwise it will chane reward itemstack
-                // amount.
-                this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                this.user.getWorld().dropItem(this.user.getLocation(), v));
+                // Item rewards
+                for (ItemStack reward : this.challenge.getRewardItems())
+                {
+                    // Clone is necessary because otherwise it will chane reward itemstack
+                    // amount.
+                    recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                    recipient.getWorld().dropItem(recipient.getLocation(), v));
+                }
+
+                // Money Reward
+                if (this.addon.isEconomyProvided())
+                {
+                    this.addon.getEconomyProvider().deposit(recipient, this.challenge.getRewardMoney());
+                }
+
+                // Experience Reward
+                recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
+
+                // Run commands
+                this.runCommands(this.challenge.getRewardCommands(), recipient);
             }
-
-            // Money Reward
-            if (this.addon.isEconomyProvided())
-            {
-                this.addon.getEconomyProvider().deposit(this.user, this.challenge.getRewardMoney());
-            }
-
-            // Experience Reward
-            this.user.getPlayer().giveExp(this.challenge.getRewardExperience());
-
-            // Run commands
-            this.runCommands(this.challenge.getRewardCommands());
 
             // Send message about first completion only if it is completed only once.
             if (result.getFactor() == 1)
@@ -307,34 +312,38 @@ public class TryToComplete
         {
             int rewardFactor = result.getFactor() - (result.wasCompleted() ? 0 : 1);
 
-            // Item Repeat Rewards
-            for (ItemStack reward : this.challenge.getRepeatItemReward())
+            // Reward every recipient (all present members for a team challenge, else just the user).
+            for (User recipient : this.getRewardRecipients())
             {
-                // Clone is necessary because otherwise it will chane reward itemstack
-                // amount.
+                // Item Repeat Rewards
+                for (ItemStack reward : this.challenge.getRepeatItemReward())
+                {
+                    // Clone is necessary because otherwise it will chane reward itemstack
+                    // amount.
 
+                    for (int i = 0; i < rewardFactor; i++)
+                    {
+                        recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                        recipient.getWorld().dropItem(recipient.getLocation(), v));
+                    }
+                }
+
+                // Money Repeat Reward
+                if (this.addon.isEconomyProvided())
+                {
+                    this.addon.getEconomyProvider().deposit(recipient,
+                            this.challenge.getRepeatMoneyReward() * rewardFactor);
+                }
+
+                // Experience Repeat Reward
+                recipient.getPlayer().giveExp(
+                        this.challenge.getRepeatExperienceReward() * rewardFactor);
+
+                // Run commands
                 for (int i = 0; i < rewardFactor; i++)
                 {
-                    this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                    this.user.getWorld().dropItem(this.user.getLocation(), v));
+                    this.runCommands(this.challenge.getRepeatRewardCommands(), recipient);
                 }
-            }
-
-            // Money Repeat Reward
-            if (this.addon.isEconomyProvided())
-            {
-                this.addon.getEconomyProvider().deposit(this.user,
-                        this.challenge.getRepeatMoneyReward() * rewardFactor);
-            }
-
-            // Experience Repeat Reward
-            this.user.getPlayer().giveExp(
-                    this.challenge.getRepeatExperienceReward() * rewardFactor);
-
-            // Run commands
-            for (int i = 0; i < rewardFactor; i++)
-            {
-                this.runCommands(this.challenge.getRepeatRewardCommands());
             }
 
             if (result.getFactor() > 1)
@@ -445,23 +454,40 @@ public class TryToComplete
         case INVENTORY_TYPE -> {
             // If remove items, then remove them
             if (this.getInventoryRequirements().isTakeItems()) {
-                int sumEverything = result.requiredItems.stream().
-                        mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
-                        sum();
-
-                Map<ItemStack, Integer> removedItems =
-                        this.removeItems(result.requiredItems, result.getFactor());
-
-                int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
-
-                // Something is not removed.
-                if (sumEverything != removedAmount) {
-                    Utils.sendMessage(this.user,
-                            this.world,
-                            Constants.ERRORS + "cannot-remove-items");
-
-                    result.removedItems = removedItems;
+                // Team challenges: re-check presence at fulfilment so the gate cannot be passed and
+                // then dodged before the cost is taken. No items are removed yet at this point.
+                if (this.challenge.isTeamChallenge() && !this.hasRequiredTeamPresence())
+                {
                     result.meetsRequirements = false;
+                }
+                else if (this.challenge.isTeamChallenge() && this.challenge.isPerMember())
+                {
+                    this.removeItemsPerMember(result.requiredItems);
+                }
+                else if (this.challenge.isTeamChallenge() && this.challenge.isAggregateTeam())
+                {
+                    this.removeItemsAggregate(result.requiredItems, result.getFactor());
+                }
+                else
+                {
+                    int sumEverything = result.requiredItems.stream().
+                            mapToInt(itemStack -> itemStack.getAmount() * result.getFactor()).
+                            sum();
+
+                    Map<ItemStack, Integer> removedItems =
+                            this.removeItems(result.requiredItems, result.getFactor());
+
+                    int removedAmount = removedItems.values().stream().mapToInt(num -> num).sum();
+
+                    // Something is not removed.
+                    if (sumEverything != removedAmount) {
+                        Utils.sendMessage(this.user,
+                                this.world,
+                                Constants.ERRORS + "cannot-remove-items");
+
+                        result.removedItems = removedItems;
+                        result.meetsRequirements = false;
+                    }
                 }
             }
         }
@@ -698,6 +724,12 @@ public class TryToComplete
             Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-permission");
             result = EMPTY_RESULT;
         }
+        // Check team presence gate for team challenges.
+        else if (this.challenge.isTeamChallenge() && !this.hasRequiredTeamPresence())
+        {
+            // Error message already sent by hasRequiredTeamPresence().
+            result = EMPTY_RESULT;
+        }
         else if (type.equals(ChallengeType.INVENTORY_TYPE))
         {
             result = this.checkInventory(this.getAvailableCompletionTimes(maxTimes));
@@ -770,67 +802,105 @@ public class TryToComplete
 
 
     /**
-     * This method runs all commands from command list.
+     * This method runs all commands from command list for the completing user.
      * @param commands List of commands that must be performed.
      */
     private void runCommands(List<String> commands)
     {
+        this.runCommands(commands, this.user);
+    }
+
+
+    /**
+     * This method runs all commands from command list for the given recipient. For team challenges
+     * the reward commands are run once per present member so that {@code [player]} / {@code [SELF]}
+     * resolve to each member in turn.
+     * @param commands List of commands that must be performed.
+     * @param recipient User the commands are run for.
+     */
+    private void runCommands(List<String> commands, User recipient)
+    {
         // Ignore commands with this perm
-        if (this.user.hasPermission(this.permissionPrefix + "command.challengeexempt") && !this.user.isOp())
+        if (recipient.hasPermission(this.permissionPrefix + "command.challengeexempt") && !recipient.isOp())
         {
             return;
         }
 
-        final Island island = this.addon.getIslandsManager().getIsland(this.world, this.user);
+        final Island island = this.addon.getIslandsManager().getIsland(this.world, recipient);
         final String owner = island == null ? "" : this.addon.getPlayers().getName(island.getOwner());
+        final String islandName = island == null || island.getName() == null ? "" : island.getName();
 
         for (String cmd : commands)
         {
-            if (cmd.startsWith("[SELF]"))
+            this.runSingleCommand(cmd, recipient, owner, islandName);
+        }
+    }
+
+
+    /**
+     * Runs a single reward command, substituting player / owner / island-name placeholders.
+     * Commands prefixed with {@code [SELF]} are performed by the recipient; others run from console.
+     *
+     * @param cmd the command line
+     * @param recipient user the command is run for / as
+     * @param owner island owner name for the {@code [owner]} placeholder
+     * @param islandName island name for the {@code [name]} placeholder
+     */
+    private void runSingleCommand(String cmd, User recipient, String owner, String islandName)
+    {
+        boolean self = cmd.startsWith("[SELF]");
+
+        if (self)
+        {
+            this.addon.getLogger().info("Running command '" + cmd + "' as " + recipient.getName());
+            cmd = cmd.substring(6);
+        }
+
+        final String parsed = cmd.
+                replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, recipient.getName()).
+                replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner).
+                replaceAll(Constants.ESC + Constants.PARAMETER_NAME, islandName).
+                trim();
+
+        try
+        {
+            boolean success = self ?
+                    recipient.performCommand(parsed) :
+                    this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), parsed);
+
+            if (!success)
             {
-                String alert = "Running command '" + cmd + "' as " + this.user.getName();
-                this.addon.getLogger().info(alert);
-                cmd = cmd.substring(6).
-                        replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName())
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
-                                island == null || island.getName() == null ? "" : island.getName())
-                        .trim();
-                try
-                {
-                    if (!user.performCommand(cmd))
-                    {
-                        this.showError(cmd);
-                    }
-                }
-                catch (Exception e)
-                {
-                    this.showError(cmd);
-                }
-
-                continue;
-            }
-
-            // Substitute in any references to player
-
-            try
-            {
-                cmd = cmd.replaceAll(Constants.ESC + Constants.PARAMETER_PLAYER, this.user.getName()).
-                        replaceAll(Constants.ESC + Constants.PARAMETER_OWNER, owner)
-                        .replaceAll(Constants.ESC + Constants.PARAMETER_NAME,
-                                island == null || island.getName() == null ? "" : island.getName())
-                        .trim();
-
-                if (!this.addon.getServer().dispatchCommand(this.addon.getServer().getConsoleSender(), cmd))
-                {
-                    this.showError(cmd);
-                }
-            }
-            catch (Exception e)
-            {
-                this.showError(cmd);
+                this.showError(parsed);
             }
         }
+        catch (Exception e)
+        {
+            this.showError(parsed);
+        }
+    }
+
+
+    /**
+     * Reward recipients for this challenge. For a team challenge every online member is rewarded
+     * (X1 - closes the leech where one member profits from the team's contributions); otherwise
+     * only the completing user.
+     * @return list of users to reward.
+     */
+    private List<User> getRewardRecipients()
+    {
+        if (this.challenge.isTeamChallenge())
+        {
+            List<User> recipients = this.getOnlineTeamMembers().stream().
+                    map(User::getInstance).
+                    toList();
+
+            if (!recipients.isEmpty())
+            {
+                return recipients;
+            }
+        }
+
+        return Collections.singletonList(this.user);
     }
 
 
@@ -862,6 +932,17 @@ public class TryToComplete
             return EMPTY_RESULT;
         }
 
+        // Team challenge variants.
+        if (this.challenge.isTeamChallenge() && this.challenge.isPerMember())
+        {
+            return this.checkInventoryPerMember();
+        }
+
+        if (this.challenge.isTeamChallenge() && this.challenge.isAggregateTeam())
+        {
+            return this.checkInventoryAggregate(maxTimes);
+        }
+
         // Run through inventory
         List<ItemStack> requiredItems;
 
@@ -874,20 +955,7 @@ public class TryToComplete
             // Check if all required items are in players inventory.
             for (ItemStack required : requiredItems)
             {
-                int numInInventory;
-
-                if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-                {
-                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
-                            .mapToInt(ItemStack::getAmount).sum();
-                }
-                else
-                {
-                    numInInventory = Arrays.stream(this.user.getInventory().getContents()).
-                            filter(Objects::nonNull).filter(i -> i.isSimilar(required)).mapToInt(ItemStack::getAmount)
-                            .sum();
-                }
+                int numInInventory = this.countInInventory(this.user.getPlayer(), required);
 
                 if (numInInventory < required.getAmount())
                 {
@@ -910,6 +978,83 @@ public class TryToComplete
         return new ChallengeResult().
                 setMeetsRequirements().
                 setCompleteFactor(maxTimes).
+                setRequiredItems(requiredItems);
+    }
+
+
+    /**
+     * Checks a Pooled Tribute style challenge: the required items are summed across all online
+     * team members. A single member holding everything is allowed by design.
+     *
+     * @param maxTimes requested completion count
+     * @return ChallengeResult
+     */
+    private ChallengeResult checkInventoryAggregate(int maxTimes)
+    {
+        List<Player> members = this.getOnlineTeamMembers();
+
+        List<ItemStack> requiredItems = Utils.groupEqualItems(
+                this.getInventoryRequirements().getRequiredItems(),
+                this.getInventoryRequirements().getIgnoreMetaData());
+
+        for (ItemStack required : requiredItems)
+        {
+            int total = members.stream().mapToInt(p -> this.countInInventory(p, required)).sum();
+
+            if (total < required.getAmount())
+            {
+                Utils.sendMessage(this.user, this.world, Constants.ERRORS + "not-enough-items",
+                        "[items]", Utils.prettifyObject(required, this.user));
+                return EMPTY_RESULT;
+            }
+
+            maxTimes = Math.min(maxTimes, total / required.getAmount());
+        }
+
+        return new ChallengeResult().
+                setMeetsRequirements().
+                setCompleteFactor(maxTimes).
+                setRequiredItems(requiredItems);
+    }
+
+
+    /**
+     * Checks a Roll Call Feast style challenge: every online member must individually hold their
+     * share of each required item, where the configured amount is the team total and the share is
+     * {@code ceil(amount / presentCount)}.
+     *
+     * @return ChallengeResult
+     */
+    private ChallengeResult checkInventoryPerMember()
+    {
+        List<Player> members = this.getOnlineTeamMembers();
+        int presentCount = members.size();
+
+        List<ItemStack> requiredItems = Utils.groupEqualItems(
+                this.getInventoryRequirements().getRequiredItems(),
+                this.getInventoryRequirements().getIgnoreMetaData());
+
+        for (ItemStack required : requiredItems)
+        {
+            int share = TeamChallengeUtils.perMemberShare(required.getAmount(), presentCount);
+
+            for (Player member : members)
+            {
+                if (this.countInInventory(member, required) < share)
+                {
+                    Utils.sendMessage(this.user, this.world, Constants.ERRORS + "member-missing-share",
+                            Constants.PARAMETER_NAME, member.getName(),
+                            Constants.PARAMETER_AMOUNT, String.valueOf(share),
+                            Constants.PARAMETER_ITEM, Utils.prettifyObject(required, this.user));
+                    return EMPTY_RESULT;
+                }
+            }
+        }
+
+        // Per-member challenges complete exactly once.
+        return new ChallengeResult().
+                setMeetsRequirements().
+                setCompleteFactor(1).
                 setRequiredItems(requiredItems);
     }
 
@@ -978,6 +1123,61 @@ public class TryToComplete
         }
 
         return removed;
+    }
+
+
+    /**
+     * Removes the required items across online team members using the Option A water-level split
+     * (equal absolute contribution). Used by Pooled Tribute (aggregate) challenges.
+     *
+     * @param requiredItemList grouped required items
+     * @param factor completion factor
+     */
+    private void removeItemsAggregate(List<ItemStack> requiredItemList, int factor)
+    {
+        List<Player> members = this.getOnlineTeamMembers();
+
+        for (ItemStack required : requiredItemList)
+        {
+            int need = required.getAmount() * factor;
+
+            int[] holdings = members.stream().
+                    mapToInt(p -> this.countInInventory(p, required)).
+                    toArray();
+
+            int[] take = TeamChallengeUtils.waterLevelSplit(holdings, need);
+
+            for (int i = 0; i < members.size(); i++)
+            {
+                if (take[i] > 0)
+                {
+                    this.removeFromInventory(members.get(i), required, take[i]);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Removes the per-member share of each required item from every online team member. Used by
+     * Roll Call Feast (per-member) challenges. Each member pays {@code ceil(amount / presentCount)}.
+     *
+     * @param requiredItemList grouped required items
+     */
+    private void removeItemsPerMember(List<ItemStack> requiredItemList)
+    {
+        List<Player> members = this.getOnlineTeamMembers();
+        int presentCount = members.size();
+
+        for (ItemStack required : requiredItemList)
+        {
+            int share = TeamChallengeUtils.perMemberShare(required.getAmount(), presentCount);
+
+            for (Player member : members)
+            {
+                this.removeFromInventory(member, required, share);
+            }
+        }
     }
 
 
@@ -1477,18 +1677,28 @@ public class TryToComplete
             // Sanity check.
             return EMPTY_RESULT;
         }
+        // Team aggregate (Combined Effort): sum the increase since baseline across online members.
+        boolean teamAggregate = this.challenge.isTeamChallenge() && this.challenge.isAggregateTeam();
+
         List<ChallengeResult> cr = new ArrayList<>();
         // Check all requirements
         for (StatisticRec s : requirements.getRequiredStatistics()) {
 
-            switch (Objects.requireNonNull(s.statistic()).getType())
+            if (teamAggregate)
             {
-            case UNTYPED -> currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic());
-            case ITEM, BLOCK ->
-                currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.material());
-            case ENTITY ->
-                currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.entity());
-            default -> currentValue = 0;
+                currentValue = this.teamStatisticDelta(s);
+            }
+            else
+            {
+                switch (Objects.requireNonNull(s.statistic()).getType())
+                {
+                case UNTYPED -> currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic());
+                case ITEM, BLOCK ->
+                    currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.material());
+                case ENTITY ->
+                    currentValue = this.manager.getStatisticData(this.user, this.world, s.statistic(), s.entity());
+                default -> currentValue = 0;
+                }
             }
 
             if (currentValue < s.amount()) {
@@ -1595,6 +1805,241 @@ public class TryToComplete
      */
     private OtherRequirements getOtherRequirements() {
         return this.challenge.getRequirements();
+    }
+
+
+    // ---------------------------------------------------------------------
+    // Section: Team helpers
+    // ---------------------------------------------------------------------
+
+
+    /**
+     * @return the island the completing user belongs to in this world, or null.
+     */
+    private Island getIsland()
+    {
+        return this.addon.getIslands().getIsland(this.world, this.user);
+    }
+
+
+    /**
+     * @return total number of members on the completing user's team (all ranks &gt;= member).
+     */
+    private int getTeamSize()
+    {
+        Island island = this.getIsland();
+        return island == null ? 0 : island.getMemberSet().size();
+    }
+
+
+    /**
+     * @return the online members of the completing user's team (including the user).
+     */
+    private List<Player> getOnlineTeamMembers()
+    {
+        Island island = this.getIsland();
+
+        if (island == null)
+        {
+            return Collections.emptyList();
+        }
+
+        return island.getMemberSet().stream().
+                map(Bukkit::getPlayer).
+                filter(Objects::nonNull).
+                toList();
+    }
+
+
+    /**
+     * Checks the team gate for a team challenge: the user must have a team of at least 2, and the
+     * required fraction of members must be online. Sends the relevant error message on failure.
+     *
+     * @return true if the team presence requirement is met.
+     */
+    private boolean hasRequiredTeamPresence()
+    {
+        int teamSize = this.getTeamSize();
+
+        if (teamSize < 2)
+        {
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "no-team");
+            return false;
+        }
+
+        int required = TeamChallengeUtils.requiredPresentCount(teamSize, this.challenge.getTeamPresence());
+        int online = this.getOnlineTeamMembers().size();
+
+        if (online < required)
+        {
+            Utils.sendMessage(this.user, this.world, Constants.ERRORS + "insufficient-team",
+                    Constants.PARAMETER_NUMBER, String.valueOf(required),
+                    "[online]", String.valueOf(online));
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Counts how many of {@code required} a single player holds, honouring the challenge's
+     * ignore-meta-data setting.
+     *
+     * @param player player to inspect
+     * @param required required item template
+     * @return number held
+     */
+    private int countInInventory(Player player, ItemStack required)
+    {
+        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
+        {
+            return Arrays.stream(player.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.getType().equals(required.getType())).
+                    mapToInt(ItemStack::getAmount).sum();
+        }
+
+        return Arrays.stream(player.getInventory().getContents()).
+                filter(Objects::nonNull).
+                filter(i -> i.isSimilar(required)).
+                mapToInt(ItemStack::getAmount).sum();
+    }
+
+
+    /**
+     * Removes up to {@code amount} of matching items from a single player's inventory.
+     *
+     * @param player player to take from
+     * @param required required item template (for matching)
+     * @param amount amount to remove
+     * @return amount actually removed
+     */
+    private int removeFromInventory(Player player, ItemStack required, int amount)
+    {
+        if (amount <= 0)
+        {
+            return 0;
+        }
+
+        List<ItemStack> itemsInInventory;
+
+        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
+        {
+            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.getType().equals(required.getType())).
+                    toList();
+        }
+        else
+        {
+            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> i.isSimilar(required)).
+                    toList();
+        }
+
+        int toRemove = amount;
+
+        for (ItemStack itemStack : itemsInInventory)
+        {
+            if (toRemove <= 0)
+            {
+                break;
+            }
+
+            int inStack = itemStack.getAmount();
+
+            if (inStack >= toRemove)
+            {
+                itemStack.setAmount(inStack - toRemove);
+                toRemove = 0;
+            }
+            else
+            {
+                itemStack.setAmount(0);
+                toRemove -= inStack;
+            }
+        }
+
+        return amount - toRemove;
+    }
+
+
+    /**
+     * Reads a single player's raw value for the given statistic requirement.
+     *
+     * @param player the player
+     * @param s statistic requirement
+     * @return the statistic value
+     */
+    private int statisticValue(Player player, StatisticRec s)
+    {
+        return switch (Objects.requireNonNull(s.statistic()).getType())
+        {
+            case UNTYPED -> player.getStatistic(s.statistic());
+            case ITEM, BLOCK -> s.material() == null ? 0 : player.getStatistic(s.statistic(), s.material());
+            case ENTITY -> s.entity() == null ? 0 : player.getStatistic(s.statistic(), s.entity());
+            default -> 0;
+        };
+    }
+
+
+    /**
+     * Builds the per-member baseline key for a statistic requirement.
+     *
+     * @param s statistic requirement
+     * @param memberId member UUID
+     * @return baseline key
+     */
+    private String statisticBaselineKey(StatisticRec s, UUID memberId)
+    {
+        StringBuilder key = new StringBuilder(this.challenge.getUniqueId()).
+                append("|").append(Objects.requireNonNull(s.statistic()).name());
+
+        if (s.material() != null)
+        {
+            key.append("-").append(s.material().name());
+        }
+
+        if (s.entity() != null)
+        {
+            key.append("-").append(s.entity().name());
+        }
+
+        return key.append("|").append(memberId).toString();
+    }
+
+
+    /**
+     * Sums the increase in a statistic since the team started tracking this challenge, across all
+     * online members (X3). The first time a member is seen for this challenge their current value is
+     * snapshotted as the baseline, so a recruited veteran's lifetime total contributes zero.
+     *
+     * @param s statistic requirement
+     * @return summed team delta
+     */
+    private int teamStatisticDelta(StatisticRec s)
+    {
+        int sum = 0;
+
+        for (Player player : this.getOnlineTeamMembers())
+        {
+            String key = this.statisticBaselineKey(s, player.getUniqueId());
+            int current = this.statisticValue(player, s);
+            int baseline = this.manager.getStatisticBaseline(this.user, this.world, key);
+
+            if (baseline < 0)
+            {
+                // First sighting - snapshot now so only future progress counts.
+                this.manager.setStatisticBaseline(this.user, this.world, key, current);
+                baseline = current;
+            }
+
+            sum += Math.max(0, current - baseline);
+        }
+
+        return sum;
     }
 
 

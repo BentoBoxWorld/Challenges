@@ -105,7 +105,7 @@ public abstract class AbstractChallengesTest {
     protected UUID playerUUID;
 
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         mbServer = MockBukkit.mock();
         // Force tag registry initialization
@@ -225,7 +225,7 @@ public abstract class AbstractChallengesTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         if (mockedBukkit != null) mockedBukkit.closeOnDemand();
         if (mockedUtil != null) mockedUtil.closeOnDemand();
         try {

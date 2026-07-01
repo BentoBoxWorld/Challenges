@@ -4,6 +4,7 @@ challenges:
     admin:
       main:
         description: Основная команда администратора. Открывает GUI.
+        parameters: ''
       import:
         parameters: "[overwrite]"
         description: |-
@@ -25,13 +26,13 @@ challenges:
         description: Завершите челлендж для игрока.
       reset:
         parameters: "<игрок> <челлендж_id>"
-        description: Сбросить челлендж для игрока. Если «challenge_id» установлен
-          на «all», он сбросит все челленджи.
+        description: Сбросить челлендж для игрока. Если «challenge_id» установлен на «all», он сбросит все челленджи.
       migrate:
-        description: Миграция текущего игрового мира и данных о заданиях в формат
-          хранения 0.8.0.
+        description: Миграция текущего игрового мира и данных о заданиях в формат хранения 0.8.0.
+        parameters: ''
       show:
         description: Отображает все челленджи в чате, которые существуют в этом мире.
+        parameters: ''
       defaults-import:
         description: Импорт челленджей по умолчанию.
     user:
@@ -40,6 +41,7 @@ challenges:
         description: Завершить челлендж.
       main:
         description: Открытый GUI челленджей.
+        parameters: ''
   gui:
     title:
       admin:
@@ -166,20 +168,565 @@ challenges:
         reduce: "-"
         multiply: "*"
         number: "[number]"
-      next: Следующая
-      previous: Предыдущая
-      return: Назад
+      next:
+        name: <white><bold>Следующая страница
+        description: <gray>Переключиться на страницу <yellow>[number]
+      previous:
+        name: <white><bold>Предыдущая страница
+        description: <gray>Переключиться на страницу <yellow>[number]
+      return:
+        name: <white><bold>Вернуться
+        description: "<gray>Вернуться в предыдущее меню\n<gray>или выйти из интерфейса"
       value: Завершить
-      increase: Увеличить
-      reduce: Уменьшить
+      increase:
+        name: <white><bold>Увеличить
+        description: <gray>Увеличить на <yellow>[number]
+      reduce:
+        name: <white><bold>Уменьшить
+        description: <gray>Уменьшить на <yellow>[number]
+      free-challenges:
+        name: <white><bold>Свободные испытания
+        description: "<gray>Отображает список\n<gray>свободных испытаний"
+      accept:
+        name: <white><bold>Завершить
+        description: "<gray>Завершить испытание <yellow>[number]\n<gray>раз(а)"
+      quit:
+        name: <white><bold>Выход
+        description: <gray>Закрыть интерфейс.
+      complete_user_challenges:
+        name: <white><bold>Завершить испытания игрока
+        description: "<gray>Позволяет выбрать игрока и\n<gray>завершить его испытание(я)."
+      reset_user_challenges:
+        name: <white><bold>Сбросить испытания игрока
+        description: "<gray>Позволяет выбрать игрока и\n<gray>сбросить его испытания."
+      add_challenge:
+        name: <white><bold>Создать испытание
+        description: "<gray>Запускает процесс\n<gray>создания нового испытания."
+      add_level:
+        name: <white><bold>Создать уровень
+        description: "<gray>Запускает процесс\n<gray>создания нового уровня."
+      edit_challenge:
+        name: <white><bold>Редактировать испытание
+        description: "<gray>Позволяет выбрать и отредактировать\n<gray>испытание."
+      edit_level:
+        name: <white><bold>Редактировать уровень
+        description: "<gray>Позволяет выбрать и отредактировать\n<gray>уровень."
+      delete_challenge:
+        name: <white><bold>Удалить испытание
+        description: "<gray>Позволяет выбрать и удалить\n<gray>испытание."
+      delete_level:
+        name: <white><bold>Удалить уровень
+        description: "<gray>Позволяет выбрать и удалить\n<gray>уровень."
+      edit_settings:
+        name: <white><bold>Настройки
+        description: "<gray>Позволяет просмотреть и отредактировать\n<gray>настройки дополнения."
+      complete_wipe:
+        name: <white><bold>Полная очистка
+        description: "<gray>Полностью очищает базу данных дополнения\n<gray>испытаний, включая\n<gray>данные игроков."
+      challenge_wipe:
+        name: <white><bold>Очистка испытаний
+        description: "<gray>Полностью очищает испытания\n<gray>и уровни из базы данных."
+      user_wipe:
+        name: <white><bold>Очистка пользователей
+        description: "<gray>Полностью очищает данные\n<gray>пользователей из базы данных."
+      library:
+        name: <white><bold>Библиотека
+        description: "<gray>Открывает публичную\n<gray>библиотеку испытаний."
+        downloading: "<gray>Загрузка библиотеки\n<gray>запрошена..."
+      import_database:
+        name: <white><bold>Импортировать базу данных
+        description: "<gray>Позволяет импортировать экспортированную\n<gray>базу данных испытаний."
+      import_template:
+        name: <white><bold>Импортировать шаблон
+        description: "<gray>Позволяет импортировать файл шаблона\n<gray>содержащий испытания."
+      export_challenges:
+        name: <white><bold>Экспортировать испытания
+        description: "<gray>Позволяет экспортировать базу данных\n<gray>в локальный файл."
+      properties:
+        name: <white><bold>Свойства
+        description: <gray>Просмотреть все основные свойства.
+      requirements:
+        name: <white><bold>Требования
+        description: <gray>Просмотреть свойства требований.
+      rewards:
+        name: <white><bold>Награды
+        description: <gray>Просмотреть свойства наград.
+      hide_reward_items:
+        name: <white><bold>Скрыть предметы награды
+        description: "<gray>Переключает показ предметов награды\n<gray>в интерфейсе или нет."
+        hide: <dark_green>Скрыто
+        show: <red>Показано
+      deployed:
+        name: <white><bold>Развертывание
+        description: "<gray>Переключает развертывание испытания\n<gray>и возможность его прохождения\n<gray>игроками."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      name:
+        name: <white><bold>Имя
+        description: "<gray>Позволяет изменить\n<gray>отображаемое имя."
+        value: '<gray>Текущее значение: <reset>[name]'
+      remove_on_complete:
+        name: <white><bold>Скрыть после завершения
+        description: "<gray>Переключает скрытие испытания\n<gray>от игрока после его\n<gray>завершения."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      team_challenge:
+        name: <white><bold>Командное испытание
+        description: "<gray>Переключает командное испытание.\n<gray>Командные испытания требуют команду и делят\n<gray>завершение и перезагрузку по всему острову."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      team_presence:
+        name: <white><bold>Присутствие команды
+        description: "<gray>Процент команды, которая должна быть\n<gray>в сети для завершения этого испытания.\n<gray>0 отключает проверку присутствия."
+        value: '<gray>Текущее значение: <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Объединить по команде
+        description: "<gray>Суммирует необходимые предметы / статистику всех\n<gray>участников в сети (Объединенный взнос,\n<gray>Совместные усилия)."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      per_member:
+        name: <white><bold>Каждый участник платит
+        description: "<gray>Каждый онлайн участник должен внести свою\n<gray>долю (требуемое количество - это ОБЩАЯ\n<gray>сумма по команде, разделенная между присутствующими)."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      hide_if_no_team:
+        name: <white><bold>Скрыть если нет команды
+        description: "<gray>Если включено, это испытание полностью скрыто\n<gray>от игроков без команды.\n<gray>Если отключено, оно показано но отключено."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      description:
+        name: <white><bold>Описание
+        description: "<gray>Задает описание испытания.\n<gray>Коды цветов должны быть применены к нему."
+        value: '<gray>Текущее описание:'
+      environment:
+        name: <white><bold>Измерение
+        description: "<gray>Позволяет ограничить испытание\n<gray>определенным измерением."
+        enabled: <dark_green>
+        disabled: <red>
+      order:
+        name: <white><bold>Порядок
+        description: "<gray>Позволяет изменить порядок\n<gray>объектов.\n<gray>Объекты с одинаковым номером\n<gray>будут отсортированы по их\n<gray>уникальным ID."
+        value: '<gray>Текущий порядок: <yellow>[number]'
+      icon:
+        name: <white><bold>Значок
+        description: "<gray>Позволяет изменить значок\n<gray>для этого испытания."
+      locked_icon:
+        name: <white><bold>Значок заблокировки
+        description: "<gray>Позволяет изменить значок заблокировки\n<gray>уровня."
+      required_permissions:
+        name: <white><bold>Требуемые разрешения
+        description: "<gray>Позволяет изменить требуемые\n<gray>разрешения для этого испытания для его\n<gray>завершения."
+        title: '<gray>Разрешения: '
+        permission: ' <dark_gray>- [permission]'
+        none: <gray>Разрешений не установлено.
+      remove_entities:
+        name: <white><bold>Удалить сущности
+        description: "<gray>Переключает удаление требуемых сущностей\n<gray>из мира после\n<gray>завершения испытания."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      required_entities:
+        name: <white><bold>Требуемые сущности
+        description: "<gray>Позволяет изменить требуемые\n<gray>сущности для этого испытания для его\n<gray>завершения."
+        title: '<gray>Сущности: '
+        list: ' <dark_gray>- [number] x [entity]'
+        none: <gray>Сущности не добавлены.
+      remove_blocks:
+        name: <white><bold>Удалить блоки
+        description: "<gray>Переключает удаление требуемых блоков\n<gray>из мира после\n<gray>завершения испытания."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      required_blocks:
+        name: <white><bold>Требуемые блоки
+        description: "<gray>Позволяет изменить требуемые\n<gray>блоки для этого испытания для его\n<gray>завершения."
+        title: '<gray>Блоки: '
+        list: ' <dark_gray>- [number] x [block]'
+        none: <gray>Блоки не добавлены.
+      required_statistics:
+        name: <white><bold>Требуемая статистика
+        description: "<gray>Позволяет изменить требуемую\n<gray>статистику для этого испытания для его\n<gray>завершения."
+        title: '<gray>Статистика: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Статистика не добавлена.
+      required_advancements:
+        name: <white><bold>Требуемые достижения
+        description: "<gray>Позволяет изменить требуемые\n<gray>достижения для этого испытания для его\n<gray>завершения."
+        title: '<gray>Достижения: '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Достижения не добавлены.
+      search_radius:
+        name: <white><bold>Радиус поиска
+        description: "<gray>Позволяет изменить радиус\n<gray>вокруг игрока, из которого\n<gray>обнаруживаются блоки и/или сущности."
+        value: '<gray>Текущее расстояние: <yellow>[number]'
+      remove_items:
+        name: <white><bold>Удалить предметы
+        description: "<gray>Переключает удаление требуемых предметов\n<gray>из инвентаря после\n<gray>завершения испытания."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      required_items:
+        name: <white><bold>Требуемые предметы
+        description: "<gray>Позволяет изменить требуемые\n<gray>предметы для завершения этого испытания."
+        title: '<gray>Предметы: '
+        list: ' <dark_gray>- [number] x [item]'
+        none: <gray>Предметы не добавлены.
+      add_ignored_meta:
+        name: <white><bold>Добавить игнорируемые метаданные
+        description: "<gray>Позволяет указать какие предметы\n<gray>должны игнорировать любые метаданные\n<gray>присвоенные им."
+        title: '<gray>Предметы: '
+        list: ' <dark_gray>- [number] x [item]'
+        none: <gray>Предметы не добавлены.
+      remove_ignored_meta:
+        name: <white><bold>Удалить игнорируемые метаданные
+        description: "<gray>Удаляет предметы которые игнорируют метаданные\n<gray>присвоенные им."
+      remove_experience:
+        name: <white><bold>Удалить опыт
+        description: "<gray>Переключает удаление требуемого\n<gray>опыта у\n<gray>игрока после завершения\n<gray>испытания."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      required_experience:
+        name: <white><bold>Требуемый опыт
+        description: "<gray>Позволяет изменить требуемый\n<gray>опыт для игрока."
+        value: '<gray>Текущий опыт: <yellow>[number]'
+      required_level:
+        name: <white><bold>Требуемый уровень острова
+        description: "<gray>Позволяет изменить\n<gray>требуемый уровень острова\n<gray>для испытания."
+        value: '<gray>Текущий уровень: <yellow>[number]'
+      required_materialtags:
+        name: <white><bold>Требуемые группы блоков
+        description: "<gray>Позволяет изменить требуемые\n<gray>группы блоков для этого испытания для его\n<gray>завершения."
+        title: '<gray>Группа блоков: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Группы блоков не добавлены.
+      required_entitytags:
+        name: <white><bold>Требуемые группы сущностей
+        description: "<gray>Позволяет изменить требуемые\n<gray>группы сущностей для этого испытания для его\n<gray>завершения."
+        title: '<gray>Группа сущностей: '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Группы сущностей не добавлены.
+      remove_money:
+        name: <white><bold>Удалить деньги
+        description: "<gray>Переключает удаление требуемых\n<gray>денег со счета\n<gray>игрока после\n<gray>завершения испытания."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      required_money:
+        name: <white><bold>Требуемые деньги
+        description: "<gray>Позволяет изменить требуемые\n<gray>деньги на счете\n<gray>игрока для испытания."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      required_papi:
+        name: <white><bold>Требуемый PAPI
+        description: "<gray>Проверяет формулу которая может\n<gray>содержать заполнители PAPI\n<gray>и математические и логические элементы."
+        value: '<gray>Формула: <yellow>[formula]'
+      statistic:
+        name: <white><bold>Статистика
+        description: "<gray>Позволяет изменить тип статистики\n<gray>который проверяется для\n<gray>этого испытания."
+        value: '<gray>Текущее значение: <yellow>[statistic]'
+      statistic_amount:
+        name: <white><bold>Целевое значение
+        description: "<gray>Позволяет изменить целевое\n<gray>значение статистики\n<gray>которое должно быть достигнуто."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      add_statistic:
+        name: <white><bold>Добавить статистику
+        description: "<gray>Позволяет добавить новую\n<gray>статистику в список."
+      remove_statistic:
+        name: <white><bold>Удалить статистику
+        description: "<gray>Позволяет удалить\n<gray>выбранные статистики\n<gray>из списка."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Добавить достижение
+        description: "<gray>Позволяет добавить новое\n<gray>достижение в список."
+      remove_advancement:
+        name: <white><bold>Удалить достижение
+        description: "<gray>Позволяет удалить\n<gray>выбранные достижения\n<gray>из списка."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      statistic_blocks:
+        name: <white><bold>Целевой блок
+        description: "<gray>Позволяет изменить целевой\n<gray>блок для статистики."
+        value: '<gray>Текущий блок: <yellow>[block]'
+      statistic_items:
+        name: <white><bold>Целевой предмет
+        description: "<gray>Позволяет изменить целевой\n<gray>предмет для статистики."
+        value: '<gray>Текущий предмет: <yellow>[item]'
+      statistic_entities:
+        name: <white><bold>Целевая сущность
+        description: "<gray>Позволяет изменить целевую\n<gray>сущность для статистики."
+        value: '<gray>Текущая сущность: <yellow>[entity]'
+      reward_text:
+        name: <white><bold>Текст награды
+        description: "<gray>Задает текст награды.\n<gray>Коды цветов должны быть применены."
+        value: '<gray>Текущий текст:'
+      repeat_reward_text:
+        name: <white><bold>Текст повторной награды
+        description: "<gray>Задает текст повторной награды\n<gray>для испытания.\n<gray>Коды цветов должны быть применены."
+        value: '<gray>Текущий текст:'
+      reward_items:
+        name: <white><bold>Предметы награды
+        description: <gray>Позволяет изменить предметы награды.
+        title: '<gray>Предметы: '
+        list: ' <dark_gray>- [number] x [item]'
+        none: <gray>Предметы не добавлены.
+      repeat_reward_items:
+        name: <white><bold>Предметы повторной награды
+        description: "<gray>Позволяет изменить предметы повторной\n<gray>награды для этого испытания."
+        title: '<gray>Предметы: '
+        list: ' <dark_gray>- [number] x [item]'
+        none: <gray>Предметы не добавлены.
+      reward_experience:
+        name: <white><bold>Опыт награды
+        description: "<gray>Позволяет изменить опыт награды\n& для игрока."
+        value: '<gray>Опыт награды: <yellow>[number]'
+      repeat_reward_experience:
+        name: <white><bold>Опыт повторной награды
+        description: "<gray>Позволяет изменить опыт повторной\n<gray>награды для игрока."
+        value: '<gray>Опыт награды: <yellow>[number]'
+      reward_money:
+        name: <white><bold>Деньги награды
+        description: <gray>Позволяет изменить деньги награды.
+        value: '<gray>Текущее значение: <yellow>[number]'
+      repeat_reward_money:
+        name: <white><bold>Деньги повторной награды
+        description: "<gray>Позволяет изменить деньги повторной\n<gray>награды для испытания."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      reward_commands:
+        name: <white><bold>Команды награды
+        description: "<gray>Задает команды награды.\n<dark_gray>Подсказка:\n<dark_gray>Команда не требует начального `/` так как она\n<dark_gray>применяется автоматически.\n<dark_gray>По умолчанию команды выполняются сервером.\n<dark_gray>Однако добавление `[SELF]` в начало приведет к\n<dark_gray>выполнению команды игроком.\n<dark_gray>Она также поддерживает заполнитель `[player]` который будет\n<dark_gray>заменен на имя игрока который завершил испытание."
+        value: '<gray>Текущие команды:'
+      repeat_reward_commands:
+        name: <white><bold>Команды повторной награды
+        description: "<gray>Задает команды повторной награды для испытания.\n<dark_gray>Подсказка:\n<dark_gray>Команда не требует начального `/` так как она\n<dark_gray>применяется автоматически.\n<dark_gray>По умолчанию команды выполняются сервером.\n<dark_gray>Однако добавление `[SELF]` в начало приведет к\n<dark_gray>выполнению команды игроком.\n<dark_gray>Она также поддерживает заполнитель `[player]` который будет\n<dark_gray>заменен на имя игрока который завершил испытание."
+        value: '<gray>Текущие команды:'
+      repeatable:
+        name: <white><bold>Повторяемо
+        description: <gray>Переключает повторяемость испытания.
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      repeat_count:
+        name: <white><bold>Количество повторений
+        description: "<gray>Позволяет изменить количество повторений\n<gray>для испытания."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      cool_down:
+        name: <white><bold>Перезагрузка
+        description: "<gray>Позволяет изменить период перезагрузки\n<gray>(в секундах) который должен пройти\n<gray>между завершениями повторяемого испытания."
+        value: '<gray>Текущее значение: <yellow>[time]'
+      challenges:
+        name: <white><bold>Испытания
+        description: "<gray>Просмотреть испытания назначенные\n<gray>уровню."
+      waiver_amount:
+        name: <white><bold>Количество отказов
+        description: "<gray>Позволяет установить количество испытаний\n<gray>которые могут остаться невыполненными для разблокировки\n<gray>следующего уровня."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      add_challenges:
+        name: <white><bold>Добавить испытание(я)
+        description: "<gray>Позволяет выбрать и добавить\n<gray>испытания к уровню."
+      remove_challenges:
+        name: <white><bold>Удалить испытание(я)
+        description: "<gray>Позволяет выбрать и удалить\n<gray>испытания из уровня."
+      reset_on_new:
+        name: <white><bold>Сброс при новом
+        description: "<gray>Переключает сброс испытаний когда пользователь\n& оставляет свой остров или создает новый."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      broadcast:
+        name: <white><bold>Трансляция
+        description: "<gray>Транслирует первое завершение\n<gray>испытания или уровня всем."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      remove_completed:
+        name: <white><bold>Скрыть завершенные
+        description: "<gray>Скрывает завершенные испытания\n<gray>из меню."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      glow_completed:
+        name: <white><bold>Подсвечивание завершенных испытаний
+        description: "<gray>Применяет свечение чарования\n<gray>к завершенным испытаниям."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      glow_completed_levels:
+        name: <white><bold>Подсвечивание завершенных уровней
+        description: "<gray>Применяет свечение чарования\n<gray>к завершенным уровням."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      store_history:
+        name: <white><bold>Хранить историю
+        description: "<gray>Сохраняет внутреннюю историю каждый раз\n<gray>когда завершается испытание.\n<gray>Текущий просмотр доступен только в\n<gray>базе данных."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      data_per_island:
+        name: <white><bold>Хранить по острову
+        description: "<gray>Сохраняет завершенные испытания\n<gray>на основе острова.\n<gray>Прогресс будет совместно\n<gray>со всеми членами команды."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      show_title:
+        name: <white><bold>Показать название
+        description: "<gray>Отображает название когда испытание\n<gray>или уровень завершены."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      gamemode_gui:
+        name: <white><bold>GUI выбора GameMode
+        description: "<gray>Включает одиночный GUI доступный\n<gray>через команду /challenges.\n<gray>(Требуется перезагрузка сервера.)"
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      locked_level_icon:
+        name: <white><bold>Значок заблокированного уровня по умолчанию
+        description: "<gray>Значок по умолчанию для всех заблокированных уровней.\n<gray>Каждый уровень может переопределить этот значок."
+      purge_history:
+        name: <white><bold>Время жизни истории
+        description: "<gray>Задает количество дней\n<gray>хранения данных истории\n<gray>в данных пользователя.\n<gray>Значение 0 означает что данные не будут\n<gray>удалены."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      title_showtime:
+        name: <white><bold>Время показа названия
+        description: "<gray>Количество тиков в течение которого название будет\n& отображаться игроку."
+        value: '<gray>Текущее значение: <yellow>[number]'
+      active_world_list:
+        name: <white><bold>Показывать только активный мир
+        description: "<gray>Если GUI выбора GameMode включен\n<gray>эта настройка определяет\n<gray>отображает ли GUI выбор\n<gray>GameMode или испытания\n<gray>для текущего мира.\n<gray>(Требуется перезагрузка сервера.)"
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      visibility_mode:
+        name: <white><bold>Режим видимости
+        description: <gray>Режим видимости для скрытых испытаний.
+        enabled: <dark_green>
+        disabled: <red>
+        visible: Показать видимые испытания
+        hidden: Показать все испытания
+        toggleable: Разрешить переключение
+      include_undeployed:
+        name: <white><bold>Включить неразвернутые испытания
+        description: "<gray>Указывает должны ли неразвернутые испытания\n<gray>учитываться при завершении уровня."
+        enabled: <dark_green>Включено
+        disabled: <red>Отключено
+      download:
+        name: <white><bold>Загрузить библиотеки
+        description: "<gray>Вручную обновляет доступные\n<gray>библиотеки испытаний."
+        enabled: <dark_green>С очисткой кеша
+        disabled: <red>Без очистки кеша
+      language:
+        name: <white><bold>Язык
+        description: "<gray>Фильтрует библиотеки испытаний\n<gray>по языку."
+        current: '<gray>Показ: <yellow>[lang]'
+        all: Все
+      player:
+        name: <white><bold>[name]
+        description: '<gray>Владелец острова: [owner]'
+        members: '<gray>Члены острова:'
+        member: <dark_gray>- [name]
+        no-island: "<red>У этого игрока нет\n<red>острова."
+      player_list:
+        name: <white><bold>Выберите список пользователей
+        description: "<gray>Выберите какой список пользователей\n<gray>должен быть отображен."
+        enabled: <dark_green>
+        disabled: <red>
+        online: Игроки онлайн
+        with_island: Игроки с островами
+        in_world: Игроки в мире
+      add_block:
+        name: <white><bold>Добавить блок
+        description: "<gray>Позволяет добавить новый\n<gray>блок в список."
+      add_block_group:
+        name: <white><bold>Добавить группу блоков
+        description: "<gray>Позволяет добавить новую\n<gray>группу блоков в список."
+      remove_block:
+        name: <white><bold>Удалить блок
+        description: "<gray>Позволяет удалить\n<gray>выбранные блоки\n<gray>из списка."
+        title: '<gray>Выбранные материалы:'
+        material: <dark_gray>- [material]
+      remove_block_group:
+        name: <white><bold>Удалить группу блоков
+        description: "<gray>Позволяет удалить\n<gray>выбранные группы блоков\n<gray>из списка."
+        title: '<gray>Выбранные группы блоков:'
+        material: <dark_gray>- [material]
+      material:
+        name: <white><bold>[material]
+        description: '<gray>ID материала: [id]'
+        selected: <dark_green>Выбрано
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Выбрано
+      add_entity:
+        name: <white><bold>Добавить сущность
+        description: "<gray>Позволяет добавить новую\n<gray>сущность в список."
+      add_entity_group:
+        name: <white><bold>Добавить группу сущностей
+        description: "<gray>Позволяет добавить новую\n<gray>группу сущностей в список."
+      switch_entity:
+        name: <white><bold>Переключить яйца
+        description: "<gray>Позволяет переключаться с\n<gray>яиц на головы мобов."
+      remove_entity:
+        name: <white><bold>Удалить сущность
+        description: "<gray>Позволяет удалить\n<gray>выбранные сущности\n<gray>из списка."
+        title: '<gray>Выбранные сущности:'
+        entity: <dark_gray>- [entity]
+      remove_entity_group:
+        name: <white><bold>Удалить группу сущностей
+        description: "<gray>Позволяет удалить\n<gray>выбранные группы сущностей\n<gray>из списка."
+        title: '<gray>Выбранные группы сущностей:'
+        entity: <dark_gray>- [tag]
+      entity:
+        name: <white><bold>[entity]
+        description: '<gray>ID сущности: [id]'
+        selected: <dark_green>Выбрано
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Выбрано
+      inventory_type:
+        name: <white><bold>Тип инвентаря
+        description: "<gray>Испытание которое проверяет предметы\n<gray>в инвентаре игрока."
+      island_type:
+        name: <white><bold>Тип острова
+        description: "<gray>Испытание которое проверяет блоки\n<gray>или сущности вокруг игрока."
+      other_type:
+        name: <white><bold>Другой тип
+        description: "<gray>Испытание которое использует плагины\n<gray>или функции дополнения,\n<gray>такие как уровень и деньги."
+      statistic_type:
+        name: <white><bold>Тип статистики
+        description: "<gray>Испытание которое проверяет\n<gray>данные статистики игрока."
+      save:
+        name: <white><bold>Сохранить
+        description: "<gray>Сохраняет изменения и\n<gray>возвращает."
+      cancel:
+        name: <white><bold>Отмена
+        description: "<gray>Отменяет изменения и\n<gray>возвращает."
+      accept_selected:
+        name: <white><bold>Принять выбранное
+        description: "<gray>Возвращает выбранные элементы\n<gray>и переоткрывает предыдущий GUI."
+        title: '<gray>Выбрано: '
+        element: <dark_gray>- [element]
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Выбрано
+      statistic_element:
+        name: <white><bold>[statistic]
+        amount: '<gray>Целевое значение: <yellow>[number]'
+        remove:
+          name: '<gray>Уменьшить статистику: [value]'
+          value:
+            enabled: <red>Включено
+            disabled: <dark_green>Отключено
+        block: '<gray>Целевой блок: <yellow>[block]'
+        item: '<gray>Целевой предмет: <yellow>[item]'
+        entity: '<gray>Целевая сущность: <yellow>[entity]'
+        description: '[description]'
+        selected: <dark_green>Выбрано
+      environment_element:
+        name: <white><bold>[environment]
+        description: '[description]'
+      search:
+        name: <white><bold>Поиск
+        description: "<gray>Позволяет искать элемент\n<gray>используя значение ввода текста."
+        search: '<aqua>Значение: [value]'
     descriptions:
       admin:
         input: Открыть текстовое поле ввода.
         deployment: Позволяет игрокам завершить (просмотреть) челлендж.
         icon-challenge: Иконка, который будет отображаться в GUI для этой задачи.
         icon-level: Иконка, который будет отображаться в GUI для этого уровня.
-        remove-completed: Включает/Отключает скрытие челленджей, которые выполнены
-          и не могут быть повторены.
+        remove-completed: Включает/Отключает скрытие челленджей, которые выполнены и не могут быть повторены.
         toggle-user-list: Переключиться на другой список игроков.
         selected: Выбрано
         show-eggs: Переключить вид сущности между режимом Egg или Head.
@@ -187,8 +734,7 @@ challenges:
         input-mode: Переключайтесь между режимами ввода чата и наковальни.
         library-lang: "<green>Язык: [lang]"
         library-gamemode: "<green>Основной для [gamemode]"
-        download-disabled: Загрузчик данных GitHub отключен в BentoBox. Без этого
-          вы не можете использовать библиотеки!
+        download-disabled: Загрузчик данных GitHub отключен в BentoBox. Без этого вы не можете использовать библиотеки!
         create-level: Добавить новый уровень.
         edit-challenge: Изменить настройки челленджа.
         edit-level: Изменить настройки уровня.
@@ -205,24 +751,18 @@ challenges:
         name-level: Изменить отображаемое название уровня.
         remove-entities: Удалит (убьет) сущности по завершению челленджа.
         remove-blocks: Удалит (заменит на воздух) блоки по завершению челленджа.
-        search-radius: Радиус вокруг местоположения игрока, где будут находиться нужные
-          сущности и блоки.
-        reward-text: Изменить сообщение, которое будет отправлено игроку после завершения
-          челленджа.
+        search-radius: Радиус вокруг местоположения игрока, где будут находиться нужные сущности и блоки.
+        reward-text: Изменить сообщение, которое будет отправлено игроку после завершения челленджа.
         repeatable: Определите, можно ли будет перепройти челлендж или нет.
-        free-at-top: Поменяйте местами челленджи. Истина означает, что вызовы будут
-          первыми, иначе - они будут последними.
-        line-length: Измените максимальную длину строки в поле описания. Не повлияет
-          на хранимые объекты.
+        free-at-top: Поменяйте местами челленджи. Истина означает, что вызовы будут первыми, иначе - они будут последними.
+        line-length: Измените максимальную длину строки в поле описания. Не повлияет на хранимые объекты.
         level-lore: Изменить, какие элементы описания уровня должны быть видны.
         challenge-lore: Изменить, какие элементы описания челленджа должны быть видимыми.
-        gui-view-mode: Укажите, должен ли /challenge GUI отображать игровые режимы
-          или челленджи в мире игрока.
+        gui-view-mode: Укажите, должен ли /challenge GUI отображать игровые режимы или челленджи в мире игрока.
         history-store: Включить/Отключить хранение истории челленджей.
         default-import: Импорт челленджей по умолчанию.
         default-export: Экспор существующих челленджей в файл defaults.json.
-        complete-wipe: Полностью очистить все проблемы базы данных аддона. Включает
-          в себя данные игрока!
+        complete-wipe: Полностью очистить все проблемы базы данных аддона. Включает в себя данные игрока!
         challenge-wipe: Полная чистка базы данных челленджей и их уровней!
         players-wipe: Полностью очищенная база данных игроков!
         library: Откройте GUI, который показывает все доступные публичные библиотеки.
@@ -230,34 +770,25 @@ challenges:
         save: Сохраните и вернитесь к предыдущему GUI.
         cancel: Вернитесь к предыдущему GUI. Изменения не будут сохранены.
         set: Установить сумму. Нажатие на цифру установит значение на выбранный число.
-        increase: Увеличить сумму. Нажатие на цифру увеличит значение на выбранный
-          число.
+        increase: Увеличить сумму. Нажатие на цифру увеличит значение на выбранный число.
         reduce: Уменьшить сумму. Нажатие на цифру уменьшит значение на выбранный число.
         multiply: Умножьте сумму. Нажатие на цифру умножит значение на выбранное число.
         challenges: Управляйте уровнями челленджей (добавляйте/удаляйте).
-        locked-icon: Иконка, который будет отображаться на панелях GUI, если уровень
-          заблокирован.
+        locked-icon: Иконка, который будет отображаться на панелях GUI, если уровень заблокирован.
         remove-on-complete: Удалить челлендж из GUI игрока после его завершения.
         remove-items: Удалить предметы из инвентаря игрока после завершения челленджа.
-        required-experience: Определите необходимый опыт для игрока, чтобы выполнить
-          челлендж.
+        required-experience: Определите необходимый опыт для игрока, чтобы выполнить челлендж.
         remove-experience: Удалить необходимый опыт.
         reward-experience: Изменить опыт-награду за первое завершение челленджа.
-        repeat-count: Определите максимальное количество повторений. Если значение
-          установлено на 0, ограничений нет.
-        repeat-reward-text: Изменить сообщение, которое будет отправлено игроку после
-          повторного завершения челленджа.
+        repeat-count: Определите максимальное количество повторений. Если значение установлено на 0, ограничений нет.
+        repeat-reward-text: Изменить сообщение, которое будет отправлено игроку после повторного завершения челленджа.
         repeat-reward-experience: Изменить опыт-награду за повторное завершение челленджа.
-        waiver-amount: Установите количество челленджей, которые игрок сможет пропустить,
-          чтобы разблокировать следующий уровень.
-        reward-text-level: Измените сообщение, которое будет отправлено игроку после
-          завершения всех челленджей на уровне.
+        waiver-amount: Установите количество челленджей, которые игрок сможет пропустить, чтобы разблокировать следующий уровень.
+        reward-text-level: Измените сообщение, которое будет отправлено игроку после завершения всех челленджей на уровне.
         add-challenge: Добавить существующий челлендж на текущий уровень.
         remove-challenge: Удалить челлендж  с текущего уровня.
-        reset-on-new: Включает/Отключает сброс всех челленджей для игрока, если он
-          перезайдет, выйдет или будет выгнан с острова.
-        broadcast: Включает/Отключает оповещение на первое прохождения челленджа для
-          всех онлайн игроков.
+        reset-on-new: Включает/Отключает сброс всех челленджей для игрока, если он перезайдет, выйдет или будет выгнан с острова.
+        broadcast: Включает/Отключает оповещение на первое прохождения челленджа для всех онлайн игроков.
         glow: Включает/Отключает эффект свечения для выполненных челленджей.
         mode-online: Игроки, которые сейчас онлайн.
         mode-in-world: Игроки в GameMode мире.
@@ -265,8 +796,7 @@ challenges:
         visibility-mode: Показать/Cкрыть неразрешенные челленджи.
         edit-text-line: "<gold>Редактировать текстовое сообщение!"
         add-text-line: "<gold>Добавить новое текстовое сообщение!"
-        title-enable: Включите/Отключите заглавное сообщение, которое будет показано
-          игрокам, когда они выполнят челлендж.
+        title-enable: Включите/Отключите заглавное сообщение, которое будет показано игрокам, когда они выполнят челлендж.
         title-showtime: Измените, как долго заглавные сообщения будут видны игроку.
         import: |-
           Импортировать вызовы из ASkyblock.
@@ -300,8 +830,7 @@ challenges:
         remove-money: |-
           Снять необходимое кол-во денег со счета игрока.
           <red>Требуется Vault и любой плагин на экономику.'
-        reward-items: 'Изменить награду в виде предмета за первое завершение челленджа.
-          Предметы:'
+        reward-items: 'Изменить награду в виде предмета за первое завершение челленджа. Предметы:'
         reward-money: |-
           Изменить денежное вознаграждение за первое выполнение челленджа.
           <red>Требуется Vault и любой плагин на экономику.
@@ -423,8 +952,7 @@ challenges:
       entity: "- [entity] : [count]"
       permission: "- [permission]"
       level-unlocked: Нажмите, чтобы увидеть [level] челленджей!
-      level-locked: Заверши больше [count] заданий, уровня [level], чтобы открыть
-        этот уровень!
+      level-locked: Заверши больше [count] заданий, уровня [level], чтобы открыть этот уровень!
       increase-by: "<green>Увеличьте кол-во завершений на [value]"
       reduce-by: "<green>Уменьшите кол-во завершений на [value]"
       visibility:
@@ -441,16 +969,99 @@ challenges:
       item-meta: "([meta])"
       item-enchant: "- [enchant] [level]"
       command: "- [command]"
+      challenge:
+        lore: "[description]\n[status]\n[cooldown]\n[requirements]\n[rewards]"
+        team-requirement: '<gold>Команда: <yellow>[online] <gold>онлайн (<yellow>[number] <gold>требуется)'
+        team-required: <red>Требуется команда для завершения
+        status:
+          completed: <dark_green><bold>Завершено
+          completed-times: <dark_green>Завершено <gray><bold>[number] <reset><dark_green>раз(а)
+          completed-times-of: <dark_green>Завершено <gray><bold>[number] <reset><dark_green>из <gray><bold>[max] <reset><dark_green>раз
+          completed-times-reached: <dark_green><bold>Завершено все <gray>[max] <dark_green>раз
+        cooldown:
+          lore: "[timeout]\n[wait-time]"
+          timeout: '<gray><bold>Перезагрузка: <reset><gray>[time]'
+          wait-time: '<red><bold>Доступно после: <reset><red>[time]'
+          in-days: '[number] д '
+          in-hours: '[number] ч '
+          in-minutes: '[number] мин '
+          in-seconds: '[number] с'
+        requirements:
+          lore: "[environment]\n[type-requirement]\n[permissions]"
+          environment-single: <gray>Ограничено только [environment]
+          environment-title: '<gray>Ограничено: '
+          environment-list: '  <gray>- <yellow>[environment]'
+          permission-single: <red>Требуется [permission] разрешение.
+          permissions-title: '<red>Требуемые разрешения: '
+          permissions-list: '  <red>- [permission]'
+          island:
+            lore: "[blocks]\n[entities]\n[search-radius]\n[warning-block]\n[warning-entity]"
+            blocks-title: '<gray><bold>Требуемые блоки:'
+            block-value: '  <gray>- <yellow>[material]'
+            blocks-value: '  <gray>- <yellow>[number] x [material]'
+            entities-title: '<gray><bold>Требуемые сущности:'
+            entity-value: '  <gray>- <yellow>[entity]'
+            entities-value: '  <gray>- <yellow>[number] x [entity]'
+            search-radius: <gray>Не дальше <yellow>[number] <gray>метров
+            warning-block: <yellow>Блоки будут <red>удалены
+            warning-entity: <yellow>Сущности будут <red>удалены
+          inventory:
+            lore: "[items]\n[warning]"
+            item-title: '<gray><bold>Требуемые предметы:'
+            item-value: '  <gray>- <yellow>[item]'
+            items-value: '  <gray>- <yellow>[number] x [item]'
+            warning: <yellow>Предмет(ы) будут <red>удалены
+          other:
+            lore: "[experience]\n[experience-warning]\n[money]\n[money-warning]\n[level]"
+            experience: '<gray><bold>Требуемый опыт: <reset><yellow>[number]'
+            experience-warning: <yellow>Опыт будет <red>удален
+            money: '<gray><bold>Требуемые деньги: <reset><yellow>[number]'
+            money-warning: <yellow>Деньги будут <red>удалены
+            level: '<gray><bold>Требуемый уровень острова: <reset><yellow>[number]'
+          statistic:
+            lore: "[statistic]\n[warning]"
+            multiple-target: '<gray><bold>[statistic]: <reset><yellow>[number] x [target]'
+            single-target: '<gray><bold>[statistic]: <reset><yellow>[target]'
+            statistic: <gray><bold>[statistic] <reset><yellow>[number]
+            warning: <yellow>Данные статистики будут <red>уменьшены
+        rewards:
+          lore: "<gray><bold>Награды:\n[text]\n[items]\n[experience]\n[money]\n[commands]"
+          item-title: '<gray>Предметы:'
+          item-value: '  <gray>- <yellow>[item]'
+          items-value: '  <gray>- <yellow>[number] x [item]'
+          experience: '<gray>Опыт: <reset><yellow>[number]'
+          money: '<gray>Деньги: <reset><yellow>[number]'
+          commands-title: '<gray>Команды:'
+          command: '  <gray>- <yellow>[command]'
+      level:
+        lore: "[text]\n[status]\n[waiver]\n[rewards]"
+        status:
+          completed: <dark_green><bold>Завершено
+          completed-challenges-of: <dark_green>Завершено <gray><bold>[number] <reset><dark_green>из <gray><bold>[max] <reset><dark_green>испытаний.
+          locked: <red><bold>Заблокировано
+          missing-challenges: "<gray>[number] дополнительных испытаний нужно\n<gray>завершить чтобы разблокировать этот уровень."
+        waiver: "<gray><bold>[number] испытание(я) можно\n<gray>пропустить чтобы разблокировать следующий уровень."
+        rewards:
+          lore: "<gray><bold>Награды:\n[text]\n[items]\n[experience]\n[money]\n[commands]"
+          item-title: '<gray>Предметы:'
+          item-value: '  <gray>- <yellow>[item]'
+          items-value: '  <gray>- <yellow>[number] x [item]'
+          experience: '<gray>Опыт: <reset><yellow>[number]'
+          money: '<gray>Деньги: <reset><yellow>[number]'
+          commands-title: '<gray>Команды:'
+          command: '  <gray>- <yellow>[command]'
+      library:
+        author: <gray>от <yellow>[author]
+        version: <gray>Создано с помощью Challenges <yellow>[version]
+        lang: '<gray>Язык: <yellow>[lang]'
+        gamemode: <gray>Основной для <yellow>[gamemode]
     challenge-description:
       completed-times-of: Завершено [donetimes] из [maxtimes]
       maxed-reached: Завершено [donetimes] из [maxtimes]
       completed-times: Завершено [donetimes]
-      objects-close-by: "<red>Все необходимые блоки и сущности должны быть рядом с вами,
-        на вашем острове!"
-      warning-entities-kill: "<red>Все необходимые сущности будут убиты, когда вы завершите
-        этот челлендж!"
-      warning-blocks-remove: "<red>Все необходимые блоки будут удалены, когда вы выполните
-        этот челлендж!"
+      objects-close-by: "<red>Все необходимые блоки и сущности должны быть рядом с вами, на вашем острове!"
+      warning-entities-kill: "<red>Все необходимые сущности будут убиты, когда вы завершите этот челлендж!"
+      warning-blocks-remove: "<red>Все необходимые блоки будут удалены, когда вы выполните этот челлендж!"
       not-repeatable: "<red>Этот челлендж нельзя повторить!"
       experience-reward: "<gold>Опыта в награде: [value]"
       money-reward: "<gold>Денежная награда: $[value]"
@@ -465,18 +1076,15 @@ challenges:
       required-blocks: 'Требуемые блоки:'
       level: "<white>Уровень: [level]"
       completed: "<aqua>Завершено"
-      warning-items-take: "<red>Все необходимые предметы будут изъяты из вашего инвентаря,
-        когда вы завершите этот челлендж!"
+      warning-items-take: "<red>Все необходимые предметы будут изъяты из вашего инвентаря, когда вы завершите этот челлендж!"
     level-description:
       experience-reward: "<gold>Опыта в награде: [value]"
       money-reward: "<gold>Денежная награда: $[value]"
       reward-items: "<gold>Предметы в награде:"
       reward-commands: "<gold>Команды в награде:"
-      waver-amount: "<gold>[value] челленджи могут быть пропущены, чтобы разблокировать
-        следующий уровень."
+      waver-amount: "<gold>[value] челленджи могут быть пропущены, чтобы разблокировать следующий уровень."
       completed: "<aqua>Завершено"
-      completed-challenges-of: "<dark_aqua>Вы завершили [number] из [max] челленджей на этом
-        уровне."
+      completed-challenges-of: "<dark_aqua>Вы завершили [number] из [max] челленджей на этом уровне."
     item-description:
       item: "- [count] x [item]"
       potion-type-extended-upgraded: Расширен и обновлен [name]
@@ -502,6 +1110,76 @@ challenges:
         number: Напишите номер в чате и нажмите ENTER.
         challenge-name: Напишите отображаемое имя в чате для текущего челленджа.
         level-name: Напишите отображаемое имя в чате для текущего уровня.
+    titles:
+      player-gui: <black><bold>Меню испытаний
+      gamemode-gui: <black><bold>Выберите игровой режим
+      multiple-gui: <black><bold>Сколько раз?
+      admin-gui: <black><bold>Меню администратора испытаний
+      edit-challenge: <black><bold>Редактировать [challenge]
+      edit-level: <black><bold>Редактировать [level]
+      settings: <black><bold>Настройки
+      choose-challenge: <black><bold>Выберите испытание
+      choose-level: <black><bold>Выберите уровень
+      choose-player: <black><bold>Выберите игрока
+      library: <black><bold>Библиотека
+      manage-blocks: <black><bold>Управление блоками
+      manage-block-groups: <black><bold>Управление группами блоков
+      manage-entity-groups: <black><bold>Управление группами сущностей
+      manage-entities: <black><bold>Управление сущностями
+      manage-statistics: <black><bold>Управление статистикой
+      manage-advancements: <black><bold>Управление достижениями
+      advancement-selector: <black><bold>Выбор достижений
+      type-selector: <black><bold>Выбор типа испытания
+      item-selector: <black><bold>Выбор предмета
+      block-selector: <black><bold>Выбор блока
+      entity-selector: <black><bold>Выбор сущности
+      challenge-selector: <black><bold>Выбор испытания
+      statistic-selector: <black><bold>Выбор статистики
+      environment-selector: <black><bold>Выбор измерения
+    tips:
+      click-to-select: <yellow>Нажмите <gray>чтобы выбрать.
+      click-to-choose: <yellow>Нажмите <gray>чтобы выбрать.
+      click-to-complete: <yellow>Нажмите <gray>чтобы завершить.
+      right-click-multiple-open: <yellow>Правый клик <gray>чтобы выбрать количество завершений.
+      shift-left-click-to-complete-all: <yellow>Нажать Shift <gray>чтобы завершить все.
+      left-click-to-accept: <yellow>Левый клик <gray>чтобы завершить.
+      right-click-to-write: <yellow>Правый клик <gray>чтобы написать.
+      click-to-reduce: <yellow>Нажмите <gray>чтобы уменьшить.
+      click-to-increase: <yellow>Нажмите <gray>чтобы увеличить.
+      click-to-return: <yellow>Нажмите <gray>чтобы вернуться.
+      click-to-quit: <yellow>Нажмите <gray>чтобы выйти.
+      click-to-wipe: <yellow>Нажмите <gray>чтобы стереть.
+      left-click-to-wipe: <yellow>Левый клик <gray>чтобы стереть.
+      right-click-to-switch: <yellow>Правый клик <gray>чтобы переключиться.
+      click-to-open: <yellow>Нажмите <gray>чтобы открыть.
+      click-to-export: <yellow>Нажмите <gray>чтобы экспортировать.
+      click-to-create: <yellow>Нажмите <gray>чтобы создать.
+      left-click-to-open: <yellow>Левый клик <gray>чтобы открыть.
+      right-click-to-reset-all: <yellow>Правый клик <gray>чтобы сбросить все.
+      click-to-toggle: <yellow>Нажмите <gray>чтобы переключить.
+      click-to-change: <yellow>Нажмите <gray>чтобы изменить.
+      shift-click-to-reset: <yellow>Нажать Shift <gray>чтобы сбросить.
+      click-to-add: <yellow>Нажмите <gray>чтобы добавить.
+      click-to-remove: <yellow>Нажмите <gray>чтобы удалить.
+      left-click-to-cycle: <yellow>Левый клик <gray>чтобы переключиться вниз.
+      right-click-to-cycle: <yellow>Правый клик <gray>чтобы переключиться вверх.
+      click-to-edit: <yellow>Нажмите <gray>чтобы отредактировать.
+      left-click-to-download: <yellow>Левый клик <gray>чтобы загрузить.
+      right-click-to-toggle: <yellow>Правый клик <gray>чтобы переключить.
+      click-to-install: <yellow>Нажмите <gray>чтобы установить.
+      click-to-reset-all: <yellow>Нажмите <gray>чтобы сбросить все.
+      right-click-to-select: <yellow>Правый клик <gray>чтобы выбрать.
+      right-click-to-deselect: <yellow>Правый клик <gray>чтобы отменить выбор.
+      right-click-to-reset: <yellow>Правый клик <gray>чтобы сбросить.
+      left-click-to-choose: <yellow>Левый клик <gray>чтобы выбрать.
+      click-to-cancel: <yellow>Нажмите <gray>чтобы отменить.
+      click-to-save: <yellow>Нажмите <gray>чтобы сохранить.
+      click-to-deselect: <yellow>Нажмите <gray>чтобы отменить выбор.
+      click-on-item: "<yellow>Нажмите <gray>на предмет в\n<gray>вашем инвентаре."
+      left-click-to-edit: <yellow>Левый клик <gray>чтобы отредактировать.
+      right-click-to-clear: <yellow>Правый клик <gray>чтобы очистить.
+      click-to-previous: <yellow>Нажмите <gray>чтобы просмотреть предыдущую страницу.
+      click-to-next: <yellow>Нажмите <gray>чтобы просмотреть следующую страницу.
   titles:
     challenge-title: Успешно завершено
     challenge-subtitle: "[friendlyName]"
@@ -520,18 +1198,13 @@ challenges:
       migrate-not: "<dark_green>Все данные действительны."
       start-downloading: "<dark_purple>Начинаем скачивать и импортировать Challenges Library."
       migrate-end: "<dark_green>Данные аддона челленджей обновлены до нового формата."
-      hit-things: Нажмите на предметы, чтобы добавить их в список необходимых предметов.
-        Щелкните правой кнопкой мыши, когда закончите.
-      complete-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто
-        стерли все данные из базы аддона Challenges!"
-      challenge-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто
-        стерли все челленджи и их уровни!"
-      players-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто стерли
-        все выполненные игроками челленджи!"
+      hit-things: Нажмите на предметы, чтобы добавить их в список необходимых предметов. Щелкните правой кнопкой мыши, когда закончите.
+      complete-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто стерли все данные из базы аддона Challenges!"
+      challenge-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто стерли все челленджи и их уровни!"
+      players-wipe: "<red>Надеюсь, у вас есть резервные копии, потому что вы просто стерли все выполненные игроками челленджи!"
     you-completed-challenge: "<dark_green>Вы завершили [value] <reset><dark_green>челлендж!"
     you-repeated-challenge: "<dark_green>Ты перепрошел [value] <reset><dark_green>челлендж!"
-    you-repeated-challenge-multiple: "<dark_green>Вы перепрошли [value] <reset><dark_green>челлендж [count]
-      раз!"
+    you-repeated-challenge-multiple: "<dark_green>Вы перепрошли [value] <reset><dark_green>челлендж [count] раз!"
     you-completed-level: "<dark_green>Вы завершили [value] <reset><dark_green>уровень!"
     name-has-completed-challenge: "<dark_purple>[name] завершил [value] <reset><dark_purple>челлендж!"
     name-has-completed-level: "<dark_purple>[name] завершил [value] <reset><dark_purple>уровень!"
@@ -544,54 +1217,116 @@ challenges:
     load-add: 'Добавление нового объекта: [value]'
     defaults-file-overwrite: defaults.json существует. Это будет перезаписано.
     defaults-file-completed: defaults.json файл заполнен челленджами из [world]!
+    completed: <dark_green>Вы завершили испытание [name] для [player]!
+    already-completed: <dark_green>Это испытание уже завершено!
+    reset: <dark_green>Вы сбросили испытание [name] для [player]!
+    reset-all: <dark_green>Все испытания для [player] были сброшены!
+    not-completed: <dark_green>Это испытание еще не было завершено!
+    migrate-start: <dark_green>Начало миграции данных дополнения испытаний.
+    migrate-end: <dark_green>Данные дополнения испытаний были обновлены в новый формат.
+    migrate-not: <dark_green>Все данные действительны.
+    start-downloading: <dark_purple>Начало загрузки и импорта библиотеки испытаний.
   errors:
     no-name: "<red>Отсутствует имя челленджа"
     unknown-challenge: "<red>Неизвестный челлендж"
     unique-id: '<red>Уникальный идентификатор "[id]" недействителен.'
-    wrong-icon: '<red>Данный материал "[value]" недействителен и не может использоваться
-      в качестве иконки.'
+    wrong-icon: '<red>Данный материал "[value]" недействителен и не может использоваться в качестве иконки.'
     not-deployed: "<red>Челлендж не отображается!"
     not-on-island: "<red>Вы должны быть на своем острове, чтобы сделать это!"
     not-repeatable: "<red>Этот челлендж нельзя пройти повторно!"
     not-enough-items: "<red>У тебя недостаточно [items] чтобы завершить этот челлендж!"
-    not-close-enough: "<red>Вы должны стоять в пределах [number] блоков от всех необходимых
-      предметов."
+    not-close-enough: "<red>Вы должны стоять в пределах [number] блоков от всех необходимых предметов."
     you-still-need: "<red>Вам еще нужно [amount] x [item]"
-    not-enough-money: "<red>Необходимо иметь [value] на вашем аккаунте, чтобы завершить
-      челлендж."
+    not-enough-money: "<red>Необходимо иметь [value] на вашем аккаунте, чтобы завершить челлендж."
     import-no-file: "<red>Не могу найти challenges.yml файл для импорта!"
     no-load: "<red>Ошибка: Не  смог загрузить challenges.yml. [message]"
     load-error: "<red>Ошибка: Не удается загрузить [value]."
-    defaults-file-exist: "<red>defaults.json уже существует. Используйте режим перезаписи,
-      чтобы заменить его!"
-    defaults-file-error: "<red>Произошла ошибка при создании файла defaults.json! Проверьте
-      консоль!"
+    defaults-file-exist: "<red>defaults.json уже существует. Используйте режим перезаписи, чтобы заменить его!"
+    defaults-file-error: "<red>Произошла ошибка при создании файла defaults.json! Проверьте консоль!"
     missing-arguments: "<red>В команде отсутствуют аргументы."
     wrong-environment: "<red>Вы находитесь в неправильном окружении!"
-    missing-addon: "<red>Невозможно выполнить задание: отсутствует обязательный аддон
-      или плагин."
-    exist-challenges-or-levels: "<red>Челленджи уже существуют в вашем мире. Не могу
-      продолжить!"
+    missing-addon: "<red>Невозможно выполнить задание: отсутствует обязательный аддон или плагин."
+    exist-challenges-or-levels: "<red>Челленджи уже существуют в вашем мире. Не могу продолжить!"
     no-challenges: "<red>Челленджи еще не реализованы в этом мире!"
-    no-challenges-admin: "<red>Челленджи еще не реализованы в этом мире! Используйте
-      \ <dark_purple>/[command] <red>чтобы добавить их!"
-    missing-level: "<red>Уровень челленджа [level] не определен в базе данных. Это может
-      привести к ошибкам!"
-    no-multiple-permission: "<red>У вас нет разрешения на выполнение этого задания несколько
-      раз одновременно."
+    no-challenges-admin: "<red>Челленджи еще не реализованы в этом мире! Используйте  <dark_purple>/[command] <red>чтобы добавить их!"
+    missing-level: "<red>Уровень челленджа [level] не определен в базе данных. Это может привести к ошибкам!"
+    no-multiple-permission: "<red>У вас нет разрешения на выполнение этого задания несколько раз одновременно."
     not-a-integer: '<red>Данное значение "[value]" не является целым числом!'
-    challenge-level-not-available: "<red>Вы не разблокировали необходимый уровень для
-      выполнения этого челленджа."
+    challenge-level-not-available: "<red>Вы не разблокировали необходимый уровень для выполнения этого челленджа."
     incorrect: "<red>Невозможно выполнить челлендж: требования неверны."
-    not-enough-experience: "<red>Необходимо иметь [value] опыта, чтобы завершить этот
-      челлендж."
-    island-level: "<red>Ваш остров должен быть [number] уровня или больше, чтобы завершить
-      этот челлендж!"
+    not-enough-experience: "<red>Необходимо иметь [value] опыта, чтобы завершить этот челлендж."
+    island-level: "<red>Ваш остров должен быть [number] уровня или больше, чтобы завершить этот челлендж!"
     no-rank: "<red>У вас нет достаточно высокого ранга, чтобы сделать это."
     cannot-remove-items: "<red>Некоторые предметы не могут быть удалены из вашего инвентаря!"
     not-valid-integer: |-
       <red>Заданное целое число "[value]" не является действительным!
       Значение должно быть между [min] и [max].
+    import-failed: '<red>Не удалось импортировать испытания: [message]. Проверьте консоль сервера для подробностей.'
+    invalid-level: <red>Уровень [level] содержит неверные данные и не будет загружен из базы данных!
+    invalid-challenge: <red>Испытание [challenge] содержит неверные данные и не будет загружено из базы данных!
+    no-library-entries: <red>Записи библиотеки не найдены. Нечего показывать.
+    not-hooked: <red>Дополнение испытаний не смогло найти никакой GameMode.
+    timeout: <red>Это испытание требует времени ожидания [timeout] между завершениями. Вы должны подождать [wait-time] перед его повторным завершением.
+    requirement-not-met: <red>Это испытание требует [statistic] [number]. У вас есть только [value].
+    requirement-not-met-entity: <red>Это испытание требует [statistic] для [entity] быть [number]. У вас есть только [value].
+    requirement-not-met-material: <red>Это испытание требует [statistic] для [material] быть [number]. У вас есть только [value].
+    no-team: <red>Это командное испытание. Вам нужно иметь команду чтобы завершить его!
+    insufficient-team: <red>Это командное испытание требует [number] членов команды онлайн. Только [online] онлайн.
+    member-missing-share: <red>[name] не имеет их доли ([amount] x [item]) для этого командного испытания.
+  materials:
+    any: 'Любой '
+    all_hanging_signs:
+      name: Любой висящий знак
+    all_signs:
+      name: Любой знак
+  conversations:
+    prefix: '<bold><gold>[BentoBox]: <reset>'
+    confirm-string: true, on, yes, confirm, y, valid, correct
+    deny-string: false, off, no, deny, n, invalid, incorrect
+    cancel-string: cancel
+    exit-string: cancel, exit, quit
+    cancelled: <red>Разговор отменен!
+    input-number: <yellow>Пожалуйста введите число в чат.
+    input-seconds: <yellow>Пожалуйста введите количество секунд в чат.
+    numeric-only: <red>Введенное [value] не является числом!
+    not-valid-value: <red>Введенное число [value] не действительно. Оно должно быть больше [min] и меньше [max]!
+    user-data-removed: <green>Все данные пользователя для [gamemode] были удалены из базы данных.
+    confirm-user-data-deletion: <yellow>Пожалуйста подтвердите что вы хотите очистить базу данных пользователя для [gamemode].
+    challenge-data-removed: <green>Все данные испытаний для [gamemode] были удалены из базы данных.
+    confirm-challenge-data-deletion: <yellow>Пожалуйста подтвердите что вы хотите очистить базу данных испытаний для [gamemode].
+    all-data-removed: <green>Все данные дополнения для [gamemode] были удалены из базы данных.
+    confirm-all-data-deletion: <yellow>Пожалуйста подтвердите что вы хотите очистить данные дополнения для [gamemode].
+    write-name: <yellow>Пожалуйста введите имя в чат.
+    new-object-created: <green>Новый объект для [gamemode] был создан.
+    object-already-exists: <red>Объект <gray>[id] <red>уже существует. Пожалуйста выберите другое имя.
+    invalid-challenge: <red>Испытание [challenge] содержит неверные данные и не может быть развернуто!
+    name-changed: '<green>Успех: имя было обновлено.'
+    write-description: <yellow>Пожалуйста введите новое описание в чат. Введите 'quit' на новой строке чтобы завершить.
+    description-changed: '<green>Успех: описание испытания было обновлено.'
+    write-permissions: <yellow>Пожалуйста введите требуемые разрешения по одному в каждой строке в чат. Введите 'quit' на новой строке чтобы завершить.
+    permissions-changed: '<green>Успех: разрешения испытания были обновлены.'
+    write-reward-text: <yellow>Пожалуйста введите новый текст награды в чат. Введите 'quit' на новой строке чтобы завершить.
+    reward-text-changed: '<green>Успех: текст награды был обновлен.'
+    write-repeat-reward-text: <yellow>Пожалуйста введите новый текст повторной награды в чат. Введите 'quit' на новой строке чтобы завершить.
+    repeat-reward-text-changed: '<green>Успех: текст повторной награды был обновлен.'
+    write-reward-commands: <yellow>Пожалуйста введите новую команду награды на каждой строке в чат. Введите 'quit' на новой строке чтобы завершить.
+    reward-commands-changed: '<green>Успех: команды награды были обновлены.'
+    write-repeat-reward-commands: <yellow>Пожалуйста введите новую команду повторной награды на каждой строке в чат. Введите 'quit' на новой строке чтобы завершить.
+    repeat-reward-commands-changed: '<green>Успех: команды повторной награды были обновлены.'
+    challenge-removed: <green>Испытание [challenge] для [gamemode] было удалено из базы данных.
+    confirm-challenge-deletion: <yellow>Пожалуйста подтвердите что вы хотите удалить [challenge] для [gamemode] из базы данных.
+    level-removed: <green>Уровень [level] для [gamemode] был удален из базы данных.
+    confirm-level-deletion: <yellow>Пожалуйста подтвердите что вы хотите удалить [level] для [gamemode] из базы данных.
+    start-downloading: <green>Начало загрузки и импорта библиотеки испытаний.
+    written-text: '<green>Введенный текст:'
+    confirm-data-replacement: <yellow>Пожалуйста подтвердите что вы хотите заменить текущие испытания на новые.
+    new-challenges-imported: '<green>Успех: новые испытания для [gamemode] были импортированы.'
+    exported-file-name: <yellow>Пожалуйста введите имя файла для экспортированного файла базы данных. (Введите 'cancel' чтобы выйти)
+    database-export-completed: '<green>Успех: экспорт базы данных для [world] завершен. Файл [file] создан.'
+    file-name-exist: <red>Файл с именем '[id]' уже существует. Невозможно перезаписать.
+    write-search: <yellow>Пожалуйста введите значение поиска. (Введите 'cancel' чтобы выйти)
+    search-updated: <green>Значение поиска обновлено.
+    enter-formula: "<green>Введите формулу которая использует только заполнители PAPI и символы =,<>,<+,>=, ==, !=, AND, OR.\n<green>Пример: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
@@ -610,4 +1345,4 @@ protection:
 version: 11
 meta:
   authors:
-  - BONNe
+    - BONNe

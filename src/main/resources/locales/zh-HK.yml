@@ -1,3 +1,4 @@
+---
 # ##########################################################################################
 # This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
 # the one at http://yaml-online-parser.appspot.com                                        #
@@ -63,6 +64,11 @@ challenges:
       challenge-selector: '<black><bold>選擇挑戰'
       statistic-selector: '<black><bold>選擇統計數據'
       environment-selector: '<black><bold>選擇環境'
+      manage-block-groups: <black><bold>管理方塊組
+      manage-entity-groups: <black><bold>管理實體組
+      manage-statistics: <black><bold>管理統計資料
+      manage-advancements: <black><bold>管理進度
+      advancement-selector: <black><bold>進度選擇器
     buttons:
       free-challenges:
         name: '<white><bold>自由挑戰'
@@ -135,6 +141,7 @@ challenges:
       library:
         name: '<white><bold>文庫'
         description: '<gray>打開公開的挑戰文庫'
+        downloading: "<gray>正在下載挑戰\n<gray>庫..."
       import_database:
         name: '<white><bold>導入挑戰數據庫'
         description: '<gray>導入挑戰數據庫'
@@ -615,9 +622,6 @@ challenges:
       statistic_type:
         name: '<white><bold>類型: 統計數據'
         description: '<gray>挑戰需要檢驗玩家的個人統計數據'
-        description: |-
-          <gray>挑戰需要檢驗玩家的個人統計數據
-          <gray>如: 走了多遠 殺了多少怪等
       save:
         name: '<white><bold>保存'
         description: '<gray>保存更改並返回'
@@ -632,6 +636,16 @@ challenges:
       statistic_element:
         name: '<white><bold>[statistic]'
         description: '[description]'
+        amount: <gray>目標值：<yellow>[number]
+        remove:
+          name: <gray>減少統計：[value]
+          value:
+            enabled: <red>啟用
+            disabled: <dark_green>禁用
+        block: <gray>目標方塊：<yellow>[block]
+        item: <gray>目標物品：<yellow>[item]
+        entity: <gray>目標實體：<yellow>[entity]
+        selected: <dark_green>已選定
       environment_element:
         name: '<white><bold>[environment]'
         description: '[description]'
@@ -639,6 +653,120 @@ challenges:
         name: '<white><bold>搜索'
         description: '<gray>搜索就搜索 沒他了'
         search: '<aqua>字條: [value]'
+      hide_reward_items:
+        name: <white><bold>隱藏獎勵物品
+        description: "<gray>切換是否在圖形介面中\n<gray>顯示獎勵物品。"
+        hide: <dark_green>隱藏
+        show: <red>顯示
+      team_challenge:
+        name: <white><bold>團隊挑戰
+        description: "<gray>切換這是否為團隊挑戰。\n<gray>團隊挑戰需要一個隊伍，並在\n<gray>島上共享完成和冷卻時間。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      team_presence:
+        name: <white><bold>隊伍在線
+        description: "<gray>必須在線才能完成此\n<gray>挑戰的隊伍百分比。\n<gray>0 禁用在線閘門。"
+        value: <gray>目前：<yellow>[number]%
+      aggregate_team:
+        name: <white><bold>跨團隊彙總
+        description: "<gray>對所有在線成員的所需物品/統計\n<gray>求和（共享貢品、\n<gray>共同努力）。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      per_member:
+        name: <white><bold>每個成員都支付
+        description: "<gray>每個在線成員必須貢獻他們的\n<gray>份額（所需數量是隊伍\n<gray>總數，在現有成員之間分割）。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      hide_if_no_team:
+        name: <white><bold>如果沒有隊伍則隱藏
+        description: "<gray>如果啟用，此挑戰完全對\n<gray>沒有隊伍的玩家隱藏。\n<gray>如果禁用，則顯示但禁用。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      required_statistics:
+        name: <white><bold>必需統計資料
+        description: "<gray>允許您更改完成此\n<gray>挑戰所需的\n<gray>統計資料。"
+        title: <gray>統計資料：
+        list: ' <dark_gray>- [name]'
+        none: <gray>未添加統計資料。
+      required_advancements:
+        name: <white><bold>必需進度
+        description: "<gray>允許您更改完成此\n<gray>挑戰所需的\n<gray>進度。"
+        title: <gray>進度：
+        list: ' <dark_gray>- [name]'
+        none: <gray>未添加進度。
+      required_materialtags:
+        name: <white><bold>必需方塊組
+        description: "<gray>允許您更改完成此\n<gray>挑戰所需的\n<gray>方塊組。"
+        title: <gray>方塊組：
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>未添加方塊組。
+      required_entitytags:
+        name: <white><bold>必需實體組
+        description: "<gray>允許您更改完成此\n<gray>挑戰所需的\n<gray>實體組。"
+        title: <gray>實體組：
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>未添加實體組。
+      required_papi:
+        name: <white><bold>必需 PAPI
+        description: "<gray>檢查可以包含\n<gray>PAPI 占位符、數學\n<gray>和邏輯元素的公式。"
+        value: <gray>公式：<yellow>[formula]
+      add_statistic:
+        name: <white><bold>添加統計
+        description: "<gray>允許您向清單中\n<gray>添加新統計。"
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>添加進度
+        description: "<gray>允許您向清單中\n<gray>添加新進度。"
+      remove_advancement:
+        name: <white><bold>移除進度
+        description: "<gray>允許您從清單中\n<gray>移除所選\n<gray>進度。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      glow_completed_levels:
+        name: <white><bold>發光完成的關卡
+        description: "<gray>對完成的關卡\n<gray>應用附魔發光。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      include_undeployed:
+        name: <white><bold>包含未部署的挑戰
+        description: "<gray>表示未部署的挑戰\n<gray>是否應計入關卡完成。"
+        enabled: <dark_green>啟用
+        disabled: <red>禁用
+      language:
+        name: <white><bold>語言
+        description: "<gray>按語言過濾\n<gray>挑戰庫。"
+        current: <gray>顯示：<yellow>[lang]
+        all: 全部
+      add_block_group:
+        name: <white><bold>添加方塊組
+        description: "<gray>允許您向清單中\n<gray>添加新方塊組。"
+      remove_block_group:
+        name: <white><bold>移除方塊組
+        description: "<gray>允許您從清單中\n<gray>移除所選\n<gray>方塊組。"
+        title: <gray>選定的方塊組：
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>已選定
+      add_entity_group:
+        name: <white><bold>添加實體組
+        description: "<gray>允許您向清單中\n<gray>添加新實體組。"
+      remove_entity_group:
+        name: <white><bold>移除實體組
+        description: "<gray>允許您從清單中\n<gray>移除所選\n<gray>實體組。"
+        title: <gray>選定的實體組：
+        entity: <dark_gray>- [tag]
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>已選定
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>已選擇
     tips:
       click-to-select: "<yellow>點擊<gray>選擇"
       click-to-choose: "<yellow>點擊<gray>選擇"
@@ -684,6 +812,7 @@ challenges:
       right-click-to-clear: "<gray>右<yellow>擊<gray>清除。"
       click-to-previous: "<yellow>點擊 <gray>查看上一頁。"
       click-to-next: "<yellow>點擊 <gray>查看下一頁。"
+      right-click-to-reset: <yellow>右鍵點擊<gray>重置。
     descriptions:
       challenge:
         lore: |-
@@ -777,6 +906,8 @@ challenges:
           money: '<gray>遊戲幣: <reset><yellow>[number]'
           commands-title: '<gray>指令:'
           command: '  <gray>- <yellow>[command]'
+        team-requirement: <gold>隊伍：<yellow>[online] <gold>在線（<yellow>[number] <gold>必需）
+        team-required: <red>完成需要隊伍
       level:
         lore: |-
           [text]
@@ -868,6 +999,7 @@ challenges:
     file-name-exist: '<red>檔案''[id]''已存在。 無法覆蓋。'
     write-search: '<yellow>請輸入搜索字條 (輸入''cancel''退出)'
     search-updated: '<green>搜索完成'
+    enter-formula: "<green>輸入僅使用 PAPI 占位符和符號 =,<>,<+,>=, ==, !=, AND, OR 的公式。\n<green>示例：<gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
     #       [friendlyName] will be replaced with challenge friendly name.
@@ -998,6 +1130,18 @@ challenges:
 #            reward-text: |-
 #                <gray>Translated Reward
 #                <gray>text
+    import-failed: <red>無法匯入挑戰：[message]。有關詳細信息，請查看伺服器控制台。
+    requirement-not-met-entity: <red>此挑戰要求 [entity] 的 [statistic] 為 [number]。您只有 [value]。
+    requirement-not-met-material: <red>此挑戰要求 [material] 的 [statistic] 為 [number]。您只有 [value]。
+    no-team: <red>這是一項團隊挑戰。您必須有一個隊伍才能完成它！
+    insufficient-team: <red>此團隊挑戰需要 [number] 名隊伍成員在線。只有 [online] 人在線。
+    member-missing-share: <red>[name] 沒有此團隊挑戰的份額（[amount] x [item]）。
+  materials:
+    any: '任何 '
+    all_hanging_signs:
+      name: 任何懸掛式告示牌
+    all_signs:
+      name: 任何告示牌
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

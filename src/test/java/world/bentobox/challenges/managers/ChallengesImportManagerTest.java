@@ -40,7 +40,7 @@ import world.bentobox.challenges.utils.Utils;
 /**
  * @author tastybento
  */
-public class ChallengesImportManagerTest extends AbstractChallengesTest {
+class ChallengesImportManagerTest extends AbstractChallengesTest {
 
     private ChallengesImportManager cim;
     private File dataFolder;
@@ -48,7 +48,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
 
     @Override
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         super.setUp();
 
         // Data folder for file I/O tests
@@ -78,7 +78,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
 
     @Override
     @AfterEach
-    public void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         if (mockedUtils != null) mockedUtils.closeOnDemand();
         super.tearDown();
         deleteFolder(dataFolder);
@@ -98,14 +98,14 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testImportFileNotFound() {
+    void testImportFileNotFound() {
         cim.importFile(user, world, "nonexistent");
         verify(user).getTranslation(any(World.class), eq("challenges.errors.no-file"),
                 eq("[file]"), eq("nonexistent"));
     }
 
     @Test
-    public void testImportFileSuccess() throws IOException {
+    void testImportFileSuccess() throws IOException {
         String yaml = """
                 challenges:
                   mychallenge:
@@ -155,7 +155,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testImportFileNoGameMode() throws IOException {
+    void testImportFileNoGameMode() throws IOException {
         // Write a valid YAML file
         File yamlFile = new File(dataFolder, "test.yml");
         Files.writeString(yamlFile.toPath(), "challenges:", StandardCharsets.UTF_8);
@@ -171,7 +171,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testImportFileNullUser() throws IOException {
+    void testImportFileNullUser() throws IOException {
         String yaml = """
                 challenges:
                   simple:
@@ -196,7 +196,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testImportDatabaseFileNullWorld() {
+    void testImportDatabaseFileNullWorld() {
         mockedUtil.when(() -> Util.getWorld(any())).thenReturn(null);
         cim.importDatabaseFile(user, world, "test.json");
         verify(addon).logError("Given world is not part of BentoBox");
@@ -204,7 +204,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testImportDatabaseFileNotFound() {
+    void testImportDatabaseFileNotFound() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
         cim.importDatabaseFile(user, world, "nonexistent.json");
         // The file doesn't exist, so loadObject returns null
@@ -212,7 +212,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testImportDatabaseFileWipesExisting() throws IOException {
+    void testImportDatabaseFileWipesExisting() throws IOException {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
 
         // Write a minimal valid JSON file
@@ -232,7 +232,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testImportDatabaseFileWithChallenges() throws IOException {
+    void testImportDatabaseFileWithChallenges() throws IOException {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
 
         // JSON with a challenge and level — uses Gson with @Expose annotations
@@ -284,14 +284,14 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testLoadDownloadedChallengesNullWorld() {
+    void testLoadDownloadedChallengesNullWorld() {
         mockedUtil.when(() -> Util.getWorld(any())).thenReturn(null);
         cim.loadDownloadedChallenges(user, world, "{}");
         verify(addon).logError("Given world is not part of BentoBox");
     }
 
     @Test
-    public void testLoadDownloadedChallengesExistingData() {
+    void testLoadDownloadedChallengesExistingData() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
         when(user.isPlayer()).thenReturn(true);
         cim.loadDownloadedChallenges(user, world, "{}");
@@ -300,7 +300,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testLoadDownloadedChallengesExistingDataConsoleUser() {
+    void testLoadDownloadedChallengesExistingDataConsoleUser() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
         when(user.isPlayer()).thenReturn(false);
         cim.loadDownloadedChallenges(user, world, "{}");
@@ -308,7 +308,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testLoadDownloadedChallengesSuccess() {
+    void testLoadDownloadedChallengesSuccess() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
 
         String json = """
@@ -349,7 +349,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testLoadDownloadedChallengesEmptyLists() {
+    void testLoadDownloadedChallengesEmptyLists() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
 
         String json = """
@@ -369,7 +369,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testLoadDownloadedChallengesMultiple() {
+    void testLoadDownloadedChallengesMultiple() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
 
         String json = """
@@ -418,7 +418,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testGenerateDatabaseFileAlreadyExists() throws IOException {
+    void testGenerateDatabaseFileAlreadyExists() throws IOException {
         File existing = new File(dataFolder, "export.json");
         existing.createNewFile();
         when(user.isPlayer()).thenReturn(true);
@@ -430,7 +430,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testGenerateDatabaseFileSuccess() {
+    void testGenerateDatabaseFileSuccess() {
         when(user.isPlayer()).thenReturn(true);
 
         // Set up challenges and levels to export
@@ -463,7 +463,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testGenerateDatabaseFileEmptyData() {
+    void testGenerateDatabaseFileEmptyData() {
         when(user.isPlayer()).thenReturn(true);
         when(cm.getAllChallenges(world)).thenReturn(Collections.emptyList());
         when(cm.getLevels(world)).thenReturn(Collections.emptyList());
@@ -475,7 +475,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testGenerateDatabaseFileConsoleUser() {
+    void testGenerateDatabaseFileConsoleUser() {
         when(user.isPlayer()).thenReturn(false);
         when(cm.getAllChallenges(world)).thenReturn(Collections.emptyList());
         when(cm.getLevels(world)).thenReturn(Collections.emptyList());
@@ -488,7 +488,7 @@ public class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    public void testGenerateDatabaseFileStripsPrefix() throws IOException {
+    void testGenerateDatabaseFileStripsPrefix() throws IOException {
         when(user.isPlayer()).thenReturn(true);
 
         Challenge ch = new Challenge();

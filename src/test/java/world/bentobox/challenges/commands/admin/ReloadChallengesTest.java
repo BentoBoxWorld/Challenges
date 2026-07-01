@@ -11,36 +11,36 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ReloadChallengesTest extends AdminCommandTestBase {
+class ReloadChallengesTest extends AdminCommandTestBase {
 
     private ReloadChallenges rc;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         rc = new ReloadChallenges(addon, parentCmd);
     }
 
     @Test
-    public void testSetup() {
+    void testSetup() {
         assertEquals("bskyblock.admin.challenges", rc.getPermission());
         assertEquals("challenges.commands.admin.reload.parameters", rc.getParameters());
         assertEquals("challenges.commands.admin.reload.description", rc.getDescription());
     }
 
     @Test
-    public void testExecuteSoftReload() {
+    void testExecuteSoftReload() {
         assertTrue(rc.execute(user, "reload", Collections.emptyList()));
         verify(chm).load();
     }
 
     @Test
-    public void testExecuteHardReload() {
+    void testExecuteHardReload() {
         assertTrue(rc.execute(user, "reload", List.of("hard")));
         verify(chm).reload();
     }
 
     @Test
-    public void testExecuteUnknownArg() {
+    void testExecuteUnknownArg() {
         assertFalse(rc.execute(user, "reload", List.of("unknown")));
     }
 }

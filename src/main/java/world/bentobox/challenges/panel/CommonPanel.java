@@ -22,6 +22,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
@@ -34,6 +35,7 @@ import world.bentobox.challenges.database.object.requirements.StatisticRequireme
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.LevelStatus;
+import world.bentobox.challenges.utils.TeamChallengeUtils;
 import world.bentobox.challenges.utils.Utils;
 
 /**
@@ -156,6 +158,7 @@ public abstract class CommonPanel {
                 : this.generateCoolDown(challenge, target);
 
         String returnString;
+        List<String> result;
         // Check if the description (after removing blank lines) is not empty
         if (!description.replaceAll(Constants.BLANK_LINE_REGEX, "").isEmpty()) {
             // Retrieve the lore translation without the description placeholder
@@ -165,7 +168,7 @@ public abstract class CommonPanel {
             // Remove any empty lines from the translated text and split it into individual lines
             final String finalDescription = description; // ensure it's effectively final
 
-            return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
+            result = Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                     .map(line -> line.contains(Constants.PARAMETER_DESCRIPTION)
                             ? line.replace(Constants.PARAMETER_DESCRIPTION, finalDescription)
                             : line)
@@ -177,9 +180,71 @@ public abstract class CommonPanel {
                     coolDown);
 
             // Remove empty lines and return the resulting lines as a list
-            return Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
+            result = Arrays.stream(returnString.replaceAll(Constants.BLANK_LINE_REGEX, "").split("\n"))
                     .collect(Collectors.toList());
         }
+
+        // Append the team requirement line for team challenges, unless it is fully completed
+        // (non-repeatable and done, or repeatable and maxed out) - then the requirement is moot.
+        if (challenge.isTeamChallenge() && !isCompletedAll)
+        {
+            String teamLine = this.generateTeamRequirement(challenge, target);
+
+            if (!teamLine.isEmpty())
+            {
+                result.add(teamLine);
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Builds the "Team: x/y online" lore line for a team challenge. If the viewing target has a
+     * team, the current online / required counts are shown; otherwise only the required fraction.
+     *
+     * @param challenge the team challenge
+     * @param target the viewing user (may be null for admin views)
+     * @return a single lore line, or empty string if nothing to show
+     */
+    protected String generateTeamRequirement(Challenge challenge, @Nullable User target)
+    {
+        int teamSize = 0;
+        int online = 0;
+
+        if (target != null && this.addon.getIslands() != null)
+        {
+            Island island = this.addon.getIslands().getIsland(this.world, target);
+
+            if (island != null)
+            {
+                teamSize = island.getMemberSet().size();
+                online = (int) island.getMemberSet().stream().
+                        map(org.bukkit.Bukkit::getPlayer).
+                        filter(java.util.Objects::nonNull).
+                        count();
+            }
+        }
+
+        // The viewer has no team: this challenge cannot be completed by them.
+        if (target != null && teamSize < 2)
+        {
+            return this.user.getTranslationOrNothing(Constants.DESCRIPTIONS + "challenge.team-required");
+        }
+
+        int required = TeamChallengeUtils.requiredPresentCount(Math.max(teamSize, 2), challenge.getTeamPresence());
+
+        // Presence gate disabled (e.g. Combined Effort): nothing to show.
+        if (required <= 0)
+        {
+            return "";
+        }
+
+        return this.user.getTranslationOrNothing(Constants.DESCRIPTIONS + "challenge.team-requirement",
+                "[online]", String.valueOf(online),
+                Constants.PARAMETER_NUMBER, String.valueOf(required),
+                "[size]", String.valueOf(teamSize));
     }
 
 

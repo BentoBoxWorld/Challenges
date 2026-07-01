@@ -28,13 +28,13 @@ import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
-public class ResetCommandTest extends AdminCommandTestBase {
+class ResetCommandTest extends AdminCommandTestBase {
 
     private ResetCommand rc;
     private Challenge challenge;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         challenge = mock(Challenge.class);
         when(challenge.getFriendlyName()).thenReturn("Test Challenge");
         when(chm.getChallenge(anyString())).thenReturn(challenge);
@@ -43,7 +43,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testSetup() {
+    void testSetup() {
         assertEquals("bskyblock.reset", rc.getPermission());
         assertEquals("challenges.commands.admin.reset.parameters", rc.getParameters());
         assertEquals("challenges.commands.admin.reset.description", rc.getDescription());
@@ -52,7 +52,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: no args ---
 
     @Test
-    public void testExecuteNoArgsPlayer() {
+    void testExecuteNoArgsPlayer() {
         assertFalse(rc.execute(user, "reset", Collections.emptyList()));
         mockedUtils.verify(() ->
                 Utils.sendMessage(eq(user), any(World.class),
@@ -60,7 +60,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteNoArgsConsole() {
+    void testExecuteNoArgsConsole() {
         when(user.isPlayer()).thenReturn(false);
         assertFalse(rc.execute(user, "reset", Collections.emptyList()));
         verify(addon).logError("Missing parameters");
@@ -69,7 +69,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: one arg (missing challenge/all) ---
 
     @Test
-    public void testExecuteOneArgPlayer() {
+    void testExecuteOneArgPlayer() {
         assertFalse(rc.execute(user, "reset", List.of("someplayer")));
         mockedUtils.verify(() ->
                 Utils.sendMessage(eq(user), any(World.class),
@@ -79,13 +79,13 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: unknown player ---
 
     @Test
-    public void testExecuteUnknownPlayer() {
+    void testExecuteUnknownPlayer() {
         when(pm.getUUID(anyString())).thenReturn(null);
         assertFalse(rc.execute(user, "reset", Arrays.asList("unknown", "mychal")));
     }
 
     @Test
-    public void testExecuteUnknownPlayerConsole() {
+    void testExecuteUnknownPlayerConsole() {
         when(user.isPlayer()).thenReturn(false);
         when(pm.getUUID(anyString())).thenReturn(null);
         assertFalse(rc.execute(user, "reset", Arrays.asList("unknown", "mychal")));
@@ -95,7 +95,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: reset all ---
 
     @Test
-    public void testExecuteResetAll() {
+    void testExecuteResetAll() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
 
@@ -104,7 +104,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteResetAllConsole() {
+    void testExecuteResetAllConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -116,7 +116,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: unknown challenge ---
 
     @Test
-    public void testExecuteUnknownChallenge() {
+    void testExecuteUnknownChallenge() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.getChallenge(anyString())).thenReturn(null);
@@ -128,7 +128,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteUnknownChallengeConsole() {
+    void testExecuteUnknownChallengeConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -141,7 +141,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: challenge completed -> reset ---
 
     @Test
-    public void testExecuteResetCompletedChallenge() {
+    void testExecuteResetCompletedChallenge() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.isChallengeComplete(any(UUID.class), any(World.class), any(Challenge.class))).thenReturn(true);
@@ -151,7 +151,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteResetCompletedChallengeConsole() {
+    void testExecuteResetCompletedChallengeConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -164,7 +164,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- execute: challenge not completed ---
 
     @Test
-    public void testExecuteResetNotCompletedChallenge() {
+    void testExecuteResetNotCompletedChallenge() {
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
         when(chm.isChallengeComplete(any(UUID.class), any(World.class), any(Challenge.class))).thenReturn(false);
@@ -177,7 +177,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testExecuteResetNotCompletedConsole() {
+    void testExecuteResetNotCompletedConsole() {
         when(user.isPlayer()).thenReturn(false);
         UUID targetUUID = UUID.randomUUID();
         when(pm.getUUID("tastybento")).thenReturn(targetUUID);
@@ -190,7 +190,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     // --- tabComplete ---
 
     @Test
-    public void testTabCompletePlayerNames() {
+    void testTabCompletePlayerNames() {
         mockedUtil.when(() -> Util.getOnlinePlayerList(any(User.class))).thenReturn(List.of("alice", "bob"));
         Optional<List<String>> result = rc.tabComplete(user, "reset", Arrays.asList("reset", "x", "a"));
         assertTrue(result.isPresent());
@@ -198,7 +198,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testTabCompleteChallengeNamesAndAll() {
+    void testTabCompleteChallengeNamesAndAll() {
         when(chm.getAllChallengesNames(any())).thenReturn(List.of("BSkyBlock_mychal"));
         mockedUtil.when(() -> Util.tabLimit(any(), any()))
                 .thenAnswer((Answer<List<String>>) inv -> inv.getArgument(0, List.class));
@@ -209,7 +209,7 @@ public class ResetCommandTest extends AdminCommandTestBase {
     }
 
     @Test
-    public void testTabCompleteDefault() {
+    void testTabCompleteDefault() {
         mockedUtil.when(() -> Util.tabLimit(any(), any()))
                 .thenAnswer((Answer<List<String>>) inv -> inv.getArgument(0, List.class));
         Optional<List<String>> result = rc.tabComplete(user, "reset",

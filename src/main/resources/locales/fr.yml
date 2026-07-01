@@ -1,29 +1,32 @@
 ---
 meta:
   authors:
-  - BONNe
+    - BONNe
 challenges:
   commands:
     admin:
       main:
         description: Commande principale Admin. Ouverture du menu.
+        parameters: ''
       reload:
         description: Recharger les défis de la base de données
+        parameters: ''
       show:
         description: Afficher dans le chat tous les défis qui existent dans ce monde.
+        parameters: ''
       complete:
         description: Terminer un challenge pour un joueur.
         parameters: "<joueur> <id_du_challenge>"
       reset:
-        description: Réinitialiser un  challenge pour un joueur. Si "challenge_id"
-          est réglé sur "all", alors il réinitialisera tous les challenges.
+        description: Réinitialiser un  challenge pour un joueur. Si "challenge_id" est réglé sur "all", alors il réinitialisera tous les challenges.
         parameters: "<joueur> <id_du_challenge>"
       migrate:
-        description: Migrez les données des challenges du monde du jeu actuel au format
-          de stockage 0.8.0.
+        description: Migrez les données des challenges du monde du jeu actuel au format de stockage 0.8.0.
+        parameters: ''
     user:
       main:
         description: Cette méthode ouvre le menu des Challenges.
+        parameters: ''
       complete:
         description: Cette méthode permet de compléter un challenger sans menu.
         parameters: "<challenge_id> [count]"
@@ -49,6 +52,11 @@ challenges:
       challenge-selector: "<black><bold>Sélecteur de Challenge"
       statistic-selector: "<black><bold>Sélecteur de statistiques"
       environment-selector: "<black><bold>Sélecteur d'environnement"
+      manage-block-groups: <black><bold>Gérer les Groupes de Blocs
+      manage-entity-groups: <black><bold>Gérer les Groupes d'Entités
+      manage-statistics: <black><bold>Gérer les Statistiques
+      manage-advancements: <black><bold>Gérer les Avancées
+      advancement-selector: <black><bold>Sélecteur d'Avancées
     buttons:
       free-challenges:
         name: "<white><bold>Challenges gratuits"
@@ -82,8 +90,7 @@ challenges:
         description: "<gray>Quitter l'interface graphique."
       complete_user_challenges:
         name: "<white><bold>Challenge(s) utilisateur terminé(s)"
-        description: "<gray>Permet de choisir l'utilisateur et de lui compléter le ou
-          les challenges"
+        description: "<gray>Permet de choisir l'utilisateur et de lui compléter le ou les challenges"
       reset_user_challenges:
         name: "<white><bold>Réinitialiser les Challenges de l'utilisateur"
         description: |-
@@ -143,6 +150,7 @@ challenges:
         description: |-
           <gray>Ouvre une bibliothèque
           <gray>publique de défis.
+        downloading: "<gray>Téléchargement\n<gray>de la bibliothèque\n<gray>demandé..."
       import_database:
         name: "<white><bold>Importer la base de données"
         description: |-
@@ -765,6 +773,16 @@ challenges:
       statistic_element:
         name: "<white><bold>[statistic]"
         description: "[description]"
+        amount: '<gray>Valeur Cible : <yellow>[number]'
+        remove:
+          name: '<gray>Réduire la Statistique : [value]'
+          value:
+            enabled: <red>Activé
+            disabled: <dark_green>Désactivé
+        block: '<gray>Bloc Cible : <yellow>[block]'
+        item: '<gray>Objet Cible : <yellow>[item]'
+        entity: '<gray>Entité Cible : <yellow>[entity]'
+        selected: <dark_green>Sélectionné
       environment_element:
         name: "<white><bold>[environment]"
         description: "[description]"
@@ -775,12 +793,120 @@ challenges:
           <gray>élément avec une valeur
           <gray>de texte d'entrée.
         search: "<aqua>valeur: [value]"
+      hide_reward_items:
+        name: <white><bold>Masquer les Objets de Récompense
+        description: "<gray>Activer/désactiver l'affichage\n<gray>des objets de récompense dans l'interface."
+        hide: <dark_green>Masquer
+        show: <red>Afficher
+      team_challenge:
+        name: <white><bold>Défi d'Équipe
+        description: "<gray>Activer/désactiver si c'est un défi d'équipe.\n<gray>Les défis d'équipe nécessitent une équipe et partagent\n<gray>l'achèvement et le temps d'attente sur l'île."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      team_presence:
+        name: <white><bold>Présence d'Équipe
+        description: "<gray>Pourcentage de l'équipe qui doit être\n<gray>en ligne pour compléter ce défi.\n<gray>0 désactive la vérification de présence."
+        value: '<gray>Actuellement : <yellow>[number]%'
+      aggregate_team:
+        name: <white><bold>Agréger sur l'Équipe
+        description: "<gray>Somme des objets / statistiques requis sur\n<gray>tous les membres en ligne (Tribut Commun,\n<gray>Effort Combiné)."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      per_member:
+        name: <white><bold>Chaque Membre Paie
+        description: "<gray>Chaque membre en ligne doit contribuer sa\n<gray>part (le montant requis est le TOTAL DE\n<gray>L'ÉQUIPE, divisé entre les membres présents)."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      hide_if_no_team:
+        name: <white><bold>Masquer si Pas d'Équipe
+        description: "<gray>Si activé, ce défi est complètement masqué\n<gray>aux joueurs sans équipe.\n<gray>Si désactivé, il est affiché mais désactivé."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      required_statistics:
+        name: <white><bold>Statistiques Requises
+        description: "<gray>Permet de modifier les\n<gray>statistiques requises pour que ce défi soit\n<gray>complété."
+        title: '<gray>Statistiques : '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Aucune statistique n'a été ajoutée.
+      required_advancements:
+        name: <white><bold>Avancées Requises
+        description: "<gray>Permet de modifier les\n<gray>avancées requises pour que ce défi soit\n<gray>complété."
+        title: '<gray>Avancées : '
+        list: ' <dark_gray>- [name]'
+        none: <gray>Aucune avancée n'a été ajoutée.
+      required_materialtags:
+        name: <white><bold>Groupes de Blocs Requis
+        description: "<gray>Permet de modifier les\n<gray>groupes de blocs requis pour que ce défi soit\n<gray>complété."
+        title: '<gray>Groupe de blocs : '
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Aucun groupe de blocs n'a été ajouté.
+      required_entitytags:
+        name: <white><bold>Groupes d'Entités Requis
+        description: "<gray>Permet de modifier les\n<gray>groupes d'entités requis pour que ce défi soit\n<gray>complété."
+        title: "<gray>Groupe d'entités : "
+        list: ' <dark_gray>- [number] x [tag]'
+        none: <gray>Aucun groupe d'entités n'a été ajouté.
+      required_papi:
+        name: <white><bold>PAPI Requis
+        description: "<gray>Vérifie une formule qui peut\n<gray>inclure des espaces réservés PAPI\n<gray>et des éléments mathématiques et logiques."
+        value: '<gray>Formule : <yellow>[formula]'
+      add_statistic:
+        name: <white><bold>Ajouter une Statistique
+        description: "<gray>Permet d'ajouter une nouvelle\n<gray>statistique à la liste."
+      advancement:
+        name: <white><bold>[name]
+        description: '[description]'
+      add_advancement:
+        name: <white><bold>Ajouter une Avancée
+        description: "<gray>Permet d'ajouter une nouvelle\n<gray>avancée à la liste."
+      remove_advancement:
+        name: <white><bold>Supprimer une Avancée
+        description: "<gray>Permet de supprimer\n<gray>les avancées sélectionnées\n<gray>de la liste."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      glow_completed_levels:
+        name: <white><bold>Briller pour les Niveaux Complétés
+        description: "<gray>Applique une lueur d'enchantement\n<gray>aux niveaux complétés."
+        enabled: <dark_green>Activé
+        disabled: <red>Désactivé
+      language:
+        name: <white><bold>Langue
+        description: "<gray>Filtrer les bibliothèques de défis\n<gray>par langue."
+        current: '<gray>Affichage : <yellow>[lang]'
+        all: Tous
+      add_block_group:
+        name: <white><bold>Ajouter un Groupe de Blocs
+        description: "<gray>Permet d'ajouter un nouveau\n<gray>groupe de blocs à la liste."
+      remove_block_group:
+        name: <white><bold>Supprimer un Groupe de Blocs
+        description: "<gray>Permet de supprimer\n<gray>les groupes de blocs sélectionnés\n<gray>de la liste."
+        title: '<gray>Groupes de Blocs Sélectionnés :'
+        material: <dark_gray>- [material]
+      block-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Sélectionné
+      add_entity_group:
+        name: <white><bold>Ajouter un Groupe d'Entités
+        description: "<gray>Permet d'ajouter un nouveau\n<gray>groupe d'entités à la liste."
+      remove_entity_group:
+        name: <white><bold>Supprimer un Groupe d'Entités
+        description: "<gray>Permet de supprimer\n<gray>les groupes d'entités sélectionnés\n<gray>de la liste."
+        title: "<gray>Groupes d'Entités Sélectionnés :"
+        entity: <dark_gray>- [tag]
+      entity-group:
+        name: <white><bold>[id]
+        description: ''
+        selected: <dark_green>Sélectionné
+      advancement_element:
+        name: <white><bold>[name]
+        description: '[description]'
+        selected: <dark_green>Sélectionné
     tips:
       click-to-select: "<yellow>Cliquez <gray>pour sélectionner."
       click-to-choose: "<yellow>Cliquez sur <gray>pour choisir."
       click-to-complete: "<yellow>Cliquez <gray>pour terminer."
-      right-click-multiple-open: "<yellow>Cliquez avec le bouton droit <gray>pour choisir
-        le nombre d'achèvements."
+      right-click-multiple-open: "<yellow>Cliquez avec le bouton droit <gray>pour choisir le nombre d'achèvements."
       shift-left-click-to-complete-all: "<yellow>Maj Cliquez <gray>pour tout terminer."
       left-click-to-accept: "<yellow>Clic gauche <gray>pour terminer."
       right-click-to-write: "<yellow>Clic droit <gray>pour écrire."
@@ -821,6 +947,7 @@ challenges:
       right-click-to-clear: "<yellow>Clic droit <gray>pour effacer."
       click-to-previous: "<yellow>Cliquez <gray>pour afficher la page précédente."
       click-to-next: "<yellow>Cliquez <gray>pour afficher la page suivante."
+      right-click-to-reset: <yellow>Clic Droit <gray>pour réinitialiser.
     descriptions:
       challenge:
         lore: |-
@@ -914,6 +1041,8 @@ challenges:
           money: "<gray>Argent : <reset><yellow>[number]"
           commands-title: "<gray>Commandes :"
           command: "  <gray>- <yellow>[command]"
+        team-requirement: '<gold>Équipe : <yellow>[online] <gold>en ligne (<yellow>[number] <gold>requis)'
+        team-required: <red>Équipe requise pour compléter
       level:
         lore: |-
           [text]
@@ -962,70 +1091,44 @@ challenges:
     input-number: "<yellow>Veuillez saisir un numéro dans le chat."
     input-seconds: "<yellow>Veuillez entrer une seconde dans le chat."
     numeric-only: "<red>La [value] donnée n'est pas un nombre !"
-    not-valid-value: "<red>Le nombre donné [value] n'est pas valide. Elle doit être
-      supérieure à [min] et inférieure à [max] !"
-    user-data-removed: "<green>Toutes les données utilisateur pour [gamemode] sont effacées
-      de la base de données."
-    confirm-user-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer
-      la base de données utilisateur pour [gamemode]."
-    challenge-data-removed: "<green>Toutes les données des défis pour [gamemode] sont
-      effacées de la base de données."
-    confirm-challenge-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer
-      la base de données des défis pour [gamemode]."
-    all-data-removed: "<green>Toutes les données du module complémentaire pour [gamemode]
-      sont effacées de la base de données."
-    confirm-all-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer les
-      données du module complémentaire pour [gamemode]."
+    not-valid-value: "<red>Le nombre donné [value] n'est pas valide. Elle doit être supérieure à [min] et inférieure à [max] !"
+    user-data-removed: "<green>Toutes les données utilisateur pour [gamemode] sont effacées de la base de données."
+    confirm-user-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer la base de données utilisateur pour [gamemode]."
+    challenge-data-removed: "<green>Toutes les données des défis pour [gamemode] sont effacées de la base de données."
+    confirm-challenge-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer la base de données des défis pour [gamemode]."
+    all-data-removed: "<green>Toutes les données du module complémentaire pour [gamemode] sont effacées de la base de données."
+    confirm-all-data-deletion: "<yellow>Veuillez confirmer que vous souhaitez effacer les données du module complémentaire pour [gamemode]."
     write-name: "<yellow>Veuillez écrire un nom dans le chat."
     new-object-created: "<green>Un nouvel objet pour [gamemode] est créé."
     object-already-exists: "<red>L'objet <gray>[id] <red>existe déjà. Choisissez un nom différent."
-    invalid-challenge: "<red>Challenge [challenge] contient des données non valides.
-      Il ne peut pas être déployé !"
+    invalid-challenge: "<red>Challenge [challenge] contient des données non valides. Il ne peut pas être déployé !"
     name-changed: "<green>Succès, le nom a été mis à jour."
-    write-description: "<yellow>Veuillez saisir une nouvelle description dans le chat et
-      « quitter » sur une seule ligne pour terminer."
+    write-description: "<yellow>Veuillez saisir une nouvelle description dans le chat et « quitter » sur une seule ligne pour terminer."
     description-changed: "<green>Succès, la description a été mise à jour."
-    write-permissions: "<yellow>Veuillez saisir les autorisations requises, une par ligne
-      dans le chat, et « quitter » sur une ligne distincte pour terminer."
+    write-permissions: "<yellow>Veuillez saisir les autorisations requises, une par ligne dans le chat, et « quitter » sur une ligne distincte pour terminer."
     permissions-changed: "<green>Succès, les autorisations de défi ont été mises à jour."
-    write-reward-text: "<yellow>Veuillez saisir un nouveau texte de récompense dans le
-      chat et « quitter » sur une seule ligne pour terminer."
+    write-reward-text: "<yellow>Veuillez saisir un nouveau texte de récompense dans le chat et « quitter » sur une seule ligne pour terminer."
     reward-text-changed: "<green>Succès, le texte de la récompense a été mis à jour."
-    write-repeat-reward-text: "<yellow>Veuillez saisir un nouveau texte de récompense répété
-      dans le chat et « quitter » sur une ligne seule pour terminer."
-    repeat-reward-text-changed: "<green>Succès, le texte de la récompense répétée a été
-      mis à jour."
-    write-reward-commands: "<yellow>Veuillez saisir une nouvelle commande de récompense
-      par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
-    reward-commands-changed: "<green>Succès, les commandes de récompense ont été mises
-      à jour."
-    write-repeat-reward-commands: "<yellow>Veuillez saisir une nouvelle commande de récompense
-      répétée par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
-    repeat-reward-commands-changed: "<green>Succès, les commandes de récompense répétées
-      ont été mises à jour."
-    challenge-removed: "<green>Les défis [challenge] pour [gamemode] sont supprimés de
-      la base de données."
-    confirm-challenge-deletion: "<yellow>Veuillez confirmer que vous souhaitez supprimer
-      [challenge] pour [gamemode] de la base de données."
-    level-removed: "<green>Le niveau [level] pour [gamemode] est supprimé de la base de
-      données."
-    confirm-level-deletion: "<yellow>Veuillez confirmer que vous souhaitez supprimer [level]
-      pour [gamemode] de la base de données."
-    start-downloading: "<green>Début du téléchargement et de l'importation de la bibliothèque
-      de défis."
+    write-repeat-reward-text: "<yellow>Veuillez saisir un nouveau texte de récompense répété dans le chat et « quitter » sur une ligne seule pour terminer."
+    repeat-reward-text-changed: "<green>Succès, le texte de la récompense répétée a été mis à jour."
+    write-reward-commands: "<yellow>Veuillez saisir une nouvelle commande de récompense par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
+    reward-commands-changed: "<green>Succès, les commandes de récompense ont été mises à jour."
+    write-repeat-reward-commands: "<yellow>Veuillez saisir une nouvelle commande de récompense répétée par ligne dans le chat et « quitter » sur une ligne distincte pour terminer."
+    repeat-reward-commands-changed: "<green>Succès, les commandes de récompense répétées ont été mises à jour."
+    challenge-removed: "<green>Les défis [challenge] pour [gamemode] sont supprimés de la base de données."
+    confirm-challenge-deletion: "<yellow>Veuillez confirmer que vous souhaitez supprimer [challenge] pour [gamemode] de la base de données."
+    level-removed: "<green>Le niveau [level] pour [gamemode] est supprimé de la base de données."
+    confirm-level-deletion: "<yellow>Veuillez confirmer que vous souhaitez supprimer [level] pour [gamemode] de la base de données."
+    start-downloading: "<green>Début du téléchargement et de l'importation de la bibliothèque de défis."
     written-text: "<green>Saisir du texte :"
-    confirm-data-replacement: "<yellow>Veuillez confirmer que vous souhaitez remplacer
-      vos défis actuels par de nouveaux."
-    new-challenges-imported: "<green>Succès, de nouveaux défis pour [gamemode] ont été
-      importés."
-    exported-file-name: "<yellow>Veuillez entrer un nom de fichier pour le fichier de base
-      de données exporté. (écrivez « annuler » pour quitter)"
-    database-export-completed: "<green>Succès, l'exportation de la base de données pour
-      [world] est terminée. Fichier [file] généré."
+    confirm-data-replacement: "<yellow>Veuillez confirmer que vous souhaitez remplacer vos défis actuels par de nouveaux."
+    new-challenges-imported: "<green>Succès, de nouveaux défis pour [gamemode] ont été importés."
+    exported-file-name: "<yellow>Veuillez entrer un nom de fichier pour le fichier de base de données exporté. (écrivez « annuler » pour quitter)"
+    database-export-completed: "<green>Succès, l'exportation de la base de données pour [world] est terminée. Fichier [file] généré."
     file-name-exist: "<red>Le fichier portant le nom '[id]' existe. Ne peut pas écraser."
-    write-search: "<yellow>Veuillez saisir une valeur de recherche. (écrire 'cancel' pour
-      quitter)"
+    write-search: "<yellow>Veuillez saisir une valeur de recherche. (écrire 'cancel' pour quitter)"
     search-updated: "<green>Valeur de recherche mise à jour."
+    enter-formula: "<green>Entrez une formule qui utilise uniquement des espaces réservés PAPI et des symboles =,<>,<+,>=, ==, !=, AND, OR.\n<green>Exemple : <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
   titles:
     challenge-title: Complété avec succès
     challenge-subtitle: "[friendlyName]"
@@ -1040,12 +1143,10 @@ challenges:
     migrate-start: "<dark_green>Commencer à migrer les données supplémentaires des défis."
     migrate-end: "<dark_green>données d'addon Challenges mises à jour dans un nouveau format."
     migrate-not: "<dark_green>Toutes les données sont valides."
-    start-downloading: "<dark_purple>Début du téléchargement et de l'importation de la bibliothèque
-      de défis."
+    start-downloading: "<dark_purple>Début du téléchargement et de l'importation de la bibliothèque de défis."
     you-completed-challenge: "<dark_green>Vous avez complété le challenge: [value] !"
     you-repeated-challenge: "<dark_green>Vous avez répété le challenge: [value] !"
-    you-repeated-challenge-multiple: "<dark_green>Vous avez répété le challenge: [value] <reset><dark_green>
-      [count] fois !"
+    you-repeated-challenge-multiple: "<dark_green>Vous avez répété le challenge: [value] <reset><dark_green> [count] fois !"
     you-completed-level: "<dark_green>Vous avez complété le niveau: [value] !"
     name-has-completed-challenge: "<dark_purple>[name] a complété le challenge: [value] !"
     name-has-completed-level: "<dark_purple>[name] a complété le niveau: [value] !"
@@ -1060,51 +1161,44 @@ challenges:
       La valeur doit être comprise entre [min] et [max].
     not-deployed: "<red>Le Challenge ne peut pas être réalisé !"
     not-on-island: "<red>Vous devez être sur votre île pour faire le Challenge !"
-    challenge-level-not-available: "<red>Vous n'avez pas débloqué le niveau requis pour
-      relever ce défi."
+    challenge-level-not-available: "<red>Vous n'avez pas débloqué le niveau requis pour relever ce défi."
     not-repeatable: "<red>Ce Challenge n'est pas répétable !"
     wrong-environment: "<red>Vous êtes dans le mauvais environnement !"
     not-enough-items: "<red>Vous n'avez pas assez [items] pour relever ce Challenge !"
-    not-close-enough: "<red>Vous devez vous tenir dans un rayon de [number] blocs autour
-      de tous les éléments requis."
+    not-close-enough: "<red>Vous devez vous tenir dans un rayon de [number] blocs autour de tous les éléments requis."
     you-still-need: "<red>Tu as encore besoin [amount] [item]"
-    missing-addon: "<red>Impossible de terminer le Challenge. L'addon ou le plugin requis
-      est manquant."
+    missing-addon: "<red>Impossible de terminer le Challenge. L'addon ou le plugin requis est manquant."
     incorrect: "<red>Impossible de terminer le défi : les exigences sont incorrectes."
-    not-enough-money: "<red>Il est nécéssaire d'avoir [value] sur votre compte pour compléter
-      le challenge."
-    not-enough-experience: "<red>Il est nécessaire d'avoir [value] EXP pour relever
-      ce défi."
-    island-level: "<red>Votre île doit être de niveau [number] ou plus pour relever
-      ce défi !"
+    not-enough-money: "<red>Il est nécéssaire d'avoir [value] sur votre compte pour compléter le challenge."
+    not-enough-experience: "<red>Il est nécessaire d'avoir [value] EXP pour relever ce défi."
+    island-level: "<red>Votre île doit être de niveau [number] ou plus pour relever ce défi !"
     no-load: "<red>Erreur: Impossible de charger le fichier challenges.yml. [message]"
     load-error: "<red>Erreur: Impossible de charger [value]."
     no-rank: "<red>Vous n'avez pas un rang assez élevé pour faire cela."
-    cannot-remove-items: "<red>Certains objets ne peuvent pas être supprimés de votre
-      inventaire !"
-    exist-challenges-or-levels: "<red>Dans votre monde il existe déjà des challenges.
-      Impossible de continuer !"
+    cannot-remove-items: "<red>Certains objets ne peuvent pas être supprimés de votre inventaire !"
+    exist-challenges-or-levels: "<red>Dans votre monde il existe déjà des challenges. Impossible de continuer !"
     no-challenges: "<red>Les challenges ne sont pas actifs dans le monde actuel !"
-    no-challenges-admin: "<red>Les Challenges ne sont pas actifs dans le monde actuel
-      ! Vous devez utiliser <dark_purple>/[command] <red>pour ajouter cela !"
+    no-challenges-admin: "<red>Les Challenges ne sont pas actifs dans le monde actuel ! Vous devez utiliser <dark_purple>/[command] <red>pour ajouter cela !"
     missing-arguments: "<red>La commande n'a pas d'arguments."
-    no-multiple-permission: "<red>Vous n'avez pas la permission d'accomplir ce challenge
-      plusieurs fois à la fois."
-    invalid-level: "<red>Le niveau [level] contient des données non valides. Il ne sera
-      pas chargé à partir de la base de données !"
-    invalid-challenge: "<red>Challenge [challenge] contient des données non valides.
-      Il ne sera pas chargé à partir de la base de données !"
-    no-library-entries: "<red>Impossible de trouver des entrées de bibliothèque. Rien
-      à montrer."
+    no-multiple-permission: "<red>Vous n'avez pas la permission d'accomplir ce challenge plusieurs fois à la fois."
+    invalid-level: "<red>Le niveau [level] contient des données non valides. Il ne sera pas chargé à partir de la base de données !"
+    invalid-challenge: "<red>Challenge [challenge] contient des données non valides. Il ne sera pas chargé à partir de la base de données !"
+    no-library-entries: "<red>Impossible de trouver des entrées de bibliothèque. Rien à montrer."
     not-hooked: "<red>Challenges Addon n'a trouvé aucun GameMode."
-    timeout: "<red>Ce défi nécessite d'attendre [timeout] entre les achèvements. Vous
-      devez attendre [wait-time] pour le terminer à nouveau."
-    requirement-not-met: "<red>Ce défi nécessite que [statistic] ait [number]. Vous
-      n'avez que [value]."
-    requirement-not-met-entity: "<red>Ce défi nécessite que [statistic] [entity] ait
-      [number]. Vous n'avez que [value]."
-    requirement-not-met-material: "<red>Ce défi nécessite que [statistic] [material]
-      ait [number]. Vous n'avez que [value]."
+    timeout: "<red>Ce défi nécessite d'attendre [timeout] entre les achèvements. Vous devez attendre [wait-time] pour le terminer à nouveau."
+    requirement-not-met: "<red>Ce défi nécessite que [statistic] ait [number]. Vous n'avez que [value]."
+    requirement-not-met-entity: "<red>Ce défi nécessite que [statistic] [entity] ait [number]. Vous n'avez que [value]."
+    requirement-not-met-material: "<red>Ce défi nécessite que [statistic] [material] ait [number]. Vous n'avez que [value]."
+    import-failed: "<red>Impossible d'importer les défis : [message]. Vérifiez la console du serveur pour plus de détails."
+    no-team: <red>C'est un défi d'équipe. Vous devez avoir une équipe pour le compléter!
+    insufficient-team: <red>Ce défi d'équipe nécessite [number] membres de l'équipe en ligne. Seul [online] est en ligne.
+    member-missing-share: <red>[name] n'a pas sa part ([amount] x [item]) pour ce défi d'équipe.
+  materials:
+    any: 'Quelconque '
+    all_hanging_signs:
+      name: Tout Panneau Suspendu
+    all_signs:
+      name: Tout Panneau
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

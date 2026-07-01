@@ -39,7 +39,7 @@ import world.bentobox.challenges.config.SettingsUtils.VisibilityMode;
 /**
  * @author tastybento
  */
-public class UtilsTest {
+class UtilsTest {
 
     @Mock
     private IslandWorldManager iwm;
@@ -50,7 +50,7 @@ public class UtilsTest {
     private MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         // Set up plugin
         BentoBox plugin = mock(BentoBox.class);
@@ -70,19 +70,19 @@ public class UtilsTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         mockedBukkit.closeOnDemand();
         closeable.close();
         Mockito.framework().clearInlineMocks();
     }
 
     @Test
-    public void testGroupEqualItemsEmpty() {
+    void testGroupEqualItemsEmpty() {
         assertTrue(Utils.groupEqualItems(Collections.emptyList(), Collections.emptySet()).isEmpty());
     }
 
     @Test
-    public void testGroupEqualItems() {
+    void testGroupEqualItems() {
         List<ItemStack> requiredItems = new ArrayList<>();
         Set<Material> ignoreMeta = Collections.singleton(Material.ACACIA_FENCE);
         // First item
@@ -108,7 +108,7 @@ public class UtilsTest {
     }
 
     @Test
-    public void testGroupEqualItemsUnique() {
+    void testGroupEqualItemsUnique() {
         List<ItemStack> requiredItems = new ArrayList<>();
         // First item
         ItemStack is = mock(ItemStack.class);
@@ -133,25 +133,25 @@ public class UtilsTest {
     }
 
     @Test
-    public void testGetGameModeNoGameMode() {
+    void testGetGameModeNoGameMode() {
         when(iwm.getAddon(any())).thenReturn(Optional.empty());
         assertNull(Utils.getGameMode(mock(World.class)));
     }
 
     @Test
-    public void testGetGameMode() {
+    void testGetGameMode() {
         assertEquals("name", Utils.getGameMode(mock(World.class)));
     }
 
     @Test
-    public void testGetNextValue() {
+    void testGetNextValue() {
         assertEquals(VisibilityMode.HIDDEN, Utils.getNextValue(VisibilityMode.values(), VisibilityMode.VISIBLE));
         assertEquals(VisibilityMode.TOGGLEABLE, Utils.getNextValue(VisibilityMode.values(), VisibilityMode.HIDDEN));
         assertEquals(VisibilityMode.VISIBLE, Utils.getNextValue(VisibilityMode.values(), VisibilityMode.TOGGLEABLE));
     }
 
     @Test
-    public void testGetPreviousValue() {
+    void testGetPreviousValue() {
         assertEquals(VisibilityMode.TOGGLEABLE, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.VISIBLE));
         assertEquals(VisibilityMode.VISIBLE, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.HIDDEN));
         assertEquals(VisibilityMode.HIDDEN, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.TOGGLEABLE));
