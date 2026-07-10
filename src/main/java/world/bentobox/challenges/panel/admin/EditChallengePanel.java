@@ -258,7 +258,8 @@ public class EditChallengePanel extends CommonPanel {
         panelBuilder.item(11, this.createRewardButton(RewardButton.REWARD_ITEMS));
         panelBuilder.item(20, this.createRewardButton(RewardButton.REWARD_EXPERIENCE));
         panelBuilder.item(29, this.createRewardButton(RewardButton.REWARD_MONEY));
-        panelBuilder.item(38, this.createRewardButton(RewardButton.REWARD_CHANCE));
+        panelBuilder.item(37, this.createRewardButton(RewardButton.REWARD_CHANCE));
+        panelBuilder.item(38, this.createRewardButton(RewardButton.REWARD_ISLAND_LEVEL));
 
         panelBuilder.item(22, this.createRewardButton(RewardButton.REPEATABLE));
 
@@ -280,6 +281,7 @@ public class EditChallengePanel extends CommonPanel {
             panelBuilder.item(16, this.createRewardButton(RewardButton.REPEAT_REWARD_ITEMS));
             panelBuilder.item(25, this.createRewardButton(RewardButton.REPEAT_REWARD_EXPERIENCE));
             panelBuilder.item(34, this.createRewardButton(RewardButton.REPEAT_REWARD_MONEY));
+            panelBuilder.item(43, this.createRewardButton(RewardButton.REPEAT_REWARD_ISLAND_LEVEL));
         }
     }
 
@@ -1455,6 +1457,29 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
+        case REWARD_ISLAND_LEVEL -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(this.challenge.getRewardIslandLevel())));
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.EXPERIENCE_BOTTLE : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRewardIslandLevel(number.longValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Long.MAX_VALUE);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
         case REWARD_COMMANDS -> {
             icon = new ItemStack(Material.COMMAND_BLOCK);
 
@@ -1667,6 +1692,29 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
+        case REPEAT_REWARD_ISLAND_LEVEL -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(this.challenge.getRepeatIslandLevel())));
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.EXPERIENCE_BOTTLE : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRepeatIslandLevel(number.longValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Long.MAX_VALUE);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
         case REPEAT_REWARD_COMMANDS -> {
             icon = new ItemStack(Material.COMMAND_BLOCK);
 
@@ -1860,11 +1908,11 @@ public class EditChallengePanel extends CommonPanel {
      * Represents different rewards buttons that are used in menus.
      */
     private enum RewardButton {
-        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_CHANCE, REWARD_COMMANDS,
+        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_CHANCE, REWARD_ISLAND_LEVEL, REWARD_COMMANDS,
 
         REPEATABLE, REPEAT_COUNT, COOL_DOWN,
 
-        REPEAT_REWARD_TEXT, REPEAT_REWARD_ITEMS, REPEAT_REWARD_EXPERIENCE, REPEAT_REWARD_MONEY, REPEAT_REWARD_COMMANDS,
+        REPEAT_REWARD_TEXT, REPEAT_REWARD_ITEMS, REPEAT_REWARD_EXPERIENCE, REPEAT_REWARD_MONEY, REPEAT_REWARD_ISLAND_LEVEL, REPEAT_REWARD_COMMANDS,
 
         ADD_IGNORED_META, REMOVE_IGNORED_META,
     }

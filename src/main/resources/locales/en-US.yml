@@ -595,6 +595,19 @@ challenges:
                     <dark_gray>Items, money, and experience use one roll.
                     <dark_gray>Commands are always executed.
                 value: "<gray>Chance: <yellow>[number]%"
+            reward_island_level:
+                name: "<white><bold>Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the reward island level.
+                    <gray>Requires the Level addon.
+                value: "<gray>Current value: <yellow>[number]"
+            repeat_reward_island_level:
+                name: "<white><bold>Repeat Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the repeat reward
+                    <gray>island level for the challenge.
+                    <gray>Requires the Level addon.
+                value: "<gray>Current value: <yellow>[number]"
             reward_commands:
                 name: "<white><bold>Reward Commands"
                 description: |-
