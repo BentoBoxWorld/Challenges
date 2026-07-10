@@ -911,8 +911,6 @@ class TryToCompleteTest extends AbstractChallengesTest {
         ItemStack swiftnessPotion2 = createPotion(Material.POTION, PotionType.SWIFTNESS);
         ItemStack strengthPotion = createPotion(Material.POTION, PotionType.STRENGTH);
 
-        Set<Material> ignoreMetaData = Set.of(Material.POTION);
-
         // Test that same potion type matches
         assertTrue(Utils.comparePotionType(swiftnessPotion1, swiftnessPotion2),
                 "Potions with same base type should compare as equal");

@@ -18,7 +18,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1066,21 +1065,12 @@ public class TryToComplete
         for (ItemStack required : requiredItemList)
         {
             int amountToBeRemoved = required.getAmount() * factor;
-            List<ItemStack> itemsInInventory;
 
-            if (this.user.getInventory() == null)
-            {
-                // Sanity check. User always has inventory at this point of code.
-                itemsInInventory = Collections.emptyList();
-            }
-            else
-            {
-                // Use helper method that handles ignore-metadata logic including potion types.
-                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).
-                        filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
-                        collect(Collectors.toList());
-            }
+            // Use helper method that handles ignore-metadata logic including potion types.
+            List<ItemStack> itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
+                    toList();
 
             for (ItemStack itemStack : itemsInInventory)
             {

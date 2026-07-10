@@ -91,14 +91,14 @@ public class Utils
 		PotionType firstType = null;
 		PotionType secondType = null;
 
-		if (first.hasItemMeta() && first.getItemMeta() instanceof PotionMeta)
+		if (first.hasItemMeta() && first.getItemMeta() instanceof PotionMeta potionMeta)
 		{
-			firstType = ((PotionMeta) first.getItemMeta()).getBasePotionType();
+			firstType = potionMeta.getBasePotionType();
 		}
 
-		if (second.hasItemMeta() && second.getItemMeta() instanceof PotionMeta)
+		if (second.hasItemMeta() && second.getItemMeta() instanceof PotionMeta potionMeta)
 		{
-			secondType = ((PotionMeta) second.getItemMeta()).getBasePotionType();
+			secondType = potionMeta.getBasePotionType();
 		}
 
 		// If either has no potion meta, they're only equal if both are missing the meta
