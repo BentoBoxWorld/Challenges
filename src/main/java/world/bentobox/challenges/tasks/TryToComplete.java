@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
@@ -1072,18 +1073,13 @@ public class TryToComplete
                 // Sanity check. User always has inventory at this point of code.
                 itemsInInventory = Collections.emptyList();
             }
-            else if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-            {
-                // Use collecting method that ignores item meta.
-                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
-                        .collect(Collectors.toList());
-            }
             else
             {
-                // Use collecting method that compares item meta.
+                // Use helper method that handles ignore-metadata logic including potion types.
                 itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).filter(i -> i.isSimilar(required)).collect(Collectors.toList());
+                        filter(Objects::nonNull).
+                        filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
+                        collect(Collectors.toList());
             }
 
             for (ItemStack itemStack : itemsInInventory)
@@ -1877,6 +1873,45 @@ public class TryToComplete
 
 
     /**
+     * Checks if two items match, considering the ignore-metadata setting. For potion-like materials
+     * that are in the ignore-metadata set, compares the base potion type while ignoring other metadata.
+     * For non-potion materials in the ignore-metadata set, uses type-only comparison. For materials
+     * not in the ignore-metadata set, uses full similarity comparison.
+     *
+     * @param candidate candidate item from inventory
+     * @param required required item template
+     * @param ignoreMetaData set of materials to ignore metadata for
+     * @return true if the items match
+     */
+    private static boolean itemsMatch(ItemStack candidate, ItemStack required, Set<Material> ignoreMetaData)
+    {
+        if (candidate == null || required == null)
+        {
+            return false;
+        }
+
+        if (!candidate.getType().equals(required.getType()))
+        {
+            return false;
+        }
+
+        // If metadata should not be ignored, use full similarity check
+        if (!ignoreMetaData.contains(required.getType()))
+        {
+            return candidate.isSimilar(required);
+        }
+
+        // Metadata is being ignored. For potion-like materials, still compare base potion type.
+        if (Utils.isPotionLike(required.getType()))
+        {
+            return Utils.comparePotionType(candidate, required);
+        }
+
+        // For non-potion materials, type-only matching is sufficient
+        return true;
+    }
+
+    /**
      * Counts how many of {@code required} a single player holds, honouring the challenge's
      * ignore-meta-data setting.
      *
@@ -1886,17 +1921,9 @@ public class TryToComplete
      */
     private int countInInventory(Player player, ItemStack required)
     {
-        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-        {
-            return Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.getType().equals(required.getType())).
-                    mapToInt(ItemStack::getAmount).sum();
-        }
-
         return Arrays.stream(player.getInventory().getContents()).
                 filter(Objects::nonNull).
-                filter(i -> i.isSimilar(required)).
+                filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
                 mapToInt(ItemStack::getAmount).sum();
     }
 
@@ -1916,22 +1943,10 @@ public class TryToComplete
             return 0;
         }
 
-        List<ItemStack> itemsInInventory;
-
-        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-        {
-            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.getType().equals(required.getType())).
-                    toList();
-        }
-        else
-        {
-            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.isSimilar(required)).
-                    toList();
-        }
+        List<ItemStack> itemsInInventory = Arrays.stream(player.getInventory().getContents()).
+                filter(Objects::nonNull).
+                filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
+                toList();
 
         int toRemove = amount;
 

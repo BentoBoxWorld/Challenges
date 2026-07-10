@@ -60,6 +60,52 @@ public class Utils
 
 
 	/**
+	 * Checks if a material is potion-like (potions, splash potions, lingering potions, tipped arrows).
+	 *
+	 * @param material the material to check
+	 * @return true if the material is potion-like
+	 */
+	public static boolean isPotionLike(Material material)
+	{
+		return material == Material.POTION ||
+		       material == Material.SPLASH_POTION ||
+		       material == Material.LINGERING_POTION ||
+		       material == Material.TIPPED_ARROW;
+	}
+
+	/**
+	 * Compares the base potion type of two potion items. Returns true if they have the same
+	 * base potion type, ignoring custom effects, lore, and other metadata.
+	 *
+	 * @param first first potion item
+	 * @param second second potion item
+	 * @return true if both items have the same base potion type
+	 */
+	public static boolean comparePotionType(@Nullable ItemStack first, @Nullable ItemStack second)
+	{
+		if (first == null || second == null)
+		{
+			return false;
+		}
+
+		PotionType firstType = null;
+		PotionType secondType = null;
+
+		if (first.hasItemMeta() && first.getItemMeta() instanceof PotionMeta)
+		{
+			firstType = ((PotionMeta) first.getItemMeta()).getBasePotionType();
+		}
+
+		if (second.hasItemMeta() && second.getItemMeta() instanceof PotionMeta)
+		{
+			secondType = ((PotionMeta) second.getItemMeta()).getBasePotionType();
+		}
+
+		// If either has no potion meta, they're only equal if both are missing the meta
+		return java.util.Objects.equals(firstType, secondType);
+	}
+
+	/**
 	 * This method groups input items in single itemstack with correct amount and returns it.
 	 * Allows to remove duplicate items from list.
 	 * @param requiredItems Input item list
@@ -84,7 +130,7 @@ public class Utils
 
 				// Merge items which meta can be ignored or is similar to item in required list.
 				if (Utils.isSimilarNoDurability(required, item) ||
-					ignoreMetaData.contains(item.getType()) && item.getType().equals(required.getType()))
+					itemsMatchIgnoreMetadata(required, item, ignoreMetaData))
 				{
 					required.setAmount(required.getAmount() + item.getAmount());
 					isUnique = false;
@@ -101,6 +147,42 @@ public class Utils
 		}
 
 		return returnItems;
+	}
+
+	/**
+	 * Checks if two items match when metadata should be ignored. For potion-like materials,
+	 * compares the base potion type. For non-potion materials, uses type-only comparison.
+	 *
+	 * @param first first item
+	 * @param second second item
+	 * @param ignoreMetaData set of materials to ignore metadata for
+	 * @return true if items match according to the ignore-metadata rules
+	 */
+	private static boolean itemsMatchIgnoreMetadata(@Nullable ItemStack first, @Nullable ItemStack second, Set<Material> ignoreMetaData)
+	{
+		if (first == null || second == null)
+		{
+			return false;
+		}
+
+		if (!first.getType().equals(second.getType()))
+		{
+			return false;
+		}
+
+		if (!ignoreMetaData.contains(first.getType()))
+		{
+			return false;
+		}
+
+		// Metadata is being ignored. For potion-like materials, still compare base potion type.
+		if (isPotionLike(first.getType()))
+		{
+			return comparePotionType(first, second);
+		}
+
+		// For non-potion materials, type-only matching is sufficient
+		return true;
 	}
 
 

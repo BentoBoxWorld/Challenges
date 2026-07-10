@@ -33,6 +33,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionType;
 import org.bukkit.util.BoundingBox;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.AfterEach;
@@ -55,6 +57,7 @@ import world.bentobox.challenges.database.object.requirements.StatisticRequireme
 import world.bentobox.challenges.database.object.requirements.StatisticRequirements.StatisticRec;
 import world.bentobox.challenges.managers.ChallengesManager;
 import world.bentobox.challenges.tasks.TryToComplete.ChallengeResult;
+import world.bentobox.challenges.utils.Utils;
 import world.bentobox.level.Level;
 
 /**
@@ -848,5 +851,118 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(cm, never()).getLevel(any(Challenge.class));
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for issue #320: Potion type comparison when metadata is ignored
+    // -------------------------------------------------------------------------
+
+    @Test
+    void testPotionComparisonIgnoreMetadataSameType() {
+        // Test that potions with same base type match when metadata is ignored
+        // by using Utils.groupEqualItems which should group them together
+        ItemStack swiftnessPotion1 = createPotion(Material.POTION, PotionType.SWIFTNESS);
+        swiftnessPotion1.setAmount(1);
+        ItemStack swiftnessPotion2 = createPotion(Material.POTION, PotionType.SWIFTNESS);
+        swiftnessPotion2.setAmount(1);
+        // Add different custom name to swiftnessPotion2 to ensure metadata differs
+        PotionMeta meta = (PotionMeta) swiftnessPotion2.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName("Fancy Swiftness");
+            swiftnessPotion2.setItemMeta(meta);
+        }
+
+        // When grouping items with ignore-metadata set for potions,
+        // potions with the same base type should be grouped together
+        Set<Material> ignoreMetaData = Set.of(Material.POTION);
+        List<ItemStack> requiredItems = Arrays.asList(swiftnessPotion1, swiftnessPotion2);
+        List<ItemStack> grouped = Utils.groupEqualItems(requiredItems, ignoreMetaData);
+
+        // Both swiftness potions should be grouped into one stack with amount 2
+        assertEquals(1, grouped.size(), "Potions with same base type should be grouped together");
+        assertEquals(2, grouped.get(0).getAmount(), "Grouped potion should have combined amount");
+        assertEquals(Material.POTION, grouped.get(0).getType(), "Grouped potion should be POTION");
+    }
+
+    @Test
+    void testPotionComparisonIgnoreMetadataDifferentType() {
+        // Test that potions with different base types DON'T group when metadata is ignored
+        ItemStack swiftnessPotion = createPotion(Material.POTION, PotionType.SWIFTNESS);
+        swiftnessPotion.setAmount(1);
+        ItemStack strengthPotion = createPotion(Material.POTION, PotionType.STRENGTH);
+        strengthPotion.setAmount(1);
+
+        // When grouping potions with different base types and ignore-metadata set,
+        // they should NOT be grouped together
+        Set<Material> ignoreMetaData = Set.of(Material.POTION);
+        List<ItemStack> requiredItems = Arrays.asList(swiftnessPotion, strengthPotion);
+        List<ItemStack> grouped = Utils.groupEqualItems(requiredItems, ignoreMetaData);
+
+        // Different potion types should NOT be grouped
+        assertEquals(2, grouped.size(), "Potions with different base types should NOT be grouped");
+        assertEquals(1, grouped.get(0).getAmount(), "First potion should keep original amount");
+        assertEquals(1, grouped.get(1).getAmount(), "Second potion should keep original amount");
+    }
+
+    @Test
+    void testPotionComparisonHelperMethod() {
+        // Unit test for the helper method that checks if items match with potion type comparison
+        ItemStack swiftnessPotion1 = createPotion(Material.POTION, PotionType.SWIFTNESS);
+        ItemStack swiftnessPotion2 = createPotion(Material.POTION, PotionType.SWIFTNESS);
+        ItemStack strengthPotion = createPotion(Material.POTION, PotionType.STRENGTH);
+
+        Set<Material> ignoreMetaData = Set.of(Material.POTION);
+
+        // Test that same potion type matches
+        assertTrue(Utils.comparePotionType(swiftnessPotion1, swiftnessPotion2),
+                "Potions with same base type should compare as equal");
+
+        // Test that different potion types don't match
+        assertFalse(Utils.comparePotionType(swiftnessPotion1, strengthPotion),
+                "Potions with different base types should not compare as equal");
+
+        // Test that potion-like check works
+        assertTrue(Utils.isPotionLike(Material.POTION),
+                "POTION should be recognized as potion-like");
+        assertTrue(Utils.isPotionLike(Material.SPLASH_POTION),
+                "SPLASH_POTION should be recognized as potion-like");
+        assertTrue(Utils.isPotionLike(Material.LINGERING_POTION),
+                "LINGERING_POTION should be recognized as potion-like");
+        assertTrue(Utils.isPotionLike(Material.TIPPED_ARROW),
+                "TIPPED_ARROW should be recognized as potion-like");
+        assertFalse(Utils.isPotionLike(Material.DIRT),
+                "DIRT should not be recognized as potion-like");
+    }
+
+    @Test
+    void testNonPotionIgnoreMetadataUnchanged() {
+        // Test that non-potion materials still use type-only comparison
+        ItemStack dirt1 = new ItemStack(Material.DIRT);
+        dirt1.setAmount(1);
+        ItemStack dirt2 = new ItemStack(Material.DIRT);
+        dirt2.setAmount(1);
+
+        // When grouping non-potion items with ignore-metadata set,
+        // they should be grouped together by type alone
+        Set<Material> ignoreMetaData = Set.of(Material.DIRT);
+        List<ItemStack> requiredItems = Arrays.asList(dirt1, dirt2);
+        List<ItemStack> grouped = Utils.groupEqualItems(requiredItems, ignoreMetaData);
+
+        // Both dirt items should be grouped into one stack with amount 2
+        assertEquals(1, grouped.size(), "Non-potion items with same type should be grouped");
+        assertEquals(2, grouped.get(0).getAmount(), "Grouped items should have combined amount");
+    }
+
+    /**
+     * Helper method to create a potion ItemStack with specified base potion type
+     */
+    private ItemStack createPotion(Material material, PotionType potionType) {
+        ItemStack potion = new ItemStack(material);
+        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+        if (meta != null) {
+            meta.setBasePotionType(potionType);
+            potion.setItemMeta(meta);
+        }
+        return potion;
     }
 }
