@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
@@ -29,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -962,5 +964,380 @@ class TryToCompleteTest extends AbstractChallengesTest {
             potion.setItemMeta(meta);
         }
         return potion;
+    }
+
+    // -------------------------------------------------------------------------
+    // Consumption/Removal tests (Issue #111)
+    // -------------------------------------------------------------------------
+
+    @Test
+    void testInventoryChallengeWithTakeItemsTrue() {
+        // Setup inventory challenge with takeItems=true
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredItem = new ItemStack(Material.EMERALD_BLOCK, 1);
+        req.setRequiredItems(Collections.singletonList(requiredItem));
+        req.setTakeItems(true);
+        challenge.setRequirements(req);
+
+        // Mock inventory with the required item
+        ItemStack inventoryItem = new ItemStack(Material.EMERALD_BLOCK, 5);
+        when(inv.getContents()).thenReturn(new ItemStack[]{inventoryItem});
+        when(player.getInventory()).thenReturn(inv);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify items were removed by checking the inventory item amount changed
+        // The removeItems method modifies the ItemStack in-place via setAmount
+        assertEquals(4, inventoryItem.getAmount(), "Item amount should be reduced by 1");
+    }
+
+    @Test
+    void testInventoryChallengeWithTakeItemsFalse() {
+        // Setup inventory challenge with takeItems=false
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredItem = new ItemStack(Material.EMERALD_BLOCK, 1);
+        req.setRequiredItems(Collections.singletonList(requiredItem));
+        req.setTakeItems(false);
+        challenge.setRequirements(req);
+
+        // Mock inventory with the required item
+        ItemStack inventoryItem = new ItemStack(Material.EMERALD_BLOCK, 5);
+        when(inv.getContents()).thenReturn(new ItemStack[]{inventoryItem});
+        when(player.getInventory()).thenReturn(inv);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify items were NOT removed
+        assertEquals(5, inventoryItem.getAmount(), "Item amount should remain unchanged when takeItems=false");
+    }
+
+    @Test
+    void testInventoryChallengeMultipleItemsRemoved() {
+        // Test that multiple required items are all removed
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack item1 = new ItemStack(Material.EMERALD, 2);
+        ItemStack item2 = new ItemStack(Material.DIAMOND, 3);
+        req.setRequiredItems(Arrays.asList(item1, item2));
+        req.setTakeItems(true);
+        challenge.setRequirements(req);
+
+        // Mock inventory with required items
+        ItemStack invEmerald = new ItemStack(Material.EMERALD, 10);
+        ItemStack invDiamond = new ItemStack(Material.DIAMOND, 10);
+        when(inv.getContents()).thenReturn(new ItemStack[]{invEmerald, invDiamond});
+        when(player.getInventory()).thenReturn(inv);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify both items were removed
+        assertEquals(8, invEmerald.getAmount(), "Emeralds should be reduced by 2");
+        assertEquals(7, invDiamond.getAmount(), "Diamonds should be reduced by 3");
+    }
+
+    @Test
+    void testIslandChallengeWithRemoveBlocksTrue() {
+        // Setup island challenge with removeBlocks=true
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredBlocks(Collections.singletonMap(Material.STONE, 1));
+        req.setRemoveBlocks(true);
+        challenge.setRequirements(req);
+
+        // Mock a block in the world
+        Block mockBlock = mock(Block.class);
+        when(mockBlock.getType()).thenReturn(Material.STONE);
+        Location blockLoc = mock(Location.class);
+        when(mockBlock.getLocation()).thenReturn(blockLoc);
+        when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(mockBlock);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify the block was set to AIR
+        verify(mockBlock).setType(Material.AIR);
+    }
+
+    @Test
+    void testIslandChallengeWithRemoveBlocksFalse() {
+        // Setup island challenge with removeBlocks=false
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredBlocks(Collections.singletonMap(Material.STONE, 1));
+        req.setRemoveBlocks(false);
+        challenge.setRequirements(req);
+
+        // Mock a block in the world
+        Block mockBlock = mock(Block.class);
+        when(mockBlock.getType()).thenReturn(Material.STONE);
+        Location blockLoc = mock(Location.class);
+        when(mockBlock.getLocation()).thenReturn(blockLoc);
+        when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(mockBlock);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify the block was NOT removed (setType not called)
+        verify(mockBlock, never()).setType(any());
+    }
+
+    @Test
+    void testIslandChallengeWithRemoveEntitiesTrue() {
+        // Setup island challenge with removeEntities=true
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredEntities(Collections.singletonMap(EntityType.GHAST, 1));
+        req.setRemoveEntities(true);
+        challenge.setRequirements(req);
+
+        // Mock an entity in the world
+        Entity mockEntity = mock(Entity.class);
+        when(mockEntity.getType()).thenReturn(EntityType.GHAST);
+        Location entityLoc = mock(Location.class);
+        when(mockEntity.getLocation()).thenReturn(entityLoc);
+        List<Entity> entities = Collections.singletonList(mockEntity);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(entities);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify the entity was removed
+        verify(mockEntity).remove();
+    }
+
+    @Test
+    void testIslandChallengeWithRemoveEntitiesFalse() {
+        // Setup island challenge with removeEntities=false
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredEntities(Collections.singletonMap(EntityType.GHAST, 1));
+        req.setRemoveEntities(false);
+        challenge.setRequirements(req);
+
+        // Mock an entity in the world
+        Entity mockEntity = mock(Entity.class);
+        when(mockEntity.getType()).thenReturn(EntityType.GHAST);
+        Location entityLoc = mock(Location.class);
+        when(mockEntity.getLocation()).thenReturn(entityLoc);
+        List<Entity> entities = Collections.singletonList(mockEntity);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(entities);
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify the entity was NOT removed
+        verify(mockEntity, never()).remove();
+    }
+
+    @Test
+    void testOtherChallengeMoneyWithdrawn() {
+        // Setup OTHER challenge with money requirement and takeMoney=true
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredMoney(50.0);
+        req.setTakeMoney(true);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        VaultHook vault = mockEconomy(true, 100.0);
+        when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
+        when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify money was withdrawn
+        verify(vault).withdraw(user, 50.0);
+    }
+
+    @Test
+    void testOtherChallengeMoneyNotWithdrawn() {
+        // Setup OTHER challenge with money but takeMoney=false
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredMoney(50.0);
+        req.setTakeMoney(false);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        VaultHook vault = mockEconomy(true, 100.0);
+        when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
+        when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify money was NOT withdrawn
+        verify(vault, never()).withdraw(any(), any(double.class));
+    }
+
+    @Test
+    void testOtherChallengeExperienceWithdrawn() {
+        // Setup OTHER challenge with XP requirement and takeExperience=true
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredExperience(50);
+        req.setTakeExperience(true);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        when(player.getTotalExperience()).thenReturn(100);
+        when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
+        when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify XP was taken
+        verify(player).setTotalExperience(50);
+    }
+
+    @Test
+    void testOtherChallengeExperienceNotWithdrawn() {
+        // Setup OTHER challenge with XP but takeExperience=false
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredExperience(50);
+        req.setTakeExperience(false);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        when(player.getTotalExperience()).thenReturn(100);
+        when(plugin.getHooks()).thenReturn(mock(world.bentobox.bentobox.managers.HooksManager.class));
+        when(plugin.getHooks().getHook("PlaceholderAPI")).thenReturn(Optional.empty());
+
+        // Complete the challenge
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify XP was NOT taken
+        verify(player, never()).setTotalExperience(any(int.class));
+    }
+
+    @Test
+    void testInventoryChallengeFailureDoesNotRemoveItems() {
+        // Setup inventory challenge with an item we don't have
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredItem = new ItemStack(Material.EMERALD_BLOCK, 10);
+        req.setRequiredItems(Collections.singletonList(requiredItem));
+        req.setTakeItems(true);
+        challenge.setRequirements(req);
+
+        // Mock inventory with only 5 items (not enough)
+        ItemStack inventoryItem = new ItemStack(Material.EMERALD_BLOCK, 5);
+        when(inv.getContents()).thenReturn(new ItemStack[]{inventoryItem});
+        when(player.getInventory()).thenReturn(inv);
+
+        // Try to complete (should fail)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify no items were removed (amount should still be 5)
+        assertEquals(5, inventoryItem.getAmount(), "Items should not be removed on failed completion");
+    }
+
+    @Test
+    void testIslandChallengeBlockRemovalFailureDoesNotRemoveBlocks() {
+        // Setup island challenge with a block we don't have
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredBlocks(Collections.singletonMap(Material.DIAMOND_BLOCK, 1));
+        req.setRemoveBlocks(true);
+        challenge.setRequirements(req);
+
+        // Mock world with no diamond blocks
+        Block mockBlock = mock(Block.class);
+        when(mockBlock.getType()).thenReturn(Material.STONE);
+        when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(mockBlock);
+
+        // Try to complete (should fail)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify no blocks were modified
+        verify(mockBlock, never()).setType(any());
+    }
+
+    @Test
+    void testIslandChallengeEntityRemovalFailureDoesNotRemoveEntities() {
+        // Setup island challenge with an entity we don't have
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(10);
+        req.setRequiredEntities(Collections.singletonMap(EntityType.WITHER, 1));
+        req.setRemoveEntities(true);
+        challenge.setRequirements(req);
+
+        // Mock world with wrong entity type
+        Entity mockEntity = mock(Entity.class);
+        when(mockEntity.getType()).thenReturn(EntityType.CHICKEN);
+        Location entityLoc = mock(Location.class);
+        when(mockEntity.getLocation()).thenReturn(entityLoc);
+        List<Entity> entities = Collections.singletonList(mockEntity);
+        when(world.getNearbyEntities(any(BoundingBox.class))).thenReturn(entities);
+
+        // Try to complete (should fail)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify entity was not removed
+        verify(mockEntity, never()).remove();
+    }
+
+    @Test
+    void testOtherChallengeFailureDoesNotWithdrawMoney() {
+        // Setup OTHER challenge with money we don't have
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredMoney(100.0);
+        req.setTakeMoney(true);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        VaultHook vault = mockEconomy(false, 50.0); // Only 50, need 100
+
+        // Try to complete (should fail)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify money was NOT withdrawn
+        verify(vault, never()).withdraw(any(), any(double.class));
+    }
+
+    @Test
+    void testOtherChallengeFailureDoesNotWithdrawExperience() {
+        // Setup OTHER challenge with XP we don't have
+        OtherRequirements req = new OtherRequirements();
+        req.setRequiredExperience(100);
+        req.setTakeExperience(true);
+        setupOtherChallenge(req);
+
+        when(addon.isLevelProvided()).thenReturn(false);
+        when(player.getTotalExperience()).thenReturn(50); // Only 50, need 100
+
+        // Try to complete (should fail)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify XP was NOT taken
+        verify(player, never()).setTotalExperience(any(int.class));
+    }
+
+    @Test
+    void testMultipleInventoryItemsPartialRemovalFailure() {
+        // Test that if ANY item removal fails, the entire challenge fails and items are returned
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack item1 = new ItemStack(Material.EMERALD, 2);
+        ItemStack item2 = new ItemStack(Material.DIAMOND, 3);
+        req.setRequiredItems(Arrays.asList(item1, item2));
+        req.setTakeItems(true);
+        challenge.setRequirements(req);
+
+        // Mock inventory with only first item (missing diamonds)
+        ItemStack invEmerald = new ItemStack(Material.EMERALD, 10);
+        when(inv.getContents()).thenReturn(new ItemStack[]{invEmerald});
+        when(player.getInventory()).thenReturn(inv);
+
+        // Try to complete (should fail due to missing diamonds)
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Verify items were not removed
+        assertEquals(10, invEmerald.getAmount(), "Items should not be removed when requirement fails");
     }
 }
