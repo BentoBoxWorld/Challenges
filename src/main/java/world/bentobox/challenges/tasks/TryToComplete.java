@@ -364,60 +364,54 @@ public class TryToComplete
         this.manager.setChallengeComplete(this.user, this.world, this.challenge, result.getFactor());
 
         // Check level completion for non-free challenges
-        if (!result.wasCompleted() &&
-                !this.challenge.getLevel().equals(ChallengesManager.FREE))
+        if (!result.wasCompleted())
         {
-            ChallengeLevel level = this.manager.getLevel(this.challenge);
+            ChallengeLevel level = this.manager.tryCompleteLevel(this.user, this.world, this.challenge);
 
-            if (level != null && !this.manager.isLevelCompleted(this.user, this.world, level))
+            if (level != null)
             {
-                if (this.manager.validateLevelCompletion(this.user, this.world, level))
+                // Item rewards
+                for (ItemStack reward : level.getRewardItems())
                 {
-                    // Item rewards
-                    for (ItemStack reward : level.getRewardItems())
-                    {
-                        // Clone is necessary because otherwise it will chane reward itemstack
-                        // amount.
-                        this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                        this.user.getWorld().dropItem(this.user.getLocation(), v));
-                    }
+                    // Clone is necessary because otherwise it will chane reward itemstack
+                    // amount.
+                    this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                    this.user.getWorld().dropItem(this.user.getLocation(), v));
+                }
 
-                    // Money Reward
-                    if (this.addon.isEconomyProvided())
-                    {
-                        this.addon.getEconomyProvider().deposit(this.user, level.getRewardMoney());
-                    }
+                // Money Reward
+                if (this.addon.isEconomyProvided())
+                {
+                    this.addon.getEconomyProvider().deposit(this.user, level.getRewardMoney());
+                }
 
-                    // Experience Reward
-                    this.user.getPlayer().giveExp(level.getRewardExperience());
+                // Experience Reward
+                this.user.getPlayer().giveExp(level.getRewardExperience());
 
-                    // Run commands
-                    this.runCommands(level.getRewardCommands());
+                // Run commands
+                this.runCommands(level.getRewardCommands());
 
-                    Utils.sendMessage(this.user,
-                            this.world, Constants.MESSAGES + "you-completed-level", Constants.PARAMETER_VALUE,
-                            level.getFriendlyName());
+                Utils.sendMessage(this.user,
+                        this.world, Constants.MESSAGES + "you-completed-level", Constants.PARAMETER_VALUE,
+                        level.getFriendlyName());
 
-                    if (this.addon.getChallengesSettings().isBroadcastMessages())
-                    {
-                        Bukkit.getOnlinePlayers().stream().
-                        map(User::getInstance).forEach(user -> Utils.sendMessage(user,
-                                this.world,
-                                Constants.MESSAGES + "name-has-completed-level",
-                                Constants.PARAMETER_NAME, this.user.getName(),
-                                Constants.PARAMETER_VALUE, level.getFriendlyName()));
-                    }
+                if (this.addon.getChallengesSettings().isBroadcastMessages())
+                {
+                    Bukkit.getOnlinePlayers().stream().
+                    map(User::getInstance).forEach(user -> Utils.sendMessage(user,
+                            this.world,
+                            Constants.MESSAGES + "name-has-completed-level",
+                            Constants.PARAMETER_NAME, this.user.getName(),
+                            Constants.PARAMETER_VALUE, level.getFriendlyName()));
+                }
 
-                    this.manager.setLevelComplete(this.user, this.world, level);
-
-                    // sends title to player on level completion
-                    if (this.addon.getChallengesSettings().isShowCompletionTitle())
-                    {
-                        this.user.getPlayer().sendTitle(
-                                this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
-                                this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
-                                10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
-                    }
+                // sends title to player on level completion
+                if (this.addon.getChallengesSettings().isShowCompletionTitle())
+                {
+                    this.user.getPlayer().sendTitle(
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
+                            10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
                 }
             }
         }

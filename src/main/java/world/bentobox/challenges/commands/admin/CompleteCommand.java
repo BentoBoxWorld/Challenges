@@ -108,6 +108,8 @@ public class CompleteCommand extends CompositeCommand
 					this.addon.getChallengesManager().setChallengeComplete(
 						targetUUID, this.getWorld(), challenge, user.getUniqueId());
 
+					// Try to complete the level if all challenges are done
+					this.addon.getChallengesManager().tryCompleteLevelAdmin(target, this.getWorld(), challenge);
 
 					if (user.isPlayer())
 					{

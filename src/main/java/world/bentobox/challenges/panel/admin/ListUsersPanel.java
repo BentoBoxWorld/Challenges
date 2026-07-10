@@ -222,11 +222,16 @@ public class ListUsersPanel extends CommonPagedPanel<Player>
                             (status, valueSet) -> {
                                 if (Boolean.TRUE.equals(status))
                                 {
-                                    valueSet.forEach(challenge ->
+                                    valueSet.forEach(challenge -> {
                                         manager.setChallengeComplete(player.getUniqueId(),
                                             this.world,
                                             challenge,
-                                            this.user.getUniqueId()));
+                                            this.user.getUniqueId());
+                                        // Try to complete the level if all challenges are done
+                                        manager.tryCompleteLevelAdmin(User.getInstance(player.getUniqueId()),
+                                            this.world,
+                                            challenge);
+                                    });
                                 }
 
                             this.build();
