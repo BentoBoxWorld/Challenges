@@ -462,6 +462,14 @@ challenges:
           <gray>répéter l'argent de la récompense
           <gray>pour le défi.
         value: "<gray>Valeur actuelle : <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Chance de récompense"
+        description: |-
+          <gray>Pourcentage de chance (0-100) que les récompenses
+          <gray>matérielles soient données à la fin du défi.
+          <dark_gray>Objets, argent et expérience partagent un seul tirage.
+          <dark_gray>Les commandes sont toujours exécutées.
+        value: "<gray>Chance : <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Commandes de récompense"
         description: |-

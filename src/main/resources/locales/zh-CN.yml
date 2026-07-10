@@ -370,6 +370,14 @@ challenges:
         name: "<white><bold>重复奖励金钱"
         description: "<gray>允许更改重复挑战的金钱奖励"
         value: "<gray>当前值：<yellow>[number]"
+      reward_chance:
+        name: "<white><bold>奖励几率"
+        description: |-
+          <gray>完成挑战时发放物质奖励的
+          <gray>几率百分比（0-100）。
+          <dark_gray>物品、金钱和经验共用一次判定。
+          <dark_gray>命令始终会执行。
+        value: "<gray>几率: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>奖励命令"
         description: |-

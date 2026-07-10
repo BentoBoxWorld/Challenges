@@ -519,6 +519,14 @@ challenges:
           繰り返しを変更できます
           チャレンジにお金に報いる。
         value: 現在の値：[number]
+      reward_chance:
+        name: 報酬確率
+        description: |-
+          達成時に物質的な報酬が与えられる
+          確率（0-100）です。
+          アイテム、お金、経験値は1回の抽選で決まります。
+          コマンドは常に実行されます。
+        value: 確率：[number]%
       reward_commands:
         name: 報酬コマンド
         description: |-

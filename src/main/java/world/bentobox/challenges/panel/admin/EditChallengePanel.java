@@ -258,6 +258,7 @@ public class EditChallengePanel extends CommonPanel {
         panelBuilder.item(11, this.createRewardButton(RewardButton.REWARD_ITEMS));
         panelBuilder.item(20, this.createRewardButton(RewardButton.REWARD_EXPERIENCE));
         panelBuilder.item(29, this.createRewardButton(RewardButton.REWARD_MONEY));
+        panelBuilder.item(37, this.createRewardButton(RewardButton.REWARD_CHANCE));
         panelBuilder.item(38, this.createRewardButton(RewardButton.REWARD_ISLAND_LEVEL));
 
         panelBuilder.item(22, this.createRewardButton(RewardButton.REPEATABLE));
@@ -1433,6 +1434,29 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
+        case REWARD_CHANCE -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(challenge.getRewardChance())));
+            icon = new ItemStack(Material.DIAMOND);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRewardChance(number.intValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, 100);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
         case REWARD_ISLAND_LEVEL -> {
             description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
                     String.valueOf(this.challenge.getRewardIslandLevel())));
@@ -1884,7 +1908,7 @@ public class EditChallengePanel extends CommonPanel {
      * Represents different rewards buttons that are used in menus.
      */
     private enum RewardButton {
-        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_ISLAND_LEVEL, REWARD_COMMANDS,
+        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_CHANCE, REWARD_ISLAND_LEVEL, REWARD_COMMANDS,
 
         REPEATABLE, REPEAT_COUNT, COOL_DOWN,
 

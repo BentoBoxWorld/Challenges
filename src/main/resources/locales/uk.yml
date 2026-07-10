@@ -467,6 +467,14 @@ challenges:
           <gray>повторити грошову винагороду
           <gray>за виклик.
         value: "<gray>Поточне значення: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Шанс винагороди"
+        description: |-
+          <gray>Шанс у відсотках (0-100), що за виконання
+          <gray>будуть видані матеріальні винагороди.
+          <dark_gray>Предмети, гроші та досвід використовують один кидок.
+          <dark_gray>Команди виконуються завжди.
+        value: "<gray>Шанс: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Команди винагороди"
         description: |-

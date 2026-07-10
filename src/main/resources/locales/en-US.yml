@@ -587,6 +587,14 @@ challenges:
                     <gray>Allows you to change the repeat
                     <gray>reward money for the challenge.
                 value: "<gray>Current value: <yellow>[number]"
+            reward_chance:
+                name: "<white><bold>Reward Chance"
+                description: |-
+                    <gray>Chance percentage (0-100) that material
+                    <gray>rewards are given on completion.
+                    <dark_gray>Items, money, and experience use one roll.
+                    <dark_gray>Commands are always executed.
+                value: "<gray>Chance: <yellow>[number]%"
             reward_island_level:
                 name: "<white><bold>Reward Island Level"
                 description: |-

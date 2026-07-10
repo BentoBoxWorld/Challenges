@@ -485,6 +485,14 @@ challenges:
           <gray>Ļauj uzstādīt atkārtotas
           <gray>atlīdzības naudu spēlētājam.
         value: "<gray>Vērtība: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Atlīdzības Iespēja"
+        description: |-
+          <gray>Iespēja procentos (0-100), ka izpildot
+          <gray>izaicinājumu tiks piešķirtas atlīdzības.
+          <dark_gray>Priekšmeti, nauda un pieredze izmanto vienu izlozi.
+          <dark_gray>Komandas tiek izpildītas vienmēr.
+        value: "<gray>Iespēja: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Atlīdzības Komandas"
         description: |-

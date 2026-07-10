@@ -437,6 +437,14 @@ challenges:
         name: "<white><bold>Powtarzaj nagrody pieniężne"
         description: "<gray>Pozwala na zmianę nagrody \n<gray>pieniężnej\n<gray>po ponownym wykonaniu zadania"
         value: "<gray>Aktualna wartość: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Szansa na nagrodę"
+        description: |-
+          <gray>Procentowa szansa (0-100), że nagrody
+          <gray>materialne zostaną przyznane po ukończeniu.
+          <dark_gray>Przedmioty, pieniądze i doświadczenie używają jednego losowania.
+          <dark_gray>Komendy są wykonywane zawsze.
+        value: "<gray>Szansa: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Polecenia nagrody"
         description: "<gray>Konkretne polecenie nagrody:\n<dark_gray>Podpowiedź:\n<dark_gray>Komenda nie wymaga '/'\n<dark_gray>jest on dodawany automatycznie.\n<dark_gray>Domyślnie polecenie wykonuje serwer\n<dark_gray>jeżeli chcesz by polecenie zostało \n<dark_gray>wykonane przez gracza przed\n<dark_gray>nim wpisz <yellow>[SELF] <dark_gray>\n<dark_gray>Wartość <yellow>[player] <dark_gray>użyta w poleceniu\n<dark_gray>będzie zamieniona na nick gracza\n<dark_gray>który wykonał zadanie"

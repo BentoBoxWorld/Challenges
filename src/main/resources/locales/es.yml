@@ -470,6 +470,14 @@ challenges:
           <gray>repetir dinero de recompensa
           <gray>para el desafío.
         value: "<gray>Valor actual: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Probabilidad de Recompensa"
+        description: |-
+          <gray>Probabilidad (0-100) de que se entreguen
+          <gray>las recompensas materiales al completar.
+          <dark_gray>Objetos, dinero y experiencia usan una sola tirada.
+          <dark_gray>Los comandos siempre se ejecutan.
+        value: "<gray>Probabilidad: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Comandos de recompensa"
         description: |-
