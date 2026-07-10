@@ -114,11 +114,11 @@ public class ChallengesPanel extends CommonPanel
     {
         this.freeChallengeList = this.manager.getFreeChallenges(this.world);
 
-        if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
-        {
-            this.freeChallengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                this.manager.isChallengeComplete(this.user, this.world, challenge));
-        }
+        // Remove completed non-repeatable challenges if global setting is on OR per-challenge flag is set
+        final boolean globalRemoveCompleted = this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges();
+        this.freeChallengeList.removeIf(challenge -> !challenge.isRepeatable() &&
+            this.manager.isChallengeComplete(this.user, this.world, challenge) &&
+            (globalRemoveCompleted || challenge.isRemoveWhenCompleted()));
 
         // Remove all undeployed challenges if VisibilityMode is set to Hidden.
         if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
@@ -155,11 +155,11 @@ public class ChallengesPanel extends CommonPanel
         {
             this.challengeList = this.manager.getLevelChallenges(this.lastSelectedLevel.getLevel(), true);
 
-            if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
-            {
-                this.challengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                    this.manager.isChallengeComplete(this.user, this.world, challenge));
-            }
+            // Remove completed non-repeatable challenges if global setting is on OR per-challenge flag is set
+            final boolean globalRemoveCompleted = this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges();
+            this.challengeList.removeIf(challenge -> !challenge.isRepeatable() &&
+                this.manager.isChallengeComplete(this.user, this.world, challenge) &&
+                (globalRemoveCompleted || challenge.isRemoveWhenCompleted()));
 
             // Remove all undeployed challenges if VisibilityMode is set to Hidden.
             if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
