@@ -770,6 +770,14 @@ challenges:
                     <gray>should be counted towards level completion.
                 enabled: "<dark_green>Enabled"
                 disabled: "<red>Disabled"
+            open_anywhere:
+                name: "<white><bold>Open GUI Anywhere"
+                description: |-
+                    <gray>Allows players to open the challenges GUI
+                    <gray>from anywhere. Completion still requires
+                    <gray>being on the island when protected.
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
             download:
                 name: "<white><bold>Download Libraries"
                 description: |-
