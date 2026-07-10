@@ -809,14 +809,17 @@ class TryToCompleteTest extends AbstractChallengesTest {
         lvl.setFriendlyName("Novice");
         lvl.setRewardExperience(200);
         // Stub both overloads: getLevel(String) used in checkIfCanCompleteChallenge,
-        // getLevel(Challenge) used in build() for level completion check
+        // getLevel(Challenge) used in tryCompleteLevel()
         when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(false);
         when(cm.validateLevelCompletion(any(), any(), any())).thenReturn(true);
+        // Mock tryCompleteLevel to return the level (which triggers reward logic)
+        when(cm.tryCompleteLevel(any(), any(), any())).thenReturn(lvl);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(cm).setLevelComplete(any(), any(), eq(lvl));
+        // Verify that tryCompleteLevel was called to complete the level
+        verify(cm).tryCompleteLevel(any(), any(), eq(challenge));
         verify(player).giveExp(200);
     }
 
@@ -830,9 +833,12 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
         when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
         when(cm.isLevelCompleted(any(), any(), any())).thenReturn(true);
+        // Mock tryCompleteLevel to return null since level is already completed
+        when(cm.tryCompleteLevel(any(), any(), any())).thenReturn(null);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
-        verify(cm, never()).setLevelComplete(any(), any(), any());
+        // Verify tryCompleteLevel was called but didn't complete the level (returned null)
+        verify(cm).tryCompleteLevel(any(), any(), eq(challenge));
     }
 
     @Test
