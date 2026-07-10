@@ -1,5 +1,6 @@
 package world.bentobox.challenges.panel;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -86,6 +87,24 @@ class ConversationUtilsTest {
         Consumer<Boolean> consumer = mock(Consumer.class);
         ConversationUtils.createConfirmation(consumer, user, "Are you sure?", null);
         verify(user).getPlayer();
+    }
+
+    @Test
+    void testConfirmationInstructionAppended() {
+        when(user.getTranslationOrNothing(
+            world.bentobox.challenges.utils.Constants.CONFIRM_INSTRUCTION))
+            .thenReturn("Type confirm to proceed");
+        String result = ConversationUtils.appendConfirmationInstruction(user, "Are you sure?");
+        assertEquals("Are you sure?\nType confirm to proceed", result);
+    }
+
+    @Test
+    void testConfirmationInstructionEmptyFallsBackToQuestion() {
+        when(user.getTranslationOrNothing(
+            world.bentobox.challenges.utils.Constants.CONFIRM_INSTRUCTION))
+            .thenReturn("");
+        String result = ConversationUtils.appendConfirmationInstruction(user, "Are you sure?");
+        assertEquals("Are you sure?", result);
     }
 
     @Test

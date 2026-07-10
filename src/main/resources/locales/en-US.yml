@@ -1218,6 +1218,7 @@ challenges:
         cancel-string: "cancel"
         exit-string: "cancel, exit, quit"
         cancelled: "<red>Conversation cancelled!"
+        confirm-instruction: "<gray>Type '<green>confirm<gray>' in chat to proceed, or '<red>cancel<gray>' to abort."
         input-number: "<yellow>Please enter a number in the chat."
         input-seconds: "<yellow>Please enter a number of seconds in the chat."
         numeric-only: "<red>The given [value] is not a number!"
