@@ -247,4 +247,25 @@ class ChallengesCommandTest {
         assertEquals(1, cc.getSubCommands(true).size());
     }
 
+    @Test
+    void testCanExecuteOffIslandWithProtectionAndNoOpenAnywhere() {
+        // Player is off island and world protection is on, but openAnywhere is false
+        when(im.locationIsOnIsland(any(Player.class), any())).thenReturn(false);
+        // Note: Since CHALLENGES_WORLD_PROTECTION flag has default setting true,
+        // and TestWorldSetting.getWorldFlags() returns an empty map by default,
+        // the flag will check as enabled. We test behavior when it's restricted.
+        assertFalse(cc.canExecute(user, "challenges", Collections.emptyList()));
+        verify(user).getTranslation(world, "challenges.errors.not-on-island");
+    }
+
+    @Test
+    void testCanExecuteOffIslandWithProtectionAndOpenAnywhere() {
+        // Player is off island but openAnywhere is enabled
+        when(im.locationIsOnIsland(any(Player.class), any())).thenReturn(false);
+        Settings settings = (Settings) addon.getChallengesSettings();
+        settings.setOpenAnywhere(true);
+        assertTrue(cc.canExecute(user, "challenges", Collections.emptyList()));
+        verify(user, never()).getTranslation(world, "challenges.errors.not-on-island");
+    }
+
 }

@@ -115,6 +115,12 @@ public class Settings implements ConfigObject
     @ConfigEntry(path = "gui-settings.undeployed-view-mode")
     private VisibilityMode visibilityMode = VisibilityMode.VISIBLE;
 
+    @ConfigComment("")
+    @ConfigComment("Allow players to open the challenges GUI without being on their island.")
+    @ConfigComment("Note: Challenges completion still requires being on the island when world protection is enabled.")
+    @ConfigEntry(path = "gui-settings.open-anywhere")
+    private boolean openAnywhere = false;
+
 
     @ConfigComment("")
     @ConfigComment("This allows to change default locked level icon. This option may be")
@@ -711,5 +717,27 @@ public class Settings implements ConfigObject
     public void setIncludeUndeployed(boolean includeUndeployed)
     {
         this.includeUndeployed = includeUndeployed;
+    }
+
+
+    /**
+     * Is open anywhere boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isOpenAnywhere()
+    {
+        return openAnywhere;
+    }
+
+
+    /**
+     * Sets open anywhere.
+     *
+     * @param openAnywhere whether to allow opening GUI from anywhere
+     */
+    public void setOpenAnywhere(boolean openAnywhere)
+    {
+        this.openAnywhere = openAnywhere;
     }
 }

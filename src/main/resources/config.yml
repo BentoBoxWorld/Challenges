@@ -76,6 +76,10 @@ gui-settings:
   # TOGGLEABLE - Currently not implemented.
   undeployed-view-mode: VISIBLE
   #
+  # Allow players to open the challenges GUI without being on their island.
+  # Note: Challenges completion still requires being on the island when world protection is enabled.
+  open-anywhere: false
+  #
   # This allows to change default locked level icon. This option may be
   # overwritten by each challenge level. If challenge level has specified
   # their locked level icon, then it will be used, instead of this one.
