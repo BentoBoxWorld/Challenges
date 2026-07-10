@@ -274,6 +274,14 @@ public class TryToComplete
                 // Experience Reward
                 recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
 
+                // Island Level Reward
+                if (this.addon.isLevelProvided() && this.challenge.getRewardIslandLevel() != 0)
+                {
+                    world.bentobox.level.Level level = this.addon.getLevelAddon();
+                    level.setIslandLevel(this.world, this.user.getUniqueId(),
+                            level.getIslandLevel(this.world, this.user.getUniqueId()) + this.challenge.getRewardIslandLevel());
+                }
+
                 // Run commands
                 this.runCommands(this.challenge.getRewardCommands(), recipient);
             }
@@ -339,6 +347,14 @@ public class TryToComplete
                 recipient.getPlayer().giveExp(
                         this.challenge.getRepeatExperienceReward() * rewardFactor);
 
+                // Island Level Repeat Reward
+                if (this.addon.isLevelProvided() && this.challenge.getRepeatIslandLevel() != 0)
+                {
+                    world.bentobox.level.Level level = this.addon.getLevelAddon();
+                    level.setIslandLevel(this.world, this.user.getUniqueId(),
+                            level.getIslandLevel(this.world, this.user.getUniqueId()) + this.challenge.getRepeatIslandLevel() * rewardFactor);
+                }
+
                 // Run commands
                 for (int i = 0; i < rewardFactor; i++)
                 {
@@ -387,6 +403,14 @@ public class TryToComplete
 
                 // Experience Reward
                 this.user.getPlayer().giveExp(level.getRewardExperience());
+
+                // Island Level Reward
+                if (this.addon.isLevelProvided() && level.getRewardIslandLevel() != 0)
+                {
+                    world.bentobox.level.Level levelAddon = this.addon.getLevelAddon();
+                    levelAddon.setIslandLevel(this.world, this.user.getUniqueId(),
+                            levelAddon.getIslandLevel(this.world, this.user.getUniqueId()) + level.getRewardIslandLevel());
+                }
 
                 // Run commands
                 this.runCommands(level.getRewardCommands());

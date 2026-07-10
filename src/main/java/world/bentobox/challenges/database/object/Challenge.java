@@ -225,6 +225,12 @@ public class Challenge implements DataObject
     private double rewardMoney = 0;
 
     /**
+     * Island level reward. Level addon required for this option.
+     */
+    @Expose
+    private long rewardIslandLevel = 0;
+
+    /**
      * Commands to run when the player completes the challenge for the first time. String List
      */
     @Expose
@@ -281,6 +287,12 @@ public class Challenge implements DataObject
      */
     @Expose
     private double repeatMoneyReward;
+
+    /**
+     * Repeat island level reward. Level addon required for this option.
+     */
+    @Expose
+    private long repeatIslandLevel = 0;
 
     /**
      * Commands to run when challenge is repeated. String List.
@@ -478,6 +490,15 @@ public class Challenge implements DataObject
 
 
     /**
+     * @return the rewardIslandLevel
+     */
+    public long getRewardIslandLevel()
+    {
+        return rewardIslandLevel;
+    }
+
+
+    /**
      * @return the rewardCommands
      */
     public List<String> getRewardCommands()
@@ -537,6 +558,15 @@ public class Challenge implements DataObject
     public double getRepeatMoneyReward()
     {
         return repeatMoneyReward;
+    }
+
+
+    /**
+     * @return the repeatIslandLevel
+     */
+    public long getRepeatIslandLevel()
+    {
+        return repeatIslandLevel;
     }
 
 
@@ -774,6 +804,17 @@ public class Challenge implements DataObject
 
 
     /**
+     * This method sets the rewardIslandLevel value.
+     * @param rewardIslandLevel the rewardIslandLevel new value.
+     *
+     */
+    public void setRewardIslandLevel(long rewardIslandLevel)
+    {
+        this.rewardIslandLevel = rewardIslandLevel;
+    }
+
+
+    /**
      * This method sets the rewardCommands value.
      * @param rewardCommands the rewardCommands new value.
      *
@@ -847,6 +888,17 @@ public class Challenge implements DataObject
     public void setRepeatMoneyReward(double repeatMoneyReward)
     {
         this.repeatMoneyReward = repeatMoneyReward;
+    }
+
+
+    /**
+     * This method sets the repeatIslandLevel value.
+     * @param repeatIslandLevel the repeatIslandLevel new value.
+     *
+     */
+    public void setRepeatIslandLevel(long repeatIslandLevel)
+    {
+        this.repeatIslandLevel = repeatIslandLevel;
     }
 
 
@@ -1028,12 +1080,14 @@ public class Challenge implements DataObject
             clone.setHideIfNoTeam(this.hideIfNoTeam);
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardIslandLevel(this.rewardIslandLevel);
             clone.setRepeatable(this.repeatable);
             clone.setTimeout(this.timeout);
             clone.setRepeatRewardText(this.repeatRewardText);
             clone.setMaxTimes(this.maxTimes);
             clone.setRepeatExperienceReward(this.repeatExperienceReward);
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
+            clone.setRepeatIslandLevel(this.repeatIslandLevel);
 
             // Copy custom objects
             clone.setRequirements(this.requirements.copy());

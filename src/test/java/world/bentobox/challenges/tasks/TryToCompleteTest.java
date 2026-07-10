@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
@@ -848,5 +849,63 @@ class TryToCompleteTest extends AbstractChallengesTest {
         when(inv.addItem(any())).thenReturn(new HashMap<>());
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(cm, never()).getLevel(any(Challenge.class));
+    }
+
+    @Test
+    void testFirstTimeRewardIslandLevel() {
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        challenge.setRewardIslandLevel(50L);
+        Level levelAddon = mockLevelAddon(100L);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(levelAddon).setIslandLevel(world, user.getUniqueId(), 150L);
+    }
+
+    @Test
+    void testRepeatRewardIslandLevel() {
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
+        challenge.setRepeatIslandLevel(25L);
+        Level levelAddon = mockLevelAddon(100L);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(levelAddon).setIslandLevel(world, user.getUniqueId(), 125L);
+    }
+
+    @Test
+    void testFirstTimeRewardIslandLevelNoLevel() {
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        challenge.setRewardIslandLevel(50L);
+        when(addon.isLevelProvided()).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        // Should not call Level addon methods
+        verify(addon, never()).getLevelAddon();
+    }
+
+    @Test
+    void testFirstTimeRewardIslandLevelZero() {
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        challenge.setRewardIslandLevel(0L);
+        Level levelAddon = mockLevelAddon(100L);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        // Should not call setIslandLevel when reward is 0
+        verify(levelAddon, never()).setIslandLevel(any(), any(), anyLong());
+    }
+
+    @Test
+    void testLevelCompletionRewardIslandLevel() {
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        ChallengeLevel lvl = new ChallengeLevel();
+        lvl.setUniqueId(GAME_MODE_NAME + "_novice");
+        lvl.setFriendlyName("Novice");
+        lvl.setRewardIslandLevel(100L);
+        when(cm.getLevel(GAME_MODE_NAME + "_novice")).thenReturn(lvl);
+        when(cm.getLevel(any(Challenge.class))).thenReturn(lvl);
+        when(cm.tryCompleteLevel(any(), any(), any())).thenReturn(lvl);
+        Level levelAddon = mockLevelAddon(100L);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(levelAddon).setIslandLevel(world, user.getUniqueId(), 200L);
     }
 }

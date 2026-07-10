@@ -109,6 +109,11 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     private double rewardMoney = 0;
 
     @ConfigComment("")
+    @ConfigComment("Island level reward. Level addon required for this option.")
+    @Expose
+    private long rewardIslandLevel = 0;
+
+    @ConfigComment("")
     @ConfigComment("Commands to run when the player completes all challenges in current")
     @ConfigComment("level. String List")
     @Expose
@@ -252,6 +257,16 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
     public double getRewardMoney()
     {
         return rewardMoney;
+    }
+
+
+    /**
+     * This method returns the rewardIslandLevel value.
+     * @return the value of rewardIslandLevel.
+     */
+    public long getRewardIslandLevel()
+    {
+        return rewardIslandLevel;
     }
 
 
@@ -426,6 +441,17 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
 
 
     /**
+     * This method sets the rewardIslandLevel value.
+     * @param rewardIslandLevel the rewardIslandLevel new value.
+     *
+     */
+    public void setRewardIslandLevel(long rewardIslandLevel)
+    {
+        this.rewardIslandLevel = rewardIslandLevel;
+    }
+
+
+    /**
      * This method sets the rewardCommands value.
      * @param rewardCommands the rewardCommands new value.
      *
@@ -596,6 +622,7 @@ public class ChallengeLevel implements DataObject, Comparable<ChallengeLevel>
                     collect(Collectors.toCollection(() -> new ArrayList<>(this.rewardItems.size()))));
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardIslandLevel(this.rewardIslandLevel);
             clone.setRewardCommands(new ArrayList<>(this.rewardCommands));
             clone.setChallenges(new HashSet<>(this.challenges));
             clone.setIgnoreRewardMetaData(new HashSet<>(this.ignoreRewardMetaData));
