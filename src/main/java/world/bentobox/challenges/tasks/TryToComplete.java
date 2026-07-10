@@ -274,17 +274,13 @@ public class TryToComplete
                 // Experience Reward
                 recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
 
-                // Island Level Reward
-                if (this.addon.isLevelProvided() && this.challenge.getRewardIslandLevel() != 0)
-                {
-                    world.bentobox.level.Level level = this.addon.getLevelAddon();
-                    level.setIslandLevel(this.world, this.user.getUniqueId(),
-                            level.getIslandLevel(this.world, this.user.getUniqueId()) + this.challenge.getRewardIslandLevel());
-                }
-
                 // Run commands
                 this.runCommands(this.challenge.getRewardCommands(), recipient);
             }
+
+            // Island Level Reward. The island is shared, so this is applied once per
+            // completion, not once per team member.
+            this.rewardIslandLevel(this.challenge.getRewardIslandLevel());
 
             // Send message about first completion only if it is completed only once.
             if (result.getFactor() == 1)
@@ -347,20 +343,16 @@ public class TryToComplete
                 recipient.getPlayer().giveExp(
                         this.challenge.getRepeatExperienceReward() * rewardFactor);
 
-                // Island Level Repeat Reward
-                if (this.addon.isLevelProvided() && this.challenge.getRepeatIslandLevel() != 0)
-                {
-                    world.bentobox.level.Level level = this.addon.getLevelAddon();
-                    level.setIslandLevel(this.world, this.user.getUniqueId(),
-                            level.getIslandLevel(this.world, this.user.getUniqueId()) + this.challenge.getRepeatIslandLevel() * rewardFactor);
-                }
-
                 // Run commands
                 for (int i = 0; i < rewardFactor; i++)
                 {
                     this.runCommands(this.challenge.getRepeatRewardCommands(), recipient);
                 }
             }
+
+            // Island Level Repeat Reward. The island is shared, so this is applied once per
+            // completion, not once per team member.
+            this.rewardIslandLevel(this.challenge.getRepeatIslandLevel() * rewardFactor);
 
             if (result.getFactor() > 1)
             {
@@ -405,12 +397,7 @@ public class TryToComplete
                 this.user.getPlayer().giveExp(level.getRewardExperience());
 
                 // Island Level Reward
-                if (this.addon.isLevelProvided() && level.getRewardIslandLevel() != 0)
-                {
-                    world.bentobox.level.Level levelAddon = this.addon.getLevelAddon();
-                    levelAddon.setIslandLevel(this.world, this.user.getUniqueId(),
-                            levelAddon.getIslandLevel(this.world, this.user.getUniqueId()) + level.getRewardIslandLevel());
-                }
+                this.rewardIslandLevel(level.getRewardIslandLevel());
 
                 // Run commands
                 this.runCommands(level.getRewardCommands());
@@ -441,6 +428,22 @@ public class TryToComplete
         }
 
         return result;
+    }
+
+
+    /**
+     * This method increases the completing user's island level via the Level addon.
+     * Does nothing if the Level addon is not present or the reward is 0.
+     * @param reward Number of island levels to add.
+     */
+    private void rewardIslandLevel(long reward)
+    {
+        if (this.addon.isLevelProvided() && reward != 0)
+        {
+            world.bentobox.level.Level levelAddon = this.addon.getLevelAddon();
+            levelAddon.setIslandLevel(this.world, this.user.getUniqueId(),
+                    levelAddon.getIslandLevel(this.world, this.user.getUniqueId()) + reward);
+        }
     }
 
 
