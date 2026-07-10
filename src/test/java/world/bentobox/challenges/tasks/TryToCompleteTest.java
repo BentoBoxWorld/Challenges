@@ -849,4 +849,70 @@ class TryToCompleteTest extends AbstractChallengesTest {
         assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
         verify(cm, never()).getLevel(any(Challenge.class));
     }
+
+    // -------------------------------------------------------------------------
+    // Reward chance tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    void testRewardChanceDefaultIs100() {
+        Challenge c = new Challenge();
+        assertEquals(100, c.getRewardChance());
+    }
+
+    @Test
+    void testRewardChance100GivesRewards() {
+        challenge.setRewardChance(100);
+        challenge.setRewardExperience(50);
+        challenge.setRewardMoney(100);
+        challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        mockEconomy(true, 1000);
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        verify(inv, atLeast(1)).addItem(any());
+        verify(addon.getEconomyProvider()).deposit(any(), eq(100.0));
+        verify(player).giveExp(50);
+    }
+
+    @Test
+    void testRewardChance0NoItems() {
+        challenge.setRewardChance(0);
+        challenge.setRewardExperience(50);
+        challenge.setRewardMoney(100);
+        challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        mockEconomy(true, 1000);
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Should not add reward items
+        verify(inv, never()).addItem(any());
+        // Should not deposit money
+        verify(addon.getEconomyProvider(), never()).deposit(any(), eq(100.0));
+        // Should not give experience
+        verify(player, never()).giveExp(50);
+    }
+
+    @Test
+    void testRewardChanceRepeatRewards() {
+        challenge.setRewardChance(100);
+        challenge.setRepeatable(true);
+        challenge.setRepeatExperienceReward(25);
+        challenge.setRepeatMoneyReward(50);
+        challenge.setRepeatItemReward(Collections.singletonList(new ItemStack(Material.DIAMOND)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+        mockEconomy(true, 1000);
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        // Repeat rewards with 100% chance should be given
+        verify(inv, atLeast(1)).addItem(any());
+        verify(addon.getEconomyProvider()).deposit(any(), eq(50.0));
+        verify(player).giveExp(25);
+    }
 }

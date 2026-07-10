@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.UUID;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
@@ -104,6 +105,11 @@ public class TryToComplete
      * Variable that will be used to avoid multiple empty object generation.
      */
     private final ChallengeResult emptyResult = new ChallengeResult();
+
+    /**
+     * Random number generator for reward chance rolls.
+     */
+    private final Random random = new Random();
 
     // ---------------------------------------------------------------------
     // Section: Builder
@@ -253,28 +259,34 @@ public class TryToComplete
         // If challenge was not completed then reward items for completing it first time.
         if (!result.wasCompleted())
         {
+            // Roll the reward chance once for all recipients and item types
+            boolean rewardSuccess = this.shouldRewardItems();
+
             // Reward every recipient (all present members for a team challenge, else just the user).
             for (User recipient : this.getRewardRecipients())
             {
-                // Item rewards
-                for (ItemStack reward : this.challenge.getRewardItems())
+                if (rewardSuccess)
                 {
-                    // Clone is necessary because otherwise it will chane reward itemstack
-                    // amount.
-                    recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                    recipient.getWorld().dropItem(recipient.getLocation(), v));
+                    // Item rewards
+                    for (ItemStack reward : this.challenge.getRewardItems())
+                    {
+                        // Clone is necessary because otherwise it will chane reward itemstack
+                        // amount.
+                        recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                        recipient.getWorld().dropItem(recipient.getLocation(), v));
+                    }
+
+                    // Money Reward
+                    if (this.addon.isEconomyProvided())
+                    {
+                        this.addon.getEconomyProvider().deposit(recipient, this.challenge.getRewardMoney());
+                    }
+
+                    // Experience Reward
+                    recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
                 }
 
-                // Money Reward
-                if (this.addon.isEconomyProvided())
-                {
-                    this.addon.getEconomyProvider().deposit(recipient, this.challenge.getRewardMoney());
-                }
-
-                // Experience Reward
-                recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
-
-                // Run commands
+                // Run commands (not gated by reward chance)
                 this.runCommands(this.challenge.getRewardCommands(), recipient);
             }
 
@@ -315,31 +327,45 @@ public class TryToComplete
             // Reward every recipient (all present members for a team challenge, else just the user).
             for (User recipient : this.getRewardRecipients())
             {
-                // Item Repeat Rewards
-                for (ItemStack reward : this.challenge.getRepeatItemReward())
-                {
-                    // Clone is necessary because otherwise it will chane reward itemstack
-                    // amount.
+                // One roll per completion instance gates that instance's item, money and XP rewards
+                // together. With the default chance of 100 every roll succeeds, so the summed
+                // rewards match the previous behaviour exactly.
+                int rewardedCount = 0;
 
-                    for (int i = 0; i < rewardFactor; i++)
+                for (int i = 0; i < rewardFactor; i++)
+                {
+                    if (!this.shouldRewardItems())
                     {
+                        continue;
+                    }
+
+                    rewardedCount++;
+
+                    // Item Repeat Rewards
+                    for (ItemStack reward : this.challenge.getRepeatItemReward())
+                    {
+                        // Clone is necessary because otherwise it will chane reward itemstack
+                        // amount.
                         recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
                         recipient.getWorld().dropItem(recipient.getLocation(), v));
                     }
                 }
 
-                // Money Repeat Reward
-                if (this.addon.isEconomyProvided())
+                if (rewardedCount > 0)
                 {
-                    this.addon.getEconomyProvider().deposit(recipient,
-                            this.challenge.getRepeatMoneyReward() * rewardFactor);
+                    // Money Repeat Reward
+                    if (this.addon.isEconomyProvided())
+                    {
+                        this.addon.getEconomyProvider().deposit(recipient,
+                                this.challenge.getRepeatMoneyReward() * rewardedCount);
+                    }
+
+                    // Experience Repeat Reward
+                    recipient.getPlayer().giveExp(
+                            this.challenge.getRepeatExperienceReward() * rewardedCount);
                 }
 
-                // Experience Repeat Reward
-                recipient.getPlayer().giveExp(
-                        this.challenge.getRepeatExperienceReward() * rewardFactor);
-
-                // Run commands
+                // Run commands (not gated by reward chance)
                 for (int i = 0; i < rewardFactor; i++)
                 {
                     this.runCommands(this.challenge.getRepeatRewardCommands(), recipient);
@@ -417,6 +443,26 @@ public class TryToComplete
         }
 
         return result;
+    }
+
+
+    /**
+     * Checks if rewards should be given based on the challenge's reward chance.
+     * This method is protected to allow testing frameworks to override it.
+     * @return true if rewards should be given, false otherwise
+     */
+    protected boolean shouldRewardItems()
+    {
+        int chance = this.challenge.getRewardChance();
+        if (chance >= 100)
+        {
+            return true;
+        }
+        if (chance <= 0)
+        {
+            return false;
+        }
+        return this.random.nextInt(100) < chance;
     }
 
 

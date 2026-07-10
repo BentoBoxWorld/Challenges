@@ -584,9 +584,17 @@ challenges:
             repeat_reward_money:
                 name: "<white><bold>Repeat Reward Money"
                 description: |-
-                    <gray>Allows you to change the repeat 
+                    <gray>Allows you to change the repeat
                     <gray>reward money for the challenge.
                 value: "<gray>Current value: <yellow>[number]"
+            reward_chance:
+                name: "<white><bold>Reward Chance"
+                description: |-
+                    <gray>Chance percentage (0-100) that material
+                    <gray>rewards are given on completion.
+                    <dark_gray>Items, money, and experience use one roll.
+                    <dark_gray>Commands are always executed.
+                value: "<gray>Chance: <yellow>[number]%"
             reward_commands:
                 name: "<white><bold>Reward Commands"
                 description: |-

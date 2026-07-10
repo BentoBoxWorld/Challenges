@@ -231,6 +231,15 @@ public class Challenge implements DataObject
     private List<String> rewardCommands = new ArrayList<>();
 
     /**
+     * Percentage chance (0-100) that material rewards are given on completion.
+     * Items, money, and experience are gated by a single roll.
+     * Default 100 so existing challenges are unchanged.
+     * Reward commands are never gated.
+     */
+    @Expose
+    private int rewardChance = 100;
+
+    /**
      * Set of item stacks that should ignore metadata.
      */
     @Expose
@@ -483,6 +492,16 @@ public class Challenge implements DataObject
     public List<String> getRewardCommands()
     {
         return rewardCommands;
+    }
+
+
+    /**
+     * Gets the reward chance percentage (0-100).
+     * @return the rewardChance
+     */
+    public int getRewardChance()
+    {
+        return rewardChance;
     }
 
 
@@ -785,6 +804,16 @@ public class Challenge implements DataObject
 
 
     /**
+     * Sets the reward chance percentage.
+     * @param rewardChance the rewardChance new value (0-100).
+     */
+    public void setRewardChance(int rewardChance)
+    {
+        this.rewardChance = rewardChance;
+    }
+
+
+    /**
      * This method sets the repeatable value.
      * @param repeatable the repeatable new value.
      *
@@ -1028,6 +1057,7 @@ public class Challenge implements DataObject
             clone.setHideIfNoTeam(this.hideIfNoTeam);
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardChance(this.rewardChance);
             clone.setRepeatable(this.repeatable);
             clone.setTimeout(this.timeout);
             clone.setRepeatRewardText(this.repeatRewardText);
