@@ -458,6 +458,14 @@ challenges:
           <gray>Wiederholung des Belohnungsgeldes
           <gray>für die Herausforderung.
         value: "<gray>Aktueller Wert: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Belohnungschance"
+        description: |-
+          <gray>Prozentuale Chance (0-100), dass materielle
+          <gray>Belohnungen beim Abschluss vergeben werden.
+          <dark_gray>Gegenstände, Geld und Erfahrung nutzen einen Wurf.
+          <dark_gray>Befehle werden immer ausgeführt.
+        value: "<gray>Chance: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Belohnungsbefehle"
         description: |-

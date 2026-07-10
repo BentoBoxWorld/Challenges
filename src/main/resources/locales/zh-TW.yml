@@ -481,6 +481,14 @@ challenges:
         name: <white><bold>重複獎勵金錢
         description: "<gray>允許你變更挑戰的\n<gray>重複獎勵金錢。"
         value: <gray>目前值：<yellow>[number]
+      reward_chance:
+        name: <white><bold>獎勵機率
+        description: |-
+          <gray>完成挑戰時發放物質獎勵的
+          <gray>機率百分比（0-100）。
+          <dark_gray>物品、金錢和經驗共用一次判定。
+          <dark_gray>指令一定會執行。
+        value: <gray>機率：<yellow>[number]%
       reward_commands:
         name: <white><bold>獎勵指令
         description: "<gray>指定獎勵指令。\n<dark_gray>提示：\n<dark_gray>指令不需要前導 `/` 因為它會\n<dark_gray>自動套用。\n<dark_gray>預設情況下，指令由伺服器執行。\n<dark_gray>但是，在開頭新增 `[SELF]` 將導致\n<dark_gray>由玩家執行指令。\n<dark_gray>它還支援佔位符 `[player]` 將被\n<dark_gray>取代為完成挑戰的玩家名稱。"
