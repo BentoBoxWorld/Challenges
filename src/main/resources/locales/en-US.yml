@@ -584,8 +584,21 @@ challenges:
             repeat_reward_money:
                 name: "<white><bold>Repeat Reward Money"
                 description: |-
-                    <gray>Allows you to change the repeat 
+                    <gray>Allows you to change the repeat
                     <gray>reward money for the challenge.
+                value: "<gray>Current value: <yellow>[number]"
+            reward_island_level:
+                name: "<white><bold>Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the reward island level.
+                    <gray>Requires the Level addon.
+                value: "<gray>Current value: <yellow>[number]"
+            repeat_reward_island_level:
+                name: "<white><bold>Repeat Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the repeat reward
+                    <gray>island level for the challenge.
+                    <gray>Requires the Level addon.
                 value: "<gray>Current value: <yellow>[number]"
             reward_commands:
                 name: "<white><bold>Reward Commands"
