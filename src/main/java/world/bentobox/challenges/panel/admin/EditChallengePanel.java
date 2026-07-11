@@ -7,12 +7,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +39,7 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.EnvironmentSelector;
 import world.bentobox.challenges.panel.util.ItemSelector;
+import world.bentobox.challenges.panel.util.MultiBiomeSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
@@ -190,6 +195,7 @@ public class EditChallengePanel extends CommonPanel {
 
 
         panelBuilder.item(23, this.createRequirementButton(RequirementButton.SEARCH_RADIUS));
+        panelBuilder.item(24, this.createRequirementButton(RequirementButton.REQUIRED_BIOMES));
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
     }
 
@@ -740,6 +746,11 @@ public class EditChallengePanel extends CommonPanel {
                 REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS -> {
             return this.createIslandRequirementButton(button);
         }
+        // Biome requirement is a self-contained island requirement, kept out of the large
+        // createIslandRequirementButton switch.
+        case REQUIRED_BIOMES -> {
+            return this.createBiomeRequirementButton();
+        }
         // Buttons for Inventory Requirements
         case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
             return this.createInventoryRequirementButton(button);
@@ -933,6 +944,68 @@ public class EditChallengePanel extends CommonPanel {
                 .clickHandler(clickHandler).build();
     }
 
+
+    /**
+     * Creates the "Required Biomes" button for island challenges. Left-click opens the biome
+     * selector (hiding already-chosen biomes); right-click clears the list.
+     *
+     * @return the PanelItem for the biome requirement button.
+     */
+    private PanelItem createBiomeRequirementButton() {
+        final String reference = Constants.BUTTON + RequirementButton.REQUIRED_BIOMES.name().toLowerCase() + ".";
+        final String name = this.user.getTranslation(reference + "name");
+        final IslandRequirements requirements = this.challenge.getRequirements();
+        final List<String> description = new ArrayList<>();
+        description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY));
+
+        if (requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(reference + "none"));
+        } else {
+            description.add(this.user.getTranslation(reference + Constants.TITLE_KEY));
+            requirements.getRequiredBiomes().forEach(biomeKey -> description.add(
+                    this.user.getTranslation(reference + "list", "[biome]", Utils.prettifyBiome(biomeKey))));
+        }
+
+        description.add("");
+        description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
+
+        if (!requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
+        }
+
+        return new PanelItemBuilder().icon(new ItemStack(Material.GRASS_BLOCK)).name(name).description(description)
+                .glow(false).clickHandler((panel, user, clickType, slot) -> {
+                    if (clickType.isRightClick()) {
+                        requirements.getRequiredBiomes().clear();
+                        this.build();
+                    } else {
+                        this.openBiomeSelector(requirements);
+                    }
+                    return true;
+                }).build();
+    }
+
+
+    /**
+     * Opens the biome selector for the given island requirements, excluding already-chosen
+     * biomes, and adds the chosen biomes back to the requirement before rebuilding the panel.
+     *
+     * @param requirements the island requirements being edited.
+     */
+    private void openBiomeSelector(IslandRequirements requirements) {
+        Set<Biome> excluded = requirements.getRequiredBiomes().stream()
+                .map(key -> Registry.BIOME.get(NamespacedKey.fromString(key)))
+                .filter(Objects::nonNull).collect(Collectors.toSet());
+
+        MultiBiomeSelector.open(this.user, excluded, (status, biomes) -> {
+            if (Boolean.TRUE.equals(status) && biomes != null) {
+                biomes.forEach(biome -> requirements.getRequiredBiomes().add(MultiBiomeSelector.biomeKey(biome)));
+            }
+
+            this.build();
+        });
+    }
+
     /**
      * This method creates buttons for inventory requirements menu.
      * 
@@ -1090,7 +1163,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
@@ -1795,7 +1868,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
@@ -1926,7 +1999,7 @@ public class EditChallengePanel extends CommonPanel {
         REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
         STATISTIC_ENTITIES,
         STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
-        REMOVE_STATISTICS, REQUIRED_PAPI, REQUIRED_ADVANCEMENTS,
+        REMOVE_STATISTICS, REQUIRED_PAPI, REQUIRED_ADVANCEMENTS, REQUIRED_BIOMES,
     }
 
     // ---------------------------------------------------------------------

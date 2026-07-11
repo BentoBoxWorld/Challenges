@@ -398,6 +398,17 @@ public abstract class CommonPanel {
             entities.insert(0, this.user.getTranslationOrNothing(reference + "entities-title"));
         }
 
+        // Required biomes
+        StringBuilder biomes = new StringBuilder();
+        if (!requirement.getRequiredBiomes().isEmpty()) {
+            biomes.append(this.user.getTranslationOrNothing(reference + "biomes-title"));
+            requirement.getRequiredBiomes().stream().sorted().forEach(biomeKey -> {
+                biomes.append("\n");
+                biomes.append(this.user.getTranslationOrNothing(reference + "biome-value", "[biome]",
+                        Utils.prettifyBiome(biomeKey)));
+            });
+        }
+
         String searchRadius = this.user.getTranslationOrNothing(reference + "search-radius", Constants.PARAMETER_NUMBER,
                 String.valueOf(requirement.getSearchRadius()));
 
@@ -409,7 +420,7 @@ public abstract class CommonPanel {
                 : "";
 
         return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks.toString(), "[entities]",
-                entities.toString(),
+                entities.toString(), "[biomes]", biomes.toString(),
                 "[warning-block]", warningBlocks, "[warning-entity]", warningEntities, "[search-radius]", searchRadius);
     }
 
