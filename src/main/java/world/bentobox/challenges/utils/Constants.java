@@ -265,6 +265,8 @@ public class Constants
 
     public static final String CANCELLED = CONVERSATIONS + "cancelled";
 
+    public static final String CONFIRM_INSTRUCTION = CONVERSATIONS + "confirm-instruction";
+
     public static final String PREFIX = CONVERSATIONS + "prefix";
 
 // ---------------------------------------------------------------------
