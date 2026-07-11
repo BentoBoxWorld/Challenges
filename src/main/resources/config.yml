@@ -96,6 +96,12 @@ store-island-data: true
 # challenges by doing them repeatedly.
 reset-challenges: true
 #
+# This option indicates if undeployed challenges should be counted towards level completion.
+# Disabling this option will make it so that only deployed challenges are counted, so an
+# undeployed challenge will not block a level from being completed.
+# Default: true
+include-undeployed: true
+#
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.
 broadcast-messages: true

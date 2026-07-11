@@ -156,8 +156,9 @@ public class Settings implements ConfigObject
     private boolean resetChallenges = true;
 
     @ConfigComment("")
-    @ConfigComment("This option indicates if undepolyed challenges should be counted to level completion.")
-    @ConfigComment("Disabling this option will make it so that only deployed challenges will be counted.")
+    @ConfigComment("This option indicates if undeployed challenges should be counted towards level completion.")
+    @ConfigComment("Disabling this option will make it so that only deployed challenges are counted, so an")
+    @ConfigComment("undeployed challenge will not block a level from being completed.")
     @ConfigComment("Default: true")
     @ConfigEntry(path = "include-undeployed")
     private boolean includeUndeployed = true;
