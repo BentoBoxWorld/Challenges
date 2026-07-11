@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Challenges is a BentoBox addon (Bukkit/Spigot plugin module) that adds player challenges to any BentoBox GameMode addon (BSkyBlock, AcidIsland, SkyGrid, CaveBlock). It is not a standalone plugin — it is loaded by BentoBox at runtime.
 
-- Java 21, Maven, Spigot `1.21.3-R0.1-SNAPSHOT`
-- Depends on BentoBox `3.4.0`, optionally Level `2.6.3` and Vault `1.7`
+- Java 21, Maven, Paper `1.21.11-R0.1-SNAPSHOT` (server API dep is `paper.version` in `pom.xml`; `addon.yml` declares `api-version: 3.12.0`)
+- Depends on BentoBox `3.14.0`, optionally Level `2.6.3` and Vault `1.7`
 - Version is set via `<build.version>` in `pom.xml` (uses `${revision}` / CI `-bNNN` suffix)
 
 ## Commands
