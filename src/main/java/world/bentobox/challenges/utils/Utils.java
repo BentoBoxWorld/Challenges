@@ -1047,4 +1047,42 @@ public class Utils
 
 		return returnString;
 	}
+
+
+	/**
+	 * Prefixes every line of the given text with a default colour code so the colour applies
+	 * to each rendered lore line, not only the first (each lore line is rendered
+	 * independently). A colour written at the start of a line still overrides the default,
+	 * because a later colour code wins over an earlier one. The text is returned unchanged
+	 * when the colour is blank or the text is empty.
+	 *
+	 * <p>The colour is applied before {@code Util.translateColorCodes}, so it uses the same
+	 * '&amp;' colour codes (or hex, e.g. {@code &#55FFFF}) as the challenge text itself.
+	 *
+	 * @param text the text whose lines should be coloured (may contain '\n').
+	 * @param color the default colour code; blank means no change.
+	 * @return the text with the colour prefixed to each line.
+	 */
+	public static String applyDefaultColor(String text, String color)
+	{
+		if (color == null || color.isBlank() || text == null || text.isEmpty())
+		{
+			return text;
+		}
+
+		String[] lines = text.split("\n", -1);
+		StringBuilder builder = new StringBuilder(text.length() + lines.length * color.length());
+
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (i > 0)
+			{
+				builder.append('\n');
+			}
+
+			builder.append(color).append(lines[i]);
+		}
+
+		return builder.toString();
+	}
 }

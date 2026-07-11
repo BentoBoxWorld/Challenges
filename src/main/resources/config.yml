@@ -80,6 +80,16 @@ gui-settings:
   # Note: Challenges completion still requires being on the island when world protection is enabled.
   open-anywhere: false
   #
+  # Default colour applied to every line of a challenge's own description text, so you
+  # do not have to prefix each challenge with the same colour. Uses '&' colour codes or
+  # hex (e.g. '&b' or '&#55FFFF'). Leave empty for no default. A colour written in the
+  # description itself still overrides this. Does not affect per-challenge locale overrides.
+  description-color: ''
+  #
+  # Default colour applied to every line of a challenge's own reward text (both first-time
+  # and repeat reward text). Same format as description-color. Leave empty for no default.
+  reward-text-color: ''
+  #
   # This allows to change default locked level icon. This option may be
   # overwritten by each challenge level. If challenge level has specified
   # their locked level icon, then it will be used, instead of this one.

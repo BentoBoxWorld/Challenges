@@ -143,8 +143,11 @@ public abstract class CommonPanel {
         String description = this.user
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".description");
         if (description.isEmpty()) {
-            // Combine the challenge description list into a single string and translate color codes
-            description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
+            // Combine the challenge description list into a single string, apply the configured
+            // default colour to each line, and translate color codes.
+            description = Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getDescription()),
+                    this.addon.getChallengesSettings().getDescriptionColor()));
         }
         // Replace any [label] placeholder with the actual top label
         description = description.replace("[label]", this.topLabel);
@@ -707,7 +710,9 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".repeat-reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText())), 30);
+            rewardText = wrapToWidth(Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getRepeatRewardText()),
+                    this.addon.getChallengesSettings().getRewardTextColor())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
@@ -786,7 +791,9 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRewardText())), 30);
+            rewardText = wrapToWidth(Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getRewardText()),
+                    this.addon.getChallengesSettings().getRewardTextColor())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
