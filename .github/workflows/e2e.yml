@@ -1,0 +1,89 @@
+name: E2E (plugwright)
+
+# In-game end-to-end tests via plugwright (boots a real Paper server + Mineflayer bot) —
+# the layer the Maven/MockBukkit unit tests can't reach. Run ON DEMAND as a regression check.
+#
+# Trigger it from the GitHub UI (Actions tab -> "E2E (plugwright)" -> "Run workflow", pick the
+# branch/tag) or from the CLI:  gh workflow run e2e.yml --ref <branch-or-tag>
+#
+# It is deliberately NOT wired to every push/PR: a run boots a server and generates worlds
+# (~1-2 min) and is heavier/flakier than the unit tests. For a nightly regression, add:
+#   schedule:
+#     - cron: "0 3 * * *"
+on:
+  workflow_dispatch:
+    inputs:
+      test_names:
+        description: "Only run tests whose name contains this (comma-separated substrings). Blank = all."
+        required: false
+        default: ""
+
+jobs:
+  e2e:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Gradle (with caching)
+        uses: gradle/actions/setup-gradle@748248ddd2a24f49513d8f472f81c3a07d4d50e1 # v4.4.4
+
+      # Reuse the Paper jar + downloaded libraries and the BentoBox/BSkyBlock jars across runs.
+      # plugwright's clean step preserves server.jar / cache / libraries, and build.gradle.kts
+      # caches the dependency jars in .deps, so this avoids re-downloading ~60 MB every run.
+      - name: Cache Paper + dependency jars
+        uses: actions/cache@v4
+        with:
+          path: |
+            e2e/.deps
+            e2e/run/server.jar
+            e2e/run/cache
+            e2e/run/libraries
+          key: plugwright-${{ hashFiles('e2e/build.gradle.kts') }}
+
+      - name: Cache npm modules
+        uses: actions/cache@v4
+        with:
+          path: e2e/src/test/e2e/node_modules
+          key: e2e-npm-${{ hashFiles('e2e/src/test/e2e/package.json') }}
+
+      - name: Build Challenges jar (Maven)
+        run: mvn -B -DskipTests package
+
+      - name: Run E2E tests
+        working-directory: e2e
+        env:
+          PLUGWRIGHT_DEBUG: "1"
+          # Bind the user-controlled input to an env var and reference it as a shell variable
+          # below — never interpolate ${{ inputs.* }} directly into a run block (script injection).
+          TEST_NAMES: ${{ inputs.test_names }}
+        run: |
+          if [ -n "$TEST_NAMES" ]; then
+            ./gradlew plugwrightTest "-PtestNames=$TEST_NAMES" --no-daemon
+          else
+            ./gradlew plugwrightTest --no-daemon
+          fi
+
+      # Always upload the server log + any plugwright report so a regression is debuggable.
+      - name: Upload server log & report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-logs
+          path: |
+            e2e/run/logs/**
+            e2e/run/plugwright-report/**
+          if-no-files-found: ignore
+          retention-days: 14
