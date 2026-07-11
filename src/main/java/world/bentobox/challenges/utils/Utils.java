@@ -257,6 +257,43 @@ public class Utils
 
 
 	/**
+	 * Turns a biome key such as "minecraft:snowy_taiga" into a readable "Snowy Taiga".
+	 * The namespace is dropped and snake_case becomes Title Case.
+	 *
+	 * @param key the namespaced (or plain) biome key.
+	 * @return a human-readable name, or an empty string for a blank key.
+	 */
+	public static String prettifyBiome(String key)
+	{
+		if (key == null || key.isBlank())
+		{
+			return "";
+		}
+
+		String path = key.contains(":") ? key.substring(key.indexOf(':') + 1) : key;
+		StringBuilder builder = new StringBuilder(path.length());
+
+		for (String word : path.split("_"))
+		{
+			if (word.isEmpty())
+			{
+				continue;
+			}
+
+			if (builder.length() > 0)
+			{
+				builder.append(' ');
+			}
+
+			builder.append(Character.toUpperCase(word.charAt(0))).
+				append(word.substring(1).toLowerCase(Locale.ENGLISH));
+		}
+
+		return builder.toString();
+	}
+
+
+	/**
 	 * Sanitizes the provided input. It replaces spaces and hyphens with underscores and lower cases the input.
 	 * This code also removes all color codes from the input.
 	 * @param input input to sanitize

@@ -31,6 +31,8 @@ import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -376,6 +378,49 @@ class TryToCompleteTest extends AbstractChallengesTest {
                 eq("[item]"), eq("challenges.entities.pufferfish.name"));
         verify(user).getTranslation(any(World.class), eq("challenges.errors.you-still-need"), eq("[amount]"), eq("5"),
                 eq("[item]"), eq("challenges.entities.chicken.name"));
+    }
+
+    /**
+     * Mocks the biome at the player's location and returns the requirements for further setup.
+     */
+    private IslandRequirements setupBiomeChallenge(String currentBiomeKey, Set<String> requiredBiomes) {
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(1);
+        req.setRequiredBiomes(requiredBiomes);
+        challenge.setRequirements(req);
+
+        Block block = mock(Block.class);
+        Biome biome = mock(Biome.class);
+        String[] parts = currentBiomeKey.split(":");
+        when(biome.getKey()).thenReturn(NamespacedKey.minecraft(parts[parts.length - 1]));
+        when(block.getBiome()).thenReturn(biome);
+        when(user.getLocation().getBlock()).thenReturn(block);
+        return req;
+    }
+
+    @Test
+    void testIslandChallengeSucceedsWhenInRequiredBiome() {
+        setupBiomeChallenge("minecraft:plains", new HashSet<>(Set.of("minecraft:plains")));
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+    }
+
+    @Test
+    void testIslandChallengeFailsWhenNotInRequiredBiome() {
+        setupBiomeChallenge("minecraft:plains", new HashSet<>(Set.of("minecraft:desert")));
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).getTranslation(any(World.class), eq("challenges.errors.wrong-biome"), eq("[biome]"),
+                eq("Plains"));
+    }
+
+    @Test
+    void testIslandChallengeIgnoresBiomeWhenNoneRequired() {
+        // No required biomes: the biome gate is skipped and the (empty) island challenge completes.
+        challenge.setChallengeType(ChallengeType.ISLAND_TYPE);
+        IslandRequirements req = new IslandRequirements();
+        req.setSearchRadius(1);
+        challenge.setRequirements(req);
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
     }
 
     @Test

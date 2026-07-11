@@ -1251,6 +1251,21 @@ public class TryToComplete
             return emptyResult;
         }
 
+        // Check biome requirement: the player must be standing in one of the required biomes.
+        Set<String> requiredBiomes = this.getIslandRequirements().getRequiredBiomes();
+
+        if (!requiredBiomes.isEmpty())
+        {
+            String currentBiome = this.user.getLocation().getBlock().getBiome().getKey().toString();
+
+            if (!requiredBiomes.contains(currentBiome))
+            {
+                Utils.sendMessage(this.user, this.world, Constants.ERRORS + "wrong-biome",
+                        "[biome]", Utils.prettifyBiome(currentBiome));
+                return emptyResult;
+            }
+        }
+
         // Init location in player position.
         BoundingBox boundingBox = this.user.getPlayer().getBoundingBox().clone();
 

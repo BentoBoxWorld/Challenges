@@ -192,4 +192,23 @@ class UtilsTest {
     void testApplyDefaultColorSupportsHexColor() {
         assertEquals("&#55FFFFHello", Utils.applyDefaultColor("Hello", "&#55FFFF"));
     }
+
+    @Test
+    void testPrettifyBiomeStripsNamespaceAndTitleCases() {
+        assertEquals("Plains", Utils.prettifyBiome("minecraft:plains"));
+        assertEquals("Snowy Taiga", Utils.prettifyBiome("minecraft:snowy_taiga"));
+        assertEquals("Mangrove Swamp", Utils.prettifyBiome("minecraft:mangrove_swamp"));
+    }
+
+    @Test
+    void testPrettifyBiomeWithoutNamespace() {
+        assertEquals("Desert", Utils.prettifyBiome("desert"));
+    }
+
+    @Test
+    void testPrettifyBiomeBlankInput() {
+        assertEquals("", Utils.prettifyBiome(null));
+        assertEquals("", Utils.prettifyBiome(""));
+        assertEquals("", Utils.prettifyBiome("   "));
+    }
 }
