@@ -57,7 +57,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: e2e/src/test/e2e/node_modules
-          key: e2e-npm-${{ hashFiles('e2e/src/test/e2e/package.json') }}
+          # Key on the committed lockfile so the cache tracks the exact resolved versions
+          # (mineflayer/minecraft-data must support the target Minecraft version).
+          key: e2e-npm-${{ hashFiles('e2e/src/test/e2e/package-lock.json') }}
 
       - name: Build Challenges jar (Maven)
         run: mvn -B -DskipTests package
