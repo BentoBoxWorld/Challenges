@@ -123,6 +123,20 @@ public class Settings implements ConfigObject
     @ConfigEntry(path = "gui-settings.open-anywhere")
     private boolean openAnywhere = false;
 
+    @ConfigComment("")
+    @ConfigComment("Default colour applied to every line of a challenge's own description text, so you")
+    @ConfigComment("do not have to prefix each challenge with the same colour. Uses '&' colour codes or")
+    @ConfigComment("hex (e.g. '&b' or '&#55FFFF'). Leave empty for no default. A colour written in the")
+    @ConfigComment("description itself still overrides this. Does not affect per-challenge locale overrides.")
+    @ConfigEntry(path = "gui-settings.description-color")
+    private String descriptionColor = "";
+
+    @ConfigComment("")
+    @ConfigComment("Default colour applied to every line of a challenge's own reward text (both first-time")
+    @ConfigComment("and repeat reward text). Same format as description-color. Leave empty for no default.")
+    @ConfigEntry(path = "gui-settings.reward-text-color")
+    private String rewardTextColor = "";
+
 
     @ConfigComment("")
     @ConfigComment("This allows to change default locked level icon. This option may be")
@@ -742,5 +756,49 @@ public class Settings implements ConfigObject
     public void setOpenAnywhere(boolean openAnywhere)
     {
         this.openAnywhere = openAnywhere;
+    }
+
+
+    /**
+     * Returns the default colour applied to challenge description text.
+     *
+     * @return the description colour code, or an empty string for no default.
+     */
+    public String getDescriptionColor()
+    {
+        return descriptionColor;
+    }
+
+
+    /**
+     * Sets the default colour applied to challenge description text.
+     *
+     * @param descriptionColor the colour code (e.g. "&b" or "&#55FFFF"), or empty for none.
+     */
+    public void setDescriptionColor(String descriptionColor)
+    {
+        this.descriptionColor = descriptionColor;
+    }
+
+
+    /**
+     * Returns the default colour applied to challenge reward text.
+     *
+     * @return the reward text colour code, or an empty string for no default.
+     */
+    public String getRewardTextColor()
+    {
+        return rewardTextColor;
+    }
+
+
+    /**
+     * Sets the default colour applied to challenge reward text.
+     *
+     * @param rewardTextColor the colour code (e.g. "&b" or "&#55FFFF"), or empty for none.
+     */
+    public void setRewardTextColor(String rewardTextColor)
+    {
+        this.rewardTextColor = rewardTextColor;
     }
 }

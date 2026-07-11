@@ -156,4 +156,40 @@ class UtilsTest {
         assertEquals(VisibilityMode.VISIBLE, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.HIDDEN));
         assertEquals(VisibilityMode.HIDDEN, Utils.getPreviousValue(VisibilityMode.values(), VisibilityMode.TOGGLEABLE));
     }
+
+    @Test
+    void testApplyDefaultColorBlankColorReturnsTextUnchanged() {
+        assertEquals("Hello", Utils.applyDefaultColor("Hello", ""));
+        assertEquals("Hello", Utils.applyDefaultColor("Hello", "   "));
+        assertEquals("Hello", Utils.applyDefaultColor("Hello", null));
+    }
+
+    @Test
+    void testApplyDefaultColorEmptyOrNullTextReturnedUnchanged() {
+        assertEquals("", Utils.applyDefaultColor("", "&b"));
+        assertNull(Utils.applyDefaultColor(null, "&b"));
+    }
+
+    @Test
+    void testApplyDefaultColorSingleLinePrefixed() {
+        assertEquals("&bHello", Utils.applyDefaultColor("Hello", "&b"));
+    }
+
+    @Test
+    void testApplyDefaultColorPrefixesEveryLine() {
+        assertEquals("&bLine1\n&bLine2\n&bLine3",
+            Utils.applyDefaultColor("Line1\nLine2\nLine3", "&b"));
+    }
+
+    @Test
+    void testApplyDefaultColorPreservesBlankLines() {
+        // Blank lines still get the prefix, and no trailing/leading lines are dropped.
+        assertEquals("&bLine1\n&b\n&bLine2",
+            Utils.applyDefaultColor("Line1\n\nLine2", "&b"));
+    }
+
+    @Test
+    void testApplyDefaultColorSupportsHexColor() {
+        assertEquals("&#55FFFFHello", Utils.applyDefaultColor("Hello", "&#55FFFF"));
+    }
 }
