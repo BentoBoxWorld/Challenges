@@ -249,6 +249,8 @@ public class Constants
 
     public static final String CLICK_TO_CHANGE = TIPS + "click-to-change";
 
+    public static final String CLICK_TO_ADD = TIPS + "click-to-add";
+
     public static final String CLICK_TO_TOGGLE = TIPS + "click-to-toggle";
 
     public static final String CLICK_TO_OPEN = TIPS + "click-to-open";

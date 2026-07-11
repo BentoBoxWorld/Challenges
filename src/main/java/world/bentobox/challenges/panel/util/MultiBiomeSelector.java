@@ -1,5 +1,6 @@
 package world.bentobox.challenges.panel.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -58,10 +59,11 @@ public class MultiBiomeSelector extends UnifiedMultiSelector<Biome> {
 
     @Override
     protected List<Biome> getElements() {
+        // A mutable list is required: UnifiedMultiSelector's constructor sorts it in place.
         return StreamSupport.stream(Registry.BIOME.spliterator(), false)
                 .filter(biome -> excluded == null || !excluded.contains(biome))
                 .sorted(Comparator.comparing(MultiBiomeSelector::biomeKey))
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

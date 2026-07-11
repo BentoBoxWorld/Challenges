@@ -280,7 +280,7 @@ public class Utils
 				continue;
 			}
 
-			if (builder.length() > 0)
+			if (!builder.isEmpty())
 			{
 				builder.append(' ');
 			}

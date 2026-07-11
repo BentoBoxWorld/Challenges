@@ -743,8 +743,13 @@ public class EditChallengePanel extends CommonPanel {
         }
         // Buttons for Island Requirements
         case REQUIRED_ENTITIES, REMOVE_ENTITIES, REQUIRED_BLOCKS, REMOVE_BLOCKS, SEARCH_RADIUS,
-                REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_BIOMES -> {
+                REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS -> {
             return this.createIslandRequirementButton(button);
+        }
+        // Biome requirement is a self-contained island requirement, kept out of the large
+        // createIslandRequirementButton switch.
+        case REQUIRED_BIOMES -> {
+            return this.createBiomeRequirementButton();
         }
         // Buttons for Inventory Requirements
         case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
@@ -929,48 +934,6 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
-        case REQUIRED_BIOMES -> {
-            if (requirements.getRequiredBiomes().isEmpty()) {
-                description.add(this.user.getTranslation(reference + "none"));
-            } else {
-                description.add(this.user.getTranslation(reference + Constants.TITLE_KEY));
-                requirements.getRequiredBiomes()
-                        .forEach(biomeKey -> description.add(this.user.getTranslation(reference + "list", "[biome]",
-                                Utils.prettifyBiome(biomeKey))));
-            }
-
-            icon = new ItemStack(Material.GRASS_BLOCK);
-            clickHandler = (panel, user, clickType, slot) -> {
-                if (clickType.isRightClick()) {
-                    // Right click clears the biome list.
-                    requirements.getRequiredBiomes().clear();
-                    this.build();
-                } else {
-                    // Left click opens the selector, hiding already-chosen biomes.
-                    Set<Biome> excluded = requirements.getRequiredBiomes().stream()
-                            .map(key -> Registry.BIOME.get(NamespacedKey.fromString(key)))
-                            .filter(Objects::nonNull).collect(Collectors.toSet());
-
-                    MultiBiomeSelector.open(this.user, excluded, (status, biomes) -> {
-                        if (Boolean.TRUE.equals(status) && biomes != null) {
-                            biomes.forEach(biome -> requirements.getRequiredBiomes()
-                                    .add(MultiBiomeSelector.biomeKey(biome)));
-                        }
-
-                        this.build();
-                    });
-                }
-                return true;
-            };
-            glow = false;
-
-            description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
-
-            if (!requirements.getRequiredBiomes().isEmpty()) {
-                description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
-            }
-        }
         default -> {
             icon = new ItemStack(Material.PAPER);
             clickHandler = null;
@@ -979,6 +942,68 @@ public class EditChallengePanel extends CommonPanel {
         }
         return new PanelItemBuilder().icon(icon).name(name).description(description).glow(glow)
                 .clickHandler(clickHandler).build();
+    }
+
+
+    /**
+     * Creates the "Required Biomes" button for island challenges. Left-click opens the biome
+     * selector (hiding already-chosen biomes); right-click clears the list.
+     *
+     * @return the PanelItem for the biome requirement button.
+     */
+    private PanelItem createBiomeRequirementButton() {
+        final String reference = Constants.BUTTON + RequirementButton.REQUIRED_BIOMES.name().toLowerCase() + ".";
+        final String name = this.user.getTranslation(reference + "name");
+        final IslandRequirements requirements = this.challenge.getRequirements();
+        final List<String> description = new ArrayList<>();
+        description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY));
+
+        if (requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(reference + "none"));
+        } else {
+            description.add(this.user.getTranslation(reference + Constants.TITLE_KEY));
+            requirements.getRequiredBiomes().forEach(biomeKey -> description.add(
+                    this.user.getTranslation(reference + "list", "[biome]", Utils.prettifyBiome(biomeKey))));
+        }
+
+        description.add("");
+        description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
+
+        if (!requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
+        }
+
+        return new PanelItemBuilder().icon(new ItemStack(Material.GRASS_BLOCK)).name(name).description(description)
+                .glow(false).clickHandler((panel, user, clickType, slot) -> {
+                    if (clickType.isRightClick()) {
+                        requirements.getRequiredBiomes().clear();
+                        this.build();
+                    } else {
+                        this.openBiomeSelector(requirements);
+                    }
+                    return true;
+                }).build();
+    }
+
+
+    /**
+     * Opens the biome selector for the given island requirements, excluding already-chosen
+     * biomes, and adds the chosen biomes back to the requirement before rebuilding the panel.
+     *
+     * @param requirements the island requirements being edited.
+     */
+    private void openBiomeSelector(IslandRequirements requirements) {
+        Set<Biome> excluded = requirements.getRequiredBiomes().stream()
+                .map(key -> Registry.BIOME.get(NamespacedKey.fromString(key)))
+                .filter(Objects::nonNull).collect(Collectors.toSet());
+
+        MultiBiomeSelector.open(this.user, excluded, (status, biomes) -> {
+            if (Boolean.TRUE.equals(status) && biomes != null) {
+                biomes.forEach(biome -> requirements.getRequiredBiomes().add(MultiBiomeSelector.biomeKey(biome)));
+            }
+
+            this.build();
+        });
     }
 
     /**
@@ -1138,7 +1163,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
@@ -1843,7 +1868,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
