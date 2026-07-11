@@ -2,6 +2,9 @@ package world.bentobox.challenges.panel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -24,7 +27,9 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
+import world.bentobox.challenges.database.object.ChallengeLevel;
 import world.bentobox.challenges.managers.ChallengesManager;
+import world.bentobox.challenges.utils.LevelStatus;
 
 /**
  * Tests for {@link CommonPanel} including description generation.
@@ -67,6 +72,10 @@ class CommonPanelTest {
 
         public List<String> callGenerateChallengeDescription(Challenge challenge, User target) {
             return this.generateChallengeDescription(challenge, target);
+        }
+
+        public List<String> callGenerateLevelDescription(LevelStatus status, User target) {
+            return this.generateLevelDescription(status, target);
         }
 
         public PanelItem getReturnButton() {
@@ -207,5 +216,56 @@ class CommonPanelTest {
 
         List<String> description = panel.callGenerateChallengeDescription(challenge, null);
         assertNotNull(description);
+    }
+
+    /**
+     * Builds a mocked level (with empty description translation so the unlock-message
+     * fallback path is exercised) plus the deep stubs the description generator needs.
+     */
+    private ChallengeLevel mockLevelWithUnlockMessage() {
+        ChallengeLevel level = Mockito.mock(ChallengeLevel.class);
+        when(level.getUniqueId()).thenReturn("bskyblock_level");
+        when(level.getUnlockMessage()).thenReturn("Congratulations!");
+        when(level.getWaiverAmount()).thenReturn(0);
+        when(level.getRewardItems()).thenReturn(Collections.emptyList());
+        when(level.getRewardCommands()).thenReturn(Collections.emptyList());
+        when(level.getRewardExperience()).thenReturn(0);
+        when(level.getRewardText()).thenReturn("");
+
+        // Empty custom description forces the unlock-message fallback branch.
+        when(user.getTranslationOrNothing("challenges.levels.bskyblock_level.description"))
+                .thenReturn("");
+
+        // generateLevelDescription reads addon.getPlugin().getIWM().getPermissionPrefix(world)
+        world.bentobox.bentobox.BentoBox plugin =
+                Mockito.mock(world.bentobox.bentobox.BentoBox.class, Mockito.RETURNS_DEEP_STUBS);
+        when(plugin.getIWM().getPermissionPrefix(world)).thenReturn("bskyblock.");
+        when(addon.getPlugin()).thenReturn(plugin);
+        return level;
+    }
+
+    @Test
+    void testLockedLevelDoesNotShowUnlockMessage() {
+        ChallengeLevel level = mockLevelWithUnlockMessage();
+        LevelStatus locked = new LevelStatus(level, null, 3, false, false);
+
+        List<String> description = panel.callGenerateLevelDescription(locked, user);
+
+        assertNotNull(description);
+        // A locked level must not fall back to the "Congratulations" unlock message.
+        verify(level, never()).getUnlockMessage();
+    }
+
+    @Test
+    void testUnlockedLevelShowsUnlockMessage() {
+        ChallengeLevel level = mockLevelWithUnlockMessage();
+        when(manager.getLevelChallenges(level)).thenReturn(Collections.emptyList());
+        LevelStatus unlocked = new LevelStatus(level, null, 0, false, true);
+
+        List<String> description = panel.callGenerateLevelDescription(unlocked, user);
+
+        assertNotNull(description);
+        // An unlocked level with no custom description still falls back to the unlock message.
+        verify(level, atLeastOnce()).getUnlockMessage();
     }
 }

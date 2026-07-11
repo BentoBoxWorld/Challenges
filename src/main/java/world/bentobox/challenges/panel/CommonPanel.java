@@ -864,7 +864,9 @@ public abstract class CommonPanel {
         String description = this.user
                 .getTranslationOrNothing("challenges.levels." + level.getUniqueId() + ".description");
 
-        if (description.isEmpty()) {
+        if (description.isEmpty() && levelStatus.isUnlocked()) {
+            // Only fall back to the unlock ("Congratulations...") message once the level is
+            // actually unlocked. A locked level keeps its "locked / N challenges to go" status.
             description = Util.translateColorCodes(String.join("\n", level.getUnlockMessage()));
         }
 
