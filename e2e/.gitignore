@@ -8,4 +8,5 @@ build/
 # Node / TypeScript test artifacts
 src/test/e2e/node_modules/
 src/test/e2e/dist/
-src/test/e2e/package-lock.json
+# package-lock.json IS committed — it pins mineflayer/minecraft-data to versions that
+# support the target Minecraft version, so CI installs are reproducible.
