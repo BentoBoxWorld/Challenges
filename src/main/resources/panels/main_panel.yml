@@ -82,6 +82,15 @@ main_panel:
           left:
             tooltip: challenges.gui.tips.click-to-next
     6:
+      3:
+        # Only shown when undeployed-view-mode is TOGGLEABLE; hidden in VISIBLE / HIDDEN modes.
+        icon: SPYGLASS
+        title: challenges.gui.buttons.toggle-undeployed.name
+        data:
+          type: TOGGLE_UNDEPLOYED
+        action:
+          left:
+            tooltip: challenges.gui.tips.click-to-toggle
       5:
         icon: IRON_BARS
         title: challenges.gui.buttons.free-challenges.name

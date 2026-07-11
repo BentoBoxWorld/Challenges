@@ -251,4 +251,69 @@ class ChallengesPanelTest {
         assertTrue(getFreeChallengeList(panel).contains(incomplete),
             "Incomplete challenge should always be visible");
     }
+
+    private void setShowUndeployed(ChallengesPanel panel, boolean value) throws Exception {
+        Field field = ChallengesPanel.class.getDeclaredField("showUndeployed");
+        field.setAccessible(true);
+        field.setBoolean(panel, value);
+    }
+
+    @Test
+    @DisplayName("HIDDEN mode: undeployed challenges are removed")
+    void testHiddenModeRemovesUndeployed() throws Exception {
+        when(settings.isRemoveCompleteOneTimeChallenges()).thenReturn(false);
+        when(settings.getVisibilityMode()).thenReturn(SettingsUtils.VisibilityMode.HIDDEN);
+
+        Challenge deployed = PanelTestHelper.createBasicChallenge("Deployed", true);
+        Challenge undeployed = PanelTestHelper.createBasicChallenge("Undeployed", false);
+        List<Challenge> challenges = new ArrayList<>(List.of(deployed, undeployed));
+        when(manager.getFreeChallenges(world)).thenReturn(challenges);
+
+        ChallengesPanel panel = createPanel();
+        callUpdateFreeChallengeList(panel);
+
+        assertTrue(getFreeChallengeList(panel).contains(deployed), "Deployed challenge stays");
+        assertFalse(getFreeChallengeList(panel).contains(undeployed),
+            "Undeployed challenge is hidden in HIDDEN mode");
+    }
+
+    @Test
+    @DisplayName("TOGGLEABLE mode, showing (default): undeployed challenges are visible")
+    void testToggleableShowingKeepsUndeployed() throws Exception {
+        when(settings.isRemoveCompleteOneTimeChallenges()).thenReturn(false);
+        when(settings.getVisibilityMode()).thenReturn(SettingsUtils.VisibilityMode.TOGGLEABLE);
+
+        Challenge deployed = PanelTestHelper.createBasicChallenge("Deployed", true);
+        Challenge undeployed = PanelTestHelper.createBasicChallenge("Undeployed", false);
+        List<Challenge> challenges = new ArrayList<>(List.of(deployed, undeployed));
+        when(manager.getFreeChallenges(world)).thenReturn(challenges);
+
+        ChallengesPanel panel = createPanel();
+        // Default showUndeployed == true, so undeployed challenges must remain visible.
+        callUpdateFreeChallengeList(panel);
+
+        assertTrue(getFreeChallengeList(panel).contains(deployed), "Deployed challenge stays");
+        assertTrue(getFreeChallengeList(panel).contains(undeployed),
+            "Undeployed challenge is shown in TOGGLEABLE mode when the player has not hidden them");
+    }
+
+    @Test
+    @DisplayName("TOGGLEABLE mode, hidden by player: undeployed challenges are removed")
+    void testToggleableHiddenRemovesUndeployed() throws Exception {
+        when(settings.isRemoveCompleteOneTimeChallenges()).thenReturn(false);
+        when(settings.getVisibilityMode()).thenReturn(SettingsUtils.VisibilityMode.TOGGLEABLE);
+
+        Challenge deployed = PanelTestHelper.createBasicChallenge("Deployed", true);
+        Challenge undeployed = PanelTestHelper.createBasicChallenge("Undeployed", false);
+        List<Challenge> challenges = new ArrayList<>(List.of(deployed, undeployed));
+        when(manager.getFreeChallenges(world)).thenReturn(challenges);
+
+        ChallengesPanel panel = createPanel();
+        setShowUndeployed(panel, false);
+        callUpdateFreeChallengeList(panel);
+
+        assertTrue(getFreeChallengeList(panel).contains(deployed), "Deployed challenge stays");
+        assertFalse(getFreeChallengeList(panel).contains(undeployed),
+            "Undeployed challenge is hidden in TOGGLEABLE mode once the player toggles them off");
+    }
 }

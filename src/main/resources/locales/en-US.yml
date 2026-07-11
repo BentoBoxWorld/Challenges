@@ -80,6 +80,16 @@ challenges:
                 description: |-
                     <gray>Displays a list of
                     <gray>free challenges
+            # Button shown only when undeployed-view-mode is TOGGLEABLE. It lets each player
+            # show or hide the challenges that are not yet deployed.
+            toggle-undeployed:
+                name: "<white><bold>Undeployed Challenges"
+                shown: |-
+                    <gray>Undeployed challenges are
+                    <gray>currently <green>shown<gray>.
+                hidden: |-
+                    <gray>Undeployed challenges are
+                    <gray>currently <red>hidden<gray>.
             # Button that is used to return to previous GUI or exit it completely.
             return:
                 name: "<white><bold>Return"
