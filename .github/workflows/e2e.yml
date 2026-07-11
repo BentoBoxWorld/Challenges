@@ -38,7 +38,7 @@ jobs:
           node-version: 20
 
       - name: Set up Gradle (with caching)
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@748248ddd2a24f49513d8f472f81c3a07d4d50e1 # v4.4.4
 
       # Reuse the Paper jar + downloaded libraries and the BentoBox/BSkyBlock jars across runs.
       # plugwright's clean step preserves server.jar / cache / libraries, and build.gradle.kts
@@ -66,12 +66,15 @@ jobs:
         working-directory: e2e
         env:
           PLUGWRIGHT_DEBUG: "1"
+          # Bind the user-controlled input to an env var and reference it as a shell variable
+          # below — never interpolate ${{ inputs.* }} directly into a run block (script injection).
+          TEST_NAMES: ${{ inputs.test_names }}
         run: |
-          ARGS=""
-          if [ -n "${{ inputs.test_names }}" ]; then
-            ARGS="-PtestNames=${{ inputs.test_names }}"
+          if [ -n "$TEST_NAMES" ]; then
+            ./gradlew plugwrightTest "-PtestNames=$TEST_NAMES" --no-daemon
+          else
+            ./gradlew plugwrightTest --no-daemon
           fi
-          ./gradlew plugwrightTest $ARGS --no-daemon
 
       # Always upload the server log + any plugwright report so a regression is debuggable.
       - name: Upload server log & report
