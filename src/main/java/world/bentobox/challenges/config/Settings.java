@@ -112,6 +112,8 @@ public class Settings implements ConfigObject
     @ConfigComment("Valid values are:")
     @ConfigComment("    'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.")
     @ConfigComment("    'HIDDEN' - shows only deployed challenges.")
+    @ConfigComment("    'TOGGLEABLE' - adds a button to the player GUI so each player can show or hide")
+    @ConfigComment("                   undeployed challenges themselves (defaults to shown).")
     @ConfigEntry(path = "gui-settings.undeployed-view-mode")
     private VisibilityMode visibilityMode = VisibilityMode.VISIBLE;
 

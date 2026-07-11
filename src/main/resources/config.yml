@@ -72,8 +72,8 @@ gui-settings:
   # Valid values are:
   #     'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.
   #     'HIDDEN' - shows only deployed challenges.
-  #     'TOGGLEABLE' - there will be button in GUI that allows users to switch from ALL modes.
-  # TOGGLEABLE - Currently not implemented.
+  #     'TOGGLEABLE' - adds a button to the player GUI so each player can show or hide
+  #                    undeployed challenges themselves (defaults to shown).
   undeployed-view-mode: VISIBLE
   #
   # Allow players to open the challenges GUI without being on their island.
