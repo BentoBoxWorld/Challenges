@@ -39,6 +39,15 @@ First run downloads Paper 1.21.11 (~50 MB) and the plugin jars; later runs reuse
 - **`confirmation prompts tell the player how to answer (#329)`** — opens the Challenges admin GUI,
   clicks "Challenge Wipe", and asserts the bot receives the confirmation instruction line
   ("Type 'confirm' ... or 'cancel' ...") added in #415. A real in-game validation of a 1.8.0 feature.
+- **`open-anywhere setting toggles in the admin settings GUI (#349)`** — opens admin → Settings,
+  finds the new "Open GUI Anywhere" (Elytra) toggle, clicks it and asserts the Enabled/Disabled
+  lore flips, then clicks again to restore it. Proves the full config → Settings → panel button →
+  click-handler → saveSettings chain works on a live server.
+- **`include-undeployed setting toggles in the admin settings GUI (#179)`** — same live toggle check
+  for the "Include Undeployed Challenges" (Barrel) button that now ships in config.yml.
+
+Both toggle tests are self-restoring (they read the current state, flip it, assert, then flip back),
+so they don't depend on the persisted run-dir config or the order the tests run in.
 
 ## Notes / next steps
 
