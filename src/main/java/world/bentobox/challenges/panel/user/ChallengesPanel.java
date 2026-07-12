@@ -714,7 +714,7 @@ public class ChallengesPanel extends CommonPanel
             builder.name(this.user.getTranslation(this.world, template.title()));
         }
 
-        if (template.description() != null)
+        if (template.description() != null && !template.description().isBlank())
         {
             builder.description(this.user.getTranslation(this.world, template.description()));
         }

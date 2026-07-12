@@ -234,6 +234,7 @@ public class ChallengesAddon extends Addon {
             this.log("Challenges Addon hooked into Level addon.");
         }, () -> {
             this.levelAddon = null;
+            this.levelProvided = false;
             this.logWarning("Level add-on not found so level challenges will not work!");
         });
 

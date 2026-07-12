@@ -962,8 +962,11 @@ public class EditChallengePanel extends CommonPanel {
             description.add(this.user.getTranslation(reference + "none"));
         } else {
             description.add(this.user.getTranslation(reference + Constants.TITLE_KEY));
-            requirements.getRequiredBiomes().forEach(biomeKey -> description.add(
-                    this.user.getTranslation(reference + "list", "[biome]", Utils.prettifyBiome(biomeKey))));
+            // Sort so the biome list renders in a stable order (the underlying set is unordered).
+            requirements.getRequiredBiomes().stream()
+                    .sorted(Comparator.comparing(Utils::prettifyBiome))
+                    .forEach(biomeKey -> description.add(
+                            this.user.getTranslation(reference + "list", "[biome]", Utils.prettifyBiome(biomeKey))));
         }
 
         description.add("");
