@@ -377,9 +377,10 @@ class ChallengesAddonTest {
 
         addon.onEnable();
 
-        // Verify that the completed_percent placeholder was registered
+        // Capture every registered placeholder name; assert the one under test is present without
+        // pinning the exact total (which changes whenever any placeholder is added or removed).
         ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
-        verify(phm, org.mockito.Mockito.times(13)).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
+        verify(phm, org.mockito.Mockito.atLeastOnce()).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
 
         List<String> names = nameCaptor.getAllValues();
         assertTrue(names.contains("challenges_completed_percent"),
@@ -398,9 +399,10 @@ class ChallengesAddonTest {
 
         addon.onEnable();
 
-        // Verify that the latest_level_completed_percent placeholder was registered
+        // Capture every registered placeholder name; assert the one under test is present without
+        // pinning the exact total (which changes whenever any placeholder is added or removed).
         ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
-        verify(phm, org.mockito.Mockito.times(13)).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
+        verify(phm, org.mockito.Mockito.atLeastOnce()).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
 
         List<String> names = nameCaptor.getAllValues();
         assertTrue(names.contains("challenges_latest_level_completed_percent"),
