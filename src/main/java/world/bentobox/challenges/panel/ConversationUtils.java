@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -442,7 +443,9 @@ public class ConversationUtils
 
                     for (String line : ((List<String>) context.getSessionData(SESSION_CONSTANT)))
                     {
-                        sb.append(line);
+                        // Render MiniMessage tags and legacy codes so the echo shows the
+                        // colors the player will actually get.
+                        sb.append(Util.componentToLegacy(Util.parseMiniMessageOrLegacy(line)));
                         sb.append(System.lineSeparator());
                     }
 
