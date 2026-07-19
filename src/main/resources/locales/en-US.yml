@@ -1256,7 +1256,7 @@ challenges:
         input-repeat-count: "<yellow>Please enter the number of repeats in the chat. Enter 0 for unlimited repeats."
         input-seconds: "<yellow>Please enter a number of seconds in the chat."
         numeric-only: "<red>The given [value] is not a number!"
-        not-valid-value: "<red>The given number [value] is not valid. It must be greater than [min] and less than [max]!"
+        not-valid-value: "<red>The given number [value] is not valid. It must be between [min] and [max] inclusive."
         user-data-removed: "<green>All user data for [gamemode] has been cleared from the database."
         confirm-user-data-deletion: "<yellow>Please confirm that you want to clear the user database for [gamemode]."
         challenge-data-removed: "<green>All challenge data for [gamemode] has been cleared from the database."

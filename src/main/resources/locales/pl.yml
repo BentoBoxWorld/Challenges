@@ -1077,7 +1077,7 @@ challenges:
     input-number: "<yellow>Proszę podać numer na czacie."
     input-seconds: "<yellow>Wprowadź sekundy na czacie."
     numeric-only: "<red>Podana [value] nie jest liczbą!"
-    not-valid-value: "<red>Podana liczba [value] jest nieprawidłowa. Musi być większy niż [min] i mniejszy niż [max]!"
+    not-valid-value: "<red>Podana liczba [value] jest nieprawidłowa. Musi być w zakresie od [min] do [max] włącznie."
     user-data-removed: "<green>Wszystkie dane użytkownika dla trybu [gamemode] są usuwane z bazy danych."
     confirm-user-data-deletion: "<yellow>Potwierdź, że chcesz wyczyścić bazę danych użytkowników dla [gamemode]."
     challenge-data-removed: "<green>Wszystkie dane wyzwań dla trybu [gamemode] zostaną usunięte z bazy danych."

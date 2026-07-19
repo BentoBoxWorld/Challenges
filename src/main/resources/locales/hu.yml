@@ -1147,7 +1147,7 @@ challenges:
     input-number: "<yellow>Kérjük, adjon meg egy számot a chatben."
     input-seconds: "<yellow>Kérjük, adjon meg egy másodpercet a csevegésben."
     numeric-only: "<red>A megadott [value] nem szám!"
-    not-valid-value: "<red>A megadott szám [value] nem érvényes. Nagyobbnak kell lennie, mint [min] és kisebbnek, mint [max]!"
+    not-valid-value: "<red>A megadott szám ([value]) érvénytelen. [min] és [max] között kell lennie (a határokat is beleértve)."
     user-data-removed: "<green>A [gamemode] összes felhasználói adata törlődik az adatbázisból."
     confirm-user-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a [gamemode] felhasználói adatbázisát."
     challenge-data-removed: "<green>[gamemode] adatai törlődnek az adatbázisból."

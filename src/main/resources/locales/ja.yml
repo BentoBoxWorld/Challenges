@@ -1132,7 +1132,7 @@ challenges:
     input-number: チャットに番号を入力してください。
     input-seconds: チャットに数秒を入力してください。
     numeric-only: '<red>与えられた[value]は数字ではありません！'
-    not-valid-value: '<red>指定された番号[value]は無効です。 [min]よりも大きく、[max]未満でなければなりません！'
+    not-valid-value: "<red>指定された数値 [value] は無効です。[min] から [max] までの範囲（両端を含む）で入力してください。"
     user-data-removed: '<green>[gamemode]のすべてのユーザーデータは、データベースからクリアされています。'
     confirm-user-data-deletion: '[gamemode]のユーザーデータベースをクリアすることを確認してください。'
     challenge-data-removed: '<green>[gamemode]のすべてのチャレンジデータは、データベースからクリアされています。'

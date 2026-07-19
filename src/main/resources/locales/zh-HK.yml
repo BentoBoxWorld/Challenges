@@ -1011,7 +1011,7 @@ challenges:
     input-number: '<yellow>請在聊天中輸入 一個數字'
     input-seconds: '<yellow>請在聊天中輸入 一個秒數'
     numeric-only: '<red>輸入的[value]不是 有效數字!'
-    not-valid-value: '<red>輸入的[value]無效. 數字必須於[min]及[max]之間!'
+    not-valid-value: "<red>輸入的數字 [value] 無效。必須在 [min] 至 [max] 之間（包含邊界值）。"
     user-data-removed: '<green>空島模式[gamemode]中的<dark_red>所有玩家數據<green>已被清除'
     confirm-user-data-deletion: |-
       <yellow>請再次 <dark_red>確認 <yellow>要把空島模式[gamemode]中的

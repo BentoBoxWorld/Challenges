@@ -1136,7 +1136,7 @@ challenges:
     input-number: "<yellow>Bitte geben Sie im Chat eine Nummer ein."
     input-seconds: "<yellow>Bitte geben Sie im Chat eine Sekunde ein."
     numeric-only: "<red>Der angegebene [value] ist keine Zahl!"
-    not-valid-value: "<red>Die angegebene Zahl [value] ist ungültig. Er muss größer als [min] und kleiner als [max] sein!"
+    not-valid-value: "<red>Die angegebene Zahl [value] ist ungültig. Sie muss zwischen [min] und [max] (einschließlich) liegen."
     user-data-removed: "<green>Alle Benutzerdaten für [gamemode] werden aus der Datenbank gelöscht."
     confirm-user-data-deletion: "<yellow>Bitte bestätigen Sie, dass Sie die Benutzerdatenbank für [gamemode] löschen möchten."
     challenge-data-removed: "<green>Alle Herausforderungsdaten für [gamemode] werden aus der Datenbank gelöscht."

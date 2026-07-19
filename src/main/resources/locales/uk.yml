@@ -1151,7 +1151,7 @@ challenges:
     input-number: "<yellow>Будь ласка, введіть номер у чаті."
     input-seconds: "<yellow>Будь ласка, введіть секунди в чаті."
     numeric-only: "<red>Дане [value] не є числом!"
-    not-valid-value: "<red>Дане число [value] недійсне. Він має бути більшим за [min] і меншим за [max]!"
+    not-valid-value: "<red>Введене число [value] неприпустиме. Воно має бути від [min] до [max] включно."
     user-data-removed: "<green>Усі дані користувача для [gamemode] видалено з бази даних."
     confirm-user-data-deletion: "<yellow>Підтвердьте, що ви бажаєте очистити базу даних користувачів для [gamemode]."
     challenge-data-removed: "<green>Усі дані викликів для [gamemode] видалено з бази даних."

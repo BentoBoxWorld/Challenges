@@ -943,7 +943,7 @@ challenges:
     input-number: "<yellow>请在聊天中输入一个数字。"
     input-seconds: "<yellow>请在聊天中输入秒数。"
     numeric-only: "<red>你输入的 [value] 不是数字！"
-    not-valid-value: "<red>你输入的的数字 [value] 无效。它必须大于 [min] 且小于 [max]！"
+    not-valid-value: "<red>输入的数字 [value] 无效。必须在 [min] 到 [max] 之间（含边界值）。"
     user-data-removed: "<green>已清除 [gamemode] 的所有玩家数据。"
     confirm-user-data-deletion: "<yellow>请确认您要清除 [gamemode] 的玩家数据。"
     challenge-data-removed: "<green>已清除 [gamemode] 的所有挑战数据。"

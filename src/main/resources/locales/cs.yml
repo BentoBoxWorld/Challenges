@@ -1147,7 +1147,7 @@ challenges:
     input-number: "<yellow>Zadejte prosím číslo do chatu."
     input-seconds: "<yellow>Zadejte prosím sekundy do chatu."
     numeric-only: "<red>Daná [value] není číslo!"
-    not-valid-value: "<red>Dané číslo [value] není platné. Musí být větší než [min] a menší než [max]!"
+    not-valid-value: "<red>Zadané číslo [value] není platné. Musí být mezi [min] a [max] včetně."
     user-data-removed: "<green>Všechna uživatelská data pro [gamemode] jsou vymazána z databáze."
     confirm-user-data-deletion: "<yellow>Potvrďte prosím, že chcete vymazat databázi uživatelů pro [gamemode]."
     challenge-data-removed: "<green>Všechna data výzev pro [gamemode] jsou vymazána z databáze."

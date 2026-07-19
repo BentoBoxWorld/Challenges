@@ -1348,7 +1348,7 @@ challenges:
     input-number: <yellow>Пожалуйста введите число в чат.
     input-seconds: <yellow>Пожалуйста введите количество секунд в чат.
     numeric-only: <red>Введенное [value] не является числом!
-    not-valid-value: <red>Введенное число [value] не действительно. Оно должно быть больше [min] и меньше [max]!
+    not-valid-value: "<red>Введённое число [value] недопустимо. Оно должно быть от [min] до [max] включительно."
     user-data-removed: <green>Все данные пользователя для [gamemode] были удалены из базы данных.
     confirm-user-data-deletion: <yellow>Пожалуйста подтвердите что вы хотите очистить базу данных пользователя для [gamemode].
     challenge-data-removed: <green>Все данные испытаний для [gamemode] были удалены из базы данных.

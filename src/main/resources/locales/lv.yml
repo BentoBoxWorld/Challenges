@@ -1278,7 +1278,7 @@ challenges:
     # Error message that is showed if user input a value that is not a number.
     numeric-only: "<red>Šis `[value]` nav skaitlis!"
     # Error message that is showed if user input a number that is smaller or larger that allowed.
-    not-valid-value: "<red>Ierakstītais skaitlis [value] nav derīgs. Skaitlis nedrīkst būt mazāks par [min] un lielāks par [max]!"
+    not-valid-value: "<red>Ierakstītais skaitlis [value] nav derīgs. Tam jābūt no [min] līdz [max] (ieskaitot)."
     # Message that confirms user data removing.
     user-data-removed: "<green>Visi lietotāju dati priekš [gamemode] ir dzēsti."
     # Message that asks confirmation for user data removing.
