@@ -466,7 +466,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Chance de récompense"
         description: |-
-          <gray>Pourcentage de chance (0-100) que les récompenses
+          <gray>Pourcentage de chance (1-100) que les récompenses
           <gray>matérielles soient données à la fin du défi.
           <dark_gray>Objets, argent et expérience partagent un seul tirage.
           <dark_gray>Les commandes sont toujours exécutées.

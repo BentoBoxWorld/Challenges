@@ -912,6 +912,29 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
+    void testRewardChanceClampedTo1To100() {
+        Challenge c = new Challenge();
+        c.setRewardChance(0);
+        assertEquals(1, c.getRewardChance());
+        c.setRewardChance(-5);
+        assertEquals(1, c.getRewardChance());
+        c.setRewardChance(150);
+        assertEquals(100, c.getRewardChance());
+        c.setRewardChance(50);
+        assertEquals(50, c.getRewardChance());
+    }
+
+    /**
+     * Sets the rewardChance field directly, bypassing the clamping setter, to simulate
+     * legacy or hand-edited database data.
+     */
+    private void setRewardChanceField(Challenge c, int value) throws Exception {
+        java.lang.reflect.Field field = Challenge.class.getDeclaredField("rewardChance");
+        field.setAccessible(true);
+        field.setInt(c, value);
+    }
+
+    @Test
     void testRewardChance100GivesRewards() {
         challenge.setRewardChance(100);
         challenge.setRewardExperience(50);
@@ -929,8 +952,8 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testRewardChance0NoItems() {
-        challenge.setRewardChance(0);
+    void testRewardChance0NoItems() throws Exception {
+        setRewardChanceField(challenge, 0);
         challenge.setRewardExperience(50);
         challenge.setRewardMoney(100);
         challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
@@ -949,8 +972,8 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testRewardChance0SendsNoRewardMessage() {
-        challenge.setRewardChance(0);
+    void testRewardChance0SendsNoRewardMessage() throws Exception {
+        setRewardChanceField(challenge, 0);
         challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
@@ -961,8 +984,8 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testRewardChance0NoRewardsConfiguredNoMessage() {
-        challenge.setRewardChance(0);
+    void testRewardChance0NoRewardsConfiguredNoMessage() throws Exception {
+        setRewardChanceField(challenge, 0);
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
         when(inv.addItem(any())).thenReturn(new HashMap<>());
 
@@ -972,8 +995,8 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testRewardChance0RepeatSendsNoRewardMessage() {
-        challenge.setRewardChance(0);
+    void testRewardChance0RepeatSendsNoRewardMessage() throws Exception {
+        setRewardChanceField(challenge, 0);
         challenge.setRepeatable(true);
         challenge.setRepeatItemReward(Collections.singletonList(new ItemStack(Material.DIAMOND)));
         when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);

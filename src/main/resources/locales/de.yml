@@ -462,7 +462,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Belohnungschance"
         description: |-
-          <gray>Prozentuale Chance (0-100), dass materielle
+          <gray>Prozentuale Chance (1-100), dass materielle
           <gray>Belohnungen beim Abschluss vergeben werden.
           <dark_gray>Gegenstände, Geld und Erfahrung nutzen einen Wurf.
           <dark_gray>Befehle werden immer ausgeführt.

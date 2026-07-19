@@ -473,7 +473,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Chance de Recompensa"
         description: |-
-          <gray>Chance percentual (0-100) de que as recompensas
+          <gray>Chance percentual (1-100) de que as recompensas
           <gray>materiais sejam dadas ao completar.
           <dark_gray>Itens, dinheiro e experiência usam um único sorteio.
           <dark_gray>Os comandos são sempre executados.

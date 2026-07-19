@@ -391,7 +391,7 @@ challenges:
         name: "<white><bold>獎勵機率"
         description: |-
           <gray>完成挑戰時發放物質獎勵的
-          <gray>機率百分比（0-100）。
+          <gray>機率百分比（1-100）。
           <dark_gray>物品、金錢和經驗共用一次判定。
           <dark_gray>指令必定會執行。
         value: "<gray>機率: <yellow>[number]%"

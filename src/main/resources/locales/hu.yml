@@ -471,7 +471,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Jutalom esélye"
         description: |-
-          <gray>Százalékos esély (0-100) arra, hogy a teljesítéskor
+          <gray>Százalékos esély (1-100) arra, hogy a teljesítéskor
           <gray>megkapod a tárgyi jutalmakat.
           <dark_gray>A tárgyak, a pénz és a tapasztalat egy sorsoláson osztozik.
           <dark_gray>A parancsok mindig lefutnak.

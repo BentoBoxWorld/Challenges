@@ -845,12 +845,13 @@ public class Challenge implements DataObject
 
 
     /**
-     * Sets the reward chance percentage.
-     * @param rewardChance the rewardChance new value (0-100).
+     * Sets the reward chance percentage. Values are clamped to 1-100: 0 would mean rewards
+     * are never given, which is not allowed.
+     * @param rewardChance the rewardChance new value (1-100).
      */
     public void setRewardChance(int rewardChance)
     {
-        this.rewardChance = rewardChance;
+        this.rewardChance = Math.min(100, Math.max(1, rewardChance));
     }
 
 

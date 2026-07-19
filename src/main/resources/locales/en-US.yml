@@ -610,7 +610,7 @@ challenges:
             reward_chance:
                 name: "<white><bold>Reward Chance"
                 description: |-
-                    <gray>Chance percentage (0-100) that material
+                    <gray>Chance percentage (1-100) that material
                     <gray>rewards are given on completion.
                     <dark_gray>Items, money, and experience use one roll.
                     <dark_gray>Commands are always executed.

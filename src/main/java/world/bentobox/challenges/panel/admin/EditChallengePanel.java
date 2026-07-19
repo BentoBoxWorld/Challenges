@@ -1524,7 +1524,7 @@ public class EditChallengePanel extends CommonPanel {
                     this.build();
                 };
                 ConversationUtils.createNumericInput(numberConsumer, this.user,
-                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, 100);
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 1, 100);
 
                 return true;
             };

@@ -441,7 +441,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Szansa na nagrodę"
         description: |-
-          <gray>Procentowa szansa (0-100), że nagrody
+          <gray>Procentowa szansa (1-100), że nagrody
           <gray>materialne zostaną przyznane po ukończeniu.
           <dark_gray>Przedmioty, pieniądze i doświadczenie używają jednego losowania.
           <dark_gray>Komendy są wykonywane zawsze.

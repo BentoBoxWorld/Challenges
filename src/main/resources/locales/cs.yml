@@ -471,7 +471,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Šance na odměnu"
         description: |-
-          <gray>Šance v procentech (0-100), že budou
+          <gray>Šance v procentech (1-100), že budou
           <gray>při splnění uděleny hmotné odměny.
           <dark_gray>Předměty, peníze a zkušenosti sdílí jeden los.
           <dark_gray>Příkazy se provedou vždy.

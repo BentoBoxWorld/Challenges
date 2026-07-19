@@ -474,7 +474,7 @@ challenges:
       reward_chance:
         name: "<white><bold>Probabilidad de Recompensa"
         description: |-
-          <gray>Probabilidad (0-100) de que se entreguen
+          <gray>Probabilidad (1-100) de que se entreguen
           <gray>las recompensas materiales al completar.
           <dark_gray>Objetos, dinero y experiencia usan una sola tirada.
           <dark_gray>Los comandos siempre se ejecutan.
