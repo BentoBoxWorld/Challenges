@@ -1609,7 +1609,8 @@ public class EditChallengePanel extends CommonPanel {
             description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
         }
         case REPEAT_COUNT -> {
-            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+            String valueKey = this.challenge.getMaxTimes() > 0 ? Constants.VALUE_KEY : "value-infinite";
+            description.add(this.user.getTranslation(reference + valueKey, Constants.PARAMETER_NUMBER,
                     String.valueOf(this.challenge.getMaxTimes())));
             icon = new ItemStack(Material.COBBLESTONE_WALL);
             clickHandler = (panel, user, clickType, i) -> {
@@ -1622,7 +1623,7 @@ public class EditChallengePanel extends CommonPanel {
                     this.build();
                 };
                 ConversationUtils.createNumericInput(numberConsumer, this.user,
-                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Integer.MAX_VALUE);
+                        this.user.getTranslation(Constants.CONVERSATIONS + "input-repeat-count"), 0, Integer.MAX_VALUE);
 
                 return true;
             };

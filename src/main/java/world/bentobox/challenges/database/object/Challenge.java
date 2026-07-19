@@ -277,7 +277,7 @@ public class Challenge implements DataObject
      * Maximum number of times the challenge can be repeated. 0 or less will mean infinite times.
      */
     @Expose
-    private int maxTimes = 1;
+    private int maxTimes = 0;
 
     /**
      * Repeat experience reward

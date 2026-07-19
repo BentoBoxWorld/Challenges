@@ -665,7 +665,9 @@ challenges:
                 description: |-
                     <gray>Allows you to change the number of repeats
                     <gray>for the challenge.
+                    <gray>Set to 0 for unlimited repeats.
                 value: "<gray>Current value: <yellow>[number]"
+                value-infinite: "<gray>Current value: <yellow>[number] <gray>(infinite)"
             cool_down:
                 name: "<white><bold>Cool Down"
                 description: |-
@@ -1251,6 +1253,7 @@ challenges:
         cancelled: "<red>Conversation cancelled!"
         confirm-instruction: "<gray>Type '<green>confirm<gray>' in chat to proceed, or '<red>cancel<gray>' to abort."
         input-number: "<yellow>Please enter a number in the chat."
+        input-repeat-count: "<yellow>Please enter the number of repeats in the chat. Enter 0 for unlimited repeats."
         input-seconds: "<yellow>Please enter a number of seconds in the chat."
         numeric-only: "<red>The given [value] is not a number!"
         not-valid-value: "<red>The given number [value] is not valid. It must be greater than [min] and less than [max]!"
