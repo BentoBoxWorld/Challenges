@@ -1381,6 +1381,7 @@ challenges:
     you-completed-challenge: '<dark_green>Tu izpildīji [value] <reset><dark_green>uzdevumu!'
     you-repeated-challenge: '<dark_green>Tu atkārtoti izpildīji [value] <reset><dark_green>uzdevumu!'
     you-repeated-challenge-multiple: '<dark_green>Tu atkārtoji [value] <reset><dark_green>uzdevumu [count] reizes!'
+    no-reward-this-time: "<gray>Veiksme nebija tavā pusē — šoreiz bez balvas!"
     you-completed-level: '<dark_green>Tu pabeidzi [value] <reset><dark_green>līmeni!'
     name-has-completed-challenge: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>uzdevumu!'
     name-has-completed-level: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>līmeni!'

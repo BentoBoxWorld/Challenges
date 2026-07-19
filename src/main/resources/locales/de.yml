@@ -1194,6 +1194,7 @@ challenges:
     you-completed-challenge: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderungen abgeschlossen!"
     you-repeated-challenge: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderung wiederholt!"
     you-repeated-challenge-multiple: "<dark_green>Du hast die [value] <reset><dark_green>Herausforderungen [count] mal wiederholt!"
+    no-reward-this-time: "<gray>Das Glück war dir nicht hold — diesmal keine Belohnung!"
     you-completed-level: "<dark_green>Du hast den [value] <reset><dark_green>level abgeschlossen!"
     name-has-completed-challenge: "<dark_purple>[name] hat die [value] <reset><dark_purple>-Herausforderung abgeschlossen!"
     name-has-completed-level: "<dark_purple>[name] hat den [value] <reset><dark_purple>Level abgeschlossen!"

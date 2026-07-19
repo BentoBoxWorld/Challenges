@@ -1209,6 +1209,7 @@ challenges:
     you-repeated-challenge-multiple: |-
       <dark_green>Você repetiu o [value]
       <dark_green>desafio [count] vezes!
+    no-reward-this-time: "<gray>A sorte não estava do seu lado — sem recompensa desta vez!"
     you-completed-level: "<dark_green>Você completou o nível [valor] <reset><dark_green>!"
     name-has-completed-challenge: "<dark_purple>[name] completou [value] o desafio<dark_purple>!"
     name-has-completed-level: "<dark_purple>[name] completou o nível [value]<dark_purple>!"

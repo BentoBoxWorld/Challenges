@@ -1205,6 +1205,7 @@ challenges:
     you-completed-challenge: "<dark_green>Dokončil jsi výzvu [value]<reset><dark_green>!"
     you-repeated-challenge: "<dark_green>Zopakoval jsi výzvu [value]<reset><dark_green>!"
     you-repeated-challenge-multiple: "<dark_green>Zopakoval jsi výzvu [value] <reset><dark_green>[count]x!"
+    no-reward-this-time: "<gray>Štěstí ti nepřálo — tentokrát bez odměny!"
     you-completed-level: "<dark_green>Dokončil jsi úroveň [value]<reset><dark_green>!"
     name-has-completed-challenge: "<dark_purple>[name] dokončil výzvu [value]<reset><dark_purple>!"
     name-has-completed-level: "<dark_purple>[name] dokončil úroveň [value]<reset><dark_purple>!"

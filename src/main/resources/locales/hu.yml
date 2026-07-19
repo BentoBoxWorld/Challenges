@@ -1205,6 +1205,7 @@ challenges:
     you-completed-challenge: "<dark_green>Teljesítette a [value] <reset><dark_green>kihívást!"
     you-repeated-challenge: "<dark_green>Megismételte a [value] <reset><dark_green>kihívást!"
     you-repeated-challenge-multiple: "<dark_green>Ismételted a [value] <reset><dark_green>kihívást [count]!"
+    no-reward-this-time: "<gray>A szerencse most nem állt melléd — ezúttal nincs jutalom!"
     you-completed-level: "<dark_green>Elérted az [value] <reset><dark_green>szintet!"
     name-has-completed-challenge: "<dark_purple>[name] teljesítette a [value] <reset><dark_purple>kihívást!"
     name-has-completed-level: "<dark_purple>[name] befejezte az [value] <reset><dark_purple>szintet!"

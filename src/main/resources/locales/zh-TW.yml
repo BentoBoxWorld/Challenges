@@ -1116,6 +1116,7 @@ challenges:
     you-completed-challenge: '<dark_green>你已經完成了 [value] <reset><dark_green>挑戰!'
     you-repeated-challenge: '<dark_green>你已經重複完成了 [value] <reset><dark_green>挑戰!'
     you-repeated-challenge-multiple: '<dark_green>你重複完成了 [value] <reset><dark_green>挑戰 [count] 次!'
+    no-reward-this-time: "<gray>運氣不佳——這次沒有獎勵！"
     you-completed-level: '<dark_green>你完成了 [value] <reset><dark_green>級別!'
     name-has-completed-challenge: '<dark_purple>[name] 已完成 [value] <reset><dark_purple>挑戰!'
     name-has-completed-level: '<dark_purple>[name] 已完成 [value] <reset><dark_purple>挑戰級別!'

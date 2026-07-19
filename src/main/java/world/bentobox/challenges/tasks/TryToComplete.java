@@ -297,9 +297,16 @@ public class TryToComplete
             // Send message about first completion only if it is completed only once.
             if (result.getFactor() == 1)
             {
-                Utils.sendMessage(this.user, 
+                Utils.sendMessage(this.user,
                         this.world, Constants.MESSAGES + "you-completed-challenge", Constants.PARAMETER_VALUE,
                         this.challenge.getFriendlyName());
+            }
+
+            // Tell recipients the chance roll failed, so silence is not mistaken for a missing reward.
+            if (!rewardSuccess && this.hasFirstTimeRewards())
+            {
+                this.getRewardRecipients().forEach(recipient -> Utils.sendMessage(recipient,
+                        this.world, Constants.MESSAGES + "no-reward-this-time"));
             }
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
@@ -327,6 +334,8 @@ public class TryToComplete
         if (result.wasCompleted() || result.getFactor() > 1)
         {
             int rewardFactor = result.getFactor() - (result.wasCompleted() ? 0 : 1);
+
+            List<User> missedRecipients = new ArrayList<>();
 
             // Reward every recipient (all present members for a team challenge, else just the user).
             for (User recipient : this.getRewardRecipients())
@@ -368,6 +377,10 @@ public class TryToComplete
                     recipient.getPlayer().giveExp(
                             this.challenge.getRepeatExperienceReward() * rewardedCount);
                 }
+                else if (this.hasRepeatRewards())
+                {
+                    missedRecipients.add(recipient);
+                }
 
                 // Run commands (not gated by reward chance)
                 for (int i = 0; i < rewardFactor; i++)
@@ -392,6 +405,10 @@ public class TryToComplete
                         this.world, Constants.MESSAGES + "you-repeated-challenge", Constants.PARAMETER_VALUE,
                         this.challenge.getFriendlyName());
             }
+
+            // Tell recipients whose every roll failed, so silence is not mistaken for a missing reward.
+            missedRecipients.forEach(recipient -> Utils.sendMessage(recipient,
+                    this.world, Constants.MESSAGES + "no-reward-this-time"));
         }
 
         // Mark as complete
@@ -474,6 +491,28 @@ public class TryToComplete
             return false;
         }
         return this.random.nextInt(100) < chance;
+    }
+
+
+    /**
+     * @return true if the challenge has any first-time rewards that are gated by the reward chance.
+     */
+    private boolean hasFirstTimeRewards()
+    {
+        return !this.challenge.getRewardItems().isEmpty() ||
+                this.challenge.getRewardExperience() > 0 ||
+                this.challenge.getRewardMoney() > 0;
+    }
+
+
+    /**
+     * @return true if the challenge has any repeat rewards that are gated by the reward chance.
+     */
+    private boolean hasRepeatRewards()
+    {
+        return !this.challenge.getRepeatItemReward().isEmpty() ||
+                this.challenge.getRepeatExperienceReward() > 0 ||
+                this.challenge.getRepeatMoneyReward() > 0;
     }
 
 

@@ -1262,6 +1262,7 @@ challenges:
     you-completed-challenge: "<dark_green>Вы завершили [value] <reset><dark_green>челлендж!"
     you-repeated-challenge: "<dark_green>Ты перепрошел [value] <reset><dark_green>челлендж!"
     you-repeated-challenge-multiple: "<dark_green>Вы перепрошли [value] <reset><dark_green>челлендж [count] раз!"
+    no-reward-this-time: "<gray>Удача не на вашей стороне — в этот раз без награды!"
     you-completed-level: "<dark_green>Вы завершили [value] <reset><dark_green>уровень!"
     name-has-completed-challenge: "<dark_purple>[name] завершил [value] <reset><dark_purple>челлендж!"
     name-has-completed-level: "<dark_purple>[name] завершил [value] <reset><dark_purple>уровень!"

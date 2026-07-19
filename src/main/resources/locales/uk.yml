@@ -1209,6 +1209,7 @@ challenges:
     you-completed-challenge: "<dark_green>Ви завершили завдання [value] <reset><dark_green>!"
     you-repeated-challenge: "<dark_green>Ви повторили завдання [value] <reset><dark_green>!"
     you-repeated-challenge-multiple: "<dark_green>Ви повторили завдання [value] <reset><dark_green>[count] разів!"
+    no-reward-this-time: "<gray>Удача не на вашому боці — цього разу без нагороди!"
     you-completed-level: "<dark_green>Ви завершили рівень [value] <reset><dark_green>!"
     name-has-completed-challenge: "<dark_purple>[name] виконав завдання [value] <reset><dark_purple>!"
     name-has-completed-level: "<dark_purple>[name] завершив рівень [value] <reset><dark_purple>!"

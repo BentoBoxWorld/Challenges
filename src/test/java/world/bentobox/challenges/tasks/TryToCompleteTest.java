@@ -949,6 +949,54 @@ class TryToCompleteTest extends AbstractChallengesTest {
     }
 
     @Test
+    void testRewardChance0SendsNoRewardMessage() {
+        challenge.setRewardChance(0);
+        challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        verify(user).getTranslation(any(World.class), eq("challenges.messages.no-reward-this-time"));
+    }
+
+    @Test
+    void testRewardChance0NoRewardsConfiguredNoMessage() {
+        challenge.setRewardChance(0);
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        verify(user, never()).getTranslation(any(World.class), eq("challenges.messages.no-reward-this-time"));
+    }
+
+    @Test
+    void testRewardChance0RepeatSendsNoRewardMessage() {
+        challenge.setRewardChance(0);
+        challenge.setRepeatable(true);
+        challenge.setRepeatItemReward(Collections.singletonList(new ItemStack(Material.DIAMOND)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(true);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        verify(user).getTranslation(any(World.class), eq("challenges.messages.no-reward-this-time"));
+    }
+
+    @Test
+    void testRewardChance100NoMissMessage() {
+        challenge.setRewardChance(100);
+        challenge.setRewardItems(Collections.singletonList(new ItemStack(Material.EMERALD)));
+        when(cm.isChallengeComplete(any(world.bentobox.bentobox.api.user.User.class), any(), any())).thenReturn(false);
+        when(inv.addItem(any())).thenReturn(new HashMap<>());
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+
+        verify(user, never()).getTranslation(any(World.class), eq("challenges.messages.no-reward-this-time"));
+    }
+
+    @Test
     void testRewardChanceRepeatRewards() {
         challenge.setRewardChance(100);
         challenge.setRepeatable(true);

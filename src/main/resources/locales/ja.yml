@@ -1192,6 +1192,7 @@ challenges:
     you-completed-challenge: ＆2 [value]<reset><dark_green>チャレンジを完了しました！
     you-repeated-challenge: ＆2 [value]<reset><dark_green>チャレンジを繰り返しました！
     you-repeated-challenge-multiple: ＆2 [value]<reset><dark_green>チャレンジ [count]回繰り返しました！
+    no-reward-this-time: "<gray>運が味方しませんでした — 今回は報酬なしです！"
     you-completed-level: ＆2 [value]<reset><dark_green>レベルを完了しました！
     name-has-completed-challenge: ＆5 [name]は[value]＆r＆5チャレンジ を完了しました！
     name-has-completed-level: ＆5 [name]は[value]＆r＆5レベルを完了しました！
