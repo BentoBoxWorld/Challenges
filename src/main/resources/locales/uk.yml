@@ -57,6 +57,7 @@ challenges:
       manage-statistics: <black><bold>Керування статистикою
       manage-advancements: <black><bold>Керування досягненнями
       advancement-selector: <black><bold>Селектор досягнень
+      biome-selector: "<black><bold>Вибір біому"
     buttons:
       free-challenges:
         name: "<white><bold>Безкоштовні виклики"
@@ -526,7 +527,9 @@ challenges:
           <gray>Дозволяє змінювати
           <gray>кількість повторень
           <gray>за виклик.
+          <gray>Встановіть 0 для необмежених повторень.
         value: "<gray>Поточне значення: <yellow>[number]"
+        value-infinite: "<gray>Поточне значення: <yellow>[number] <gray>(необмежено)"
       cool_down:
         name: "<white><bold>Охолодження"
         description: |-
@@ -915,6 +918,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Вибрано
+      toggle-undeployed:
+          name: "<white><bold>Неактивовані випробування"
+          shown: |-
+              <gray>Неактивовані випробування зараз
+              <gray><green>показані<gray>.
+          hidden: |-
+              <gray>Неактивовані випробування зараз
+              <gray><red>приховані<gray>.
+      required_biomes:
+          name: "<white><bold>Потрібні біоми"
+          description: |-
+              <gray>Гравець має перебувати в одному
+              <gray>з цих біомів, щоб виконати це
+              <gray>острівне випробування.
+          title: "<gray>Біоми: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Біоми не потрібні (будь-який біом)."
+      reward_island_level:
+          name: "<white><bold>Рівень острова в нагороду"
+          description: |-
+              <gray>Дозволяє змінити нагороду рівнем острова.
+              <gray>Потрібен аддон Level.
+          value: "<gray>Поточне значення: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Рівень острова за повторення"
+          description: |-
+              <gray>Дозволяє змінити нагороду рівнем
+              <gray>острова за повторення випробування.
+              <gray>Потрібен аддон Level.
+          value: "<gray>Поточне значення: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Відкривати GUI будь-де"
+          description: |-
+              <gray>Дозволяє гравцям відкривати GUI випробувань
+              <gray>звідусіль. Для виконання все одно потрібно
+              <gray>перебувати на острові, якщо він захищений.
+          enabled: "<dark_green>Увімкнено"
+          disabled: "<red>Вимкнено"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>ID біому: [id]"
+          selected: "<dark_green>Вибрано"
     tips:
       click-to-select: "<yellow>Натисніть <gray>, щоб вибрати."
       click-to-choose: "<yellow>Натисніть <gray>, щоб вибрати."
@@ -1011,6 +1056,8 @@ challenges:
             search-radius: "<gray>Не далі <yellow>[number] <gray>метрів"
             warning-block: "<yellow>Блоки будуть <red>видалені"
             warning-entity: "<yellow>Сутності будуть <red>видалені"
+            biomes-title: "<gray><bold>Потрібні біоми:"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1142,6 +1189,8 @@ challenges:
     write-search: "<yellow>Введіть пошукове значення. (напишіть 'cancel', щоб вийти)"
     search-updated: "<green>Значення пошуку оновлено."
     enter-formula: "<green>Введіть формулу, яка використовує тільки заповнювачі PAPI та символи =,<>,<+,>=, ==, !=, AND, OR.\n<green>Приклад: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Введіть '<green>confirm<gray>' у чат, щоб продовжити, або '<red>cancel<gray>', щоб скасувати."
+    input-repeat-count: "<yellow>Будь ласка, введіть кількість повторень у чат. Введіть 0 для необмежених повторень."
   titles:
     challenge-title: Успішно завершено
     challenge-subtitle: "[friendlyName]"
@@ -1206,6 +1255,7 @@ challenges:
     no-team: <red>Це командний виклик. У вас повинна бути команда, щоб його завершити!
     insufficient-team: <red>Цей командний виклик потребує [number] членів команди в мережі. Лише [online] в мережі.
     member-missing-share: <red>[name] не має свою частину ([amount] x [item]) для цього командного виклику.
+    wrong-biome: "<red>Ви повинні перебувати в біомі [biome], щоб виконати це випробування!"
   materials:
     any: 'Будь-який '
     all_hanging_signs:

@@ -65,6 +65,7 @@ challenges:
       challenge-selector: チャレンジセレクター
       statistic-selector: 統計セレクター
       environment-selector: 環境セレクター
+      biome-selector: "バイオームセレクター"
     buttons:
       free-challenges:
         name: 無料の課題
@@ -563,7 +564,9 @@ challenges:
         description: |-
           リピート数を変更できます
           挑戦のために。
+          0 に設定すると無制限に繰り返せます。
         value: 現在の値：[number]
+        value-infinite: "現在の値：[number]（無制限）"
       cool_down:
         name: クールダウン
         description: |-
@@ -897,6 +900,48 @@ challenges:
         description: "<gray>チャレンジライブラリを\n<gray>言語でフィルタリングします。"
         current: '<gray>表示中: <yellow>[lang]'
         all: すべて
+      toggle-undeployed:
+          name: "<white><bold>未デプロイのチャレンジ"
+          shown: |-
+              <gray>未デプロイのチャレンジは
+              <gray>現在<green>表示<gray>されています。
+          hidden: |-
+              <gray>未デプロイのチャレンジは
+              <gray>現在<red>非表示<gray>です。
+      required_biomes:
+          name: "<white><bold>必要なバイオーム"
+          description: |-
+              この島チャレンジを完了するには、
+              プレイヤーがこれらのバイオームの
+              いずれかにいる必要があります。
+          title: "バイオーム："
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "必要なバイオームはありません（任意のバイオーム）。"
+      reward_island_level:
+          name: "<white><bold>報酬の島レベル"
+          description: |-
+              報酬の島レベルを変更できます。
+              Levelアドオンが必要です。
+          value: "現在の値：[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>リピート報酬の島レベル"
+          description: |-
+              チャレンジのリピート報酬の
+              島レベルを変更できます。
+              Levelアドオンが必要です。
+          value: "現在の値：[number]"
+      open_anywhere:
+          name: "<white><bold>どこでもGUIを開く"
+          description: |-
+              プレイヤーがどこからでもチャレンジGUIを
+              開けるようにします。保護されている場合、
+              完了には島にいる必要があります。
+          enabled: "<dark_green>有効"
+          disabled: "<red>無効"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "バイオームID：[id]"
+          selected: "<dark_green>選択"
     tips:
       click-to-select: クリックして選択します。
       click-to-choose: クリックして選択します。
@@ -993,6 +1038,8 @@ challenges:
             search-radius: '[number]メートル以下'
             warning-block: ブロックが削除されます
             warning-entity: エンティティは削除されます
+            biomes-title: "<gray><bold>必要なバイオーム："
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1125,6 +1172,8 @@ challenges:
     enter-formula: |-
       <green>Papiプレースホルダーとシンボルを使用する式を入力します=、<>、<+、> =、==、！=、および、またはのみ。
       <green>例：<gray>％my_lifetime_count％> = 1000および％Island_Level％> = 100
+    confirm-instruction: "<gray>続行するにはチャットに '<green>confirm<gray>' と入力し、中止するには '<red>cancel<gray>' と入力してください。"
+    input-repeat-count: "チャットに繰り返し回数を入力してください。0 を入力すると無制限になります。"
   titles:
     challenge-title: 正常に完了しました
     challenge-subtitle: '[friendlyName]'
@@ -1191,6 +1240,7 @@ challenges:
     no-team: <red>これはチームチャレンジです。完了するにはチームが必要です!
     insufficient-team: <red>このチームチャレンジは[number]人のチームメンバーがオンラインである必要があります。[online]人だけがオンラインです。
     member-missing-share: <red>[name]はこのチームチャレンジのために自分のシェア([amount] x [item])を持っていません。
+    wrong-biome: "<red>このチャレンジを完了するには [biome] バイオームにいる必要があります！"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

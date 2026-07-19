@@ -57,6 +57,7 @@ challenges:
       manage-statistics: <black><bold>Správa statistik
       manage-advancements: <black><bold>Správa pokroků
       advancement-selector: <black><bold>Výběr pokroku
+      biome-selector: "<black><bold>Výběr biomu"
     buttons:
       free-challenges:
         name: "<white><bold>Výzvy zdarma"
@@ -526,7 +527,9 @@ challenges:
           <gray>Umožňuje změnit
           <gray>počet opakování
           <gray>za výzvu.
+          <gray>Nastavte 0 pro neomezené opakování.
         value: "<gray>Aktuální hodnota: <yellow>[number]"
+        value-infinite: "<gray>Aktuální hodnota: <yellow>[number] <gray>(neomezeno)"
       cool_down:
         name: "<white><bold>Vychladnout"
         description: |-
@@ -911,6 +914,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Vybráno
+      toggle-undeployed:
+          name: "<white><bold>Nenasazené výzvy"
+          shown: |-
+              <gray>Nenasazené výzvy jsou
+              <gray>nyní <green>zobrazeny<gray>.
+          hidden: |-
+              <gray>Nenasazené výzvy jsou
+              <gray>nyní <red>skryty<gray>.
+      required_biomes:
+          name: "<white><bold>Požadované biomy"
+          description: |-
+              <gray>Hráč musí stát v jednom
+              <gray>z těchto biomů pro splnění této
+              <gray>ostrovní výzvy.
+          title: "<gray>Biomy: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Žádné biomy nejsou vyžadovány (jakýkoli biom)."
+      reward_island_level:
+          name: "<white><bold>Úroveň ostrova jako odměna"
+          description: |-
+              <gray>Umožňuje změnit odměnu úrovně ostrova.
+              <gray>Vyžaduje addon Level.
+          value: "<gray>Aktuální hodnota: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Úroveň ostrova za opakování"
+          description: |-
+              <gray>Umožňuje změnit odměnu úrovně
+              <gray>ostrova za opakování výzvy.
+              <gray>Vyžaduje addon Level.
+          value: "<gray>Aktuální hodnota: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Otevřít GUI kdekoli"
+          description: |-
+              <gray>Umožňuje hráčům otevřít GUI výzev
+              <gray>odkudkoli. Splnění stále vyžaduje
+              <gray>být na ostrově, pokud je chráněno.
+          enabled: "<dark_green>Povoleno"
+          disabled: "<red>Zakázáno"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>ID biomu: [id]"
+          selected: "<dark_green>Vybráno"
     tips:
       click-to-select: "<yellow>Klepnutím na <gray>vyberte."
       click-to-choose: "<yellow>Klepnutím na <gray>vyberte."
@@ -1007,6 +1052,8 @@ challenges:
             search-radius: "<gray>Ne dále než <yellow>[number] <gray>metrů"
             warning-block: "<yellow>Bloky budou odstraněny <red>"
             warning-entity: "<yellow>Entity budou <red>odstraněny"
+            biomes-title: "<gray><bold>Požadované biomy:"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1138,6 +1185,8 @@ challenges:
     write-search: "<yellow>Napište prosím hodnotu hledání. (pro ukončení napiš 'cancel')"
     search-updated: "<green>Hodnota vyhledávání byla aktualizována."
     enter-formula: "<green>Zadejte vzorec, který používá zástupné symboly PAPI a symboly =,<>,<+,>=, ==, !=, AND, OR pouze.\n<green>Příklad: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Napište '<green>confirm<gray>' do chatu pro pokračování, nebo '<red>cancel<gray>' pro zrušení."
+    input-repeat-count: "<yellow>Zadejte do chatu počet opakování. Zadejte 0 pro neomezené opakování."
   titles:
     challenge-title: Úspěšně dokončeno
     challenge-subtitle: "[friendlyName]"
@@ -1200,6 +1249,7 @@ challenges:
     no-team: <red>Toto je týmová výzva. Chcete-li ji splnit, musíte mít tým!
     insufficient-team: <red>Tato týmová výzva potřebuje [number] členů týmu online. Online je pouze [online].
     member-missing-share: <red>[name] nemá svůj podíl ([amount] x [item]) pro tuto týmovou výzvu.
+    wrong-biome: "<red>Pro splnění této výzvy musíte stát v biomu [biome]!"
   materials:
     any: 'Jakýkoli '
     all_hanging_signs:

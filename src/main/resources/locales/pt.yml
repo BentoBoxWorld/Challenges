@@ -59,6 +59,7 @@ challenges:
       manage-statistics: <black><bold>Gerenciar Estatísticas
       manage-advancements: <black><bold>Gerenciar Avanços
       advancement-selector: <black><bold>Seletor de Avanços
+      biome-selector: "<black><bold>Seletor de Bioma"
     buttons:
       free-challenges:
         name: "<white><bold>Desafios Gratuitos"
@@ -528,7 +529,9 @@ challenges:
           <gray>Permite alterar o
           <gray>número de repetições
           <gray>para o desafio.
+          <gray>Defina 0 para repetições ilimitadas.
         value: "<gray>Valor atual: <yellow>[number]"
+        value-infinite: "<gray>Valor atual: <yellow>[number] <gray>(ilimitado)"
       cool_down:
         name: "<white><bold>Resfriamento"
         description: |-
@@ -913,6 +916,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Selecionado
+      toggle-undeployed:
+          name: "<white><bold>Desafios não implantados"
+          shown: |-
+              <gray>Os desafios não implantados estão
+              <gray>atualmente <green>visíveis<gray>.
+          hidden: |-
+              <gray>Os desafios não implantados estão
+              <gray>atualmente <red>ocultos<gray>.
+      required_biomes:
+          name: "<white><bold>Biomas necessários"
+          description: |-
+              <gray>O jogador deve estar em um
+              <gray>destes biomas para completar este
+              <gray>desafio de ilha.
+          title: "<gray>Biomas: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Nenhum bioma necessário (qualquer bioma)."
+      reward_island_level:
+          name: "<white><bold>Nível da ilha de recompensa"
+          description: |-
+              <gray>Permite alterar o nível da ilha de recompensa.
+              <gray>Requer o addon Level.
+          value: "<gray>Valor atual: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Nível da ilha por repetição"
+          description: |-
+              <gray>Permite alterar a recompensa de nível
+              <gray>da ilha por repetir o desafio.
+              <gray>Requer o addon Level.
+          value: "<gray>Valor atual: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Abrir GUI em qualquer lugar"
+          description: |-
+              <gray>Permite que os jogadores abram o GUI de desafios
+              <gray>de qualquer lugar. Completar ainda requer
+              <gray>estar na ilha quando protegida.
+          enabled: "<dark_green>Ativado"
+          disabled: "<red>Desativado"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>ID do bioma: [id]"
+          selected: "<dark_green>Selecionado"
     tips:
       click-to-select: "<yellow>Clique em <gray>para selecionar."
       click-to-choose: "<yellow>Clique em <gray>para escolher."
@@ -1009,6 +1054,8 @@ challenges:
             search-radius: "<gray>Não além de <yellow>[number] <gray>metros"
             warning-block: "<yellow>Os blocos serão <red>removidos"
             warning-entity: "<yellow>As entidades serão <red>removidas"
+            biomes-title: "<gray><bold>Bioma(s) necessário(s):"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [Items]
@@ -1140,6 +1187,8 @@ challenges:
     write-search: "<yellow>Por favor, escreva um valor de pesquisa. (escreva 'cancel' para sair)"
     search-updated: "<green>Valor de pesquisa atualizado."
     enter-formula: "<green>Digite uma fórmula que usa placeholders PAPI e símbolos =,<>,<+,>=, ==, !=, AND, OR apenas.\n<green>Exemplo: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Digite '<green>confirm<gray>' no chat para continuar, ou '<red>cancel<gray>' para cancelar."
+    input-repeat-count: "<yellow>Digite o número de repetições no chat. Digite 0 para repetições ilimitadas."
   titles:
     challenge-title: Completado com sucesso
     challenge-subtitle: "[friendlyName]"
@@ -1206,6 +1255,7 @@ challenges:
     no-team: <red>Este é um desafio em equipe. Você deve ter uma equipe para completá-lo!
     insufficient-team: <red>Este desafio em equipe precisa de [number] membros da equipe online. Apenas [online] estão online.
     member-missing-share: <red>[name] não tem sua parte ([amount] x [item]) para este desafio em equipe.
+    wrong-biome: "<red>Você precisa estar no bioma [biome] para completar este desafio!"
   materials:
     any: 'Qualquer '
     all_hanging_signs:

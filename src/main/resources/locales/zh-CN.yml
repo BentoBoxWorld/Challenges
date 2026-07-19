@@ -57,6 +57,7 @@ challenges:
       manage-statistics: <black><bold>管理统计
       manage-advancements: <black><bold>管理进度
       advancement-selector: <black><bold>进度选择器
+      biome-selector: "<black><bold>选择生物群系"
     buttons:
       free-challenges:
         name: "<white><bold>自由挑战"
@@ -403,8 +404,11 @@ challenges:
         disabled: "<red>已禁用"
       repeat_count:
         name: "<white><bold>重复次数"
-        description: "<gray>允许更改挑战的重复次数"
+        description: |-
+            <gray>允许更改挑战的重复次数
+            <gray>设为 0 表示无限次重复。
         value: "<gray>当前值：<yellow>[number]"
+        value-infinite: "<gray>当前值：<yellow>[number] <gray>（无限）"
       cool_down:
         name: "<white><bold>冷却"
         description: "<gray>允许更改重复挑战的冷却时间"
@@ -706,6 +710,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>已选中
+      toggle-undeployed:
+          name: "<white><bold>未部署的挑战"
+          shown: |-
+              <gray>未部署的挑战当前
+              <gray><green>显示<gray>。
+          hidden: |-
+              <gray>未部署的挑战当前
+              <gray><red>隐藏<gray>。
+      required_biomes:
+          name: "<white><bold>所需生物群系"
+          description: |-
+              <gray>玩家必须站在这些生物群系
+              <gray>之一中才能完成此
+              <gray>岛屿挑战。
+          title: "<gray>生物群系："
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>无需特定生物群系（任意生物群系）。"
+      reward_island_level:
+          name: "<white><bold>奖励岛屿等级"
+          description: |-
+              <gray>允许更改奖励的岛屿等级。
+              <gray>需要 Level 插件。
+          value: "<gray>当前值：<yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>重复奖励岛屿等级"
+          description: |-
+              <gray>允许更改挑战重复完成时
+              <gray>奖励的岛屿等级。
+              <gray>需要 Level 插件。
+          value: "<gray>当前值：<yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>随处打开 GUI"
+          description: |-
+              <gray>允许玩家在任何地方打开挑战 GUI。
+              <gray>受保护时，完成挑战仍需
+              <gray>身处岛屿上。
+          enabled: "<dark_green>已启用"
+          disabled: "<red>已禁用"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>生物群系 ID：[id]"
+          selected: "<dark_green>已选择"
     tips:
       click-to-select: "<yellow>单击 <gray>进行选择。"
       click-to-choose: "<yellow>单击 <gray>进行选择。"
@@ -802,6 +848,8 @@ challenges:
             search-radius: "<gray>必须在在<yellow>[number] <gray>米范围内"
             warning-block: "<yellow>所需方块将在完成挑战时<red>移除"
             warning-entity: "<yellow>所需实体将在完成挑战时<red>移除"
+            biomes-title: "<gray><bold>所需生物群系："
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -933,6 +981,8 @@ challenges:
     write-search: "<yellow>请写一个搜索值。（输入 'cancel' 取消）"
     search-updated: "<green>搜索值已更新。"
     enter-formula: "<green>输入仅使用PAPI占位符和符号=,<>,<+,>=, ==, !=, AND, OR的公式。\n<green>示例: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>在聊天中输入'<green>confirm<gray>'以继续，或输入'<red>cancel<gray>'以取消。"
+    input-repeat-count: "<yellow>请在聊天中输入重复次数。输入 0 表示无限次。"
   titles:
     challenge-title: "<green>已完成"
     challenge-subtitle: "[friendlyName]"
@@ -995,6 +1045,7 @@ challenges:
     no-team: <red>这是一个团队挑战。您必须拥有一个团队才能完成它!
     insufficient-team: <red>此团队挑战需要[number]名团队成员在线。只有[online]名在线。
     member-missing-share: <red>[name]对于此团队挑战没有他们的份额([amount] x [item])。
+    wrong-biome: "<red>你必须站在 [biome] 生物群系中才能完成此挑战！"
   materials:
     any: '任意 '
     all_hanging_signs:
