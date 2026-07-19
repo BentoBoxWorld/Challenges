@@ -1708,7 +1708,7 @@ public class EditChallengePanel extends CommonPanel {
 
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
-                ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
+                ItemSelector.open(this.user, this.challenge.getRepeatItemReward(), (status, value) -> {
                     if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRepeatItemReward(value);
                     }
