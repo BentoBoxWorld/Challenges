@@ -81,9 +81,11 @@ gui-settings:
   open-anywhere: false
   #
   # Default colour applied to every line of a challenge's own description text, so you
-  # do not have to prefix each challenge with the same colour. Uses '&' colour codes or
-  # hex (e.g. '&b' or '&#55FFFF'). Leave empty for no default. A colour written in the
-  # description itself still overrides this. Does not affect per-challenge locale overrides.
+  # do not have to prefix each challenge with the same colour. Uses MiniMessage tags,
+  # including hex (e.g. '<white>', '<#55FFFF>' or '<color:#55FFFF>'). Legacy '&' codes
+  # (e.g. '&b' or '&#55FFFF') also still work. Leave empty for no default. A colour
+  # written in the description itself still overrides this. Does not affect
+  # per-challenge locale overrides.
   description-color: ''
   #
   # Default colour applied to every line of a challenge's own reward text (both first-time

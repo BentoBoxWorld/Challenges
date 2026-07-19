@@ -125,9 +125,11 @@ public class Settings implements ConfigObject
 
     @ConfigComment("")
     @ConfigComment("Default colour applied to every line of a challenge's own description text, so you")
-    @ConfigComment("do not have to prefix each challenge with the same colour. Uses '&' colour codes or")
-    @ConfigComment("hex (e.g. '&b' or '&#55FFFF'). Leave empty for no default. A colour written in the")
-    @ConfigComment("description itself still overrides this. Does not affect per-challenge locale overrides.")
+    @ConfigComment("do not have to prefix each challenge with the same colour. Uses MiniMessage tags,")
+    @ConfigComment("including hex (e.g. '<white>', '<#55FFFF>' or '<color:#55FFFF>'). Legacy '&' codes")
+    @ConfigComment("(e.g. '&b' or '&#55FFFF') also still work. Leave empty for no default. A colour")
+    @ConfigComment("written in the description itself still overrides this. Does not affect")
+    @ConfigComment("per-challenge locale overrides.")
     @ConfigEntry(path = "gui-settings.description-color")
     private String descriptionColor = "";
 
@@ -762,7 +764,7 @@ public class Settings implements ConfigObject
     /**
      * Returns the default colour applied to challenge description text.
      *
-     * @return the description colour code, or an empty string for no default.
+     * @return the description colour (MiniMessage tag or legacy code), or an empty string for no default.
      */
     public String getDescriptionColor()
     {
@@ -773,7 +775,8 @@ public class Settings implements ConfigObject
     /**
      * Sets the default colour applied to challenge description text.
      *
-     * @param descriptionColor the colour code (e.g. "&b" or "&#55FFFF"), or empty for none.
+     * @param descriptionColor the colour, as a MiniMessage tag (e.g. "&lt;white&gt;" or
+     *        "&lt;#55FFFF&gt;") or legacy code (e.g. "&amp;b"), or empty for none.
      */
     public void setDescriptionColor(String descriptionColor)
     {
@@ -784,7 +787,7 @@ public class Settings implements ConfigObject
     /**
      * Returns the default colour applied to challenge reward text.
      *
-     * @return the reward text colour code, or an empty string for no default.
+     * @return the reward text colour (MiniMessage tag or legacy code), or an empty string for no default.
      */
     public String getRewardTextColor()
     {
@@ -795,7 +798,8 @@ public class Settings implements ConfigObject
     /**
      * Sets the default colour applied to challenge reward text.
      *
-     * @param rewardTextColor the colour code (e.g. "&b" or "&#55FFFF"), or empty for none.
+     * @param rewardTextColor the colour, as a MiniMessage tag (e.g. "&lt;white&gt;" or
+     *        "&lt;#55FFFF&gt;") or legacy code (e.g. "&amp;b"), or empty for none.
      */
     public void setRewardTextColor(String rewardTextColor)
     {
