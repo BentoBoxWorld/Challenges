@@ -1042,7 +1042,6 @@ challenges:
                 <yellow>Click <gray>on an item in
                 <gray>your inventory.
             left-click-to-edit: "<yellow>Left Click <gray>to edit."
-            right-click-to-clear: "<yellow>Right Click <gray>to clear."
             click-to-previous: "<yellow>Click <gray>to view previous page."
             click-to-next: "<yellow>Click <gray>to view next page."
         descriptions:
