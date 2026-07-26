@@ -112,8 +112,32 @@ public class Settings implements ConfigObject
     @ConfigComment("Valid values are:")
     @ConfigComment("    'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.")
     @ConfigComment("    'HIDDEN' - shows only deployed challenges.")
+    @ConfigComment("    'TOGGLEABLE' - adds a button to the player GUI so each player can show or hide")
+    @ConfigComment("                   undeployed challenges themselves (defaults to shown).")
     @ConfigEntry(path = "gui-settings.undeployed-view-mode")
     private VisibilityMode visibilityMode = VisibilityMode.VISIBLE;
+
+    @ConfigComment("")
+    @ConfigComment("Allow players to open the challenges GUI without being on their island.")
+    @ConfigComment("Note: Challenges completion still requires being on the island when world protection is enabled.")
+    @ConfigEntry(path = "gui-settings.open-anywhere")
+    private boolean openAnywhere = false;
+
+    @ConfigComment("")
+    @ConfigComment("Default colour applied to every line of a challenge's own description text, so you")
+    @ConfigComment("do not have to prefix each challenge with the same colour. Uses MiniMessage tags,")
+    @ConfigComment("including hex (e.g. '<white>', '<#55FFFF>' or '<color:#55FFFF>'). Legacy '&' codes")
+    @ConfigComment("(e.g. '&b' or '&#55FFFF') also still work. Leave empty for no default. A colour")
+    @ConfigComment("written in the description itself still overrides this. Does not affect")
+    @ConfigComment("per-challenge locale overrides.")
+    @ConfigEntry(path = "gui-settings.description-color")
+    private String descriptionColor = "";
+
+    @ConfigComment("")
+    @ConfigComment("Default colour applied to every line of a challenge's own reward text (both first-time")
+    @ConfigComment("and repeat reward text). Same format as description-color. Leave empty for no default.")
+    @ConfigEntry(path = "gui-settings.reward-text-color")
+    private String rewardTextColor = "";
 
 
     @ConfigComment("")
@@ -150,8 +174,9 @@ public class Settings implements ConfigObject
     private boolean resetChallenges = true;
 
     @ConfigComment("")
-    @ConfigComment("This option indicates if undepolyed challenges should be counted to level completion.")
-    @ConfigComment("Disabling this option will make it so that only deployed challenges will be counted.")
+    @ConfigComment("This option indicates if undeployed challenges should be counted towards level completion.")
+    @ConfigComment("Disabling this option will make it so that only deployed challenges are counted, so an")
+    @ConfigComment("undeployed challenge will not block a level from being completed.")
     @ConfigComment("Default: true")
     @ConfigEntry(path = "include-undeployed")
     private boolean includeUndeployed = true;
@@ -711,5 +736,73 @@ public class Settings implements ConfigObject
     public void setIncludeUndeployed(boolean includeUndeployed)
     {
         this.includeUndeployed = includeUndeployed;
+    }
+
+
+    /**
+     * Is open anywhere boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isOpenAnywhere()
+    {
+        return openAnywhere;
+    }
+
+
+    /**
+     * Sets open anywhere.
+     *
+     * @param openAnywhere whether to allow opening GUI from anywhere
+     */
+    public void setOpenAnywhere(boolean openAnywhere)
+    {
+        this.openAnywhere = openAnywhere;
+    }
+
+
+    /**
+     * Returns the default colour applied to challenge description text.
+     *
+     * @return the description colour (MiniMessage tag or legacy code), or an empty string for no default.
+     */
+    public String getDescriptionColor()
+    {
+        return descriptionColor;
+    }
+
+
+    /**
+     * Sets the default colour applied to challenge description text.
+     *
+     * @param descriptionColor the colour, as a MiniMessage tag (e.g. "&lt;white&gt;" or
+     *        "&lt;#55FFFF&gt;") or legacy code (e.g. "&amp;b"), or empty for none.
+     */
+    public void setDescriptionColor(String descriptionColor)
+    {
+        this.descriptionColor = descriptionColor;
+    }
+
+
+    /**
+     * Returns the default colour applied to challenge reward text.
+     *
+     * @return the reward text colour (MiniMessage tag or legacy code), or an empty string for no default.
+     */
+    public String getRewardTextColor()
+    {
+        return rewardTextColor;
+    }
+
+
+    /**
+     * Sets the default colour applied to challenge reward text.
+     *
+     * @param rewardTextColor the colour, as a MiniMessage tag (e.g. "&lt;white&gt;" or
+     *        "&lt;#55FFFF&gt;") or legacy code (e.g. "&amp;b"), or empty for none.
+     */
+    public void setRewardTextColor(String rewardTextColor)
+    {
+        this.rewardTextColor = rewardTextColor;
     }
 }

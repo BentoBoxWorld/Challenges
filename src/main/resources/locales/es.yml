@@ -60,6 +60,7 @@ challenges:
       manage-statistics: <black><bold>Gestionar Estadísticas
       manage-advancements: <black><bold>Gestionar Avances
       advancement-selector: <black><bold>Selector de Avances
+      biome-selector: "<black><bold>Selector de bioma"
     buttons:
       free-challenges:
         name: "<white><bold>desafíos gratuitos"
@@ -470,6 +471,14 @@ challenges:
           <gray>repetir dinero de recompensa
           <gray>para el desafío.
         value: "<gray>Valor actual: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Probabilidad de Recompensa"
+        description: |-
+          <gray>Probabilidad (1-100) de que se entreguen
+          <gray>las recompensas materiales al completar.
+          <dark_gray>Objetos, dinero y experiencia usan una sola tirada.
+          <dark_gray>Los comandos siempre se ejecutan.
+        value: "<gray>Probabilidad: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Comandos de recompensa"
         description: |-
@@ -521,7 +530,9 @@ challenges:
           <gray>Permite cambiar el
           <gray>número de repeticiones
           <gray>para el desafío.
+          <gray>Establece 0 para repeticiones ilimitadas.
         value: "<gray>Valor actual: <yellow>[number]"
+        value-infinite: "<gray>Valor actual: <yellow>[number] <gray>(ilimitado)"
       cool_down:
         name: "<white><bold>enfriamiento"
         description: |-
@@ -910,6 +921,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Seleccionado
+      toggle-undeployed:
+          name: "<white><bold>Desafíos no desplegados"
+          shown: |-
+              <gray>Los desafíos no desplegados están
+              <gray>actualmente <green>visibles<gray>.
+          hidden: |-
+              <gray>Los desafíos no desplegados están
+              <gray>actualmente <red>ocultos<gray>.
+      required_biomes:
+          name: "<white><bold>Biomas requeridos"
+          description: |-
+              <gray>El jugador debe estar en uno
+              <gray>de estos biomas para completar este
+              <gray>desafío de isla.
+          title: "<gray>Biomas: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>No se requieren biomas (cualquier bioma)."
+      reward_island_level:
+          name: "<white><bold>Nivel de isla de recompensa"
+          description: |-
+              <gray>Permite cambiar el nivel de isla de recompensa.
+              <gray>Requiere el addon Level.
+          value: "<gray>Valor actual: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Nivel de isla por repetición"
+          description: |-
+              <gray>Permite cambiar la recompensa de nivel
+              <gray>de isla por repetir el desafío.
+              <gray>Requiere el addon Level.
+          value: "<gray>Valor actual: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Abrir GUI en cualquier lugar"
+          description: |-
+              <gray>Permite a los jugadores abrir el GUI de desafíos
+              <gray>desde cualquier lugar. Completarlos aún requiere
+              <gray>estar en la isla cuando está protegida.
+          enabled: "<dark_green>Habilitado"
+          disabled: "<red>Deshabilitado"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>ID del bioma: [id]"
+          selected: "<dark_green>seleccionado"
     tips:
       click-to-select: "<yellow>Haga clic en <gray>para seleccionar."
       click-to-choose: "<yellow>Haga clic en <gray>para elegir."
@@ -1006,6 +1059,8 @@ challenges:
             search-radius: "<gray>No más allá de <yellow>[number] <gray>metros"
             warning-block: "<yellow>Los bloques serán <red>eliminados"
             warning-entity: "<yellow>Entidades serán <red>eliminadas"
+            biomes-title: "<gray><bold>Bioma(s) requerido(s):"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1099,7 +1154,7 @@ challenges:
     input-number: "<yellow>Por favor ingresa un número en el chat."
     input-seconds: "<yellow>Por favor ingrese unos segundos en el chat."
     numeric-only: "<red>¡El [value] dado no es un número!"
-    not-valid-value: "<red>El número dado [value] no es válido. ¡Debe ser mayor que [min] y menor que [max]!"
+    not-valid-value: "<red>El número dado [value] no es válido. Debe estar entre [min] y [max], ambos inclusive."
     user-data-removed: "<green>Todos los datos del usuario para [gamemode] se borran de la base de datos."
     confirm-user-data-deletion: "<yellow>Confirme que desea borrar la base de datos de usuarios para [gamemode]."
     challenge-data-removed: "<green>Todos los datos de los desafíos para [gamemode] se borran de la base de datos."
@@ -1137,6 +1192,8 @@ challenges:
     write-search: "<yellow>Por favor escriba un valor de búsqueda. (escriba 'cancelar' para salir)"
     search-updated: "&un valor de búsqueda actualizado."
     enter-formula: "<green>Introduce una fórmula que utilice marcadores de posición PAPI y símbolos =,<>,<+,>=, ==, !=, AND, OR solamente.\n<green>Ejemplo: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Escribe '<green>confirm<gray>' en el chat para continuar, o '<red>cancel<gray>' para cancelar."
+    input-repeat-count: "<yellow>Por favor ingresa el número de repeticiones en el chat. Ingresa 0 para repeticiones ilimitadas."
   titles:
     challenge-title: Completado con éxito
     challenge-subtitle: "[friendlyName]"
@@ -1155,6 +1212,7 @@ challenges:
     you-completed-challenge: "<dark_green>¡Has completado el desafío [value]!"
     you-repeated-challenge: "<dark_green>¡Has repetido el desafío [value]!"
     you-repeated-challenge-multiple: "<dark_green>¡Has repetido el <reset><dark_green>desafío [value] [count] veces!"
+    no-reward-this-time: "<gray>La suerte no estuvo de tu lado — ¡sin recompensa esta vez!"
     you-completed-level: "<dark_green>¡Has completado el nivel [value]!"
     name-has-completed-challenge: "<dark_purple>¡[name] ha completado el desafío [value]!"
     name-has-completed-level: "<dark_purple>¡[name] ha completado el nivel [value]!"
@@ -1201,6 +1259,7 @@ challenges:
     no-team: <red>Este es un desafío de equipo. ¡Debes tener un equipo para completarlo!
     insufficient-team: <red>Este desafío de equipo necesita [number] miembros del equipo en línea. Solo [online] están en línea.
     member-missing-share: <red>[name] no tiene su parte ([amount] x [item]) para este desafío de equipo.
+    wrong-biome: "<red>¡Debes estar en el bioma [biome] para completar este desafío!"
   materials:
     any: 'Cualquiera '
     all_hanging_signs:

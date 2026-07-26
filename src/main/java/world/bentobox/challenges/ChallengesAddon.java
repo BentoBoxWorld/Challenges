@@ -234,6 +234,7 @@ public class ChallengesAddon extends Addon {
             this.log("Challenges Addon hooked into Level addon.");
         }, () -> {
             this.levelAddon = null;
+            this.levelProvided = false;
             this.logWarning("Level add-on not found so level challenges will not work!");
         });
 
@@ -355,6 +356,19 @@ public class ChallengesAddon extends Addon {
             user -> String.valueOf(this.challengesManager.getChallengeCount(world) -
                 this.challengesManager.getCompletedChallengeCount(user, world)));
 
+        // Completed challenge percent placeholder
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_completed_percent",
+            user -> {
+                int totalCount = this.challengesManager.getChallengeCount(world);
+                if (totalCount == 0) {
+                    return "0";
+                }
+                long completedCount = this.challengesManager.getCompletedChallengeCount(user, world);
+                // Clamp to 100: completions of since-undeployed challenges can exceed the visible total.
+                return String.valueOf(Math.min(100, (completedCount * 100) / totalCount));
+            });
+
         // Completed challenge level count placeholder
         this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
             addonName + "_completed_level_count",
@@ -420,6 +434,31 @@ public class ChallengesAddon extends Addon {
 
                 return String.valueOf(challengeCount -
                     this.challengesManager.getLevelCompletedChallengeCount(user, world, level));
+            });
+
+        // Completed challenge percent in latest level
+        this.getPlugin().getPlaceholdersManager().registerPlaceholder(gameModeAddon,
+            addonName + "_latest_level_completed_percent",
+            user -> {
+                ChallengeLevel level = this.challengesManager.getLatestUnlockedLevel(user, world);
+
+                if (level == null)
+                {
+                    return "0";
+                }
+
+                int challengeCount = this.getChallengesSettings().isIncludeUndeployed() ?
+                    level.getChallenges().size() :
+                    this.challengesManager.getLevelChallenges(level, false).size();
+
+                if (challengeCount == 0)
+                {
+                    return "0";
+                }
+
+                long completedCount = this.challengesManager.getLevelCompletedChallengeCount(user, world, level);
+                // Clamp to 100: completions of since-undeployed challenges can exceed the visible total.
+                return String.valueOf(Math.min(100, (completedCount * 100) / challengeCount));
             });
     }
 

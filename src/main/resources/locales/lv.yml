@@ -67,6 +67,7 @@ challenges:
       manage-statistics: <black><bold>Pārvaldīt Statistiku
       manage-advancements: <black><bold>Pārvaldīt Sasniegumus
       advancement-selector: <black><bold>Sasniegumu Atlasītājs
+      biome-selector: "<black><bold>Biomu Izvēlne"
     buttons:
       # Button in the Challenges GUI that allows to select free challenges.
       free-challenges:
@@ -485,6 +486,14 @@ challenges:
           <gray>Ļauj uzstādīt atkārtotas
           <gray>atlīdzības naudu spēlētājam.
         value: "<gray>Vērtība: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Atlīdzības Iespēja"
+        description: |-
+          <gray>Iespēja procentos (1-100), ka izpildot
+          <gray>izaicinājumu tiks piešķirtas atlīdzības.
+          <dark_gray>Priekšmeti, nauda un pieredze izmanto vienu izlozi.
+          <dark_gray>Komandas tiek izpildītas vienmēr.
+        value: "<gray>Iespēja: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Atlīdzības Komandas"
         description: |-
@@ -534,7 +543,9 @@ challenges:
           <gray>Ļauj uzstādīt cik
           <gray>daudz reižu uzdevumu
           <gray>varēs izpildīt.
+          <gray>Iestati 0, lai atkārtojumi būtu neierobežoti.
         value: "<gray>Vērtība: <yellow>[number]"
+        value-infinite: "<gray>Vērtība: <yellow>[number] <gray>(neierobežoti)"
       cool_down:
         name: "<white><bold>Taimouts"
         description: |-
@@ -911,6 +922,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Atlasīts
+      toggle-undeployed:
+          name: "<white><bold>Neaktivizētie uzdevumi"
+          shown: |-
+              <gray>Neaktivizētie uzdevumi pašlaik
+              <gray>ir <green>redzami<gray>.
+          hidden: |-
+              <gray>Neaktivizētie uzdevumi pašlaik
+              <gray>ir <red>paslēpti<gray>.
+      required_biomes:
+          name: "<white><bold>Nepieciešamie biomi"
+          description: |-
+              <gray>Spēlētājam jāstāv vienā
+              <gray>no šiem biomiem, lai izpildītu
+              <gray>šo salas uzdevumu.
+          title: "<gray>Biomi: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Biomi nav nepieciešami (jebkurš bioms)."
+      reward_island_level:
+          name: "<white><bold>Balvas salas līmenis"
+          description: |-
+              <gray>Ļauj mainīt balvas salas līmeni.
+              <gray>Nepieciešams Level papildinājums.
+          value: "<gray>Vērtība: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Atkārtojuma balvas salas līmenis"
+          description: |-
+              <gray>Ļauj mainīt salas līmeņa balvu
+              <gray>par uzdevuma atkārtošanu.
+              <gray>Nepieciešams Level papildinājums.
+          value: "<gray>Vērtība: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Atvērt GUI jebkur"
+          description: |-
+              <gray>Ļauj spēlētājiem atvērt uzdevumu GUI
+              <gray>no jebkuras vietas. Izpildei joprojām
+              <gray>jāatrodas uz salas, ja tā ir aizsargāta.
+          enabled: "<dark_green>Ieslēgts"
+          disabled: "<red>Izslēgts"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>Bioma ID: [id]"
+          selected: "<dark_green>Iezīmēts"
     tips:
       click-to-select: "<yellow>Klikšķini, <gray>lai atlasītu."
       click-to-choose: "<yellow>Klikšķini, <gray>lai izvēlētos."
@@ -1080,6 +1133,8 @@ challenges:
             # Waning about block/entity removing
             warning-block: "<yellow>Bloks(-i) tiks <red>dzēsti"
             warning-entity: "<yellow>Radība(-as) tiks <red>dzēstas"
+            biomes-title: "<gray><bold>Nepieciešamie biomi:"
+            biome-value: "  <gray>- <yellow>[biome]"
           # Message that will generate for inventory type requirements and replace [type-requirements]
           inventory:
             lore: |-
@@ -1223,7 +1278,7 @@ challenges:
     # Error message that is showed if user input a value that is not a number.
     numeric-only: "<red>Šis `[value]` nav skaitlis!"
     # Error message that is showed if user input a number that is smaller or larger that allowed.
-    not-valid-value: "<red>Ierakstītais skaitlis [value] nav derīgs. Skaitlis nedrīkst būt mazāks par [min] un lielāks par [max]!"
+    not-valid-value: "<red>Ierakstītais skaitlis [value] nav derīgs. Tam jābūt no [min] līdz [max] (ieskaitot)."
     # Message that confirms user data removing.
     user-data-removed: "<green>Visi lietotāju dati priekš [gamemode] ir dzēsti."
     # Message that asks confirmation for user data removing.
@@ -1298,6 +1353,8 @@ challenges:
     search-updated: "<green>Meklēšanas vērtība atjaunota."
 
     enter-formula: "<green>Ievadiet formulu, kas izmanto tikai PAPI vietturus un simbolus =,<>,<+,>=, ==, !=, AND, OR.\n<green>Piemērs: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Ieraksti čatā '<green>confirm<gray>', lai turpinātu, vai '<red>cancel<gray>', lai atceltu."
+    input-repeat-count: "<yellow>Lūdzu ieraksti čatā atkārtojumu skaitu. Ieraksti 0, lai atkārtojumi būtu neierobežoti."
   titles:
     #       Title and subtitle may contain variables in [] that will be replaced with a proper message from the challenge object.
     #       [friendlyName] will be replaced with challenge friendly name.
@@ -1324,6 +1381,7 @@ challenges:
     you-completed-challenge: '<dark_green>Tu izpildīji [value] <reset><dark_green>uzdevumu!'
     you-repeated-challenge: '<dark_green>Tu atkārtoti izpildīji [value] <reset><dark_green>uzdevumu!'
     you-repeated-challenge-multiple: '<dark_green>Tu atkārtoji [value] <reset><dark_green>uzdevumu [count] reizes!'
+    no-reward-this-time: "<gray>Veiksme nebija tavā pusē — šoreiz bez balvas!"
     you-completed-level: '<dark_green>Tu pabeidzi [value] <reset><dark_green>līmeni!'
     name-has-completed-challenge: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>uzdevumu!'
     name-has-completed-level: '<dark_purple>[name] pabeidza [value] <reset><dark_purple>līmeni!'
@@ -1362,6 +1420,7 @@ challenges:
     no-library-entries: "<red>Nevar atrast bibliotēkas ierakstus. Nav ko rādīt."
     not-hooked: "<red>Uzdevumu Papildinājumam neizdevās atrast Spēles Režīmu."
     timeout: "<red>Šim uzdevumam ir uzstādīts [timeout] taimauts starp izpildēm. Tev vēl ir jāgaida [wait-time], lai varētu pildīt uzdevumu."
+    wrong-biome: "<red>Lai izpildītu šo uzdevumu, tev jāstāv [biome] biomā!"
 #  # Showcase for manual material translation
 #  materials:
 #    # Names should be lowercase.

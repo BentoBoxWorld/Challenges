@@ -200,6 +200,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
         panelBuilder.item(13, this.createButton(Button.REWARD_ITEMS));
         panelBuilder.item(22, this.createButton(Button.REWARD_EXPERIENCE));
         panelBuilder.item(31, this.createButton(Button.REWARD_MONEY));
+        panelBuilder.item(40, this.createButton(Button.REWARD_ISLAND_LEVEL));
 
         if (!this.challengeLevel.getRewardItems().isEmpty())
         {
@@ -481,6 +482,33 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
                         this.user.getTranslation(Constants.INPUT_NUMBER),
                         0,
                         Double.MAX_VALUE);
+
+                    return true;
+                };
+                glow = false;
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+            }
+            case REWARD_ISLAND_LEVEL -> {
+                description.add(this.user.getTranslation(reference + Constants.VALUE_KEY,
+                    Constants.PARAMETER_NUMBER, String.valueOf(this.challengeLevel.getRewardIslandLevel())));
+                icon = new ItemStack(this.addon.isLevelProvided() ? Material.EXPERIENCE_BOTTLE : Material.BARRIER);
+                clickHandler = (panel, user, clickType, i) -> {
+                    Consumer<Number> numberConsumer = number -> {
+                        if (number != null)
+                        {
+                            this.challengeLevel.setRewardIslandLevel(number.longValue());
+                        }
+
+                        // reopen panel
+                        this.build();
+                    };
+                    ConversationUtils.createNumericInput(numberConsumer,
+                        this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER),
+                        0,
+                        Long.MAX_VALUE);
 
                     return true;
                 };
@@ -967,6 +995,7 @@ public class EditLevelPanel extends CommonPagedPanel<Challenge>
         REWARD_ITEMS,
         REWARD_EXPERIENCE,
         REWARD_MONEY,
+        REWARD_ISLAND_LEVEL,
         REWARD_COMMANDS,
 
         ADD_IGNORED_META,

@@ -73,6 +73,7 @@ challenges:
             challenge-selector: "<black><bold>Challenge Selector"
             statistic-selector: "<black><bold>Statistic Selector"
             environment-selector: "<black><bold>Environment Selector"
+            biome-selector: "<black><bold>Biome Selector"
         buttons:
             # Button in the Challenges GUI that allows to select free challenges.
             free-challenges:
@@ -80,6 +81,16 @@ challenges:
                 description: |-
                     <gray>Displays a list of
                     <gray>free challenges
+            # Button shown only when undeployed-view-mode is TOGGLEABLE. It lets each player
+            # show or hide the challenges that are not yet deployed.
+            toggle-undeployed:
+                name: "<white><bold>Undeployed Challenges"
+                shown: |-
+                    <gray>Undeployed challenges are
+                    <gray>currently <green>shown<gray>.
+                hidden: |-
+                    <gray>Undeployed challenges are
+                    <gray>currently <red>hidden<gray>.
             # Button that is used to return to previous GUI or exit it completely.
             return:
                 name: "<white><bold>Return"
@@ -352,11 +363,20 @@ challenges:
                 name: "<white><bold>Required Blocks"
                 description: |-
                     <gray>Allows you to change the required
-                    <gray>blocks for this challenge to be 
+                    <gray>blocks for this challenge to be
                     <gray>completed.
                 title: "<gray>Blocks: "
                 list: " <dark_gray>- [number] x [block]"
                 none: "<gray>No blocks have been added."
+            required_biomes:
+                name: "<white><bold>Required Biomes"
+                description: |-
+                    <gray>The player must be standing in one
+                    <gray>of these biomes to complete this
+                    <gray>island challenge.
+                title: "<gray>Biomes: "
+                list: " <dark_gray>- <yellow>[biome]"
+                none: "<gray>No biomes required (any biome)."
             required_statistics:
                 name: "<white><bold>Required Statistics"
                 description: |-
@@ -584,8 +604,29 @@ challenges:
             repeat_reward_money:
                 name: "<white><bold>Repeat Reward Money"
                 description: |-
-                    <gray>Allows you to change the repeat 
+                    <gray>Allows you to change the repeat
                     <gray>reward money for the challenge.
+                value: "<gray>Current value: <yellow>[number]"
+            reward_chance:
+                name: "<white><bold>Reward Chance"
+                description: |-
+                    <gray>Chance percentage (1-100) that material
+                    <gray>rewards are given on completion.
+                    <dark_gray>Items, money, and experience use one roll.
+                    <dark_gray>Commands are always executed.
+                value: "<gray>Chance: <yellow>[number]%"
+            reward_island_level:
+                name: "<white><bold>Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the reward island level.
+                    <gray>Requires the Level addon.
+                value: "<gray>Current value: <yellow>[number]"
+            repeat_reward_island_level:
+                name: "<white><bold>Repeat Reward Island Level"
+                description: |-
+                    <gray>Allows you to change the repeat reward
+                    <gray>island level for the challenge.
+                    <gray>Requires the Level addon.
                 value: "<gray>Current value: <yellow>[number]"
             reward_commands:
                 name: "<white><bold>Reward Commands"
@@ -624,7 +665,9 @@ challenges:
                 description: |-
                     <gray>Allows you to change the number of repeats
                     <gray>for the challenge.
+                    <gray>Set to 0 for unlimited repeats.
                 value: "<gray>Current value: <yellow>[number]"
+                value-infinite: "<gray>Current value: <yellow>[number] <gray>(infinite)"
             cool_down:
                 name: "<white><bold>Cool Down"
                 description: |-
@@ -770,6 +813,14 @@ challenges:
                     <gray>should be counted towards level completion.
                 enabled: "<dark_green>Enabled"
                 disabled: "<red>Disabled"
+            open_anywhere:
+                name: "<white><bold>Open GUI Anywhere"
+                description: |-
+                    <gray>Allows players to open the challenges GUI
+                    <gray>from anywhere. Completion still requires
+                    <gray>being on the island when protected.
+                enabled: "<dark_green>Enabled"
+                disabled: "<red>Disabled"
             download:
                 name: "<white><bold>Download Libraries"
                 description: |-
@@ -874,6 +925,11 @@ challenges:
                 description: |-
                     <gray>Entity ID: [id]
                 selected: "<dark_green>Selected"
+            biome:
+                name: "<white><bold>[biome]"
+                description: |-
+                    <gray>Biome ID: [id]
+                selected: "<dark_green>Selected"
             entity-group:
                 name: "<white><bold>[id]"
                 description: ""
@@ -966,6 +1022,7 @@ challenges:
             click-to-change: "<yellow>Click <gray>to change."
             shift-click-to-reset: "<yellow>Shift Click <gray>to reset."
             click-to-add: "<yellow>Click <gray>to add."
+            right-click-to-clear: "<yellow>Right Click <gray>to clear."
             click-to-remove: "<yellow>Click <gray>to remove."
             left-click-to-cycle: "<yellow>Left Click <gray>to cycle down."
             right-click-to-cycle: "<yellow>Right Click <gray>to cycle up."
@@ -985,7 +1042,6 @@ challenges:
                 <yellow>Click <gray>on an item in
                 <gray>your inventory.
             left-click-to-edit: "<yellow>Left Click <gray>to edit."
-            right-click-to-clear: "<yellow>Right Click <gray>to clear."
             click-to-previous: "<yellow>Click <gray>to view previous page."
             click-to-next: "<yellow>Click <gray>to view next page."
         descriptions:
@@ -1053,9 +1109,14 @@ challenges:
                         lore: |-
                             [blocks]
                             [entities]
+                            [biomes]
                             [search-radius]
                             [warning-block]
                             [warning-entity]
+                        # Title that will be used if there are defined biomes in an island challenge
+                        biomes-title: "<gray><bold>Required Biome(s):"
+                        # Listing of biomes the player must stand in.
+                        biome-value: "  <gray>- <yellow>[biome]"
                         # Title that will be used if there are defined blocks in an island challenge
                         blocks-title: "<gray><bold>Required Blocks:"
                         # Listing of blocks that are required on the island.
@@ -1189,10 +1250,12 @@ challenges:
         cancel-string: "cancel"
         exit-string: "cancel, exit, quit"
         cancelled: "<red>Conversation cancelled!"
+        confirm-instruction: "<gray>Type '<green>confirm<gray>' in chat to proceed, or '<red>cancel<gray>' to abort."
         input-number: "<yellow>Please enter a number in the chat."
+        input-repeat-count: "<yellow>Please enter the number of repeats in the chat. Enter 0 for unlimited repeats."
         input-seconds: "<yellow>Please enter a number of seconds in the chat."
         numeric-only: "<red>The given [value] is not a number!"
-        not-valid-value: "<red>The given number [value] is not valid. It must be greater than [min] and less than [max]!"
+        not-valid-value: "<red>The given number [value] is not valid. It must be between [min] and [max] inclusive."
         user-data-removed: "<green>All user data for [gamemode] has been cleared from the database."
         confirm-user-data-deletion: "<yellow>Please confirm that you want to clear the user database for [gamemode]."
         challenge-data-removed: "<green>All challenge data for [gamemode] has been cleared from the database."
@@ -1248,6 +1311,7 @@ challenges:
         you-completed-challenge: "<dark_green>You completed the [value] <reset><dark_green>challenge!"
         you-repeated-challenge: "<dark_green>You repeated the [value] <reset><dark_green>challenge!"
         you-repeated-challenge-multiple: "<dark_green>You repeated the [value] <reset><dark_green>challenge [count] times!"
+        no-reward-this-time: "<gray>Luck was not on your side — no reward this time!"
         you-completed-level: "<dark_green>You completed the [value] <reset><dark_green>level!"
         name-has-completed-challenge: "<dark_purple>[name] has completed the [value] <reset><dark_purple>challenge!"
         name-has-completed-level: "<dark_purple>[name] has completed the [value] <reset><dark_purple>level!"
@@ -1265,6 +1329,7 @@ challenges:
         challenge-level-not-available: "<red>You have not unlocked the required level to complete this challenge."
         not-repeatable: "<red>This challenge is not repeatable!"
         wrong-environment: "<red>You are in the wrong environment!"
+        wrong-biome: "<red>You must be standing in the [biome] biome to complete this challenge!"
         not-enough-items: "<red>You do not have enough [items] to complete this challenge!"
         not-close-enough: "<red>You must be standing within [number] blocks of all required items."
         you-still-need: "<red>You still need [amount] x [item]"

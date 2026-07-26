@@ -7,12 +7,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +39,7 @@ import world.bentobox.challenges.panel.CommonPanel;
 import world.bentobox.challenges.panel.ConversationUtils;
 import world.bentobox.challenges.panel.util.EnvironmentSelector;
 import world.bentobox.challenges.panel.util.ItemSelector;
+import world.bentobox.challenges.panel.util.MultiBiomeSelector;
 import world.bentobox.challenges.panel.util.MultiBlockSelector;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
@@ -190,6 +195,7 @@ public class EditChallengePanel extends CommonPanel {
 
 
         panelBuilder.item(23, this.createRequirementButton(RequirementButton.SEARCH_RADIUS));
+        panelBuilder.item(24, this.createRequirementButton(RequirementButton.REQUIRED_BIOMES));
         panelBuilder.item(25, this.createRequirementButton(RequirementButton.REQUIRED_PERMISSIONS));
     }
 
@@ -258,6 +264,8 @@ public class EditChallengePanel extends CommonPanel {
         panelBuilder.item(11, this.createRewardButton(RewardButton.REWARD_ITEMS));
         panelBuilder.item(20, this.createRewardButton(RewardButton.REWARD_EXPERIENCE));
         panelBuilder.item(29, this.createRewardButton(RewardButton.REWARD_MONEY));
+        panelBuilder.item(37, this.createRewardButton(RewardButton.REWARD_CHANCE));
+        panelBuilder.item(38, this.createRewardButton(RewardButton.REWARD_ISLAND_LEVEL));
 
         panelBuilder.item(22, this.createRewardButton(RewardButton.REPEATABLE));
 
@@ -279,6 +287,7 @@ public class EditChallengePanel extends CommonPanel {
             panelBuilder.item(16, this.createRewardButton(RewardButton.REPEAT_REWARD_ITEMS));
             panelBuilder.item(25, this.createRewardButton(RewardButton.REPEAT_REWARD_EXPERIENCE));
             panelBuilder.item(34, this.createRewardButton(RewardButton.REPEAT_REWARD_MONEY));
+            panelBuilder.item(43, this.createRewardButton(RewardButton.REPEAT_REWARD_ISLAND_LEVEL));
         }
     }
 
@@ -737,6 +746,11 @@ public class EditChallengePanel extends CommonPanel {
                 REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS -> {
             return this.createIslandRequirementButton(button);
         }
+        // Biome requirement is a self-contained island requirement, kept out of the large
+        // createIslandRequirementButton switch.
+        case REQUIRED_BIOMES -> {
+            return this.createBiomeRequirementButton();
+        }
         // Buttons for Inventory Requirements
         case REQUIRED_ITEMS, REMOVE_ITEMS, ADD_IGNORED_META, REMOVE_IGNORED_META -> {
             return this.createInventoryRequirementButton(button);
@@ -930,6 +944,71 @@ public class EditChallengePanel extends CommonPanel {
                 .clickHandler(clickHandler).build();
     }
 
+
+    /**
+     * Creates the "Required Biomes" button for island challenges. Left-click opens the biome
+     * selector (hiding already-chosen biomes); right-click clears the list.
+     *
+     * @return the PanelItem for the biome requirement button.
+     */
+    private PanelItem createBiomeRequirementButton() {
+        final String reference = Constants.BUTTON + RequirementButton.REQUIRED_BIOMES.name().toLowerCase() + ".";
+        final String name = this.user.getTranslation(reference + "name");
+        final IslandRequirements requirements = this.challenge.getRequirements();
+        final List<String> description = new ArrayList<>();
+        description.add(this.user.getTranslation(reference + Constants.DESCRIPTION_KEY));
+
+        if (requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(reference + "none"));
+        } else {
+            description.add(this.user.getTranslation(reference + Constants.TITLE_KEY));
+            // Sort so the biome list renders in a stable order (the underlying set is unordered).
+            requirements.getRequiredBiomes().stream()
+                    .sorted(Comparator.comparing(Utils::prettifyBiome))
+                    .forEach(biomeKey -> description.add(
+                            this.user.getTranslation(reference + "list", "[biome]", Utils.prettifyBiome(biomeKey))));
+        }
+
+        description.add("");
+        description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
+
+        if (!requirements.getRequiredBiomes().isEmpty()) {
+            description.add(this.user.getTranslation(Constants.TIPS + "right-click-to-clear"));
+        }
+
+        return new PanelItemBuilder().icon(new ItemStack(Material.GRASS_BLOCK)).name(name).description(description)
+                .glow(false).clickHandler((panel, user, clickType, slot) -> {
+                    if (clickType.isRightClick()) {
+                        requirements.getRequiredBiomes().clear();
+                        this.build();
+                    } else {
+                        this.openBiomeSelector(requirements);
+                    }
+                    return true;
+                }).build();
+    }
+
+
+    /**
+     * Opens the biome selector for the given island requirements, excluding already-chosen
+     * biomes, and adds the chosen biomes back to the requirement before rebuilding the panel.
+     *
+     * @param requirements the island requirements being edited.
+     */
+    private void openBiomeSelector(IslandRequirements requirements) {
+        Set<Biome> excluded = requirements.getRequiredBiomes().stream()
+                .map(key -> Registry.BIOME.get(NamespacedKey.fromString(key)))
+                .filter(Objects::nonNull).collect(Collectors.toSet());
+
+        MultiBiomeSelector.open(this.user, excluded, (status, biomes) -> {
+            if (Boolean.TRUE.equals(status) && biomes != null) {
+                biomes.forEach(biome -> requirements.getRequiredBiomes().add(MultiBiomeSelector.biomeKey(biome)));
+            }
+
+            this.build();
+        });
+    }
+
     /**
      * This method creates buttons for inventory requirements menu.
      * 
@@ -1087,7 +1166,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
@@ -1431,6 +1510,52 @@ public class EditChallengePanel extends CommonPanel {
             description.add("");
             description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
         }
+        case REWARD_CHANCE -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(challenge.getRewardChance())));
+            icon = new ItemStack(Material.DIAMOND);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRewardChance(number.intValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 1, 100);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
+        case REWARD_ISLAND_LEVEL -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(this.challenge.getRewardIslandLevel())));
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.EXPERIENCE_BOTTLE : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRewardIslandLevel(number.longValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Long.MAX_VALUE);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
         case REWARD_COMMANDS -> {
             icon = new ItemStack(Material.COMMAND_BLOCK);
 
@@ -1484,7 +1609,8 @@ public class EditChallengePanel extends CommonPanel {
             description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
         }
         case REPEAT_COUNT -> {
-            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+            String valueKey = this.challenge.getMaxTimes() > 0 ? Constants.VALUE_KEY : "value-infinite";
+            description.add(this.user.getTranslation(reference + valueKey, Constants.PARAMETER_NUMBER,
                     String.valueOf(this.challenge.getMaxTimes())));
             icon = new ItemStack(Material.COBBLESTONE_WALL);
             clickHandler = (panel, user, clickType, i) -> {
@@ -1497,7 +1623,7 @@ public class EditChallengePanel extends CommonPanel {
                     this.build();
                 };
                 ConversationUtils.createNumericInput(numberConsumer, this.user,
-                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Integer.MAX_VALUE);
+                        this.user.getTranslation(Constants.CONVERSATIONS + "input-repeat-count"), 0, Integer.MAX_VALUE);
 
                 return true;
             };
@@ -1582,7 +1708,7 @@ public class EditChallengePanel extends CommonPanel {
 
             icon = new ItemStack(Material.CHEST);
             clickHandler = (panel, user, clickType, slot) -> {
-                ItemSelector.open(this.user, this.challenge.getRewardItems(), (status, value) -> {
+                ItemSelector.open(this.user, this.challenge.getRepeatItemReward(), (status, value) -> {
                     if (Boolean.TRUE.equals(status)) {
                         this.challenge.setRepeatItemReward(value);
                     }
@@ -1635,6 +1761,29 @@ public class EditChallengePanel extends CommonPanel {
                 };
                 ConversationUtils.createNumericInput(numberConsumer, this.user,
                         this.user.getTranslation(Constants.INPUT_NUMBER), 0, Double.MAX_VALUE);
+
+                return true;
+            };
+            glow = false;
+
+            description.add("");
+            description.add(this.user.getTranslation(Constants.CLICK_TO_CHANGE));
+        }
+        case REPEAT_REWARD_ISLAND_LEVEL -> {
+            description.add(this.user.getTranslation(reference + Constants.VALUE_KEY, Constants.PARAMETER_NUMBER,
+                    String.valueOf(this.challenge.getRepeatIslandLevel())));
+            icon = new ItemStack(this.addon.isLevelProvided() ? Material.EXPERIENCE_BOTTLE : Material.BARRIER);
+            clickHandler = (panel, user, clickType, i) -> {
+                Consumer<Number> numberConsumer = number -> {
+                    if (number != null) {
+                        this.challenge.setRepeatIslandLevel(number.longValue());
+                    }
+
+                    // reopen panel
+                    this.build();
+                };
+                ConversationUtils.createNumericInput(numberConsumer, this.user,
+                        this.user.getTranslation(Constants.INPUT_NUMBER), 0, Long.MAX_VALUE);
 
                 return true;
             };
@@ -1723,7 +1872,7 @@ public class EditChallengePanel extends CommonPanel {
             glow = false;
 
             description.add("");
-            description.add(this.user.getTranslation(Constants.TIPS + "click-to-add"));
+            description.add(this.user.getTranslation(Constants.CLICK_TO_ADD));
         }
         case REMOVE_IGNORED_META -> {
             icon = new ItemStack(Material.RED_SHULKER_BOX);
@@ -1836,11 +1985,11 @@ public class EditChallengePanel extends CommonPanel {
      * Represents different rewards buttons that are used in menus.
      */
     private enum RewardButton {
-        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_COMMANDS,
+        REWARD_TEXT, REWARD_ITEMS, REWARD_EXPERIENCE, REWARD_MONEY, REWARD_CHANCE, REWARD_ISLAND_LEVEL, REWARD_COMMANDS,
 
         REPEATABLE, REPEAT_COUNT, COOL_DOWN,
 
-        REPEAT_REWARD_TEXT, REPEAT_REWARD_ITEMS, REPEAT_REWARD_EXPERIENCE, REPEAT_REWARD_MONEY, REPEAT_REWARD_COMMANDS,
+        REPEAT_REWARD_TEXT, REPEAT_REWARD_ITEMS, REPEAT_REWARD_EXPERIENCE, REPEAT_REWARD_MONEY, REPEAT_REWARD_ISLAND_LEVEL, REPEAT_REWARD_COMMANDS,
 
         ADD_IGNORED_META, REMOVE_IGNORED_META,
     }
@@ -1854,7 +2003,7 @@ public class EditChallengePanel extends CommonPanel {
         REQUIRED_LEVEL, REQUIRED_MONEY, REMOVE_MONEY, STATISTIC, STATISTIC_BLOCKS, STATISTIC_ITEMS,
         STATISTIC_ENTITIES,
         STATISTIC_AMOUNT, REMOVE_STATISTIC, REQUIRED_MATERIALTAGS, REQUIRED_ENTITYTAGS, REQUIRED_STATISTICS,
-        REMOVE_STATISTICS, REQUIRED_PAPI, REQUIRED_ADVANCEMENTS,
+        REMOVE_STATISTICS, REQUIRED_PAPI, REQUIRED_ADVANCEMENTS, REQUIRED_BIOMES,
     }
 
     // ---------------------------------------------------------------------

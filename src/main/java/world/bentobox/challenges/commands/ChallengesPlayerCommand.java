@@ -66,10 +66,11 @@ public class ChallengesPlayerCommand extends CompositeCommand
             Utils.sendMessage(user, this.getWorld(), "general.errors.no-island");
             return false;
         } else if (ChallengesAddon.CHALLENGES_WORLD_PROTECTION.isSetForWorld(this.getWorld()) &&
+                !((ChallengesAddon) this.getAddon()).getChallengesSettings().isOpenAnywhere() &&
                 !this.getIslands().locationIsOnIsland(user.getPlayer(), user.getLocation()))
         {
             // Do not open gui if player is not on the island, but challenges requires island for
-            // completion.
+            // completion, unless open-anywhere is enabled.
             Utils.sendMessage(user, this.getWorld(), Constants.ERRORS + "not-on-island");
             return false;
         }

@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.utils.Constants;
 import world.bentobox.challenges.utils.Utils;
 
@@ -117,8 +118,9 @@ public class ConversationUtils
             {
                 // Close input GUI.
                 user.closeInventory();
-                // There are no editable message. Just return question.
-                return question;
+                // Append a standard instruction so players know they must type
+                // 'confirm' (or 'cancel') in chat rather than clicking anything.
+                return ConversationUtils.appendConfirmationInstruction(user, question);
             }
         };
 
@@ -132,6 +134,22 @@ public class ConversationUtils
                 .
             buildConversation(user.getPlayer()).
             begin();
+    }
+
+
+    /**
+     * Appends the localised confirmation instruction ("Type 'confirm' ... or 'cancel' ...")
+     * to a confirmation question so players know they must answer in chat. If the locale
+     * string is empty (e.g. a translator cleared it) the question is returned unchanged.
+     *
+     * @param user User whose locale the instruction is taken from.
+     * @param question The confirmation question being asked.
+     * @return The question with the instruction appended on a new line, or the question alone.
+     */
+    static String appendConfirmationInstruction(User user, String question)
+    {
+        String instruction = user.getTranslationOrNothing(Constants.CONFIRM_INSTRUCTION);
+        return instruction.isEmpty() ? question : question + "\n" + instruction;
     }
 
 
@@ -425,7 +443,9 @@ public class ConversationUtils
 
                     for (String line : ((List<String>) context.getSessionData(SESSION_CONSTANT)))
                     {
-                        sb.append(line);
+                        // Render MiniMessage tags and legacy codes so the echo shows the
+                        // colors the player will actually get.
+                        sb.append(Util.componentToLegacy(Util.parseMiniMessageOrLegacy(line)));
                         sb.append(System.lineSeparator());
                     }
 

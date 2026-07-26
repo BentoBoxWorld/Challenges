@@ -57,6 +57,7 @@ challenges:
       manage-statistics: <black><bold>Statisztikák kezelése
       manage-advancements: <black><bold>Haladások kezelése
       advancement-selector: <black><bold>Haladás választó
+      biome-selector: "<black><bold>Biomválasztó"
     buttons:
       free-challenges:
         name: "<white><bold>Ingyenes kihívások"
@@ -467,6 +468,14 @@ challenges:
           <gray>ismételt jutalompénz
           <gray>a kihíváshoz.
         value: "<gray>Jelenlegi érték: <yellow>[number]"
+      reward_chance:
+        name: "<white><bold>Jutalom esélye"
+        description: |-
+          <gray>Százalékos esély (1-100) arra, hogy a teljesítéskor
+          <gray>megkapod a tárgyi jutalmakat.
+          <dark_gray>A tárgyak, a pénz és a tapasztalat egy sorsoláson osztozik.
+          <dark_gray>A parancsok mindig lefutnak.
+        value: "<gray>Esély: <yellow>[number]%"
       reward_commands:
         name: "<white><bold>Jutalomparancsok"
         description: |-
@@ -518,7 +527,9 @@ challenges:
           <gray>Lehetővé teszi a
           <gray>ismétlésszám
           <gray>a kihíváshoz.
+          <gray>Állítsd 0-ra a korlátlan ismétléshez.
         value: "<gray>Jelenlegi érték: <yellow>[number]"
+        value-infinite: "<gray>Jelenlegi érték: <yellow>[number] <gray>(korlátlan)"
       cool_down:
         name: "<white><bold>Lehűlni"
         description: |-
@@ -903,6 +914,48 @@ challenges:
         name: <white><bold>[name]
         description: '[description]'
         selected: <dark_green>Kiválasztva
+      toggle-undeployed:
+          name: "<white><bold>Nem aktivált kihívások"
+          shown: |-
+              <gray>A nem aktivált kihívások jelenleg
+              <gray><green>láthatók<gray>.
+          hidden: |-
+              <gray>A nem aktivált kihívások jelenleg
+              <gray><red>rejtettek<gray>.
+      required_biomes:
+          name: "<white><bold>Szükséges biomok"
+          description: |-
+              <gray>A játékosnak ezen biomok egyikében
+              <gray>kell állnia a szigetkihívás
+              <gray>teljesítéséhez.
+          title: "<gray>Biomok: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Nincs szükséges biom (bármelyik biom)."
+      reward_island_level:
+          name: "<white><bold>Jutalom szigetszint"
+          description: |-
+              <gray>Lehetővé teszi a jutalom szigetszint módosítását.
+              <gray>A Level addon szükséges hozzá.
+          value: "<gray>Jelenlegi érték: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Ismétlési jutalom szigetszint"
+          description: |-
+              <gray>Lehetővé teszi az ismétlési jutalom
+              <gray>szigetszint módosítását a kihíváshoz.
+              <gray>A Level addon szükséges hozzá.
+          value: "<gray>Jelenlegi érték: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>GUI megnyitása bárhonnan"
+          description: |-
+              <gray>Lehetővé teszi a játékosoknak a kihívások GUI
+              <gray>megnyitását bárhonnan. A teljesítéshez továbbra is
+              <gray>a szigeten kell lenni, ha védett.
+          enabled: "<dark_green>Engedélyezve"
+          disabled: "<red>Letiltva"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>Biom azonosító: [id]"
+          selected: "<dark_green>Kiválasztva"
     tips:
       click-to-select: "<yellow>Kattintson a <gray>gombra a kiválasztáshoz."
       click-to-choose: "<yellow>Kattintson a <gray>gombra a kiválasztáshoz."
@@ -999,6 +1052,8 @@ challenges:
             search-radius: "<gray>Legfeljebb <yellow>[number] <gray>méternél"
             warning-block: "<yellow>Blokkok <red>eltávolításra kerülnek"
             warning-entity: "<yellow>Az entitások eltávolításra kerülnek"
+            biomes-title: "<gray><bold>Szükséges biom(ok):"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1092,7 +1147,7 @@ challenges:
     input-number: "<yellow>Kérjük, adjon meg egy számot a chatben."
     input-seconds: "<yellow>Kérjük, adjon meg egy másodpercet a csevegésben."
     numeric-only: "<red>A megadott [value] nem szám!"
-    not-valid-value: "<red>A megadott szám [value] nem érvényes. Nagyobbnak kell lennie, mint [min] és kisebbnek, mint [max]!"
+    not-valid-value: "<red>A megadott szám ([value]) érvénytelen. [min] és [max] között kell lennie (a határokat is beleértve)."
     user-data-removed: "<green>A [gamemode] összes felhasználói adata törlődik az adatbázisból."
     confirm-user-data-deletion: "<yellow>Kérjük, erősítse meg, hogy törölni szeretné a [gamemode] felhasználói adatbázisát."
     challenge-data-removed: "<green>[gamemode] adatai törlődnek az adatbázisból."
@@ -1130,6 +1185,8 @@ challenges:
     write-search: "<yellow>Kérjük, írjon be egy keresési értéket. (a kilépéshez írja be: „Mégse”)"
     search-updated: "<green>keresési érték frissítve."
     enter-formula: "<green>Írj be egy képletet, amely csak PAPI helyőrzőket és szimbólumokat =,<>,<+,>=, ==, !=, AND, OR használ.\n<green>Példa: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Írd be a chatbe: '<green>confirm<gray>' a folytatáshoz, vagy '<red>cancel<gray>' a megszakításhoz."
+    input-repeat-count: "<yellow>Kérjük, add meg az ismétlések számát a chatben. Írj 0-t a korlátlan ismétléshez."
   titles:
     challenge-title: Sikeresen teljesítve
     challenge-subtitle: "[friendlyName]"
@@ -1148,6 +1205,7 @@ challenges:
     you-completed-challenge: "<dark_green>Teljesítette a [value] <reset><dark_green>kihívást!"
     you-repeated-challenge: "<dark_green>Megismételte a [value] <reset><dark_green>kihívást!"
     you-repeated-challenge-multiple: "<dark_green>Ismételted a [value] <reset><dark_green>kihívást [count]!"
+    no-reward-this-time: "<gray>A szerencse most nem állt melléd — ezúttal nincs jutalom!"
     you-completed-level: "<dark_green>Elérted az [value] <reset><dark_green>szintet!"
     name-has-completed-challenge: "<dark_purple>[name] teljesítette a [value] <reset><dark_purple>kihívást!"
     name-has-completed-level: "<dark_purple>[name] befejezte az [value] <reset><dark_purple>szintet!"
@@ -1194,6 +1252,7 @@ challenges:
     no-team: <red>Ez egy csapatkihívás. Csapatodnak kell lennie a befejezéshez!
     insufficient-team: <red>Ez a csapatkihívás [number] csapattag jelenlétét igényli. Csak [online] van online.
     member-missing-share: <red>[name] nem rendelkezik a saját részével ([amount] x [item]) ehhez a csapatkihíváshoz.
+    wrong-biome: "<red>A(z) [biome] biomban kell állnod a kihívás teljesítéséhez!"
   materials:
     any: 'Bármilyen '
     all_hanging_signs:

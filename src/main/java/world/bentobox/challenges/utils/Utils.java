@@ -60,6 +60,52 @@ public class Utils
 
 
 	/**
+	 * Checks if a material is potion-like (potions, splash potions, lingering potions, tipped arrows).
+	 *
+	 * @param material the material to check
+	 * @return true if the material is potion-like
+	 */
+	public static boolean isPotionLike(Material material)
+	{
+		return material == Material.POTION ||
+		       material == Material.SPLASH_POTION ||
+		       material == Material.LINGERING_POTION ||
+		       material == Material.TIPPED_ARROW;
+	}
+
+	/**
+	 * Compares the base potion type of two potion items. Returns true if they have the same
+	 * base potion type, ignoring custom effects, lore, and other metadata.
+	 *
+	 * @param first first potion item
+	 * @param second second potion item
+	 * @return true if both items have the same base potion type
+	 */
+	public static boolean comparePotionType(@Nullable ItemStack first, @Nullable ItemStack second)
+	{
+		if (first == null || second == null)
+		{
+			return false;
+		}
+
+		PotionType firstType = null;
+		PotionType secondType = null;
+
+		if (first.hasItemMeta() && first.getItemMeta() instanceof PotionMeta potionMeta)
+		{
+			firstType = potionMeta.getBasePotionType();
+		}
+
+		if (second.hasItemMeta() && second.getItemMeta() instanceof PotionMeta potionMeta)
+		{
+			secondType = potionMeta.getBasePotionType();
+		}
+
+		// If either has no potion meta, they're only equal if both are missing the meta
+		return java.util.Objects.equals(firstType, secondType);
+	}
+
+	/**
 	 * This method groups input items in single itemstack with correct amount and returns it.
 	 * Allows to remove duplicate items from list.
 	 * @param requiredItems Input item list
@@ -84,7 +130,7 @@ public class Utils
 
 				// Merge items which meta can be ignored or is similar to item in required list.
 				if (Utils.isSimilarNoDurability(required, item) ||
-					ignoreMetaData.contains(item.getType()) && item.getType().equals(required.getType()))
+					itemsMatchIgnoreMetadata(required, item, ignoreMetaData))
 				{
 					required.setAmount(required.getAmount() + item.getAmount());
 					isUnique = false;
@@ -101,6 +147,42 @@ public class Utils
 		}
 
 		return returnItems;
+	}
+
+	/**
+	 * Checks if two items match when metadata should be ignored. For potion-like materials,
+	 * compares the base potion type. For non-potion materials, uses type-only comparison.
+	 *
+	 * @param first first item
+	 * @param second second item
+	 * @param ignoreMetaData set of materials to ignore metadata for
+	 * @return true if items match according to the ignore-metadata rules
+	 */
+	private static boolean itemsMatchIgnoreMetadata(@Nullable ItemStack first, @Nullable ItemStack second, Set<Material> ignoreMetaData)
+	{
+		if (first == null || second == null)
+		{
+			return false;
+		}
+
+		if (!first.getType().equals(second.getType()))
+		{
+			return false;
+		}
+
+		if (!ignoreMetaData.contains(first.getType()))
+		{
+			return false;
+		}
+
+		// Metadata is being ignored. For potion-like materials, still compare base potion type.
+		if (isPotionLike(first.getType()))
+		{
+			return comparePotionType(first, second);
+		}
+
+		// For non-potion materials, type-only matching is sufficient
+		return true;
 	}
 
 
@@ -171,6 +253,43 @@ public class Utils
 		}
 
 		return currentValue;
+	}
+
+
+	/**
+	 * Turns a biome key such as "minecraft:snowy_taiga" into a readable "Snowy Taiga".
+	 * The namespace is dropped and snake_case becomes Title Case.
+	 *
+	 * @param key the namespaced (or plain) biome key.
+	 * @return a human-readable name, or an empty string for a blank key.
+	 */
+	public static String prettifyBiome(String key)
+	{
+		if (key == null || key.isBlank())
+		{
+			return "";
+		}
+
+		String path = key.contains(":") ? key.substring(key.indexOf(':') + 1) : key;
+		StringBuilder builder = new StringBuilder(path.length());
+
+		for (String word : path.split("_"))
+		{
+			if (word.isEmpty())
+			{
+				continue;
+			}
+
+			if (!builder.isEmpty())
+			{
+				builder.append(' ');
+			}
+
+			builder.append(Character.toUpperCase(word.charAt(0))).
+				append(word.substring(1).toLowerCase(Locale.ENGLISH));
+		}
+
+		return builder.toString();
 	}
 
 
@@ -964,5 +1083,43 @@ public class Utils
 		}
 
 		return returnString;
+	}
+
+
+	/**
+	 * Prefixes every line of the given text with a default colour code so the colour applies
+	 * to each rendered lore line, not only the first (each lore line is rendered
+	 * independently). A colour written at the start of a line still overrides the default,
+	 * because a later colour code wins over an earlier one. The text is returned unchanged
+	 * when the colour is blank or the text is empty.
+	 *
+	 * <p>The colour is applied before {@code Util.translateColorCodes}, so it uses the same
+	 * '&amp;' colour codes (or hex, e.g. {@code &#55FFFF}) as the challenge text itself.
+	 *
+	 * @param text the text whose lines should be coloured (may contain '\n').
+	 * @param color the default colour code; blank means no change.
+	 * @return the text with the colour prefixed to each line.
+	 */
+	public static String applyDefaultColor(String text, String color)
+	{
+		if (color == null || color.isBlank() || text == null || text.isEmpty())
+		{
+			return text;
+		}
+
+		String[] lines = text.split("\n", -1);
+		StringBuilder builder = new StringBuilder(text.length() + lines.length * color.length());
+
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (i > 0)
+			{
+				builder.append('\n');
+			}
+
+			builder.append(color).append(lines[i]);
+		}
+
+		return builder.toString();
 	}
 }

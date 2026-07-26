@@ -72,9 +72,25 @@ gui-settings:
   # Valid values are:
   #     'VISIBLE' - there will be no hidden challenges. All challenges will be viewable in GUI.
   #     'HIDDEN' - shows only deployed challenges.
-  #     'TOGGLEABLE' - there will be button in GUI that allows users to switch from ALL modes.
-  # TOGGLEABLE - Currently not implemented.
+  #     'TOGGLEABLE' - adds a button to the player GUI so each player can show or hide
+  #                    undeployed challenges themselves (defaults to shown).
   undeployed-view-mode: VISIBLE
+  #
+  # Allow players to open the challenges GUI without being on their island.
+  # Note: Challenges completion still requires being on the island when world protection is enabled.
+  open-anywhere: false
+  #
+  # Default colour applied to every line of a challenge's own description text, so you
+  # do not have to prefix each challenge with the same colour. Uses MiniMessage tags,
+  # including hex (e.g. '<white>', '<#55FFFF>' or '<color:#55FFFF>'). Legacy '&' codes
+  # (e.g. '&b' or '&#55FFFF') also still work. Leave empty for no default. A colour
+  # written in the description itself still overrides this. Does not affect
+  # per-challenge locale overrides.
+  description-color: ''
+  #
+  # Default colour applied to every line of a challenge's own reward text (both first-time
+  # and repeat reward text). Same format as description-color. Leave empty for no default.
+  reward-text-color: ''
   #
   # This allows to change default locked level icon. This option may be
   # overwritten by each challenge level. If challenge level has specified
@@ -91,6 +107,12 @@ store-island-data: true
 # reset an island or if users are kicked or leave a team. Prevents exploiting the
 # challenges by doing them repeatedly.
 reset-challenges: true
+#
+# This option indicates if undeployed challenges should be counted towards level completion.
+# Disabling this option will make it so that only deployed challenges are counted, so an
+# undeployed challenge will not block a level from being completed.
+# Default: true
+include-undeployed: true
 #
 # Broadcast 1st time challenge completion messages to all players.
 # Change to false if the spam becomes too much.

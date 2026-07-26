@@ -481,6 +481,14 @@ challenges:
         name: <white><bold>重複獎勵金錢
         description: "<gray>允許你變更挑戰的\n<gray>重複獎勵金錢。"
         value: <gray>目前值：<yellow>[number]
+      reward_chance:
+        name: <white><bold>獎勵機率
+        description: |-
+          <gray>完成挑戰時發放物質獎勵的
+          <gray>機率百分比（1-100）。
+          <dark_gray>物品、金錢和經驗共用一次判定。
+          <dark_gray>指令一定會執行。
+        value: <gray>機率：<yellow>[number]%
       reward_commands:
         name: <white><bold>獎勵指令
         description: "<gray>指定獎勵指令。\n<dark_gray>提示：\n<dark_gray>指令不需要前導 `/` 因為它會\n<dark_gray>自動套用。\n<dark_gray>預設情況下，指令由伺服器執行。\n<dark_gray>但是，在開頭新增 `[SELF]` 將導致\n<dark_gray>由玩家執行指令。\n<dark_gray>它還支援佔位符 `[player]` 將被\n<dark_gray>取代為完成挑戰的玩家名稱。"
@@ -496,8 +504,12 @@ challenges:
         disabled: <red>已禁用
       repeat_count:
         name: <white><bold>重複計數
-        description: "<gray>允許你變更挑戰的\n<gray>重複次數。"
+        description: |-
+            <gray>允許你變更挑戰的
+            <gray>重複次數。
+            <gray>設為 0 表示無限次重複。
         value: <gray>目前值：<yellow>[number]
+        value-infinite: "<gray>目前值：<yellow>[number] <gray>（無限）"
       cool_down:
         name: <white><bold>冷卻
         description: "<gray>允許你變更冷卻\n<gray>期間（以秒為單位）必須經過\n<gray>可重複挑戰完成之間。"
@@ -711,6 +723,48 @@ challenges:
         name: <white><bold>搜尋
         description: "<gray>允許你搜尋\n<gray>使用文字輸入值的元素。"
         search: <aqua>值：[value]
+      toggle-undeployed:
+          name: "<white><bold>未部署的挑戰"
+          shown: |-
+              <gray>未部署的挑戰目前
+              <gray><green>顯示<gray>。
+          hidden: |-
+              <gray>未部署的挑戰目前
+              <gray><red>隱藏<gray>。
+      required_biomes:
+          name: "<white><bold>所需生態域"
+          description: |-
+              <gray>玩家必須站在這些生態域
+              <gray>之一中才能完成此
+              <gray>島嶼挑戰。
+          title: "<gray>生態域："
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>無需特定生態域（任何生態域）。"
+      reward_island_level:
+          name: "<white><bold>獎勵島嶼等級"
+          description: |-
+              <gray>允許你變更獎勵的島嶼等級。
+              <gray>需要 Level 插件。
+          value: "<gray>目前值：<yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>重複獎勵島嶼等級"
+          description: |-
+              <gray>允許你變更挑戰重複完成時
+              <gray>獎勵的島嶼等級。
+              <gray>需要 Level 插件。
+          value: "<gray>目前值：<yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>隨處開啟 GUI"
+          description: |-
+              <gray>允許玩家在任何地方開啟挑戰 GUI。
+              <gray>受保護時，完成挑戰仍需
+              <gray>身處島嶼上。
+          enabled: "<dark_green>已啟用"
+          disabled: "<red>已禁用"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>生態域 ID：[id]"
+          selected: "<dark_green>已選擇"
     descriptions:
       admin:
         save: '保存幷返回上一級菜單'
@@ -859,6 +913,8 @@ challenges:
             search-radius: <gray>不超過 <yellow>[number] <gray>米
             warning-block: <yellow>方塊將被 <red>移除
             warning-entity: <yellow>實體將被 <red>移除
+            biomes-title: "<gray><bold>所需生態域："
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: "[items]\n[warning]"
             item-title: <gray><bold>所需物品：
@@ -992,6 +1048,7 @@ challenges:
       challenge-selector: <black><bold>挑戰選擇器
       statistic-selector: <black><bold>統計資料選擇器
       environment-selector: <black><bold>環境選擇器
+      biome-selector: "<black><bold>生態域選擇器"
     tips:
       click-to-select: <yellow>按一下 <gray>以選擇。
       click-to-choose: <yellow>按一下 <gray>以選擇。
@@ -1059,6 +1116,7 @@ challenges:
     you-completed-challenge: '<dark_green>你已經完成了 [value] <reset><dark_green>挑戰!'
     you-repeated-challenge: '<dark_green>你已經重複完成了 [value] <reset><dark_green>挑戰!'
     you-repeated-challenge-multiple: '<dark_green>你重複完成了 [value] <reset><dark_green>挑戰 [count] 次!'
+    no-reward-this-time: "<gray>運氣不佳——這次沒有獎勵！"
     you-completed-level: '<dark_green>你完成了 [value] <reset><dark_green>級別!'
     name-has-completed-challenge: '<dark_purple>[name] 已完成 [value] <reset><dark_purple>挑戰!'
     name-has-completed-level: '<dark_purple>[name] 已完成 [value] <reset><dark_purple>挑戰級別!'
@@ -1125,6 +1183,7 @@ challenges:
     no-team: <red>這是團隊挑戰。你必須有團隊才能完成它！
     insufficient-team: <red>此團隊挑戰需要 [number] 個團隊成員在線。只有 [online] 在線。
     member-missing-share: <red>[name] 沒有他們的份額（[amount] x [item]）用於此團隊挑戰。
+    wrong-biome: "<red>你必須站在 [biome] 生態域中才能完成此挑戰！"
   materials:
     any: '任何 '
     all_hanging_signs:
@@ -1141,7 +1200,7 @@ challenges:
     input-number: <yellow>請在聊天中輸入數字。
     input-seconds: <yellow>請在聊天中輸入秒數。
     numeric-only: <red>給定的 [value] 不是數字！
-    not-valid-value: <red>給定的數字 [value] 無效。它必須大於 [min] 且小於 [max]！
+    not-valid-value: "<red>輸入的數字 [value] 無效。必須在 [min] 到 [max] 之間（含邊界值）。"
     user-data-removed: <green>所有 [gamemode] 的使用者資料已從資料庫中清除。
     confirm-user-data-deletion: <yellow>請確認你想清除 [gamemode] 的使用者資料庫。
     challenge-data-removed: <green>所有 [gamemode] 的挑戰資料已從資料庫中清除。
@@ -1179,6 +1238,8 @@ challenges:
     write-search: <yellow>請輸入搜尋值。（輸入「取消」退出）
     search-updated: <green>搜尋值已更新。
     enter-formula: "<green>輸入使用 PAPI 佔位符和符號 =,<>,<+,>=, ==, !=, AND, OR 的公式。\n<green>範例：<gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>在聊天中輸入'<green>confirm<gray>'以繼續，或輸入'<red>cancel<gray>'以取消。"
+    input-repeat-count: "<yellow>請在聊天中輸入重複次數。輸入 0 表示無限次。"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

@@ -490,6 +490,14 @@ challenges:
         name: <white><bold>Деньги повторной награды
         description: "<gray>Позволяет изменить деньги повторной\n<gray>награды для испытания."
         value: '<gray>Текущее значение: <yellow>[number]'
+      reward_chance:
+        name: <white><bold>Шанс награды
+        description: |-
+          <gray>Шанс в процентах (1-100), что за выполнение
+          <gray>будут выданы материальные награды.
+          <dark_gray>Предметы, деньги и опыт используют один бросок.
+          <dark_gray>Команды выполняются всегда.
+        value: '<gray>Шанс: <yellow>[number]%'
       reward_commands:
         name: <white><bold>Команды награды
         description: "<gray>Задает команды награды.\n<dark_gray>Подсказка:\n<dark_gray>Команда не требует начального `/` так как она\n<dark_gray>применяется автоматически.\n<dark_gray>По умолчанию команды выполняются сервером.\n<dark_gray>Однако добавление `[SELF]` в начало приведет к\n<dark_gray>выполнению команды игроком.\n<dark_gray>Она также поддерживает заполнитель `[player]` который будет\n<dark_gray>заменен на имя игрока который завершил испытание."
@@ -505,8 +513,12 @@ challenges:
         disabled: <red>Отключено
       repeat_count:
         name: <white><bold>Количество повторений
-        description: "<gray>Позволяет изменить количество повторений\n<gray>для испытания."
+        description: |-
+            <gray>Позволяет изменить количество повторений
+            <gray>для испытания.
+            <gray>Установите 0 для неограниченных повторений.
         value: '<gray>Текущее значение: <yellow>[number]'
+        value-infinite: "<gray>Текущее значение: <yellow>[number] <gray>(неограниченно)"
       cool_down:
         name: <white><bold>Перезагрузка
         description: "<gray>Позволяет изменить период перезагрузки\n<gray>(в секундах) который должен пройти\n<gray>между завершениями повторяемого испытания."
@@ -720,6 +732,48 @@ challenges:
         name: <white><bold>Поиск
         description: "<gray>Позволяет искать элемент\n<gray>используя значение ввода текста."
         search: '<aqua>Значение: [value]'
+      toggle-undeployed:
+          name: "<white><bold>Неактивированные испытания"
+          shown: |-
+              <gray>Неактивированные испытания сейчас
+              <gray><green>показаны<gray>.
+          hidden: |-
+              <gray>Неактивированные испытания сейчас
+              <gray><red>скрыты<gray>.
+      required_biomes:
+          name: "<white><bold>Требуемые биомы"
+          description: |-
+              <gray>Игрок должен находиться в одном
+              <gray>из этих биомов, чтобы выполнить это
+              <gray>островное испытание.
+          title: "<gray>Биомы: "
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "<gray>Биомы не требуются (любой биом)."
+      reward_island_level:
+          name: "<white><bold>Уровень острова в награду"
+          description: |-
+              <gray>Позволяет изменить награду уровнем острова.
+              <gray>Требуется аддон Level.
+          value: "<gray>Текущее значение: <yellow>[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>Уровень острова за повторение"
+          description: |-
+              <gray>Позволяет изменить награду уровнем
+              <gray>острова за повторение испытания.
+              <gray>Требуется аддон Level.
+          value: "<gray>Текущее значение: <yellow>[number]"
+      open_anywhere:
+          name: "<white><bold>Открывать GUI где угодно"
+          description: |-
+              <gray>Позволяет игрокам открывать GUI испытаний
+              <gray>откуда угодно. Для выполнения по-прежнему нужно
+              <gray>находиться на острове, если включена защита.
+          enabled: "<dark_green>Включено"
+          disabled: "<red>Отключено"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "<gray>ID биома: [id]"
+          selected: "<dark_green>Выбрано"
     descriptions:
       admin:
         input: Открыть текстовое поле ввода.
@@ -1005,6 +1059,8 @@ challenges:
             search-radius: <gray>Не дальше <yellow>[number] <gray>метров
             warning-block: <yellow>Блоки будут <red>удалены
             warning-entity: <yellow>Сущности будут <red>удалены
+            biomes-title: "<gray><bold>Требуемые биомы:"
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: "[items]\n[warning]"
             item-title: '<gray><bold>Требуемые предметы:'
@@ -1136,6 +1192,7 @@ challenges:
       challenge-selector: <black><bold>Выбор испытания
       statistic-selector: <black><bold>Выбор статистики
       environment-selector: <black><bold>Выбор измерения
+      biome-selector: "<black><bold>Выбор биома"
     tips:
       click-to-select: <yellow>Нажмите <gray>чтобы выбрать.
       click-to-choose: <yellow>Нажмите <gray>чтобы выбрать.
@@ -1205,6 +1262,7 @@ challenges:
     you-completed-challenge: "<dark_green>Вы завершили [value] <reset><dark_green>челлендж!"
     you-repeated-challenge: "<dark_green>Ты перепрошел [value] <reset><dark_green>челлендж!"
     you-repeated-challenge-multiple: "<dark_green>Вы перепрошли [value] <reset><dark_green>челлендж [count] раз!"
+    no-reward-this-time: "<gray>Удача не на вашей стороне — в этот раз без награды!"
     you-completed-level: "<dark_green>Вы завершили [value] <reset><dark_green>уровень!"
     name-has-completed-challenge: "<dark_purple>[name] завершил [value] <reset><dark_purple>челлендж!"
     name-has-completed-level: "<dark_purple>[name] завершил [value] <reset><dark_purple>уровень!"
@@ -1273,6 +1331,7 @@ challenges:
     no-team: <red>Это командное испытание. Вам нужно иметь команду чтобы завершить его!
     insufficient-team: <red>Это командное испытание требует [number] членов команды онлайн. Только [online] онлайн.
     member-missing-share: <red>[name] не имеет их доли ([amount] x [item]) для этого командного испытания.
+    wrong-biome: "<red>Вы должны находиться в биоме [biome], чтобы выполнить это испытание!"
   materials:
     any: 'Любой '
     all_hanging_signs:
@@ -1289,7 +1348,7 @@ challenges:
     input-number: <yellow>Пожалуйста введите число в чат.
     input-seconds: <yellow>Пожалуйста введите количество секунд в чат.
     numeric-only: <red>Введенное [value] не является числом!
-    not-valid-value: <red>Введенное число [value] не действительно. Оно должно быть больше [min] и меньше [max]!
+    not-valid-value: "<red>Введённое число [value] недопустимо. Оно должно быть от [min] до [max] включительно."
     user-data-removed: <green>Все данные пользователя для [gamemode] были удалены из базы данных.
     confirm-user-data-deletion: <yellow>Пожалуйста подтвердите что вы хотите очистить базу данных пользователя для [gamemode].
     challenge-data-removed: <green>Все данные испытаний для [gamemode] были удалены из базы данных.
@@ -1327,6 +1386,8 @@ challenges:
     write-search: <yellow>Пожалуйста введите значение поиска. (Введите 'cancel' чтобы выйти)
     search-updated: <green>Значение поиска обновлено.
     enter-formula: "<green>Введите формулу которая использует только заполнители PAPI и символы =,<>,<+,>=, ==, !=, AND, OR.\n<green>Пример: <gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100"
+    confirm-instruction: "<gray>Введите '<green>confirm<gray>' в чат для продолжения или '<red>cancel<gray>' для отмены."
+    input-repeat-count: "<yellow>Пожалуйста, введите количество повторений в чат. Введите 0 для неограниченных повторений."
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

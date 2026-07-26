@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.bukkit.Fluid;
 import org.bukkit.Material;
@@ -78,6 +79,15 @@ public class IslandRequirements extends Requirements
      */
     @Expose
     private int searchRadius = 10;
+
+    /**
+     * Namespaced keys (e.g. "minecraft:plains") of biomes the player must be standing in to
+     * complete the challenge. Stored as key strings rather than Biome objects so serialization
+     * is version-robust (Biome is a registry-backed type) and unknown biomes simply never match.
+     * Empty means no biome restriction.
+     */
+    @Expose
+    private Set<String> requiredBiomes = new HashSet<>();
 
     // ---------------------------------------------------------------------
     // Section: Getters and Setters
@@ -182,6 +192,25 @@ public class IslandRequirements extends Requirements
         this.searchRadius = searchRadius;
     }
 
+
+    /**
+     * @return the namespaced keys of biomes the player must stand in (empty for no restriction).
+     */
+    public Set<String> getRequiredBiomes() {
+        if (this.requiredBiomes == null) {
+            this.requiredBiomes = new HashSet<>();
+        }
+        return requiredBiomes;
+    }
+
+
+    /**
+     * @param requiredBiomes the required biome keys to set.
+     */
+    public void setRequiredBiomes(Set<String> requiredBiomes) {
+        this.requiredBiomes = requiredBiomes;
+    }
+
     /**
      * Method isValid returns if given requirement data is valid or not.
      *
@@ -215,6 +244,7 @@ public class IslandRequirements extends Requirements
         clone.setRemoveEntities(this.removeEntities);
 
         clone.setSearchRadius(this.searchRadius);
+        clone.setRequiredBiomes(new HashSet<>(this.getRequiredBiomes()));
 
         return clone;
     }

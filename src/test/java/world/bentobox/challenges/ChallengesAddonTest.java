@@ -12,6 +12,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.mockito.ArgumentCaptor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,6 +35,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.UnsafeValues;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -360,6 +363,50 @@ class ChallengesAddonTest {
     @Test
     void testGetLevelAddon() {
         assertNull(addon.getLevelAddon());
+    }
+
+    @Test
+    void testPlaceholderCompletedPercentRegistered() {
+        addon.onLoad();
+        when(plugin.isEnabled()).thenReturn(true);
+        addon.setState(State.LOADED);
+
+        // Mock the world
+        World world = mock(World.class);
+        when(gameMode.getOverWorld()).thenReturn(world);
+
+        addon.onEnable();
+
+        // Capture every registered placeholder name; assert the one under test is present without
+        // pinning the exact total (which changes whenever any placeholder is added or removed).
+        ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
+        verify(phm, org.mockito.Mockito.atLeastOnce()).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
+
+        List<String> names = nameCaptor.getAllValues();
+        assertTrue(names.contains("challenges_completed_percent"),
+            "Placeholder 'challenges_completed_percent' was not registered. Registered: " + names);
+    }
+
+    @Test
+    void testPlaceholderLatestLevelCompletedPercentRegistered() {
+        addon.onLoad();
+        when(plugin.isEnabled()).thenReturn(true);
+        addon.setState(State.LOADED);
+
+        // Mock the world
+        World world = mock(World.class);
+        when(gameMode.getOverWorld()).thenReturn(world);
+
+        addon.onEnable();
+
+        // Capture every registered placeholder name; assert the one under test is present without
+        // pinning the exact total (which changes whenever any placeholder is added or removed).
+        ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
+        verify(phm, org.mockito.Mockito.atLeastOnce()).registerPlaceholder(any(GameModeAddon.class), nameCaptor.capture(), any());
+
+        List<String> names = nameCaptor.getAllValues();
+        assertTrue(names.contains("challenges_latest_level_completed_percent"),
+            "Placeholder 'challenges_latest_level_completed_percent' was not registered. Registered: " + names);
     }
 
 }

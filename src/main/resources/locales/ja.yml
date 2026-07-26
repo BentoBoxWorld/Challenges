@@ -65,6 +65,7 @@ challenges:
       challenge-selector: チャレンジセレクター
       statistic-selector: 統計セレクター
       environment-selector: 環境セレクター
+      biome-selector: "バイオームセレクター"
     buttons:
       free-challenges:
         name: 無料の課題
@@ -519,6 +520,14 @@ challenges:
           繰り返しを変更できます
           チャレンジにお金に報いる。
         value: 現在の値：[number]
+      reward_chance:
+        name: 報酬確率
+        description: |-
+          達成時に物質的な報酬が与えられる
+          確率（1-100）です。
+          アイテム、お金、経験値は1回の抽選で決まります。
+          コマンドは常に実行されます。
+        value: 確率：[number]%
       reward_commands:
         name: 報酬コマンド
         description: |-
@@ -555,7 +564,9 @@ challenges:
         description: |-
           リピート数を変更できます
           挑戦のために。
+          0 に設定すると無制限に繰り返せます。
         value: 現在の値：[number]
+        value-infinite: "現在の値：[number]（無制限）"
       cool_down:
         name: クールダウン
         description: |-
@@ -889,6 +900,48 @@ challenges:
         description: "<gray>チャレンジライブラリを\n<gray>言語でフィルタリングします。"
         current: '<gray>表示中: <yellow>[lang]'
         all: すべて
+      toggle-undeployed:
+          name: "<white><bold>未デプロイのチャレンジ"
+          shown: |-
+              <gray>未デプロイのチャレンジは
+              <gray>現在<green>表示<gray>されています。
+          hidden: |-
+              <gray>未デプロイのチャレンジは
+              <gray>現在<red>非表示<gray>です。
+      required_biomes:
+          name: "<white><bold>必要なバイオーム"
+          description: |-
+              この島チャレンジを完了するには、
+              プレイヤーがこれらのバイオームの
+              いずれかにいる必要があります。
+          title: "バイオーム："
+          list: " <dark_gray>- <yellow>[biome]"
+          none: "必要なバイオームはありません（任意のバイオーム）。"
+      reward_island_level:
+          name: "<white><bold>報酬の島レベル"
+          description: |-
+              報酬の島レベルを変更できます。
+              Levelアドオンが必要です。
+          value: "現在の値：[number]"
+      repeat_reward_island_level:
+          name: "<white><bold>リピート報酬の島レベル"
+          description: |-
+              チャレンジのリピート報酬の
+              島レベルを変更できます。
+              Levelアドオンが必要です。
+          value: "現在の値：[number]"
+      open_anywhere:
+          name: "<white><bold>どこでもGUIを開く"
+          description: |-
+              プレイヤーがどこからでもチャレンジGUIを
+              開けるようにします。保護されている場合、
+              完了には島にいる必要があります。
+          enabled: "<dark_green>有効"
+          disabled: "<red>無効"
+      biome:
+          name: "<white><bold>[biome]"
+          description: "バイオームID：[id]"
+          selected: "<dark_green>選択"
     tips:
       click-to-select: クリックして選択します。
       click-to-choose: クリックして選択します。
@@ -985,6 +1038,8 @@ challenges:
             search-radius: '[number]メートル以下'
             warning-block: ブロックが削除されます
             warning-entity: エンティティは削除されます
+            biomes-title: "<gray><bold>必要なバイオーム："
+            biome-value: "  <gray>- <yellow>[biome]"
           inventory:
             lore: |-
               [items]
@@ -1077,7 +1132,7 @@ challenges:
     input-number: チャットに番号を入力してください。
     input-seconds: チャットに数秒を入力してください。
     numeric-only: '<red>与えられた[value]は数字ではありません！'
-    not-valid-value: '<red>指定された番号[value]は無効です。 [min]よりも大きく、[max]未満でなければなりません！'
+    not-valid-value: "<red>指定された数値 [value] は無効です。[min] から [max] までの範囲（両端を含む）で入力してください。"
     user-data-removed: '<green>[gamemode]のすべてのユーザーデータは、データベースからクリアされています。'
     confirm-user-data-deletion: '[gamemode]のユーザーデータベースをクリアすることを確認してください。'
     challenge-data-removed: '<green>[gamemode]のすべてのチャレンジデータは、データベースからクリアされています。'
@@ -1117,6 +1172,8 @@ challenges:
     enter-formula: |-
       <green>Papiプレースホルダーとシンボルを使用する式を入力します=、<>、<+、> =、==、！=、および、またはのみ。
       <green>例：<gray>％my_lifetime_count％> = 1000および％Island_Level％> = 100
+    confirm-instruction: "<gray>続行するにはチャットに '<green>confirm<gray>' と入力し、中止するには '<red>cancel<gray>' と入力してください。"
+    input-repeat-count: "チャットに繰り返し回数を入力してください。0 を入力すると無制限になります。"
   titles:
     challenge-title: 正常に完了しました
     challenge-subtitle: '[friendlyName]'
@@ -1135,6 +1192,7 @@ challenges:
     you-completed-challenge: ＆2 [value]<reset><dark_green>チャレンジを完了しました！
     you-repeated-challenge: ＆2 [value]<reset><dark_green>チャレンジを繰り返しました！
     you-repeated-challenge-multiple: ＆2 [value]<reset><dark_green>チャレンジ [count]回繰り返しました！
+    no-reward-this-time: "<gray>運が味方しませんでした — 今回は報酬なしです！"
     you-completed-level: ＆2 [value]<reset><dark_green>レベルを完了しました！
     name-has-completed-challenge: ＆5 [name]は[value]＆r＆5チャレンジ を完了しました！
     name-has-completed-level: ＆5 [name]は[value]＆r＆5レベルを完了しました！
@@ -1183,6 +1241,7 @@ challenges:
     no-team: <red>これはチームチャレンジです。完了するにはチームが必要です!
     insufficient-team: <red>このチームチャレンジは[number]人のチームメンバーがオンラインである必要があります。[online]人だけがオンラインです。
     member-missing-share: <red>[name]はこのチームチャレンジのために自分のシェア([amount] x [item])を持っていません。
+    wrong-biome: "<red>このチャレンジを完了するには [biome] バイオームにいる必要があります！"
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:

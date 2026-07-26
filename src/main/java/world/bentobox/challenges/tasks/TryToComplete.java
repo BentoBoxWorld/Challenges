@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.UUID;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -104,6 +105,11 @@ public class TryToComplete
      * Variable that will be used to avoid multiple empty object generation.
      */
     private final ChallengeResult emptyResult = new ChallengeResult();
+
+    /**
+     * Random number generator for reward chance rolls.
+     */
+    private final Random random = new Random();
 
     // ---------------------------------------------------------------------
     // Section: Builder
@@ -253,37 +259,54 @@ public class TryToComplete
         // If challenge was not completed then reward items for completing it first time.
         if (!result.wasCompleted())
         {
+            // Roll the reward chance once for all recipients and item types
+            boolean rewardSuccess = this.shouldRewardItems();
+
             // Reward every recipient (all present members for a team challenge, else just the user).
             for (User recipient : this.getRewardRecipients())
             {
-                // Item rewards
-                for (ItemStack reward : this.challenge.getRewardItems())
+                if (rewardSuccess)
                 {
-                    // Clone is necessary because otherwise it will chane reward itemstack
-                    // amount.
-                    recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                    recipient.getWorld().dropItem(recipient.getLocation(), v));
+                    // Item rewards
+                    for (ItemStack reward : this.challenge.getRewardItems())
+                    {
+                        // Clone is necessary because otherwise it will chane reward itemstack
+                        // amount.
+                        recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                        recipient.getWorld().dropItem(recipient.getLocation(), v));
+                    }
+
+                    // Money Reward
+                    if (this.addon.isEconomyProvided())
+                    {
+                        this.addon.getEconomyProvider().deposit(recipient, this.challenge.getRewardMoney());
+                    }
+
+                    // Experience Reward
+                    recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
                 }
 
-                // Money Reward
-                if (this.addon.isEconomyProvided())
-                {
-                    this.addon.getEconomyProvider().deposit(recipient, this.challenge.getRewardMoney());
-                }
-
-                // Experience Reward
-                recipient.getPlayer().giveExp(this.challenge.getRewardExperience());
-
-                // Run commands
+                // Run commands (not gated by reward chance)
                 this.runCommands(this.challenge.getRewardCommands(), recipient);
             }
+
+            // Island Level Reward. The island is shared, so this is applied once per
+            // completion, not once per team member.
+            this.rewardIslandLevel(this.challenge.getRewardIslandLevel());
 
             // Send message about first completion only if it is completed only once.
             if (result.getFactor() == 1)
             {
-                Utils.sendMessage(this.user, 
+                Utils.sendMessage(this.user,
                         this.world, Constants.MESSAGES + "you-completed-challenge", Constants.PARAMETER_VALUE,
                         this.challenge.getFriendlyName());
+            }
+
+            // Tell recipients the chance roll failed, so silence is not mistaken for a missing reward.
+            if (!rewardSuccess && this.hasFirstTimeRewards())
+            {
+                this.getRewardRecipients().forEach(recipient -> Utils.sendMessage(recipient,
+                        this.world, Constants.MESSAGES + "no-reward-this-time"));
             }
 
             if (this.addon.getChallengesSettings().isBroadcastMessages())
@@ -312,39 +335,63 @@ public class TryToComplete
         {
             int rewardFactor = result.getFactor() - (result.wasCompleted() ? 0 : 1);
 
+            List<User> missedRecipients = new ArrayList<>();
+
             // Reward every recipient (all present members for a team challenge, else just the user).
             for (User recipient : this.getRewardRecipients())
             {
-                // Item Repeat Rewards
-                for (ItemStack reward : this.challenge.getRepeatItemReward())
-                {
-                    // Clone is necessary because otherwise it will chane reward itemstack
-                    // amount.
+                // One roll per completion instance gates that instance's item, money and XP rewards
+                // together. With the default chance of 100 every roll succeeds, so the summed
+                // rewards match the previous behaviour exactly.
+                int rewardedCount = 0;
 
-                    for (int i = 0; i < rewardFactor; i++)
+                for (int i = 0; i < rewardFactor; i++)
+                {
+                    if (!this.shouldRewardItems())
                     {
+                        continue;
+                    }
+
+                    rewardedCount++;
+
+                    // Item Repeat Rewards
+                    for (ItemStack reward : this.challenge.getRepeatItemReward())
+                    {
+                        // Clone is necessary because otherwise it will chane reward itemstack
+                        // amount.
                         recipient.getInventory().addItem(reward.clone()).forEach((k, v) ->
                         recipient.getWorld().dropItem(recipient.getLocation(), v));
                     }
                 }
 
-                // Money Repeat Reward
-                if (this.addon.isEconomyProvided())
+                if (rewardedCount > 0)
                 {
-                    this.addon.getEconomyProvider().deposit(recipient,
-                            this.challenge.getRepeatMoneyReward() * rewardFactor);
+                    // Money Repeat Reward
+                    if (this.addon.isEconomyProvided())
+                    {
+                        this.addon.getEconomyProvider().deposit(recipient,
+                                this.challenge.getRepeatMoneyReward() * rewardedCount);
+                    }
+
+                    // Experience Repeat Reward
+                    recipient.getPlayer().giveExp(
+                            this.challenge.getRepeatExperienceReward() * rewardedCount);
+                }
+                else if (this.hasRepeatRewards())
+                {
+                    missedRecipients.add(recipient);
                 }
 
-                // Experience Repeat Reward
-                recipient.getPlayer().giveExp(
-                        this.challenge.getRepeatExperienceReward() * rewardFactor);
-
-                // Run commands
+                // Run commands (not gated by reward chance)
                 for (int i = 0; i < rewardFactor; i++)
                 {
                     this.runCommands(this.challenge.getRepeatRewardCommands(), recipient);
                 }
             }
+
+            // Island Level Repeat Reward. The island is shared, so this is applied once per
+            // completion, not once per team member.
+            this.rewardIslandLevel(this.challenge.getRepeatIslandLevel() * rewardFactor);
 
             if (result.getFactor() > 1)
             {
@@ -358,71 +405,130 @@ public class TryToComplete
                         this.world, Constants.MESSAGES + "you-repeated-challenge", Constants.PARAMETER_VALUE,
                         this.challenge.getFriendlyName());
             }
+
+            // Tell recipients whose every roll failed, so silence is not mistaken for a missing reward.
+            missedRecipients.forEach(recipient -> Utils.sendMessage(recipient,
+                    this.world, Constants.MESSAGES + "no-reward-this-time"));
         }
 
         // Mark as complete
         this.manager.setChallengeComplete(this.user, this.world, this.challenge, result.getFactor());
 
         // Check level completion for non-free challenges
-        if (!result.wasCompleted() &&
-                !this.challenge.getLevel().equals(ChallengesManager.FREE))
+        if (!result.wasCompleted())
         {
-            ChallengeLevel level = this.manager.getLevel(this.challenge);
+            ChallengeLevel level = this.manager.tryCompleteLevel(this.user, this.world, this.challenge);
 
-            if (level != null && !this.manager.isLevelCompleted(this.user, this.world, level))
+            if (level != null)
             {
-                if (this.manager.validateLevelCompletion(this.user, this.world, level))
+                // Item rewards
+                for (ItemStack reward : level.getRewardItems())
                 {
-                    // Item rewards
-                    for (ItemStack reward : level.getRewardItems())
-                    {
-                        // Clone is necessary because otherwise it will chane reward itemstack
-                        // amount.
-                        this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
-                        this.user.getWorld().dropItem(this.user.getLocation(), v));
-                    }
+                    // Clone is necessary because otherwise it will chane reward itemstack
+                    // amount.
+                    this.user.getInventory().addItem(reward.clone()).forEach((k, v) ->
+                    this.user.getWorld().dropItem(this.user.getLocation(), v));
+                }
 
-                    // Money Reward
-                    if (this.addon.isEconomyProvided())
-                    {
-                        this.addon.getEconomyProvider().deposit(this.user, level.getRewardMoney());
-                    }
+                // Money Reward
+                if (this.addon.isEconomyProvided())
+                {
+                    this.addon.getEconomyProvider().deposit(this.user, level.getRewardMoney());
+                }
 
-                    // Experience Reward
-                    this.user.getPlayer().giveExp(level.getRewardExperience());
+                // Experience Reward
+                this.user.getPlayer().giveExp(level.getRewardExperience());
 
-                    // Run commands
-                    this.runCommands(level.getRewardCommands());
+                // Island Level Reward
+                this.rewardIslandLevel(level.getRewardIslandLevel());
 
-                    Utils.sendMessage(this.user,
-                            this.world, Constants.MESSAGES + "you-completed-level", Constants.PARAMETER_VALUE,
-                            level.getFriendlyName());
+                // Run commands
+                this.runCommands(level.getRewardCommands());
 
-                    if (this.addon.getChallengesSettings().isBroadcastMessages())
-                    {
-                        Bukkit.getOnlinePlayers().stream().
-                        map(User::getInstance).forEach(user -> Utils.sendMessage(user,
-                                this.world,
-                                Constants.MESSAGES + "name-has-completed-level",
-                                Constants.PARAMETER_NAME, this.user.getName(),
-                                Constants.PARAMETER_VALUE, level.getFriendlyName()));
-                    }
+                Utils.sendMessage(this.user,
+                        this.world, Constants.MESSAGES + "you-completed-level", Constants.PARAMETER_VALUE,
+                        level.getFriendlyName());
 
-                    this.manager.setLevelComplete(this.user, this.world, level);
+                if (this.addon.getChallengesSettings().isBroadcastMessages())
+                {
+                    Bukkit.getOnlinePlayers().stream().
+                    map(User::getInstance).forEach(user -> Utils.sendMessage(user,
+                            this.world,
+                            Constants.MESSAGES + "name-has-completed-level",
+                            Constants.PARAMETER_NAME, this.user.getName(),
+                            Constants.PARAMETER_VALUE, level.getFriendlyName()));
+                }
 
-                    // sends title to player on level completion
-                    if (this.addon.getChallengesSettings().isShowCompletionTitle())
-                    {
-                        this.user.getPlayer().sendTitle(
-                                this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
-                                this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
-                                10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
-                    }
+                // sends title to player on level completion
+                if (this.addon.getChallengesSettings().isShowCompletionTitle())
+                {
+                    this.user.getPlayer().sendTitle(
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-title"), level),
+                            this.parseLevel(this.user.getTranslation("challenges.titles.level-subtitle"), level),
+                            10, this.addon.getChallengesSettings().getTitleShowtime(), 20);
                 }
             }
         }
 
         return result;
+    }
+
+
+    /**
+     * Checks if rewards should be given based on the challenge's reward chance.
+     * This method is protected to allow testing frameworks to override it.
+     * @return true if rewards should be given, false otherwise
+     */
+    protected boolean shouldRewardItems()
+    {
+        int chance = this.challenge.getRewardChance();
+        if (chance >= 100)
+        {
+            return true;
+        }
+        if (chance <= 0)
+        {
+            return false;
+        }
+        return this.random.nextInt(100) < chance;
+    }
+
+
+    /**
+     * @return true if the challenge has any first-time rewards that are gated by the reward chance.
+     */
+    private boolean hasFirstTimeRewards()
+    {
+        return !this.challenge.getRewardItems().isEmpty() ||
+                this.challenge.getRewardExperience() > 0 ||
+                this.challenge.getRewardMoney() > 0;
+    }
+
+
+    /**
+     * @return true if the challenge has any repeat rewards that are gated by the reward chance.
+     */
+    private boolean hasRepeatRewards()
+    {
+        return !this.challenge.getRepeatItemReward().isEmpty() ||
+                this.challenge.getRepeatExperienceReward() > 0 ||
+                this.challenge.getRepeatMoneyReward() > 0;
+    }
+
+
+    /**
+     * This method increases the completing user's island level via the Level addon.
+     * Does nothing if the Level addon is not present or the reward is 0.
+     * @param reward Number of island levels to add.
+     */
+    private void rewardIslandLevel(long reward)
+    {
+        if (this.addon.isLevelProvided() && reward != 0)
+        {
+            world.bentobox.level.Level levelAddon = this.addon.getLevelAddon();
+            levelAddon.setIslandLevel(this.world, this.user.getUniqueId(),
+                    levelAddon.getIslandLevel(this.world, this.user.getUniqueId()) + reward);
+        }
     }
 
 
@@ -1071,26 +1177,12 @@ public class TryToComplete
         for (ItemStack required : requiredItemList)
         {
             int amountToBeRemoved = required.getAmount() * factor;
-            List<ItemStack> itemsInInventory;
 
-            if (this.user.getInventory() == null)
-            {
-                // Sanity check. User always has inventory at this point of code.
-                itemsInInventory = Collections.emptyList();
-            }
-            else if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-            {
-                // Use collecting method that ignores item meta.
-                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).filter(i -> i.getType().equals(required.getType()))
-                        .collect(Collectors.toList());
-            }
-            else
-            {
-                // Use collecting method that compares item meta.
-                itemsInInventory = Arrays.stream(user.getInventory().getContents()).
-                        filter(Objects::nonNull).filter(i -> i.isSimilar(required)).collect(Collectors.toList());
-            }
+            // Use helper method that handles ignore-metadata logic including potion types.
+            List<ItemStack> itemsInInventory = Arrays.stream(user.getInventory().getContents()).
+                    filter(Objects::nonNull).
+                    filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
+                    toList();
 
             for (ItemStack itemStack : itemsInInventory)
             {
@@ -1196,6 +1288,21 @@ public class TryToComplete
         if (factor <= 0)
         {
             return emptyResult;
+        }
+
+        // Check biome requirement: the player must be standing in one of the required biomes.
+        Set<String> requiredBiomes = this.getIslandRequirements().getRequiredBiomes();
+
+        if (!requiredBiomes.isEmpty())
+        {
+            String currentBiome = this.user.getLocation().getBlock().getBiome().getKey().toString();
+
+            if (!requiredBiomes.contains(currentBiome))
+            {
+                Utils.sendMessage(this.user, this.world, Constants.ERRORS + "wrong-biome",
+                        "[biome]", Utils.prettifyBiome(currentBiome));
+                return emptyResult;
+            }
         }
 
         // Init location in player position.
@@ -1883,6 +1990,45 @@ public class TryToComplete
 
 
     /**
+     * Checks if two items match, considering the ignore-metadata setting. For potion-like materials
+     * that are in the ignore-metadata set, compares the base potion type while ignoring other metadata.
+     * For non-potion materials in the ignore-metadata set, uses type-only comparison. For materials
+     * not in the ignore-metadata set, uses full similarity comparison.
+     *
+     * @param candidate candidate item from inventory
+     * @param required required item template
+     * @param ignoreMetaData set of materials to ignore metadata for
+     * @return true if the items match
+     */
+    private static boolean itemsMatch(ItemStack candidate, ItemStack required, Set<Material> ignoreMetaData)
+    {
+        if (candidate == null || required == null)
+        {
+            return false;
+        }
+
+        if (!candidate.getType().equals(required.getType()))
+        {
+            return false;
+        }
+
+        // If metadata should not be ignored, use full similarity check
+        if (!ignoreMetaData.contains(required.getType()))
+        {
+            return candidate.isSimilar(required);
+        }
+
+        // Metadata is being ignored. For potion-like materials, still compare base potion type.
+        if (Utils.isPotionLike(required.getType()))
+        {
+            return Utils.comparePotionType(candidate, required);
+        }
+
+        // For non-potion materials, type-only matching is sufficient
+        return true;
+    }
+
+    /**
      * Counts how many of {@code required} a single player holds, honouring the challenge's
      * ignore-meta-data setting.
      *
@@ -1892,17 +2038,9 @@ public class TryToComplete
      */
     private int countInInventory(Player player, ItemStack required)
     {
-        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-        {
-            return Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.getType().equals(required.getType())).
-                    mapToInt(ItemStack::getAmount).sum();
-        }
-
         return Arrays.stream(player.getInventory().getContents()).
                 filter(Objects::nonNull).
-                filter(i -> i.isSimilar(required)).
+                filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
                 mapToInt(ItemStack::getAmount).sum();
     }
 
@@ -1922,22 +2060,10 @@ public class TryToComplete
             return 0;
         }
 
-        List<ItemStack> itemsInInventory;
-
-        if (this.getInventoryRequirements().getIgnoreMetaData().contains(required.getType()))
-        {
-            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.getType().equals(required.getType())).
-                    toList();
-        }
-        else
-        {
-            itemsInInventory = Arrays.stream(player.getInventory().getContents()).
-                    filter(Objects::nonNull).
-                    filter(i -> i.isSimilar(required)).
-                    toList();
-        }
+        List<ItemStack> itemsInInventory = Arrays.stream(player.getInventory().getContents()).
+                filter(Objects::nonNull).
+                filter(i -> itemsMatch(i, required, this.getInventoryRequirements().getIgnoreMetaData())).
+                toList();
 
         int toRemove = amount;
 

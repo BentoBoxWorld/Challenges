@@ -53,12 +53,16 @@
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- This allows to change between versions and snapshots. -->
-        <build.version>1.7.0</build.version>
+        <build.version>1.8.0</build.version>
         <build.number>-LOCAL</build.number>
         <!-- Sonar Cloud -->
         <sonar.projectKey>BentoBoxWorld_Challenges</sonar.projectKey>
         <sonar.organization>bentobox-world</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- The Gson data objects are bean-style boilerplate: accessors are intentionally
+             identical across Challenge, ChallengeLevel and ChallengesPlayerData, so exclude
+             them from copy-paste detection. -->
+        <sonar.cpd.exclusions>src/main/java/world/bentobox/challenges/database/object/*.java</sonar.cpd.exclusions>
     </properties>
 
     <profiles>

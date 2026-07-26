@@ -1775,6 +1775,111 @@ public class ChallengesManager
 
 
     /**
+     * This method attempts to complete a level for a user by validating all challenges
+     * in the level are complete. If the level is completable, it marks the level as complete
+     * and fires a LevelCompletedEvent.
+     *
+     * @param user User who completed the level.
+     * @param world World where level must be completed.
+     * @param challenge Challenge whose level should be checked.
+     * @return The completed ChallengeLevel if level was completed, null otherwise.
+     */
+    @Nullable
+    public ChallengeLevel tryCompleteLevel(User user, World world, Challenge challenge)
+    {
+        ChallengeLevel level = this.getCompletableLevel(user, world, challenge);
+        if (level != null)
+        {
+            this.setLevelComplete(user, world, level);
+        }
+        return level;
+    }
+
+
+    /**
+     * This method attempts to complete a level for a user via admin action.
+     * Similar to tryCompleteLevel but fires an admin LevelCompletedEvent.
+     *
+     * @param user User who had the level completed by admin.
+     * @param world World where level must be completed.
+     * @param challenge Challenge whose level should be checked.
+     * @return The completed ChallengeLevel if level was completed, null otherwise.
+     */
+    @Nullable
+    public ChallengeLevel tryCompleteLevelAdmin(User user, World world, Challenge challenge)
+    {
+        ChallengeLevel level = this.getCompletableLevel(user, world, challenge);
+        if (level != null)
+        {
+            this.setLevelCompleteAdmin(user, world, level);
+        }
+        return level;
+    }
+
+
+    /**
+     * Helper method that checks if a level is completable (all challenges done, not already
+     * completed, and not a free level).
+     *
+     * @param user User to check for.
+     * @param world World to check in.
+     * @param challenge Challenge whose level to check.
+     * @return The ChallengeLevel if completable, null otherwise.
+     */
+    @Nullable
+    private ChallengeLevel getCompletableLevel(User user, World world, Challenge challenge)
+    {
+        String levelID = challenge.getLevel();
+        if (levelID.equals(ChallengesManager.FREE))
+        {
+            return null;
+        }
+
+        ChallengeLevel level = this.getLevel(challenge);
+        if (level == null)
+        {
+            return null;
+        }
+
+        if (this.isLevelCompleted(user, world, level))
+        {
+            return null;
+        }
+
+        if (!this.validateLevelCompletion(user, world, level))
+        {
+            return null;
+        }
+
+        return level;
+    }
+
+
+    /**
+     * Helper method to set a level as complete by admin and fire an admin event.
+     *
+     * @param user User who had the level completed.
+     * @param world World where level was completed.
+     * @param level Level to mark as complete.
+     */
+    private void setLevelCompleteAdmin(User user, World world, ChallengeLevel level)
+    {
+        String storageID = this.getDataUniqueID(user, Util.getWorld(world));
+
+        this.setLevelComplete(storageID, level.getUniqueId());
+        this.addLogEntry(storageID, new LogEntry.Builder("COMPLETE_LEVEL").
+                data(USER_ID, user.getUniqueId().toString()).
+                data("level", level.getUniqueId()).build());
+
+        // Fire admin event that admin completes level
+        Bukkit.getPluginManager().callEvent(
+                new LevelCompletedEvent(level.getUniqueId(),
+                        user.getUniqueId(),
+                        true));
+    }
+
+
+    /**
      * This method returns LevelStatus object for given challenge level.
      * @param uniqueId UUID of user who need to be validated.
      * @param world World where level must be validated.

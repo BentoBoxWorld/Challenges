@@ -121,6 +121,7 @@ public class EditSettingsPanel extends CommonPanel
         panelBuilder.item(20, this.getSettingsButton(Button.REMOVE_COMPLETED));
         panelBuilder.item(29, this.getSettingsButton(Button.VISIBILITY_MODE));
         panelBuilder.item(30, this.getSettingsButton(Button.INCLUDE_UNDEPLOYED));
+        panelBuilder.item(32, this.getSettingsButton(Button.OPEN_ANYWHERE));
 
         panelBuilder.item(21, this.getSettingsButton(Button.LOCKED_LEVEL_ICON));
 
@@ -485,6 +486,22 @@ public class EditSettingsPanel extends CommonPanel
                 description.add("");
                 description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
             }
+            case OPEN_ANYWHERE -> {
+                description.add(this.user.getTranslation(reference +
+                    (this.settings.isOpenAnywhere() ? Constants.ENABLED_KEY : Constants.DISABLED_KEY)));
+
+                icon = new ItemStack(Material.ELYTRA);
+                clickHandler = (panel, user1, clickType, i) -> {
+                    this.settings.setOpenAnywhere(!this.settings.isOpenAnywhere());
+                    panel.getInventory().setItem(i, this.getSettingsButton(button).getItem());
+                    this.addon.saveSettings();
+                    return true;
+                };
+                glow = this.settings.isOpenAnywhere();
+
+                description.add("");
+                description.add(this.user.getTranslation(Constants.CLICK_TO_TOGGLE));
+            }
             default -> {
                 icon = new ItemStack(Material.PAPER);
                 clickHandler = null;
@@ -596,7 +613,11 @@ public class EditSettingsPanel extends CommonPanel
         /**
          * This allows to switch between different challenges visibility modes.
          */
-        VISIBILITY_MODE
+        VISIBILITY_MODE,
+        /**
+         * This allows players to open the GUI without being on their island.
+         */
+        OPEN_ANYWHERE
     }
 
 

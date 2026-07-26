@@ -102,6 +102,8 @@ public class ChallengesPanel extends CommonPanel
 
         panelBuilder.registerTypeBuilder("UNASSIGNED_CHALLENGES", this::createFreeChallengesButton);
 
+        panelBuilder.registerTypeBuilder("TOGGLE_UNDEPLOYED", this::createToggleUndeployedButton);
+
         panelBuilder.registerTypeBuilder("NEXT", this::createNextButton);
         panelBuilder.registerTypeBuilder("PREVIOUS", this::createPreviousButton);
 
@@ -114,14 +116,15 @@ public class ChallengesPanel extends CommonPanel
     {
         this.freeChallengeList = this.manager.getFreeChallenges(this.world);
 
-        if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
-        {
-            this.freeChallengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                this.manager.isChallengeComplete(this.user, this.world, challenge));
-        }
+        // Remove completed non-repeatable challenges if global setting is on OR per-challenge flag is set
+        final boolean globalRemoveCompleted = this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges();
+        this.freeChallengeList.removeIf(challenge -> !challenge.isRepeatable() &&
+            this.manager.isChallengeComplete(this.user, this.world, challenge) &&
+            (globalRemoveCompleted || challenge.isRemoveWhenCompleted()));
 
-        // Remove all undeployed challenges if VisibilityMode is set to Hidden.
-        if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
+        // Remove all undeployed challenges if they should be hidden (HIDDEN mode, or
+        // TOGGLEABLE mode with the player currently hiding them).
+        if (this.hideUndeployedChallenges())
         {
             this.freeChallengeList.removeIf(challenge -> !challenge.isDeployed());
         }
@@ -131,6 +134,21 @@ public class ChallengesPanel extends CommonPanel
         {
             this.freeChallengeList.removeIf(challenge -> challenge.isTeamChallenge() && challenge.isHideIfNoTeam());
         }
+    }
+
+
+    /**
+     * Whether undeployed challenges should be hidden from the viewing player right now.
+     * True when the visibility mode is HIDDEN, or when it is TOGGLEABLE and the player has
+     * chosen to hide them.
+     *
+     * @return {@code true} if undeployed challenges must be filtered out of the GUI.
+     */
+    private boolean hideUndeployedChallenges()
+    {
+        SettingsUtils.VisibilityMode mode = this.addon.getChallengesSettings().getVisibilityMode();
+        return mode == SettingsUtils.VisibilityMode.HIDDEN ||
+            (mode == SettingsUtils.VisibilityMode.TOGGLEABLE && !this.showUndeployed);
     }
 
 
@@ -155,14 +173,15 @@ public class ChallengesPanel extends CommonPanel
         {
             this.challengeList = this.manager.getLevelChallenges(this.lastSelectedLevel.getLevel(), true);
 
-            if (this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges())
-            {
-                this.challengeList.removeIf(challenge -> !challenge.isRepeatable() &&
-                    this.manager.isChallengeComplete(this.user, this.world, challenge));
-            }
+            // Remove completed non-repeatable challenges if global setting is on OR per-challenge flag is set
+            final boolean globalRemoveCompleted = this.addon.getChallengesSettings().isRemoveCompleteOneTimeChallenges();
+            this.challengeList.removeIf(challenge -> !challenge.isRepeatable() &&
+                this.manager.isChallengeComplete(this.user, this.world, challenge) &&
+                (globalRemoveCompleted || challenge.isRemoveWhenCompleted()));
 
-            // Remove all undeployed challenges if VisibilityMode is set to Hidden.
-            if (this.addon.getChallengesSettings().getVisibilityMode().equals(SettingsUtils.VisibilityMode.HIDDEN))
+            // Remove all undeployed challenges if they should be hidden (HIDDEN mode, or
+            // TOGGLEABLE mode with the player currently hiding them).
+            if (this.hideUndeployedChallenges())
             {
                 this.challengeList.removeIf(challenge -> !challenge.isDeployed());
             }
@@ -665,6 +684,78 @@ public class ChallengesPanel extends CommonPanel
     }
 
 
+    /**
+     * Creates the button that lets a player show or hide undeployed challenges when the
+     * visibility mode is TOGGLEABLE. In any other visibility mode there is nothing to toggle,
+     * so no button is shown (the slot falls back to the panel background).
+     *
+     * @param template the button template.
+     * @param slot the slot the button occupies.
+     * @return the toggle button, or {@code null} when the mode is not TOGGLEABLE.
+     */
+    @Nullable
+    private PanelItem createToggleUndeployedButton(@NonNull ItemTemplateRecord template, TemplatedPanel.ItemSlot slot)
+    {
+        // Only meaningful in TOGGLEABLE mode. In VISIBLE / HIDDEN there is nothing to toggle.
+        if (this.addon.getChallengesSettings().getVisibilityMode() != SettingsUtils.VisibilityMode.TOGGLEABLE)
+        {
+            return null;
+        }
+
+        PanelItemBuilder builder = new PanelItemBuilder();
+
+        if (template.icon() != null)
+        {
+            builder.icon(template.icon().clone());
+        }
+
+        if (template.title() != null)
+        {
+            builder.name(this.user.getTranslation(this.world, template.title()));
+        }
+
+        if (template.description() != null && !template.description().isBlank())
+        {
+            builder.description(this.user.getTranslation(this.world, template.description()));
+        }
+
+        // Show whether undeployed challenges are currently shown or hidden for this player.
+        builder.description(this.user.getTranslation(this.world,
+            this.showUndeployed ?
+                Constants.BUTTON + "toggle-undeployed.shown" :
+                Constants.BUTTON + "toggle-undeployed.hidden"));
+
+        // Add ClickHandler: flip the preference, reset paging, and rebuild.
+        builder.clickHandler((panel, user, clickType, i) ->
+        {
+            this.showUndeployed = !this.showUndeployed;
+            // The visible challenge count changes, so the current page may be out of range.
+            this.challengeIndex = 0;
+            this.build();
+
+            // Always return true.
+            return true;
+        });
+
+        // Collect tooltips.
+        List<String> tooltips = template.actions().stream().
+            filter(action -> action.tooltip() != null).
+            map(action -> this.user.getTranslation(this.world, action.tooltip())).
+            filter(text -> !text.isBlank()).
+            collect(Collectors.toCollection(() -> new ArrayList<>(template.actions().size())));
+
+        // Add tooltips.
+        if (!tooltips.isEmpty())
+        {
+            // Empty line and tooltips.
+            builder.description("");
+            builder.description(tooltips);
+        }
+
+        return builder.build();
+    }
+
+
     @Nullable
     private PanelItem createNextButton(@NonNull ItemTemplateRecord template, TemplatedPanel.ItemSlot slot)
     {
@@ -901,4 +992,12 @@ public class ChallengesPanel extends CommonPanel
      * This indicates last selected level.
      */
     private LevelStatus lastSelectedLevel;
+
+    /**
+     * Per-session preference for the TOGGLEABLE visibility mode: whether this player
+     * currently wants to see undeployed challenges. Defaults to {@code true} (shown), so
+     * TOGGLEABLE behaves like VISIBLE until the player hides them with the toggle button.
+     * Only consulted when the visibility mode is TOGGLEABLE.
+     */
+    private boolean showUndeployed = true;
 }

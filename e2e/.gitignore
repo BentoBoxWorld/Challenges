@@ -1,0 +1,12 @@
+# Plugwright server run directory (Paper jar, worlds, downloaded plugins, logs)
+run/
+# Cached dependency jars (BentoBox, BSkyBlock) downloaded by build.gradle.kts
+.deps/
+# Gradle
+.gradle/
+build/
+# Node / TypeScript test artifacts
+src/test/e2e/node_modules/
+src/test/e2e/dist/
+# package-lock.json IS committed — it pins mineflayer/minecraft-data to versions that
+# support the target Minecraft version, so CI installs are reproducible.

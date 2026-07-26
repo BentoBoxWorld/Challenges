@@ -249,6 +249,8 @@ public class Constants
 
     public static final String CLICK_TO_CHANGE = TIPS + "click-to-change";
 
+    public static final String CLICK_TO_ADD = TIPS + "click-to-add";
+
     public static final String CLICK_TO_TOGGLE = TIPS + "click-to-toggle";
 
     public static final String CLICK_TO_OPEN = TIPS + "click-to-open";
@@ -264,6 +266,8 @@ public class Constants
     public static final String CANCEL_STRING = CONVERSATIONS + "cancel-string";
 
     public static final String CANCELLED = CONVERSATIONS + "cancelled";
+
+    public static final String CONFIRM_INSTRUCTION = CONVERSATIONS + "confirm-instruction";
 
     public static final String PREFIX = CONVERSATIONS + "prefix";
 

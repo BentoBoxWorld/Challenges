@@ -143,8 +143,11 @@ public abstract class CommonPanel {
         String description = this.user
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".description");
         if (description.isEmpty()) {
-            // Combine the challenge description list into a single string and translate color codes
-            description = Util.translateColorCodes(String.join("\n", challenge.getDescription()));
+            // Combine the challenge description list into a single string, apply the configured
+            // default colour to each line, and translate color codes.
+            description = Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getDescription()),
+                    this.addon.getChallengesSettings().getDescriptionColor()));
         }
         // Replace any [label] placeholder with the actual top label
         description = description.replace("[label]", this.topLabel);
@@ -395,6 +398,17 @@ public abstract class CommonPanel {
             entities.insert(0, this.user.getTranslationOrNothing(reference + "entities-title"));
         }
 
+        // Required biomes
+        StringBuilder biomes = new StringBuilder();
+        if (!requirement.getRequiredBiomes().isEmpty()) {
+            biomes.append(this.user.getTranslationOrNothing(reference + "biomes-title"));
+            requirement.getRequiredBiomes().stream().sorted().forEach(biomeKey -> {
+                biomes.append("\n");
+                biomes.append(this.user.getTranslationOrNothing(reference + "biome-value", "[biome]",
+                        Utils.prettifyBiome(biomeKey)));
+            });
+        }
+
         String searchRadius = this.user.getTranslationOrNothing(reference + "search-radius", Constants.PARAMETER_NUMBER,
                 String.valueOf(requirement.getSearchRadius()));
 
@@ -406,7 +420,7 @@ public abstract class CommonPanel {
                 : "";
 
         return this.user.getTranslationOrNothing(reference + "lore", "[blocks]", blocks.toString(), "[entities]",
-                entities.toString(),
+                entities.toString(), "[biomes]", biomes.toString(),
                 "[warning-block]", warningBlocks, "[warning-entity]", warningEntities, "[search-radius]", searchRadius);
     }
 
@@ -707,7 +721,9 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".repeat-reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRepeatRewardText())), 30);
+            rewardText = wrapToWidth(Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getRepeatRewardText()),
+                    this.addon.getChallengesSettings().getRewardTextColor())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
@@ -786,7 +802,9 @@ public abstract class CommonPanel {
                 .getTranslationOrNothing(Constants.CHALLENGES_CHALLENGES + challenge.getUniqueId() + ".reward-text");
 
         if (rewardText.isEmpty()) {
-            rewardText = wrapToWidth(Util.translateColorCodes(String.join("\n", challenge.getRewardText())), 30);
+            rewardText = wrapToWidth(Util.translateColorCodes(Utils.applyDefaultColor(
+                    String.join("\n", challenge.getRewardText()),
+                    this.addon.getChallengesSettings().getRewardTextColor())), 30);
         }
 
         return this.user.getTranslationOrNothing(reference + "lore", Constants.PARAMETER_TEXT, rewardText, Constants.PARAMETER_ITEMS, items,
@@ -864,7 +882,9 @@ public abstract class CommonPanel {
         String description = this.user
                 .getTranslationOrNothing("challenges.levels." + level.getUniqueId() + ".description");
 
-        if (description.isEmpty()) {
+        if (description.isEmpty() && levelStatus.isUnlocked()) {
+            // Only fall back to the unlock ("Congratulations...") message once the level is
+            // actually unlocked. A locked level keeps its "locked / N challenges to go" status.
             description = Util.translateColorCodes(String.join("\n", level.getUnlockMessage()));
         }
 

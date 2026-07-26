@@ -225,10 +225,25 @@ public class Challenge implements DataObject
     private double rewardMoney = 0;
 
     /**
+     * Island level reward. Level addon required for this option.
+     */
+    @Expose
+    private long rewardIslandLevel = 0;
+
+    /**
      * Commands to run when the player completes the challenge for the first time. String List
      */
     @Expose
     private List<String> rewardCommands = new ArrayList<>();
+
+    /**
+     * Percentage chance (0-100) that material rewards are given on completion.
+     * Items, money, and experience are gated by a single roll.
+     * Default 100 so existing challenges are unchanged.
+     * Reward commands are never gated.
+     */
+    @Expose
+    private int rewardChance = 100;
 
     /**
      * Set of item stacks that should ignore metadata.
@@ -262,7 +277,7 @@ public class Challenge implements DataObject
      * Maximum number of times the challenge can be repeated. 0 or less will mean infinite times.
      */
     @Expose
-    private int maxTimes = 1;
+    private int maxTimes = 0;
 
     /**
      * Repeat experience reward
@@ -281,6 +296,12 @@ public class Challenge implements DataObject
      */
     @Expose
     private double repeatMoneyReward;
+
+    /**
+     * Repeat island level reward. Level addon required for this option.
+     */
+    @Expose
+    private long repeatIslandLevel = 0;
 
     /**
      * Commands to run when challenge is repeated. String List.
@@ -478,11 +499,30 @@ public class Challenge implements DataObject
 
 
     /**
+     * @return the rewardIslandLevel
+     */
+    public long getRewardIslandLevel()
+    {
+        return rewardIslandLevel;
+    }
+
+
+    /**
      * @return the rewardCommands
      */
     public List<String> getRewardCommands()
     {
         return rewardCommands;
+    }
+
+
+    /**
+     * Gets the reward chance percentage (0-100).
+     * @return the rewardChance
+     */
+    public int getRewardChance()
+    {
+        return rewardChance;
     }
 
 
@@ -537,6 +577,15 @@ public class Challenge implements DataObject
     public double getRepeatMoneyReward()
     {
         return repeatMoneyReward;
+    }
+
+
+    /**
+     * @return the repeatIslandLevel
+     */
+    public long getRepeatIslandLevel()
+    {
+        return repeatIslandLevel;
     }
 
 
@@ -774,6 +823,17 @@ public class Challenge implements DataObject
 
 
     /**
+     * This method sets the rewardIslandLevel value.
+     * @param rewardIslandLevel the rewardIslandLevel new value.
+     *
+     */
+    public void setRewardIslandLevel(long rewardIslandLevel)
+    {
+        this.rewardIslandLevel = rewardIslandLevel;
+    }
+
+
+    /**
      * This method sets the rewardCommands value.
      * @param rewardCommands the rewardCommands new value.
      *
@@ -781,6 +841,17 @@ public class Challenge implements DataObject
     public void setRewardCommands(List<String> rewardCommands)
     {
         this.rewardCommands = rewardCommands;
+    }
+
+
+    /**
+     * Sets the reward chance percentage. Values are clamped to 1-100: 0 would mean rewards
+     * are never given, which is not allowed.
+     * @param rewardChance the rewardChance new value (1-100).
+     */
+    public void setRewardChance(int rewardChance)
+    {
+        this.rewardChance = Math.min(100, Math.max(1, rewardChance));
     }
 
 
@@ -847,6 +918,17 @@ public class Challenge implements DataObject
     public void setRepeatMoneyReward(double repeatMoneyReward)
     {
         this.repeatMoneyReward = repeatMoneyReward;
+    }
+
+
+    /**
+     * This method sets the repeatIslandLevel value.
+     * @param repeatIslandLevel the repeatIslandLevel new value.
+     *
+     */
+    public void setRepeatIslandLevel(long repeatIslandLevel)
+    {
+        this.repeatIslandLevel = repeatIslandLevel;
     }
 
 
@@ -1028,12 +1110,15 @@ public class Challenge implements DataObject
             clone.setHideIfNoTeam(this.hideIfNoTeam);
             clone.setRewardExperience(this.rewardExperience);
             clone.setRewardMoney(this.rewardMoney);
+            clone.setRewardChance(this.rewardChance);
+            clone.setRewardIslandLevel(this.rewardIslandLevel);
             clone.setRepeatable(this.repeatable);
             clone.setTimeout(this.timeout);
             clone.setRepeatRewardText(this.repeatRewardText);
             clone.setMaxTimes(this.maxTimes);
             clone.setRepeatExperienceReward(this.repeatExperienceReward);
             clone.setRepeatMoneyReward(this.repeatMoneyReward);
+            clone.setRepeatIslandLevel(this.repeatIslandLevel);
 
             // Copy custom objects
             clone.setRequirements(this.requirements.copy());
