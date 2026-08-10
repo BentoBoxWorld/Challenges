@@ -73,6 +73,7 @@ challenges:
       challenge-selector: <black><bold>挑戰選擇器
       statistic-selector: <black><bold>統計資料選擇器
       environment-selector: <black><bold>維度選擇器
+      biome-selector: <black><bold>生態域選擇器
     buttons:
       # Button in the Challenges GUI that allows to select free challenges.
       free-challenges:
@@ -618,6 +619,7 @@ challenges:
           <gray>允許你修改
           <gray>此挑戰可重複完成的次數。
         value: '<gray>目前數值：<yellow>[number]'
+        value-infinite: '<gray>目前數值：<yellow>[number] <gray>（無限）'
       cool_down:
         name: <white><bold>冷卻時間
         description: |-
@@ -931,6 +933,58 @@ challenges:
           <gray>允許你輸入文字
           <gray>搜尋指定項目。
         search: '<aqua>搜尋值：[value]'
+      # Button shown only when undeployed-view-mode is TOGGLEABLE. It lets each player
+      # show or hide the challenges that are not yet deployed.
+      toggle-undeployed:
+        name: <white><bold>未部署挑戰
+        shown: |-
+          <gray>未部署的挑戰目前
+          <gray><green>已顯示<gray>。
+        hidden: |-
+          <gray>未部署的挑戰目前
+          <gray><red>已隱藏<gray>。
+      required_biomes:
+        name: <white><bold>所需生態域
+        description: |-
+          <gray>玩家必須站在其中一個
+          <gray>指定的生態域內，才能完成
+          <gray>此島嶼挑戰。
+        title: '<gray>生態域：'
+        list: ' <dark_gray>- <yellow>[biome]'
+        none: <gray>不限生態域（任何生態域皆可）。
+      reward_chance:
+        name: <white><bold>獎勵機率
+        description: |-
+          <gray>完成挑戰時給予物品獎勵的
+          <gray>機率百分比（1-100）。
+          <dark_gray>物品、金錢、經驗共用一次判定。
+          <dark_gray>指令獎勵永遠會執行。
+        value: '<gray>機率：<yellow>[number]%'
+      reward_island_level:
+        name: <white><bold>獎勵島嶼等級
+        description: |-
+          <gray>可變更此挑戰給予的島嶼等級獎勵。
+          <gray>需要 Level 附加模組。
+        value: '<gray>目前數值：<yellow>[number]'
+      repeat_reward_island_level:
+        name: <white><bold>重複獎勵島嶼等級
+        description: |-
+          <gray>可變更此挑戰重複完成時
+          <gray>給予的島嶼等級獎勵。
+          <gray>需要 Level 附加模組。
+        value: '<gray>目前數值：<yellow>[number]'
+      open_anywhere:
+        name: <white><bold>從任何地方開啟介面
+        description: |-
+          <gray>允許玩家從任何地方開啟挑戰介面。
+          <gray>若挑戰設有保護限制，完成挑戰
+          <gray>仍需人在島嶼上。
+        enabled: <dark_green>已啟用
+        disabled: <red>已停用
+      biome:
+        name: <white><bold>[biome]
+        description: '<gray>生態域 ID：[id]'
+        selected: <dark_green>已選擇
     tips:
       click-to-select: <yellow>點擊 <gray>即可選取。
       click-to-choose: <yellow>點擊 <gray>即可選擇。
@@ -1025,9 +1079,12 @@ challenges:
             lore: |-
               [blocks]
               [entities]
+              [biomes]
               [search-radius]
               [warning-block]
               [warning-entity]
+            biomes-title: '<gray><bold>所需生態域：'
+            biome-value: '  <gray>- <yellow>[biome]'
             blocks-title: '<gray><bold>需求方塊：'
             block-value: '  <gray>- <yellow>[material]'
             blocks-value: '  <gray>- <yellow>[number] x [material]'
@@ -1140,6 +1197,8 @@ challenges:
     all-data-removed: <green>[gamemode] 的所有附加元件資料已從資料庫中清除。
     confirm-all-data-deletion: <yellow>請確認是否要清除 [gamemode] 的所有附加元件資料。
     write-name: <yellow>請在聊天室輸入名稱。
+    confirm-instruction: "<gray>在聊天室輸入「<green>confirm<gray>」以繼續，或輸入「<red>cancel<gray>」以取消。"
+    input-repeat-count: <yellow>請在聊天室輸入重複次數。輸入 0 代表無限重複。
     new-object-created: <green>已為 [gamemode] 建立新的物件。
     object-already-exists: <red>物件 <gray>[id] <red>已存在，請選擇其他名稱。
     invalid-challenge: <red>挑戰 [challenge] 包含無效資料，因此無法部署！
@@ -1196,6 +1255,7 @@ challenges:
     load-skipping: '"[value]" 已存在，已略過。'
     load-overwriting: '正在覆寫「[value]」'
     load-add: '新增物件：[value]'
+    no-reward-this-time: <gray>運氣不太好——這次沒有獎勵！
   errors:
     no-name: <red>缺少挑戰名稱。
     unknown-challenge: <red>未知的挑戰。
@@ -1219,6 +1279,7 @@ challenges:
     load-error: '<red>錯誤：無法載入 [value]。'
     import-failed: '<red>無法匯入挑戰：[message]。請查看伺服器主控台以取得詳細資訊。'
     no-rank: <red>你的權限等級不足，無法執行此操作。
+    wrong-biome: <red>你必須站在 [biome] 生態域內才能完成此挑戰！
     cannot-remove-items: <red>部分物品無法從你的背包中移除！
     exist-challenges-or-levels: <red>此世界已存在挑戰或等級，無法繼續！
     no-challenges: <red>此世界尚未設定挑戰！
