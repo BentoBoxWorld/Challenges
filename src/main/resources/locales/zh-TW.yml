@@ -6,13 +6,15 @@
 meta:
   authors:
   - BONNe
+
 challenges:
   materials:
-    any: 任何
+    any: '任何'
     all_hanging_signs:
       name: 任何懸掛式告示牌
     all_signs:
       name: 任何告示牌
+  
   commands:
     admin:
       main:
@@ -42,9 +44,13 @@ challenges:
         parameters: <challenge_id> [count]
   gui:
     titles:
+      # The title for the Main GUI
       player-gui: <black><bold>挑戰選單
+      # The title for the Main GUI
       gamemode-gui: <black><bold>選擇遊戲模式
+      # The title for the Multiple Completion GUI
       multiple-gui: <black><bold>要完成幾次？
+      # GUI titles below are visible just for Admins.
       admin-gui: <black><bold>挑戰管理選單
       edit-challenge: <black><bold>編輯 [challenge]
       edit-level: <black><bold>編輯 [level]
@@ -69,121 +75,129 @@ challenges:
       environment-selector: <black><bold>維度選擇器
       biome-selector: <black><bold>生態域選擇器
     buttons:
+      # Button in the Challenges GUI that allows to select free challenges.
       free-challenges:
         name: <white><bold>自由挑戰
-        description: '<gray>顯示所有
-
-          <gray>自由挑戰'
+        description: |-
+          <gray>顯示所有
+          <gray>自由挑戰
+# Button that is used to return to previous GUI or exit it completely.
       return:
         name: <white><bold>返回
-        description: '<gray>返回上一個選單
-
-          <gray>或離開選單'
+        description: |-
+          <gray>返回上一個選單
+          <gray>或離開選單
+# Button that is used in multi-page GUIs which allows to return to previous page.
       previous:
         name: <white><bold>上一頁
         description: <gray>切換至第 <yellow>[number] <gray>頁
+# Button that is used in multi-page GUIs which allows to go to next page.
       next:
         name: <white><bold>下一頁
         description: <gray>切換至第 <yellow>[number] <gray>頁
+# Button that allows to reduce number
       reduce:
         name: <white><bold>減少
         description: <gray>減少 <yellow>[number]
+# Button that allows to increase number
       increase:
         name: <white><bold>增加
         description: <gray>增加 <yellow>[number]
+# Button that displays and allows completing challenge
       accept:
         name: <white><bold>完成
-        description: '<gray>完成挑戰
-
-          <yellow>[number] <gray>次'
+        description: |-
+          <gray>完成挑戰
+          <yellow>[number] <gray>次
+# Button that allows to quit the current gui.
       quit:
         name: <white><bold>離開
         description: <gray>離開選單。
+# All following buttons are mainly for Admin GUI.
       complete_user_challenges:
         name: <white><bold>完成玩家挑戰
-        description: '<gray>選擇一位玩家，
-
-          <gray>並替其完成挑戰。'
+        description: |-
+          <gray>選擇一位玩家，
+          <gray>並替其完成挑戰。
       reset_user_challenges:
         name: <white><bold>重設玩家挑戰
-        description: '<gray>選擇一位玩家，
-
-          <gray>並重設其挑戰。'
+        description: |-
+          <gray>選擇一位玩家，
+          <gray>並重設其挑戰。
       add_challenge:
         name: <white><bold>建立挑戰
-        description: '<gray>開始建立
-
-          <gray>新的挑戰。'
+        description: |-
+          <gray>開始建立
+          <gray>新的挑戰。
       add_level:
         name: <white><bold>建立等級
-        description: '<gray>開始建立
-
-          <gray>新的等級。'
+        description: |-
+          <gray>開始建立
+          <gray>新的等級。
       edit_challenge:
         name: <white><bold>編輯挑戰
-        description: '<gray>選擇並編輯
-
-          <gray>一項挑戰。'
+        description: |-
+          <gray>選擇並編輯
+          <gray>一項挑戰。
       edit_level:
         name: <white><bold>編輯等級
-        description: '<gray>選擇並編輯
-
-          <gray>一個等級。'
+        description: |-
+          <gray>選擇並編輯
+          <gray>一個等級。
       delete_challenge:
         name: <white><bold>刪除挑戰
-        description: '<gray>選擇並刪除
-
-          <gray>一項挑戰。'
+        description: |-
+          <gray>選擇並刪除
+          <gray>一項挑戰。
       delete_level:
         name: <white><bold>刪除等級
-        description: '<gray>選擇並刪除
-
-          <gray>一個等級。'
+        description: |-
+          <gray>選擇並刪除
+          <gray>一個等級。
       edit_settings:
         name: <white><bold>設定
-        description: '<gray>檢視並編輯
-
-          <gray>附加元件設定。'
+        description: |-
+          <gray>檢視並編輯
+          <gray>附加元件設定。
       complete_wipe:
         name: <white><bold>完全清除
-        description: '<gray>完整清除挑戰
-
+        description: |-
+          <gray>完整清除挑戰
           <gray>附加元件資料庫，
-
-          <gray>包含所有玩家資料。'
+          <gray>包含所有玩家資料。
       challenge_wipe:
         name: <white><bold>清除挑戰資料
-        description: '<gray>完整清除資料庫中的
-
-          <gray>所有挑戰與等級。'
+        description: |-
+          <gray>完整清除資料庫中的
+          <gray>所有挑戰與等級。
       user_wipe:
         name: <white><bold>清除玩家資料
-        description: '<gray>完整清除資料庫中的
-
-          <gray>所有玩家資料。'
+        description: |-
+          <gray>完整清除資料庫中的
+          <gray>所有玩家資料。
       library:
         name: <white><bold>圖書館
-        description: '<gray>開啟公開的
-
-          <gray>挑戰圖書館。'
-        downloading: '<gray>已提出下載
-
-          <gray>圖書館請求……'
+        description: |-
+          <gray>開啟公開的
+          <gray>挑戰圖書館。
+        downloading: |-
+          <gray>已提出下載
+          <gray>圖書館請求……
       import_database:
         name: <white><bold>匯入資料庫
-        description: '<gray>匯入已匯出的
-
-          <gray>挑戰資料庫。'
+        description: |-
+          <gray>匯入已匯出的
+          <gray>挑戰資料庫。
       import_template:
         name: <white><bold>匯入範本
-        description: '<gray>匯入包含挑戰的
-
-          <gray>範本檔案。'
+        description: |-
+          <gray>匯入包含挑戰的
+          <gray>範本檔案。
       export_challenges:
         name: <white><bold>匯出挑戰
-        description: '<gray>將資料庫匯出至
-
-          <gray>本機檔案。'
+        description: |-
+          <gray>將資料庫匯出至
+          <gray>本機檔案。
       properties:
         name: <white><bold>屬性
         description: <gray>檢視所有主要屬性。
@@ -195,324 +209,291 @@ challenges:
         description: <gray>檢視獎勵屬性。
       hide_reward_items:
         name: <white><bold>隱藏獎勵物品
-        description: '<gray>切換是否在選單中
-
-          <gray>顯示獎勵物品。'
+        description: |-
+          <gray>切換是否在選單中
+          <gray>顯示獎勵物品。
         hide: <dark_green>隱藏
         show: <red>顯示
       deployed:
         name: <white><bold>部署
-        description: '<gray>切換此挑戰是否已部署，
-
+        description: |-
+          <gray>切換此挑戰是否已部署，
           <gray>並允許玩家
-
-          <gray>完成。'
+          <gray>完成。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       name:
         name: <white><bold>名稱
-        description: '<gray>允許你變更
-
-          <gray>顯示名稱。'
-        value: <gray>目前：<reset>[name]
+        description: |-
+          <gray>允許你變更
+          <gray>顯示名稱。
+        value: '<gray>目前：<reset>[name]'
       remove_on_complete:
         name: <white><bold>完成後隱藏
-        description: '<gray>切換玩家完成挑戰後，
-
+        description: |-
+          <gray>切換玩家完成挑戰後，
           <gray>是否將此挑戰
-
-          <gray>隱藏。'
+          <gray>隱藏。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       team_challenge:
         name: <white><bold>團隊挑戰
-        description: '<gray>切換此挑戰是否為團隊挑戰。
-
+        description: |-
+          <gray>切換此挑戰是否為團隊挑戰。
           <gray>團隊挑戰需要有隊伍，
-
-          <gray>並於整座島嶼共用完成狀態與冷卻時間。'
+          <gray>並於整座島嶼共用完成狀態與冷卻時間。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       team_presence:
         name: <white><bold>團隊在線率
-        description: '<gray>完成此挑戰時，
-
+        description: |-
+          <gray>完成此挑戰時，
           <gray>隊伍中必須在線的
-
           <gray>成員百分比。
-
-          <gray>設為 0 可停用此限制。'
-        value: <gray>目前：<yellow>[number]%
+          <gray>設為 0 可停用此限制。
+        value: '<gray>目前：<yellow>[number]%'
       aggregate_team:
         name: <white><bold>團隊合併計算
-        description: '<gray>將所有在線成員的
-
+        description: |-
+          <gray>將所有在線成員的
           <gray>需求物品／統計資料合併計算
-
-          <gray>（共同貢獻、共同努力）。'
+          <gray>（共同貢獻、共同努力）。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       per_member:
         name: <white><bold>每位成員皆需貢獻
-        description: '<gray>每位在線成員都必須繳交
-
+        description: |-
+          <gray>每位在線成員都必須繳交
           <gray>自己的份額（需求數量為
-
-          <gray>團隊總需求，平均分配給在線成員）。'
+          <gray>團隊總需求，平均分配給在線成員）。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       hide_if_no_team:
         name: <white><bold>無隊伍時隱藏
-        description: '<gray>啟用後，沒有隊伍的玩家
-
+        description: |-
+          <gray>啟用後，沒有隊伍的玩家
           <gray>將完全看不到此挑戰。
-
-          <gray>停用後則仍會顯示，但無法完成。'
+          <gray>停用後則仍會顯示，但無法完成。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       description:
         name: <white><bold>描述
-        description: '<gray>設定此挑戰的描述。
-
-          <gray>需自行加入色彩代碼。'
-        value: <gray>目前描述：
+        description: |-
+          <gray>設定此挑戰的描述。
+          <gray>需自行加入色彩代碼。
+        value: '<gray>目前描述：'
       environment:
         name: <white><bold>維度
-        description: '<gray>允許你將此挑戰
-
-          <gray>限制於指定維度。'
+        description: |-
+          <gray>允許你將此挑戰
+          <gray>限制於指定維度。
         enabled: <dark_green>
         disabled: <red>
       order:
         name: <white><bold>排序
-        description: '<gray>允許你調整
-
+        description: |-
+          <gray>允許你調整
           <gray>物件的排序順序。
-
           <gray>若排序值相同，
-
           <gray>則依照其
-
-          <gray>唯一 ID 名稱排序。'
-        value: <gray>目前排序：<yellow>[number]
+          <gray>唯一 ID 名稱排序。
+        value: '<gray>目前排序：<yellow>[number]'
       icon:
         name: <white><bold>圖示
-        description: '<gray>允許你變更
-
-          <gray>此挑戰的圖示。'
+        description: |-
+          <gray>允許你變更
+          <gray>此挑戰的圖示。
       locked_icon:
         name: <white><bold>鎖定圖示
-        description: '<gray>允許你變更
-
-          <gray>鎖定狀態的等級圖示。'
+        description: |-
+          <gray>允許你變更
+          <gray>鎖定狀態的等級圖示。
       required_permissions:
         name: <white><bold>需求權限
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的權限。'
-        title: <gray>權限：
+          <gray>所需的權限。
+        title: '<gray>權限：'
         permission: ' <dark_gray>- [permission]'
         none: <gray>尚未設定任何權限。
       remove_entities:
         name: <white><bold>移除實體
-        description: '<gray>切換完成挑戰後，
-
+        description: |-
+          <gray>切換完成挑戰後，
           <gray>是否將所需實體
-
-          <gray>自世界中移除。'
+          <gray>自世界中移除。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       required_entities:
         name: <white><bold>需求實體
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的實體。'
-        title: <gray>實體：
+          <gray>所需的實體。
+        title: '<gray>實體：'
         list: ' <dark_gray>- [number] x [entity]'
         none: <gray>尚未新增任何實體。
       remove_blocks:
         name: <white><bold>移除方塊
-        description: '<gray>切換完成挑戰後，
-
+        description: |-
+          <gray>切換完成挑戰後，
           <gray>是否將所需方塊
-
-          <gray>自世界中移除。'
+          <gray>自世界中移除。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       required_blocks:
         name: <white><bold>需求方塊
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的方塊。'
-        title: <gray>方塊：
+          <gray>所需的方塊。
+        title: '<gray>方塊：'
         list: ' <dark_gray>- [number] x [block]'
         none: <gray>尚未新增任何方塊。
       required_statistics:
         name: <white><bold>需求統計資料
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的統計資料。'
-        title: <gray>統計資料：
+          <gray>所需的統計資料。
+        title: '<gray>統計資料：'
         list: ' <dark_gray>- [name]'
         none: <gray>尚未新增任何統計資料。
       required_advancements:
         name: <white><bold>需求進度
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的進度。'
-        title: <gray>進度：
+          <gray>所需的進度。
+        title: '<gray>進度：'
         list: ' <dark_gray>- [name]'
         none: <gray>尚未新增任何進度。
       search_radius:
         name: <white><bold>搜尋半徑
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>以玩家為中心偵測
-
-          <gray>方塊及／或實體的半徑。'
-        value: <gray>目前距離：<yellow>[number]
+          <gray>方塊及／或實體的半徑。
+        value: '<gray>目前距離：<yellow>[number]'
       remove_items:
         name: <white><bold>移除物品
-        description: '<gray>切換完成挑戰後，
-
+        description: |-
+          <gray>切換完成挑戰後，
           <gray>是否從玩家背包中
-
-          <gray>移除所需物品。'
+          <gray>移除所需物品。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       required_items:
         name: <white><bold>需求物品
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的物品。'
-        title: <gray>物品：
+          <gray>所需的物品。
+        title: '<gray>物品：'
         list: ' <dark_gray>- [number] x [item]'
         none: <gray>尚未新增任何物品。
       add_ignored_meta:
         name: <white><bold>新增忽略中繼資料
-        description: '<gray>允許你指定哪些物品
-
+        description: |-
+          <gray>允許你指定哪些物品
           <gray>應忽略其
-
-          <gray>中繼資料。'
-        title: <gray>物品：
+          <gray>中繼資料。
+        title: '<gray>物品：'
         list: ' <dark_gray>- [number] x [item]'
         none: <gray>尚未新增任何物品。
       remove_ignored_meta:
         name: <white><bold>移除忽略中繼資料
-        description: '<gray>移除會忽略
-
-          <gray>中繼資料的物品。'
+        description: |-
+          <gray>移除會忽略
+          <gray>中繼資料的物品。
       remove_experience:
         name: <white><bold>移除經驗值
-        description: '<gray>切換完成挑戰後，
-
+        description: |-
+          <gray>切換完成挑戰後，
           <gray>是否扣除玩家
-
-          <gray>所需的經驗值。'
+          <gray>所需的經驗值。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       required_experience:
         name: <white><bold>需求經驗值
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>玩家所需的
-
-          <gray>經驗值。'
-        value: <gray>目前經驗值：<yellow>[number]
+          <gray>經驗值。
+        value: '<gray>目前經驗值：<yellow>[number]'
       required_level:
         name: <white><bold>需求島嶼等級
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的島嶼等級。'
-        value: <gray>目前等級：<yellow>[number]
+          <gray>所需的島嶼等級。
+        value: '<gray>目前等級：<yellow>[number]'
       required_materialtags:
         name: <white><bold>需求方塊群組
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的方塊群組。'
-        title: <gray>方塊群組：
+          <gray>所需的方塊群組。
+        title: '<gray>方塊群組：'
         list: ' <dark_gray>- [number] x [tag]'
         none: <gray>尚未新增任何方塊群組。
       required_entitytags:
         name: <white><bold>需求實體群組
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成此挑戰
-
-          <gray>所需的實體群組。'
-        title: <gray>實體群組：
+          <gray>所需的實體群組。
+        title: '<gray>實體群組：'
         list: ' <dark_gray>- [number] x [tag]'
         none: <gray>尚未新增任何實體群組。
       remove_money:
         name: <white><bold>扣除金錢
-        description: '<gray>切換完成挑戰後，
-
+        description: |-
+          <gray>切換完成挑戰後，
           <gray>是否從玩家帳戶
-
-          <gray>扣除所需金額。'
+          <gray>扣除所需金額。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       required_money:
         name: <white><bold>需求金額
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>完成挑戰所需的
-
-          <gray>玩家帳戶金額。'
-        value: <gray>目前數值：<yellow>[number]
+          <gray>玩家帳戶金額。
+        value: '<gray>目前數值：<yellow>[number]'
       required_papi:
         name: <white><bold>需求 PAPI
-        description: '<gray>檢查一個可包含
-
+        description: |-
+          <gray>檢查一個可包含
           <gray>PAPI Placeholder
-
-          <gray>以及數學、邏輯運算的公式。'
-        value: <gray>公式：<yellow>[formula]
+          <gray>以及數學、邏輯運算的公式。
+        value: '<gray>公式：<yellow>[formula]'
       statistic:
         name: <white><bold>統計資料
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>此挑戰所檢查的
-
-          <gray>統計資料類型。'
-        value: <gray>目前數值：<yellow>[statistic]
+          <gray>統計資料類型。
+        value: '<gray>目前數值：<yellow>[statistic]'
       statistic_amount:
         name: <white><bold>目標數值
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>必須達成的
-
-          <gray>統計資料目標值。'
-        value: <gray>目前數值：<yellow>[number]
+          <gray>統計資料目標值。
+        value: '<gray>目前數值：<yellow>[number]'
       add_statistic:
         name: <white><bold>新增統計資料
-        description: '<gray>允許你新增
-
-          <gray>統計資料至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>統計資料至清單。
       remove_statistic:
         name: <white><bold>移除統計資料
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>統計資料。'
+          <gray>統計資料。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       advancement:
@@ -520,132 +501,113 @@ challenges:
         description: '[description]'
       add_advancement:
         name: <white><bold>新增進度
-        description: '<gray>允許你新增
-
-          <gray>進度至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>進度至清單。
       remove_advancement:
         name: <white><bold>移除進度
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>進度。'
+          <gray>進度。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       statistic_blocks:
         name: <white><bold>目標方塊
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>統計資料的
-
-          <gray>目標方塊。'
-        value: <gray>目前方塊：<yellow>[block]
+          <gray>目標方塊。
+        value: '<gray>目前方塊：<yellow>[block]'
       statistic_items:
         name: <white><bold>目標物品
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>統計資料的
-
-          <gray>目標物品。'
-        value: <gray>目前物品：<yellow>[item]
+          <gray>目標物品。
+        value: '<gray>目前物品：<yellow>[item]'
       statistic_entities:
         name: <white><bold>目標實體
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>統計資料的
-
-          <gray>目標實體。'
-        value: <gray>目前實體：<yellow>[entity]
+          <gray>目標實體。
+        value: '<gray>目前實體：<yellow>[entity]'
       reward_text:
         name: <white><bold>獎勵文字
-        description: '<gray>設定獎勵文字。
-
-          <gray>需自行加入色彩代碼。'
-        value: <gray>目前文字：
+        description: |-
+          <gray>設定獎勵文字。
+          <gray>需自行加入色彩代碼。
+        value: '<gray>目前文字：'
       repeat_reward_text:
         name: <white><bold>重複獎勵文字
-        description: '<gray>設定此挑戰的
-
+        description: |-
+          <gray>設定此挑戰的
           <gray>重複獎勵文字。
-
-          <gray>需自行加入色彩代碼。'
-        value: <gray>目前文字：
+          <gray>需自行加入色彩代碼。
+        value: '<gray>目前文字：'
       reward_items:
         name: <white><bold>獎勵物品
         description: <gray>允許你修改獎勵物品。
-        title: <gray>物品：
+        title: '<gray>物品：'
         list: ' <dark_gray>- [number] x [item]'
         none: <gray>尚未新增任何物品。
       repeat_reward_items:
         name: <white><bold>重複獎勵物品
-        description: '<gray>允許你修改
-
-          <gray>此挑戰的重複獎勵物品。'
-        title: <gray>物品：
+        description: |-
+          <gray>允許你修改
+          <gray>此挑戰的重複獎勵物品。
+        title: '<gray>物品：'
         list: ' <dark_gray>- [number] x [item]'
         none: <gray>尚未新增任何物品。
       reward_experience:
         name: <white><bold>獎勵經驗值
-        description: '<gray>允許你修改
-
-          <gray>玩家獲得的獎勵經驗值。'
-        value: <gray>獎勵經驗值：<yellow>[number]
+        description: |-
+          <gray>允許你修改
+          <gray>玩家獲得的獎勵經驗值。
+        value: '<gray>獎勵經驗值：<yellow>[number]'
       repeat_reward_experience:
         name: <white><bold>重複獎勵經驗值
-        description: '<gray>允許你修改
-
-          <gray>玩家獲得的重複獎勵經驗值。'
-        value: <gray>獎勵經驗值：<yellow>[number]
+        description: |-
+          <gray>允許你修改
+          <gray>玩家獲得的重複獎勵經驗值。
+        value: '<gray>獎勵經驗值：<yellow>[number]'
       reward_money:
         name: <white><bold>獎勵金額
         description: <gray>允許你修改獎勵金額。
-        value: <gray>目前數值：<yellow>[number]
+        value: '<gray>目前數值：<yellow>[number]'
       repeat_reward_money:
         name: <white><bold>重複獎勵金額
-        description: '<gray>允許你修改
-
-          <gray>此挑戰的重複獎勵金額。'
-        value: <gray>目前數值：<yellow>[number]
+        description: |-
+          <gray>允許你修改
+          <gray>此挑戰的重複獎勵金額。
+        value: '<gray>目前數值：<yellow>[number]'
       reward_commands:
         name: <white><bold>獎勵指令
-        description: '<gray>設定獎勵指令。
-
+        description: |-
+          <gray>設定獎勵指令。
           <dark_gray>提示：
-
           <dark_gray>指令前不需要加上「/」，
-
           <dark_gray>系統會自動補上。
-
           <dark_gray>預設會由伺服器執行指令。
-
           <dark_gray>若在開頭加入 [SELF]，
-
           <dark_gray>則改由玩家自行執行。
-
           <dark_gray>也支援 [player] Placeholder，
-
-          <dark_gray>會自動替換為完成挑戰的玩家名稱。'
-        value: <gray>目前指令：
+          <dark_gray>會自動替換為完成挑戰的玩家名稱。
+        value: '<gray>目前指令：'
       repeat_reward_commands:
         name: <white><bold>重複獎勵指令
-        description: '<gray>設定此挑戰的重複獎勵指令。
-
+        description: |-
+          <gray>設定此挑戰的重複獎勵指令。
           <dark_gray>提示：
-
           <dark_gray>指令前不需要加上「/」，
-
           <dark_gray>系統會自動補上。
-
           <dark_gray>預設會由伺服器執行指令。
-
           <dark_gray>若在開頭加入 [SELF]，
-
           <dark_gray>則改由玩家自行執行。
-
           <dark_gray>也支援 [player] Placeholder，
-
-          <dark_gray>會自動替換為完成挑戰的玩家名稱。'
-        value: <gray>目前指令：
+          <dark_gray>會自動替換為完成挑戰的玩家名稱。
+        value: '<gray>目前指令：'
       repeatable:
         name: <white><bold>可重複完成
         description: <gray>切換此挑戰是否可重複完成。
@@ -653,153 +615,138 @@ challenges:
         disabled: <red>已停用
       repeat_count:
         name: <white><bold>重複次數
-        description: '<gray>允許你修改
-
-          <gray>此挑戰可重複完成的次數。'
-        value: <gray>目前數值：<yellow>[number]
-        value-infinite: <gray>目前數值：<yellow>[number] <gray>（無限）
+        description: |-
+          <gray>允許你修改
+          <gray>此挑戰可重複完成的次數。
+        value: '<gray>目前數值：<yellow>[number]'
+        value-infinite: '<gray>目前數值：<yellow>[number] <gray>（無限）'
       cool_down:
         name: <white><bold>冷卻時間
-        description: '<gray>允許你修改
-
+        description: |-
+          <gray>允許你修改
           <gray>可重複完成挑戰之間
-
-          <gray>所需等待的時間（秒）。'
-        value: <gray>目前數值：<yellow>[time]
+          <gray>所需等待的時間（秒）。
+        value: '<gray>目前數值：<yellow>[time]'
       challenges:
         name: <white><bold>挑戰
-        description: '<gray>檢視指派至
-
-          <gray>此等級的挑戰。'
+        description: |-
+          <gray>檢視指派至
+          <gray>此等級的挑戰。
       waiver_amount:
         name: <white><bold>可略過數量
-        description: '<gray>允許你設定可未完成
-
+        description: |-
+          <gray>允許你設定可未完成
           <gray>多少項挑戰即可解鎖
-
-          <gray>下一個等級。'
-        value: <gray>目前數值：<yellow>[number]
+          <gray>下一個等級。
+        value: '<gray>目前數值：<yellow>[number]'
       add_challenges:
         name: <white><bold>新增挑戰
-        description: '<gray>允許你選擇並新增
-
-          <gray>挑戰至此等級。'
+        description: |-
+          <gray>允許你選擇並新增
+          <gray>挑戰至此等級。
       remove_challenges:
         name: <white><bold>移除挑戰
-        description: '<gray>允許你選擇並移除
-
-          <gray>此等級中的挑戰。'
+        description: |-
+          <gray>允許你選擇並移除
+          <gray>此等級中的挑戰。
       reset_on_new:
         name: <white><bold>建立新島時重設
-        description: '<gray>切換玩家離開島嶼
-
+        description: |-
+          <gray>切換玩家離開島嶼
           <gray>或建立新島時，
-
-          <gray>是否重設挑戰。'
+          <gray>是否重設挑戰。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       broadcast:
         name: <white><bold>廣播
-        description: '<gray>首次完成挑戰或等級時，
-
-          <gray>向所有玩家廣播。'
+        description: |-
+          <gray>首次完成挑戰或等級時，
+          <gray>向所有玩家廣播。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       remove_completed:
         name: <white><bold>隱藏已完成項目
-        description: '<gray>將已完成的挑戰
-
-          <gray>從選單中隱藏。'
+        description: |-
+          <gray>將已完成的挑戰
+          <gray>從選單中隱藏。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       glow_completed:
         name: <white><bold>已完成挑戰發光
-        description: '<gray>為已完成的挑戰
-
-          <gray>套用附魔發光效果。'
+        description: |-
+          <gray>為已完成的挑戰
+          <gray>套用附魔發光效果。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       glow_completed_levels:
         name: <white><bold>已完成等級發光
-        description: '<gray>為已完成的等級
-
-          <gray>套用附魔發光效果。'
+        description: |-
+          <gray>為已完成的等級
+          <gray>套用附魔發光效果。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       store_history:
         name: <white><bold>儲存歷史紀錄
-        description: '<gray>每次完成挑戰時
-
+        description: |-
+          <gray>每次完成挑戰時
           <gray>儲存內部歷史紀錄。
-
           <gray>目前僅能於
-
-          <gray>資料庫中檢視。'
+          <gray>資料庫中檢視。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       data_per_island:
         name: <white><bold>依島嶼儲存
-        description: '<gray>依照島嶼儲存
-
+        description: |-
+          <gray>依照島嶼儲存
           <gray>已完成的挑戰。
-
           <gray>進度會與所有
-
-          <gray>隊伍成員共享。'
+          <gray>隊伍成員共享。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       show_title:
         name: <white><bold>顯示標題
-        description: '<gray>完成挑戰或等級時
-
-          <gray>顯示標題。'
+        description: |-
+          <gray>完成挑戰或等級時
+          <gray>顯示標題。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       gamemode_gui:
         name: <white><bold>遊戲模式選擇選單
-        description: '<gray>啟用可透過
-
+        description: |-
+          <gray>啟用可透過
           <gray>/challenges 指令開啟的
-
           <gray>單一選單。
-
-          <gray>（需重新啟動伺服器）'
+          <gray>（需重新啟動伺服器）
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       locked_level_icon:
         name: <white><bold>預設鎖定等級圖示
-        description: '<gray>所有鎖定等級的預設圖示。
-
-          <gray>每個等級皆可個別覆寫。'
+        description: |-
+          <gray>所有鎖定等級的預設圖示。
+          <gray>每個等級皆可個別覆寫。
       purge_history:
         name: <white><bold>歷史紀錄保存天數
-        description: '<gray>設定玩家資料中
-
+        description: |-
+          <gray>設定玩家資料中
           <gray>歷史紀錄的保存天數。
-
           <gray>設為 0 表示
-
-          <gray>永不刪除。'
-        value: <gray>目前數值：<yellow>[number]
+          <gray>永不刪除。
+        value: '<gray>目前數值：<yellow>[number]'
       title_showtime:
         name: <white><bold>標題顯示時間
-        description: '<gray>設定標題
-
+        description: |-
+          <gray>設定標題
           <gray>顯示給玩家的
-
-          <gray>Tick 數。'
-        value: <gray>目前數值：<yellow>[number]
+          <gray>Tick 數。
+        value: '<gray>目前數值：<yellow>[number]'
       active_world_list:
         name: <white><bold>僅顯示目前世界
-        description: '<gray>若已啟用遊戲模式選擇選單，
-
+        description: |-
+          <gray>若已啟用遊戲模式選擇選單，
           <gray>此設定決定選單
-
           <gray>要顯示遊戲模式選擇，
-
           <gray>還是目前世界的挑戰。
-
-          <gray>（需重新啟動伺服器）'
+          <gray>（需重新啟動伺服器）
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       visibility_mode:
@@ -812,38 +759,38 @@ challenges:
         toggleable: 允許切換
       include_undeployed:
         name: <white><bold>包含未部署挑戰
-        description: '<gray>設定未部署的挑戰
-
-          <gray>是否納入等級完成度計算。'
+        description: |-
+          <gray>設定未部署的挑戰
+          <gray>是否納入等級完成度計算。
         enabled: <dark_green>已啟用
         disabled: <red>已停用
       download:
         name: <white><bold>下載圖書館
-        description: '<gray>手動更新可用的
-
-          <gray>挑戰圖書館。'
+        description: |-
+          <gray>手動更新可用的
+          <gray>挑戰圖書館。
         enabled: <dark_green>清除快取
         disabled: <red>保留快取
       language:
         name: <white><bold>語言
-        description: '<gray>依語言篩選
-
-          <gray>挑戰圖書館。'
-        current: <gray>目前顯示：<yellow>[lang]
+        description: |-
+          <gray>依語言篩選
+          <gray>挑戰圖書館。
+        current: '<gray>目前顯示：<yellow>[lang]'
         all: 全部
       player:
         name: <white><bold>[name]
-        description: <gray>島主：[owner]
-        members: <gray>島嶼成員：
+        description: '<gray>島主：[owner]'
+        members: '<gray>島嶼成員：'
         member: <dark_gray>- [name]
-        no-island: '<red>此玩家
-
-          <red>沒有島嶼。'
+        no-island: |-
+          <red>此玩家
+          <red>沒有島嶼。
       player_list:
         name: <white><bold>選擇玩家清單
-        description: '<gray>選擇要顯示的
-
-          <gray>玩家清單。'
+        description: |-
+          <gray>選擇要顯示的
+          <gray>玩家清單。
         enabled: <dark_green>
         disabled: <red>
         online: 在線玩家
@@ -851,35 +798,33 @@ challenges:
         in_world: 世界中的玩家
       add_block:
         name: <white><bold>新增方塊
-        description: '<gray>允許你新增
-
-          <gray>方塊至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>方塊至清單。
       add_block_group:
         name: <white><bold>新增方塊群組
-        description: '<gray>允許你新增
-
-          <gray>方塊群組至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>方塊群組至清單。
       remove_block:
         name: <white><bold>移除方塊
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>方塊。'
-        title: <gray>已選取的方塊：
+          <gray>方塊。
+        title: '<gray>已選取的方塊：'
         material: <dark_gray>- [material]
       remove_block_group:
         name: <white><bold>移除方塊群組
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>方塊群組。'
-        title: <gray>已選取的方塊群組：
+          <gray>方塊群組。
+        title: '<gray>已選取的方塊群組：'
         material: <dark_gray>- [material]
       material:
         name: <white><bold>[material]
-        description: <gray>材料 ID：[id]
+        description: '<gray>材料 ID：[id]'
         selected: <dark_green>已選取
       block-group:
         name: <white><bold>[id]
@@ -887,40 +832,38 @@ challenges:
         selected: <dark_green>已選取
       add_entity:
         name: <white><bold>新增實體
-        description: '<gray>允許你新增
-
-          <gray>實體至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>實體至清單。
       add_entity_group:
         name: <white><bold>新增實體群組
-        description: '<gray>允許你新增
-
-          <gray>實體群組至清單。'
+        description: |-
+          <gray>允許你新增
+          <gray>實體群組至清單。
       switch_entity:
         name: <white><bold>切換顯示方式
-        description: '<gray>在生怪蛋
-
-          <gray>與生物頭顱之間切換。'
+        description: |-
+          <gray>在生怪蛋
+          <gray>與生物頭顱之間切換。
       remove_entity:
         name: <white><bold>移除實體
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>實體。'
-        title: <gray>已選取的實體：
+          <gray>實體。
+        title: '<gray>已選取的實體：'
         entity: <dark_gray>- [entity]
       remove_entity_group:
         name: <white><bold>移除實體群組
-        description: '<gray>允許你移除
-
+        description: |-
+          <gray>允許你移除
           <gray>清單中的
-
-          <gray>實體群組。'
-        title: <gray>已選取的實體群組：
+          <gray>實體群組。
+        title: '<gray>已選取的實體群組：'
         entity: <dark_gray>- [tag]
       entity:
         name: <white><bold>[entity]
-        description: <gray>實體 ID：[id]
+        description: '<gray>實體 ID：[id]'
         selected: <dark_green>已選取
       entity-group:
         name: <white><bold>[id]
@@ -928,42 +871,41 @@ challenges:
         selected: <dark_green>已選取
       inventory_type:
         name: <white><bold>背包類型
-        description: '<gray>檢查玩家背包內
-
-          <gray>物品的挑戰。'
+        description: |-
+          <gray>檢查玩家背包內
+          <gray>物品的挑戰。
       island_type:
         name: <white><bold>島嶼類型
-        description: '<gray>檢查玩家周圍
-
-          <gray>方塊或實體的挑戰。'
+        description: |-
+          <gray>檢查玩家周圍
+          <gray>方塊或實體的挑戰。
       other_type:
         name: <white><bold>其他類型
-        description: '<gray>使用外掛或
-
+        description: |-
+          <gray>使用外掛或
           <gray>附加元件功能的挑戰，
-
-          <gray>例如島嶼等級或金錢。'
+          <gray>例如島嶼等級或金錢。
       statistic_type:
         name: <white><bold>統計資料類型
-        description: '<gray>檢查玩家
-
-          <gray>統計資料的挑戰。'
+        description: |-
+          <gray>檢查玩家
+          <gray>統計資料的挑戰。
       save:
         name: <white><bold>儲存
-        description: '<gray>儲存變更
-
-          <gray>並返回。'
+        description: |-
+          <gray>儲存變更
+          <gray>並返回。
       cancel:
         name: <white><bold>取消
-        description: '<gray>捨棄變更
-
-          <gray>並返回。'
+        description: |-
+          <gray>捨棄變更
+          <gray>並返回。
       accept_selected:
         name: <white><bold>確認選取
-        description: '<gray>確認所選項目，
-
-          <gray>並重新開啟上一個選單。'
-        title: <gray>已選取：
+        description: |-
+          <gray>確認所選項目，
+          <gray>並重新開啟上一個選單。
+        title: '<gray>已選取：'
         element: <dark_gray>- [element]
       advancement_element:
         name: <white><bold>[name]
@@ -971,15 +913,15 @@ challenges:
         selected: <dark_green>已選取
       statistic_element:
         name: <white><bold>[statistic]
-        amount: <gray>目標數值：<yellow>[number]
+        amount: '<gray>目標數值：<yellow>[number]'
         remove:
-          name: <gray>扣除統計資料：[value]
+          name: '<gray>扣除統計資料：[value]'
           value:
             enabled: <red>已啟用
             disabled: <dark_green>已停用
-        block: <gray>目標方塊：<yellow>[block]
-        item: <gray>目標物品：<yellow>[item]
-        entity: <gray>目標實體：<yellow>[entity]
+        block: '<gray>目標方塊：<yellow>[block]'
+        item: '<gray>目標物品：<yellow>[item]'
+        entity: '<gray>目標實體：<yellow>[entity]'
         description: '[description]'
         selected: <dark_green>已選取
       environment_element:
@@ -987,41 +929,62 @@ challenges:
         description: '[description]'
       search:
         name: <white><bold>搜尋
-        description: '<gray>允許你輸入文字
-
-          <gray>搜尋指定項目。'
-        search: <aqua>搜尋值：[value]
-      biome:
-        description: <gray>生態域 ID：[id]
-        name: <white><bold>[biome]
-        selected: <dark_green>已選擇
-      open_anywhere:
-        description: <gray>允許玩家從任何地方開啟挑戰介面。\n<gray>若挑戰設有保護限制，完成挑戰\n<gray>仍需人在島嶼上。
-        disabled: <red>已停用
-        enabled: <dark_green>已啟用
-        name: <white><bold>從任何地方開啟介面
-      repeat_reward_island_level:
-        description: <gray>可變更此挑戰重複完成時\n<gray>給予的島嶼等級獎勵。\n<gray>需要 Level 附加模組。
-        name: <white><bold>重複獎勵島嶼等級
-        value: <gray>目前數值：<yellow>[number]
-      required_biomes:
-        description: <gray>玩家必須站在其中一個\n<gray>指定的生態域內，才能完成\n<gray>此島嶼挑戰。
-        list: ' <dark_gray>- <yellow>[biome]'
-        name: <white><bold>所需生態域
-        none: <gray>不限生態域（任何生態域皆可）。
-        title: <gray>生態域：
-      reward_chance:
-        description: <gray>完成挑戰時給予物品獎勵的\n<gray>機率百分比（1-100）。\n<dark_gray>物品、金錢、經驗共用一次判定。\n<dark_gray>指令獎勵永遠會執行。
-        name: <white><bold>獎勵機率
-        value: <gray>機率：<yellow>[number]%
-      reward_island_level:
-        description: <gray>可變更此挑戰給予的島嶼等級獎勵。\n<gray>需要 Level 附加模組。
-        name: <white><bold>獎勵島嶼等級
-        value: <gray>目前數值：<yellow>[number]
+        description: |-
+          <gray>允許你輸入文字
+          <gray>搜尋指定項目。
+        search: '<aqua>搜尋值：[value]'
+      # Button shown only when undeployed-view-mode is TOGGLEABLE. It lets each player
+      # show or hide the challenges that are not yet deployed.
       toggle-undeployed:
-        hidden: <gray>未部署的挑戰目前\n<gray><red>已隱藏<gray>。
         name: <white><bold>未部署挑戰
-        shown: <gray>未部署的挑戰目前\n<gray><green>已顯示<gray>。
+        shown: |-
+          <gray>未部署的挑戰目前
+          <gray><green>已顯示<gray>。
+        hidden: |-
+          <gray>未部署的挑戰目前
+          <gray><red>已隱藏<gray>。
+      required_biomes:
+        name: <white><bold>所需生態域
+        description: |-
+          <gray>玩家必須站在其中一個
+          <gray>指定的生態域內，才能完成
+          <gray>此島嶼挑戰。
+        title: '<gray>生態域：'
+        list: ' <dark_gray>- <yellow>[biome]'
+        none: <gray>不限生態域（任何生態域皆可）。
+      reward_chance:
+        name: <white><bold>獎勵機率
+        description: |-
+          <gray>完成挑戰時給予物品獎勵的
+          <gray>機率百分比（1-100）。
+          <dark_gray>物品、金錢、經驗共用一次判定。
+          <dark_gray>指令獎勵永遠會執行。
+        value: '<gray>機率：<yellow>[number]%'
+      reward_island_level:
+        name: <white><bold>獎勵島嶼等級
+        description: |-
+          <gray>可變更此挑戰給予的島嶼等級獎勵。
+          <gray>需要 Level 附加模組。
+        value: '<gray>目前數值：<yellow>[number]'
+      repeat_reward_island_level:
+        name: <white><bold>重複獎勵島嶼等級
+        description: |-
+          <gray>可變更此挑戰重複完成時
+          <gray>給予的島嶼等級獎勵。
+          <gray>需要 Level 附加模組。
+        value: '<gray>目前數值：<yellow>[number]'
+      open_anywhere:
+        name: <white><bold>從任何地方開啟介面
+        description: |-
+          <gray>允許玩家從任何地方開啟挑戰介面。
+          <gray>若挑戰設有保護限制，完成挑戰
+          <gray>仍需人在島嶼上。
+        enabled: <dark_green>已啟用
+        disabled: <red>已停用
+      biome:
+        name: <white><bold>[biome]
+        description: '<gray>生態域 ID：[id]'
+        selected: <dark_green>已選擇
     tips:
       click-to-select: <yellow>點擊 <gray>即可選取。
       click-to-choose: <yellow>點擊 <gray>即可選擇。
@@ -1061,167 +1024,160 @@ challenges:
       click-to-cancel: <yellow>點擊 <gray>即可取消。
       click-to-save: <yellow>點擊 <gray>即可儲存。
       click-to-deselect: <yellow>點擊 <gray>即可取消選取。
-      click-on-item: '<yellow>請點擊 <gray>背包中的
-
-        <gray>物品。'
+      click-on-item: |-
+        <yellow>請點擊 <gray>背包中的
+        <gray>物品。
       left-click-to-edit: <yellow>左鍵 <gray>即可編輯。
       right-click-to-clear: <yellow>右鍵 <gray>即可清除。
       click-to-previous: <yellow>點擊 <gray>即可查看上一頁。
       click-to-next: <yellow>點擊 <gray>即可查看下一頁。
     descriptions:
+      # This part generates description text for challenges object in all GUI's.
       challenge:
-        lore: '[description]
-
+        # The main part that generates description text.
+        # [description] comes from challenge.description
+        lore: |-
+          [description]
           [status]
-
           [cooldown]
-
           [requirements]
-
-          [rewards]'
-        team-requirement: <gold>隊伍：<yellow>[online] <gold>人在線（需 <yellow>[number] <gold>人）
+          [rewards]
+# Team challenge lore line. [online] members online, [number] required, [size] team size.
+        team-requirement: '<gold>隊伍：<yellow>[online] <gold>人在線（需 <yellow>[number] <gold>人）'
+        # Shown instead of the above when the viewer has no team.
         team-required: <red>需要加入隊伍才能完成
+        # Contains a text generated inside [status] lore
         status:
           completed: <dark_green><bold>已完成
           completed-times: <dark_green>已完成 <gray><bold>[number] <reset><dark_green>次
           completed-times-of: <dark_green>已完成 <gray><bold>[number] <reset><dark_green>/ <gray><bold>[max] <reset><dark_green>次
           completed-times-reached: <dark_green><bold>已完成全部 <gray>[max] <dark_green>次
+        # Contains a text generated inside [cooldown] lore
         cooldown:
-          lore: '[timeout]
-
-            [wait-time]'
-          timeout: <gray><bold>冷卻時間：<reset><gray>[time]
-          wait-time: <red><bold>可再次完成時間：<reset><red>[time]
+          lore: |-
+            [timeout]
+            [wait-time]
+          timeout: '<gray><bold>冷卻時間：<reset><gray>[time]'
+          wait-time: '<red><bold>可再次完成時間：<reset><red>[time]'
           in-days: '[number] 天 '
           in-hours: '[number] 小時 '
           in-minutes: '[number] 分 '
           in-seconds: '[number] 秒'
+        # Contains a text generated inside [requirements] lore
         requirements:
-          lore: '[environment]
-
+          lore: |-
+            [environment]
             [type-requirement]
-
-            [permissions]'
+            [permissions]
           environment-single: <gray>限定於 [environment]
-          environment-title: <gray>限定維度：
+          environment-title: '<gray>限定維度：'
           environment-list: '  <gray>- <yellow>[environment]'
           permission-single: <red>需要權限：[permission]
-          permissions-title: <red>需要以下權限：
+          permissions-title: '<red>需要以下權限：'
           permissions-list: '  <red>- [permission]'
           island:
-            lore: '[blocks]
-
+            lore: |-
+              [blocks]
               [entities]
-
+              [biomes]
               [search-radius]
-
               [warning-block]
-
-              [warning-entity]'
-            blocks-title: <gray><bold>需求方塊：
+              [warning-entity]
+            biomes-title: '<gray><bold>所需生態域：'
+            biome-value: '  <gray>- <yellow>[biome]'
+            blocks-title: '<gray><bold>需求方塊：'
             block-value: '  <gray>- <yellow>[material]'
             blocks-value: '  <gray>- <yellow>[number] x [material]'
-            entities-title: <gray><bold>需求實體：
+            entities-title: '<gray><bold>需求實體：'
             entity-value: '  <gray>- <yellow>[entity]'
             entities-value: '  <gray>- <yellow>[number] x [entity]'
             search-radius: <gray>距離玩家不得超過 <yellow>[number] <gray>格
             warning-block: <yellow>完成後將<red>移除方塊
             warning-entity: <yellow>完成後將<red>移除實體
-            biome-value: '  <gray>- <yellow>[biome]'
-            biomes-title: <gray><bold>所需生態域：
           inventory:
-            lore: '[items]
-
-              [warning]'
-            item-title: <gray><bold>需求物品：
+            lore: |-
+              [items]
+              [warning]
+            item-title: '<gray><bold>需求物品：'
             item-value: '  <gray>- <yellow>[item]'
             items-value: '  <gray>- <yellow>[number] x [item]'
             warning: <yellow>完成後將<red>移除物品
           other:
-            lore: '[experience]
-
+            lore: |-
+              [experience]
               [experience-warning]
-
               [money]
-
               [money-warning]
-
-              [level]'
-            experience: <gray><bold>需求經驗值：<reset><yellow>[number]
+              [level]
+            experience: '<gray><bold>需求經驗值：<reset><yellow>[number]'
             experience-warning: <yellow>完成後將<red>扣除經驗值
-            money: <gray><bold>需求金額：<reset><yellow>[number]
+            money: '<gray><bold>需求金額：<reset><yellow>[number]'
             money-warning: <yellow>完成後將<red>扣除金額
-            level: <gray><bold>需求島嶼等級：<reset><yellow>[number]
+            level: '<gray><bold>需求島嶼等級：<reset><yellow>[number]'
           statistic:
-            lore: '[statistic]
-
-              [warning]'
-            multiple-target: <gray><bold>[statistic]：<reset><yellow>[number] x [target]
-            single-target: <gray><bold>[statistic]：<reset><yellow>[target]
-            statistic: <gray><bold>[statistic]：<reset><yellow>[number]
+            lore: |-
+              [statistic]
+              [warning]
+            multiple-target: '<gray><bold>[statistic]：<reset><yellow>[number] x [target]'
+            single-target: '<gray><bold>[statistic]：<reset><yellow>[target]'
+            statistic: '<gray><bold>[statistic]：<reset><yellow>[number]'
             warning: <yellow>完成後將<red>扣除統計資料
+        # Contains a text generated inside [rewards] lore
         rewards:
-          lore: '<gray><bold>獎勵：
-
+          lore: |-
+            <gray><bold>獎勵：
             [text]
-
             [items]
-
             [experience]
-
             [money]
-
-            [commands]'
-          item-title: <gray>物品：
+            [commands]
+          item-title: '<gray>物品：'
           item-value: '  <gray>- <yellow>[item]'
           items-value: '  <gray>- <yellow>[number] x [item]'
-          experience: <gray>經驗值：<reset><yellow>[number]
-          money: <gray>金額：<reset><yellow>[number]
-          commands-title: <gray>指令：
+          experience: '<gray>經驗值：<reset><yellow>[number]'
+          money: '<gray>金額：<reset><yellow>[number]'
+          commands-title: '<gray>指令：'
           command: '  <gray>- <yellow>[command]'
+
+      # This part generates description text for levels object in all GUI's.
       level:
-        lore: '[text]
-
+        lore: |-
+          [text]
           [status]
-
           [waiver]
-
-          [rewards]'
+          [rewards]
         status:
           completed: <dark_green><bold>已完成
           completed-challenges-of: <dark_green>已完成 <gray><bold>[number] <reset><dark_green>/ <gray><bold>[max] <reset><dark_green>項挑戰
           locked: <red><bold>已鎖定
-          missing-challenges: '<gray>還需要完成
-
+          missing-challenges: |-
+            <gray>還需要完成
             <gray>[number] 項挑戰
-
-            <gray>才能解鎖此等級。'
-        waiver: '<gray><bold>可略過 <yellow>[number] <gray>項挑戰，
-
-          <gray>即可解鎖下一個等級。'
+            <gray>才能解鎖此等級。
+        waiver: |-
+          <gray><bold>可略過 <yellow>[number] <gray>項挑戰，
+          <gray>即可解鎖下一個等級。
         rewards:
-          lore: '<gray><bold>獎勵：
-
+          lore: |-
+            <gray><bold>獎勵：
             [text]
-
             [items]
-
             [experience]
-
             [money]
-
-            [commands]'
-          item-title: <gray>物品：
+            [commands]
+          item-title: '<gray>物品：'
           item-value: '  <gray>- <yellow>[item]'
           items-value: '  <gray>- <yellow>[number] x [item]'
-          experience: <gray>經驗值：<reset><yellow>[number]
-          money: <gray>金額：<reset><yellow>[number]
-          commands-title: <gray>指令：
+          experience: '<gray>經驗值：<reset><yellow>[number]'
+          money: '<gray>金額：<reset><yellow>[number]'
+          commands-title: '<gray>指令：'
           command: '  <gray>- <yellow>[command]'
+
+      # This part generates description for the Library Entry
       library:
         author: <gray>作者：<yellow>[author]
         version: <gray>使用 Challenges <yellow>[version] 製作
-        lang: <gray>語言：<yellow>[lang]
+        lang: '<gray>語言：<yellow>[lang]'
         gamemode: <gray>主要適用於 <yellow>[gamemode]
   conversations:
     prefix: '<bold><gold>[BentoBox]: <reset>'
@@ -1241,40 +1197,40 @@ challenges:
     all-data-removed: <green>[gamemode] 的所有附加元件資料已從資料庫中清除。
     confirm-all-data-deletion: <yellow>請確認是否要清除 [gamemode] 的所有附加元件資料。
     write-name: <yellow>請在聊天室輸入名稱。
+    confirm-instruction: "<gray>在聊天室輸入「<green>confirm<gray>」以繼續，或輸入「<red>cancel<gray>」以取消。"
+    input-repeat-count: <yellow>請在聊天室輸入重複次數。輸入 0 代表無限重複。
     new-object-created: <green>已為 [gamemode] 建立新的物件。
     object-already-exists: <red>物件 <gray>[id] <red>已存在，請選擇其他名稱。
     invalid-challenge: <red>挑戰 [challenge] 包含無效資料，因此無法部署！
-    name-changed: <green>成功：名稱已更新。
+    name-changed: '<green>成功：名稱已更新。'
     write-description: <yellow>請在聊天室輸入新的描述。完成後請在新的一行輸入「quit」。
-    description-changed: <green>成功：描述已更新。
+    description-changed: '<green>成功：描述已更新。'
     write-permissions: <yellow>請在聊天室逐行輸入所需權限。完成後請在新的一行輸入「quit」。
-    permissions-changed: <green>成功：挑戰權限已更新。
+    permissions-changed: '<green>成功：挑戰權限已更新。'
     write-reward-text: <yellow>請在聊天室輸入新的獎勵文字。完成後請在新的一行輸入「quit」。
-    reward-text-changed: <green>成功：獎勵文字已更新。
+    reward-text-changed: '<green>成功：獎勵文字已更新。'
     write-repeat-reward-text: <yellow>請在聊天室輸入新的重複獎勵文字。完成後請在新的一行輸入「quit」。
-    repeat-reward-text-changed: <green>成功：重複獎勵文字已更新。
+    repeat-reward-text-changed: '<green>成功：重複獎勵文字已更新。'
     write-reward-commands: <yellow>請在聊天室逐行輸入新的獎勵指令。完成後請在新的一行輸入「quit」。
-    reward-commands-changed: <green>成功：獎勵指令已更新。
+    reward-commands-changed: '<green>成功：獎勵指令已更新。'
     write-repeat-reward-commands: <yellow>請在聊天室逐行輸入新的重複獎勵指令。完成後請在新的一行輸入「quit」。
-    repeat-reward-commands-changed: <green>成功：重複獎勵指令已更新。
+    repeat-reward-commands-changed: '<green>成功：重複獎勵指令已更新。'
     challenge-removed: <green>[gamemode] 的挑戰 [challenge] 已從資料庫中移除。
     confirm-challenge-deletion: <yellow>請確認是否要從資料庫中移除 [gamemode] 的挑戰 [challenge]。
     level-removed: <green>[gamemode] 的等級 [level] 已從資料庫中移除。
     confirm-level-deletion: <yellow>請確認是否要從資料庫中移除 [gamemode] 的等級 [level]。
     start-downloading: <green>開始下載並匯入挑戰圖書館。
-    written-text: <green>輸入內容：
+    written-text: '<green>輸入內容：'
     confirm-data-replacement: <yellow>請確認是否要以新的挑戰取代目前的挑戰資料。
-    new-challenges-imported: <green>成功：[gamemode] 的新挑戰已匯入。
+    new-challenges-imported: '<green>成功：[gamemode] 的新挑戰已匯入。'
     exported-file-name: <yellow>請輸入匯出資料庫檔案的檔名。（輸入「cancel」即可取消）
-    database-export-completed: <green>成功：[world] 的資料庫已匯出完成，已產生檔案 [file]。
+    database-export-completed: '<green>成功：[world] 的資料庫已匯出完成，已產生檔案 [file]。'
     file-name-exist: <red>名為「[id]」的檔案已存在，無法覆寫。
     write-search: <yellow>請輸入搜尋內容。（輸入「cancel」即可取消）
     search-updated: <green>搜尋內容已更新。
-    enter-formula: '<green>請輸入公式，只能使用 PAPI Placeholder，以及 =、<、>、<=、>=、==、!=、AND、OR 等符號。
-
-      <green>範例：<gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100'
-    confirm-instruction: <gray>在聊天室輸入「<green>confirm<gray>」以繼續，或輸入「<red>cancel<gray>」以取消。
-    input-repeat-count: <yellow>請在聊天室輸入重複次數。輸入 0 代表無限重複。
+    enter-formula: |-
+      <green>請輸入公式，只能使用 PAPI Placeholder，以及 =、<、>、<=、>=、==、!=、AND、OR 等符號。
+      <green>範例：<gray>%my_lifetime_count% >= 1000 AND %island_level% >= 100
   titles:
     challenge-title: 完成挑戰！
     challenge-subtitle: '[friendlyName]'
@@ -1297,15 +1253,15 @@ challenges:
     name-has-completed-challenge: <dark_purple>[name] 已完成 <reset><dark_purple>[value] 挑戰！
     name-has-completed-level: <dark_purple>[name] 已完成 <reset><dark_purple>[value] 等級！
     load-skipping: '"[value]" 已存在，已略過。'
-    load-overwriting: 正在覆寫「[value]」
-    load-add: 新增物件：[value]
+    load-overwriting: '正在覆寫「[value]」'
+    load-add: '新增物件：[value]'
     no-reward-this-time: <gray>運氣不太好——這次沒有獎勵！
   errors:
     no-name: <red>缺少挑戰名稱。
     unknown-challenge: <red>未知的挑戰。
-    not-valid-integer: '<red>輸入的整數「[value]」無效！
-
-      <red>必須介於 [min] 與 [max] 之間。'
+    not-valid-integer: |-
+      <red>輸入的整數「[value]」無效！
+      <red>必須介於 [min] 與 [max] 之間。
     not-deployed: <red>此挑戰尚未部署！
     not-on-island: <red>你必須位於自己的島嶼上才能這麼做！
     challenge-level-not-available: <red>你尚未解鎖完成此挑戰所需的等級。
@@ -1319,10 +1275,11 @@ challenges:
     not-enough-money: <red>你的帳戶至少需要有 [value] 才能完成此挑戰。
     not-enough-experience: <red>你至少需要 [value] 點經驗值才能完成此挑戰。
     island-level: <red>你的島嶼至少需要達到等級 [number] 才能完成此挑戰！
-    no-load: <red>錯誤：無法載入 [file]。錯誤：[message]。
-    load-error: <red>錯誤：無法載入 [value]。
-    import-failed: <red>無法匯入挑戰：[message]。請查看伺服器主控台以取得詳細資訊。
+    no-load: '<red>錯誤：無法載入 [file]。錯誤：[message]。'
+    load-error: '<red>錯誤：無法載入 [value]。'
+    import-failed: '<red>無法匯入挑戰：[message]。請查看伺服器主控台以取得詳細資訊。'
     no-rank: <red>你的權限等級不足，無法執行此操作。
+    wrong-biome: <red>你必須站在 [biome] 生態域內才能完成此挑戰！
     cannot-remove-items: <red>部分物品無法從你的背包中移除！
     exist-challenges-or-levels: <red>此世界已存在挑戰或等級，無法繼續！
     no-challenges: <red>此世界尚未設定挑戰！
@@ -1340,22 +1297,104 @@ challenges:
     no-team: <red>這是一項隊伍挑戰，你必須加入隊伍才能完成！
     insufficient-team: <red>此隊伍挑戰需要至少 [number] 位隊伍成員在線，目前只有 [online] 位在線。
     member-missing-share: <red>[name] 尚未提供他應負責的份額（[amount] x [item]）。
-    wrong-biome: <red>你必須站在 [biome] 生態域內才能完成此挑戰！
+#    # Showcase for manual material translation
+#    materials:
+#        # Names should be lowercase.
+#        cobblestone: "Cobblestone"
+#        # Also supports descriptions.
+#        stone:
+#            name: "Stone"
+#            description: ""
+#    item-stacks:
+#        # Non-specific item meta translations.
+#        # TYPE is the item type
+#        # META is a content of item meta.
+#        generic: "[type] [meta]"
+#        # Non-specific meta translations. Will replace [meta]
+#        meta:
+#            upgraded: "Upgraded"
+#            extended: "Extended"
+#            potion-meta: "<yellow>[type] [upgraded] [extended]"
+#            # Be aware, enchants are always listed below item in separate line.
+#            enchant-meta: "    <gray>- <yellow>[type] [level]"
+#            skull-meta: ": <yellow>[player-name]"
+#            book-meta: "<yellow>[title] [author]"
+#        # Custom Enchantment Translation.
+#        enchant:
+#            menting: "Mending"
+#            unbreaking: "Unbreaking"
+#        # Custom Potion Translation.
+#        potion-type:
+#            water_breathing: "Water Breathing"
+#        # You can also create specific item translations
+#        # Like translate all potions.
+#        potion:
+#            # This will overwrite generic translation.
+#            name: "[type] [upgraded] [extended]"
+#            # Type is either specific translation or potion effect.
+#            uncraftable: "Uncraftable"
+#            water: "Water"
+#            mundane: "Mundane"
+#            thick: "Thick"
+#            awkward: "Awkward"
+#            night_vision: "Potion of Night Vision"
+#            invisibility: "Potion of Invisibility"
+#            jump: "Potion of Leaping"
+#            fire_resistance: "Potion of Fire Resistance"
+#            speed: "Potion of Swiftness"
+#            slowness: "Potion of Slowness"
+#            water_breathing: "Potion of Water Breathing"
+#            instant_heal: "Potion of Healing"
+#            instant_damage: "Potion of Harming"
+#            poison: "Potion of Poison"
+#            regen: "Potion of Regeneration"
+#            strength: "Potion of Strength"
+#            weakness: "Potion of Weakness"
+#            luck: "Potion of Luck"
+#            turtle_master: "Potion of Turtle Master"
+#            slow_falling: "Potion of Slow Falling"
+#        stone_shovel:
+#            # This will mean that only stone shovels will not show
+#            # meta information.
+#            name: "[type]"
+#
+#    # Showcase how to support multi-linguistic challenges
+#    challenges:
+#        # Database ID name.
+#        example_challenge_id:
+#            name: "<dark_green>Translated Name"
+#            description: |-
+#                <gray>Translated Custom
+#                <gray>description
+#            reward-text: |-
+#                <gray>Translated Reward
+#                <gray>text
+#            repeat-reward-text: |-
+#                <gray>Translated Repeat
+#                <gray>Reward text
+#    levels:
+#        # Database ID name.
+#        example_level_id:
+#            name: "<dark_green>Translated Name"
+#            description: |-
+#                <gray>Translated Custom
+#                <gray>description
+#            reward-text: |-
+#                <gray>Translated Reward
+#                <gray>text
 protection:
   flags:
     CHALLENGES_ISLAND_PROTECTION:
-      description: '<dark_purple><italic>設定哪些人
-
-        <dark_purple><italic>可以完成挑戰。'
+      description: |-
+        <dark_purple><italic>設定哪些人
+        <dark_purple><italic>可以完成挑戰。
       name: 挑戰保護
     CHALLENGES_WORLD_PROTECTION:
-      description: '<dark_purple><italic>啟用或停用
-
+      description: |-
+        <dark_purple><italic>啟用或停用
         <dark_purple><italic>玩家必須位於
-
         <dark_purple><italic>自己的島嶼上
-
-        <dark_purple><italic>才能完成挑戰的限制。'
+        <dark_purple><italic>才能完成挑戰的限制。
       name: 挑戰島嶼限制
       hint: 島嶼外無法完成挑戰
 version: 12
