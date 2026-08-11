@@ -4,6 +4,7 @@ import me.drownek.plugwright.PlugwrightTestTask
 plugins {
     // Plugwright: boots a real Paper server, deploys plugins, drives Mineflayer bots.
     id("io.github.drownek.plugwright") version "2.0.2"
+    id("java-base")
 }
 
 // --- Dependency jars -------------------------------------------------------------------------
