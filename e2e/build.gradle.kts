@@ -4,13 +4,6 @@ import me.drownek.plugwright.PlugwrightTestTask
 plugins {
     // Plugwright: boots a real Paper server, deploys plugins, drives Mineflayer bots.
     id("io.github.drownek.plugwright") version "2.0.2"
-    id("java")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
 }
 
 // --- Dependency jars -------------------------------------------------------------------------
@@ -39,17 +32,34 @@ val bskyblockJar = cachedJar(
     "https://github.com/BentoBoxWorld/BSkyBlock/releases/download/1.20.0/BSkyBlock-1.20.0.jar"
 )
 
-val javaLauncher = extensions.getByType<JavaToolchainService>().launcherFor(extensions.getByType<JavaPluginExtension>().toolchain)
+// If Gradle is running on Java 17, try to find a Java 21+ toolchain to satisfy Maven/Paper.
+// If Gradle is already running on Java 21+ (e.g., 22, 23), don't force a strict toolchain lock.
+val currentJava = JavaVersion.current()
+val javaLauncherProvider = if (currentJava < JavaVersion.VERSION_21) {
+    extensions.getByType<JavaToolchainService>().launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+} else {
+    null
+}
 
 val buildChallenges by tasks.registering(Exec::class) {
     workingDir = file("..")
 
+    inputs.dir(file("../src"))
+    inputs.file(file("../pom.xml"))
+
     val isWindows = System.getProperty("os.name").lowercase().contains("win")
     val executable = if (isWindows) listOf("cmd", "/c", "mvnw.cmd") else listOf("./mvnw")
-    commandLine(executable + listOf("-q", "-DskipTests", "package"))
+    // Use 'clean' to avoid multiple jars causing singleFile to fail
+    commandLine(executable + listOf("-q", "clean", "package", "-DskipTests"))
 
-    // Maven needs JAVA_HOME to be Java 21+ as per our project toolchain
-    environment["JAVA_HOME"] = javaLauncher.get().metadata.installationPath.asFile.absolutePath
+    // Pass the correct JAVA_HOME to Maven if we needed a custom toolchain
+    if (javaLauncherProvider != null) {
+        environment["JAVA_HOME"] = javaLauncherProvider.get().metadata.installationPath.asFile.absolutePath
+    } else {
+        environment["JAVA_HOME"] = System.getProperty("java.home")
+    }
 
     // Explicitly define the expected output file
     val outputJar = layout.buildDirectory.file("Challenges.jar")
@@ -71,6 +81,9 @@ val buildChallenges by tasks.registering(Exec::class) {
 
 tasks.named<PlugwrightTestTask>("plugwrightTest") {
     dependsOn(buildChallenges)
+    if (javaLauncherProvider != null) {
+        javaLauncher.set(javaLauncherProvider)
+    }
 }
 
 plugwright {

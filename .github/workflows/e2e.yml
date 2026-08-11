@@ -61,8 +61,6 @@ jobs:
           # (mineflayer/minecraft-data must support the target Minecraft version).
           key: e2e-npm-${{ hashFiles('e2e/src/test/e2e/package-lock.json') }}
 
-      - name: Build Challenges jar (Maven)
-        run: mvn -B -DskipTests package
 
       - name: Run E2E tests
         working-directory: e2e
