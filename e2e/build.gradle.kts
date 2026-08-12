@@ -52,8 +52,7 @@ val buildChallenges = tasks.register<Exec>("buildChallenges") {
 
     val isWindows = System.getProperty("os.name").lowercase().contains("win")
     val executable = if (isWindows) listOf("cmd", "/c", "mvnw.cmd") else listOf("./mvnw")
-    // Use 'clean' to avoid multiple jars causing singleFile to fail
-    commandLine(executable + listOf("-q", "clean", "package", "-DskipTests"))
+    commandLine(executable + listOf("-q", "package", "-DskipTests"))
 
     // Pass the correct JAVA_HOME to Maven if we needed a custom toolchain
     if (javaLauncherProvider != null) {
@@ -74,7 +73,8 @@ val buildChallenges = tasks.register<Exec>("buildChallenges") {
         val builtJar = fileTree("../target") {
             include("Challenges-*.jar")
             exclude("*sources*", "*javadoc*")
-        }.singleFile
+        }.files.maxByOrNull { it.lastModified() } 
+            ?: throw GradleException("No Challenges jar found in target/")
         
         builtJar.copyTo(outputJar.get().asFile, overwrite = true)
     }
