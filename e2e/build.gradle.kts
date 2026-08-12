@@ -44,7 +44,7 @@ val javaLauncherProvider = if (currentJava < JavaVersion.VERSION_21) {
     null
 }
 
-val buildChallenges by tasks.registering(Exec::class) {
+val buildChallenges = tasks.register<Exec>("buildChallenges") {
     workingDir = file("..")
 
     inputs.dir(file("../src"))
