@@ -49,6 +49,9 @@ val buildChallenges = tasks.register<Exec>("buildChallenges") {
 
     inputs.dir(file("../src"))
     inputs.file(file("../pom.xml"))
+    // The wrapper pins the Maven version, so a bump there has to retrigger the build too.
+    inputs.dir(file("../.mvn"))
+    inputs.file(file("../mvnw"))
 
     val isWindows = System.getProperty("os.name").lowercase().contains("win")
     val executable = if (isWindows) listOf("cmd", "/c", "mvnw.cmd") else listOf("./mvnw")
