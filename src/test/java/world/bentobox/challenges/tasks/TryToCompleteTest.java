@@ -2,6 +2,7 @@ package world.bentobox.challenges.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -34,11 +35,14 @@ import org.bukkit.World.Environment;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.potion.PotionType;
 import org.bukkit.util.BoundingBox;
 import org.eclipse.jdt.annotation.NonNull;
@@ -47,6 +51,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import world.bentobox.bentobox.hooks.VaultHook;
@@ -1580,5 +1585,122 @@ class TryToCompleteTest extends AbstractChallengesTest {
 
         // Verify items were not removed
         assertEquals(10, invEmerald.getAmount(), "Items should not be removed when requirement fails");
+    }
+
+    // -------------------------------------------------------------------------
+    // Anvil repair cost handling (Issue #433)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Helper method to create an enchanted book with a single stored enchantment and, optionally,
+     * an anvil repair cost (as produced when books are combined in an anvil).
+     */
+    private ItemStack createEnchantedBook(Enchantment enchantment, int level, int repairCost) {
+        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+        meta.addStoredEnchant(enchantment, level, true);
+        if (repairCost > 0) {
+            ((Repairable) meta).setRepairCost(repairCost);
+        }
+        book.setItemMeta(meta);
+        return book;
+    }
+
+    @Test
+    void testInventoryChallengeEnchantedBookFromAnvilMatches() {
+        // Required: Unbreaking III book with no repair cost (as configured by an admin)
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredBook = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        req.setRequiredItems(Collections.singletonList(requiredBook));
+        req.setTakeItems(true);
+        challenge.setRequirements(req);
+
+        // Player holds an Unbreaking III book that was combined in an anvil (has repair_cost)
+        ItemStack anvilBook = createEnchantedBook(Enchantment.UNBREAKING, 3, 1);
+        assertFalse(anvilBook.isSimilar(requiredBook), "Sanity: strict isSimilar must differ on repair cost");
+        when(inv.getContents()).thenReturn(new ItemStack[] { anvilBook });
+        when(player.getInventory()).thenReturn(inv);
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user, never()).getTranslation(any(World.class), eq("challenges.errors.not-enough-items"), any(), any());
+        assertEquals(0, anvilBook.getAmount(), "The anvil-made book should have been taken");
+    }
+
+    @Test
+    void testInventoryChallengeEnchantedBookRequiredHasRepairCost() {
+        // Required item itself was created from an anvil-made book; player holds a clean one
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredBook = createEnchantedBook(Enchantment.UNBREAKING, 3, 2);
+        req.setRequiredItems(Collections.singletonList(requiredBook));
+        challenge.setRequirements(req);
+
+        ItemStack cleanBook = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        when(inv.getContents()).thenReturn(new ItemStack[] { cleanBook });
+        when(player.getInventory()).thenReturn(inv);
+
+        assertTrue(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+    }
+
+    @Test
+    void testInventoryChallengeEnchantedBookWrongLevelStillFails() {
+        // Ignoring repair cost must not loosen the enchantment check itself
+        InventoryRequirements req = new InventoryRequirements();
+        ItemStack requiredBook = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        req.setRequiredItems(Collections.singletonList(requiredBook));
+        challenge.setRequirements(req);
+
+        ItemStack lowerBook = createEnchantedBook(Enchantment.UNBREAKING, 2, 1);
+        when(inv.getContents()).thenReturn(new ItemStack[] { lowerBook });
+        when(player.getInventory()).thenReturn(inv);
+        // The "missing items" message prettifies the enchanted book, which needs vararg translations
+        Mockito.doAnswer(invocation -> invocation.getArgument(0, String.class))
+                .when(user).getTranslationOrNothing(anyString(), Mockito.any(String[].class));
+
+        assertFalse(TryToComplete.complete(addon, user, challenge, world, topLabel, permissionPrefix));
+        verify(user).getTranslation(any(World.class), eq("challenges.errors.not-enough-items"), eq("[items]"),
+                any());
+    }
+
+    @Test
+    void testUtilsIsSimilarIgnoringRepairCost() {
+        ItemStack clean = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        ItemStack anvil = createEnchantedBook(Enchantment.UNBREAKING, 3, 5);
+        ItemStack other = createEnchantedBook(Enchantment.MENDING, 1, 5);
+
+        assertTrue(Utils.isSimilarIgnoringRepairCost(clean, anvil));
+        assertTrue(Utils.isSimilarIgnoringRepairCost(anvil, clean));
+        assertTrue(Utils.isSimilarIgnoringRepairCost(anvil, anvil.clone()));
+        assertFalse(Utils.isSimilarIgnoringRepairCost(anvil, other));
+        assertFalse(Utils.isSimilarIgnoringRepairCost(null, clean));
+        assertFalse(Utils.isSimilarIgnoringRepairCost(clean, null));
+
+        // The original item must not be modified
+        assertEquals(5, ((Repairable) anvil.getItemMeta()).getRepairCost());
+    }
+
+    @Test
+    void testUtilsWithoutRepairCost() {
+        ItemStack clean = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        ItemStack anvil = createEnchantedBook(Enchantment.UNBREAKING, 3, 5);
+        ItemStack plain = new ItemStack(Material.DIRT);
+
+        // Items without a repair cost are returned as-is
+        assertTrue(clean == Utils.withoutRepairCost(clean));
+        assertTrue(plain == Utils.withoutRepairCost(plain));
+        assertNull(Utils.withoutRepairCost(null));
+
+        ItemStack stripped = Utils.withoutRepairCost(anvil);
+        assertFalse(((Repairable) stripped.getItemMeta()).hasRepairCost());
+        assertTrue(stripped.isSimilar(clean));
+        assertEquals(5, ((Repairable) anvil.getItemMeta()).getRepairCost(), "Original must be untouched");
+    }
+
+    @Test
+    void testGroupEqualItemsMergesAnvilBooks() {
+        ItemStack clean = createEnchantedBook(Enchantment.UNBREAKING, 3, 0);
+        ItemStack anvil = createEnchantedBook(Enchantment.UNBREAKING, 3, 3);
+        List<ItemStack> grouped = Utils.groupEqualItems(Arrays.asList(clean, anvil), Set.of());
+        assertEquals(1, grouped.size());
+        assertEquals(2, grouped.get(0).getAmount());
     }
 }

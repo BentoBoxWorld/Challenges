@@ -1993,7 +1993,8 @@ public class TryToComplete
      * Checks if two items match, considering the ignore-metadata setting. For potion-like materials
      * that are in the ignore-metadata set, compares the base potion type while ignoring other metadata.
      * For non-potion materials in the ignore-metadata set, uses type-only comparison. For materials
-     * not in the ignore-metadata set, uses full similarity comparison.
+     * not in the ignore-metadata set, uses full similarity comparison, except that the anvil
+     * repair cost component is ignored.
      *
      * @param candidate candidate item from inventory
      * @param required required item template
@@ -2012,10 +2013,11 @@ public class TryToComplete
             return false;
         }
 
-        // If metadata should not be ignored, use full similarity check
+        // If metadata should not be ignored, use full similarity check. The anvil repair cost is
+        // disregarded so that, e.g., enchanted books combined in an anvil still match (#433).
         if (!ignoreMetaData.contains(required.getType()))
         {
-            return candidate.isSimilar(required);
+            return Utils.isSimilarIgnoringRepairCost(candidate, required);
         }
 
         // Metadata is being ignored. For potion-like materials, still compare base potion type.

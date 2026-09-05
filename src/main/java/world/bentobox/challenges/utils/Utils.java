@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionType;
 import org.eclipse.jdt.annotation.Nullable;
@@ -52,10 +53,61 @@ public class Utils
 		}
 		else
 		{
+			input = withoutRepairCost(input);
+			stack = withoutRepairCost(stack);
+
 			return input.getType() == stack.getType() &&
 				input.hasItemMeta() == stack.hasItemMeta() &&
 				(!input.hasItemMeta() || Bukkit.getItemFactory().equals(input.getItemMeta(), stack.getItemMeta()));
 		}
+	}
+
+
+	/**
+	 * Checks if two item stacks are similar (same type and meta, ignoring amount) while disregarding
+	 * the anvil {@code repair_cost} component. Anvils add this bookkeeping component to any item they
+	 * produce (for example when combining two enchanted books), so a strict {@link ItemStack#isSimilar}
+	 * would treat an anvil-made book as a different item from one obtained by other means.
+	 * @param first First item.
+	 * @param second Second item.
+	 * @return {@code true} if items are similar once the repair cost is ignored, {@code false} otherwise.
+	 */
+	public static boolean isSimilarIgnoringRepairCost(@Nullable ItemStack first, @Nullable ItemStack second)
+	{
+		if (first == null || second == null)
+		{
+			return false;
+		}
+
+		return withoutRepairCost(first).isSimilar(withoutRepairCost(second));
+	}
+
+
+	/**
+	 * Returns the given item without an anvil repair cost. If the item carries a repair cost, a copy
+	 * with the repair cost cleared is returned; otherwise the original item is returned untouched.
+	 * @param item Item to inspect.
+	 * @return Item without a repair cost, or the same item if it had none.
+	 */
+	public static ItemStack withoutRepairCost(ItemStack item)
+	{
+		if (item == null || !item.hasItemMeta())
+		{
+			return item;
+		}
+
+		ItemMeta meta = item.getItemMeta();
+
+		if (meta instanceof Repairable repairable && repairable.hasRepairCost())
+		{
+			repairable.setRepairCost(0);
+
+			ItemStack copy = item.clone();
+			copy.setItemMeta(meta);
+			return copy;
+		}
+
+		return item;
 	}
 
 
