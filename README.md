@@ -4,8 +4,6 @@
 
 Add-on for BentoBox to provide challenges for any BentoBox GameMode. Challenges can be to collect items, to have items or blocks nearby, to amass an amount of money or island levels, or to have accomplished some player statistic. Each challenge can reward the player with money, experience points, blocks, items, or other things, like permissions, Pre-built challenges are available and there is also a Web Library of pre-built ones. Customize them to fit your needs!
 
-![Challenges](https://github.com/BentoBoxWorld/Challenges/assets/4407265/9b3c5278-3a9d-45f2-9ee1-2c1fc1199a8d)
-
 ## How to use
 
 1. Place the addon jar in the addons folder of the BentoBox plugin

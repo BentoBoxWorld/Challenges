@@ -1,8 +1,10 @@
 import java.net.URI
+import me.drownek.plugwright.PlugwrightTestTask
 
 plugins {
     // Plugwright: boots a real Paper server, deploys plugins, drives Mineflayer bots.
     id("io.github.drownek.plugwright") version "2.0.2"
+    id("java-base")
 }
 
 // --- Dependency jars -------------------------------------------------------------------------
@@ -31,15 +33,62 @@ val bskyblockJar = cachedJar(
     "https://github.com/BentoBoxWorld/BSkyBlock/releases/download/1.20.0/BSkyBlock-1.20.0.jar"
 )
 
-// Maven-built Challenges jar (version/profile suffix varies: -SNAPSHOT-LOCAL locally, plain on CI).
-val challengesJar: File = (file("../target").listFiles()?.toList() ?: emptyList())
-    .firstOrNull {
-        it.name.startsWith("Challenges-") && it.name.endsWith(".jar") &&
-            !it.name.contains("sources") && !it.name.contains("javadoc")
+// If Gradle is running on Java 17, try to find a Java 21+ toolchain to satisfy Maven/Paper.
+// If Gradle is already running on Java 21+ (e.g., 22, 23), don't force a strict toolchain lock.
+val currentJava = JavaVersion.current()
+val javaLauncherProvider = if (currentJava < JavaVersion.VERSION_21) {
+    extensions.getByType<JavaToolchainService>().launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
-    ?: throw GradleException(
-        "Challenges jar not found in ../target — run 'mvn -q -DskipTests package' first."
-    )
+} else {
+    null
+}
+
+val buildChallenges = tasks.register<Exec>("buildChallenges") {
+    workingDir = file("..")
+
+    inputs.dir(file("../src"))
+    inputs.file(file("../pom.xml"))
+    // The wrapper pins the Maven version, so a bump there has to retrigger the build too.
+    inputs.dir(file("../.mvn"))
+    inputs.file(file("../mvnw"))
+
+    val isWindows = System.getProperty("os.name").lowercase().contains("win")
+    val executable = if (isWindows) listOf("cmd", "/c", "mvnw.cmd") else listOf("./mvnw")
+    commandLine(executable + listOf("-q", "package", "-DskipTests"))
+
+    // Pass the correct JAVA_HOME to Maven if we needed a custom toolchain
+    if (javaLauncherProvider != null) {
+        environment["JAVA_HOME"] = javaLauncherProvider.get().metadata.installationPath.asFile.absolutePath
+    } else {
+        environment["JAVA_HOME"] = System.getProperty("java.home")
+    }
+
+    // Explicitly define the expected output file
+    val outputJar = layout.buildDirectory.file("Challenges.jar")
+    outputs.file(outputJar)
+    
+    doFirst {
+        logger.lifecycle("Building Challenges project using Maven Wrapper (mvnw package)...")
+    }
+    
+    doLast {
+        val builtJar = fileTree("../target") {
+            include("Challenges-*.jar")
+            exclude("*sources*", "*javadoc*")
+        }.files.maxByOrNull { it.lastModified() } 
+            ?: throw GradleException("No Challenges jar found in target/")
+        
+        builtJar.copyTo(outputJar.get().asFile, overwrite = true)
+    }
+}
+
+tasks.named<PlugwrightTestTask>("plugwrightTest") {
+    dependsOn(buildChallenges)
+    if (javaLauncherProvider != null) {
+        javaLauncher.set(javaLauncherProvider)
+    }
+}
 
 plugwright {
     minecraftVersion.set("1.21.11")
@@ -52,6 +101,6 @@ plugwright {
     writeFiles {
         file("plugins/BentoBox.jar", bentoboxJar)
         file("plugins/BentoBox/addons/BSkyBlock.jar", bskyblockJar)
-        file("plugins/BentoBox/addons/Challenges.jar", challengesJar)
+        file("plugins/BentoBox/addons/Challenges.jar", file("build/Challenges.jar"))
     }
 }
