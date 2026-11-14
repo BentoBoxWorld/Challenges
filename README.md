@@ -25,7 +25,7 @@ Step-by-step instructions are in the [documentation](https://docs.bentobox.world
 
 ## Compatibility
 
-- [x] BentoBok
+- [x] BentoBox
 - [x] BSkyBlock
 - [x] AcidIsland
 - [x] SkyGrid 
@@ -33,9 +33,9 @@ Step-by-step instructions are in the [documentation](https://docs.bentobox.world
 
 ## Translations
 
-As with most of BentoBox projects, Challenges Addon is translatable into any language. Everyone can contribute, and translate some parts of the addon in their language via [GitLocalize](https://gitlocalize.com/repo/2896).
-If your language is not in the list, please contact the developers via Discord and it will be added there.
-Unfortunately, default challenges come only be in English, but there are different challenges libraries where everyone can share their challenges with their translations.
+The Challenges Addon is available in 15 languages. `en-US.yml` is the reference locale; the other locale files are generated from it and then corrected by server admins and translators.
+If you spot a wrong or awkward translation, or want a language added, please open an [issue](https://github.com/BentoBoxWorld/Challenges/issues) or a pull request against the files in `src/main/resources/locales/`, or let us know on Discord.
+The default challenges bundled with the addon are in English only, but the Web Library has challenge packs in several other languages.
 
 ## Documentation
 
