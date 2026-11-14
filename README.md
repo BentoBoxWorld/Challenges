@@ -8,15 +8,20 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode. Challenges 
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
 2. Restart the server
-3. Edit the config.yml how you want.
-4. Restart the server
-5. Run the Admin challenges command to set up challenges for your game mode.
+3. Run the admin challenges command for your game mode, e.g. `/bsbadmin challenges`, to open the Admin GUI
+4. Click **Library** and pick a challenge pack for your game mode (see below)
+5. Players can now use `/island challenges` (or the equivalent for your game mode)
 
-#### Installation
+#### Getting challenges
 
-By default, challenges addon comes without any challenge or level. On first run time only Admin GUI will be accessible. 
-Admins can create their own challenges or import some default challenges. Default challenges contains 5 levels and 57 challenges.
-There also exists a Web Library, where admins can download public challenges. It is accessible from the Admin GUI by clicking on the Web icon.
+The addon comes without any active challenges or levels, so until an admin adds some only the Admin GUI is useful. There are four ways to add them:
+
+- **Web Library (recommended)**: click **Library** in the Admin GUI to download a ready-made pack. Packs exist for BSkyBlock, AcidIsland, Poseidon and Gusher, most of them in several languages. The Library only installs into a game mode that has no challenges yet, so use **Challenge Wipe** first if you are switching packs.
+- **Bundled defaults**: click **Import Database** and choose `default` (5 levels and 57 challenges). Works without internet access.
+- **Template file**: write challenges in YAML (see `template.yml`) and load them with **Import Template**.
+- **By hand**: use **Add Challenge** and **Add Level** in the Admin GUI.
+
+Step-by-step instructions are in the [documentation](https://docs.bentobox.world/en/latest/addons/Challenges/#getting-started).
 
 ## Compatibility
 
