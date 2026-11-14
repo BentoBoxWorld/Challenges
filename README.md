@@ -8,19 +8,24 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode. Challenges 
 
 1. Place the addon jar in the addons folder of the BentoBox plugin
 2. Restart the server
-3. Edit the config.yml how you want.
-4. Restart the server
-5. Run the Admin challenges command to set up challenges for your game mode.
+3. Run the admin challenges command for your game mode, e.g. `/bsbadmin challenges`, to open the Admin GUI
+4. Click **Library** and pick a challenge pack for your game mode (see below)
+5. Players can now use `/island challenges` (or the equivalent for your game mode)
 
-#### Installation
+#### Getting challenges
 
-By default, challenges addon comes without any challenge or level. On first run time only Admin GUI will be accessible. 
-Admins can create their own challenges or import some default challenges. Default challenges contains 5 levels and 57 challenges.
-There also exists a Web Library, where admins can download public challenges. It is accessible from the Admin GUI by clicking on the Web icon.
+The addon comes without any active challenges or levels, so until an admin adds some only the Admin GUI is useful. There are four ways to add them:
+
+- **Web Library (recommended)**: click **Library** in the Admin GUI to download a ready-made pack. Packs exist for BSkyBlock, AcidIsland, Poseidon and Gusher, most of them in several languages. Installing a pack replaces the challenges and levels the game mode already has and keeps player progress. Versions up to 1.8.1 refuse to install over existing challenges, so use **Challenge Wipe** first on those.
+- **Bundled defaults**: click **Import Database** and choose `default` (5 levels and 57 challenges). Works without internet access.
+- **Template file**: write challenges in YAML (see `template.yml`) and load them with **Import Template**.
+- **By hand**: use **Add Challenge** and **Add Level** in the Admin GUI.
+
+Step-by-step instructions are in the [documentation](https://docs.bentobox.world/en/latest/addons/Challenges/#getting-started).
 
 ## Compatibility
 
-- [x] BentoBok
+- [x] BentoBox
 - [x] BSkyBlock
 - [x] AcidIsland
 - [x] SkyGrid 
@@ -28,9 +33,9 @@ There also exists a Web Library, where admins can download public challenges. It
 
 ## Translations
 
-As with most of BentoBox projects, Challenges Addon is translatable into any language. Everyone can contribute, and translate some parts of the addon in their language via [GitLocalize](https://gitlocalize.com/repo/2896).
-If your language is not in the list, please contact the developers via Discord and it will be added there.
-Unfortunately, default challenges come only be in English, but there are different challenges libraries where everyone can share their challenges with their translations.
+The Challenges Addon is available in 15 languages. `en-US.yml` is the reference locale; the other locale files are generated from it and then corrected by server admins and translators.
+If you spot a wrong or awkward translation, or want a language added, please open an [issue](https://github.com/BentoBoxWorld/Challenges/issues) or a pull request against the files in `src/main/resources/locales/`, or let us know on Discord.
+The default challenges bundled with the addon are in English only, but the Web Library has challenge packs in several other languages.
 
 ## Documentation
 
