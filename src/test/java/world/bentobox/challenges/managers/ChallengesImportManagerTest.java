@@ -291,6 +291,16 @@ class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
+    void testLoadDownloadedChallengesNotAGameModeWorld() {
+        when(iwm.getAddon(any())).thenReturn(java.util.Optional.empty());
+        when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
+        cim.loadDownloadedChallenges(user, world, "{}");
+        verify(addon).logWarning("Given world is not a gamemode world.");
+        verify(cm, never()).wipeDatabase(anyString());
+        verify(cm, never()).saveChallenges();
+    }
+
+    @Test
     void testLoadDownloadedChallengesExistingDataIsReplaced() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
         cim.loadDownloadedChallenges(user, world, "{}");

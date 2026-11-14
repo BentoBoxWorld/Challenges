@@ -777,13 +777,33 @@ public class ChallengesImportManager
             return;
         }
 
+        Optional<GameModeAddon> optional = this.addon.getPlugin().getIWM().getAddon(world);
+
+        if (optional.isEmpty())
+        {
+            if (user != null && user.isPlayer())
+            {
+                Utils.sendMessage(user,
+                    world,
+                    Constants.ERRORS + "not-a-gamemode-world",
+                    Constants.PARAMETER_WORLD, world.getName());
+            }
+
+            this.addon.logWarning("Given world is not a gamemode world.");
+
+            return;
+        }
+
+        // Challenges and levels are stored under the lowercase game mode name.
+        final String gameMode = optional.get().getDescription().getName().toLowerCase();
+
         ChallengesManager manager = this.addon.getChallengesManager();
 
         try
         {
             // This prefix will be used to all challenges. That is a unique way how to separate challenged for
             // each game mode.
-            String uniqueIDPrefix = Utils.getGameMode(world).toLowerCase() + "_";
+            String uniqueIDPrefix = gameMode + "_";
             DefaultDataHolder downloadedChallenges = new DefaultJSONHandler(this.addon).loadWebObject(downloadString);
 
             if (downloadedChallenges == null)
@@ -795,8 +815,7 @@ public class ChallengesImportManager
             // now that the download has parsed, so a broken download cannot leave the world empty.
             if (manager.hasAnyChallengeData(world.getName()))
             {
-                this.addon.getPlugin().getIWM().getAddon(world).ifPresent(gameModeAddon ->
-                    manager.wipeDatabase(gameModeAddon.getDescription().getName().toLowerCase()));
+                manager.wipeDatabase(gameMode);
             }
 
             // All new challenges should get correct ID. So we need to map it to loaded challenges.
