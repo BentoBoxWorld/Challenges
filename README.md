@@ -16,7 +16,7 @@ Add-on for BentoBox to provide challenges for any BentoBox GameMode. Challenges 
 
 The addon comes without any active challenges or levels, so until an admin adds some only the Admin GUI is useful. There are four ways to add them:
 
-- **Web Library (recommended)**: click **Library** in the Admin GUI to download a ready-made pack. Packs exist for BSkyBlock, AcidIsland, Poseidon and Gusher, most of them in several languages. The Library only installs into a game mode that has no challenges yet, so use **Challenge Wipe** first if you are switching packs.
+- **Web Library (recommended)**: click **Library** in the Admin GUI to download a ready-made pack. Packs exist for BSkyBlock, AcidIsland, Poseidon and Gusher, most of them in several languages. Installing a pack replaces the challenges and levels the game mode already has and keeps player progress. Versions up to 1.8.1 refuse to install over existing challenges, so use **Challenge Wipe** first on those.
 - **Bundled defaults**: click **Import Database** and choose `default` (5 levels and 57 challenges). Works without internet access.
 - **Template file**: write challenges in YAML (see `template.yml`) and load them with **Import Template**.
 - **By hand**: use **Add Challenge** and **Add Level** in the Admin GUI.
