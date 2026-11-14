@@ -1242,7 +1242,6 @@ challenges:
     load-error: "<red>Error: No se pudo cargar [value]."
     no-rank: "<red>No tienes un rango lo suficientemente alto como para hacer eso."
     cannot-remove-items: "<red>¡Algunos items no se pueden eliminar de tu inventario!"
-    exist-challenges-or-levels: "<red>Los desafíos ya existen en tu mundo. ¡No se puede proceder!"
     no-challenges: "<red>¡Los desafíos aún no se han implementado en este mundo!"
     no-challenges-admin: "<red>¡Los desafíos aún no se han implementado en este mundo! ¡Usa <dark_purple>/[command] <red>para agregarlos!"
     missing-arguments: "<red>Faltan argumentos de comando."

@@ -291,20 +291,38 @@ class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testLoadDownloadedChallengesExistingData() {
+    void testLoadDownloadedChallengesNotAGameModeWorld() {
+        when(iwm.getAddon(any())).thenReturn(java.util.Optional.empty());
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
-        when(user.isPlayer()).thenReturn(true);
         cim.loadDownloadedChallenges(user, world, "{}");
-        verify(user).getTranslation(any(World.class), eq("challenges.errors.exist-challenges-or-levels"));
-        verify(cm, never()).loadChallenge(any(), any(), anyBoolean(), any(), anyBoolean());
+        verify(addon).logWarning("Given world is not a gamemode world.");
+        verify(cm, never()).wipeDatabase(anyString());
+        verify(cm, never()).saveChallenges();
     }
 
     @Test
-    void testLoadDownloadedChallengesExistingDataConsoleUser() {
+    void testLoadDownloadedChallengesExistingDataIsReplaced() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
-        when(user.isPlayer()).thenReturn(false);
         cim.loadDownloadedChallenges(user, world, "{}");
-        verify(addon).logWarning("challenges.errors.exist-challenges-or-levels");
+        verify(cm).wipeDatabase("bskyblock");
+        verify(user, never()).getTranslation(any(World.class), eq("challenges.errors.exist-challenges-or-levels"));
+        verify(cm).saveChallenges();
+        verify(cm).saveLevels();
+    }
+
+    @Test
+    void testLoadDownloadedChallengesNoExistingDataDoesNotWipe() {
+        when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
+        cim.loadDownloadedChallenges(user, world, "{}");
+        verify(cm, never()).wipeDatabase(anyString());
+    }
+
+    @Test
+    void testLoadDownloadedChallengesBrokenDownloadKeepsExistingData() {
+        when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
+        cim.loadDownloadedChallenges(user, world, "{ this is not json");
+        verify(cm, never()).wipeDatabase(anyString());
+        verify(cm, never()).saveChallenges();
     }
 
     @Test

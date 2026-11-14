@@ -1235,7 +1235,6 @@ challenges:
     load-error: "<red>Hiba: Nem lehet betölteni az [value] értéket."
     no-rank: "<red>Nincs elég magas rangod ahhoz."
     cannot-remove-items: "<red>Néhány elem nem távolítható el a készletből!"
-    exist-challenges-or-levels: "<red>A világban már léteznek kihívások. Nem lehet folytatni!"
     no-challenges: "<red>A kihívások még nem valósultak meg ezen a világon!"
     no-challenges-admin: "<red>A kihívások még nem valósultak meg ezen a világon! Használja a <dark_purple>/[command] <red>billentyűket a hozzáadásukhoz!"
     missing-arguments: "<red>A parancsból hiányoznak az argumentumok."

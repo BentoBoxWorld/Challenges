@@ -1224,7 +1224,6 @@ challenges:
     load-error: "<red>Fehler: [value] kann nicht geladen werden."
     no-rank: "<red>Du hast keinen Rang, der hoch genug ist, um das zu tun."
     cannot-remove-items: "<red>Einige Items können nicht aus deinem Inventar entfernt werden!"
-    exist-challenges-or-levels: "<red>Die Herausforderung existiert bereits in deiner Welt. Kann nicht fortfahren!"
     no-challenges: "<red>Die Herausforderungen sind in dieser Welt noch nicht implementiert!"
     no-challenges-admin: "<red>Die Herausforderungen sind in dieser Welt noch nicht implementiert! Verwende <dark_purple>/[command] <red>um sie hinzuzufügen!"
     missing-arguments: "<red>Dem Befehl fehlen Argumente."

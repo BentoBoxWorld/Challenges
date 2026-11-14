@@ -1410,7 +1410,6 @@ challenges:
     load-error: '<red>Kļūda: Nevar ielādēt [value].'
     no-rank: "<red>Tavs ranks nav pietiekoši augsts, lai veiktu šo darbību."
     cannot-remove-items: '<red>Dažus priekšmetus neizdevās izņemt no tava inventāra!'
-    exist-challenges-or-levels: '<red>Šajā pasaulē jau existē uzdevumi, nevar turpināt!'
     no-challenges: '<red>Uzdevumi nav izveidoti šajā pasaulē!'
     no-challenges-admin: '<red>Uzdevumi nav izveidoti šajā pasaulē! Izmanto <dark_purple>/[command], <red>lai tos pievienotu!'
     missing-arguments: '<red>Pietrūkst komandas parametri.'

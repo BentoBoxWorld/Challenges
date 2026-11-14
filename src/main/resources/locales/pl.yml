@@ -1165,7 +1165,6 @@ challenges:
     load-error: "<red>Error: Nie można załadować [value]."
     no-rank: "<red> Nie masz wystarczająco wysokiej rangi, aby to zrobić."
     cannot-remove-items: "<red> Niektórych przedmiotów nie można usunąć z ekwipunku!"
-    exist-challenges-or-levels: "<red>Zadania już istnieją w twoim świecie. Nie można kontynuować!"
     no-challenges: "<red>Zadania nie są jeszcze zaimplementowane na tym świecie!"
     no-challenges-admin: "<red>Zadania nie są jeszcze zaimplementowane na tym świecie! Użyj <dark_purple>/[command] i <red>, aby je dodać!"
     missing-arguments: "<red>Poleceniu brakuje argumentów."

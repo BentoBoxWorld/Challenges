@@ -1220,7 +1220,6 @@ challenges:
     load-error: ＆cエラー：[value]をロードできません。
     no-rank: ＆cあなたにはそれをするランクがありません。
     cannot-remove-items: ＆c一部のアイテムはインベントリから削除できません！
-    exist-challenges-or-levels: ＆c世界にはすでに課題が存在します。続行できません！
     no-challenges: ＆cチャレンジは現在の世界では実装されていません！
     no-challenges-admin: ＆cチャレンジは現在の世界では実装されていません！それらを追加するには＆5 / [command]＆cを使用する必要があります。
     missing-arguments: ＆cコマンドに引数がありません。
