@@ -1234,7 +1234,6 @@ challenges:
     load-error: "<red>Erreur: Impossible de charger [value]."
     no-rank: "<red>Vous n'avez pas un rang assez élevé pour faire cela."
     cannot-remove-items: "<red>Certains objets ne peuvent pas être supprimés de votre inventaire !"
-    exist-challenges-or-levels: "<red>Dans votre monde il existe déjà des challenges. Impossible de continuer !"
     no-challenges: "<red>Les challenges ne sont pas actifs dans le monde actuel !"
     no-challenges-admin: "<red>Les Challenges ne sont pas actifs dans le monde actuel ! Vous devez utiliser <dark_purple>/[command] <red>pour ajouter cela !"
     missing-arguments: "<red>La commande n'a pas d'arguments."

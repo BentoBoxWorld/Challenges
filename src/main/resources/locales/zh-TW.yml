@@ -1281,7 +1281,6 @@ challenges:
     no-rank: <red>你的權限等級不足，無法執行此操作。
     wrong-biome: <red>你必須站在 [biome] 生態域內才能完成此挑戰！
     cannot-remove-items: <red>部分物品無法從你的背包中移除！
-    exist-challenges-or-levels: <red>此世界已存在挑戰或等級，無法繼續！
     no-challenges: <red>此世界尚未設定挑戰！
     no-challenges-admin: <red>此世界尚未設定挑戰！請使用 <dark_purple>/[command] <red>新增挑戰！
     missing-arguments: <red>指令缺少必要參數。

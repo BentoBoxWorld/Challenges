@@ -291,20 +291,28 @@ class ChallengesImportManagerTest extends AbstractChallengesTest {
     }
 
     @Test
-    void testLoadDownloadedChallengesExistingData() {
+    void testLoadDownloadedChallengesExistingDataIsReplaced() {
         when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
-        when(user.isPlayer()).thenReturn(true);
         cim.loadDownloadedChallenges(user, world, "{}");
-        verify(user).getTranslation(any(World.class), eq("challenges.errors.exist-challenges-or-levels"));
-        verify(cm, never()).loadChallenge(any(), any(), anyBoolean(), any(), anyBoolean());
+        verify(cm).wipeDatabase("bskyblock");
+        verify(user, never()).getTranslation(any(World.class), eq("challenges.errors.exist-challenges-or-levels"));
+        verify(cm).saveChallenges();
+        verify(cm).saveLevels();
     }
 
     @Test
-    void testLoadDownloadedChallengesExistingDataConsoleUser() {
-        when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
-        when(user.isPlayer()).thenReturn(false);
+    void testLoadDownloadedChallengesNoExistingDataDoesNotWipe() {
+        when(cm.hasAnyChallengeData(anyString())).thenReturn(false);
         cim.loadDownloadedChallenges(user, world, "{}");
-        verify(addon).logWarning("challenges.errors.exist-challenges-or-levels");
+        verify(cm, never()).wipeDatabase(anyString());
+    }
+
+    @Test
+    void testLoadDownloadedChallengesBrokenDownloadKeepsExistingData() {
+        when(cm.hasAnyChallengeData(anyString())).thenReturn(true);
+        cim.loadDownloadedChallenges(user, world, "{ this is not json");
+        verify(cm, never()).wipeDatabase(anyString());
+        verify(cm, never()).saveChallenges();
     }
 
     @Test

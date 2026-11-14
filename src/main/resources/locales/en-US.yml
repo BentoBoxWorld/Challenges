@@ -1343,7 +1343,6 @@ challenges:
         import-failed: "<red>Could not import challenges: [message]. Check the server console for details."
         no-rank: "<red>You do not have a high enough rank to do that."
         cannot-remove-items: "<red>Some items cannot be removed from your inventory!"
-        exist-challenges-or-levels: "<red>Challenges already exist in your world. Cannot proceed!"
         no-challenges: "<red>Challenges are not implemented in this world yet!"
         no-challenges-admin: "<red>Challenges are not implemented in this world yet! Use <dark_purple>/[command] <red>to add them!"
         missing-arguments: "<red>The command is missing arguments."

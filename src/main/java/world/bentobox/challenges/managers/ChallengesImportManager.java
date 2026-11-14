@@ -761,7 +761,8 @@ public class ChallengesImportManager
 
 
     /**
-     * This method loads downloaded challenges into memory.
+     * This method loads downloaded challenges into memory. Any challenges and levels that the
+     * game mode already has are replaced, the same as for file imports. Player data is kept.
      * @param user User who calls downloaded challenge loading
      * @param world Target world.
      * @param downloadString String that need to be loaded via DefaultDataHolder.
@@ -778,27 +779,25 @@ public class ChallengesImportManager
 
         ChallengesManager manager = this.addon.getChallengesManager();
 
-        // If exist any challenge or level that is bound to current world, then do not load default challenges.
-        if (manager.hasAnyChallengeData(world.getName()))
-        {
-            if (user.isPlayer())
-            {
-                Utils.sendMessage(user, world, Constants.ERRORS + "exist-challenges-or-levels");
-            }
-            else
-            {
-                this.addon.logWarning("challenges.errors.exist-challenges-or-levels");
-            }
-
-            return;
-        }
-
         try
         {
             // This prefix will be used to all challenges. That is a unique way how to separate challenged for
             // each game mode.
             String uniqueIDPrefix = Utils.getGameMode(world).toLowerCase() + "_";
             DefaultDataHolder downloadedChallenges = new DefaultJSONHandler(this.addon).loadWebObject(downloadString);
+
+            if (downloadedChallenges == null)
+            {
+                return;
+            }
+
+            // The admin has confirmed that the current challenges should be replaced. Wipe them only
+            // now that the download has parsed, so a broken download cannot leave the world empty.
+            if (manager.hasAnyChallengeData(world.getName()))
+            {
+                this.addon.getPlugin().getIWM().getAddon(world).ifPresent(gameModeAddon ->
+                    manager.wipeDatabase(gameModeAddon.getDescription().getName().toLowerCase()));
+            }
 
             // All new challenges should get correct ID. So we need to map it to loaded challenges.
             downloadedChallenges.getChallengeList().forEach(challenge -> {

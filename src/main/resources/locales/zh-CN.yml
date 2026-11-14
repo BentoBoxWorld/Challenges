@@ -1029,7 +1029,6 @@ challenges:
     load-error: "<red>错误： 无法载入 <reset>[value]<red>。"
     no-rank: "<red>你没有等级可以做到这一点."
     cannot-remove-items: "<red>有些物品无法从你的物品栏中删除！"
-    exist-challenges-or-levels: "＆c挑战已经存在于您的世界中。无法继续！"
     no-challenges: "<red>这个游戏模式没有可进行的挑战！"
     no-challenges-admin: "<red>这个游戏模式还没有可进行的挑战！请使用 <white>/[command] <red>来添加挑战。"
     missing-arguments: "<red>命令缺少参数。"

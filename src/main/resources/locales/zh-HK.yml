@@ -1112,7 +1112,6 @@ challenges:
     load-error: '<red>錯誤: 無法載入 [value].'
     no-rank: '<red>你還未達到足夠的頭銜等級以完成挑戰。'
     cannot-remove-items: '<red>部分物品無法從你的背包內移除!'
-    exist-challenges-or-levels: '<red>你的世界內已經有了這挑戰。 無法進行!'
     no-challenges: '<red>這個世界尚未開放挑戰功能!'
     no-challenges-admin: '<red>這個世界尚未開放挑戰功能! 使用<dark_purple>/[command] <red>添加挑戰!'
     missing-arguments: '<red>指令不完整。'

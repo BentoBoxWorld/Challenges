@@ -1233,7 +1233,6 @@ challenges:
     load-error: "<red>Chyba: Nelze načíst [value]."
     no-rank: "<red>Na toto nemáš hodnost."
     cannot-remove-items: "<red>Některé předměty nelze odebrat z tvého inventáře!"
-    exist-challenges-or-levels: "<red>Ve tvém světě již existují výzvy. Nelze pokračovat!"
     no-challenges: "<red>Výzvy nejsou v aktuálním světě implementovány!"
     no-challenges-admin: "<red>Výzvy nejsou v aktuálním světě implementovány! Měl bys použít <dark_purple>/[command] <red>k jejich přidání!"
     missing-arguments: "<red>Příkaz postrádá argumenty."
