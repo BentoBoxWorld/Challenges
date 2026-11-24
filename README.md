@@ -1,4 +1,8 @@
 # Challenges Addon
+
+<!-- BentoBox stats badges: https://download.bentobox.world/admin (Badges tab) -->
+[![Servers](https://download.bentobox.world/badge/Challenges/servers.svg)](https://download.bentobox.world/) [![Popularity](https://download.bentobox.world/badge/Challenges/rank.svg)](https://download.bentobox.world/) [![Downloads](https://download.bentobox.world/badge/Challenges/downloads.svg)](https://download.bentobox.world/) [![Minecraft](https://download.bentobox.world/badge/Challenges/mc.svg)](https://download.bentobox.world/)
+
 [![Discord](https://img.shields.io/discord/272499714048524288.svg?logo=discord)](https://discord.bentobox.world)
 [![Build Status](https://ci.codemc.org/buildStatus/icon?job=BentoBoxWorld/Challenges)](https://ci.codemc.org/job/BentoBoxWorld/job/Challenges/)
 
